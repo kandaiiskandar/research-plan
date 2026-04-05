@@ -1,7 +1,7 @@
 # Paper Tracker
 
 **Last updated**: 2026-04-05
-**Total papers**: 49
+**Total papers**: 55
 
 ---
 
@@ -73,6 +73,12 @@
 | 47 | Welch et al. | 2024 | Harnessing AI to map global fishing vessel activity | AI methods for mapping global fishing vessel activity using satellite and AIS data | *One Earth* (Cell Press) | T6, T8 | reduced | ⭐⭐ | [notes](../notes/Harnessing%20AI%20to%20map%20global%20fishing%20vessel%20activity.md) |
 | 48 | Wen et al. | 2025 | Risk Perception in Complex Systems: A Comparative Analysis of Process Control and Autonomous Vehicle Failures | Cross-domain comparison of risk perception in process control and autonomous vehicle accident reports | *AI* (MDPI) | T1, T2, T3, T6, T7 | reduced | ⭐⭐ | [notes](../notes/Risk%20Perception%20in%20Complex%20Systems-%20A%20Comparative%20Analysis%20of%20Process%20Control%20and%20Autonomous%20Vehicle%20Failures.md) |
 | 49 | Wing & Woodward | 2024 | Advancing artificial intelligence in fisheries requires novel cross-sector collaborations | Review of AI applications in fisheries highlighting need for cross-sector collaboration | *ICES J. Marine Science* | T3, T4, T6, T7, T8 | reduced | ⭐⭐ | [notes](../notes/Advancing%20artificial%20intelligence%20in%20fisheries%20requires%20novel%20cross-sector%20collaborations.md) |
+| 50 | Bach et al. | 2024 | A Systematic Literature Review of User Trust in AI-Enabled Systems: An HCI Perspective | PRISMA-compliant SLR of 23 empirical studies synthesising trust definitions, influencing factors, and measurement methods in AI systems | *Int. J. Human–Computer Interaction* | T6, T7 | methodological | ⭐⭐⭐⭐ | [notes](../notes/A%20Systematic%20Literature%20Review%20of%20User%20Trust%20in%20AI-Enabled%20Systems-%20An%20HCI%20Perspective.md) |
+| 51 | McGrath et al. | 2025 | Collaborative Human-AI Trust (CHAI-T): A Process Framework for Active Management of Trust in Human-AI Collaboration | Theoretical process framework positioning trust as a dynamic mediator across collaboration episodes, emphasising calibration over maximisation | *ACM Trans. Human-Robot Interaction* | T6, T7 | methodological | ⭐⭐⭐⭐ | [notes](../notes/Collaborative%20Human-AI%20Trust%20(CHAI-T)-%20A%20Process%20Framework%20for%20Active%20Management%20of%20Trust%20in%20Human-AI%20Collaboration.md) |
+| 52 | Aquilino et al. | 2025 | Decoding Trust in Artificial Intelligence: A Systematic Review of Quantitative Measures and Related Variables | SLR of 45 studies cataloguing trust measurement instruments and organising trust attributes into cognitive vs affective dimensions | *Int. J. Social Robotics* | T6, T7 | methodological | ⭐⭐⭐ | [notes](../notes/Decoding%20Trust%20in%20Artificial%20Intelligence-%20A%20Systematic%20Review%20of%20Quantitative%20Measures%20and%20Related%20Variables.md) |
+| 53 | Atf & Lewis | 2026 | Is Trust Correlated With Explainability in AI? A Meta-Analysis | Meta-analysis of explainability–trust correlation across 28 studies (r = 0.194); distinguishes trust from trustworthiness | *IEEE Trans. Neural Networks & Learning Systems* | T6, T7 | methodological | ⭐⭐⭐ | [notes](../notes/Is%20Trust%20Correlated%20With%20Explainability%20in%20AI%3F%20A%20Meta-Analysis.md) |
+| 54 | McGrath et al. | 2025 | Measuring trust in artificial intelligence: validation of an established scale and its short form | Validates full TiA scale and 3-item S-TIAS short form for measuring trust in AI; provides trust calibration framework and design guidance | *Behaviour & Information Technology* | T6, T7 | methodological | ⭐⭐⭐⭐ | [notes](../notes/Measuring%20trust%20in%20artificial%20intelligence-%20validation%20of%20an%20established%20scale%20and%20its%20short%20form.md) |
+| 55 | Schrills et al. | 2025 | Questioning Trust in AI Research: Exploring the Influence of Trust Assessment on Dependence in AI-Assisted Decision-Making | Empirical study challenging trust–dependence relationship; shows instructed reliability outpredicts self-reported trust; validates behavioural dependence as separate construct | *Int. J. Human-Computer Studies* | T6, T7 | methodological | ⭐⭐⭐ | [notes](../notes/Questioning%20Trust%20in%20AI%20Research-%20Exploring%20the%20Influence%20of%20Trust%20Assessment%20on%20Dependence%20in%20AI-Assisted%20Decision-Making.md) |
 
 ---
 
@@ -85,8 +91,8 @@
 | AI governance — Level 1 (participation) and Level 2 (advisory scope) | T3 | 37 | Well-Covered |
 | Low-resource environments (limited data, connectivity, computing) | T4 | 18 | Well-Covered |
 | Decision architecture formalisation (E, S = f(E), G(S), A_AI(S), Safety Dominance Property) | T5 | 29 | Well-Covered |
-| Human role in AI-assisted decision-making | T6 | 43 | Well-Covered |
-| Socio-technical evaluation of AI systems | T7 | 28 | Well-Covered |
+| Human role in AI-assisted decision-making | T6 | 49 | Well-Covered |
+| Socio-technical evaluation of AI systems | T7 | 34 | Well-Covered |
 | Coastal fisheries as a safety-critical, low-resource domain | T8 | 15 | Well-Covered |
 
-**Note:** Counts include both "Yes" and "Partial" ratings from Section 3 of each notes file. Run `/plan-review` for detailed breakdown of Yes vs Partial per theme, problem statement coverage (PS1–PS5), governance level analysis, and formal component coverage.
+**Note:** T6 and T7 counts updated to include 6 new methodological foundation papers (50–55). Counts include both "Yes" and "Partial" ratings. Run `/plan-review` for detailed breakdown of Yes vs Partial per theme, problem statement coverage (PS1–PS5), governance level analysis, and formal component coverage.

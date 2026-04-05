@@ -1,7 +1,7 @@
 # Literature Review Plan
 
 **Date**: 2026-04-05
-**Papers analysed**: 49 (25 full extraction, 24 reduced extraction, 0 early stop, 0 skipped)
+**Papers analysed**: 55 (25 full extraction, 24 reduced extraction, 6 methodological foundation, 0 early stop, 0 skipped)
 
 ---
 
@@ -90,8 +90,8 @@
 | PS1: No intermediate AI participation mode | Well-Supported | Shields, AgentSpec, Dalrymple, Bajcsy, Flehmig, Baxi | Flehmig is named comparator — present in set |
 | PS2: No environment-state-conditioned (G(S), A_AI(S)) | Well-Supported | Shields, Bajcsy, Baxi, Shamsujjoha, AgentSpec | All implement binary or differently-conditioned governance |
 | PS3: No safety governance for low-resource fisheries | Partially Supported | Bhuvaneswari (healthcare analog), Peskas, Haque | No paper combines governance + fisheries |
-| PS4: No graduated vs binary comparative evaluation | Unsupported | None directly | No evaluation paper compares two-level vs one-level governance |
-| PS5: No socio-technical evaluation of CAUTION mode | Unsupported | None directly | No user study of graduated AI governance states |
+| PS4: No graduated vs binary comparative evaluation | Partially Supported | McGrath S-TIAS, Schrills, CHAI-T, Bach, Aquilino, Atf & Lewis | No direct evaluation of graduated vs binary governance — methodological foundation established |
+| PS5: No socio-technical evaluation of CAUTION mode | Partially Supported | McGrath S-TIAS, Schrills, CHAI-T, Bach, Aquilino, Atf & Lewis | No user study of intermediate governance mode — validated instruments and trust frameworks now in set |
 
 ### PS1: No architecture formally defines an intermediate AI participation mode with restricted recommendation space
 
@@ -147,30 +147,41 @@
 
 ### PS4: No comparative evaluation of graduated two-level governance vs binary governance
 
-**Coverage: Unsupported**
+**Coverage: Partially Supported (updated — 6 methodological foundation papers added)**
 
-No paper in the set evaluates graduated vs binary governance. Existing evaluation papers compare:
-- Gated vs ungated (Shields, AgentSpec)
-- Different shielding strategies (Konighofer)
-- Single system performance metrics (Li/Liu, Bhuvaneswari)
+No paper directly compares graduated vs binary governance. However, 6 new methodological foundation papers now provide the theoretical and empirical grounding for the evaluation design:
 
-**What's missing**: An evaluation framework that isolates the contribution of Level 2 (advisory scope governance) beyond Level 1 (participation governance). This is methodological novelty — the three-condition comparison design (ungated vs binary-gated vs two-level graduated).
+| Paper | Role | What it provides |
+|-------|------|-----------------|
+| McGrath et al. (2025) — S-TIAS | Primary instrument | Validated 3-item trust scale (S-TIAS) directly adoptable as primary trust measure across all three PS4 conditions; provides trust calibration framework defining "better" as expectation–capability alignment |
+| Schrills et al. (2025) — Questioning Trust | Methodological design | Demonstrates trust and behavioural dependence are distinct constructs; provides behavioural dependence metric (Cohen's Kappa); establishes dual-measurement design (attitudinal + behavioural); sample size benchmark: N=150 for 80% power |
+| McGrath et al. (2025) — CHAI-T | Evaluation criterion | Trust calibration as the evaluative criterion — graduated governance should produce better calibration than binary; defines overtrust/undertrust as calibration failures, providing PS4's dependent variable vocabulary |
+| Bach et al. (2024) — User Trust SLR | Instrument guidance | Recommends validated cross-context instruments (Jian et al. 2000; Gulati et al. 2019) over custom questionnaires; sample size guidance (M=326.80 across 23 studies) |
+| Aquilino et al. (2025) — Decoding Trust | Instrument selection | Cognitive vs affective trust framework; predicts cognitive trust dominates low-anthropomorphism decision support — supports S-TIAS selection |
+| Atf & Lewis (2026) — Explainability Meta-analysis | Benchmark | r = 0.194 explainability–trust correlation as baseline; PS4 can test whether graduated governance exceeds this baseline |
 
-**Search suggestions**: "Comparative evaluation AI safety architectures", "Ablation study AI governance layers", "Safety-critical system evaluation methodology"
+**What's still missing**: No paper compares graduated vs binary governance specifically. The three-condition design (ungated vs binary-gated vs two-level graduated) remains novel. But the evaluation methodology is now grounded rather than invented from scratch.
+
+**Status rationale**: Moved from "Unsupported" to "Partially Supported" — methodological foundations established; direct evaluation precedent still absent.
 
 ### PS5: No socio-technical evaluation of graduated AI governance, particularly user response to CAUTION mode
 
-**Coverage: Unsupported**
+**Coverage: Partially Supported (updated — 6 methodological foundation papers added)**
 
-No paper evaluates user response to graduated AI participation modes. Relevant partial coverage:
-- Gao: Documents informal graduated fisher behaviour but no AI system evaluation
-- Rahim: Fisher survival decisions but no AI interaction
-- Saup: Socio-technical governance lens but organisational, not user-level
-- Gabriel: Requirements elicitation for AI systems but no governance mode evaluation
+No paper evaluates user response to graduated AI participation modes. However, 6 new papers now provide the conceptual and instrumental foundations:
 
-**What's missing**: User study with validated trust instruments evaluating response to three distinct AI states (full/restricted/disabled), particularly the CAUTION state.
+| Paper | Role | What it provides |
+|-------|------|-----------------|
+| McGrath et al. (2025) — S-TIAS | Primary instrument | Validated S-TIAS for measuring trust across governance states; highlights that performance-lens perception of restriction (CAUTION mode as "unreliability" vs "governance") is a key PS5 measurement challenge |
+| Schrills et al. (2025) — Questioning Trust | Critical warning | Self-reported trust has only moderate correlation with behavioural dependence (r = 0.42–0.45); instructed reliability (i.e., communicated governance state) strongly shapes behaviour; PS5 must measure both attitudinal trust and behavioural reliance independently |
+| McGrath et al. (2025) — CHAI-T | Trust dynamics framework | Temporal trust dynamics across collaboration episodes; predicts trust from SAFE mode episodes will be miscalibrated for CAUTION mode — a testable PS5 hypothesis; tripartite antecedents (human, technology, context) structure PS5's evaluation dimensions |
+| Bach et al. (2024) — User Trust SLR | Measurement catalogue | Three-factor taxonomy (socio-ethical, technical/design, user characteristics); recommends validated instruments (HCTS, TiA scale) over custom questionnaires; Malaysia context addresses geographic concentration gap |
+| Aquilino et al. (2025) — Decoding Trust | Mode-specific trust prediction | CAUTION mode restriction changes system profile → shifts trust from mixed cognitive–affective to primarily cognitive; warns against using purely cognitive instrument in SAFE condition |
+| Atf & Lewis (2026) — Explainability Meta-analysis | Design risk | Interpretable models can engender distrust as well as trust; making CAUTION restriction transparent may produce appropriate caution OR inappropriate distrust — PS5 must distinguish these outcomes |
 
-**Search suggestions**: "Trust calibration AI automation levels", "User study AI decision support safety", "Human factors graduated automation", Jian et al. trust instruments
+**What's still missing**: No paper evaluates user response to an *intermediate* governance mode ("AI active but restricted"). The CAUTION mode remains unmapped territory. PS5 is methodologically grounded but its specific contribution — evaluating the novel intermediate state — has no direct precedent.
+
+**Status rationale**: Moved from "Unsupported" to "Partially Supported" — validated instruments and trust dynamics frameworks established; evaluation of intermediate governance mode remains novel.
 
 ---
 
@@ -458,7 +469,7 @@ Gao (2024) "Penang fisher decisions"
 **Transition**: *"Small-scale coastal fisheries represent a domain where AI must navigate varying environmental risk under severe resource constraints — yet the entire fisheries AI literature operates without formal safety governance. This domain provides both the motivation and the test case for the proposed two-level governance architecture."*
 
 #### Section 7: Evaluation and Socio-Technical Gaps (Links 8-9)
-**Purpose**: Establish that no evaluation framework exists for graduated vs binary governance, and no user study addresses the CAUTION mode.
+**Purpose**: Establish that no evaluation framework exists for graduated vs binary governance, and no user study addresses the CAUTION mode — while grounding the evaluation methodology in established human factors literature.
 
 | Paper | Role |
 |-------|------|
@@ -466,8 +477,16 @@ Gao (2024) "Penang fisher decisions"
 | Gabriel | Fills background — socio-technical requirements for AI |
 | Madsen/Kim | Motivates — maritime AI transparency (risk display ≠ risk governance) |
 | Zhao/Yuan | Motivates — ethical question of varying governance by severity |
+| McGrath et al. (S-TIAS) | **Methodological foundation** — validated trust instrument (S-TIAS) for PS4/PS5; trust calibration framework defining evaluation criterion |
+| Schrills et al. | **Methodological foundation** — demonstrates trust ≠ dependence; behavioural dependence metric; dual-measurement design for PS4 |
+| McGrath et al. (CHAI-T) | **Methodological foundation** — trust calibration as evaluation criterion; temporal trust dynamics across governance mode transitions |
+| Bach et al. | **Methodological foundation** — trust measurement catalogue; instrument recommendations; sample size guidance |
+| Aquilino et al. | **Methodological foundation** — cognitive vs affective trust framework; mode-specific instrument selection guidance |
+| Atf & Lewis | **Methodological foundation** — explainability–trust baseline (r = 0.194); trustworthiness vs trust distinction |
 
-**Transition**: *"The proposed research addresses these evaluation gaps through a three-condition comparative analysis (ungated vs binary-gated vs two-level graduated) and a user study focusing on the CAUTION state — where AI participates under restriction."*
+**Citation cluster**: Trust & evaluation methodology cluster (McGrath S-TIAS → McGrath CHAI-T → Bach SLR)
+
+**Transition**: *"While no prior work evaluates graduated AI governance specifically, the human factors literature on trust in automation provides the methodological foundations — validated instruments (S-TIAS, Jian et al. 2000 TiA scale), trust calibration frameworks (CHAI-T), and dual-measurement designs distinguishing attitudinal trust from behavioural dependence. The proposed research extends this foundation to the novel context of graduated governance states — particularly the CAUTION mode, where AI participates under restriction, a state that has no precedent in the automation trust literature."*
 
 ### Positioning Summary
 
@@ -486,19 +505,19 @@ The literature establishes that (1) hybrid AI is well-studied in safety-critical
 | AI governance | T3 | 22 | 15 | 12 | Well-Covered |
 | Low-resource | T4 | 4 | 13 | 32 | Partially Covered |
 | Formalisation | T5 | 7 | 21 | 21 | Partially Covered |
-| Human role | T6 | 21 | 20 | 8 | Well-Covered |
-| Socio-technical | T7 | 8 | 19 | 22 | Partially Covered |
+| Human role | T6 | 27 | 20 | 8 | Well-Covered |
+| Socio-technical | T7 | 14 | 19 | 22 | Well-Covered |
 | Fisheries/maritime | T8 | 8 | 5 | 36 | Partially Covered |
 
 ### Problem Statement Coverage
 
-| PS | Coverage | Comparators found | Key gaps |
+| PS | Coverage | Comparators / foundations found | Key gaps |
 |---|---|---|---|
 | PS1 | Well-Supported | Flehmig, Shields, AgentSpec, Dalrymple, Bajcsy, Baxi | None — gap well-argued |
 | PS2 | Well-Supported | Shields, Bajcsy, Baxi, Shamsujjoha, AgentSpec | None — gap well-argued |
 | PS3 | Partially Supported | Bhuvaneswari (analog), Peskas, Haque, Gao | No architectural comparator within fisheries |
-| PS4 | Unsupported | None | No evaluation of graduated vs binary governance |
-| PS5 | Unsupported | None | No user study of graduated AI governance states |
+| PS4 | **Partially Supported** | McGrath S-TIAS, Schrills, CHAI-T, Bach, Aquilino, Atf & Lewis | No direct evaluation of graduated vs binary governance |
+| PS5 | **Partially Supported** | McGrath S-TIAS, Schrills, CHAI-T, Bach, Aquilino, Atf & Lewis | No user study of intermediate governance mode (CAUTION) specifically |
 
 ### Governance Level Distribution
 
