@@ -406,73 +406,97 @@ Bengio et al. (2026) — International AI Safety Report
 
 ## 7. Literature Review Outline
 
-### Suggested Section Structure (6 sections)
+### Suggested Section Structure (Chapter 2 — 9 sections)
 
-#### Section 1: AI in Safety-Critical Systems (Links 1-2)
-**Purpose**: Establish that AI is increasingly deployed in safety-critical domains and that hybrid architectures are the dominant approach.
+*Aligned with `improvement-plan/literature_review_improvement_plan-2.md`. The logical flow builds step-by-step toward the research gap: AI is used for decision support → safety constraints exist but govern actions not advisory scope → human-AI authority is contested → some systems adapt autonomy to risk but without formal advisory containment → governance and guardrails operate at policy level not runtime → hybrid AI focuses on accuracy not governance → low-resource environments add constraints → fisheries is the right domain → evaluation methodology is established → therefore a graduated safety-state-gated architecture is needed.*
 
-| Paper | Role |
-|-------|------|
-| Perez-Cerrolaza | Fills background — cross-domain survey establishing scope |
-| Intl AI Safety Report (Bengio) | Fills background — current global assessment |
-| Bloomfield/Rushby | Fills background — dependability perspective |
-| SYNAPSE (Castagnone) | Fills background — neuro-symbolic example |
-| Punzi | Fills background — hybrid decision-making taxonomy |
-| Yuzui/Kaneko | Fills background — maritime hybrid risk analysis |
+---
 
-**Transition**: *"While hybrid AI architectures are well-studied, the critical question of how to govern AI participation — not just whether AI works, but when and how it should be allowed to contribute — requires formal governance mechanisms."*
-
-#### Section 2: AI Safety Governance Mechanisms (Links 3–5)
-**Purpose**: Establish that binary participation governance is universal, that output-scope restriction exists but is static, and that no architecture unifies both levels conditioned on environmental safety state — building a continuous escalation toward the gap.
-
-##### 2.1 Participation governance (Level 1) — binary on/off, well-established
+#### Section 2.1: AI Decision Support in Safety-Critical Systems (Link 1)
+**Purpose**: Establish that AI is increasingly used for decision support in safety-critical systems and that incorrect AI recommendations can have serious consequences.
 
 | Paper | Role |
 |-------|------|
-| Shields (Könighofer) | Represents baseline — formal binary shield |
-| Dalrymple | Represents baseline — guaranteed safe AI framework |
-| Bajcsy/Fisac | Represents baseline — formal safety filter |
-| SAFEXPLAIN (Abella) | Represents baseline — supervision function |
-| AgentSpec (Wang) | Represents baseline — per-action enforcement |
-| Newcomb | Establishes gap — all 46 formal methods implement binary |
-| Ramos | Establishes gap — all 91 collaborative intelligence papers implement binary |
+| Perez-Cerrolaza | Fills background — cross-domain AI safety survey establishing scope |
+| Intl AI Safety Report (Bengio) | Fills background — current global assessment of AI in critical systems |
+| Bloomfield/Rushby | Fills background — dependability and assurance perspective |
+| Gabriel | Fills background — socio-technical requirements for AI systems |
+| Newcomb | Fills background — systematic review of 46 formal methods papers (scope of field) |
+| Ramos | Fills background — systematic review of 91 collaborative intelligence papers |
+| Selvam | Fills background — process safety AI in industrial context |
+
+**Key conclusion**: AI decision support improves decision quality but incorrect or poorly governed AI recommendations in safety-critical environments can lead to serious consequences. This motivates the need for formal governance of when and how AI participates.
+
+**Transition**: *"AI decision support improves decision quality — but as AI moves into safety-critical environments, the question of how to constrain AI behaviour becomes critical. The first response in the literature has been deterministic safety constraints."*
+
+---
+
+#### Section 2.2: Deterministic Safety Constraints and Rule-Based Safety Systems (Links 2–3)
+**Purpose**: Show how safety rules and constraints are used to prevent unsafe actions — and identify the key limitation: these systems block unsafe actions but do not restrict AI advisory reasoning scope.
+
+| Paper | Role |
+|-------|------|
+| Shields (Könighofer) | **Primary comparator** — formal binary shield, inductive winning region |
+| AgentSpec (Wang) | **Primary comparator** — per-action enforcement with soundness theorem |
+| Dalrymple | **Comparator** — guaranteed safe AI via world model + binary verifier |
+| Bajcsy/Fisac | **Comparator** — Hamilton-Jacobi safety filter, binary permit/override |
+| SAFEXPLAIN (Abella) | **Comparator** — supervision function, design-time DL usage levels |
+| Liang | Fills background — per-output guardrail for LLM safety |
+| Bloomfield/Rushby | Fills background — safety case and assurance argument |
+| Tumato (Vermaelen) | **Comparator** — soundness by construction, binary allowed predicate |
+| Newcomb | Establishes gap — all 46 formal methods papers implement binary gate |
 
 **Citation cluster**: Safety governance cluster (Dalrymple → Liang → Intl AI Safety)
 
-##### 2.2 Advisory scope governance (Level 2) — exists but static or per-action
+**Key limitation**: These systems block unsafe actions at the participation level (Level 1 — AI on/off). They do not restrict AI advisory reasoning scope (Level 2 — what AI is allowed to recommend). Governance is binary: AI participates fully or not at all.
+
+**Transition**: *"Safety constraints govern whether AI acts — but they do not govern what AI is allowed to recommend, or when AI should participate based on conditions. This raises a deeper question: how should decision authority be allocated between human and AI?"*
+
+---
+
+#### Section 2.3: Human–AI Decision Authority and Decision Support Systems (Link 3 continued)
+**Purpose**: Discuss how decision authority is allocated between human and AI — and identify the limitation that these systems do not define when AI should participate based on safety conditions.
 
 | Paper | Role |
 |-------|------|
-| Shamsujjoha | Represents baseline — most comprehensive Level 2 taxonomy |
-| Chen | Fills background — guardrail system architecture |
-| AgentSpec | Represents baseline — per-action rule enforcement |
-| Selvam | Highlights gap — design-time autonomy levels, not runtime |
-| SAFEXPLAIN (Abella) | Highlights gap — DL usage levels at design-time only |
-| Mussi | Highlights gap — hierarchical constraints but not state-conditioned |
+| Saup | Fills background — socio-technical governance lens for decision authority |
+| Ramos | Fills background — collaborative intelligence taxonomy (91 papers) |
+| INSYTE (Porter) | Fills background — AI system classification including governance dimensions |
+| Leppinen | Fills background — stage-gate decision support in project contexts |
+| Zhao/Yuan | Motivates — ethical question of varying governance by severity |
+| Madsen/Kim | Motivates — maritime AI transparency (risk display ≠ risk governance) |
 
-**Citation cluster**: Guardrails cluster (Shamsujjoha → Chen)
+**Key limitation**: Human-in-the-loop and supervisory control frameworks define who decides, but do not specify when AI should participate based on environmental safety conditions. Decision authority is allocated at design time, not adapted to runtime risk.
 
-##### 2.3 The state-conditioned governance gap — neither level conditioned on environmental state
+**Transition**: *"If static authority allocation is insufficient, the natural next step is systems that adapt the level of autonomy or AI participation based on the risk or context at runtime."*
+
+---
+
+#### Section 2.4: Risk-Adaptive and Graduated Autonomy Systems (Links 4–5)
+**Purpose**: Review systems that change autonomy level based on risk or context. This section contains the closest literature to the proposed architecture. Identify the key limitations: autonomy level changes but advisory scope is not formally restricted, no containment relationship between advisory capabilities, and governance functions are not formally defined.
 
 | Paper | Role |
 |-------|------|
-| Flehmig | **Primary comparator** — traffic-light governs monitoring intensity, not recommendation scope; triggered by AI performance, not environmental state |
-| Baxi | **Structural comparator** — graduated tiers with containment, but robustness-conditioned not environment-conditioned |
-| Shields | **Formal comparator** — per-state safe action sets, but continuous, not discrete governance modes |
-| INSYTE (Porter) | Fills background — AI system classification dimensions including governance |
-| Klüver | Highlights gap — design-time SIL assessment, not runtime governance |
+| Flehmig | **Primary comparator** — traffic-light graduated governance (3-level), triggered by AI performance, governs monitoring intensity not recommendation scope |
+| Baxi | **Structural comparator** — graduated K-tier permissions with formal containment (E(T_k) ⊂ E(T_{k+1})), but conditioned on agent robustness not environmental state |
+| Shields (Könighofer) | **Formal comparator** — per-state safe action sets, but continuous MDP states not discrete governance modes |
+| Gyllenhammar | Fills background — operational design domains and authority switching in automotive |
+| Li | Fills background — risk-adaptive autonomy in intelligent transport |
+| Klüver | Highlights gap — design-time SIL assessment, not runtime graduated governance |
 
-**Citation cluster**: Safety-critical architecture cluster (Perez-Cerrolaza → Newcomb → Flehmig)
+**Key limitations (why this section does not resolve the gap)**:
+- Autonomy level changes exist (Flehmig: 3-level; Baxi: K-tier) — but advisory scope is not formally restricted
+- No containment relationship between advisory capabilities across governance modes (A_AI(SAFE) ⊃ A_AI(CAUTION) ⊃ ∅ does not appear in any paper)
+- Governance functions are not formally defined as a unified pair (G(S), A_AI(S))
+- No architecture conditions both levels on classified environmental safety state simultaneously
 
 **First-principles argument — why binary governance is structurally inadequate**:
 
-Binary governance (Level 1 only) forces a false dilemma between two costly failure modes:
-- **Over-restriction**: Disabling AI entirely when conditions are elevated but manageable wastes a scarce resource. In low-resource settings where AI assistance is most valuable, a binary gate that blocks AI under moderate risk removes the resource precisely when it is needed — but at reduced scope.
-- **Under-restriction**: Permitting full AI participation under elevated risk exposes users to recommendation types (e.g., precise departure times, trip durations) that assume conditions the system cannot reliably assess.
+Binary governance (Level 1 only) forces a false dilemma:
+- **Over-restriction**: Disabling AI entirely under elevated but manageable conditions wastes a scarce resource — particularly costly in low-resource settings.
+- **Under-restriction**: Permitting full AI participation under elevated risk exposes users to recommendations that assume conditions the system cannot reliably assess.
 
-The CAUTION mode resolves this dilemma: AI remains active but its advisory scope narrows to recommendation types that remain reliable under elevated conditions (go/no-go and delay — directional rather than precise). This is not an architectural refinement; it is a structurally distinct governance solution to a problem binary governance cannot address.
-
-Empirical evidence from the target domain supports this: Gao (2024) documents that Penang fishers already make tripartite decisions — *go*, *cautious-go*, and *don't-go* — demonstrating that practitioners naturally distinguish an intermediate risk state. The proposed architecture formalises existing practice rather than imposing an artificial abstraction.
+The CAUTION mode resolves this: AI remains active but advisory scope narrows to recommendation types that remain reliable under elevated conditions. This is a structurally distinct governance solution that binary governance cannot provide.
 
 **Comparator summary** — key architectures across governance dimensions:
 
@@ -487,100 +511,177 @@ Empirical evidence from the target domain supports this: Gao (2024) documents th
 | AgentSpec | Per-action rule | L1 + partial L2 | Binary per-action | Yes | Soundness theorem |
 | **Proposed** | **Environmental state** | **L1 + L2 unified** | **Graduated (3-mode)** | **Yes** | **Safety Dominance Property** |
 
-The proposed architecture is the only entry with environmental state as the governance trigger, both levels unified, and graduated runtime governance with a formal safety property.
-
 **Baxi differentiator — why conditioning variable matters architecturally**:
-
-Baxi is the structurally closest analog: graduated permission tiers with formal containment. The stated differentiator — robustness-conditioned vs environment-conditioned — is not a cosmetic change of input variable. The two conditioning variables demand fundamentally different architectures:
 
 | Dimension | Environmental state (proposed) | Agent robustness (Baxi) |
 |---|---|---|
 | **Observation mechanism** | Real-time sensor inputs (weather, sea state, visibility) | Offline evaluation / benchmark testing |
-| **Update frequency** | Continuous — reclassification occurs during operation | Static — tier assigned at deployment; persists until re-evaluation |
-| **Governance response** | Immediate scope adjustment as conditions change | Tier assignment persists; no real-time response |
-| **Failure mode under misclassification** | Wrong governance mode applied in real-time — affects active decisions | Overestimation of robustness persists until next evaluation cycle |
-| **Applicability** | Dynamic operational environments with varying external risk | Controlled environments where agent properties can be assessed offline |
+| **Update frequency** | Continuous — reclassification occurs during operation | Static — tier assigned at deployment |
+| **Governance response** | Immediate scope adjustment as conditions change | Tier persists; no real-time response |
+| **Failure mode** | Wrong governance mode applied in real-time | Overestimation of robustness persists |
+| **Applicability** | Dynamic environments with varying external risk | Controlled environments with stable agent properties |
 
-Environmental-state conditioning is specifically designed for operational contexts where risk varies continuously during use — which is the defining characteristic of maritime and fisheries environments.
+**Forward reference**:
+> *"The gap established above — no architecture implements both participation governance G(S) and advisory scope governance A_AI(S) as a unified pair conditioned on classified environmental safety state — motivates the two-level governance architecture proposed in this research. The formal pipeline E → S = f(E) → (G(S), A_AI(S)) → AI(E) addresses this gap by classifying environmental conditions into discrete safety states that simultaneously determine whether AI may operate and what it may recommend."*
 
-##### 2.4 Forward reference — the proposed contribution
+**Transition**: *"The graduated autonomy literature reveals the architectural gap clearly: systems change autonomy level but never formally restrict what AI is allowed to recommend, and no governance pair (G(S), A_AI(S)) is conditioned on classified environmental safety state. Before examining the domain and evaluation dimensions of this gap, two further bodies of literature require review: AI governance at the policy level, and hybrid AI as the enabling architecture."*
 
-> *"The gap established above — no architecture implements both participation governance G(S) and advisory scope governance A_AI(S) as a unified pair conditioned on classified environmental safety state — motivates the two-level governance architecture proposed in this research. The formal pipeline E → S = f(E) → (G(S), A_AI(S)) → AI(E) addresses this gap by classifying environmental conditions into discrete safety states that simultaneously determine whether AI may operate and what it may recommend. The following sections examine the formal, domain, and evaluation dimensions of this gap."*
+---
 
-#### Section 3: Formal Safety Properties for Graduated Governance (Link 6)
-**Purpose**: Show that formal safety properties exist for binary governance but not for graduated governance.
+#### Section 2.5: AI Governance, Guardrails, and Safety Architectures (Link 3 continued)
+**Purpose**: Introduce AI governance and guardrail concepts — and identify the limitation that most governance operates at policy or system level, not runtime decision architecture level.
 
 | Paper | Role |
 |-------|------|
-| Bajcsy/Fisac | Represents baseline — Theorem 1, binary safety guarantee |
-| Shields (Könighofer) | Represents baseline — inductive safety, binary |
-| Baxi | Structural comparator — bounded exposure theorem, graduated but robustness-conditioned |
-| Newcomb | Establishes gap — all formal methods SLR operates binary |
-| Tumato (Vermaelen) | Represents baseline — soundness by construction, binary |
+| Shamsujjoha | Fills background — most comprehensive guardrail taxonomy (Swiss cheese model) |
+| Chen | Fills background — AI safety LLM landscape and guardrail architecture |
+| Bello | Fills background — legal and regulatory AI governance frameworks |
+| Intl AI Safety Report (Bengio) | Establishes gap — 11 frontier safety frameworks, all binary |
+| Abella (SAFEXPLAIN) | Highlights gap — supervision function defined at design-time only |
+| Klüver | Highlights gap — SIL assessment at design time, not runtime |
 
-**Transition**: *"The Safety Dominance Property — AI(E) ⊆ A_AI(S) — extends the concept of formal safety guarantees from binary to graduated governance, ensuring that AI outputs are always bounded by the state-dependent recommendation space."*
+**Citation cluster**: Guardrails cluster (Shamsujjoha → Chen)
 
-#### Section 4: Low-Resource Deployment and Domain Context (Link 7)
-**Purpose**: Argue that fisheries is not just *a* valid application but *the right* application — and ground the architecture in low-resource deployment constraints.
+**Key limitation**: AI governance frameworks operate at policy level (what AI should be allowed to do in principle) or at design-time (what DL usage level is permitted). None implement runtime governance conditioned on classified environmental safety state.
+
+**Transition**: *"Governance frameworks define what AI should be permitted to do — but the mechanism by which AI combines deterministic rules with probabilistic inference (the hybrid architecture) determines what is technically possible to govern."*
+
+---
+
+#### Section 2.6: Hybrid AI and Neuro-Symbolic Systems (Links 1–2)
+**Purpose**: Review hybrid AI approaches combining deterministic rules and machine learning — and establish that most hybrid AI research focuses on improving prediction accuracy and explainability, not on governing whether AI is allowed to participate and what AI is allowed to recommend.
+
+| Paper | Role |
+|-------|------|
+| SYNAPSE (Castagnone) | Fills background — neuro-symbolic hybrid for building management |
+| Punzi | Fills background — hybrid decision-making taxonomy |
+| Mussi | Highlights gap — hierarchical rule + ML constraints, but not state-conditioned governance |
+| Kalmykov | Fills background — information fusion with rule-based and probabilistic components |
+| Pitale (HySAFE-AI) | Fills background — hybrid safety AI architecture |
+| Vermaelen (Tumato) | **Comparator** — hybrid temporal logic + ML, soundness by construction |
+| Bhuvaneswari | Analog — hybrid AI in resource-constrained healthcare |
+| Yuzui/Kaneko | Fills background — hybrid risk analysis in maritime |
+
+**Key positioning**: Most hybrid AI research focuses on combining rules and ML to improve accuracy and explainability. The governance question — whether AI is allowed to participate and what AI is allowed to recommend — is not addressed.
+
+**Transition**: *"Hybrid AI is the enabling architecture. The deployment context determines the constraints. In low-resource environments, those constraints are particularly severe."*
+
+---
+
+#### Section 2.7: AI Systems in Low-Resource Environments (Link 7)
+**Purpose**: Justify the low-resource environment context in the research title — and establish the additional constraints that AI systems must satisfy in these contexts.
+
+| Paper | Role |
+|-------|------|
+| Katende | Fills background — comprehensive low-resource AI constraint taxonomy |
+| Haque/Al Jufaili | Establishes gap — fisheries AI has no formal governance; low-resource context |
+| Bhuvaneswari | Analog comparator — hybrid AI in resource-constrained healthcare (cross-domain) |
+| Talpur | Fills background — ICT adoption in developing region fisheries |
+| Mandal | Fills background — environmental AI in low-data contexts |
+| Nastoska | Fills background — edge AI deployment constraints |
+| Tahsin | Fills background — AI in resource-limited industrial settings |
+| Wen | Fills background — AI deployment in data-deficient environments |
+
+**Key idea**: AI systems in low-resource environments must operate with limited connectivity, limited compute, and users with varying digital literacy. Binary governance is particularly costly in this context — disabling AI entirely under moderate risk wastes a scarce resource when partial AI assistance would be safe and valuable.
+
+**Transition**: *"Within the class of low-resource, safety-critical environments, coastal fisheries is the domain that most directly motivates and empirically validates the proposed architecture."*
+
+---
+
+#### Section 2.8: Technology and Decision Support in Small-Scale Fisheries (Link 7 continued)
+**Purpose**: Justify the case study domain — and establish that no formal safety governance architecture exists in fisheries AI.
 
 **Centrepiece**: Gao (2024) — *"Fisher Decision-Making in Penang"*
 
-Gao's empirical finding is the cornerstone of the domain justification: Penang fishers already make tripartite decisions — *go*, *cautious-go*, and *don't-go* — based on weather and sea conditions. This maps directly to SAFE/CAUTION/UNSAFE. The proposed architecture does not impose an abstraction on the domain; it formalises a decision structure that practitioners already use informally. This is the strongest possible domain motivation — not "this domain could use this," but "this domain already does this, without formal governance."
+Gao's empirical finding is the cornerstone of the domain justification: Penang fishers already make tripartite decisions — *go*, *cautious-go*, and *don't-go* — based on weather and sea conditions. This maps directly to SAFE/CAUTION/UNSAFE. The proposed architecture formalises a decision structure that practitioners already use informally.
 
 **Three pillars of domain argument**:
-
-1. **Environmental variability as a first-class concern**: Unlike automotive or industrial domains where the operating environment is relatively controlled, fisheries operations face continuously varying conditions (weather, sea state, visibility, tidal patterns) that directly determine operational safety. Environmental-state-conditioned governance is not an architectural choice imposed on the domain — it is the natural formalisation of what the domain demands.
-
-2. **Existing informal tripartite decision-making**: Gao (2024) documents go / cautious-go / don't-go. Rahim (2024) documents fisher survival decisions under extreme weather. Both confirm that practitioners naturally distinguish an intermediate risk state. SAFE/CAUTION/UNSAFE formalises this existing practice.
-
-3. **Resource constraints make binary governance costly**: In low-resource settings where AI assistance is valuable but intermittent, a binary gate that disables AI entirely under moderate risk wastes a scarce resource. The CAUTION mode is specifically designed for contexts where partial AI assistance is more valuable than no AI assistance — providing directional guidance (go/no-go, delay) without the precise recommendations (departure time, trip duration) that require data quality the system may not have under elevated conditions.
+1. **Environmental variability as first-class concern** — fisheries face continuously varying conditions (weather, sea state, visibility, tidal patterns) that directly determine operational safety, making environment-state-conditioned governance natural.
+2. **Existing informal tripartite decision-making** — Gao (2024) documents go / cautious-go / don't-go; Rahim (2024) documents survival decisions under extreme weather. SAFE/CAUTION/UNSAFE formalises existing practice, not an imposed abstraction.
+3. **Resource constraints make binary governance costly** — in low-resource settings, a binary gate that disables AI under moderate risk wastes the resource precisely when partial assistance would be most valuable.
 
 | Paper | Role |
 |-------|------|
-| **Gao** | **Centrepiece** — empirical evidence that SAFE/CAUTION/UNSAFE formalises existing fisher practice |
+| **Gao** | **Centrepiece** — empirical tripartite fisher decision-making validates SAFE/CAUTION/UNSAFE |
 | Rahim | Supports centrepiece — survival decisions under extreme weather validate CAUTION concept |
-| Katende | Fills background — low-resource AI constraint taxonomy |
-| Bhuvaneswari | Analog comparator — hybrid AI in resource-constrained healthcare (cross-domain) |
-| Haque/Al Jufaili | Establishes gap — fisheries AI has no governance |
-| Peskas (Longobardi) | Fills background — fisheries data platform feasibility in low-resource settings |
-| Obi | Fills background — Malaysian fisheries sector overview |
-| Wing/Woodward | Fills background — fisheries AI ecosystem needs |
+| Haque/Al Jufaili | Establishes gap — no formal governance in fisheries AI |
+| Wing/Woodward | Fills background — fisheries AI ecosystem needs and data gaps |
+| Welch | Fills background — fisheries AI monitoring technology |
+| Kühn | Fills background — fisheries AI state of the art review |
+| Bossier | Fills background — marine AI decision support |
+| Obi | Fills background — Malaysian small-scale fisheries sector |
+| Peskas (Longobardi) | Fills background — fisheries data platform in low-resource settings |
+| Madsen/Kim | Fills background — maritime AI transparency and safety (adjacent domain) |
 
-**Citation cluster**: Fisheries/maritime cluster (isolated from safety governance — proposed work bridges these two disconnected bodies of literature)
+**Citation cluster**: Fisheries/maritime cluster (isolated from safety governance cluster — proposed work bridges these two disconnected bodies of literature)
 
-**Transition**: *"Small-scale coastal fisheries are not merely a convenient application domain — they are the domain where environmental-state-conditioned governance is most natural (continuous environmental variability), most empirically motivated (existing tripartite informal decision-making), and most valuable (binary governance wastes scarce AI resources under moderate risk). The proposed architecture bridges the safety governance literature and the fisheries AI literature, which have no prior citation connection."*
+**Transition**: *"The fisheries domain validates and motivates the proposed architecture — but the architecture must also be evaluated. The following section establishes the methodological foundations for that evaluation."*
 
-#### Section 5: Evaluation and Socio-Technical Gaps (Links 8-9)
-**Purpose**: Establish that no evaluation framework exists for graduated vs binary governance, and no user study addresses the CAUTION mode — while grounding the evaluation methodology in established human factors literature.
+---
+
+#### Section 2.9: Trust Measurement and Evaluation Methodology (Links 8–9)
+**Purpose**: Ground the evaluation methodology (PS4/PS5) in the human factors and trust literature — establishing that while no prior work evaluates graduated AI governance specifically, validated instruments and frameworks exist that can be extended to this context.
 
 | Paper | Role |
 |-------|------|
-| Saup | Fills background — socio-technical governance lens |
-| Gabriel | Fills background — socio-technical requirements for AI |
-| Madsen/Kim | Motivates — maritime AI transparency (risk display ≠ risk governance) |
-| Zhao/Yuan | Motivates — ethical question of varying governance by severity |
-| McGrath et al. (S-TIAS) | **Methodological foundation** — validated trust instrument (S-TIAS) for PS4/PS5; trust calibration framework defining evaluation criterion |
-| Schrills et al. | **Methodological foundation** — demonstrates trust ≠ dependence; behavioural dependence metric; dual-measurement design for PS4 |
+| McGrath et al. (S-TIAS) | **Methodological foundation** — validated 3-item trust instrument (S-TIAS) for PS5; trust calibration framework |
 | McGrath et al. (CHAI-T) | **Methodological foundation** — trust calibration as evaluation criterion; temporal trust dynamics across governance mode transitions |
-| Bach et al. | **Methodological foundation** — trust measurement catalogue; instrument recommendations; sample size guidance |
-| Aquilino et al. | **Methodological foundation** — cognitive vs affective trust framework; mode-specific instrument selection guidance |
+| Bach et al. | **Methodological foundation** — trust measurement SLR; instrument catalogue; sample size guidance for PS5 design |
+| Schrills et al. | **Methodological foundation** — trust ≠ dependence; behavioural dependence metric; dual-measurement design for PS4 |
+| Aquilino et al. | **Methodological foundation** — cognitive vs affective trust; mode-specific instrument selection |
 | Atf & Lewis | **Methodological foundation** — explainability–trust baseline (r = 0.194); trustworthiness vs trust distinction |
+| Saup | Fills background — socio-technical governance framework for evaluation design |
+| Gabriel | Fills background — socio-technical requirements methodology |
+| Zhao/Yuan | Motivates — ethical question of governance varying by severity (PS5 context) |
+| Madsen/Kim | Motivates — maritime AI transparency gap (no governance display) |
 
-**Citation cluster**: Trust & evaluation methodology cluster (McGrath S-TIAS → McGrath CHAI-T → Bach SLR)
+**Citation cluster**: Trust & evaluation methodology cluster (Bach → McGrath S-TIAS ↔ McGrath CHAI-T ↔ Schrills)
 
-**Transition**: *"While no prior work evaluates graduated AI governance specifically, the human factors literature on trust in automation provides the methodological foundations — validated instruments (S-TIAS, Jian et al. 2000 TiA scale), trust calibration frameworks (CHAI-T), and dual-measurement designs distinguishing attitudinal trust from behavioural dependence (Schrills et al. 2025). The proposed research extends this foundation to the novel context of graduated governance states — particularly the CAUTION mode, where AI participates under restriction, a state that has no precedent in the automation trust literature."*
+**Evaluation gaps established**:
+- **PS4 gap**: No study compares graduated two-level governance (ungated vs binary-gated vs two-level graduated) — methodological foundations established but not yet applied to governance architectures
+- **PS5 gap**: No user study addresses the CAUTION mode specifically — AI active but operating under recommendation scope restriction is a novel governance state with no precedent in the automation trust literature
+
+**Transition**: *"The human factors literature provides validated instruments and frameworks for measuring trust, calibration, and behavioural dependence. What remains is their application to graduated governance states — particularly the CAUTION mode — which no prior study has examined."*
+
+---
+
+#### Section 2.10: Literature Summary and Research Gap
+**Purpose**: Synthesise limitations across all sections and state the research gap.
+
+**Literature Summary Table**:
+
+| Area | What Exists | Limitation |
+|------|-------------|------------|
+| Safety constraints (§2.2) | Block unsafe actions — binary gate | Do not control AI advisory scope |
+| Human-AI authority (§2.3) | Supervisory control, automation levels | Do not define participation based on safety conditions |
+| Adaptive autonomy (§2.4) | Change authority level based on risk | Advisory scope not formally restricted; no containment relationship; governance not formally defined |
+| AI governance (§2.5) | Policy-level and design-time governance | Not runtime decision architecture conditioned on environmental state |
+| Hybrid AI (§2.6) | Combine rules and ML | Focus on accuracy and explainability, not governance |
+| Low-resource AI (§2.7) | Focus on deployment constraints | Not safety-gated decision architecture |
+| Fisheries AI (§2.8) | Decision support and monitoring tools | No formal safety governance |
+| Evaluation methodology (§2.9) | Validated trust instruments and frameworks | Not applied to graduated governance states |
+
+**Research Gap Statement**:
+
+Existing studies implement safety constraints, decision support systems, adaptive autonomy, AI governance frameworks, and hybrid AI approaches independently. However, the literature does not present an architectural model in which environmental safety state simultaneously governs both AI participation and AI advisory recommendation scope as a unified governance mechanism. Specifically, no architecture defines both G(S) (participation gate) and A_AI(S) (admissible recommendation space) as a formally unified pair conditioned on classified environmental safety state S ∈ {SAFE, CAUTION, UNSAFE}, with the containment property A_AI(SAFE) ⊃ A_AI(CAUTION) ⊃ A_AI(UNSAFE) = ∅ and the Safety Dominance Property AI(E) ⊆ A_AI(S). Furthermore, no evaluation study compares graduated two-level governance against binary governance (PS4), and no socio-technical study examines user response to the CAUTION mode — a novel governance state in which AI participates under recommendation scope restriction (PS5).
+
+Therefore, there is a lack of a formally defined graduated safety-state-gated architecture for AI decision support in safety-critical and low-resource environments, and a corresponding gap in the evaluation methodology for assessing its comparative performance and user acceptance.
+
+---
 
 ### Positioning Summary
 
-The literature establishes that (1) hybrid AI is well-studied in safety-critical domains, (2) Level 1 participation governance (binary AI on/off) is universally implemented via shields, safety filters, and supervision functions, and (3) Level 2 advisory scope governance exists in the form of guardrails and runtime enforcement but is applied statically or per-action, never conditioned on classified environmental safety state. Binary governance is structurally inadequate because it forces a false dilemma: over-restriction (disabling AI entirely when partial assistance would be safe and valuable) or under-restriction (permitting full AI participation under elevated risk). The CAUTION mode resolves this dilemma — AI remains active but advisory scope narrows to recommendation types that remain reliable under elevated conditions.
+The literature establishes that: (1) hybrid AI is well-studied in safety-critical domains; (2) Level 1 participation governance (binary AI on/off) is universally implemented via shields, safety filters, and supervision functions, confirmed across 46 formal methods papers (Newcomb), 91 collaborative intelligence papers (Ramos), and 11 international safety frameworks (Bengio); (3) Level 2 advisory scope governance exists in the form of guardrails and runtime enforcement but is applied statically or per-action, never conditioned on classified environmental safety state; (4) risk-adaptive systems change autonomy level but do not formally restrict advisory scope or define containment relationships between governance modes.
 
-The closest prior art — Flehmig et al.'s traffic-light model — governs monitoring intensity triggered by AI performance, not recommendation scope triggered by environmental state. Baxi's comprehension-gated architecture implements the closest formal structure (graduated tiers with containment) but conditions on agent robustness — a static, offline-assessed property — rather than environmental state, which is dynamic and continuously observable. These are architecturally distinct conditioning strategies, not cosmetic variations.
+Binary governance is structurally inadequate because it forces a false dilemma: over-restriction (disabling AI entirely when partial assistance would be safe and valuable) or under-restriction (permitting full AI participation under elevated risk). The CAUTION mode resolves this dilemma — AI remains active but advisory scope narrows to recommendation types that remain reliable under elevated conditions.
+
+The closest prior art — Flehmig et al.'s traffic-light model — governs monitoring intensity triggered by AI performance, not recommendation scope triggered by environmental state. Baxi's comprehension-gated architecture implements the closest formal structure (graduated tiers with containment) but conditions on agent robustness — a static, offline-assessed property — rather than environmental state, which is dynamic and continuously observable. These conditioning strategies demand fundamentally different observation mechanisms, update dynamics, and failure handling — constituting architecturally distinct approaches.
 
 The fisheries domain is not merely a convenient application context: it is the domain where environmental-state-conditioned governance is most natural (continuous environmental variability), most empirically motivated (Gao 2024 documents existing tripartite informal decision-making — go / cautious-go / don't-go), and most valuable (binary governance wastes scarce AI resources under moderate risk in low-resource settings). The proposed architecture bridges the safety governance literature and the fisheries AI literature, which have no prior citation connection.
 
-The evaluation methodology is grounded in the human factors literature on trust in automation — validated instruments (S-TIAS, McGrath et al. 2025), trust calibration frameworks (CHAI-T), and dual-measurement designs distinguishing attitudinal trust from behavioural dependence (Schrills et al. 2025) — extended to the novel context of graduated governance states.
+The evaluation methodology is grounded in the human factors literature on trust in automation — validated instruments (S-TIAS), trust calibration frameworks (CHAI-T), and dual-measurement designs distinguishing attitudinal trust from behavioural dependence (Schrills et al. 2025) — extended to the novel context of graduated governance states and the CAUTION mode specifically.
 
-The proposed two-level governance pair (G(S), A_AI(S)), conditioned on classified environmental safety state with the Safety Dominance Property AI(E) ⊆ A_AI(S), fills a gap demonstrated across multiple independent bodies of literature — formal methods surveys (Newcomb: 46 papers, all binary), collaborative intelligence reviews (Ramos: 91 papers, all binary), and international safety frameworks (Bengio: 11 frameworks, all binary).
+The proposed two-level governance pair (G(S), A_AI(S)), conditioned on classified environmental safety state with the Safety Dominance Property AI(E) ⊆ A_AI(S), fills a gap confirmed across multiple independent bodies of literature. The evaluation gaps (PS4, PS5) extend this contribution: no prior work provides comparative evidence for graduated vs binary governance, and no prior user study examines AI participation under recommendation scope restriction as a distinct governance state.
 
 ---
 
