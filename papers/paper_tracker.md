@@ -1,7 +1,7 @@
 # Paper Tracker
 
-**Last updated**: 2026-04-05
-**Total papers**: 55
+**Last updated**: 2026-04-06
+**Total papers**: 56
 
 ---
 
@@ -79,6 +79,7 @@
 | 53 | Atf & Lewis | 2026 | Is Trust Correlated With Explainability in AI? A Meta-Analysis | Meta-analysis of explainability–trust correlation across 28 studies (r = 0.194); distinguishes trust from trustworthiness | *IEEE Trans. Neural Networks & Learning Systems* | T6, T7 | methodological | ⭐⭐⭐ | [notes](../notes/Is%20Trust%20Correlated%20With%20Explainability%20in%20AI%3F%20A%20Meta-Analysis.md) |
 | 54 | McGrath et al. | 2025 | Measuring trust in artificial intelligence: validation of an established scale and its short form | Validates full TiA scale and 3-item S-TIAS short form for measuring trust in AI; provides trust calibration framework and design guidance | *Behaviour & Information Technology* | T6, T7 | methodological | ⭐⭐⭐⭐ | [notes](../notes/Measuring%20trust%20in%20artificial%20intelligence-%20validation%20of%20an%20established%20scale%20and%20its%20short%20form.md) |
 | 55 | Schrills et al. | 2025 | Questioning Trust in AI Research: Exploring the Influence of Trust Assessment on Dependence in AI-Assisted Decision-Making | Empirical study challenging trust–dependence relationship; shows instructed reliability outpredicts self-reported trust; validates behavioural dependence as separate construct | *Int. J. Human-Computer Studies* | T6, T7 | methodological | ⭐⭐⭐ | [notes](../notes/Questioning%20Trust%20in%20AI%20Research-%20Exploring%20the%20Influence%20of%20Trust%20Assessment%20on%20Dependence%20in%20AI-Assisted%20Decision-Making.md) |
+| 56 | Shaffril et al. | 2017 | Adapting towards climate change impacts: Strategies for small-scale fishermen in Malaysia | Empirical grounding for environmental state vector E and governance trigger rationale — documents Malaysian small-scale fisher population profile, environmental vulnerability, and binary go/no-go status quo | *Marine Policy* (Elsevier), Vol. 81, pp. 196–201 | T4, T6, T7, T8 | reduced | ⭐⭐⭐ | [notes](../notes/Adapting%20towards%20climate%20change%20impacts-%20Strategies%20for%20small-scale%20fishermen%20in%20Malaysia.md) |
 
 ---
 
