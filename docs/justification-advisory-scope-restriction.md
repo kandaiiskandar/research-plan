@@ -185,6 +185,14 @@ Bloomfield & Rushby (2025) observe that the nuclear power limitation system (sit
 
 ### 4.6 Maritime Safety Practice: Informal Scope Restriction Already Exists
 
+Yamin et al. (2025), in a primary survey of 136 small-scale fishers in central Terengganu, Malaysia (*Frontiers in Marine Science*, Q1), provide the strongest current empirical grounding for why advisory scope restriction — and specifically the CAUTION mode — is architecturally necessary. Three findings are directly relevant.
+
+First, the binary status quo is confirmed by primary data: the empirical knowledge item "I know if it's suddenly windy/change of weather, I can't go fishing" documents that under elevated environmental conditions, the only documented decision is binary cessation. No intermediate advisory scope is reported.
+
+Second, flexibility is the weakest adaptive capacity domain in this population (Figure 9, Yamin et al., 2025): only 58% of fishers are willing to consider alternative livelihoods; 67.6% rely solely on fishing for income. This means fishers lack the *operational flexibility* to self-restrict scope under intermediate risk without structured support — making advisory scope restriction not merely a governance design choice but an active capacity-building mechanism.
+
+Third, traditional weather prediction ability is declining. Fishers increasingly rely on weather apps (Windy, Windfinder) for raw data but have no system that translates environmental data into scope-restricted decisions. This creates the precise decision support vacuum that the CAUTION mode fills: the AI provides what the apps do not — an actionable, scope-limited recommendation (go/no-go + delay guidance) rather than raw data that the user must interpret alone under elevated stress.
+
 Gao (2024) documents that Penang fishers implement informal scope restriction in their *cautious-go* decision:
 
 - **Go**: full fishing trip, normal scope — depart on schedule, fish planned area, return as planned

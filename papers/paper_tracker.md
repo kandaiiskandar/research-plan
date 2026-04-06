@@ -1,7 +1,7 @@
 # Paper Tracker
 
 **Last updated**: 2026-04-06
-**Total papers**: 56
+**Total papers**: 58
 
 ---
 
@@ -80,6 +80,8 @@
 | 54 | McGrath et al. | 2025 | Measuring trust in artificial intelligence: validation of an established scale and its short form | Validates full TiA scale and 3-item S-TIAS short form for measuring trust in AI; provides trust calibration framework and design guidance | *Behaviour & Information Technology* | T6, T7 | methodological | ⭐⭐⭐⭐ | [notes](../notes/Measuring%20trust%20in%20artificial%20intelligence-%20validation%20of%20an%20established%20scale%20and%20its%20short%20form.md) |
 | 55 | Schrills et al. | 2025 | Questioning Trust in AI Research: Exploring the Influence of Trust Assessment on Dependence in AI-Assisted Decision-Making | Empirical study challenging trust–dependence relationship; shows instructed reliability outpredicts self-reported trust; validates behavioural dependence as separate construct | *Int. J. Human-Computer Studies* | T6, T7 | methodological | ⭐⭐⭐ | [notes](../notes/Questioning%20Trust%20in%20AI%20Research-%20Exploring%20the%20Influence%20of%20Trust%20Assessment%20on%20Dependence%20in%20AI-Assisted%20Decision-Making.md) |
 | 56 | Shaffril et al. | 2017 | Adapting towards climate change impacts: Strategies for small-scale fishermen in Malaysia | Empirical grounding for environmental state vector E and governance trigger rationale — documents Malaysian small-scale fisher population profile, environmental vulnerability, and binary go/no-go status quo | *Marine Policy* (Elsevier), Vol. 81, pp. 196–201 | T4, T6, T7, T8 | reduced | ⭐⭐⭐ | [notes](../notes/Adapting%20towards%20climate%20change%20impacts-%20Strategies%20for%20small-scale%20fishermen%20in%20Malaysia.md) |
+| 57 | Yamin et al. | 2025 | Interplay of traditional knowledge and adaptive capacity in climate change adaptation of small-scale fishers in central Terengganu, Malaysia | Primary empirical study (n=136, SEM, Q1 journal) of Terengganu SSF — validates E vector via fisher-reported hazards (wind/waves 95%, rainfall 91%), confirms binary go/no-go status quo, documents flexibility as weakest adaptive capacity domain (strongest motivation for CAUTION mode yet), and establishes PS5 socio-technical context (governance frustration, religious worldview, TK erosion) | *Frontiers in Marine Science*, 12:1492131 | T4, T6, T7, T8 | full | ⭐⭐⭐⭐ | [notes](../notes/Interplay%20of%20traditional%20knowledge%20and%20adaptive%20capacity%20in%20climate%20change%20adaptation%20of%20small-scale%20fishers%20in%20central%20Terengganu%2C%20Malaysia%20.md) |
+| 58 | Muhamad et al. | 2024 | Validation of Factor Weights Affecting Productivity Efficiency in Malaysia's Small-Scale Fisheries Sector | Fuzzy model validation of environmental, socio-economic, and technological productivity factors in Malaysian SSF — confirms environmental factors (weather, water quality) remain statistically significant as of 2024; provides temporal continuity for domain characterisation and fuzzy logic precedent for S = f(E) implementation | *Pakistan Journal of Life and Social Sciences (PJLSS)*, 22(2), 12024–12040 | T4, T7, T8 | reduced | ⭐⭐ | [notes](sources/Validation%20of%20Factor%20Weights%20Affecting%20Productivity%20Efficiency%20in%20Malaysia%27s%20Small-Scale%20Fisheries%20Sector.md) |
 
 ---
 
@@ -90,10 +92,10 @@
 | Hybrid AI (deterministic rule-based + probabilistic AI reasoning) | T1 | 35 | Well-Covered |
 | Safety-critical AI decision systems | T2 | 36 | Well-Covered |
 | AI governance — Level 1 (participation) and Level 2 (advisory scope) | T3 | 37 | Well-Covered |
-| Low-resource environments (limited data, connectivity, computing) | T4 | 18 | Well-Covered |
+| Low-resource environments (limited data, connectivity, computing) | T4 | 20 | Well-Covered |
 | Decision architecture formalisation (E, S = f(E), G(S), A_AI(S), Safety Dominance Property) | T5 | 29 | Well-Covered |
-| Human role in AI-assisted decision-making | T6 | 49 | Well-Covered |
-| Socio-technical evaluation of AI systems | T7 | 34 | Well-Covered |
-| Coastal fisheries as a safety-critical, low-resource domain | T8 | 15 | Well-Covered |
+| Human role in AI-assisted decision-making | T6 | 50 | Well-Covered |
+| Socio-technical evaluation of AI systems | T7 | 36 | Well-Covered |
+| Coastal fisheries as a safety-critical, low-resource domain | T8 | 17 | Well-Covered |
 
 **Note:** T6 and T7 counts updated to include 6 new methodological foundation papers (50–55). Counts include both "Yes" and "Partial" ratings. Run `/plan-review` for detailed breakdown of Yes vs Partial per theme, problem statement coverage (PS1–PS5), governance level analysis, and formal component coverage.
