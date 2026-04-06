@@ -1,7 +1,7 @@
 # Literature Review Plan
 
-**Date**: 2026-04-05
-**Papers analysed**: 55 (25 full extraction, 24 reduced extraction, 6 methodological foundation, 0 early stop)
+**Date**: 2026-04-06
+**Papers analysed**: 58 (26 full extraction, 26 reduced extraction, 6 methodological foundation, 0 early stop)
 
 ---
 
@@ -14,11 +14,11 @@
 | Hybrid AI (rule-based + probabilistic) | T1 | 14 | 21 | 20 | Well-Covered |
 | Safety-critical AI decision systems | T2 | 27 | 15 | 13 | Well-Covered |
 | AI governance (Level 1 + Level 2) | T3 | 23 | 17 | 15 | Well-Covered |
-| Low-resource environments | T4 | 5 | 13 | 37 | Partially Covered |
-| Decision architecture formalisation | T5 | 7 | 22 | 26 | Partially Covered |
-| Human role in AI-assisted decision-making | T6 | 24 | 25 | 6 | Well-Covered |
-| Socio-technical evaluation | T7 | 13 | 21 | 21 | Partially Covered |
-| Coastal fisheries / maritime domain | T8 | 11 | 4 | 40 | Partially Covered |
+| Low-resource environments | T4 | 6 | 14 | 38 | Partially Covered |
+| Decision architecture formalisation | T5 | 7 | 22 | 29 | Partially Covered |
+| Human role in AI-assisted decision-making | T6 | 25 | 25 | 8 | Well-Covered |
+| Socio-technical evaluation | T7 | 14 | 22 | 22 | Partially Covered |
+| Coastal fisheries / maritime domain | T8 | 14 | 4 | 40 | **Well-Covered** |
 
 ### T1: Hybrid AI — Well-Covered
 
@@ -42,10 +42,10 @@
 
 ### T4: Low-resource environments — Partially Covered
 
-**Key papers (Yes)**: Bhuvaneswari, Zhao/Yuan, Peskas (Longobardi), Katende, Tahsin
-**Key papers (Partial)**: Haque/Al Jufaili, Stage-Gate (Leppinen), Talpur, Wing/Woodward, Bossier, Gao, Obi, Rahim, Kühn, Bloomfield, Perez-Cerrolaza, Gyllenhammar, Bengio
+**Key papers (Yes)**: Bhuvaneswari, Zhao/Yuan, Peskas (Longobardi), Katende, Tahsin, Yamin
+**Key papers (Partial)**: Haque/Al Jufaili, Stage-Gate (Leppinen), Talpur, Wing/Woodward, Bossier, Gao, Obi, Rahim, Kühn, Bloomfield, Perez-Cerrolaza, Gyllenhammar, Bengio, Muhamad
 
-**Assessment**: 5 Yes papers cover healthcare, fisheries data platforms, and general low-resource AI. But no paper combines low-resource deployment with formal safety governance. Gap exists between the low-resource AI literature and the safety governance literature.
+**Assessment**: 6 Yes papers cover healthcare, fisheries data platforms, general low-resource AI, and the target population's resource constraints. Yamin et al. (2025) provides the strongest characterisation: half of Terengganu fishers earn <RM 1,000/month, 60% have lower secondary education or below, and technology access is limited to weather apps. But no paper combines low-resource deployment with formal safety governance. Gap exists between the low-resource AI literature and the safety governance literature.
 
 **Search suggestions**:
 - "AI deployment resource-constrained safety-critical" in healthcare, disaster response
@@ -61,27 +61,28 @@
 
 ### T6: Human role — Well-Covered
 
-**Key papers (Yes)**: 24 papers including Punzi (hybrid decision-making taxonomy), Gabriel (socio-technical requirements), Bloomfield, Perez-Cerrolaza, Mussi, Bhuvaneswari, Flehmig, INSYTE, Saup, Zhao/Yuan, Gao, McGrath S-TIAS, McGrath CHAI-T, Bach, Aquilino, Atf & Lewis, Schrills, Ramos, Madsen/Kim, AgentSpec, Bengio, Wen, Newcomb (partial... excluded)
+**Key papers (Yes)**: 25 papers including Punzi (hybrid decision-making taxonomy), Gabriel (socio-technical requirements), Bloomfield, Perez-Cerrolaza, Mussi, Bhuvaneswari, Flehmig, INSYTE, Saup, Zhao/Yuan, Gao, McGrath S-TIAS, McGrath CHAI-T, Bach, Aquilino, Atf & Lewis, Schrills, Ramos, Madsen/Kim, AgentSpec, Bengio, Wen, Yamin
 
-**Assessment**: Well-covered. Establishes that human-AI decision support is the dominant paradigm. No paper evaluates user response to a system with three distinct governance states.
+**Assessment**: Well-covered. Yamin et al. (2025) adds the target population's traditional knowledge as a decision-making framework and documents fishers as active decision agents whose forecasting abilities are declining. Establishes that human-AI decision support is the dominant paradigm. No paper evaluates user response to a system with three distinct governance states.
 
 ### T7: Socio-technical evaluation — Partially Covered
 
-**Key papers (Yes)**: Bloomfield, Madsen/Kim, Zhao/Yuan, Gabriel, Saup, INSYTE, Intl AI Safety Report (Bengio), Bach, Aquilino, Atf & Lewis, Schrills, McGrath S-TIAS, McGrath CHAI-T
+**Key papers (Yes)**: Bloomfield, Madsen/Kim, Zhao/Yuan, Gabriel, Saup, INSYTE, Intl AI Safety Report (Bengio), Bach, Aquilino, Atf & Lewis, Schrills, McGrath S-TIAS, McGrath CHAI-T, Yamin
+**Key papers (Partial)**: Muhamad
 
-**Assessment**: Several papers address socio-technical considerations but few conduct empirical socio-technical evaluation of AI governance architectures. No paper evaluates user understanding of graduated AI participation modes, particularly the CAUTION state.
+**Assessment**: Several papers address socio-technical considerations but few conduct empirical socio-technical evaluation of AI governance architectures. Yamin et al. (2025) provides the strongest socio-technical characterisation of the target population: five-domain adaptive capacity assessment, governance frustration (fishers feel neglected by government), religious worldview (93.4% Qadr attribution), and questionnaire instrument precedent (α = 0.914). No paper evaluates user understanding of graduated AI participation modes, particularly the CAUTION state.
 
 **Search suggestions**:
 - "Trust in AI decision support" with empirical user studies
 - "User perception AI automation levels" in safety-critical domains
 - "Socio-technical evaluation AI governance" empirical studies
 
-### T8: Coastal fisheries / maritime — Partially Covered
+### T8: Coastal fisheries / maritime — Well-Covered
 
-**Key papers (Yes)**: Haque/Al Jufaili, Wing/Woodward, Yuzui/Kaneko, Welch, Bossier, Peskas (Longobardi), Mandal, Obi, Rahim, Gao, Kühn
+**Key papers (Yes)**: Haque/Al Jufaili, Wing/Woodward, Yuzui/Kaneko, Welch, Bossier, Peskas (Longobardi), Mandal, Obi, Rahim, Gao, Kühn, Yamin, Shaffril, Muhamad
 **Key papers (Partial)**: Madsen/Kim, Ramos, Talpur
 
-**Assessment**: 11 fisheries/maritime papers but NONE implement any AI governance mechanism. The domain is established as a context lacking formal AI safety governance — which is exactly the motivation needed for PS3.
+**Assessment**: 14 fisheries/maritime papers, now including Yamin et al. (2025) — the strongest primary empirical study of the exact target population (n=136, Terengganu SSF, Q1 journal, 2023 fieldwork). Yamin supersedes Shaffril et al. (2017) as the primary domain characterisation source. Muhamad et al. (2024) provides temporal continuity. NONE of the domain papers implement any AI governance mechanism — the domain is established as a context lacking formal AI safety governance, which is the motivation for PS3.
 
 ---
 
@@ -91,9 +92,9 @@
 |---|---|---|---|
 | PS1: No intermediate AI participation mode | Well-Supported | Shields, AgentSpec, Dalrymple, Bajcsy, Flehmig, Baxi | Flehmig is named comparator — present in set |
 | PS2: No environment-state-conditioned (G(S), A_AI(S)) | Well-Supported | Shields, Bajcsy, Baxi, Shamsujjoha, AgentSpec | All implement binary or differently-conditioned governance |
-| PS3: No safety governance for low-resource fisheries | Partially Supported | Bhuvaneswari (healthcare analog), Peskas, Haque | No paper combines governance + fisheries |
-| PS4: No graduated vs binary comparative evaluation | Partially Supported | McGrath S-TIAS, Schrills, CHAI-T, Bach, Aquilino, Atf & Lewis | No direct evaluation of graduated vs binary governance — methodological foundation established |
-| PS5: No socio-technical evaluation of CAUTION mode | Partially Supported | McGrath S-TIAS, Schrills, CHAI-T, Bach, Aquilino, Atf & Lewis | No user study of intermediate governance mode — validated instruments and trust frameworks now in set |
+| PS3: No safety governance for low-resource fisheries | Partially Supported | Bhuvaneswari (healthcare analog), Peskas, Haque, Yamin, Gao, Rahim | No paper combines governance + fisheries; domain context now strongly established |
+| PS4: No graduated vs binary comparative evaluation | Partially Supported | McGrath S-TIAS, Schrills, CHAI-T, Bach, Aquilino, Atf & Lewis, Yamin | No direct evaluation of graduated vs binary governance — methodological foundation + domain outcome variable (flexibility) established |
+| PS5: No socio-technical evaluation of CAUTION mode | Partially Supported | McGrath S-TIAS, Schrills, CHAI-T, Bach, Aquilino, Atf & Lewis, Yamin | No user study of intermediate governance mode — instruments, trust frameworks, and target population socio-technical context now in set |
 
 ### PS1: No architecture formally defines an intermediate AI participation mode with restricted recommendation space
 
@@ -144,8 +145,11 @@
 | Rahim | Motivates | Fisher survival decisions under extreme weather — validates CAUTION concept |
 | Obi | Fills background | Malaysian fisheries sector overview |
 | Wing/Woodward | Fills background | Fisheries AI ecosystem needs |
+| **Yamin** | **Primary motivator** | Strongest primary data from exact target population (n=136, Terengganu, Q1 journal); documents binary go/no-go status quo, flexibility as weakest adaptive capacity domain, TK erosion creating decision support vacuum; establishes PS3 motivation that CAUTION mode addresses a measured population-level capability gap |
+| Shaffril | Background | Historical domain characterisation (2017) — Malaysian SSF population profile, binary cessation during monsoon; retained as contextual background |
+| Muhamad | Supplementary | Temporal continuity — confirms environmental factors remain significant productivity determinants in Malaysian SSF as recently as 2024 |
 
-**Assessment**: Partial. Domain background is well-covered. The gap (no formal governance in fisheries) is easy to argue. But there are no close architectural comparators within fisheries — the argument relies on cross-domain comparison (safety governance from other domains + fisheries deployment context).
+**Assessment**: Partial but significantly strengthened. Domain background is now the strongest in the corpus with Yamin et al. (2025) providing primary empirical data from the exact target population. The gap (no formal governance in fisheries) is easy to argue. There are still no close architectural comparators within fisheries — the argument relies on cross-domain comparison (safety governance from other domains + fisheries deployment context). The domain motivation is now well-grounded.
 
 ### PS4: No comparative evaluation of graduated two-level governance vs binary governance
 
@@ -162,9 +166,11 @@ No paper directly compares graduated vs binary governance. However, 6 new method
 | Aquilino et al. (2025) — Decoding Trust | Instrument selection | Cognitive vs affective trust framework; predicts cognitive trust dominates low-anthropomorphism decision support — supports S-TIAS selection |
 | Atf & Lewis (2026) — Explainability Meta-analysis | Benchmark | r = 0.194 explainability–trust correlation as baseline; PS4 can test whether graduated governance exceeds this baseline |
 
-**What's still missing**: No paper compares graduated vs binary governance specifically. The three-condition design (ungated vs binary-gated vs two-level graduated) remains novel. But the evaluation methodology is now grounded rather than invented from scratch.
+| Yamin | Motivates | Flexibility is weakest adaptive capacity domain — PS4 should test whether graduated governance improves fishers' operational flexibility under intermediate risk, not just architectural compliance; binary go/no-go confirmed as sole decision mode in target population |
 
-**Status rationale**: Moved from "Unsupported" to "Partially Supported" — methodological foundations established; direct evaluation precedent still absent.
+**What's still missing**: No paper compares graduated vs binary governance specifically. The three-condition design (ungated vs binary-gated vs two-level graduated) remains novel. But the evaluation methodology is now grounded and Yamin et al. (2025) provides the outcome variable motivation: flexibility deficit as a measurable population characteristic that graduated governance should address.
+
+**Status rationale**: Moved from "Unsupported" to "Partially Supported" — methodological foundations established and domain outcome variable (flexibility) identified; direct evaluation precedent still absent.
 
 ### PS5: No socio-technical evaluation of graduated AI governance, particularly user response to CAUTION mode
 
@@ -181,9 +187,11 @@ No paper evaluates user response to graduated AI participation modes. However, 6
 | Aquilino et al. (2025) — Decoding Trust | Mode-specific trust prediction | CAUTION mode restriction changes system profile → shifts trust from mixed cognitive–affective to primarily cognitive; warns against using purely cognitive instrument in SAFE condition |
 | Atf & Lewis (2026) — Explainability Meta-analysis | Design risk | Interpretable models can engender distrust as well as trust; making CAUTION restriction transparent may produce appropriate caution OR inappropriate distrust — PS5 must distinguish these outcomes |
 
-**What's still missing**: No paper evaluates user response to an *intermediate* governance mode ("AI active but restricted"). The CAUTION mode remains unmapped territory. PS5 is methodologically grounded but its specific contribution — evaluating the novel intermediate state — has no direct precedent.
+| Yamin | **Primary PS5 context** | Governance frustration (fishers feel neglected by PNK/government — system must be perceived as fisher-empowering, not government-imposed); religious worldview (93.4% Qadr attribution — AI must be culturally compatible); learning willingness (72% agree they need to be progressive — adoption barrier may be lower than assumed); questionnaire instrument precedent (α = 0.914 — benchmark for PS5 instrument reliability in this population); Malay Terengganu dialect requirement and enumerator-administered design |
 
-**Status rationale**: Moved from "Unsupported" to "Partially Supported" — validated instruments and trust dynamics frameworks established; evaluation of intermediate governance mode remains novel.
+**What's still missing**: No paper evaluates user response to an *intermediate* governance mode ("AI active but restricted"). The CAUTION mode remains unmapped territory. PS5 is methodologically grounded and Yamin et al. (2025) provides the richest socio-technical context for the target population — but the specific contribution of evaluating the novel intermediate state has no direct precedent.
+
+**Status rationale**: Moved from "Unsupported" to "Partially Supported" — validated instruments, trust dynamics frameworks, and target population socio-technical context established; evaluation of intermediate governance mode remains novel.
 
 ---
 
@@ -216,6 +224,9 @@ No paper evaluates user response to graduated AI participation modes. However, 6
 | Saup | Partial | Partial | No | Organisational; post-generation |
 | Castagnone (SYNAPSE) | Partial | Partial | No | Binary output gating |
 | Gao | Yes* | Partial* | Partial* | Informal only — empirical, not architecture |
+| Yamin | Yes* | No | No | Informal binary gate ("if windy, I can't go fishing") — empirical, not architecture |
+| Shaffril | Yes* | No | No | Informal binary gate (90% operating day reduction during monsoon) — empirical, not architecture |
+| Muhamad | No | No | No | No governance content — productivity factor validation only |
 
 ### Summary
 
@@ -290,9 +301,9 @@ No paper evaluates user response to graduated AI participation modes. However, 6
 **Transition**: *"Formal safety properties exist for binary governance (shields, safety filters, CBFs), but none defines a Safety Dominance Property for graduated governance where AI outputs must fall within a state-dependent recommendation space that narrows as risk increases."*
 
 ### Link 7: This gap matters in low-resource, safety-critical domains
-**Papers**: Katende (low-resource AI constraints), Bhuvaneswari (healthcare in resource-constrained settings), Haque/Al Jufaili (fisheries AI — no governance), Peskas/Longobardi (feasibility of fisheries data platforms), Gao (fisher decision-making in Penang), Rahim (fisher survival decisions under extreme weather)
+**Papers**: Katende (low-resource AI constraints), Bhuvaneswari (healthcare in resource-constrained settings), Haque/Al Jufaili (fisheries AI — no governance), Peskas/Longobardi (feasibility of fisheries data platforms), Gao (fisher decision-making in Penang), Rahim (fisher survival decisions under extreme weather), **Yamin** (primary empirical data from target population — binary status quo, flexibility deficit, TK erosion, decision support vacuum), Shaffril (historical domain characterisation), Muhamad (temporal continuity for environmental factors)
 **PS mapping**: PS3
-**Transition**: *"Small-scale coastal fisheries represent a safety-critical, low-resource domain where AI must operate under intermittent connectivity, limited data, and varying environmental risk — yet no formal safety governance architecture exists for this context."*
+**Transition**: *"Small-scale coastal fisheries represent a safety-critical, low-resource domain where AI must operate under intermittent connectivity, limited data, and varying environmental risk — yet no formal safety governance architecture exists for this context. Yamin et al. (2025) confirm that fishers' traditional weather prediction abilities are declining while their reliance on weather apps grows, creating a decision support vacuum that no current system fills."*
 
 ### Link 8: No evaluation compares graduated vs binary governance
 **Papers**: (Gap — no paper directly addresses this)
@@ -384,6 +395,20 @@ Welch (2024) + Kühn (2025) → shared Watson co-authorship
 
 Gao (2024) "Penang fisher decisions"
     └── empirical basis: documents go/cautious-go/don't-go → maps to SAFE/CAUTION/UNSAFE
+
+Yamin (2025) "Terengganu fishers" — supersedes Shaffril (2017) as primary domain source
+    ├── cites → Shaffril et al. (2017) (in secondary references for domain continuity)
+    ├── cites → Noor et al. (2023) (rainfall classification for East Coast Malaysia)
+    └── provides primary evidence: binary go/no-go, flexibility deficit, TK erosion
+         └── USER'S CONTRIBUTION: CAUTION mode addresses measured adaptive capacity deficit
+
+Shaffril (2017) "Malaysian SSF climate adaptation" — historical background
+    └── superseded by Yamin (2025) for population characterisation
+    └── retained for: objective climate data (wind speed stations, rainfall percentiles)
+
+Muhamad (2024) "SSF productivity factors" — temporal continuity
+    └── confirms environmental factors remain significant as of 2024
+    └── fuzzy logic precedent for S = f(E) implementation
 ```
 
 ### Cluster 6: International Governance & Policy
@@ -581,6 +606,8 @@ The CAUTION mode resolves this: AI remains active but advisory scope narrows to 
 | Nastoska | Fills background — edge AI deployment constraints |
 | Tahsin | Fills background — AI in resource-limited industrial settings |
 | Wen | Fills background — AI deployment in data-deficient environments |
+| **Yamin** | **Primary domain characterisation** — strongest primary data from target population (n=136, 2023 fieldwork, Q1 journal); half earn <RM 1,000/month; 60% lower secondary education or below; limited technology access but actively using weather apps |
+| Muhamad | Supplementary — temporal continuity for environmental factor significance in Malaysian SSF (2024) |
 
 **Key idea**: AI systems in low-resource environments must operate with limited connectivity, limited compute, and users with varying digital literacy. Binary governance is particularly costly in this context — disabling AI entirely under moderate risk wastes a scarce resource when partial AI assistance would be safe and valuable.
 
@@ -591,18 +618,20 @@ The CAUTION mode resolves this: AI remains active but advisory scope narrows to 
 #### Section 2.8: Technology and Decision Support in Small-Scale Fisheries (Link 7 continued)
 **Purpose**: Justify the case study domain — and establish that no formal safety governance architecture exists in fisheries AI.
 
-**Centrepiece**: Gao (2024) — *"Fisher Decision-Making in Penang"*
+**Centrepiece pair**: Gao (2024) — *"Fisher Decision-Making in Penang"* + Yamin et al. (2025) — *"Traditional Knowledge and Adaptive Capacity in Terengganu"*
 
-Gao's empirical finding is the cornerstone of the domain justification: Penang fishers already make tripartite decisions — *go*, *cautious-go*, and *don't-go* — based on weather and sea conditions. This maps directly to SAFE/CAUTION/UNSAFE. The proposed architecture formalises a decision structure that practitioners already use informally.
+Gao's empirical finding is the cornerstone of the domain justification: Penang fishers already make tripartite decisions — *go*, *cautious-go*, and *don't-go* — based on weather and sea conditions. This maps directly to SAFE/CAUTION/UNSAFE. Yamin et al. (2025) — the strongest primary empirical study of the exact target population — provides the quantitative reinforcement: 95% of 136 Terengganu fishers identify stronger winds/waves as a primary hazard, the empirical knowledge item "if it's suddenly windy/change of weather, I can't go fishing" confirms the binary go/no-go as the sole decision mode, and flexibility is the weakest adaptive capacity domain. Together, these two studies establish that the proposed architecture formalises a decision structure that practitioners already use informally (Gao) and addresses a measured adaptive capacity deficit in the population (Yamin).
 
-**Three pillars of domain argument**:
-1. **Environmental variability as first-class concern** — fisheries face continuously varying conditions (weather, sea state, visibility, tidal patterns) that directly determine operational safety, making environment-state-conditioned governance natural.
+**Four pillars of domain argument**:
+1. **Environmental variability as first-class concern** — fisheries face continuously varying conditions (weather, sea state, visibility, tidal patterns) that directly determine operational safety. Yamin et al. (2025) confirm this with near-unanimous fisher-reported agreement: wind/waves (95%), weather intensity (91%), rainfall (91%).
 2. **Existing informal tripartite decision-making** — Gao (2024) documents go / cautious-go / don't-go; Rahim (2024) documents survival decisions under extreme weather. SAFE/CAUTION/UNSAFE formalises existing practice, not an imposed abstraction.
 3. **Resource constraints make binary governance costly** — in low-resource settings, a binary gate that disables AI under moderate risk wastes the resource precisely when partial assistance would be most valuable.
+4. **Decision support vacuum at intermediate risk** — Yamin et al. (2025) document that fishers' traditional weather prediction abilities are declining while reliance on weather apps grows. No current system translates environmental data into scope-restricted advisory governance. The CAUTION mode fills this specific gap.
 
 | Paper | Role |
 |-------|------|
-| **Gao** | **Centrepiece** — empirical tripartite fisher decision-making validates SAFE/CAUTION/UNSAFE |
+| **Gao** | **Co-centrepiece** — empirical tripartite fisher decision-making validates SAFE/CAUTION/UNSAFE |
+| **Yamin** | **Co-centrepiece** — primary quantitative validation of E vector via fisher-reported hazards (95% wind/waves, 91% rainfall); confirms binary go/no-go; flexibility as weakest adaptive capacity domain; TK erosion creating decision support vacuum |
 | Rahim | Supports centrepiece — survival decisions under extreme weather validate CAUTION concept |
 | Haque/Al Jufaili | Establishes gap — no formal governance in fisheries AI |
 | Wing/Woodward | Fills background — fisheries AI ecosystem needs and data gaps |
@@ -612,6 +641,8 @@ Gao's empirical finding is the cornerstone of the domain justification: Penang f
 | Obi | Fills background — Malaysian small-scale fisheries sector |
 | Peskas (Longobardi) | Fills background — fisheries data platform in low-resource settings |
 | Madsen/Kim | Fills background — maritime AI transparency and safety (adjacent domain) |
+| Shaffril | Historical background — 2017 domain characterisation of Malaysian SSF (background context, not primary) |
+| Muhamad | Supplementary — fuzzy logic domain precedent for S = f(E) implementation; temporal continuity for environmental factors (2024) |
 
 **Citation cluster**: Fisheries/maritime cluster (isolated from safety governance cluster — proposed work bridges these two disconnected bodies of literature)
 
@@ -634,6 +665,7 @@ Gao's empirical finding is the cornerstone of the domain justification: Penang f
 | Gabriel | Fills background — socio-technical requirements methodology |
 | Zhao/Yuan | Motivates — ethical question of governance varying by severity (PS5 context) |
 | Madsen/Kim | Motivates — maritime AI transparency gap (no governance display) |
+| Yamin | Fills background — questionnaire instrument precedent (Cronbach's α = 0.914) in exact target population; Malay Terengganu dialect requirement for PS5 questionnaire design; enumerator-administered approach required given education profile (60% lower secondary or below); sample size benchmark (n = 136 from ~800 fishers, 17% coverage) |
 
 **Citation cluster**: Trust & evaluation methodology cluster (Bach → McGrath S-TIAS ↔ McGrath CHAI-T ↔ Schrills)
 
@@ -677,7 +709,7 @@ Binary governance is structurally inadequate because it forces a false dilemma: 
 
 The closest prior art — Flehmig et al.'s traffic-light model — governs monitoring intensity triggered by AI performance, not recommendation scope triggered by environmental state. Baxi's comprehension-gated architecture implements the closest formal structure (graduated tiers with containment) but conditions on agent robustness — a static, offline-assessed property — rather than environmental state, which is dynamic and continuously observable. These conditioning strategies demand fundamentally different observation mechanisms, update dynamics, and failure handling — constituting architecturally distinct approaches.
 
-The fisheries domain is not merely a convenient application context: it is the domain where environmental-state-conditioned governance is most natural (continuous environmental variability), most empirically motivated (Gao 2024 documents existing tripartite informal decision-making — go / cautious-go / don't-go), and most valuable (binary governance wastes scarce AI resources under moderate risk in low-resource settings). The proposed architecture bridges the safety governance literature and the fisheries AI literature, which have no prior citation connection.
+The fisheries domain is not merely a convenient application context: it is the domain where environmental-state-conditioned governance is most natural (continuous environmental variability), most empirically motivated (Gao 2024 documents existing tripartite informal decision-making — go / cautious-go / don't-go; Yamin et al. 2025 confirms the binary go/no-go as the sole decision mode among 136 Terengganu fishers and identifies flexibility as the weakest adaptive capacity domain), and most valuable (binary governance wastes scarce AI resources under moderate risk in low-resource settings). Yamin et al. (2025) reframe the CAUTION mode's significance: it does not merely restrict AI advisory scope — it addresses a measured population-level adaptive capacity deficit by enabling a graduated response that fishers currently cannot execute without decision support. The proposed architecture bridges the safety governance literature and the fisheries AI literature, which have no prior citation connection.
 
 The evaluation methodology is grounded in the human factors literature on trust in automation — validated instruments (S-TIAS), trust calibration frameworks (CHAI-T), and dual-measurement designs distinguishing attitudinal trust from behavioural dependence (Schrills et al. 2025) — extended to the novel context of graduated governance states and the CAUTION mode specifically.
 
@@ -694,11 +726,11 @@ The proposed two-level governance pair (G(S), A_AI(S)), conditioned on classifie
 | Hybrid AI | T1 | 14 | 21 | 20 | Well-Covered |
 | Safety-critical AI | T2 | 27 | 15 | 13 | Well-Covered |
 | AI governance | T3 | 23 | 17 | 15 | Well-Covered |
-| Low-resource | T4 | 5 | 13 | 37 | Partially Covered |
-| Formalisation | T5 | 7 | 22 | 26 | Partially Covered |
-| Human role | T6 | 24 | 25 | 6 | Well-Covered |
-| Socio-technical | T7 | 13 | 21 | 21 | Partially Covered |
-| Fisheries/maritime | T8 | 11 | 4 | 40 | Partially Covered |
+| Low-resource | T4 | 6 | 14 | 38 | Partially Covered |
+| Formalisation | T5 | 7 | 22 | 29 | Partially Covered |
+| Human role | T6 | 25 | 25 | 8 | Well-Covered |
+| Socio-technical | T7 | 14 | 22 | 22 | Partially Covered |
+| Fisheries/maritime | T8 | 14 | 4 | 40 | **Well-Covered** |
 
 ### Problem Statement Coverage
 
@@ -706,9 +738,9 @@ The proposed two-level governance pair (G(S), A_AI(S)), conditioned on classifie
 |---|---|---|---|
 | PS1 | Well-Supported | Flehmig, Shields, AgentSpec, Dalrymple, Bajcsy, Baxi | None — gap well-argued |
 | PS2 | Well-Supported | Shields, Bajcsy, Baxi, Shamsujjoha, AgentSpec | None — gap well-argued |
-| PS3 | Partially Supported | Bhuvaneswari (analog), Peskas, Haque, Gao | No architectural comparator within fisheries |
-| PS4 | **Partially Supported** | McGrath S-TIAS, Schrills, CHAI-T, Bach, Aquilino, Atf & Lewis | No direct evaluation of graduated vs binary governance |
-| PS5 | **Partially Supported** | McGrath S-TIAS, Schrills, CHAI-T, Bach, Aquilino, Atf & Lewis | No user study of intermediate governance mode (CAUTION) specifically |
+| PS3 | Partially Supported | Bhuvaneswari (analog), Peskas, Haque, Gao, **Yamin** | No architectural comparator within fisheries; domain context now strongly established |
+| PS4 | **Partially Supported** | McGrath S-TIAS, Schrills, CHAI-T, Bach, Aquilino, Atf & Lewis, **Yamin** | No direct evaluation of graduated vs binary governance; flexibility as outcome variable identified |
+| PS5 | **Partially Supported** | McGrath S-TIAS, Schrills, CHAI-T, Bach, Aquilino, Atf & Lewis, **Yamin** | No user study of intermediate governance mode; target population socio-technical context now established |
 
 ### Governance Level Distribution
 
@@ -718,3 +750,45 @@ The proposed two-level governance pair (G(S), A_AI(S)), conditioned on classifie
 | Any form of Level 2 | ~12 papers |
 | Level 2 state-conditioned | 2 papers (Shields: continuous; Baxi: robustness) |
 | Unified two-level, environment-state-conditioned | **0 papers** |
+
+---
+
+## 10. Justification Alignment Note
+
+This section maps each of the four justification documents to their load-bearing corpus citations and checks whether any justification argument relies on a paper not yet positioned in the Chapter 2 outline.
+
+### a) justification-environmental-state-governance.md
+
+**Why governance is conditioned on environmental state rather than AI confidence, risk score, or model uncertainty.**
+
+Load-bearing citations: Newcomb (calibration impossibility — AI confidence fails as trigger), Bloomfield & Rushby (self-referential governance critique), Bach (trust requires interpretability — confidence scores lack it), McGrath CHAI-T (predictability as trust determinant), Bajcsy (causal primacy of environment over model state), Rahim (causal structure — environment drives outcomes regardless of AI), Dalrymple (independence — verifier must not share failure modes with AI), Könighofer (shield separation principle), Atf & Lewis (trust empowerment — observable triggers build appropriate trust), Schrills (instructed reliability — users calibrate better when trigger is transparent), Gao (tripartite environmental decision framework), Yamin et al. (2025) (fisher-reported hazard hierarchy mapping to E vector; TK erosion creating decision support vacuum; flexibility deficit), Gyllenhammar (ODD confinement — environmental boundaries define operational scope), Ramos (gap confirmation — 91 papers, none condition on environmental state), Bengio (gap — 11 international frameworks, all binary), Perez-Cerrolaza (SWaP constraints in low-resource deployment).
+
+**Placement check**: All citations positioned in Chapter 2 outline (Sections 2.2–2.6 for governance/formal papers; Section 2.7–2.8 for domain papers). No placement gaps.
+
+### b) justification-advisory-scope-restriction.md
+
+**Why CAUTION mode restricts advisory scope rather than blocking AI or reducing autonomy.**
+
+Load-bearing citations: Perez-Cerrolaza (ALARP principle — restriction proportional to risk; false alarm costs), Rahim (binary warning override — fishers ignore all-or-nothing alerts), Ramos (gap — 91 papers, no intermediate advisory restriction), Madsen & Kim (display ≠ governance — information presentation alone insufficient), Gyllenhammar (ODD/ROD/MRC envelope — scope restriction as standard safety practice), Bloomfield & Rushby (nuclear safety precedent — limitation of advisory scope in safety-critical domains), Schrills (anchoring bias — unrestricted AI creates over-reliance; instructed reliability), Wen (human intervention ineffective under time pressure — scope restriction preferable to human override), Mussi (progressive disclosure — graduated information reduces cognitive overload), Atf & Lewis (VOI — value of information decreases under uncertainty; false precision harmful), McGrath CHAI-T (trust calibration — mode-appropriate trust requires visible scope boundaries), Bach (expectation mismatch — users assume AI is fully capable unless scope is visibly restricted), Gao (cautious-go as informal scope restriction precedent), Yamin et al. (2025) (flexibility deficit — weakest adaptive capacity domain; TK erosion; binary status quo confirmed), Newcomb (gap — 46 formal methods papers, none implement graduated advisory restriction).
+
+**Placement check**: All citations positioned in Chapter 2 outline (Sections 2.4–2.6 for governance mechanism papers; Section 2.8 for domain papers; Section 2.9 for evaluation papers). No placement gaps.
+
+### c) justification-three-states.md
+
+**Why three discrete safety states (SAFE/CAUTION/UNSAFE) rather than binary, continuous, 5-level, or probabilistic alternatives.**
+
+Load-bearing citations: Ramos (gap — 91 papers, binary governance universal), Bengio (11 frameworks, all binary), Gao (tripartite go/cautious-go/don't-go — empirical precedent for three states), Rahim (tripartite seasonal pattern — monsoon/transition/fair as natural three-state structure), Yamin et al. (2025) (binary go/no-go confirmed as status quo; flexibility = weakest domain; CAUTION as capacity-building), McGrath CHAI-T (calibration failure modes — too few states under-calibrate, too many overwhelm), Wen (mode confusion risk — cognitive overload increases with state count), Newcomb (formal methods — binary safety boundaries amenable to verification; three states preserve tractability), Madsen & Kim (categorical maritime risk classification — precedent for discrete states), Gyllenhammar (ODD→ROD→MRC — three operational domains as automotive precedent), Flehmig (traffic-light 3-level — closest structural precedent, but governs monitoring not scope), Schrills (probability matching — users approximate discrete categories, not continuous distributions), Atf & Lewis (weak explainability-trust correlation — simpler state space aids explanation), Könighofer (winning region — binary formal property extendable to three states), Baxi (K≥3 comprehension tiers — formal precedent for graduated governance beyond binary), Perez-Cerrolaza (Class I/II/III device classification — regulatory three-tier precedent).
+
+**Placement check**: All citations positioned in Chapter 2 outline. Flehmig appears in Section 2.5 (two-level governance gap); Baxi in Sections 2.5–2.6; Gao and Rahim in Section 2.8. No placement gaps.
+
+### d) justification-novelty-gap.md
+
+**Comprehensive gap argument confirming the two-level governance architecture is new.**
+
+Load-bearing citations: Shields/Könighofer (Level 1 only — binary shield), AgentSpec (per-action binary constraint — Level 2 mechanism but not state-conditioned), Dalrymple (binary verifier — Level 1), Bajcsy (binary safety filter — Level 1), Flehmig (primary comparator — three-level traffic-light but governs monitoring intensity, not advisory scope; triggered by AI performance, not environmental state; single governance level), Baxi (5-point differentiation — comprehension-gated, robustness-conditioned, static assessment, no environmental state, no advisory scope restriction), Shamsujjoha (static Level 2 — guardrails defined at design time, not state-conditioned), Ramos (91 papers — systematic gap confirmation), Newcomb (46 papers — formal methods gap confirmation), Bengio (11 frameworks — international governance gap confirmation), Perez-Cerrolaza (cross-domain survey — safety-critical AI gap confirmation across automotive, aerospace, medical, industrial).
+
+**Placement check**: All citations positioned in Chapter 2 outline. The four independent SLR gap confirmations (Ramos, Newcomb, Bengio, Perez-Cerrolaza) appear in Section 2.5 (the two-level governance gap). Flehmig and Baxi as primary comparators appear in Sections 2.5–2.6. No placement gaps.
+
+### Overall Assessment
+
+All load-bearing justification citations are positioned in the Chapter 2 outline (Sections 2.2–2.10). Yamin et al. (2025) is newly load-bearing in justifications (a), (b), and (c) — positioned in Sections 2.7 and 2.8. No unpositioned citations found. The justification documents and Chapter 2 outline are fully aligned.

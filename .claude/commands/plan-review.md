@@ -46,6 +46,15 @@ Read these files to establish the analysis framework:
 1. `.claude/prompts/paper_extraction_prompt.md` — 8 research themes
 2. `new doc/research-alignment-table.md` — 5 problem statements (PS1–PS5), research gaps, research questions (RQ1–RQ5), and objectives (O1–O5)
 3. `new doc/traceability-table.md` — formal component traceability (Table 1), objective-to-architecture mapping (Table 2), problem-to-gap-to-architecture mapping (Table 3)
+4. `docs/justification-environmental-state-governance.md` — justification for why governance is conditioned on environmental state rather than AI confidence, risk score, or model uncertainty; maps corpus citations to each alternative trigger and why it fails; identifies which papers support each sub-argument
+5. `docs/justification-advisory-scope-restriction.md` — justification for why CAUTION mode restricts advisory scope rather than blocking AI or reducing autonomy; maps corpus citations to ALARP, VOI, bounded rationality, trust calibration, and domain practice arguments
+6. `docs/justification-three-states.md` — justification for three discrete safety states (SAFE/CAUTION/UNSAFE) vs binary, continuous, 5-level, or probabilistic alternatives; maps corpus citations to cognitive tractability, formal tractability, and empirical domain evidence arguments
+7. `docs/justification-novelty-gap.md` — comprehensive gap argument confirming the two-level governance architecture is new; maps the four independent SLR confirmations (Ramos 91 papers, Newcomb 46 papers, Bengio 11 frameworks, Perez-Cerrolaza cross-domain survey) and the 5-point differentiation from Baxi (2026)
+
+Use these justification documents to:
+- Identify which corpus papers serve as **key citations for each architectural design choice** (not just theme relevance)
+- Ensure the argumentative chain in Step 7A reflects the actual citation structure used in the justification documents
+- Flag any design-choice citations that do not yet have corresponding coverage in the review-plan (i.e., papers cited in justifications but not yet positioned in the literature review outline)
 
 ### 8 Research Themes (from extraction prompt)
 
@@ -277,6 +286,7 @@ The file should contain:
 7. Citation chain (clusters, lineage, entry points) — Step 7B
 8. Literature review outline (section groupings, paper placement, flow) — Step 7C
 9. Coverage summary tables
+10. **Justification alignment note** — for each of the 4 justification documents, a one-paragraph summary of which corpus papers carry the load-bearing citations, and whether any justification argument relies on a paper not yet positioned in the Chapter 2 outline (these are placement gaps to resolve)
 
 Format the theme coverage summary as:
 

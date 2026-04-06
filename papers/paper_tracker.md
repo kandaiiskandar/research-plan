@@ -1,7 +1,7 @@
 # Paper Tracker
 
 **Last updated**: 2026-04-06
-**Total papers**: 58
+**Total papers**: 63
 
 ---
 
@@ -82,6 +82,11 @@
 | 56 | Shaffril et al. | 2017 | Adapting towards climate change impacts: Strategies for small-scale fishermen in Malaysia | Empirical grounding for environmental state vector E and governance trigger rationale — documents Malaysian small-scale fisher population profile, environmental vulnerability, and binary go/no-go status quo | *Marine Policy* (Elsevier), Vol. 81, pp. 196–201 | T4, T6, T7, T8 | reduced | ⭐⭐⭐ | [notes](../notes/Adapting%20towards%20climate%20change%20impacts-%20Strategies%20for%20small-scale%20fishermen%20in%20Malaysia.md) |
 | 57 | Yamin et al. | 2025 | Interplay of traditional knowledge and adaptive capacity in climate change adaptation of small-scale fishers in central Terengganu, Malaysia | Primary empirical study (n=136, SEM, Q1 journal) of Terengganu SSF — validates E vector via fisher-reported hazards (wind/waves 95%, rainfall 91%), confirms binary go/no-go status quo, documents flexibility as weakest adaptive capacity domain (strongest motivation for CAUTION mode yet), and establishes PS5 socio-technical context (governance frustration, religious worldview, TK erosion) | *Frontiers in Marine Science*, 12:1492131 | T4, T6, T7, T8 | full | ⭐⭐⭐⭐ | [notes](../notes/Interplay%20of%20traditional%20knowledge%20and%20adaptive%20capacity%20in%20climate%20change%20adaptation%20of%20small-scale%20fishers%20in%20central%20Terengganu%2C%20Malaysia%20.md) |
 | 58 | Muhamad et al. | 2024 | Validation of Factor Weights Affecting Productivity Efficiency in Malaysia's Small-Scale Fisheries Sector | Fuzzy model validation of environmental, socio-economic, and technological productivity factors in Malaysian SSF — confirms environmental factors (weather, water quality) remain statistically significant as of 2024; provides temporal continuity for domain characterisation and fuzzy logic precedent for S = f(E) implementation | *Pakistan Journal of Life and Social Sciences (PJLSS)*, 22(2), 12024–12040 | T4, T7, T8 | reduced | ⭐⭐ | [notes](sources/Validation%20of%20Factor%20Weights%20Affecting%20Productivity%20Efficiency%20in%20Malaysia%27s%20Small-Scale%20Fisheries%20Sector.md) |
+| 59 | Bach, Kristiansen et al. | 2024 | Unpacking Human-AI Interaction in Safety-Critical Industries: A Systematic Literature Review | SLR of 24 empirical HAII studies across safety-critical industries — identifies 7 influencing factors, 4-role taxonomy of AI decision authority, measurement methods; finds AI-assisted decision-making dominant (16/24) and healthcare dominant (71%); TRL assessment of system maturity | *IEEE Access*, Vol. 12, pp. 106385–106414 | T2, T3, T6, T7 | full | ⭐⭐⭐ | [notes](../notes/Unpacking%20Human-AI%20Interaction%20in%20Safety-Critical%20Industries-%20A%20Systematic%20Literature%20Review.md) |
+| 60 | Bengio, Hinton et al. | 2024 | Managing extreme AI risks amid rapid progress | Authoritative perspective (25 leading AI researchers incl. 2 Turing Award winners) calling for graduated institutional governance — capability-triggered policies, safety cases, licensing, burden-of-proof reversal; operates at policy/regulatory layer, not architectural runtime layer | *Science*, DOI: 10.1126/science.adn0117 | T2, T3, T6, T7 | reduced | ⭐⭐⭐ | [notes](../notes/Managing%20extreme%20AI%20risks%20amid%20rapid%20progress.md) |
+| 61 | Corsi et al. | 2024 | Verification-Guided Shielding for Deep Reinforcement Learning | Region-selective shielding combining offline DNN verification (Marabou) + online LTL-synthesised shield — partitions input space into safe/unsafe regions, activates shield only in unsafe regions, reduces overhead 25–71% while preserving formal safety guarantees; binary governance only | arXiv preprint (arXiv:2406.06507v2) | T1, T2, T3, T4, T5 | full | ⭐⭐⭐ | [notes](../notes/Verification-Guided%20Shielding%20for%20Deep%20Reinforcement%20Learning.md) |
+| 62 | Chen, Kang & Li | 2025 | SHIELDAGENT: Shielding Agents via Verifiable Safety Policy Reasoning | First LLM-based guardrail agent enforcing safety policy compliance on agent action trajectories via LTL + probabilistic logic (Markov Logic Network); ASPM extracts rules from policy documents; per-action governance, policy-conditioned not state-conditioned; SOTA on SHIELDAGENT-BENCH (3,110 pairs) | *ICML 2025*, PMLR 267 | T1, T2, T3, T5, T6 | full | ⭐⭐⭐⭐ | [notes](../notes/SHIELDAGENT-%20Shielding%20Agents%20via%20Verifiable%20Safety%20Policy%20Reasoning.md) |
+| 63 | Odriozola-Olalde et al. | 2023 | Shielded Reinforcement Learning: A review of reactive methods for safe learning | Structured review and taxonomy of shielded RL methods — categorises into Safety Levels I/II/III (soft/probabilistic/hard constraints); identifies critical vulnerability when environment dynamics change; formalises via CMDP; all methods implement Level 1 binary governance only | *IEEE/SICE SII 2023* | T1, T2, T3, T4, T5 | full | ⭐⭐⭐ | [notes](../notes/Shielded%20Reinforcement%20Learning-%20A%20review%20of%20reactive%20methods%20for%20safe%20learning.md) |
 
 ---
 
@@ -89,13 +94,13 @@
 
 | Theme | Code | Papers (Yes + Partial) | Status |
 |-------|------|-----------------------|--------|
-| Hybrid AI (deterministic rule-based + probabilistic AI reasoning) | T1 | 35 | Well-Covered |
-| Safety-critical AI decision systems | T2 | 36 | Well-Covered |
-| AI governance — Level 1 (participation) and Level 2 (advisory scope) | T3 | 37 | Well-Covered |
-| Low-resource environments (limited data, connectivity, computing) | T4 | 20 | Well-Covered |
-| Decision architecture formalisation (E, S = f(E), G(S), A_AI(S), Safety Dominance Property) | T5 | 29 | Well-Covered |
-| Human role in AI-assisted decision-making | T6 | 50 | Well-Covered |
-| Socio-technical evaluation of AI systems | T7 | 36 | Well-Covered |
+| Hybrid AI (deterministic rule-based + probabilistic AI reasoning) | T1 | 38 | Well-Covered |
+| Safety-critical AI decision systems | T2 | 41 | Well-Covered |
+| AI governance — Level 1 (participation) and Level 2 (advisory scope) | T3 | 42 | Well-Covered |
+| Low-resource environments (limited data, connectivity, computing) | T4 | 22 | Well-Covered |
+| Decision architecture formalisation (E, S = f(E), G(S), A_AI(S), Safety Dominance Property) | T5 | 32 | Well-Covered |
+| Human role in AI-assisted decision-making | T6 | 53 | Well-Covered |
+| Socio-technical evaluation of AI systems | T7 | 38 | Well-Covered |
 | Coastal fisheries as a safety-critical, low-resource domain | T8 | 17 | Well-Covered |
 
-**Note:** T6 and T7 counts updated to include 6 new methodological foundation papers (50–55). Counts include both "Yes" and "Partial" ratings. Run `/plan-review` for detailed breakdown of Yes vs Partial per theme, problem statement coverage (PS1–PS5), governance level analysis, and formal component coverage.
+**Note:** T6 and T7 counts updated to include 6 methodological foundation papers (50–55). Papers 59–63 add shielding/governance comparators (Corsi, Chen/Kang/Li, Odriozola-Olalde) and HAII/policy context (Bach/Kristiansen, Bengio/Hinton). Counts include both "Yes" and "Partial" ratings. Run `/plan-review` for detailed breakdown of Yes vs Partial per theme, problem statement coverage (PS1–PS5), governance level analysis, and formal component coverage.
