@@ -13,18 +13,20 @@ Where:
 - m = marine warning level  
 - o = ocean condition (wave, tide, current)  
 - v = vessel class  
-- t = trip state  
+- t = time of day (hour, 24-hour clock)
 
 
 The environmental state represents the operational context used by the deterministic safety classification layer.
 
-### Trip State Interaction Note
+### Time of Day Classification Note
 
-t represents the operational phase of the fishing trip, such as pre-departure, outbound, on-site fishing, or returning.
+t ∈ [0, 24) is classified by the threshold function g_t(t) into three safety zones:
 
-Trip state contributes to the safety classification through the function S = f(E), since risk tolerance and safety decisions differ across trip phases.
+- SAFE: 06:00–17:00 (daytime — sufficient daylight for safe operation and return)
+- CAUTION: 17:00–19:00 (approaching darkness — elevated visual risk)
+- UNSAFE: 19:00–06:00 (night — insufficient daylight for safe small-vessel operation)
 
-Trip state may also influence the operational relevance of specific recommendation types (for example, departure time recommendations are only relevant before departure). However, this interaction is handled at the prototype implementation level rather than in the formal governance model. The formalisation in this appendix focuses on the governance mechanism that controls AI participation and advisory scope based on safety state, while trip-state filtering of recommendation types will be addressed during system implementation and evaluation in the Design Science Research cycle.
+The overall safety state S = max-severity(S_w, S_r, S_m, S_o, S_v, S_t) applies the conservative worst-case rule across all six parameters, including t. Time of day is therefore a direct input to the governance classification, not a post-hoc filter on recommendation types.
 
 ---
 

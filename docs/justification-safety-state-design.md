@@ -51,7 +51,7 @@ The boundary between safety states is defined by the deterministic classificatio
 | Marine warnings | m | Official maritime authority warnings (categorical) |
 | Ocean state | o | Wave height (m), swell period (s) |
 | Vessel condition | v | Vessel operational readiness (categorical) |
-| Time of day | t | Hours of daylight remaining, departure timing |
+| Time of day | t | Hour of day (24-hour clock) |
 
 ### 2.2 Threshold-Based Classification
 
@@ -74,7 +74,7 @@ The SAFE–CAUTION boundary marks the transition from full AI advisory scope to 
 | Rainfall (r) | None/light | Moderate | Heavy/storm |
 | Marine warnings (m) | None | Advisory | Warning/alert |
 | Vessel condition (v) | Good | Minor issues | Major deficiency |
-| Daylight remaining (t) | > 8 hours | 4–8 hours | < 4 hours |
+| Time of day (t) | 06:00–17:00 | 17:00–19:00 | 19:00–06:00 |
 
 These specific values are parameters of the architecture, not structural features. The architecture's formal properties (containment, Safety Dominance) hold for *any* valid threshold assignment. The thresholds themselves are calibrated through domain expertise and validated empirically.
 
@@ -240,7 +240,7 @@ The safety state is determined from E = {w, r, m, o, v, t} — six observable en
 | Marine warnings (m) | Maritime authority broadcasts, weather service API | Fully independent — institutional source |
 | Ocean state (o) | Wave buoy, visual observation, satellite altimetry | Fully independent — physical sensor |
 | Vessel condition (v) | Pre-departure checklist, maintenance records | Fully independent — operator assessment |
-| Time of day (t) | Clock, GPS, sunrise/sunset tables | Fully independent — deterministic |
+| Time of day (t) | Clock (24-hour) | Fully independent — deterministic |
 
 ### 7.2 Why These Six Parameters
 

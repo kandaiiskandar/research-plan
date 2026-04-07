@@ -37,3 +37,36 @@ This file contains ready-to-paste `[[notes]](path)` quick links for all 63 paper
 1. Create the notes file in `notes/`
 2. Add a new row to `docs/citation-notes-map.md` with the citation key, filename, and quick link
 3. Add `[[notes]]` links wherever the paper is cited in existing documents
+
+---
+
+## Formal Model Consistency Rule
+
+**Whenever a formal variable (e.g. a symbol in E = {w, r, m, o, v, t}) is defined or redefined, it must be consistent across ALL documents in the project.**
+
+### The canonical definition file
+
+`docs/appendix-c-formalisation.md` is the single source of truth for all formal variable definitions.
+
+### Current canonical definitions
+
+| Symbol | Type | Definition |
+|---|---|---|
+| w | ℝ≥0 | Wind speed (knots, sustained) |
+| r | ordinal categorical | Rainfall intensity {none, light, moderate, heavy, storm} |
+| m | ordinal categorical | Marine warning level {none, advisory, warning, alert} |
+| o | ℝ≥0 × ℝ≥0 | Ocean state (wave height m, swell period s) |
+| v | ordinal categorical | Vessel condition {good, minor_issues, major_deficiency} |
+| t | [0, 24) | Time of day (hour, 24-hour clock) |
+
+### When a variable definition changes
+
+1. **Update `docs/appendix-c-formalisation.md` first** — this is the canonical source
+2. **Search all docs for the old definition** and update every occurrence
+3. **Check these files every time** — they all reference E vector components:
+   - `docs/justification-formal-model.md`
+   - `docs/justification-safety-state-design.md`
+   - `docs/justification-low-resource-environments.md`
+   - `docs/justification-environmental-state-governance.md`
+   - `papers/review-plan.md`
+4. **Never define the same symbol differently in different documents**

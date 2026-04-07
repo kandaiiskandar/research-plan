@@ -18,7 +18,7 @@
 - m ∈ {none, advisory, warning, alert} — active marine warnings (ordinal categorical)
 - o ∈ ℝ≥0 × ℝ≥0 — ocean state (wave height in metres, swell period in seconds)
 - v ∈ {good, minor_issues, major_deficiency} — vessel condition (ordinal categorical)
-- t ∈ ℝ≥0 — time factor (hours of daylight remaining)
+- t ∈ [0, 24) — time of day (hour, 24-hour clock)
 
 E is a mixed-type vector: some components are continuous (w, o, t), others are ordinal categorical (r, m, v). The domain of E is the Cartesian product of all component domains: E ∈ D_w × D_r × D_m × D_o × D_v × D_t.
 
