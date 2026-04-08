@@ -90,7 +90,7 @@
 
 ## Paper Coverage
 
-All 19 comparator papers are included. Paper-to-section mapping:
+22 comparator papers + 2 domain/motivating papers included. Paper-to-section mapping:
 
 | # | Paper | Chapter section |
 |---|---|---|
@@ -116,3 +116,5 @@ All 19 comparator papers are included. Paper-to-section mapping:
 | 20 | Corsi et al. (2024) — Verification-Guided Shielding [[notes]](../notes/Verification-Guided%20Shielding%20for%20Deep%20Reinforcement%20Learning.md) | 2.2 Safety Constraints |
 | 21 | Chen, Kang & Li (2025) — SHIELDAGENT [[notes]](../notes/SHIELDAGENT-%20Shielding%20Agents%20via%20Verifiable%20Safety%20Policy%20Reasoning.md) | 2.2 Safety Constraints + 2.5 Governance/Guardrails |
 | 22 | Odriozola-Olalde et al. (2023) — Shielded RL Review [[notes]](../notes/Shielded%20Reinforcement%20Learning-%20A%20review%20of%20reactive%20methods%20for%20safe%20learning.md) | 2.2 Safety Constraints |
+| 23 | Atacan & Düzbastılar (2023) — Risk Perception in Small-Scale Fishing [[notes]](../notes/Determination%20of%20risk%20perception%20in%20small-scale%20fishing%20and%20navigation.md) | 2.8 Fisheries domain *(domain/motivating — no governance content; primary empirical justification for t in E)* |
+| 24 | Dominguez-Péry et al. (2023) — IMO Accident Reports [[notes]](../notes/A%20holistic%20view%20of%20maritime%20navigation%20accidents%20and%20risk%20indicators-%20examining%20IMO%20reports%20from%202011%20to%202021.md) | 2.8 Fisheries domain *(domain/motivating — no governance content; supports t via visibility cluster and v via vessel-size fatality finding)* |

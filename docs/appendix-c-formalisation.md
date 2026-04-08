@@ -28,6 +28,8 @@ t ∈ [0, 24) is classified by the threshold function g_t(t) into three safety z
 
 The overall safety state S = max-severity(S_w, S_r, S_m, S_o, S_v, S_t) applies the conservative worst-case rule across all six parameters, including t. Time of day is therefore a direct input to the governance classification, not a post-hoc filter on recommendation types.
 
+**Empirical justification for t.** The inclusion of t is grounded in two complementary empirical sources. Atacan & Düzbastılar (2023) conducted a bridge navigation simulator study with 30 small-scale fishing vessel captains and found that night navigation significantly elevates both accident probability (mean 4.08 vs. 3.43 at calm conditions) and consequence (mean 12.80 vs. 8.53). Combined night and heavy weather produced the highest consequence scores across all tested conditions (mean 37.03). Restricted visibility — the principal mechanism by which nighttime elevates risk for small vessels without radar — was rated the single most dangerous factor for sea navigation accident probability (mean 7.90, the highest across all six environmental scenarios). Dominguez-Péry et al. (2023) analysed 504 IMO maritime accident investigation reports (2011–2021) and found that external environmental factors including visibility constitute the largest single risk cluster (26.7% of text segments), with time of day captured as a standard field in IMO accident records. These findings establish that time of day is an empirically validated maritime risk factor, not an arbitrary addition to E.
+
 ---
 
 ## C.2 Safety State Classification Function
