@@ -170,6 +170,19 @@ Understand what the author is trying to say
 
 ---
 
+## 7b. Naturalness Check
+
+After applying Rules 1–7, check for over-smoothness:
+
+- **Vary sentence rhythm** — mix short direct statements with longer analytical ones. Avoid sequences of same-length sentences.
+- **Add reasoning connectors** — use "because", "this means", "this shows", "in practice", "as a result" to make the logic explicit rather than implied. Do not repeat the same connector more than once per section — vary them.
+- **Reduce overly perfect flow** — break some compound sentences into two. Allow a short blunt sentence after a complex one. Academic writing that is too polished reads as AI-generated.
+- **Signal the core contribution early** — do not save the research question for the final paragraph only. Plant a light hint in an earlier paragraph (e.g., "this raises a deeper question") so the reader is prepared before the explicit gap statement.
+
+The goal is writing that is clear and well-structured but still sounds like a human author thinking through an argument.
+
+---
+
 ## 8. Anti-Pattern (Must Avoid)
 
 ❌

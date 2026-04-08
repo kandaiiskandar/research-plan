@@ -206,8 +206,8 @@
 
 | Round | Section | Status |
 |---|---|---|
-| 1 | 2.1 AI Decision Support | ⬜ Not started |
-| 2 | 2.2 Safety Constraints | ⬜ Not started |
+| 1 | 2.1 AI Decision Support | ✅ Draft complete |
+| 2 | 2.2 Safety Constraints | ✅ Draft complete |
 | 3 | 2.3 Human-AI Authority | ⬜ Not started |
 | 4 | 2.4 Adaptive Autonomy | ⬜ Not started |
 | 5 | 2.5 Guardrails | ⬜ Not started |
