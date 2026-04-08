@@ -230,10 +230,10 @@
 | 5 | 2.5 Guardrails | ✅ Draft complete |
 | 6 | 2.6 Hybrid AI | ✅ Draft complete |
 | 7 | 2.7 Low-Resource | ✅ Draft complete |
-| 8 | 2.8 Fisheries Context | ⬜ Not started |
-| 9 | 2.9 Comparative Analysis | ⬜ Not started |
-| 10 | 2.10 Literature Summary | ⬜ Not started |
-| 11 | 2.11 Research Gap | ⬜ Not started |
+| 8 | 2.8 Fisheries Context | ✅ Draft complete |
+| 9 | 2.9 Comparative Analysis | ✅ Draft complete |
+| 10 | 2.10 Literature Summary | ✅ Draft complete |
+| 11 | 2.11 Research Gap | ✅ Draft complete |
 
 ---
 
