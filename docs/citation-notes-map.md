@@ -12,6 +12,7 @@
 | Citation key | Notes filename | Quick link |
 |---|---|---|
 | Abella et al. (2025) | `SAFEXPLAIN- a Complete Approach Towards Trustworthy AI-Based Safety-Critical Systems.md` | `[[notes]](../notes/SAFEXPLAIN-%20a%20Complete%20Approach%20Towards%20Trustworthy%20AI-Based%20Safety-Critical%20Systems.md)` |
+| Attard-Frost & Lyons (2025) | `AI governance systems- A multi-scale analysis framework, empirical findings, and future directions. AI and Ethics.md` | `[[notes]](../notes/AI%20governance%20systems-%20A%20multi-scale%20analysis%20framework%2C%20empirical%20findings%2C%20and%20future%20directions.%20AI%20and%20Ethics.md)` |
 | Aquilino et al. (2025) | `Decoding Trust in Artificial Intelligence- A Systematic Review of Quantitative Measures and Related Variables.md` | `[[notes]](../notes/Decoding%20Trust%20in%20Artificial%20Intelligence-%20A%20Systematic%20Review%20of%20Quantitative%20Measures%20and%20Related%20Variables.md)` |
 | Atacan & Düzbastılar (2023) | `Determination of risk perception in small-scale fishing and navigation.md` | `[[notes]](../notes/Determination%20of%20risk%20perception%20in%20small-scale%20fishing%20and%20navigation.md)` |
 | Atf & Lewis (2026) | `Is Trust Correlated With Explainability in AI? A Meta-Analysis.md` | `[[notes]](../notes/Is%20Trust%20Correlated%20With%20Explainability%20in%20AI%3F%20A%20Meta-Analysis.md)` |

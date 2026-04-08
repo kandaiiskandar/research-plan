@@ -179,6 +179,16 @@ After applying Rules 1–7, check for over-smoothness:
 - **Reduce overly perfect flow** — break some compound sentences into two. Allow a short blunt sentence after a complex one. Academic writing that is too polished reads as AI-generated.
 - **Signal the core contribution early** — do not save the research question for the final paragraph only. Plant a light hint in an earlier paragraph (e.g., "this raises a deeper question") so the reader is prepared before the explicit gap statement.
 
+**Avoid repeated structural patterns across paragraphs:**
+- If you use "X governs A without governing B" once, do not reuse the same frame. Vary with: "but they do not constrain…", "yet the range of outputs remains unchanged", or restructure entirely.
+- Watch for any phrase template used more than once across a section — it creates a detectable pattern.
+
+**Keep key definitions sharp and reusable:**
+- When introducing a term that will recur (e.g., "Level 1 governance"), define it in a clean standalone clause: "Level 1 governance controls whether AI participates in decision-making." Avoid embedding definitions inside longer sentences where they get lost.
+
+**Split dense sentences that carry two distinct claims:**
+- If a sentence states both a method and its limitation (e.g., "reduces overhead by 25–71%, but the shield still operates as binary"), split them. Each claim deserves its own sentence so the reader absorbs both.
+
 The goal is writing that is clear and well-structured but still sounds like a human author thinking through an argument.
 
 ---

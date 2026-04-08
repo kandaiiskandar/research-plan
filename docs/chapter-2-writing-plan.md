@@ -155,6 +155,23 @@
 
 ---
 
+### New paper: Attard-Frost & Lyons (2025)
+
+**Notes**: `AI governance systems- A multi-scale analysis framework, empirical findings, and future directions. AI and Ethics.md`  
+**Citation map link**: `[[notes]](../notes/AI%20governance%20systems-%20A%20multi-scale%20analysis%20framework%2C%20empirical%20findings%2C%20and%20future%20directions.%20AI%20and%20Ethics.md)`
+
+**Key findings for use in Chapter 2**:
+- 610-topic empirical mapping of Canada's national AI governance system — zero topics reference runtime environmental state classification, state-conditioned advisory scope restriction, or anything analogous to the CAUTION mode
+- Guardrails appear only twice in the 610 topics, framed exclusively in binary terms — confirming practitioners share the binary mental model
+- Practitioners recognise a spectrum of policy instrument stringency (legislation → voluntary guidance), but this graduated intuition exists only at the institutional layer, not the runtime architectural layer
+- Knowledge/expertise gaps are the most-cited governance constraint even in Canada — strengthens the case for architecturally embedded governance in low-resource environments
+
+**Where to use**:
+- **2.9 Comparative Analysis** — P7 (key insight): institutional governance layer confirms binary framing at both technical and practitioner levels
+- **2.11 Research Gap** — P1/P3: single-sentence empirical anchor: "a 610-topic mapping of a national AI governance system contains no reference to state-conditioned runtime advisory scope restriction" — strongest available evidence that Level 2 is genuinely absent
+
+---
+
 ### 2.9 Comparative Analysis
 
 **Argument**: No existing system jointly governs AI participation and advisory scope under the same classified environmental state.
@@ -208,11 +225,11 @@
 |---|---|---|
 | 1 | 2.1 AI Decision Support | ✅ Draft complete |
 | 2 | 2.2 Safety Constraints | ✅ Draft complete |
-| 3 | 2.3 Human-AI Authority | ⬜ Not started |
-| 4 | 2.4 Adaptive Autonomy | ⬜ Not started |
-| 5 | 2.5 Guardrails | ⬜ Not started |
-| 6 | 2.6 Hybrid AI | ⬜ Not started |
-| 7 | 2.7 Low-Resource | ⬜ Not started |
+| 3 | 2.3 Human-AI Authority | ✅ Draft complete |
+| 4 | 2.4 Adaptive Autonomy | ✅ Draft complete |
+| 5 | 2.5 Guardrails | ✅ Draft complete |
+| 6 | 2.6 Hybrid AI | ✅ Draft complete |
+| 7 | 2.7 Low-Resource | ✅ Draft complete |
 | 8 | 2.8 Fisheries Context | ⬜ Not started |
 | 9 | 2.9 Comparative Analysis | ⬜ Not started |
 | 10 | 2.10 Literature Summary | ⬜ Not started |
