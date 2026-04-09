@@ -1,7 +1,7 @@
 # Paper Tracker
 
-**Last updated**: 2026-04-06
-**Total papers**: 63
+**Last updated**: 2026-04-09
+**Total papers**: 67
 
 ---
 
@@ -87,6 +87,10 @@
 | 61 | Corsi et al. | 2024 | Verification-Guided Shielding for Deep Reinforcement Learning | Region-selective shielding combining offline DNN verification (Marabou) + online LTL-synthesised shield — partitions input space into safe/unsafe regions, activates shield only in unsafe regions, reduces overhead 25–71% while preserving formal safety guarantees; binary governance only | arXiv preprint (arXiv:2406.06507v2) | T1, T2, T3, T4, T5 | full | ⭐⭐⭐ | [notes](../notes/Verification-Guided%20Shielding%20for%20Deep%20Reinforcement%20Learning.md) |
 | 62 | Chen, Kang & Li | 2025 | SHIELDAGENT: Shielding Agents via Verifiable Safety Policy Reasoning | First LLM-based guardrail agent enforcing safety policy compliance on agent action trajectories via LTL + probabilistic logic (Markov Logic Network); ASPM extracts rules from policy documents; per-action governance, policy-conditioned not state-conditioned; SOTA on SHIELDAGENT-BENCH (3,110 pairs) | *ICML 2025*, PMLR 267 | T1, T2, T3, T5, T6 | full | ⭐⭐⭐⭐ | [notes](../notes/SHIELDAGENT-%20Shielding%20Agents%20via%20Verifiable%20Safety%20Policy%20Reasoning.md) |
 | 63 | Odriozola-Olalde et al. | 2023 | Shielded Reinforcement Learning: A review of reactive methods for safe learning | Structured review and taxonomy of shielded RL methods — categorises into Safety Levels I/II/III (soft/probabilistic/hard constraints); identifies critical vulnerability when environment dynamics change; formalises via CMDP; all methods implement Level 1 binary governance only | *IEEE/SICE SII 2023* | T1, T2, T3, T4, T5 | full | ⭐⭐⭐ | [notes](../notes/Shielded%20Reinforcement%20Learning-%20A%20review%20of%20reactive%20methods%20for%20safe%20learning.md) |
+| 64 | Seong, Lim & Yoon | 2025 | CLGuard: A Context-Aware Suppression Framework for Resilient Driving Control | Context-aware suppression framework using VLM (OpenCLIP) semantic scene–action alignment via Contrasting Language Goals (CLG); binary suppress/permit per-action post-hoc; dual-condition gating (semantic anomaly + dynamic threshold); non-intrusive wrapper requiring no retraining; 85.4% collision reduction at 27.5 ms latency; strongest exemplar of Action Suppression paradigm — no S=f(E), no A_AI(S), no CAUTION mode | *IEEE PRDC 2025* | T1, T2, T3, T5 | full | ⭐⭐⭐⭐ | [notes](../notes/clguard-extraction.md) |
+| 65 | Tatasciore & Loft | 2025 | Calibrating Reliance on Automated Advice: Transparency and Trust Calibration Feedback | Controlled experiment (N=160, mixed ANOVA) testing transparency + trust calibration feedback on automation use; SDT decomposition (d′, criterion c); key finding: explicit corrective trust feedback ("your trust is inappropriate") had zero effect on any outcome; transparency increases agree-bias (c shifts negative, η²=0.22); post-error slowing (η²=0.50) as behavioural marker — strengthens argument that architectural governance required, not informational interventions | *Int. J. Human–Computer Interaction*, 41(23), 14723–14733 | T6, T7 | methodological | ⭐⭐⭐ | [notes](../notes/Calibrating%20Reliance%20on%20Automated%20Advice-%20Transparency%20and%20Trust%20Calibration%20Feedback.md) |
+| 66 | Banerjee et al. | 2025 | CRANE: Reasoning with Constrained LLM Generation | Formal proof (Propositions 3.1, 3.3) via circuit complexity theory that binary output grammar constraints reduce LLM expressivity to TC⁰; CRANE algorithm alternates unconstrained reasoning + constrained output; augmented grammar G_a = R_M·G preserves full expressivity while restricting final output — strongest theoretical motivation for why binary advisory scope restriction (A_AI = ∅ or full) is suboptimal and restricted-but-non-empty scope (CAUTION mode) preserves AI capability; syntactically-triggered mode switching, not environmental-state-conditioned; no S=f(E), no G(S), no CAUTION mode | *ICML 2025*, PMLR 267 | T1, T2, T3, T5 | full | ⭐⭐⭐⭐ | [notes](../notes/CRANE-%20Reasoning%20with%20Constrained%20LLM%20Generation.md) |
+| 67 | Ryu & Han | 2025 | Environment-Aware Multi-Sensor Fusion for Maritime Domain Awareness: A Comprehensive Review | Comprehensive review showing environmental conditions (wind, wave height, swell, atmospheric state) are first-order determinants of maritime sensor reliability across SAR, optical, AIS, and RF; all modalities degrade simultaneously under adverse conditions; fixed thresholds fail under non-stationary clutter; three wind-speed regimes (<2, 2–8, >10–12 m/s) with distinct detection behaviours = empirical precursor to S=f(E); DL domain shift from calm-trained models; AIS gaps are frequently environmental not intentional; strongest domain evidence for externalising governance trigger to independently sourced environmental state data; no governance architecture proposed | *Korean J. Remote Sensing*, 41(6), 1225–1250 | T2, T4, T8 | full | ⭐⭐⭐⭐ | [notes](../notes/Environment-Aware%20Multi-Sensor%20Fusion%20for%20Maritime%20Domain%20Awareness-%20A%20Comprehensive%20Review.md) |
 
 ---
 
@@ -94,13 +98,13 @@
 
 | Theme | Code | Papers (Yes + Partial) | Status |
 |-------|------|-----------------------|--------|
-| Hybrid AI (deterministic rule-based + probabilistic AI reasoning) | T1 | 38 | Well-Covered |
-| Safety-critical AI decision systems | T2 | 41 | Well-Covered |
-| AI governance — Level 1 (participation) and Level 2 (advisory scope) | T3 | 42 | Well-Covered |
-| Low-resource environments (limited data, connectivity, computing) | T4 | 22 | Well-Covered |
-| Decision architecture formalisation (E, S = f(E), G(S), A_AI(S), Safety Dominance Property) | T5 | 32 | Well-Covered |
-| Human role in AI-assisted decision-making | T6 | 53 | Well-Covered |
-| Socio-technical evaluation of AI systems | T7 | 38 | Well-Covered |
-| Coastal fisheries as a safety-critical, low-resource domain | T8 | 17 | Well-Covered |
+| Hybrid AI (deterministic rule-based + probabilistic AI reasoning) | T1 | 40 | Well-Covered |
+| Safety-critical AI decision systems | T2 | 44 | Well-Covered |
+| AI governance — Level 1 (participation) and Level 2 (advisory scope) | T3 | 44 | Well-Covered |
+| Low-resource environments (limited data, connectivity, computing) | T4 | 23 | Well-Covered |
+| Decision architecture formalisation (E, S = f(E), G(S), A_AI(S), Safety Dominance Property) | T5 | 34 | Well-Covered |
+| Human role in AI-assisted decision-making | T6 | 54 | Well-Covered |
+| Socio-technical evaluation of AI systems | T7 | 39 | Well-Covered |
+| Coastal fisheries as a safety-critical, low-resource domain | T8 | 18 | Well-Covered |
 
-**Note:** T6 and T7 counts updated to include 6 methodological foundation papers (50–55). Papers 59–63 add shielding/governance comparators (Corsi, Chen/Kang/Li, Odriozola-Olalde) and HAII/policy context (Bach/Kristiansen, Bengio/Hinton). Counts include both "Yes" and "Partial" ratings. Run `/plan-review` for detailed breakdown of Yes vs Partial per theme, problem statement coverage (PS1–PS5), governance level analysis, and formal component coverage.
+**Note:** T6 and T7 counts updated to include 7 methodological foundation papers (50–55, 65). Papers 59–63 add shielding/governance comparators (Corsi, Chen/Kang/Li, Odriozola-Olalde) and HAII/policy context (Bach/Kristiansen, Bengio/Hinton). Paper 64 (CLGuard — Seong, Lim & Yoon, 2025) adds a semantic suppression comparator confirming binary governance. Paper 65 (Tatasciore & Loft, 2025) adds empirical evidence that corrective trust feedback fails. Paper 66 (CRANE — Banerjee et al., 2025) provides formal proof that binary output constraints reduce LLM expressivity — strongest theoretical motivation for CAUTION mode. Paper 67 (Ryu & Han, 2025) provides domain evidence that maritime environmental conditions are first-order determinants of sensor reliability — strongest empirical support for externalising governance trigger to E. Counts include both "Yes" and "Partial" ratings. Run `/plan-review` for detailed breakdown of Yes vs Partial per theme, problem statement coverage (PS1–PS5), governance level analysis, and formal component coverage.

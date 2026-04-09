@@ -54,6 +54,24 @@ The three-layer design — Environment → Governance → AI Reasoning — means
 
 This means governance is always available, even when the AI component is not. The safety guarantee (Safety Dominance Property) holds as long as the governance layer functions — which it always can, because its computational requirements are negligible.
 
+### 2.4 Pre-Hoc Scope Restriction Is Computationally Cheaper Than Post-Hoc Filtering
+
+In a low-resource setting, compute is a scarce resource. A post-hoc output filter requires the AI to generate a full set of recommendations — departure time, trip duration, fishing area, route — and then evaluates each output against filtering rules, discarding those deemed inappropriate. This means the AI expends inference cycles producing outputs that will never reach the user. Under CAUTION conditions, where the majority of recommendation types are unreliable, the filter would discard most of what the AI generates. The compute spent generating those recommendations is wasted.
+
+The proposed architecture avoids this waste by defining the admissible recommendation space A_AI(S) *before* the AI reasons. In CAUTION mode, the AI generates only go/no-go and delay guidance — it never expends compute on departure time optimisation, route planning, or fishing area prediction. The reasoning budget is concentrated on the recommendation types that are both permitted and reliable under current conditions.
+
+Three lines of evidence from the corpus support this efficiency argument:
+
+**Computational evidence from constrained generation.** Banerjee et al. (2025) [[notes]](../notes/CRANE-%20Reasoning%20with%20Constrained%20LLM%20Generation.md) demonstrate this principle directly in the NLP domain. Their CRANE algorithm constrains LLM output tokens during generation via grammar intersection rather than filtering outputs after generation. The motivation is precisely computational efficiency: generating outputs that violate the grammar and then discarding them wastes autoregressive decoding steps. Their augmented grammar G_a = R_M·G defines the admissible output space before reasoning begins — the same architectural principle as A_AI(S). CRANE achieves both efficiency and preserved capability (Proposition 3.3), showing that pre-hoc scope definition is not merely a cost-saving measure but a computationally superior design.
+
+**Computational evidence from selective shielding.** Corsi et al. (2024) [[notes]](../notes/Verification-Guided%20Shielding%20for%20Deep%20Reinforcement%20Learning.md) demonstrate the efficiency gains of avoiding unnecessary safety computation. Their region-selective shielding activates the shield only in verified-unsafe regions of the input space, reducing shield activation overhead by 25–71% compared to always-on shielding. The principle is the same: do not expend compute on governance actions that are not needed. Applied to advisory scope, this means do not expend compute generating recommendation types that governance will discard.
+
+**Low-resource compute constraints.** Katende (2026) [[notes]](../notes/Rethinking%20data-efficient%20artificial%20intelligence%20for%20low-resource%20settings.md) identifies limited compute as a primary constraint axis in low-resource settings, mapping it to TinyML, knowledge distillation, and model compression as necessary design responses. When inference runs on a smartphone processor with limited battery and no GPU, every wasted inference cycle is a direct cost — in latency, in battery life, and in user experience. Bhuvaneswari et al. (2025) [[notes]](../notes/A%20human-centered%20hybrid%20AI%20framework%20for%20optimizing%20emergency%20triage%20in%20resource-constrained%20settings.md) confirm this in resource-constrained healthcare: their framework uses a lightweight CNN and a resource-aware optimiser precisely because compute waste is unacceptable. Perez-Cerrolaza et al. (2024) [[notes]](../notes/Artificial%20Intelligence%20for%20Safety-Critical%20Systems%20in%20Industrial%20and%20Transportation%20Domains-%20A%20Survey.md) note that SWaP (Size, Weight, Power) constraints on edge-deployed safety-critical AI systems make compute efficiency a safety-relevant property, not merely a performance concern.
+
+The combined argument: in low-resource, edge-deployed settings where compute is scarce and battery-limited, an architecture that defines the permitted recommendation space before reasoning (pre-hoc scope restriction) is structurally more efficient than one that generates all recommendation types and discards the impermissible ones (post-hoc filtering). Level 2 governance through A_AI(S) is not only safer — it is cheaper to run.
+
+---
+
 ### 2.3 Environmental State Is Observable Without Data Infrastructure
 
 The conditioning variable S = f(E) requires six environmental parameters. Every one is observable without sophisticated data infrastructure:

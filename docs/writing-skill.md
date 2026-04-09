@@ -177,7 +177,7 @@ After applying Rules 1–7, check for over-smoothness:
 - **Vary sentence rhythm** — mix short direct statements with longer analytical ones. Avoid sequences of same-length sentences.
 - **Add reasoning connectors** — use "because", "this means", "this shows", "in practice", "as a result" to make the logic explicit rather than implied. Do not repeat the same connector more than once per section — vary them.
 - **Reduce overly perfect flow** — break some compound sentences into two. Allow a short blunt sentence after a complex one. Academic writing that is too polished reads as AI-generated.
-- **Signal the core contribution early** — do not save the research question for the final paragraph only. Plant a light hint in an earlier paragraph (e.g., "this raises a deeper question") so the reader is prepared before the explicit gap statement.
+- **Signal the core contribution early** — do not save the research question for the final paragraph only. Plant a light hint in an earlier paragraph (e.g., "this raises a deeper question") so the reader is prepared before the explicit gap statement. For key concepts like the CAUTION mode, seed them by the second or third section with a single sentence: "This suggests the need for an intermediate operational mode — one where AI participation is allowed but within a restricted scope." Do not explain fully yet. Just plant it.
 
 **Avoid repeated structural patterns across paragraphs:**
 - If you use "X governs A without governing B" once, do not reuse the same frame. Vary with: "but they do not constrain…", "yet the range of outputs remains unchanged", or restructure entirely.
@@ -229,3 +229,106 @@ Avoid:
 - over-smoothing  
 
 Act as an editor, not a writer.
+
+---
+
+## 11. PhD Literature Review Voice
+
+These rules apply to literature review chapters and gap analysis writing. They prevent the argument from reading as "engineered to fit a conclusion" and instead make it read as "discovered from the evidence."
+
+### Rule 11 — Observational voice, not imposed argument
+
+The argument must read as discovered from the literature, not constructed to fit a predetermined conclusion. Vary phrasing to avoid repetitive gap-assertion patterns.
+
+❌ Imposed (repeated pattern):
+> No system implements…
+> No architecture defines…
+> No method provides…
+
+✅ Observational (varied):
+> Across the reviewed studies, no system was found to implement…
+> No architecture identified in this review defines…
+> The reviewed literature does not provide evidence of…
+
+Do not use the same gap-assertion frame ("No system... No architecture... No method...") more than twice in succession. Vary with:
+- "Across the reviewed studies, we did not find evidence that…"
+- "The literature examined here does not contain…"
+- "This pattern was not observed in any of the reviewed systems."
+
+### Rule 12 — Qualify universal claims
+
+Absolute claims ("none", "no system", "universal", "every method") are vulnerable to a single counter-example. Qualify with review scope to keep strength while reducing attack surface.
+
+❌ "No system implements…"
+✅ "No system identified in this review implements…"
+
+❌ "Universal across all domains"
+✅ "Consistently observed across the reviewed studies"
+
+❌ "Every method uses binary governance"
+✅ "Every method examined in this review uses binary governance"
+
+The claim stays strong. The scope is explicit. One counter-example outside the review does not invalidate it.
+
+### Rule 13 — Bridge sections with overlap sentences
+
+Sections must not feel like perfectly separated boxes. Add bridge sentences at section boundaries that connect the outgoing topic to the incoming one. Show how ideas overlap.
+
+❌ Hard cut:
+> [End of 2.2]: "Level 1 is addressed. Level 2 is not."
+> [Start of 2.3]: "A parallel body of literature addresses…"
+
+✅ Bridged:
+> [End of 2.2]: "While these mechanisms determine whether AI acts, they do not address how decision authority is distributed once AI participation is allowed."
+> [Start of 2.3]: "A parallel body of literature addresses…"
+
+This creates argumentative flow rather than a sequence of independent reviews.
+
+### Rule 14 — Push critical tension through practical consequence
+
+Do not just catalogue what exists and what is missing. Show why existing approaches are insufficient *in practice*, using empirical evidence already available in the review.
+
+❌ Flat gap:
+> "This is a limitation."
+
+✅ With practical consequence:
+> "This is not only a conceptual limitation. In practice, it creates conditions where users receive full-scope recommendations precisely when reliability is lowest."
+
+Use real data (83.3% human intervention failure, fisheries income drops, low digital literacy) to add weight to the argument. The gap is not abstract — it has measurable consequences.
+
+### Rule 15 — Anchor the argument early
+
+Add an anchor sentence near the beginning of a chapter that tells the reader where the argument is heading. Examiners read looking for "what is this student building toward?" — answer that question early.
+
+Example (after 2.1 opening):
+> "This chapter examines how existing systems control AI behaviour under risk, and shows that current approaches address participation and output validation separately but do not unify them under environmental state."
+
+The anchor does not state the gap. It frames the question so the reader knows what to watch for.
+
+### Rule 16 — Controlled uncertainty
+
+Occasionally express genuine interpretive uncertainty. Pure assertion throughout an entire chapter reads as constructed. Small hedges make the argument sound like a researcher thinking, not a system generating.
+
+Allowed:
+- "This appears to be…"
+- "The evidence suggests, though does not conclusively demonstrate, that…"
+- "It is difficult to determine from the available evidence whether…"
+- "One possible interpretation is…"
+
+Use sparingly — once or twice per chapter, not per section. Too much hedging weakens the argument. The goal is a human reasoning voice, not systematic doubt.
+
+---
+
+## 12. PhD Literature Review Checklist
+
+Before finalising a literature review chapter, verify:
+
+- [ ] Core concept (e.g., CAUTION mode) is seeded lightly by section 2 or 3
+- [ ] Anchor sentence appears within the first section
+- [ ] No gap-assertion pattern repeats more than twice consecutively
+- [ ] Universal claims are qualified with review scope
+- [ ] At least two bridge sentences connect adjacent sections
+- [ ] At least one practical-consequence statement uses empirical data
+- [ ] At least one sentence expresses genuine interpretive uncertainty
+- [ ] Section transitions show conceptual overlap, not hard cuts
+- [ ] Argument reads as discovered from evidence, not imposed on it
