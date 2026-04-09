@@ -235,7 +235,41 @@ The result is an intermediate mode — CAUTION — that none of the existing cla
 
 This is not a marginal improvement. It is a *structurally different governance mechanism* that enables a category of AI behaviour — graduated, state-conditioned advisory scope restriction — that is formally impossible under any existing paradigm.
 
-### 11.2 The Evidence Base (If Probed)
+### 11.2 Examiner Challenge: "Baxi (2026) Has Both L1 and L2 Under the Same Variable — Why Is It Only 'Partial' on Unified Governance?"
+
+This is the hardest challenge at the comparison table. An examiner who has read Baxi carefully will press this point.
+
+**The short answer**: Baxi has the right *structure* for unified governance but the wrong *conditioning variable*. "Partial" means the architectural form is correct but the governance trigger is orthogonal to environmental safety state.
+
+**The full answer in four parts:**
+
+**1. What Baxi gets right.** Baxi (2026) [[notes]](../notes/The%20Comprehension-Gated%20Agent%20Economy-%20A%20Robustness-First%20Architecture%20for%20AI%20Economic%20Agency.md) implements a K-tier permission architecture where a gate function maps a verified robustness score to a discrete tier T_k. Both L1 (participation) and L2 (permission scope) are conditioned on the *same* T_k. The containment structure E(T_k) ⊂ E(T_{k+1}) is formally analogous to A_AI(CAUTION) ⊂ A_AI(SAFE). This is genuine structural unification — both governance levels respond to the same classified variable — and it is why the table shows L1 = Yes, L2 = Yes, and Formal Model = Yes.
+
+**2. What "Partial" means precisely.** The four-column test for Unified Governance in this review is: *L1 and L2 operate as a coordinated pair conditioned on classified environmental safety state S = f(E)*. Baxi satisfies three of the four conditions:
+- ✅ L1 and L2 are coordinated (both conditioned on T_k)
+- ✅ Formal containment structure present
+- ✅ Runtime-adaptive (tier can change)
+- ❌ Conditioning variable is not S = f(E) — it is agent robustness, not environmental state
+
+**3. Why the conditioning variable matters.** T_k in Baxi is determined by the agent's own verified robustness score — an offline-assessed measure of AI trustworthiness. It answers: *How capable and reliable is this AI system?* The proposed architecture's S = f(E) answers: *How dangerous is the current physical environment?* These are orthogonal questions with different governance consequences:
+
+| | Baxi (2026) | Proposed Architecture |
+|---|---|---|
+| **What triggers governance?** | Agent robustness degradation | Environmental danger increase |
+| **When does scope narrow?** | When the AI becomes less reliable | When conditions become more dangerous |
+| **Can a storm narrow scope?** | No — storm doesn't change robustness score | Yes — storm raises S from SAFE to CAUTION |
+| **Can a robust AI in a hurricane get full scope?** | Yes — top-tier agent retains full permissions | No — CAUTION state overrides agent capability |
+| **Who drives the governance?** | The AI's own properties | The environment's observable state |
+
+**4. The functional consequence.** A maximally robust agent in Baxi (T_k = highest tier) retains full permissions regardless of whether it operates on a calm morning or in a Force 9 storm. Environmental danger does not trigger governance. The architecture is *capability-gated*, not *safety-state-gated*. The proposed architecture is the reverse: a highly capable AI under CAUTION state is still restricted to go/no-go and delay guidance — environmental danger overrides agent capability. This is the architectural distinction that environmental state conditioning adds over robustness-tier conditioning.
+
+**The one-sentence examiner answer**: "Baxi has the right containment structure across two governance levels, but conditions on agent robustness rather than on classified environmental safety state — meaning a storm cannot trigger advisory scope restriction, only AI performance degradation can. That is why it is 'Partial': the structure is correct, the conditioning variable is orthogonal."
+
+**Detailed justification**: `justification-advisory-scope-restriction.md` §6 (Baxi comparator row), `justification-architecture-differentiation.md` §4.
+
+---
+
+### 11.3 The Evidence Base (If Probed)
 
 | Claim | Evidence |
 |---|---|
