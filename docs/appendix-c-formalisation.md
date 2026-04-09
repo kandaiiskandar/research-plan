@@ -13,18 +13,22 @@ Where:
 - m = marine warning level  
 - o = ocean condition (wave, tide, current)  
 - v = vessel class  
-- t = trip state  
+- t = time of day (hour, 24-hour clock)
 
 
 The environmental state represents the operational context used by the deterministic safety classification layer.
 
-### Trip State Interaction Note
+### Time of Day Classification Note
 
-t represents the operational phase of the fishing trip, such as pre-departure, outbound, on-site fishing, or returning.
+t ∈ [0, 24) is classified by the threshold function g_t(t) into three safety zones:
 
-Trip state contributes to the safety classification through the function S = f(E), since risk tolerance and safety decisions differ across trip phases.
+- SAFE: 06:00–17:00 (daytime — sufficient daylight for safe operation and return)
+- CAUTION: 17:00–19:00 (approaching darkness — elevated visual risk)
+- UNSAFE: 19:00–06:00 (night — insufficient daylight for safe small-vessel operation)
 
-Trip state may also influence the operational relevance of specific recommendation types (for example, departure time recommendations are only relevant before departure). However, this interaction is handled at the prototype implementation level rather than in the formal governance model. The formalisation in this appendix focuses on the governance mechanism that controls AI participation and advisory scope based on safety state, while trip-state filtering of recommendation types will be addressed during system implementation and evaluation in the Design Science Research cycle.
+The overall safety state S = max-severity(S_w, S_r, S_m, S_o, S_v, S_t) applies the conservative worst-case rule across all six parameters, including t. Time of day is therefore a direct input to the governance classification, not a post-hoc filter on recommendation types.
+
+**Empirical justification for t.** The inclusion of t is grounded in two complementary empirical sources. Atacan & Düzbastılar (2023) conducted a bridge navigation simulator study with 30 small-scale fishing vessel captains and found that night navigation significantly elevates both accident probability (mean 4.08 vs. 3.43 at calm conditions) and consequence (mean 12.80 vs. 8.53). Combined night and heavy weather produced the highest consequence scores across all tested conditions (mean 37.03). Restricted visibility — the principal mechanism by which nighttime elevates risk for small vessels without radar — was rated the single most dangerous factor for sea navigation accident probability (mean 7.90, the highest across all six environmental scenarios). Dominguez-Péry et al. (2023) analysed 504 IMO maritime accident investigation reports (2011–2021) and found that external environmental factors including visibility constitute the largest single risk cluster (26.7% of text segments), with time of day captured as a standard field in IMO accident records. These findings establish that time of day is an empirically validated maritime risk factor, not an arbitrary addition to E.
 
 ---
 

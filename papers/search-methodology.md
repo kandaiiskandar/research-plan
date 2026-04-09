@@ -3,7 +3,7 @@
 **Dissertation**: A Graduated Safety-State-Gated Architecture for AI Decision Support in Low-Resource Environments: Design and Socio-Technical Evaluation in Coastal Fisheries
 **Candidate**: Iskandar
 **Date of last search**: 2026 (latest paper year found in corpus)
-**Total papers included**: 55
+**Total papers included**: 58
 
 ---
 
@@ -49,19 +49,19 @@ Keywords: "trust in automation", "trust calibration", "trust in AI", "levels of 
 
 The primary search was conducted via **Scopus**, which provided cross-database access to IEEE, ACM, Elsevier, Springer, Taylor & Francis, and other indexed publishers. arXiv was searched directly for preprints in the AI safety and governance space. Additional papers were identified through backward snowball sampling and expert recommendation (see Section 7).
 
-The table below shows the publisher/database breakdown of the 55 included papers, reflecting the range of sources indexed within Scopus and accessed directly.
+The table below shows the publisher/database breakdown of the 58 included papers, reflecting the range of sources indexed within Scopus and accessed directly.
 
 | Database / Publisher | Papers in Set | Venues Represented |
 |---|---|---|
 | **Scopus** (primary search interface) | 55 | Cross-database aggregator — all included papers indexed or accessible via Scopus |
 | *of which* **IEEE Xplore** | 9 | IEEE IECON 2024, IEEE/ACM ICSE '26, 28th Euromicro DSD (IEEE), IEEE Comms Standards Magazine, IEEE T-ITS (×2), IEEE ICSA 2025, IEEE Trans. Neural Networks & Learning Systems, IEEE Trans. Technology and Society |
 | *of which* **ACM Digital Library** | 6 | Communications of the ACM, ACM Computing Surveys (×2), ACM Transactions on Autonomous and Adaptive Systems, Journal of the ACM, ACM Web Conference 2025 (WWW Companion) |
-| *of which* **Elsevier / ScienceDirect** | 10 | Intelligence-Based Medicine, iScience (Cell Press), Machine Learning with Applications, SoftwareX, Information Fusion, Results in Engineering, Journal of Loss Prevention in the Process Industries, Computers in Human Behavior: Artificial Humans, One Earth (Cell Press), Procedia CIRP |
-| *of which* **MDPI / Frontiers** | 11 | Buildings, Information (×2), Electronics, AI, Big Data and Cognitive Computing, Informatics, Frontiers in Marine Science, Frontiers in Sustainable Food Systems, Frontiers in Artificial Intelligence (×2) |
+| *of which* **Elsevier / ScienceDirect** | 11 | Intelligence-Based Medicine, iScience (Cell Press), Machine Learning with Applications, SoftwareX, Information Fusion, Results in Engineering, Journal of Loss Prevention in the Process Industries, Computers in Human Behavior: Artificial Humans, One Earth (Cell Press), Procedia CIRP, Marine Policy |
+| *of which* **MDPI / Frontiers** | 12 | Buildings, Information (×2), Electronics, AI, Big Data and Cognitive Computing, Informatics, Frontiers in Marine Science (×2), Frontiers in Sustainable Food Systems, Frontiers in Artificial Intelligence (×2) |
 | *of which* **Springer / SpringerLink** | 3 | Journal of Marine Science and Technology, Annals of Mathematics and Artificial Intelligence, EURO Journal on Decision Processes |
 | *of which* **Taylor & Francis** | 4 | International Journal of Human–Computer Interaction, Reviews in Fisheries Science & Aquaculture, Journal of Decision Systems, Behaviour & Information Technology |
 | *of which* **Wiley / Oxford** | 2 | ICES Journal of Marine Science (Oxford UP), Journal of International Maritime Safety, Environmental Affairs, and Shipping |
-| *of which* **Other / Specialist** | 5 | International AI Safety Report 2026 (UK DSIT), Security and Safety (EDP Sciences), Environmental Science Archives (Zenodo), UNSW Law Journal, Journal of Marine and Island Cultures |
+| *of which* **Other / Specialist** | 6 | International AI Safety Report 2026 (UK DSIT), Security and Safety (EDP Sciences), Environmental Science Archives (Zenodo), UNSW Law Journal, Journal of Marine and Island Cultures, Pakistan Journal of Life and Social Sciences |
 | **arXiv** (searched directly) | 5 | Bajcsy/Fisac, Dalrymple et al., Baxi, Bloomfield/Rushby, Pitale et al. (HySAFE-AI) |
 | **Institutional repositories** | 1 | M.Sc. thesis — Gao (2024), WorldFish/CGIAR open repository |
 
@@ -212,7 +212,7 @@ The six methodological foundation papers (Bach et al. 2024; McGrath et al. 2025 
 
 ## 9. Venue Distribution
 
-The following table lists all 55 papers organised by database/publisher category, with venue details as extracted from Section 1 of each paper's notes file.
+The following table lists all 58 papers organised by database/publisher category, with venue details as extracted from Section 1 of each paper's notes file.
 
 ### ACM Digital Library (6 papers)
 
@@ -248,7 +248,7 @@ The following table lists all 55 papers organised by database/publisher category
 | 8 | Bloomfield & Rushby | 2025 | arXiv:2407.13948v3 / SRI CSL Technical Report SRI-CSL-2024-02R3 |
 | 41 | Pitale et al. | 2025 | arXiv:2507.17118v1 |
 
-### Elsevier / ScienceDirect / Cell Press (9 papers)
+### Elsevier / ScienceDirect / Cell Press (11 papers)
 
 | # | Author(s) | Year | Venue |
 |---|---|---|---|
@@ -262,6 +262,7 @@ The following table lists all 55 papers organised by database/publisher category
 | 47 | Welch et al. | 2024 | One Earth, 7, 1685–1691 (Cell Press / Elsevier) |
 | 51 | McGrath et al. (CHAI-T) | 2025 | Computers in Human Behavior: Artificial Humans, 6, 100200 (Elsevier) |
 | 32 | Gabriel et al. | 2022 | Procedia CIRP, 109, pp. 431–436 (Elsevier) |
+| 56 | Shaffril et al. | 2017 | Marine Policy, Vol. 81, pp. 196–201 (Elsevier) |
 
 ### Springer / SpringerLink (3 papers)
 
@@ -271,7 +272,7 @@ The following table lists all 55 papers organised by database/publisher category
 | 46 | Vermaelen & Holvoet | 2025 | Annals of Mathematics and Artificial Intelligence, 93, 541–567 (Springer) |
 | 36 | Leppinen et al. | 2026 | EURO Journal on Decision Processes, 14, 100063 (Springer) |
 
-### MDPI / Frontiers (10 papers)
+### MDPI / Frontiers (12 papers)
 
 | # | Author(s) | Year | Venue |
 |---|---|---|---|
@@ -283,6 +284,7 @@ The following table lists all 55 papers organised by database/publisher category
 | 45 | Talpur et al. | 2025 | Information (MDPI), 16, 658 |
 | 52 | Aquilino et al. | 2025 | Informatics, 12(3), 70 (MDPI) |
 | 31 | Bossier et al. | 2025 | Frontiers in Marine Science, 12:1521526 (Frontiers) |
+| 57 | Yamin et al. | 2025 | Frontiers in Marine Science, 12:1492131 (Frontiers) |
 | 40 | Obi et al. | 2025 | Frontiers in Sustainable Food Systems, 9:1545263 (Frontiers) |
 | 21 | Newcomb & Ochoa | 2026 | Frontiers in Artificial Intelligence, Vol. 9, 1749956 (Frontiers) |
 | 54 | McGrath et al. (S-TIAS) | 2025 | Frontiers in Artificial Intelligence, 8:1582880 (Frontiers) |
@@ -303,7 +305,7 @@ The following table lists all 55 papers organised by database/publisher category
 | 49 | Wing & Woodward | 2024 | ICES Journal of Marine Science, Vol. 81, Issue 10, pp. 1912–1919 (Oxford UP) |
 | 20 | Madsen & Kim | 2024 | Journal of International Maritime Safety, Environmental Affairs, and Shipping, 8(1–2) |
 
-### Other / Specialist (5 papers)
+### Other / Specialist (6 papers)
 
 | # | Author(s) | Year | Venue |
 |---|---|---|---|
@@ -312,6 +314,7 @@ The following table lists all 55 papers organised by database/publisher category
 | 38 | Mandal et al. | 2025 | Environmental Science Archives, Vol. IV, Issue 1, pp. 44–58 (Zenodo) |
 | 33 | Gao | 2024 | Unpublished M.Sc. thesis, IMRD/Erasmus Mundus, deposited WorldFish/CGIAR repository |
 | 30 | Bello y Villarino et al. | 2025 | UNSW Law Journal, 48(4), pp. 1165–1195 |
+| 58 | Muhamad et al. | 2024 | Pakistan Journal of Life and Social Sciences (PJLSS), 22(2), 12024–12040 |
 | 42 | Rahim et al. | 2024 | Journal of Marine and Island Cultures, v13n3 |
 
 ---
@@ -327,15 +330,16 @@ The following table lists all 55 papers organised by database/publisher category
 
 | Year | Count | Notes |
 |---|---|---|
+| 2017 | 1 | Shaffril et al. (historical contextual background for Malaysian SSF domain) |
 | 2022 | 1 | Gabriel et al. (foundational socio-technical method) |
-| 2024 | 12 | Core comparators: Bajcsy/Fisac, Dalrymple, Flehmig, Perez-Cerrolaza, Klüver, Madsen/Kim, Punzi, Rahim, Welch, Wing/Woodward, Bach, Gao |
-| 2025 | 31 | Largest cohort — covers governance taxonomy, formal methods SLR, fisheries reviews, trust measurement literature |
+| 2024 | 13 | Core comparators: Bajcsy/Fisac, Dalrymple, Flehmig, Perez-Cerrolaza, Klüver, Madsen/Kim, Punzi, Rahim, Welch, Wing/Woodward, Bach, Gao, Muhamad et al. |
+| 2025 | 32 | Largest cohort — covers governance taxonomy, formal methods SLR, fisheries reviews, trust measurement literature; includes Yamin et al. (primary domain study) |
 | 2026 | 11 | Most recent: AgentSpec, International AI Safety Report, Baxi, Castagnone, Haque, Leppinen, Li, Saup, Selvam, Atf & Lewis, Newcomb |
-| **Total** | **55** | |
+| **Total** | **58** | |
 
 ### Coverage Assessment
 
-The corpus is highly contemporary: 42 of 55 papers (76%) are from 2025–2026, reflecting the rapidly evolving state of the safety governance and AI control literature. The 2022–2024 papers (13 papers, 24%) establish foundational comparators and domain context. No papers pre-2022 were included, reflecting both a deliberate focus on current practice and the recency of the formal AI governance literature.
+The corpus is highly contemporary: 44 of 58 papers (76%) are from 2025–2026, reflecting the rapidly evolving state of the safety governance and AI control literature. The 2022–2024 papers (13 papers, 22%) establish foundational comparators and domain context. One paper (Shaffril et al., 2017) is included as historical contextual background for the target domain. No other pre-2022 papers are included, reflecting a deliberate focus on current practice and the recency of the formal AI governance literature.
 
 **Theme-specific currency**:
 
