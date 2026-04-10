@@ -8,7 +8,7 @@
 
 | Formal Component | Appendix C Section | Architecture Diagram Element | Alignment Table Reference |
 |---|---|---|---|
-| E = {w, r, m, o, v, t} | C.1 Environmental State Representation | L1 box: "Environmental data input" with subtitle "E = {w, r, m, o, v, t}" | PS2 gap: environmental state vector mapped to safety states; O2: formally define E |
+| E = {w, r, m, o, v, t} where:<br>w = wind condition (speed/strength)<br>r = rainfall intensity<br>m = sea state (wave height/swell)<br>o = official marine warning level (e.g., no warning, caution, danger)<br>v = vessel category (small, medium, big)<br>t = time of day (hour, 24-hour clock) | C.1 Environmental State Representation | L1 box: "Environmental data input" with subtitle "E = {w, r, m, o, v, t}" | PS2 gap: environmental state vector mapped to safety states; O2: formally define E |
 | S = f(E) | C.2 Safety State Classification Function | L2 box: "Safety state classification" with subtitle "S = f(E)" | PS2 gap: no architecture classifies environmental conditions into discrete safety states; O2: formally define S = f(E) |
 | S ∈ {SAFE, CAUTION, UNSAFE} | C.2 Classification output | Three state boxes: SAFE (green), CAUTION (amber), UNSAFE (red) | PS1: graduated AI participation — enabled, restricted, disabled; O1: three-mode architecture |
 | G(S) | C.3 AI Participation Gate Function | Level 1 dashed container: G(S) = 1, G(S) = 1, G(S) = 0 per state | PS1 gap: existing architectures implement binary governance; O2: formally define G(S) |
@@ -65,6 +65,7 @@
 | GoWithCaution does NOT appear anywhere | ✓ Removed from formalisation and diagram |
 | No objective can be satisfied by a binary gate | ✓ Verified in Table 2 final column |
 | A_H(S) does NOT appear anywhere | ✓ Correctly excluded from formalisation and diagram |
+| Parameter definitions in E are consistent across Appendix C and this traceability table | ✓ Both use {w, r, m, o, v, t} with matching definitions (wind, rainfall, sea state, official warning, vessel category, time of day) |
 
 ---
 
