@@ -17,7 +17,7 @@
 - r ∈ {none, light, moderate, heavy, storm} — rainfall intensity (ordinal categorical)
 - m ∈ {none, advisory, warning, alert} — active marine warnings (ordinal categorical)
 - o ∈ ℝ≥0 × ℝ≥0 — ocean state (wave height in metres, swell period in seconds)
-- v ∈ {good, minor_issues, major_deficiency} — vessel condition (ordinal categorical)
+- v ∈ {small, medium, big} — vessel category (ordinal categorical)
 - t ∈ [0, 24) — time of day (hour, 24-hour clock)
 
 E is a mixed-type vector: some components are continuous (w, o, t), others are ordinal categorical (r, m, v). The domain of E is the Cartesian product of all component domains: E ∈ D_w × D_r × D_m × D_o × D_v × D_t.
@@ -212,7 +212,7 @@ The AI reasoning layer is **not** part of the state machine. The state machine d
 
 ### 5.1 Enumerated Assumptions
 
-**A1 — Observable environment.** Environmental parameters in E are measurable by sensors available in the deployment context. This assumes the existence of wind measurement (anemometer or weather API), ocean state assessment (wave buoy, visual observation, or satellite data), and the other four parameters. In low-resource settings, some parameters may be assessed qualitatively (vessel condition by operator checklist) rather than by instrument.
+**A1 — Observable environment.** Environmental parameters in E are measurable by sensors available in the deployment context. This assumes the existence of wind measurement (anemometer or weather API), ocean state assessment (wave buoy, visual observation, or satellite data), and the other four parameters. In low-resource settings, some parameters may be assessed qualitatively rather than by instrument; vessel category (v) is a known vessel attribute that does not require runtime measurement.
 
 **A2 — Correct sensor data.** f(E) produces a correct classification only if the input E accurately represents the actual environmental conditions. Sensor faults, calibration errors, or communication failures can cause misclassification. See `justification-safety-state-design.md` §3 for analysis of misclassification consequences.
 
@@ -275,9 +275,9 @@ The model assumes a single, system-wide environmental assessment. It does not fo
 The classification function f: D_E → {SAFE, CAUTION, UNSAFE} is surjective and many-to-one. The domain D_E is a large (potentially uncountable) set of environmental parameter vectors; the codomain has only three elements. Many distinct environmental conditions map to the same safety state.
 
 **Examples within CAUTION:**
-- E₁ = {w=20 knots, r=none, m=none, o=1.5m, v=good, t=10hrs} → CAUTION (triggered by wind)
-- E₂ = {w=10 knots, r=heavy, m=none, o=0.5m, v=good, t=10hrs} → CAUTION (triggered by rainfall)
-- E₃ = {w=10 knots, r=none, m=advisory, o=0.8m, v=minor_issues, t=6hrs} → CAUTION (triggered by marine warning + vessel condition + time)
+- E₁ = {w=20 knots, r=none, m=none, o=1.5m, v=big, t=10hrs} → CAUTION (triggered by wind)
+- E₂ = {w=10 knots, r=heavy, m=none, o=0.5m, v=big, t=10hrs} → CAUTION (triggered by rainfall)
+- E₃ = {w=10 knots, r=none, m=advisory, o=0.8m, v=medium, t=6hrs} → CAUTION (triggered by marine warning + vessel category + time)
 
 All three produce S = CAUTION and therefore the same governance configuration: G(S) = 1, A_AI(S) = {Go, Delay}. But the underlying conditions are different, and the AI's go/no-go and delay recommendations may differ accordingly — the governance scope is the same, but the recommendation *content* within that scope reflects the specific E.
 

@@ -1,261 +1,178 @@
-# Research Paper Extraction System
+# A Graduated Safety-State-Gated Architecture for AI Decision Support in Low-Resource Environments: Design and Socio-Technical Evaluation in Coastal Fisheries
 
-A Claude Code-powered workflow for extracting structured literature review notes from academic PDFs, tailored for PhD research on a **Graduated Safety-State-Gated Architecture for AI Decision Support in Low-Resource Environments: Design and Socio-Technical Evaluation in Coastal Fisheries**.
+**PhD Research Repository**
 
----
-
-## Project Structure
-
-```
-research-test/
-├── papers/
-│   ├── sources/          # Drop PDF files here before extracting
-│   └── paper_tracker.md  # Table of all extracted papers
-├── notes/
-│   ├── <title>.md        # Extracted notes, one file per paper
-│   └── images/
-│       └── <paper-slug>/ # Figures extracted from each PDF
-├── .claude/
-│   ├── commands/
-│   │   └── extract-paper.md   # /extract-paper slash command
-│   └── prompts/
-│       └── paper_extraction_prompt.md  # 17-section extraction template
-└── README.md
-```
+**Author:** Mohd Iskandar Samsuddin  
+**Institution:** Universiti Malaysia Sabah (UMS)  
+**Field:** Computer Science / Artificial Intelligence
 
 ---
 
-## Commands
+## One sentence summary
 
-### `/extract-paper <filename.pdf>`
+I am building and evaluating a two-level governance architecture for AI decision support where classified environmental safety state controls both *whether* AI participates and *what* it is permitted to recommend, applied to small-scale coastal fisheries in Malaysia.
 
-Extracts structured research notes from a PDF.
+## The one idea that makes this research novel
 
-**Steps performed:**
-1. Verifies the PDF exists in `papers/sources/`
-2. Parses the PDF using [claude-paper](https://github.com/alaliqing/claude-paper) (`parse-pdf.js`), falling back to pymupdf raw text extraction
-3. Applies the full 17-section extraction prompt from `.claude/prompts/paper_extraction_prompt.md`
-4. Extracts figures/images from the PDF into `notes/images/<paper-slug>/` using claude-paper's `extract-images.py`
-5. Saves notes to `notes/<slugified-title>.md` with YAML frontmatter and a Figures table if images were found
-6. Appends a row to `papers/paper_tracker.md`
-
-**Usage:**
-```
-/extract-paper my-paper.pdf
-```
-
-**Requirements:**
-- PDF must be placed in `papers/sources/` before running
-- [claude-paper](https://github.com/alaliqing/claude-paper) must be installed (`~/.claude/plugins/marketplaces/claude-paper/`)
-- Python 3 with `pymupdf` (`pip install pymupdf`) for fallback parsing
-
-### `/quick-summary <filename.pdf>`
-
-Fast preview of a paper before committing to full extraction.
-
-**Steps performed:**
-1. Parses the PDF using claude-paper
-2. Generates a concise summary (overview, contribution, key findings, methodology)
-3. Adds a "previewed" row to `papers/paper_tracker.md` (if not already tracked)
-
-**Usage:**
-```
-/quick-summary my-paper.pdf
-```
+Every existing safety-critical AI system either fully enables or fully blocks AI. My architecture adds a third mode — CAUTION — where AI continues operating within a formally restricted advisory scope because environmental conditions are elevated but not yet prohibitive. The same classified environmental state governs both the participation gate G(S) and the admissible recommendation space A_AI(S), with the containment property A_AI(SAFE) ⊃ A_AI(CAUTION) ⊃ A_AI(UNSAFE) = ∅.
 
 ---
 
-### `/batch-extract [file1.pdf file2.pdf ...]`
+## Abstract
 
-Extract multiple PDFs in parallel using sub-agents.
-
-**Steps performed:**
-1. Identifies unprocessed PDFs (or uses specified files)
-2. Dispatches parallel agents (model: Opus) for each PDF
-3. Each agent runs the full extraction workflow independently
-4. Reports results with relevance scores
-
-**Usage:**
-```
-/batch-extract                          # all unprocessed PDFs
-/batch-extract paper1.pdf paper2.pdf    # specific files
-```
+Existing safety-critical AI decision-support architectures govern AI behaviour through a binary mechanism—AI is either fully enabled or completely blocked—leaving no formally defined intermediate mode for conditions of elevated but non-prohibitive risk. Across eight bodies of literature (AI decision support, safety gating, human-AI authority, adaptive autonomy, guardrails, hybrid AI, low-resource systems, and fisheries decision context), no architecture unifies participation governance (whether AI may act) and advisory scope governance (what AI may recommend) under the same classified environmental state, and consequently the CAUTION mode—where AI operates within a restricted recommendation space because environmental conditions are dangerous but not yet prohibitive—does not exist. This research proposes, formalises, and evaluates a **Graduated Safety-State-Gated Architecture** that introduces a three-mode governance structure conditioned on an environmental safety state \( S = f(E) \), where \( E \) is a vector of observable risk parameters. The architecture defines a participation gate \( G(S) \) and an admissible recommendation space \( A_{\text{AI}}(S) \) with the formal containment property \( A_{\text{AI}}(\text{SAFE}) \supset A_{\text{AI}}(\text{CAUTION}) \supset A_{\text{AI}}(\text{UNSAFE}) = \emptyset \). The study follows Design Science Research, including formal specification, prototype implementation for coastal fisheries in Malaysia, comparative evaluation against binary baselines, and a user study with fishers and fisheries officers. The primary contribution is the first unified two-level governance architecture for safety-critical AI that formalises the CAUTION mode as a distinct operational state, with technical, empirical, and socio-technical evidence on whether graduated governance produces safer and more usable outcomes than binary governance in low-resource environments.
 
 ---
 
-### `/study-paper <filename.pdf>`
+## Proposed Architecture
 
-Deep interactive study using claude-paper's full study environment.
+![Graduated Safety-State-Gated Architecture](docs/images/architecture/proposed_diagram.png)
 
-**Steps performed:**
-1. Invokes `claude-paper:study` to generate study materials in `~/claude-papers/papers/<slug>/`
-2. Links study materials to existing notes (if any) via `study_materials:` frontmatter
-3. Updates `papers/paper_tracker.md` with a study link
-4. Enters interactive deep learning loop for further exploration
+The architecture operates as a four-layer pipeline that processes environmental conditions into safety-governed AI recommendations:
 
-**Usage:**
-```
-/study-paper my-paper.pdf
-```
+1. **Environmental Input Layer** — Observes six real-time parameters: wind speed (w), rainfall intensity (r), sea state (m), official marine warning level (o), vessel category (v), and time of day (t), forming the environmental state vector E = {w, r, m, o, v, t}.
 
----
+2. **Deterministic Safety Classification Layer** — Classifies each parameter against predefined thresholds and applies worst-case (max-severity) aggregation to produce a single safety state S ∈ {SAFE, CAUTION, UNSAFE}. This layer is purely rule-based — no AI, no learning, no probability.
 
-### `/review-notes <filename>.md`
+3. **AI Advisory Layer** — Generates recommendations within the scope permitted by the safety state. The two-level governance pair (G(S), A_AI(S)) controls both *whether* AI participates and *what* it is allowed to recommend, with the containment property A_AI(SAFE) ⊃ A_AI(CAUTION) ⊃ A_AI(UNSAFE) = ∅.
 
-Review a single extracted notes file for quality and completeness.
+4. **Human Decision Layer** — The fisher receives the AI recommendation (or safety alert under UNSAFE) and makes the final departure decision. The human always retains ultimate decision authority in all three safety states.
 
-**Steps performed:**
-1. Reads the notes file and the extraction prompt
-2. Evaluates completeness, depth, accuracy, research alignment, citable content, and consistency
-3. Produces a review report with quality rating and specific issues
-4. Offers to apply improvements directly
+**Three key safety properties:**
 
-**Usage:**
-```
-/review-notes the-significance-of-artificial-intelligence-ai-in-fishing-crafts-and-gears.md
-```
+- **Non-compensatory aggregation** — Favourable conditions on one parameter cannot offset danger on another. A single UNSAFE parameter makes the entire state UNSAFE.
+- **Graduated containment** — Under CAUTION, AI continues operating but can only provide directional guidance (Go/Delay). Precision recommendations (DepartureTime/Duration) are removed because their reliability degrades under adverse conditions.
+- **Deterministic override** — The Safety Dominance Property guarantees that AI can never generate recommendations outside the scope permitted by the deterministic safety classification: AI(E) ⊆ A_AI(S) for all E.
+
+For the full illustrated explanation, see [`docs/architecture-illustration.md`](docs/architecture-illustration.md).
 
 ---
 
-### `/plan-review`
+## Problem Statement
 
-Analyse all extracted papers for theme coverage gaps and produce a literature review outline.
-
-**Steps performed:**
-1. Reads all fully extracted notes in `notes/`
-2. Compiles coverage data for all 8 research themes
-3. Produces gap analysis (Well-Covered / Partially Covered / Gap per theme)
-4. Generates a structured literature review outline with section groupings and paper placement
-5. Saves output to `papers/review-plan.md`
-
-**Usage:**
-```
-/plan-review
-```
+The following five problems (PS1–PS5) are identified from the literature. For each, the corresponding **research gap** and the **research objective** that addresses it are stated.
 
 ---
 
-## Extraction Template
+### PS1. Absence of an intermediate participation mode
 
-The extraction prompt (`.claude/prompts/paper_extraction_prompt.md`) analyses each paper across **17 sections**:
+**Problem:**  
+Existing safety-critical AI architectures implement binary governance — AI is either fully enabled or fully blocked. No architecture formally defines an intermediate participation mode where AI operates under a restricted recommendation space calibrated to classified environmental risk level.
 
-| # | Section |
-|---|---------|
-| 1 | Paper Identity |
-| 2 | Core Contribution |
-| 3 | Relevance to My Research |
-| 4 | Decision Architecture Analysis |
-| 5 | Formal Model and Mathematical Representation |
-| 6 | Safety State Classification |
-| 7 | Governance Level Analysis |
-| 8 | Human Role in Decision-Making |
-| 9 | System Constraints and Environment |
-| 10 | Hybrid AI Taxonomy |
-| 11 | Baseline Comparison and Evaluation |
-| 12 | Key Concepts and Definitions |
-| 13 | Limitations and Unsolved Problems |
-| 14 | Methodology Notes |
-| 15 | Quotable / Citable Points |
-| 16 | Relation to My Research and Positioning |
-| 17 | Overall Relevance Score |
+**Gap:**  
+Existing guardrail systems (Könighofer et al., 2025; Liang et al., 2025; Abella et al., 2025) and governance architectures (Wang et al., 2026; Shamsujjoha et al., 2025) treat AI participation as binary. Only Flehmig et al. (2024) implement graduated governance, but the trigger is AI performance degradation — not environmental safety state — and it governs monitoring intensity, not the AI-admissible recommendation space. No architecture formally models a CAUTION mode with a restricted AI recommendation space.
+
+**Objective (O1):**  
+To design a three-mode hybrid AI decision architecture in which AI participation is graduated (enabled / restricted / disabled) based on classified environmental safety state, ensuring that AI recommendation scope narrows as operational risk increases.
 
 ---
 
-## Paper Tracker
+### PS2. Governance triggered by AI performance, not environmental state
 
-`papers/paper_tracker.md` maintains a table of all extracted papers:
+**Problem:**  
+Where graduated AI governance has been attempted (Flehmig et al., 2024), it is triggered by AI model performance degradation, not by the safety state of the operational environment. No existing architecture conditions participation or advisory scope on classified environmental conditions.
 
-| Column | Description |
-|---|---|
-| Title | Full paper title |
-| Authors | First author et al. |
-| Year | Publication year |
-| Venue | Journal or conference |
-| Type | Paper type (review, empirical, conceptual, etc.) |
-| Relevance | Star rating (⭐ to ⭐⭐⭐⭐⭐) from Section 17 |
-| Notes | Link to the extracted notes file |
+**Gap:**  
+Where graduated governance has been attempted, the trigger is AI model performance degradation — not environmental safety state. No architecture conditions participation or advisory scope on classified environmental conditions. Flehmig et al.'s traffic-light model governs monitoring intensity; Li et al.'s (2026) dynamic threshold operates within a single agent. Neither formally restricts AI recommendation content per environmental safety state.
 
-### Tracker States
-
-Papers appear in different states depending on which commands have been run:
-
-| State | Type column | Relevance | Notes column | Via command |
-|---|---|---|---|---|
-| Previewed | `previewed` | `—` | `—` | `/quick-summary` |
-| Studied | `studied` | `—` | `[study](...)` | `/study-paper` |
-| Extracted | actual type | Stars | `[notes](...)` | `/extract-paper` or `/batch-extract` |
-| Extracted + Studied | actual type | Stars | `[notes](...) · [study](...)` | `/extract-paper` then `/study-paper` |
+**Objective (O2):**  
+To formally define the environmental state vector **E**, safety state function \( S = f(E) \), participation gate function \( G(S) \), and AI-admissible recommendation space \( A_{\text{AI}}(S) \) with the property \( A_{\text{AI}}(\text{SAFE}) \supset A_{\text{AI}}(\text{CAUTION}) \supset A_{\text{AI}}(\text{UNSAFE}) = \emptyset \), resulting in a two-level governance architecture of participation governance and advisory scope governance, including domain-specific operationalisation of safety thresholds for coastal fisheries.
 
 ---
 
-## Notes File Format
+### PS3. No design for low‑resource environments
 
-Each extracted file in `notes/` begins with YAML frontmatter:
+**Problem:**  
+Safety-critical AI governance architectures have not been designed for or evaluated in low-resource environments where data may be incomplete, connectivity is intermittent, and users have limited digital literacy. Existing fisheries AI platforms provide forecasts and alerts but do not formally govern how AI participation should be constrained under varying environmental risk.
 
-```yaml
----
-title: "Full Paper Title"
-authors: "Author 1, Author 2, ..."
-year: 2025
-venue: "Journal or Conference"
-type: "review | empirical study | conceptual framework | system design"
-relevance: "⭐⭐⭐"
-source: "papers/sources/filename.pdf"
-images: "notes/images/<paper-slug>/"
-extracted: "YYYY-MM-DD"
----
-```
+**Gap:**  
+Formal safety governance has not been integrated with low-resource deployment constraints. Bhuvaneswari et al. address hybrid AI in resource-constrained emergency medicine but without formal governance architecture. Domain papers confirm the absence of formal safety-state-gated AI in fisheries: Haque and Al Jufaili (2026) review AI across four fisheries application domains and find that no system implements formal participation governance or advisory scope restriction conditioned on environmental safety state.
 
-If images were extracted, a **Figures** table appears at the top of the notes (after frontmatter):
-
-```markdown
-## Figures
-
-| File | Description |
-|------|-------------|
-| ![fig](images/<paper-slug>/architecture.png) | System architecture diagram |
-```
-
-Followed by the full 17-section extraction.
+**Objective (O3):**  
+To implement a functional prototype decision-support system based on the proposed three-mode architecture, designed for the constraints of small-scale coastal fisheries (offline capability, limited data, small-vessel hardware/mobile).
 
 ---
 
-## Model Recommendation
+### PS4. No comparative evaluation of graduated vs. binary governance
 
-The `/extract-paper` command runs in the active Claude Code session. For highest extraction quality (dense academic text, nuanced 17-section analysis), use **Claude Opus 4.6** (`claude-opus-4-6`). Claude Sonnet 4.6 is a good balance of quality and speed.
+**Problem:**  
+Existing evaluations of safety-critical AI architectures compare gated systems against ungated baselines but do not assess whether graduated two-level governance (participation gate + advisory scope restriction) produces safer outcomes than simpler binary governance (participation gate only). The added value of the CAUTION mode — where G(S) = 1 but A_AI(S) is restricted — has not been empirically tested.
 
-| Model | Quality | Speed | Recommended for |
-|---|---|---|---|
-| claude-opus-4-6 | Best | Slower | Deep analysis, complex papers |
-| claude-sonnet-4-6 | Good | Fast | General use |
-| claude-haiku-4-5 | Shallow | Fastest | Not recommended for extraction |
+**Gap:**  
+No comparative evaluation exists between graduated two-level governance and binary single-level governance. Current baselines compare gated versus ungated only. No evaluation isolates the contribution of Level 2 (advisory scope governance) beyond Level 1 (participation governance).
 
-To switch models in Claude Code, use `/model` before running the command.
+**Objective (O4):**  
+To evaluate the architecture's safety compliance, decision consistency, and comparative performance against both (a) a binary-gated baseline that implements Level 1 only (participation gate \( G(S) \) with full advisory scope, analogous to shield-based systems in Section 2.2, e.g., Könighofer et al., 2025) and (b) an ungated AI advisory baseline (no governance), using scenario-based testing.
 
 ---
 
-## Research Context
+### PS5. No empirical or socio‑technical evaluation of graduated governance
 
-This system is built for a PhD literature review focused on:
+**Problem:**  
+Socio-technical evaluation of AI governance architectures in safety-critical low-resource environments remains limited. No study has examined how users understand, trust, and respond to a graduated AI participation model — where the system communicates that AI is not merely on or off, but operating under restriction.
 
-- **Hybrid AI** (deterministic rule-based + probabilistic AI reasoning)
-- **Safety-critical AI decision systems**
-- **AI governance** — controlling *when* AI participates (Level 1) and *what* AI may recommend (Level 2)
-- **Low-resource environments** (limited data, connectivity, computing)
-- **Decision architecture formalisation** (E, S = f(E), G(S), A_AI(S), Safety Dominance Property)
-- **Coastal fisheries** as the case study domain
+**Gap:**  
+No socio-technical evaluation exists of graduated AI governance architectures, particularly user response to the CAUTION mode (\( G(S) = 1 \) but \( A_{\text{AI}} \) restricted) as distinct from SAFE (\( G(S) = 1 \), full \( A_{\text{AI}} \)) and UNSAFE (\( G(S) = 0 \), \( A_{\text{AI}} = \emptyset \)).
 
-The core architecture is formally defined as the pipeline:
+**Objective (O5):**  
+To evaluate user understanding of safety states, trust calibration, and decision behaviour across all three modes, with particular attention to how users interpret and respond to the CAUTION state where AI participates within a restricted recommendation space \( A_{\text{AI}}(\text{CAUTION}) \subset A_{\text{AI}}(\text{SAFE}) \).
 
-**E → S = f(E) → (G(S), A_AI(S)) → AI(E)**
 
-| Construct | Definition |
-|---|---|
-| Environmental state | E = {w, r, m, o, v, t} (wind, rainfall, marine warning, ocean condition, vessel class, trip state) |
-| Safety state | S = f(E), where S ∈ {SAFE, CAUTION, UNSAFE} |
-| AI participation gate (Level 1) | G(S) = 0 (AI blocked) or 1 (AI permitted) |
-| AI-admissible recommendation space (Level 2) | A_AI(S) = set of permitted recommendation types per safety state |
-| Recommendation types | R = {Go, Delay, DepartureTime, Duration} |
-| Governance pair | (G(S), A_AI(S)) — two-level governance structure |
-| Containment property | A_AI(SAFE) ⊃ A_AI(CAUTION) ⊃ A_AI(UNSAFE) = ∅ |
-| Safety Dominance Property | AI(E) ⊆ A_AI(S) — AI outputs bounded by safety state |
+For full traceability across PS → Gap → RQ → Objective → Methodology, see the [Research Alignment Table](docs/research-alignment-table.md).
+
+---
+
+## Literature Review
+
+The full literature review is available here: [`docs/chapter-2-draft.md`](docs/chapter-2-draft.md).
+
+It is organised into the following sections:
+
+- [**2.1** AI Decision Support in Safety-Critical Systems](docs/chapter-2-draft.md#L3)
+- [**2.2** Deterministic Safety Constraints and Safety Gating (Level 1 Governance)](docs/chapter-2-draft.md#L13)
+- [**2.3** Human–AI Decision Authority](docs/chapter-2-draft.md#L23)
+- [**2.4** Adaptive Autonomy and Risk‑Based Systems](docs/chapter-2-draft.md#L33)
+- [**2.5** AI Governance and Guardrails (Level 2 Governance)](docs/chapter-2-draft.md#L43)
+- [**2.6** Hybrid AI Systems](docs/chapter-2-draft.md#L53)
+- [**2.7** AI in Low‑Resource Environments](docs/chapter-2-draft.md#L61)
+- [**2.8** The Fisheries Decision Context](docs/chapter-2-draft.md#L69)
+- [**2.9** Comparative Analysis (Table 2.1: 15 comparator systems)](docs/chapter-2-draft.md#L77)
+- [**2.10** Literature Summary](docs/chapter-2-draft.md#L116)
+- [**2.11** Research Gap](docs/chapter-2-draft.md#L122)
+
+**Key findings from the literature review:**
+
+- Binary governance is consistent across **91** collaborative intelligence papers (Ramos et al., 2024), **46** formal methods studies (Newcomb & Ochoa, 2026), **11** frontier AI safety frameworks (Bengio et al., 2026), and the cross-domain safety-critical AI survey (Perez-Cerrolaza et al., 2024).
+- No architecture unifies participation governance G(S) and advisory scope governance A_AI(S) under the same classified environmental state. The CAUTION mode — where AI participates within a restricted recommendation space — does not exist.
+- The gap is structural — present at the technical, formal methods, and institutional governance layers simultaneously.
+- In low-resource environments, binary governance is asymmetrically costly: blocking AI under moderate risk transfers the decision burden to operators who lack institutional alternatives.
+
+---
+
+## Formalisation
+
+The complete mathematical formalisation of the proposed architecture is provided in [`docs/appendix-c-formalisation.md`](docs/appendix-c-formalisation.md).
+
+Key definitions: environmental state vector **E = {w, r, m, o, v, t}**, safety state function **S = f(E)**, participation gate **G(S)**, admissible recommendation space **A_AI(S)**, and the full governance pipeline **E → S = f(E) → (G(S), A_AI(S)) → AI(E)**.
+
+---
+
+## Novelty
+
+The proposed architecture is the first unified two-level governance architecture for safety-critical AI that:
+
+1. **Unifies Level 1 and Level 2 governance** — no prior work implements both participation governance G(S) and advisory scope governance A_AI(S) under the same classified environmental state
+2. **Formalises the CAUTION mode** — the intermediate operational state where AI participates within a restricted recommendation space because conditions are elevated but not prohibitive
+3. **Conditions on environmental state, not AI performance** — unlike Flehmig et al. (2024) who trigger on AI degradation, or Baxi (2026) who conditions on agent robustness, this architecture triggers on observable environmental conditions
+4. **Proves the Safety Dominance Property** — AI(E) ⊆ A_AI(S) for all environmental states, guaranteeing that what AI produces is always within the permitted recommendation space
+5. **Designs for low-resource deployment** — the governance layer S = f(E) executes in constant time with negligible memory (threshold comparisons on six parameters), satisfying TinyML constraints for edge deployment on small-vessel hardware / mobile apps
+
+The gap is confirmed independently across 91 collaborative intelligence papers (Ramos et al., 2024), 46 formal methods studies (Newcomb & Ochoa, 2026), 11 international AI safety frameworks (Bengio et al., 2026), and the cross-domain safety-critical AI survey (Perez-Cerrolaza et al., 2024). The structurally closest prior work (Baxi, 2026) implements graduated governance but conditions on agent robustness rather than environmental state — making the two architectures complementary, not competing.
+
+For the full novelty argument, see [`docs/justification-novelty-gap.md`](docs/justification-novelty-gap.md).
+
+---
+
+## References
+
+The corpus contains 63 papers. For the full citation-to-notes mapping, see [`docs/citation-notes-map.md`](docs/citation-notes-map.md).

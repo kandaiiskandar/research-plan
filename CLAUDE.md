@@ -56,7 +56,7 @@ This file contains ready-to-paste `[[notes]](path)` quick links for all 63 paper
 | r | ordinal categorical | Rainfall intensity {none, light, moderate, heavy, storm} |
 | m | ordinal categorical | Marine warning level {none, advisory, warning, alert} |
 | o | ℝ≥0 × ℝ≥0 | Ocean state (wave height m, swell period s) |
-| v | ordinal categorical | Vessel condition {good, minor_issues, major_deficiency} |
+| v | ordinal categorical | Vessel category {small, medium, big} |
 | t | [0, 24) | Time of day (hour, 24-hour clock) |
 
 ### When a variable definition changes

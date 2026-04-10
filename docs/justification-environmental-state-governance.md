@@ -8,7 +8,7 @@
 
 ## 1. The Core Claim
 
-The proposed architecture conditions both governance functions — AI participation G(S) and advisory scope A_AI(S) — on a classified **environmental safety state** S ∈ {SAFE, CAUTION, UNSAFE}, where S = f(E) and E is a vector of observable environmental parameters (wind speed, wave height, visibility, rainfall, vessel condition, time of day).
+The proposed architecture conditions both governance functions — AI participation G(S) and advisory scope A_AI(S) — on a classified **environmental safety state** S ∈ {SAFE, CAUTION, UNSAFE}, where S = f(E) and E is a vector of observable environmental parameters (wind speed, wave height, visibility, rainfall, vessel category, time of day).
 
 This is a deliberate design choice, not a default. Each alternative governance trigger below represents a legitimate research direction. The argument is not that the alternatives are wrong in general, but that environmental state is the *correct* trigger for this problem — a safety-critical, human-in-the-loop decision support system operating in dynamic maritime environments.
 
