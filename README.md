@@ -128,17 +128,17 @@ The full literature review is available here: [`docs/chapter-2-draft.md`](docs/c
 
 It is organised into the following sections:
 
-- [**2.1** AI Decision Support in Safety-Critical Systems](docs/chapter-2-draft.md#L3)
-- [**2.2** Deterministic Safety Constraints and Safety Gating (Level 1 Governance)](docs/chapter-2-draft.md#L13)
-- [**2.3** Human–AI Decision Authority](docs/chapter-2-draft.md#L23)
-- [**2.4** Adaptive Autonomy and Risk‑Based Systems](docs/chapter-2-draft.md#L33)
-- [**2.5** AI Governance and Guardrails (Level 2 Governance)](docs/chapter-2-draft.md#L43)
-- [**2.6** Hybrid AI Systems](docs/chapter-2-draft.md#L53)
-- [**2.7** AI in Low‑Resource Environments](docs/chapter-2-draft.md#L61)
-- [**2.8** The Fisheries Decision Context](docs/chapter-2-draft.md#L69)
-- [**2.9** Comparative Analysis (Table 2.1: 15 comparator systems)](docs/chapter-2-draft.md#L77)
-- [**2.10** Literature Summary](docs/chapter-2-draft.md#L116)
-- [**2.11** Research Gap](docs/chapter-2-draft.md#L122)
+- [**2.1** AI Decision Support in Safety-Critical Systems](docs/chapter-2-draft.md#21-ai-decision-support-in-safety-critical-systems)
+- [**2.2** Deterministic Safety Constraints and Safety Gating (Level 1 Governance)](docs/chapter-2-draft.md#22-deterministic-safety-constraints-and-safety-gating)
+- [**2.3** Human–AI Decision Authority](docs/chapter-2-draft.md#23-humanai-decision-authority)
+- [**2.4** Adaptive Autonomy and Risk-Based Systems](docs/chapter-2-draft.md#24-adaptive-autonomy-and-risk-based-systems)
+- [**2.5** AI Governance and Guardrails (Level 2 Governance)](docs/chapter-2-draft.md#25-ai-governance-and-guardrails)
+- [**2.6** Hybrid AI Systems](docs/chapter-2-draft.md#26-hybrid-ai-systems)
+- [**2.7** AI in Low-Resource Environments](docs/chapter-2-draft.md#27-ai-in-low-resource-environments)
+- [**2.8** The Fisheries Decision Context](docs/chapter-2-draft.md#28-fisheries-decision-context)
+- [**2.9** Comparative Analysis (Table 2.1: 15 comparator systems)](docs/chapter-2-draft.md#29-comparative-analysis)
+- [**2.10** Literature Summary](docs/chapter-2-draft.md#210-literature-summary)
+- [**2.11** Research Gap](docs/chapter-2-draft.md#211-research-gap)
 
 **Key findings from the literature review:**
 
