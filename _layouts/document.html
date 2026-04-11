@@ -3,13 +3,135 @@ layout: default
 ---
 
 <link rel="stylesheet" href="{{ '/assets/css/document.css' | relative_url }}">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/marked/12.0.2/marked.min.js"></script>
 
 <div class="doc-wrapper">
   <aside class="doc-sidebar">
     {% include toc.html %}
   </aside>
 
-  <article class="doc-content">
+  <article class="doc-content" id="doc-content">
     {{ content }}
   </article>
 </div>
+
+<script>
+(function () {
+  var content  = document.getElementById('doc-content');
+  var sidebar  = document.querySelector('.toc-nav');
+  var baseUrl  = '{{ site.baseurl | default: "" }}';
+  var homePath = (baseUrl || '') + '/';
+
+  // Convert all relative links/images in the home content to absolute paths on load,
+  // so they work even after pushState changes the URL
+  var homeUrl = window.location.pathname;
+  content.querySelectorAll('a[href]').forEach(function (a) {
+    var h = a.getAttribute('href');
+    if (!h.startsWith('#') && !h.startsWith('http') && !h.startsWith('/')) {
+      a.setAttribute('href', resolve(h, homeUrl));
+    }
+  });
+  content.querySelectorAll('img[src]').forEach(function (img) {
+    var s = img.getAttribute('src');
+    if (!s.startsWith('http') && !s.startsWith('/')) {
+      img.setAttribute('src', resolve(s, homeUrl));
+    }
+  });
+
+  // Store the original index.md content (now with absolute paths) so "home" links can restore it
+  var homeHTML = content.innerHTML;
+
+  // Highlight the active link
+  function setActive(href) {
+    sidebar.querySelectorAll('a').forEach(function (a) {
+      a.classList.remove('toc-active');
+    });
+    var match = sidebar.querySelector('a[href="' + CSS.escape(href) + '"]') ||
+                sidebar.querySelector('a[href="' + href + '"]');
+    if (match) match.classList.add('toc-active');
+  }
+
+  // Resolve a relative path against a base URL using the browser's URL resolver
+  function resolve(relativePath, baseHref) {
+    var base = new URL(baseHref, window.location.origin);
+    return new URL(relativePath, base).pathname;
+  }
+
+  // Rewrite relative links/images in the content area so they resolve from the source file's location
+  function fixLinks(href) {
+    content.querySelectorAll('a[href]').forEach(function (a) {
+      var h = a.getAttribute('href');
+      if (h.startsWith('#') || h.startsWith('http') || h.startsWith('/')) return;
+      a.setAttribute('href', resolve(h, href));
+    });
+
+    content.querySelectorAll('img[src]').forEach(function (img) {
+      var s = img.getAttribute('src');
+      if (s.startsWith('http') || s.startsWith('/')) return;
+      img.setAttribute('src', resolve(s, href));
+    });
+  }
+
+  // Render fetched markdown into the content area
+  function showMarkdown(md, href) {
+    // Strip front matter (---\n...\n---) if present
+    md = md.replace(/^---[\s\S]*?---\s*/, '');
+    content.innerHTML = marked.parse(md);
+    fixLinks(href);
+    content.scrollTop = 0;
+    window.scrollTo(0, 0);
+    setActive(href);
+  }
+
+  // Handle .md link clicks — works for both sidebar and content area
+  function handleMdClick(e) {
+    var link = e.target.closest('a');
+    if (!link) return;
+
+    var href = link.getAttribute('href');
+
+    // On-page anchors (#abstract, etc.) — let browser handle normally
+    if (href.startsWith('#')) {
+      setActive(href);
+      return;
+    }
+
+    // External / non-.md links — let browser handle normally
+    if (!href.match(/\.md(#.*)?$/)) return;
+
+    e.preventDefault();
+
+    // Fetch the raw .md file and render it
+    fetch(href)
+      .then(function (res) {
+        if (!res.ok) throw new Error(res.status);
+        return res.text();
+      })
+      .then(function (md) {
+        showMarkdown(md, href);
+        history.pushState({ href: href }, '', href);
+      })
+      .catch(function () {
+        // Fallback: navigate normally if fetch fails
+        window.location.href = href;
+      });
+  }
+
+  // Intercept .md link clicks in both sidebar and content area
+  sidebar.addEventListener('click', handleMdClick);
+  content.addEventListener('click', handleMdClick);
+
+  // Handle browser back/forward
+  window.addEventListener('popstate', function (e) {
+    if (e.state && e.state.href) {
+      fetch(e.state.href)
+        .then(function (res) { return res.text(); })
+        .then(function (md) { showMarkdown(md, e.state.href); });
+    } else {
+      // Restore home content
+      content.innerHTML = homeHTML;
+      setActive('#abstract');
+    }
+  });
+})();
+</script>
