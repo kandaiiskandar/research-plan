@@ -102,7 +102,12 @@ Existing evaluations of safety-critical AI architectures compare gated systems a
 No comparative evaluation exists between graduated two-level governance and binary single-level governance. Current baselines compare gated versus ungated only. No evaluation isolates the contribution of Level 2 (advisory scope governance) beyond Level 1 (participation governance).
 
 **Objective (O4):**  
-To evaluate the architecture's safety compliance, decision consistency, and comparative performance against both (a) a binary-gated baseline that implements Level 1 only (participation gate \( G(S) \) with full advisory scope, analogous to shield-based systems in Section 2.2, e.g., Könighofer et al., 2025) and (b) an ungated AI advisory baseline (no governance), using scenario-based testing.
+To evaluate the architecture's safety compliance, decision consistency, and comparative performance against:
+
+- **(a)** a binary-gated baseline that implements Level 1 only (participation gate \( G(S) \) with full advisory scope, analogous to shield-based systems in Section 2.2, e.g., Könighofer et al., 2025)
+- **(b)** an ungated AI advisory baseline (no governance)
+
+using scenario-based testing.
 
 ---
 
