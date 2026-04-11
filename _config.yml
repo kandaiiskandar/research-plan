@@ -1,4 +1,5 @@
 title: "Formal methods for safety-critical machine learning"
-url: "https://kandaiiskandar.github.io"
-baseurl: "/research-plan"
-permalink: /:title/
+url: ""
+baseurl: ""
+repository: "kandaiiskandar/research-plan"
+remote_theme: "pages-themes/primer"
