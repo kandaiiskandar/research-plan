@@ -1,7 +1,3 @@
----
-layout: document
----
-
 # What Kind of Contribution Is This? Characterising the Two-Level Governance Architecture
 
 **Document type**: Theoretical justification / argumentation note  

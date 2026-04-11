@@ -1,7 +1,3 @@
----
-layout: document
----
-
 # Is This Really New? The Case for Novelty
 
 **Document type**: Gap argument / examiner response

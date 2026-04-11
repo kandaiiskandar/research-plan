@@ -1,7 +1,3 @@
----
-layout: document
----
-
 # Viva Preparation: Formalisation and Architecture Defence
 
 **Dissertation**: A Graduated Safety-State-Gated Architecture for AI Decision Support in Low-Resource Environments

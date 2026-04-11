@@ -1,7 +1,3 @@
----
-layout: document
----
-
 # The Binary Governance Gap: External Evidence from Safety Shields, Agent Governance, IoT, and Autonomy Frameworks
 
 **Document type**: Gap evidence synthesis / examiner response

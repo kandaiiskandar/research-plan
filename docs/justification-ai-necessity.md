@@ -1,7 +1,3 @@
----
-layout: document
----
-
 # Why Does This Need AI? Justification for the Necessity of AI in the Architecture
 
 **Document type**: Theoretical justification / argumentation note  

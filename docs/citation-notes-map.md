@@ -1,7 +1,3 @@
----
-layout: document
----
-
 # Citation → Notes File Master Mapping
 
 **Purpose**: Reference lookup for adding `[[notes]](path)` links to justification documents and review plan.  

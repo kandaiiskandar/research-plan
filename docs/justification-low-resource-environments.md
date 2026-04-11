@@ -1,7 +1,3 @@
----
-layout: document
----
-
 # Low-Resource Environments: Definition, Architectural Fit, and Contribution Status
 
 **Document type**: Theoretical justification / argumentation note  

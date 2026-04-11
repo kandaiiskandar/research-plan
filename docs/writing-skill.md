@@ -1,7 +1,3 @@
----
-layout: document
----
-
 # 🧠 Skill: Human-Centered Scientific Writing (Non-AI Style)
 
 ## 1. Purpose
