@@ -1,0 +1,25 @@
+---
+layout: default
+---
+
+<link rel="stylesheet" href="{{ '/assets/css/document.css' | relative_url }}">
+
+<div class="doc-wrapper">
+  <aside class="doc-sidebar">
+    <div class="toc-header">Contents</div>
+    <nav class="toc-nav" id="toc-target"></nav>
+  </aside>
+  <article class="doc-content">
+    {{ content }}
+  </article>
+</div>
+
+<script>
+  (function () {
+    var toc = document.getElementById('markdown-toc');
+    var target = document.getElementById('toc-target');
+    if (toc && target) {
+      target.appendChild(toc);
+    }
+  })();
+</script>

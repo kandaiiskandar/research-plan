@@ -1,6 +1,9 @@
 ---
-title: Hello
-layout: default
+layout: document
+title: Research Plan
 ---
 
-Hello!
+* TOC placeholder
+{:toc}
+
+{% include_relative README.md %}

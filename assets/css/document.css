@@ -1,0 +1,134 @@
+/* Document reader layout */
+
+.doc-wrapper {
+  display: flex;
+  align-items: flex-start;
+  gap: 2rem;
+  max-width: 1100px;
+  margin: 2rem auto;
+  padding: 0 1rem;
+}
+
+/* Sidebar */
+
+.doc-sidebar {
+  width: 220px;
+  flex-shrink: 0;
+  position: sticky;
+  top: 1.5rem;
+  max-height: calc(100vh - 3rem);
+  overflow-y: auto;
+}
+
+.toc-header {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #888;
+  margin-bottom: 0.5rem;
+  padding-bottom: 0.4rem;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.toc-nav #markdown-toc {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.toc-nav #markdown-toc li {
+  margin: 0;
+  padding: 0;
+}
+
+.toc-nav #markdown-toc a {
+  display: block;
+  font-size: 0.8rem;
+  line-height: 1.4;
+  padding: 0.2rem 0;
+  color: #555;
+  text-decoration: none;
+  border-left: 2px solid transparent;
+  padding-left: 0.5rem;
+}
+
+.toc-nav #markdown-toc a:hover {
+  color: #000;
+  border-left-color: #aaa;
+}
+
+/* Nested TOC levels */
+.toc-nav #markdown-toc ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.toc-nav #markdown-toc ul a {
+  padding-left: 1.2rem;
+  font-size: 0.75rem;
+  color: #888;
+}
+
+.toc-nav #markdown-toc ul ul a {
+  padding-left: 2rem;
+}
+
+/* Main content */
+
+.doc-content {
+  flex: 1;
+  min-width: 0;
+  max-width: 720px;
+}
+
+.doc-content h1,
+.doc-content h2,
+.doc-content h3 {
+  margin-top: 2rem;
+}
+
+.doc-content h1:first-child {
+  margin-top: 0;
+}
+
+.doc-content img {
+  max-width: 100%;
+}
+
+.doc-content table {
+  font-size: 0.875rem;
+  border-collapse: collapse;
+  width: 100%;
+  margin: 1rem 0;
+}
+
+.doc-content table th,
+.doc-content table td {
+  border: 1px solid #ddd;
+  padding: 0.4rem 0.6rem;
+  text-align: left;
+}
+
+.doc-content table th {
+  background: #f5f5f5;
+  font-weight: 600;
+}
+
+/* Responsive: stack on narrow screens */
+
+@media (max-width: 700px) {
+  .doc-wrapper {
+    flex-direction: column;
+  }
+
+  .doc-sidebar {
+    width: 100%;
+    position: static;
+    max-height: none;
+    border-bottom: 1px solid #e0e0e0;
+    padding-bottom: 1rem;
+    margin-bottom: 1rem;
+  }
+}
