@@ -1,3 +1,8 @@
-title: "Formal methods for safety-critical machine learning"
-repository: "kandaiiskandar/research-plan"
-remote_theme: "pages-themes/primer"
+title: "Formal methods for safety critical machine learning"
+remote_theme: pages-themes/primer
+url: "https://kandaiiskandar.github.io"
+baseurl: "/research-plan"
+
+# Adding this forces Jekyll to ignore problematic relative link parsing
+jekyll-relative-links:
+  enabled: false
