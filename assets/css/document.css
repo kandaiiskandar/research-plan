@@ -1,4 +1,66 @@
-/* Document reader layout */
+/* Document reader layout — sidebar + content */
+
+.doc-wrapper {
+  display: flex;
+  gap: 2rem;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+/* Sidebar */
+
+.doc-sidebar {
+  width: 230px;
+  min-width: 230px;
+  position: sticky;
+  top: 1rem;
+  align-self: flex-start;
+  max-height: calc(100vh - 2rem);
+  overflow-y: auto;
+  padding-right: 1.5rem;
+  border-right: 1px solid #e0e0e0;
+}
+
+.toc-nav h4 {
+  margin: 1.2rem 0 0.3rem 0;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #6a737d;
+  font-weight: 600;
+}
+
+.toc-nav h4:first-child {
+  margin-top: 0;
+}
+
+.toc-nav ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.toc-nav ul ul {
+  padding-left: 0.8rem;
+}
+
+.toc-nav li {
+  margin: 0.1rem 0;
+}
+
+.toc-nav a {
+  color: #24292e;
+  text-decoration: none;
+  font-size: 0.82rem;
+  line-height: 1.5;
+  display: block;
+  padding: 0.1rem 0;
+}
+
+.toc-nav a:hover {
+  color: #0366d6;
+}
 
 /* Main content */
 
@@ -50,9 +112,12 @@
 
   .doc-sidebar {
     width: 100%;
+    min-width: 100%;
     position: static;
     max-height: none;
+    border-right: none;
     border-bottom: 1px solid #e0e0e0;
+    padding-right: 0;
     padding-bottom: 1rem;
     margin-bottom: 1rem;
   }

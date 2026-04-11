@@ -4,6 +4,12 @@ layout: default
 
 <link rel="stylesheet" href="{{ '/assets/css/document.css' | relative_url }}">
 
-<article class="doc-content">
-  {{ content }}
-</article>
+<div class="doc-wrapper">
+  <aside class="doc-sidebar">
+    {% include toc.html %}
+  </aside>
+
+  <article class="doc-content">
+    {{ content }}
+  </article>
+</div>
