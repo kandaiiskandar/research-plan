@@ -1,6 +1,5 @@
 title: Formal methods for safety critical machine learning
-remote_theme: pages-themes/primer
-url: "https://kandaiiskandar.github.io"
+url: ""
 baseurl: "/research-plan"
 
 markdown: kramdown
