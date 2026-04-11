@@ -82,7 +82,7 @@ The conditioning variable S = f(E) requires six environmental parameters. Every 
 | Rainfall (r) | Visual observation (none/light/moderate/heavy) | Rain gauge, weather radar |
 | Marine warnings (m) | Radio broadcast; SMS alert from maritime authority | API integration with weather service |
 | Ocean state (o) | Visual wave height estimation (Douglas scale); swell observation | Wave buoy, satellite altimetry |
-| Vessel condition (v) | Pre-departure visual inspection checklist | IoT sensor instrumentation |
+| Vessel category (v) | Vessel registration, physical measurement | IoT sensor instrumentation |
 | Time of day (t) | Clock (24-hour) | GPS with astronomical computation |
 
 The governance layer does not require calibrated instruments, continuous data streams, or real-time API access. It can operate on qualitative assessments — the same assessments fishers already make before every trip. Gao (2024) [[notes]](../notes/Mapping%20the%20decision-making%20factors%20of%20small-scale%20fishers-%20a%20case%20study%20of%20Penang.md) documents that fishers assess tide (4.55/5 importance), weather (3.75/5), and safety (3.40/5) as part of their daily decision-making. The governance layer formalises these existing assessments, not replaces them with technology-dependent measurements.

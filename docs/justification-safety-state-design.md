@@ -50,7 +50,7 @@ The boundary between safety states is defined by the deterministic classificatio
 | Rainfall | r | Precipitation intensity (mm/hr) or categorical |
 | Marine warnings | m | Official maritime authority warnings (categorical) |
 | Ocean state | o | Wave height (m), swell period (s) |
-| Vessel condition | v | Vessel operational readiness (categorical) |
+| Vessel category | v | Vessel category {small, medium, big} |
 | Time of day | t | Hour of day (24-hour clock) |
 
 ### 2.2 Threshold-Based Classification
@@ -73,7 +73,7 @@ The SAFE–CAUTION boundary marks the transition from full AI advisory scope to 
 | Wave height (o) | < 1.0 m | 1.0–2.0 m | > 2.0 m |
 | Rainfall (r) | None/light | Moderate | Heavy/storm |
 | Marine warnings (m) | None | Advisory | Warning/alert |
-| Vessel condition (v) | Good | Minor issues | Major deficiency |
+| Vessel category (v) | Big | Medium | Small |
 | Time of day (t) | 06:00–17:00 | 17:00–19:00 | 19:00–06:00 |
 
 These specific values are parameters of the architecture, not structural features. The architecture's formal properties (containment, Safety Dominance) hold for *any* valid threshold assignment. The thresholds themselves are calibrated through domain expertise and validated empirically.
@@ -210,7 +210,7 @@ Environmental conditions in coastal fisheries change at a physical timescale:
 - **Rainfall**: changes over minutes (squalls) to hours (sustained precipitation)
 - **Marine warnings**: updated on hour-to-day timescales by maritime authorities
 - **Visibility**: changes over minutes (fog, rain squalls) to hours
-- **Vessel condition**: changes on day-to-trip timescales (unless in-trip damage occurs)
+- **Vessel category**: fixed per vessel (does not change during a trip)
 
 The governance mode changes at the environmental timescale — typically hours, occasionally minutes. This is fundamentally different from AI-confidence-based governance, which would change with every inference cycle (seconds or faster). Environmental-state governance provides stable governance periods aligned with actual operational decisions.
 
@@ -243,7 +243,7 @@ The safety state is determined from E = {w, r, m, o, v, t} — six observable en
 | Rainfall (r) | Rain gauge, weather radar, visual observation | Fully independent — physical sensor |
 | Marine warnings (m) | Maritime authority broadcasts, weather service API | Fully independent — institutional source |
 | Ocean state (o) | Wave buoy, visual observation, satellite altimetry | Fully independent — physical sensor |
-| Vessel condition (v) | Pre-departure checklist, maintenance records | Fully independent — operator assessment |
+| Vessel category (v) | Vessel registration, physical measurement | Fully independent — fixed vessel attribute |
 | Time of day (t) | Clock (24-hour) | Fully independent — deterministic |
 
 ### 7.2 Why These Six Parameters
