@@ -1,3 +1,7 @@
+---
+layout: document
+---
+
 # Chapter 2: Literature Review — Writing Plan
 
 **Dissertation**: A Graduated Safety-State-Gated Architecture for AI Decision Support in Low-Resource Environments  

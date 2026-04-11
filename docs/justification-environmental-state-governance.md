@@ -1,3 +1,7 @@
+---
+layout: document
+---
+
 # Why Environmental Safety State? Justification for Environment-Driven Governance
 
 **Document type**: Theoretical justification / argumentation note  

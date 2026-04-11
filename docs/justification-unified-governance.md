@@ -1,3 +1,7 @@
+---
+layout: document
+---
+
 # Why Unified? Justification for the Two-Level Governance Pair
 
 **Document type**: Theoretical justification / argumentation note  

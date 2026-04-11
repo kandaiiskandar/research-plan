@@ -1,3 +1,7 @@
+---
+layout: document
+---
+
 # Paper Tracker
 
 **Last updated**: 2026-04-11

@@ -1,3 +1,7 @@
+---
+layout: document
+---
+
 # Literature Search Methodology
 
 **Dissertation**: A Graduated Safety-State-Gated Architecture for AI Decision Support in Low-Resource Environments: Design and Socio-Technical Evaluation in Coastal Fisheries

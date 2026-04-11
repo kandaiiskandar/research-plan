@@ -1,3 +1,7 @@
+---
+layout: document
+---
+
 # Appendix C: Mathematical Formalisation of the Graduated Safety-State-Gated Architecture
 
 ## C.1 Environmental State Representation

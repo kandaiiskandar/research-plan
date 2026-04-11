@@ -1,3 +1,7 @@
+---
+layout: document
+---
+
 # Architecture Comparison Table
 
 **For**: Chapter 2 — Literature Review

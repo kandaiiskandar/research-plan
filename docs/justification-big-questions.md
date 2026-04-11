@@ -1,3 +1,7 @@
+---
+layout: document
+---
+
 # The Big Questions: Core Viva Defence Preparation
 
 **Document type**: Viva preparation — concise, high-impact answers  

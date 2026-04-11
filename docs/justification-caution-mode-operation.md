@@ -1,3 +1,7 @@
+---
+layout: document
+---
+
 # How Does CAUTION Work? Operational Design, Scope Definition, and Human Factors
 
 **Document type**: Theoretical justification / argumentation note  

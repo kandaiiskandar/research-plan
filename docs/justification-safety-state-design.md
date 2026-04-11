@@ -1,3 +1,7 @@
+---
+layout: document
+---
+
 # Safety State Design Details: Naming, Boundaries, Thresholds, Dynamics, and Misclassification
 
 **Document type**: Theoretical justification / argumentation note  

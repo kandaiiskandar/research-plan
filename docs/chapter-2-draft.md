@@ -1,3 +1,7 @@
+---
+layout: document
+---
+
 # Chapter 2: Literature Review
 
 ## 2.1 AI Decision Support in Safety-Critical Systems

@@ -1,3 +1,7 @@
+---
+layout: document
+---
+
 # Why Three States? Justification for SAFE / CAUTION / UNSAFE
 
 **Document type**: Theoretical justification

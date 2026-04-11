@@ -1,3 +1,7 @@
+---
+layout: document
+---
+
 # Literature Review Plan
 
 **Date**: 2026-04-11

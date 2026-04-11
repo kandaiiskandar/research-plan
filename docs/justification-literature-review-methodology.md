@@ -1,3 +1,7 @@
+---
+layout: document
+---
+
 # Defending the Literature Review: Comprehensiveness, Comparison Methodology, Fairness, and Novelty
 
 **Document type**: Theoretical justification / argumentation note  

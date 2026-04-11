@@ -1,3 +1,7 @@
+---
+layout: document
+---
+
 # Why Advisory Scope Restriction? Justification for the CAUTION Mode
 
 **Document type**: Theoretical justification / argumentation note  

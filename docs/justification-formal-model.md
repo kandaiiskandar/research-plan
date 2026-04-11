@@ -1,3 +1,7 @@
+---
+layout: document
+---
+
 # The Formal Model: Definitions, Properties, Assumptions, and Limitations
 
 **Document type**: Theoretical justification / argumentation note  

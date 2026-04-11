@@ -1,3 +1,7 @@
+---
+layout: document
+---
+
 # Architecture Illustration: Graduated Safety-State-Gated Hybrid AI Decision Architecture
 
 This document illustrates the proposed two-level governance architecture through diagrams, tables, and a worked scenario. All formal definitions are canonical in [`appendix-c-formalisation.md`](appendix-c-formalisation.md).

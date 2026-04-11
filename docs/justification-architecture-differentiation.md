@@ -1,3 +1,7 @@
+---
+layout: document
+---
+
 # What Makes This Different? Differentiating the Two-Level Governance Architecture
 
 **Document type**: Theoretical justification / argumentation note  

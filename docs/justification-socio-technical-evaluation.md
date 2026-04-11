@@ -1,3 +1,7 @@
+---
+layout: document
+---
+
 # How Will You Evaluate This Socio-Technically? Trust, Usability, Decision Quality, and Field Study Design
 
 **Document type**: Theoretical justification / argumentation note  
