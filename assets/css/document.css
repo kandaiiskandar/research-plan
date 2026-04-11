@@ -31,48 +31,42 @@
   border-bottom: 1px solid #e0e0e0;
 }
 
-.toc-nav #markdown-toc {
+.toc-nav ul {
   list-style: none;
   margin: 0;
   padding: 0;
 }
 
-.toc-nav #markdown-toc li {
+.toc-nav li {
   margin: 0;
   padding: 0;
 }
 
-.toc-nav #markdown-toc a {
+.toc-nav a {
   display: block;
   font-size: 0.8rem;
   line-height: 1.4;
-  padding: 0.2rem 0;
+  padding: 0.2rem 0.5rem;
   color: #555;
   text-decoration: none;
   border-left: 2px solid transparent;
-  padding-left: 0.5rem;
 }
 
-.toc-nav #markdown-toc a:hover {
+.toc-nav a:hover {
   color: #000;
   border-left-color: #aaa;
 }
 
-/* Nested TOC levels */
-.toc-nav #markdown-toc ul {
-  list-style: none;
+/* Nested items (PS1–PS5) */
+.toc-nav ul ul {
   margin: 0;
   padding: 0;
 }
 
-.toc-nav #markdown-toc ul a {
+.toc-nav ul ul a {
   padding-left: 1.2rem;
   font-size: 0.75rem;
   color: #888;
-}
-
-.toc-nav #markdown-toc ul ul a {
-  padding-left: 2rem;
 }
 
 /* Main content */
