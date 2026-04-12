@@ -9,19 +9,19 @@
 | Formal Component | Appendix C Section | Architecture Diagram Element | Alignment Table Reference |
 |---|---|---|---|
 | E = {w, r, m, o, v, t} where:<br>w = wind condition (speed/strength)<br>r = rainfall intensity<br>m = sea state (wave height/swell)<br>o = official marine warning level (e.g., no warning, caution, danger)<br>v = vessel category (small, medium, big)<br>t = time of day (hour, 24-hour clock) | C.1 Environmental State Representation | L1 box: "Environmental data input" with subtitle "E = {w, r, m, o, v, t}" | PS2 gap: environmental state vector mapped to safety states; O2: formally define E |
-| S = f(E) | C.2 Safety State Classification Function | L2 box: "Safety state classification" with subtitle "S = f(E)" | PS2 gap: no architecture classifies environmental conditions into discrete safety states; O2: formally define S = f(E) |
+| S = f(E) | C.2 Safety State Classification Function | L2 box: "Safety Classification & Aggregation" with subtitle "S = f(E) (max-severity)" | PS2 gap: no architecture classifies environmental conditions into discrete safety states; O2: formally define S = f(E) |
 | S ∈ {SAFE, CAUTION, UNSAFE} | C.2 Classification output | Three state boxes: SAFE (green), CAUTION (amber), UNSAFE (red) | PS1: graduated AI participation — enabled, restricted, disabled; O1: three-mode architecture |
-| G(S) | C.3 AI Participation Gate Function | Level 1 dashed container: G(S) = 1, G(S) = 1, G(S) = 0 per state | PS1 gap: existing architectures implement binary governance; O2: formally define G(S) |
-| R = {Go, Delay, DepartureTime, Duration} | C.4 Recommendation type set | Implicit in A_AI box subtitles: "Go, delay, timing, duration" | PS3 gap: domain-specific operationalisation for fisheries; O2: domain-specific operationalisation of safety thresholds |
-| A_AI(SAFE) = {Go, Delay, DepartureTime, Duration} | C.4 AI-Admissible Recommendation Space | Level 2 green box: "A_AI(SAFE)" / "Go, delay, timing, duration" | O2: formally define A_AI(S); O1: full advisory scope in SAFE |
+| G(S) | C.3 AI Participation Gate Function | Control Gate Level 1: PARTICIPATION boxes: G(S) = 1 (enabled), G(S) = 1 (restricted), G(S) = 0 (disabled) per state | PS1 gap: existing architectures implement binary governance; O2: formally define G(S) |
+| R = {Go, Delay, DepartureTime, Duration} | C.4 Recommendation type set | Implicit in A_AI box subtitles: "{Go, Delay, DepartureTime, Duration}" | PS3 gap: domain-specific operationalisation for fisheries; O2: domain-specific operationalisation of safety thresholds |
+| A_AI(SAFE) = {Go, Delay, DepartureTime, Duration} | C.4 AI-Admissible Recommendation Space | Level 2 green box: "A_AI(SAFE)" / "{Go, Delay, DepartureTime, Duration}" | O2: formally define A_AI(S); O1: full advisory scope in SAFE |
 | A_AI(CAUTION) = {Go, Delay} | C.4 AI-Admissible Recommendation Space | Level 2 amber box: "A_AI(CAUTION)" / "Go, delay" | O1: restricted advisory scope in CAUTION; O5: particular attention to CAUTION state |
 | A_AI(UNSAFE) = ∅ | C.4 AI-Admissible Recommendation Space | Level 2 red box: "A_AI(UNSAFE)" / "= ∅" | O1: AI disabled in UNSAFE; O4: safety compliance evaluation |
-| A_AI(SAFE) ⊃ A_AI(CAUTION) ⊃ A_AI(UNSAFE) = ∅ | C.4 Containment relationship | Diagram legend below Level 2 boxes | O2: formally define A_AI(S) with the property A_AI(SAFE) ⊃ A_AI(CAUTION) ⊃ A_AI(UNSAFE) = ∅ |
-| Two-level governance: (G(S), A_AI(S)) | C.5 Two-Level Governance Structure | Two dashed containers labelled "Level 1: G(S)" and "Level 2: A_AI(S)" | PS1 gap: no intermediate participation mode; core contribution in all five objectives |
+| A_AI(SAFE) ⊃ A_AI(CAUTION) ⊃ A_AI(UNSAFE) = ∅ | C.4 Containment relationship | Diagram footer: "Property 2: Restriction (A_AI(CAUTION) ⊂ A_AI(SAFE))" | O2: formally define A_AI(S) with the property A_AI(SAFE) ⊃ A_AI(CAUTION) ⊃ A_AI(UNSAFE) = ∅ |
+| Two-level governance: (G(S), A_AI(S)) | C.5 Two-Level Governance Structure | "Control Gate Level 1: PARTICIPATION" and "Level 2: ADVISORY SCOPE" box pairs per state | PS1 gap: no intermediate participation mode; core contribution in all five objectives |
 | Participation constraint: G(S) = 0 ⇒ A_AI(S) = ∅ | C.6 Governance Constraints | UNSAFE column: G(S) = 0 (Level 1) → A_AI(UNSAFE) = ∅ (Level 2) | O4: safety compliance evaluation metric |
 | Advisory restriction: A_AI(CAUTION) ⊂ A_AI(SAFE) | C.6 Governance Constraints | CAUTION column drops DepartureTime, Duration relative to SAFE column | O4: comparative performance — does CAUTION restriction add value; O5: user response to restricted AI |
-| Safety Dominance: AI(E) ⊆ A_AI(S) | C.7 Safety Dominance Property | Pipeline footer: E → S = f(E) → (G(S), A_AI(S)) → AI(E) | O4: does the system ever produce recommendations outside admissible space |
-| Human decision authority | Architectural principle (not formalised) | L4 box: "Human decision layer" / "Final decision authority" | O5: user trust, understanding, decision behaviour |
+| Safety Dominance: AI(E) ⊆ A_AI(S) | C.7 Safety Dominance Property | Diagram footer: "AI(E) ⊂ A_AI(S) (Safety Dominance Property)" | O4: does the system ever produce recommendations outside admissible space |
+| Human decision authority | Architectural principle (not formalised) | L4 box: "Human Decision Layer" / "Fisher / Operator (Final Decision Authority)" | O5: user trust, understanding, decision behaviour |
 | Pipeline: E → S = f(E) → (G(S), A_AI(S)) → AI(E) | C.5 page 6 summary | Diagram footer text | Contribution statement in alignment table traceability notes |
 
 ---
@@ -58,10 +58,10 @@
 | Every research objective maps to specific diagram elements | ✓ Verified in Table 2 |
 | Every problem statement traces through a gap to an architectural response | ✓ Verified in Table 3 |
 | A_AI notation is consistent across formalisation and diagram | ✓ Both use A_AI(S) |
-| Recommendation types match between C.4 and diagram subtitles | ✓ R = {Go, Delay, DepartureTime, Duration} maps to "Go, delay, timing, duration" |
+| Recommendation types match between C.4 and diagram subtitles | ✓ R = {Go, Delay, DepartureTime, Duration} matches diagram "{Go, Delay, DepartureTime, Duration}" |
 | Containment property stated identically in C.4 and diagram legend | ✓ A_AI(SAFE) ⊃ A_AI(CAUTION) ⊃ A_AI(UNSAFE) = ∅ |
-| Two-level governance labelled in both C.5 and diagram | ✓ Dashed containers: Level 1: G(S), Level 2: A_AI(S) |
-| Pipeline expression matches between C.5 and diagram footer | ✓ E → S = f(E) → (G(S), A_AI(S)) → AI(E) |
+| Two-level governance labelled in both C.5 and diagram | ✓ Control Gate Level 1: PARTICIPATION and Level 2: ADVISORY SCOPE |
+| Pipeline expression matches between C.5 and diagram footer | ✓ Diagram footer: "AI(E) ⊂ A_AI(S) (Safety Dominance Property)" plus three stated properties |
 | GoWithCaution does NOT appear anywhere | ✓ Removed from formalisation and diagram |
 | No objective can be satisfied by a binary gate | ✓ Verified in Table 2 final column |
 | A_H(S) does NOT appear anywhere | ✓ Correctly excluded from formalisation and diagram |
