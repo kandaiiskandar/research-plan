@@ -77,9 +77,33 @@ layout: default
     // Strip front matter (---\n...\n---) if present
     md = md.replace(/^---[\s\S]*?---\s*/, '');
     content.innerHTML = marked.parse(md);
+
+    // marked.js v12 removed headerIds — generate them to match old behaviour
+    content.querySelectorAll('h1, h2, h3, h4, h5, h6').forEach(function (h) {
+      if (!h.id) {
+        h.id = h.textContent.toLowerCase()
+          .replace(/[^\w]+/g, '-')
+          .replace(/^-+|-+$/, '');
+      }
+    });
+
     fixLinks(href);
-    content.scrollTop = 0;
-    window.scrollTo(0, 0);
+
+    // Scroll to fragment anchor if present, otherwise scroll to top
+    var fragment = href.split('#')[1];
+    if (fragment) {
+      var target = document.getElementById(fragment);
+      if (target) {
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      } else {
+        content.scrollTop = 0;
+        window.scrollTo(0, 0);
+      }
+    } else {
+      content.scrollTop = 0;
+      window.scrollTo(0, 0);
+    }
+
     setActive(href);
   }
 
@@ -101,8 +125,9 @@ layout: default
 
     e.preventDefault();
 
-    // Fetch the raw .md file and render it
-    fetch(href)
+    // Fetch the raw .md file (strip fragment from fetch URL) and render it
+    var fetchUrl = href.split('#')[0];
+    fetch(fetchUrl)
       .then(function (res) {
         if (!res.ok) throw new Error(res.status);
         return res.text();

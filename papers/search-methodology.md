@@ -1,9 +1,9 @@
 # Literature Search Methodology
 
-**Dissertation**: A Graduated Safety-State-Gated Architecture for AI Decision Support in Low-Resource Environments: Design and Socio-Technical Evaluation in Coastal Fisheries
-**Candidate**: Iskandar
-**Date of last search**: 2026 (latest paper year found in corpus)
-**Total papers included**: 66
+**Dissertation**: A Graduated Safety-State-Gated Architecture for AI Decision Support in Low-Resource Environments: Design and Socio-Technical Evaluation in Coastal Fisheries 
+**Candidate**: Iskandar 
+**Date of last search**: 2026 (latest paper year found in corpus) 
+**Total papers included**: 75 
 
 ---
 
@@ -49,24 +49,25 @@ Keywords: "trust in automation", "trust calibration", "trust in AI", "levels of 
 
 The primary search was conducted via **Scopus**, which provided cross-database access to IEEE, ACM, Elsevier, Springer, Taylor & Francis, and other indexed publishers. arXiv was searched directly for preprints in the AI safety and governance space. Additional papers were identified through backward snowball sampling and expert recommendation (see Section 7).
 
-The table below shows the publisher/database breakdown of the 58 included papers, reflecting the range of sources indexed within Scopus and accessed directly.
+The table below shows the publisher/database breakdown of the 75 included papers, reflecting the range of sources indexed within Scopus and accessed directly.
 
 | Database / Publisher | Papers in Set | Venues Represented |
 |---|---|---|
-| **Scopus** (primary search interface) | 55 | Cross-database aggregator — primary corpus papers indexed or accessible via Scopus |
-| *of which* **IEEE Xplore** | 9 | IEEE IECON 2024, IEEE/ACM ICSE '26, 28th Euromicro DSD (IEEE), IEEE Comms Standards Magazine, IEEE T-ITS (×2), IEEE ICSA 2025, IEEE Trans. Neural Networks & Learning Systems, IEEE Trans. Technology and Society |
+| **Scopus** (primary search interface) | 66 | Cross-database aggregator — primary corpus papers indexed or accessible via Scopus |
+| *of which* **IEEE Xplore** | 11 | IEEE IECON 2024, IEEE/ACM ICSE '26, 28th Euromicro DSD (IEEE), IEEE Comms Standards Magazine, IEEE T-ITS (×2), IEEE ICSA 2025, IEEE Trans. Neural Networks & Learning Systems, IEEE Trans. Technology and Society, IEEE Access Vol. 12 (Bach, Kristiansen et al.), IEEE/SICE SII 2023 (Odriozola-Olalde et al.), IEEE PRDC 2025 (Seong, Lim & Yoon) |
 | *of which* **ACM Digital Library** | 6 | Communications of the ACM, ACM Computing Surveys (×2), ACM Transactions on Autonomous and Adaptive Systems, Journal of the ACM, ACM Web Conference 2025 (WWW Companion) |
 | *of which* **Elsevier / ScienceDirect** | 12 | Intelligence-Based Medicine, iScience (Cell Press), Machine Learning with Applications, SoftwareX, Information Fusion, Results in Engineering, Journal of Loss Prevention in the Process Industries, Computers in Human Behavior: Artificial Humans, One Earth (Cell Press), Procedia CIRP, Marine Policy, Aquacultural Engineering (Chandran et al.) |
 | *of which* **MDPI / Frontiers** | 13 | Buildings, Information (×2), Electronics, AI, Big Data and Cognitive Computing, Informatics, Frontiers in Marine Science (×2), Frontiers in Sustainable Food Systems, Frontiers in Artificial Intelligence (×2), Frontiers in Internet of Things (Ogenyi et al.) |
-| *of which* **Springer / SpringerLink** | 3 | Journal of Marine Science and Technology, Annals of Mathematics and Artificial Intelligence, EURO Journal on Decision Processes |
-| *of which* **Taylor & Francis** | 4 | International Journal of Human–Computer Interaction, Reviews in Fisheries Science & Aquaculture, Journal of Decision Systems, Behaviour & Information Technology |
+| *of which* **Springer / SpringerLink** | 4 | Journal of Marine Science and Technology, Annals of Mathematics and Artificial Intelligence, EURO Journal on Decision Processes, Scientific Reports (Zhang et al.) |
+| *of which* **Taylor & Francis** | 5 | International Journal of Human–Computer Interaction (×2), Reviews in Fisheries Science & Aquaculture, Journal of Decision Systems, Behaviour & Information Technology |
 | *of which* **Wiley / Oxford** | 2 | ICES Journal of Marine Science (Oxford UP), Journal of International Maritime Safety, Environmental Affairs, and Shipping |
-| *of which* **Other / Specialist** | 6 | International AI Safety Report 2026 (UK DSIT), Security and Safety (EDP Sciences), Environmental Science Archives (Zenodo), UNSW Law Journal, Journal of Marine and Island Cultures, Pakistan Journal of Life and Social Sciences |
-| **arXiv** (searched directly) | 7 | Bajcsy/Fisac, Dalrymple et al., Baxi, Bloomfield/Rushby, Pitale et al. (HySAFE-AI), Feng et al. (Levels of Autonomy), Kwon et al. (Adaptive Shielding) |
+| *of which* **Other / Specialist** | 13 | International AI Safety Report 2026 (UK DSIT), Security and Safety (EDP Sciences), Environmental Science Archives (Zenodo), UNSW Law Journal, Journal of Marine and Island Cultures, Pakistan Journal of Life and Social Sciences, AAAI-25 (Hamel-De le Court et al.), OWASP Foundation (Agentic Top 10), The Science World e-Magazine (Tandel et al.), Science/AAAS (Bengio, Hinton et al.), ICML 2025/PMLR (×2: SHIELDAGENT, CRANE), Korean J. Remote Sensing (Ryu & Han) |
+| **arXiv** (searched directly) | 8 | Bajcsy/Fisac, Dalrymple et al., Baxi, Bloomfield/Rushby, Pitale et al. (HySAFE-AI), Corsi et al. (Verification-Guided Shielding), Feng et al. (Levels of Autonomy), Kwon et al. (Adaptive Shielding) |
 | **Institutional repositories** | 1 | M.Sc. thesis — Gao (2024), WorldFish/CGIAR open repository |
-| **External evidence phase** | 8 | Papers added in targeted third phase to strengthen novelty gap evidence (see Section 6, Stage 4) — AAAI (Hamel-De le Court), arXiv (Kwon, Feng), Scientific Reports/Springer Nature (Zhang), Aquacultural Engineering/Elsevier (Chandran), Frontiers in Internet of Things (Ogenyi), OWASP Foundation (OWASP Agentic Top 10), The Science World e-Magazine (Tandel) |
+| **External evidence phase** | 8 | Papers added in targeted fifth phase to strengthen novelty gap evidence (see Section 6, Stage 6) — AAAI (Hamel-De le Court), arXiv (Kwon, Feng), Scientific Reports/Springer Nature (Zhang), Aquacultural Engineering/Elsevier (Chandran), Frontiers in Internet of Things (Ogenyi), OWASP Foundation (OWASP Agentic Top 10), The Science World e-Magazine (Tandel) |
+| **Governance comparators and domain evidence phase** | 9 | Papers added in targeted fourth phase (see Section 6, Stage 5) — IEEE Access (Bach, Kristiansen et al.), Science/AAAS (Bengio, Hinton et al.), arXiv (Corsi et al.), ICML/PMLR (SHIELDAGENT; CRANE), IEEE/SICE SII (Odriozola-Olalde et al.), IEEE PRDC (Seong, Lim & Yoon), IJHCI/T&F (Tatasciore & Loft), Korean J. Remote Sensing (Ryu & Han) |
 
-**Note**: Several papers appear in multiple discovery paths (e.g., arXiv preprints later published in ACM CS). The table groups by primary publisher/access route. Scopus was the entry point for Strands 1–3 (safety governance, formal methods, fisheries/low-resource AI). arXiv was searched directly for Strand 2 (formal methods) given the pace of preprint publication in AI safety. Taylor & Francis papers in Strand 4 (trust and evaluation) were accessed via Scopus or targeted hand-search following examiner recommendation. The 8 external evidence papers (papers 68–75 in the tracker) were added in a targeted third phase to extend gap validation across safety shields, agent governance, IoT+AI, and autonomy frameworks — see Section 6, Stage 4.
+**Note**: Several papers appear in multiple discovery paths (e.g., arXiv preprints later published in ACM CS). The table groups by primary publisher/access route. Scopus was the entry point for Strands 1–3 (safety governance, formal methods, fisheries/low-resource AI). arXiv was searched directly for Strand 2 (formal methods) given the pace of preprint publication in AI safety. Taylor & Francis papers in Strand 4 (trust and evaluation) were accessed via Scopus or targeted hand-search following examiner recommendation. The 9 governance comparator and domain evidence papers (papers 59–67) were added in a targeted fourth phase — see Section 6, Stage 5. The 8 external evidence papers (papers 68–75 in the tracker) were added in a targeted fifth phase to extend gap validation across safety shields, agent governance, IoT+AI, and autonomy frameworks — see Section 6, Stage 6. The "External evidence phase" and "Governance comparators and domain evidence phase" rows are informational callouts; all 75 papers are counted within the Scopus, arXiv, and institutional rows above.
 
 ---
 
@@ -127,14 +128,32 @@ Six additional papers (papers 50–55 in the tracker) were added in a targeted s
 | Methodological foundation (targeted extraction) | n = 6 |
 | **Total included** | **n = 55** |
 
-**Stage 4 — External Evidence Phase (third pass)**
+**Stage 4 — Domain Supplement Phase (third pass)**
 
-Eight additional papers (papers 68–75 in the tracker) were added in a targeted third phase to extend and validate the binary governance gap across four domains not fully covered in the primary corpus: safety shields (Hamel-De le Court et al. 2025, Kwon et al. 2025), agent governance frameworks (Feng et al. 2025, OWASP 2025), IoT+AI systems (Zhang et al. 2025, Ogenyi et al. 2025), and aquaculture/fisheries IoT (Chandran et al. 2025, Tandel et al. 2025). These papers were identified through targeted searches of arXiv, Google Scholar, Elsevier, Frontiers, and OWASP to test the novelty claim against the widest possible evidence base.
+Three domain-grounding papers (papers 56–58 in the tracker) were added in a targeted third pass to strengthen the empirical context for the target domain: Shaffril et al. (2017) for historical baseline of Malaysian SSF environmental adaptation, Yamin et al. (2025) as the primary empirical study for Terengganu SSF, and Muhamad et al. (2024) for productivity factor validation in Malaysian SSF.
+
+| Extraction level | Papers |
+|---|---|
+| Domain supplement (targeted extraction) | n = 3 |
+| **Total included** | **n = 58** |
+
+**Stage 5 — Governance Comparators and Domain Evidence Phase (fourth pass)**
+
+Nine papers (papers 59–67 in the tracker) were added in a targeted fourth pass to deepen the comparator set and domain evidence base across five groups: (i) HAII and policy context — Bach, Kristiansen et al. (2024) [SLR of HAII in safety-critical industries, IEEE Access] and Bengio, Hinton et al. (2024) [Science policy perspective on graduated institutional governance]; (ii) shielded RL comparators — Corsi et al. (2024) [region-selective verification-guided shielding, arXiv] and Odriozola-Olalde et al. (2023) [shielded RL taxonomy, IEEE/SICE SII]; (iii) action suppression comparators — Chen, Kang & Li (2025) [SHIELDAGENT, ICML] and Seong, Lim & Yoon (2025) [CLGuard semantic suppression, IEEE PRDC]; (iv) trust methodology — Tatasciore & Loft (2025) [empirical evidence that corrective trust feedback fails, IJHCI]; and (v) formal theoretical motivation and maritime domain evidence — Banerjee et al. (2025) [CRANE formal proof that binary output constraints reduce LLM expressivity, ICML] and Ryu & Han (2025) [maritime environmental conditions as first-order determinants of sensor reliability, Korean J. Remote Sensing].
+
+| Extraction level | Papers |
+|---|---|
+| Governance comparators and domain evidence (targeted) | n = 9 |
+| **Total included** | **n = 67** |
+
+**Stage 6 — External Evidence Phase (fifth pass)**
+
+Eight additional papers (papers 68–75 in the tracker) were added in a targeted fifth phase to extend and validate the binary governance gap across four domains not fully covered in the primary corpus: safety shields (Hamel-De le Court et al. 2025, Kwon et al. 2025), agent governance frameworks (Feng et al. 2025, OWASP 2025), IoT+AI systems (Zhang et al. 2025, Ogenyi et al. 2025), and aquaculture/fisheries IoT (Chandran et al. 2025, Tandel et al. 2025). These papers were identified through targeted searches of arXiv, Google Scholar, Elsevier, Frontiers, and OWASP to test the novelty claim against the widest possible evidence base.
 
 | Extraction level | Papers |
 |---|---|
 | External evidence (gap validation) | n = 8 |
-| **Total included** | **n = 63** |
+| **Total included** | **n = 75** |
 
 This review followed a semi-systematic search protocol. Exact counts at identification and screening stages are estimated retrospectively; future updates should record these prospectively.
 
@@ -190,6 +209,12 @@ The six methodological foundation papers (Bach et al. 2024; McGrath et al. 2025 
 ║  Records added via expert/examiner recommendation                ║
 ║    (n = 6 — methodological foundation papers 50–55)              ║
 ║                                                                  ║
+║  Records added via domain supplement phase                       ║
+║    (n = 3 — domain-grounding papers 56–58)                       ║
+║                                                                  ║
+║  Records added via governance comparators phase                  ║
+║    (n = 9 — comparator and evidence papers 59–67)                ║
+║                                                                  ║
 ║  Records added via external evidence phase                       ║
 ║    (n = 8 — gap validation papers 68–75)                         ║
 ╠══════════════════════════════════════════════════════════════════╣
@@ -212,21 +237,23 @@ The six methodological foundation papers (Bach et al. 2024; McGrath et al. 2025 
 ╠══════════════════════════════════════════════════════════════════╣
 ║                           INCLUDED                               ║
 ╠══════════════════════════════════════════════════════════════════╣
-║  Studies included in review (n = 63)                             ║
+║  Studies included in review (n = 75)                             ║
 ║       ├─ Full extraction (17 sections): n = 25                   ║
 ║       ├─ Reduced extraction (7 sections): n = 24                 ║
 ║       ├─ Methodological foundation (targeted): n = 6             ║
+║       ├─ Domain supplement (targeted): n = 3                     ║
+║       ├─ Governance comparators and domain evidence: n = 9       ║
 ║       └─ External evidence (gap validation): n = 8               ║
 ╚══════════════════════════════════════════════════════════════════╝
 ```
 
-*Note: Counts marked "estimated" were not recorded prospectively during the search. Exact pre-screening counts should be confirmed if this review is updated or submitted for formal audit. The endpoint counts — 63 included, 25 full, 24 reduced, 6 methodological, 8 external evidence — are exact.*
+*Note: Counts marked "estimated" were not recorded prospectively during the search. Exact pre-screening counts should be confirmed if this review is updated or submitted for formal audit. The endpoint counts — 75 included, 25 full, 24 reduced, 6 methodological, 3 domain supplement, 9 governance comparators, 8 external evidence — are exact.*
 
 ---
 
 ## 9. Venue Distribution
 
-The following table lists all 66 papers organised by database/publisher category, with venue details as extracted from Section 1 of each paper's notes file.
+The following table lists all 75 papers organised by database/publisher category, with venue details as extracted from Section 1 of each paper's notes file.
 
 ### ACM Digital Library (6 papers)
 
@@ -239,7 +266,7 @@ The following table lists all 66 papers organised by database/publisher category
 | 24 | Punzi et al. | 2024 | Journal of the ACM, Vol. 1, No. 1 (arXiv:2402.06287) |
 | 29 | Zhao & Yuan | 2025 | ACM Web Conference 2025 (WWW Companion), ACM |
 
-### IEEE Xplore (9 papers)
+### IEEE Xplore (11 papers)
 
 | # | Author(s) | Year | Venue |
 |---|---|---|---|
@@ -251,6 +278,9 @@ The following table lists all 66 papers organised by database/publisher category
 | 19 | Li et al. | 2026 | IEEE Transactions on Intelligent Transportation Systems (early access) |
 | 27 | Shamsujjoha et al. | 2025 | IEEE 22nd International Conference on Software Architecture (ICSA) |
 | 53 | Atf & Lewis | 2026 | IEEE Transactions on Technology and Society, Vol. 7, No. 1 |
+| 59 | Bach, Kristiansen et al. | 2024 | IEEE Access, Vol. 12, pp. 106385–106414 |
+| 63 | Odriozola-Olalde et al. | 2023 | IEEE/SICE International Symposium on System Integration (SII 2023) |
+| 64 | Seong, Lim & Yoon | 2025 | IEEE PRDC 2025 (30th Int. Symposium on Pacific Rim Dependable Computing) |
 
 ### arXiv (8 papers — preprints not yet in a peer-reviewed venue at time of access)
 
@@ -261,10 +291,11 @@ The following table lists all 66 papers organised by database/publisher category
 | 6 | Baxi | 2026 | arXiv:2603.15639v2 |
 | 8 | Bloomfield & Rushby | 2025 | arXiv:2407.13948v3 / SRI CSL Technical Report SRI-CSL-2024-02R3 |
 | 41 | Pitale et al. | 2025 | arXiv:2507.17118v1 |
+| 61 | Corsi et al. | 2024 | arXiv:2406.06507v2 |
 | 69 | Kwon et al. | 2025 | arXiv:2506.11033v2 |
-| 70 | Feng et al. | 2025 | arXiv:2506.12469v2 / Knight First Amendment Institute, Columbia University |
+| 71 | Feng et al. | 2025 | arXiv:2506.12469v2 / Knight First Amendment Institute, Columbia University |
 
-### Elsevier / ScienceDirect / Cell Press (11 papers)
+### Elsevier / ScienceDirect / Cell Press (12 papers)
 
 | # | Author(s) | Year | Venue |
 |---|---|---|---|
@@ -281,7 +312,7 @@ The following table lists all 66 papers organised by database/publisher category
 | 56 | Shaffril et al. | 2017 | Marine Policy, Vol. 81, pp. 196–201 (Elsevier) |
 | 72 | Chandran et al. | 2025 | Aquacultural Engineering, 111, 102584 (Elsevier) |
 
-### MDPI / Frontiers (12 papers)
+### MDPI / Frontiers (13 papers)
 
 | # | Author(s) | Year | Venue |
 |---|---|---|---|
@@ -297,9 +328,9 @@ The following table lists all 66 papers organised by database/publisher category
 | 40 | Obi et al. | 2025 | Frontiers in Sustainable Food Systems, 9:1545263 (Frontiers) |
 | 21 | Newcomb & Ochoa | 2026 | Frontiers in Artificial Intelligence, Vol. 9, 1749956 (Frontiers) |
 | 54 | McGrath et al. (S-TIAS) | 2025 | Frontiers in Artificial Intelligence, 8:1582880 (Frontiers) |
-| 73 | Ogenyi et al. | 2025 | Frontiers in the Internet of Things, 4:1658273 (Frontiers) |
+| 74 | Ogenyi et al. | 2025 | Frontiers in the Internet of Things, 4:1658273 (Frontiers) |
 
-### Taylor & Francis (4 papers)
+### Taylor & Francis (5 papers)
 
 | # | Author(s) | Year | Venue |
 |---|---|---|---|
@@ -307,6 +338,7 @@ The following table lists all 66 papers organised by database/publisher category
 | 35 | Kühn et al. | 2025 | Reviews in Fisheries Science & Aquaculture, Vol. 33, No. 2, pp. 334–357 |
 | 26 | Saup et al. | 2026 | Journal of Decision Systems, 35(1), 2597835 |
 | 55 | Schrills et al. | 2025 | Behaviour & Information Technology (online 2025) |
+| 65 | Tatasciore & Loft | 2025 | International Journal of Human–Computer Interaction, 41(23), 14723–14733 |
 
 ### Wiley / Oxford University Press (2 papers)
 
@@ -322,7 +354,7 @@ The following table lists all 66 papers organised by database/publisher category
 | 28 | Yuzui & Kaneko | 2025 | Journal of Marine Science and Technology, 30, pp. 153–176 (Springer) |
 | 46 | Vermaelen & Holvoet | 2025 | Annals of Mathematics and Artificial Intelligence, 93, 541–567 (Springer) |
 | 36 | Leppinen et al. | 2026 | EURO Journal on Decision Processes, 14, 100063 (Springer) |
-| 71 | Zhang et al. | 2025 | Scientific Reports, 15, 29056 (Springer Nature) |
+| 73 | Zhang et al. | 2025 | Scientific Reports, 15, 29056 (Springer Nature) |
 
 ### AAAI (1 paper)
 
@@ -330,7 +362,7 @@ The following table lists all 66 papers organised by database/publisher category
 |---|---|---|---|
 | 68 | Hamel-De le Court et al. | 2025 | AAAI-25 (39th AAAI Conference on Artificial Intelligence), pp. 16091–16099 |
 
-### Other / Specialist (9 papers)
+### Other / Specialist (13 papers)
 
 | # | Author(s) | Year | Venue |
 |---|---|---|---|
@@ -341,7 +373,11 @@ The following table lists all 66 papers organised by database/publisher category
 | 30 | Bello y Villarino et al. | 2025 | UNSW Law Journal, 48(4), pp. 1165–1195 |
 | 58 | Muhamad et al. | 2024 | Pakistan Journal of Life and Social Sciences (PJLSS), 22(2), 12024–12040 |
 | 42 | Rahim et al. | 2024 | Journal of Marine and Island Cultures, v13n3 |
-| 74 | OWASP | 2025 | OWASP Foundation — Agentic Top 10 for AI Applications (December 2025) |
+| 60 | Bengio, Hinton et al. | 2024 | Science, Vol. 384, Issue 6698, pp. 842–845 (DOI: 10.1126/science.adn0117) |
+| 62 | Chen, Kang & Li | 2025 | ICML 2025, Proceedings of Machine Learning Research (PMLR) 267 |
+| 66 | Banerjee et al. | 2025 | ICML 2025, Proceedings of Machine Learning Research (PMLR) 267 |
+| 67 | Ryu & Han | 2025 | Korean Journal of Remote Sensing, 41(6), pp. 1225–1250 |
+| 70 | OWASP | 2025 | OWASP Foundation — Agentic Top 10 for AI Applications (December 2025) |
 | 75 | Tandel et al. | 2025 | The Science World e-Magazine, ISSN 2583-2212, Vol. 5(2), pp. 6319–6327 |
 
 ---
@@ -359,19 +395,20 @@ The following table lists all 66 papers organised by database/publisher category
 |---|---|---|
 | 2017 | 1 | Shaffril et al. (historical contextual background for Malaysian SSF domain) |
 | 2022 | 1 | Gabriel et al. (foundational socio-technical method) |
-| 2024 | 13 | Core comparators: Bajcsy/Fisac, Dalrymple, Flehmig, Perez-Cerrolaza, Klüver, Madsen/Kim, Punzi, Rahim, Welch, Wing/Woodward, Bach, Gao, Muhamad et al. |
-| 2025 | 40 | Largest cohort — covers governance taxonomy, formal methods SLR, fisheries reviews, trust measurement literature, external evidence (Hamel-De le Court, Kwon, Feng, Zhang, OWASP, Chandran, Ogenyi, Tandel); includes Yamin et al. (primary domain study) |
+| 2023 | 1 | Odriozola-Olalde et al. (shielded RL taxonomy — comparator for binary governance confirmation) |
+| 2024 | 16 | Core comparators: Bajcsy/Fisac, Dalrymple, Flehmig, Perez-Cerrolaza, Klüver, Madsen/Kim, Punzi, Rahim, Welch, Wing/Woodward, Bach, Gao, Muhamad et al.; governance comparators: Bach/Kristiansen (HAII SLR), Bengio/Hinton (Science policy), Corsi (verification-guided shielding) |
+| 2025 | 45 | Largest cohort — covers governance taxonomy, formal methods SLR, fisheries reviews, trust measurement literature, external evidence (Hamel-De le Court, Kwon, Feng, Zhang, OWASP, Chandran, Ogenyi, Tandel); governance comparators (SHIELDAGENT, CLGuard, Tatasciore/Loft, CRANE, Ryu/Han); includes Yamin et al. (primary domain study) |
 | 2026 | 11 | Most recent: AgentSpec, International AI Safety Report, Baxi, Castagnone, Haque, Leppinen, Li, Saup, Selvam, Atf & Lewis, Newcomb |
-| **Total** | **66** | |
+| **Total** | **75** | |
 
 ### Coverage Assessment
 
-The corpus is highly contemporary: 51 of 66 papers (77%) are from 2025–2026, reflecting the rapidly evolving state of the safety governance and AI control literature. The 2022–2024 papers (14 papers, 21%) establish foundational comparators and domain context. One paper (Shaffril et al., 2017) is included as historical contextual background for the target domain. No other pre-2022 papers are included, reflecting a deliberate focus on current practice and the recency of the formal AI governance literature.
+The corpus is highly contemporary: 56 of 75 papers (75%) are from 2025–2026, reflecting the rapidly evolving state of the safety governance and AI control literature. The 2022–2024 papers (17 papers, 23%) establish foundational comparators and domain context. One paper (Odriozola-Olalde et al., 2023) covers shielded RL taxonomy; one paper (Shaffril et al., 2017) is included as historical contextual background for the target domain. No other pre-2022 papers are included, reflecting a deliberate focus on current practice and the recency of the formal AI governance literature.
 
 **Theme-specific currency**:
 
 - **T1 (Hybrid AI) and T2 (Safety-critical AI)**: Papers span 2024–2026, with the core architectural comparators (Shields, AgentSpec, SAFEXPLAIN, Dalrymple, Bajcsy) clustering in 2024–2025. The field is active and recent.
-- **T3 (AI governance)**: The most recent papers (2025–2026) reflect a governance paradigm shift post-ChatGPT. Binary governance is confirmed as universal across all surveyed frameworks through 2026. The 8 external evidence papers (2025) extend this confirmation to safety shields (Hamel-De le Court, Kwon), agent governance (Feng, OWASP), and IoT+AI (Zhang, Chandran, Ogenyi, Tandel).
+- **T3 (AI governance)**: The most recent papers (2025–2026) reflect a governance paradigm shift post-ChatGPT. Binary governance is confirmed as universal across all surveyed frameworks through 2026. The 9 governance comparator papers (2023–2025) extend confirmation to shielded RL (Odriozola-Olalde, Corsi), action suppression (SHIELDAGENT, CLGuard), and HAII policy (Bach/Kristiansen, Bengio/Hinton). The 8 external evidence papers (2025) further extend to safety shields (Hamel-De le Court, Kwon), agent governance (Feng, OWASP), and IoT+AI (Zhang, Chandran, Ogenyi, Tandel).
 - **T4 (Low-resource AI)**: Katende (2026) is the most comprehensive recent taxonomy; domain papers span 2024–2026.
 - **T6 (Human role) and T7 (Socio-technical evaluation)**: The trust measurement literature (papers 50–55) was largely published 2024–2026, reflecting growing attention to rigorous trust operationalisation.
 - **T8 (Fisheries/maritime)**: The fisheries AI literature reviewed includes papers through 2026 (Haque & Al Jufaili), confirming that no formal governance architecture existed in this domain at the time of search. Chandran et al. (2025) and Tandel et al. (2025) further confirm that IoT+AI systems in aquaculture/fisheries use environmental sensors as AI input but implement no governance layer.
