@@ -105,8 +105,8 @@ The pipeline separates into four functionally distinct layers. Each layer has a 
         | Raw environmental measurements
         |
 +=====================================================================+
-|  Layer 1: ENVIRONMENT / SENSOR                                      |
-|  Physical sensors, weather APIs, maritime authority broadcasts       |
+|  Layer 1: ENVIRONMENT INPUT                                      |
+|  Weather APIs, maritime authority broadcasts       |
 |  Produces: E = {w, r, m, o, v, t}                                   |
 |  All sources independent of the AI system                           |
 +=====================================================================+
