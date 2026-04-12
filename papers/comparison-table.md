@@ -1,8 +1,8 @@
 # Architecture Comparison Table
 
-**For**: Chapter 2 — Literature Review
-**Dissertation**: A Graduated Safety-State-Gated Architecture for AI Decision Support in Low-Resource Environments
-**Date**: 2026-04-05
+**For**: Chapter 2 — Literature Review  
+**Dissertation**: A Graduated Safety-State-Gated Architecture for AI Decision Support in Low-Resource Environments  
+**Date**: 2026-04-05  
 **Papers**: 32 comparator papers + proposed architecture
 
 ---
