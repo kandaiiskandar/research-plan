@@ -155,4 +155,4 @@ For the full novelty argument, see [justification-novelty-gap.md](docs/justifica
 
 ## References
 
-The corpus contains 63 papers. For the full citation-to-notes mapping, see [citation-notes-map.md](docs/citation-notes-map.md).
+The corpus contains 75 papers. For the full citation-to-notes mapping, see [citation-notes-map.md](docs/citation-notes-map.md).
