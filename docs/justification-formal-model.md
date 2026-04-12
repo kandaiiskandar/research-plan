@@ -15,12 +15,12 @@
 **Definition.** E = {w, r, m, o, v, t} is a vector of observable environmental parameters, where:
 - w ∈ ℝ≥0 — wind speed (knots, sustained)
 - r ∈ {none, light, moderate, heavy, storm} — rainfall intensity (ordinal categorical)
-- m ∈ {none, advisory, warning, alert} — active marine warnings (ordinal categorical)
-- o ∈ ℝ≥0 × ℝ≥0 — ocean state (wave height in metres, swell period in seconds)
+- m ∈ ℝ≥0 × ℝ≥0 — sea state (wave height in metres, swell period in seconds)
+- o ∈ {none, advisory, warning, alert} — official marine warning level (ordinal categorical)
 - v ∈ {small, medium, big} — vessel category (ordinal categorical)
 - t ∈ [0, 24) — time of day (hour, 24-hour clock)
 
-E is a mixed-type vector: some components are continuous (w, o, t), others are ordinal categorical (r, m, v). The domain of E is the Cartesian product of all component domains: E ∈ D_w × D_r × D_m × D_o × D_v × D_t.
+E is a mixed-type vector: some components are continuous (w, m, t), others are ordinal categorical (r, o, v). The domain of E is the Cartesian product of all component domains: E ∈ D_w × D_r × D_m × D_o × D_v × D_t.
 
 **Why these six parameters.** The selection is empirically grounded: Yamin et al. (2025) [[notes]](../notes/Interplay%20of%20traditional%20knowledge%20and%20adaptive%20capacity%20in%20climate%20change%20adaptation%20of%20small-scale%20fishers%20in%20central%20Terengganu%2C%20Malaysia%20.md) document that the target population identifies wind/waves (95%), weather events (91%), and erratic rainfall (91%) as primary hazards — mapping onto w, o, and r. Gao (2024) [[notes]](../notes/Mapping%20the%20decision-making%20factors%20of%20small-scale%20fishers-%20a%20case%20study%20of%20Penang.md) documents factor importance ratings: tide (4.55/5, captured in o), weather (3.75/5, captured across w, r, m), safety concern (3.40/5, aggregated across all parameters). Rahim et al. (2024) [[notes]](../notes/Survival%20Decisions%20and%20Adaptation%20Strategies%20of%20Small-scale%20Fishers%20in%20the%20Face%20of%20Extreme%20Weather%20Impacts%20in%20Coastal%20Areas.md) independently confirm wind velocity, wave height, precipitation, and vessel size as primary fisher decision inputs. The E vector formalises the environmental inputs that domain practitioners already use.
 
@@ -275,9 +275,9 @@ The model assumes a single, system-wide environmental assessment. It does not fo
 The classification function f: D_E → {SAFE, CAUTION, UNSAFE} is surjective and many-to-one. The domain D_E is a large (potentially uncountable) set of environmental parameter vectors; the codomain has only three elements. Many distinct environmental conditions map to the same safety state.
 
 **Examples within CAUTION:**
-- E₁ = {w=20 knots, r=none, m=none, o=1.5m, v=big, t=10hrs} → CAUTION (triggered by wind)
-- E₂ = {w=10 knots, r=heavy, m=none, o=0.5m, v=big, t=10hrs} → CAUTION (triggered by rainfall)
-- E₃ = {w=10 knots, r=none, m=advisory, o=0.8m, v=medium, t=6hrs} → CAUTION (triggered by marine warning + vessel category + time)
+- E₁ = {w=20 knots, r=none, m=1.5m, o=none, v=big, t=10hrs} → CAUTION (triggered by wind)
+- E₂ = {w=10 knots, r=heavy, m=0.5m, o=none, v=big, t=10hrs} → CAUTION (triggered by rainfall)
+- E₃ = {w=10 knots, r=none, m=0.8m, o=advisory, v=medium, t=6hrs} → CAUTION (triggered by marine warning + vessel category + time)
 
 All three produce S = CAUTION and therefore the same governance configuration: G(S) = 1, A_AI(S) = {Go, Delay}. But the underlying conditions are different, and the AI's go/no-go and delay recommendations may differ accordingly — the governance scope is the same, but the recommendation *content* within that scope reflects the specific E.
 
