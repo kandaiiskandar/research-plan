@@ -107,8 +107,47 @@ layout: default
     setActive(href);
   }
 
-  // Handle .md link clicks — works for both sidebar and content area
-  function handleMdClick(e) {
+  // Check if a link is an internal project document (.md or .html under docs/, papers/, notes/)
+  function isProjectDoc(href) {
+    return href.match(/\.(md|html)(#.*)?$/) &&
+           (href.indexOf('/docs/') !== -1 || href.indexOf('/papers/') !== -1 || href.indexOf('/notes/') !== -1);
+  }
+
+  // Fetch a document — try .md first (raw markdown), fall back to .html
+  function fetchDoc(href) {
+    var fetchUrl = href.split('#')[0];
+    var mdUrl = fetchUrl.replace(/\.html$/, '.md');
+    var htmlUrl = fetchUrl.replace(/\.md$/, '.html');
+
+    return fetch(mdUrl).then(function (res) {
+      if (res.ok) return res.text().then(function (text) { return { text: text, type: 'md', url: mdUrl }; });
+      // .md not found — try .html (GitHub Pages converts .md to .html)
+      return fetch(htmlUrl).then(function (res2) {
+        if (!res2.ok) throw new Error(res2.status);
+        return res2.text().then(function (text) { return { text: text, type: 'html', url: htmlUrl }; });
+      });
+    });
+  }
+
+  // Render fetched content into the content area
+  function showDoc(result, href) {
+    if (result.type === 'md') {
+      showMarkdown(result.text, href);
+    } else {
+      // HTML from GitHub Pages — extract the main content
+      var parser = new DOMParser();
+      var doc = parser.parseFromString(result.text, 'text/html');
+      var main = doc.querySelector('.doc-content') || doc.querySelector('article') || doc.querySelector('main .wrapper') || doc.body;
+      content.innerHTML = main.innerHTML;
+      fixLinks(href);
+      content.scrollTop = 0;
+      window.scrollTo(0, 0);
+      setActive(href);
+    }
+  }
+
+  // Handle doc link clicks — works for both sidebar and content area
+  function handleDocClick(e) {
     var link = e.target.closest('a');
     if (!link) return;
 
@@ -120,20 +159,14 @@ layout: default
       return;
     }
 
-    // External / non-.md links — let browser handle normally
-    if (!href.match(/\.md(#.*)?$/)) return;
+    // Only intercept internal project document links
+    if (!isProjectDoc(href)) return;
 
     e.preventDefault();
 
-    // Fetch the raw .md file (strip fragment from fetch URL) and render it
-    var fetchUrl = href.split('#')[0];
-    fetch(fetchUrl)
-      .then(function (res) {
-        if (!res.ok) throw new Error(res.status);
-        return res.text();
-      })
-      .then(function (md) {
-        showMarkdown(md, href);
+    fetchDoc(href)
+      .then(function (result) {
+        showDoc(result, href);
         history.pushState({ href: href }, '', href);
       })
       .catch(function () {
@@ -142,16 +175,15 @@ layout: default
       });
   }
 
-  // Intercept .md link clicks in both sidebar and content area
-  sidebar.addEventListener('click', handleMdClick);
-  content.addEventListener('click', handleMdClick);
+  // Intercept doc link clicks in both sidebar and content area
+  sidebar.addEventListener('click', handleDocClick);
+  content.addEventListener('click', handleDocClick);
 
   // Handle browser back/forward
   window.addEventListener('popstate', function (e) {
     if (e.state && e.state.href) {
-      fetch(e.state.href)
-        .then(function (res) { return res.text(); })
-        .then(function (md) { showMarkdown(md, e.state.href); });
+      fetchDoc(e.state.href)
+        .then(function (result) { showDoc(result, e.state.href); });
     } else {
       // Restore home content
       content.innerHTML = homeHTML;
