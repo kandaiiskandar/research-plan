@@ -1,6 +1,6 @@
 # Appendix B: Research Design Alignment Table
 
-**Research title:** *A Graduated Safety-State-Gated Architecture for AI Decision Support in Low-Resource Environments: Design and Socio-Technical Evaluation in Coastal Fisheries*
+**Research title:** *A Graduated Safety-State-Gated Architecture for AI Decision Support in Low-Resource Environments: Design and Comparative Evaluation in Coastal Fisheries*
 
 | Problem Statement | Research Gap | Research Question | Research Objective | Methodology / Approach |
 |---|---|---|---|---|

@@ -194,7 +194,32 @@ Then the Safety Dominance Property is defined as:
 
 This means the AI can only generate recommendations that belong to the admissible recommendation space defined by the safety state.
 
-This property ensures that probabilistic AI reasoning cannot generate recommendations outside deterministic safety constraints.
+### C.7.1 Enforcement mechanism
+
+The Layer 3 advisory component is implemented as a rule-based engine. The governance layer (Layer 2) supplies a rule set RS(S) to Layer 3 before any reasoning begins:
+
+- **RS(SAFE)** = rules producing recommendations in {Go, Delay, DepartureTime, Duration}
+- **RS(CAUTION)** = rules producing recommendations in {Go, Delay}
+- **RS(UNSAFE)** = ∅ (never passed — G(UNSAFE) = 0, so Layer 3 receives no input)
+
+The rule engine fires only rules present in the active RS(S). No rule in RS(CAUTION) produces DepartureTime or Duration, so those types cannot appear in AI(E) when S = CAUTION. The constraint is structural — it holds before generation begins, not by filtering outputs after the fact.
+
+### C.7.2 Proof of the Safety Dominance Property
+
+**Claim:** For all E, AI(E) ⊆ A_AI(f(E)).
+
+**Proof by construction.** Let S = f(E) for arbitrary E.
+
+**Case 1: S = UNSAFE.**
+G(UNSAFE) = 0. Layer 3 receives no input. AI(E) = ∅. Since A_AI(UNSAFE) = ∅, AI(E) ⊆ A_AI(UNSAFE) holds trivially. ∎
+
+**Case 2: S = CAUTION.**
+G(CAUTION) = 1. Layer 3 receives E and RS(CAUTION). By definition, RS(CAUTION) contains only rules producing recommendations in {Go, Delay}. The rule engine can produce only types present in its active rule set. Therefore AI(E) ⊆ {Go, Delay} = A_AI(CAUTION). ∎
+
+**Case 3: S = SAFE.**
+G(SAFE) = 1. Layer 3 receives E and RS(SAFE). RS(SAFE) contains only rules producing recommendations in {Go, Delay, DepartureTime, Duration}. Therefore AI(E) ⊆ {Go, Delay, DepartureTime, Duration} = A_AI(SAFE). ∎
+
+The property holds in all three cases. The proof requires no runtime checking and depends only on the definition of RS(S), which is fully under the designer's control. See `docs/justification-layer3-enforcement.md` for the full enforcement justification.
 
 ---
 

@@ -1,5 +1,5 @@
 # Cross-Document Traceability Table
-**Research title:** *A Graduated Safety-State-Gated Architecture for AI Decision Support in Low-Resource Environments: Design and Socio-Technical Evaluation in Coastal Fisheries*
+**Research title:** *A Graduated Safety-State-Gated Architecture for AI Decision Support in Low-Resource Environments: Design and Comparative Evaluation in Coastal Fisheries*
 **Purpose:** Verify alignment across the Research Design Alignment Table, Architecture Diagram, and Mathematical Formalisation (Appendix C).
 
 ---
