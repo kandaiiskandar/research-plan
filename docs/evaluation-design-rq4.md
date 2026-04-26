@@ -19,6 +19,8 @@ Four claims need evidential support. The first two are load-bearing for the CS c
 
 ## 2. The three evaluation conditions
 
+**Labelling convention:** C stands for *Condition* — the experimental condition under which the system is run. C0, C1, and C2 are not version numbers; they are the three conditions of the comparative evaluation, ordered from least governed (C0) to most governed (C2).
+
 | Condition | Label | Description | Governance active |
 |---|---|---|---|
 | Ungated | C0 | No governance — AI outputs full R across all safety states | None |
