@@ -62,6 +62,18 @@ The proof by construction in Section 4 depends on one property: the ability to e
 
 Newcomb and Ochoa (2026) [[notes]](../notes/Formal%20methods%20for%20safety-critical%20machine%20learning%3A%20a%20systematic%20literature%20review.md), reviewing 46 formal methods studies for safety-critical machine learning, confirm that enforceability requires constraints built into the reasoning structure, not applied post-hoc. A production rule system satisfies this at the model level: the constraint is the rule set itself. Castagnone and Nitti (2026) [[notes]](../notes/A%20Neuro-Symbolic%20Framework%20for%20Ensuring%20Deterministic%20Reliability%20in%20AI-Assisted%20Structural%20Engineering-%20The%20SYNAPSE%20Architecture.md) make the parallel argument in their SYNAPSE architecture — a deterministic rule layer governs all safety-critical structural calculations, while a neural component handles natural language and presentation. Their design principle is that determinism is not a property you verify at runtime; it is a property you build in by choosing a model type whose outputs are fully determined by explicit, inspectable rules. Layer 3 follows the same principle. The production rule system is not chosen because it performs well under evaluation. It is chosen because its outputs are structurally determined by its rule set, and that rule set is under the designer's direct control.
 
+> **Viva note — likely question:** *"What kind of rule-based model does Layer 3 use, and why not a decision tree or fuzzy system?"*
+>
+> "Layer 3 uses a production rule system — each rule takes the form *if these conditions hold, then produce this recommendation type*. The governance layer supplies a specific rule set to the engine before it reasons: RS(SAFE), RS(CAUTION), or RS(UNSAFE). The engine fires only the rules in its active set.
+>
+> Fuzzy rules are immediately out because they produce graduated membership values, not crisp set members. The Safety Dominance Property requires AI(E) ⊆ A_AI(S) — a crisp set containment. You cannot have a subset relationship over a probability distribution.
+>
+> Decision trees fail for a different reason. RS(S) needs to be swapped atomically when the safety state changes — the engine under CAUTION must have a completely different configuration than under SAFE. A single fixed decision tree cannot provide this; you would need three separate trees, one per state, which is just three production rule sets with worse readability and no formal advantage.
+>
+> Decision tables are the closest alternative. The reason I went with production rules is the input structure — six environmental parameters, each with threshold ranges, and conditions that can arise from any single parameter or from combinations. That is more naturally expressed as independent if-then rules than as a flat table with compound condition columns, which grows harder to audit as the rule set expands.
+>
+> The deeper reason is the proof. I enumerate every rule in RS(CAUTION) and verify that none produce DepartureTime or Duration. That is only possible because every rule is an explicit, inspectable statement. You are not testing the engine's behaviour — you are reading the rules. That is what makes the guarantee architectural rather than empirical."
+
 ---
 
 ## 3. The enforcement mechanism
