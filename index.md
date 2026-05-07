@@ -3,7 +3,7 @@ layout: document
 title: Research Plan
 ---
 
-# A Graduated Safety-State-Gated Architecture for AI Decision Support in Low-Resource Environments: Design and Socio-Technical Evaluation in Coastal Fisheries
+# A Graduated Safety-State-Gated Architecture for AI Decision Support in Low-Resource Environments: Design and Comparative Evaluation in Coastal Fisheries
 
 **PhD Research Repository**
 
@@ -44,7 +44,7 @@ The architecture operates as a four-layer pipeline:
 
 2. **Deterministic Safety Classification Layer** — Classifies each parameter against predefined thresholds and applies worst-case aggregation to produce S ∈ {SAFE, CAUTION, UNSAFE}. Purely rule-based, no AI.
 
-3. **AI Advisory Layer** — Generates recommendations within the scope permitted by the safety state. The governance pair (G(S), A_AI(S)) controls both participation and advisory scope, with containment A_AI(SAFE) ⊃ A_AI(CAUTION) ⊃ A_AI(UNSAFE) = ∅.
+3. **AI Advisory Layer** — A rule-based engine configured by the governance layer before reasoning begins. The governance layer supplies a rule set RS(S) to the engine: RS(SAFE) contains rules producing {Go, Delay, DepartureTime, Duration}; RS(CAUTION) contains rules producing only {Go, Delay}; RS(UNSAFE) is empty (never passed — G(UNSAFE) = 0). The engine fires only rules in its active RS(S), so recommendations outside A_AI(S) cannot be generated. The Safety Dominance Property AI(E) ⊆ A_AI(S) holds by construction, not by runtime filtering.
 
 4. **Human Decision Layer** — The fisher receives the recommendation (or safety alert under UNSAFE) and makes the final departure decision. Human authority is retained in all three states.
 
@@ -52,7 +52,7 @@ The architecture operates as a four-layer pipeline:
 
 - **Non-compensatory aggregation** — A single UNSAFE parameter makes the entire state UNSAFE.
 - **Graduated containment** — Under CAUTION, AI provides directional guidance only (Go/Delay). Precision recommendations (DepartureTime/Duration) are removed.
-- **Deterministic override** — The Safety Dominance Property guarantees AI(E) ⊆ A_AI(S) for all E.
+- **Deterministic override** — The Safety Dominance Property AI(E) ⊆ A_AI(S) holds for all E, proved by construction via RS(S). See [`docs/justification-layer3-enforcement.md`](docs/justification-layer3-enforcement.md) for the full proof.
 
 For the full illustrated explanation, see [architecture-illustration.md](docs/architecture-illustration.md).
 
@@ -114,23 +114,23 @@ No comparative evaluation exists between graduated two-level governance and bina
 **Objective (O4):**  
 To evaluate the architecture's safety compliance, decision consistency, and comparative performance against:
 
-- **(a)** a binary-gated baseline that implements Level 1 only (participation gate G(S) with full advisory scope, analogous to shield-based systems in Section 2.2, e.g., Könighofer et al., 2025)
-- **(b)** an ungated AI advisory baseline (no governance)
+- **(a)** a binary-gated baseline (C1) that implements Level 1 only — participation gate G(S) with full advisory scope regardless of safety state, analogous to shield-based systems (e.g., Könighofer et al., 2025)
+- **(b)** an ungated baseline (C0) — no governance, AI outputs full recommendation set across all safety states
 
-using scenario-based testing.
+using scenario-based three-condition comparative analysis (C0 vs C1 vs C2), with Safety Dominance Property compliance as the primary metric. The discriminating condition is CAUTION: C1 and C2 are identical at Level 1 under CAUTION (G(S) = 1 for both), so any difference in recommendation output is attributable entirely to Level 2 governance. See [`docs/evaluation-design-rq4.md`](docs/evaluation-design-rq4.md) for the full evaluation design.
 
 ---
 
-### PS5. No socio-technical evaluation of graduated governance
+### PS5. No contextual validation of graduated governance with real users
 
 **Problem:**  
-Socio-technical evaluation of AI governance architectures in safety-critical low-resource environments remains limited. No study has examined how users understand, trust, and respond to a graduated AI participation model — where the system communicates that AI is not merely on or off, but operating under restriction.
+No study has examined how users perceive, understand, and respond to a graduated AI participation model — where the system communicates that AI is not merely on or off, but operating under a formally restricted advisory scope. The CAUTION mode in particular introduces a new interaction pattern that has no precedent in existing systems.
 
 **Gap:**  
-No socio-technical evaluation exists of graduated AI governance architectures, particularly user response to the CAUTION mode (G(S) = 1 but A_AI restricted) as distinct from SAFE (G(S) = 1, full A_AI) and UNSAFE (G(S) = 0, A_AI = ∅).
+No contextual validation exists of graduated AI governance architectures, particularly whether users correctly perceive the safety state, understand why AI advisory scope is restricted under CAUTION, and make different decisions across the three governance modes.
 
 **Objective (O5):**  
-To evaluate user understanding of safety states, trust calibration, and decision behaviour across all three modes, with particular attention to how users interpret and respond to the CAUTION state where AI participates within a restricted recommendation space A_AI(CAUTION) ⊂ A_AI(SAFE).
+To validate that the architecture functions as intended with the population it was designed for — specifically, whether fishers correctly identify the current safety state (Q1), correctly understand why AI is restricted under CAUTION as a scope limitation rather than a display change (Q2), and make different decisions under CAUTION than under SAFE and UNSAFE (Q3). See [`docs/rq5-study-design.md`](docs/rq5-study-design.md) for the full study design.
 
 
 For full traceability across PS → Gap → RQ → Objective → Methodology, see the [Research Alignment Table](docs/research-alignment-table.md).
@@ -139,12 +139,23 @@ For full traceability across PS → Gap → RQ → Objective → Methodology, se
 
 ## Novelty
 
+The architecture's core contribution is captured by the formal pipeline:
+
+**`E → S = f(E) → (G(S), A_AI(S)) → AI(E)`**
+
+Read step by step:
+
+- **E** — Observe the environment: wind speed, rainfall intensity, sea state, official marine warning level, vessel category, and time of day.
+- **S = f(E)** — Classify those observations into a safety state — SAFE, CAUTION, or UNSAFE — using worst-case aggregation across all parameters.
+- **(G(S), A_AI(S))** — The safety state sets two governance rules: whether the AI is permitted to operate at all (G(S)), and what types of recommendation it is permitted to give (A_AI(S)).
+- **AI(E)** — The AI generates recommendations, but only within the space those governance rules define.
+
 The proposed architecture is the first unified two-level governance architecture for safety-critical AI that:
 
 1. **Unifies Level 1 and Level 2 governance** under the same classified environmental state
 2. **Formalises the CAUTION mode** as a distinct operational state with restricted advisory scope
 3. **Conditions on environmental state, not AI performance** — unlike Flehmig et al. (2024) or Baxi (2026)
-4. **Proves the Safety Dominance Property** — AI(E) ⊆ A_AI(S) for all environmental states
+4. **Proves the Safety Dominance Property by construction** — AI(E) ⊆ A_AI(S) for all environmental states, enforced by the rule set RS(S) supplied to Layer 3 before reasoning begins — not by runtime filtering
 5. **Designs for low-resource deployment** — S = f(E) executes in constant time with negligible memory, satisfying TinyML constraints
 
 The gap is confirmed independently across 91 collaborative intelligence papers (Ramos et al., 2024), 46 formal methods studies (Newcomb & Ochoa, 2026), 11 international AI safety frameworks (Bengio et al., 2026), and the cross-domain safety-critical AI survey (Perez-Cerrolaza et al., 2024).
@@ -153,6 +164,19 @@ For the full novelty argument, see [justification-novelty-gap.md](docs/justifica
 
 ---
 
+## Key Design Documents
+
+| Document | Purpose |
+|---|---|
+| [`docs/justification-layer3-enforcement.md`](docs/justification-layer3-enforcement.md) | Layer 3 rule-based engine decision, RS(S) enforcement mechanism, and proof by construction of Safety Dominance Property |
+| [`docs/evaluation-design-rq4.md`](docs/evaluation-design-rq4.md) | RQ4 three-condition comparative evaluation — scenarios, metrics, C0/C1/C2 design |
+| [`docs/rq5-study-design.md`](docs/rq5-study-design.md) | RQ5 contextual validation study — three questions, instrument, participants, scope |
+| [`docs/appendix-c-formalisation.md`](docs/appendix-c-formalisation.md) | Full formal model — E, S = f(E), G(S), A_AI(S), RS(S), Safety Dominance Property proof |
+| [`docs/architecture-illustration.md`](docs/architecture-illustration.md) | Architecture walkthrough — layers, governance table, scenario, limitations |
+| [`docs/research-improvement-plan.md`](docs/research-improvement-plan.md) | Six-step improvement plan (25 April 2026) — all steps completed |
+
+---
+
 ## References
 
-The corpus contains 75 papers. For the full citation-to-notes mapping, see [citation-notes-map.md](docs/citation-notes-map.md).
+The corpus contains 63 papers. For the full citation-to-notes mapping, see [citation-notes-map.md](docs/citation-notes-map.md).

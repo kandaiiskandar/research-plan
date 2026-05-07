@@ -86,9 +86,10 @@ The pipeline separates into four functionally distinct layers. Each layer has a 
         |
 +=====================================================================+
 |  Layer 3: AI ADVISORY REASONING                                     |
-|  Probabilistic / learned component                                  |
+|  Rule-based engine, configured per safety state                     |
+|  Receives: E and rule set RS(S) from Layer 2                        |
 |  Generates recommendations R ∈ AI(E)                                |
-|  Constraint: AI(E) ⊆ A_AI(S)                                       |
+|  Constraint: AI(E) ⊆ A_AI(S) — enforced by construction via RS(S)  |
 +=====================================================================+
         ^
         | Governance configuration: G(S) and A_AI(S)
@@ -113,10 +114,10 @@ The pipeline separates into four functionally distinct layers. Each layer has a 
 ```
 
 **Why layering matters:**
-- Layer 2 is deterministic and independent of Layer 3 — governance functions even if AI is degraded or unavailable
+- Layer 2 is deterministic and independent of Layer 3 — governance functions even if the advisory engine is unavailable
 - Layer 2 can be verified using conventional software engineering methods (static analysis, exhaustive testing of a finite classification function)
-- Layer 3 requires probabilistic and empirical assurance methods
-- The causal flow is unidirectional (Environment -> Governance -> AI) with no feedback from AI to governance — AI cannot influence its own governance
+- Layer 3 is also rule-based and can be verified by the same methods: the active rule set RS(S) is a finite, enumerable configuration supplied by Layer 2 before reasoning begins
+- The causal flow is unidirectional (Environment -> Governance -> AI) with no feedback from AI to governance — the advisory engine cannot influence its own governance configuration
 
 ---
 

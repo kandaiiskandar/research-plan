@@ -1,5 +1,5 @@
 # Cross-Document Traceability Table
-**Research title:** *A Graduated Safety-State-Gated Architecture for AI Decision Support in Low-Resource Environments: Design and Socio-Technical Evaluation in Coastal Fisheries*
+**Research title:** *A Graduated Safety-State-Gated Architecture for AI Decision Support in Low-Resource Environments: Design and Comparative Evaluation in Coastal Fisheries*
 **Purpose:** Verify alignment across the Research Design Alignment Table, Architecture Diagram, and Mathematical Formalisation (Appendix C).
 
 ---
@@ -19,9 +19,10 @@
 | A_AI(SAFE) ⊃ A_AI(CAUTION) ⊃ A_AI(UNSAFE) = ∅ | C.4 Containment relationship | Diagram footer: "Property 2: Restriction (A_AI(CAUTION) ⊂ A_AI(SAFE))" | O2: formally define A_AI(S) with the property A_AI(SAFE) ⊃ A_AI(CAUTION) ⊃ A_AI(UNSAFE) = ∅ |
 | Two-level governance: (G(S), A_AI(S)) | C.5 Two-Level Governance Structure | "Control Gate Level 1: PARTICIPATION" and "Level 2: ADVISORY SCOPE" box pairs per state | PS1 gap: no intermediate participation mode; core contribution in all five objectives |
 | Participation constraint: G(S) = 0 ⇒ A_AI(S) = ∅ | C.6 Governance Constraints | UNSAFE column: G(S) = 0 (Level 1) → A_AI(UNSAFE) = ∅ (Level 2) | O4: safety compliance evaluation metric |
-| Advisory restriction: A_AI(CAUTION) ⊂ A_AI(SAFE) | C.6 Governance Constraints | CAUTION column drops DepartureTime, Duration relative to SAFE column | O4: comparative performance — does CAUTION restriction add value; O5: user response to restricted AI |
-| Safety Dominance: AI(E) ⊆ A_AI(S) | C.7 Safety Dominance Property | Diagram footer: "AI(E) ⊂ A_AI(S) (Safety Dominance Property)" | O4: does the system ever produce recommendations outside admissible space |
-| Human decision authority | Architectural principle (not formalised) | L4 box: "Human Decision Layer" / "Fisher / Operator (Final Decision Authority)" | O5: user trust, understanding, decision behaviour |
+| Advisory restriction: A_AI(CAUTION) ⊂ A_AI(SAFE) | C.6 Governance Constraints | CAUTION column drops DepartureTime, Duration relative to SAFE column | O4: CAUTION discriminator — C1 vs C2 comparison under CAUTION isolates Level 2 contribution; O5: Q2 tests whether users interpret restriction as scope limitation |
+| RS(S) — rule set per safety state:<br>RS(SAFE) = rules producing {Go, Delay, DepartureTime, Duration}<br>RS(CAUTION) = rules producing {Go, Delay}<br>RS(UNSAFE) = ∅ | C.7.1 Enforcement mechanism | L3 box: rule-based engine receives RS(S) from Layer 2 before reasoning begins | O2: formal enforcement of A_AI(S); O4: Safety Dominance Property verification |
+| Safety Dominance: AI(E) ⊆ A_AI(S) — proved by construction via RS(S) | C.7 Safety Dominance Property; C.7.1 Enforcement mechanism; C.7.2 Proof by construction | Diagram footer: "AI(E) ⊂ A_AI(S) (Safety Dominance Property)"; Layer 3 configured with RS(S) before reasoning | O4: primary metric — 100% compliance required per scenario; proof in `docs/justification-layer3-enforcement.md` |
+| Human decision authority | Architectural principle (not formalised) | L4 box: "Human Decision Layer" / "Fisher / Operator (Final Decision Authority)" | O5: user perception of safety states (Q1), interpretation of CAUTION restriction (Q2), decision behaviour (Q3) |
 | Pipeline: E → S = f(E) → (G(S), A_AI(S)) → AI(E) | C.5 page 6 summary | Diagram footer text | Contribution statement in alignment table traceability notes |
 
 ---
@@ -33,8 +34,8 @@
 | **O1:** Design a three-mode architecture (enabled / restricted / disabled) based on classified environmental safety state | Three distinct AI participation modes; environmental state as trigger | Three columns (SAFE → enabled, CAUTION → restricted, UNSAFE → disabled); L2 classification produces three states from E | No — binary gate has only two modes |
 | **O2:** Formally define E, S = f(E), G(S), A_AI(S) with containment property | All four formal components visible; containment stated | L1 (E), L2 (S = f(E)), Level 1 boxes (G(S) values), Level 2 boxes (A_AI contents), legend (containment) | No — binary gate has no A_AI differentiation between SAFE and CAUTION |
 | **O3:** Implement prototype for small-scale coastal fisheries | Domain-specific recommendation types | A_AI subtitles use fisheries-specific terms: go/no-go, delay, departure timing, trip duration | N/A (implementation objective) |
-| **O4:** Evaluate against binary-gated baseline AND ungated baseline | Three-condition comparison structure must be visible | Level 1 alone = binary-gated baseline (G(S) only); removing both levels = ungated baseline; full diagram = proposed three-mode system | N/A (evaluation objective, but diagram makes comparison structure self-evident) |
-| **O5:** Evaluate user understanding across three states, especially CAUTION | CAUTION must be visually distinct from both SAFE and UNSAFE | CAUTION column: G(S) = 1 (same as SAFE at Level 1) but A_AI = {Go, Delay} (different from SAFE at Level 2) — shows why CAUTION is the interesting evaluation target | No — binary gate makes CAUTION identical to SAFE |
+| **O4:** Evaluate against binary-gated baseline C1 and ungated baseline C0 | Three-condition comparison (C0 vs C1 vs C2); CAUTION as discriminating condition; Safety Dominance Property compliance as primary metric | Level 1 alone = C1 binary-gated baseline (G(S) only, full A_AI); removing both levels = C0 ungated baseline; full diagram = C2 proposed architecture; CAUTION column shows where C1 and C2 diverge | N/A (evaluation objective, but diagram makes C1 vs C2 divergence under CAUTION self-evident) |
+| **O5:** Contextual validation — three questions (Q1, Q2, Q3) across three safety states | CAUTION must be visually and behaviourally distinct from both SAFE and UNSAFE; Q2 requires the scope restriction to be interpretable by users | CAUTION column: G(S) = 1 (same as SAFE at Level 1) but A_AI = {Go, Delay} (different from SAFE at Level 2) — shows why CAUTION is the focal validation target; Q1 tests state perception; Q2 tests scope interpretation; Q3 tests decision behaviour | No — binary gate makes CAUTION identical to SAFE, providing nothing to validate |
 
 ---
 
@@ -46,7 +47,7 @@
 | **PS2:** Graduated governance (Flehmig et al.) is triggered by AI performance, not environmental state | No architecture classifies environmental conditions into safety states that determine AI recommendation scope | L1 (environmental input E) → L2 (S = f(E)) → Level 1 + Level 2 governance; trigger is environmental, not performance-based |
 | **PS3:** No safety governance architecture designed for low-resource fisheries | No formal safety architecture for resource-constrained fisheries deployment | Recommendation types (Go, Delay, DepartureTime, Duration) are fisheries-specific trip decisions; architecture designed for offline/limited-data contexts |
 | **PS4:** No comparative evaluation of graduated vs. binary governance | Three-mode value over binary has not been tested | Level 1 alone (binary) vs. Level 1 + Level 2 (graduated) — diagram structure enables three-condition experimental design |
-| **PS5:** No socio-technical evaluation of graduated AI governance, especially CAUTION | User response to restricted AI is unknown | CAUTION column is the focal evaluation point: AI active but bounded — unique user experience not present in binary systems |
+| **PS5:** No contextual validation of graduated AI governance with real users, especially user response to CAUTION mode | Whether users correctly perceive states, interpret scope restriction, and make different decisions under CAUTION is unknown | CAUTION column is the focal validation point: AI active but scope-restricted — unique user experience not present in binary systems; validated by Q1 (perception), Q2 (interpretation), Q3 (decision behaviour) |
 
 ---
 
@@ -66,6 +67,11 @@
 | No objective can be satisfied by a binary gate | ✓ Verified in Table 2 final column |
 | A_H(S) does NOT appear anywhere | ✓ Correctly excluded from formalisation and diagram |
 | Parameter definitions in E are consistent across Appendix C and this traceability table | ✓ Both use {w, r, m, o, v, t} with matching definitions (wind, rainfall, sea state, official warning, vessel category, time of day) |
+| RS(S) appears in Appendix C.7.1 and Layer 3 description | ✓ Rule set RS(S) defined for all three safety states; enforces Safety Dominance Property by construction |
+| Safety Dominance Property proved by construction in C.7.2 | ✓ Three-case proof covers UNSAFE, CAUTION, and SAFE; proof in `docs/justification-layer3-enforcement.md` Section 4 |
+| Layer 3 specified as rule-based engine | ✓ Updated in architecture-illustration.md, appendix-c-formalisation.md, justification-layer3-enforcement.md |
+| RQ5 scoped to three questions only (Q1, Q2, Q3) | ✓ Verified in `docs/rq5-study-design.md`; no socio-technical theory as primary framework |
+| Evaluation conditions labelled C0, C1, C2 consistently | ✓ Verified in `docs/evaluation-design-rq4.md` and research-alignment-table.md |
 
 ---
 

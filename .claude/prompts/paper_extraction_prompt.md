@@ -1,5 +1,5 @@
 ## Literature Review Extraction Prompt
-*For: "A Graduated Safety-State-Gated Architecture for AI Decision Support in Low-Resource Environments: Design and Socio-Technical Evaluation in Coastal Fisheries"*
+*For: "A Graduated Safety-State-Gated Architecture for AI Decision Support in Low-Resource Environments: Design and Comparative Evaluation in Coastal Fisheries"*
 
 ---
 

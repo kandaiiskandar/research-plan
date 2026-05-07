@@ -1,6 +1,6 @@
 # Search Methodology Documentation Prompt
 
-*For: "A Graduated Safety-State-Gated Architecture for AI Decision Support in Low-Resource Environments: Design and Socio-Technical Evaluation in Coastal Fisheries"*
+*For: "A Graduated Safety-State-Gated Architecture for AI Decision Support in Low-Resource Environments: Design and Comparative Evaluation in Coastal Fisheries"*
 
 ---
 
@@ -81,7 +81,7 @@ Using all extracted information plus the user-supplied items below, write `paper
 # Literature Search Methodology
 
 **Dissertation**: A Graduated Safety-State-Gated Architecture for AI Decision Support
-in Low-Resource Environments: Design and Socio-Technical Evaluation in Coastal Fisheries
+in Low-Resource Environments: Design and Comparative Evaluation in Coastal Fisheries
 
 **Candidate**: Iskandar
 **Date of last search**: [from notes — latest paper year/publication date]

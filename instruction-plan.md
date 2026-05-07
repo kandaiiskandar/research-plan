@@ -1,6 +1,6 @@
 # Research Paper Extraction System
 
-A Claude Code-powered workflow for extracting structured literature review notes from academic PDFs, tailored for PhD research on a **Graduated Safety-State-Gated Architecture for AI Decision Support in Low-Resource Environments: Design and Socio-Technical Evaluation in Coastal Fisheries**.
+A Claude Code-powered workflow for extracting structured literature review notes from academic PDFs, tailored for PhD research on a **Graduated Safety-State-Gated Architecture for AI Decision Support in Low-Resource Environments: Design and Comparative Evaluation in Coastal Fisheries**.
 
 ---
 
