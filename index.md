@@ -174,6 +174,11 @@ For the full novelty argument, see [justification-novelty-gap.md](docs/justifica
 | [`docs/appendix-c-formalisation.md`](docs/appendix-c-formalisation.md) | Full formal model — E, S = f(E), G(S), A_AI(S), RS(S), Safety Dominance Property proof |
 | [`docs/architecture-illustration.md`](docs/architecture-illustration.md) | Architecture walkthrough — layers, governance table, scenario, limitations |
 | [`docs/research-improvement-plan.md`](docs/research-improvement-plan.md) | Six-step improvement plan (25 April 2026) — all steps completed |
+| [`docs/justification-environmental-state-governance.md`](docs/justification-environmental-state-governance.md) | Why governance is conditioned on environmental safety state rather than AI confidence, risk score, or performance |
+| [`docs/justification-safety-state-design.md`](docs/justification-safety-state-design.md) | Safety state naming, boundary definitions, thresholds, dynamics, misclassification, and domain-specificity |
+| [`docs/justification-rainfall-intensity-mapping.md`](docs/justification-rainfall-intensity-mapping.md) | Rainfall intensity mapping from ERA5 mm/hr to ordinal categorical r via JPS/DID thresholds |
+| [`docs/data-source-met-malaysia.md`](docs/data-source-met-malaysia.md) | MET Malaysia data acquisition — environmental variables, coverage, and operationalisation for f(E) |
+| [`docs/dataset-label-derivation.md`](docs/dataset-label-derivation.md) | Advisory AI training label derivation from empirical fisher studies |
 
 ---
 

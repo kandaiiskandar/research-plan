@@ -30,7 +30,7 @@ E → S = f(E) → (G(S), A_AI(S)) → AI(E) → Human Decision
 
 **The Safety Dominance Property:** For all E, AI(E) ⊆ A_AI(S) — the AI can only generate recommendations within the admissible space defined by the current safety state.
 
-**Domain:** Small-scale coastal fisheries in Malaysia (Terengganu, Penang). The departure decision problem — whether a fisher should go to sea given current environmental conditions — is the application context. The domain motivates and validates the architecture; it is not the research contribution.
+**Domain:** Small-scale coastal fisheries in Malaysia (Kota Kinabalu, Sabah). The departure decision problem — whether a fisher should go to sea given current environmental conditions — is the application context. The domain motivates and validates the architecture; it is not the research contribution.
 
 ---
 
