@@ -90,13 +90,52 @@ Within each paradigm, papers were compared against the four coding dimensions to
 
 The evidence in Section 4.7 is drawn from a separate, non-governance literature (LLM systems and cognition research) and was not subject to the same screening. It addresses a specific question: whether the governance gap could be closed within the AI component itself, rather than through external governance mechanisms.
 
+**Figure 2.** Conceptual review process: from research question to proposed architecture. Sections 3.1–3.3 and 4.2–4.6 trace the gap through the literature; Section 4.7 shows why it cannot be closed at the AI-component level; Section 5 proposes the architecture the gap calls for.
+
+```
+Research Question
+(Does any architecture restrict AI advisory scope
+ as a function of environmental safety state?)
+                    │
+                    ▼
+         Database Search (Section 3.1)
+         Scopus · IEEE Xplore · Web of Science · ACM DL
+                    │
+                    ▼
+         Screening & Inclusion (Section 3.2)
+         71 papers retained
+                    │
+                    ▼
+         Four-dimension Coding (Section 3.2)
+         Primary governance target · Runtime adaptation ·
+         Conditioning variable · Output restriction
+                    │
+                    ▼
+         Theme Development (Section 3.3)
+         Three paradigms + application domain
+         (Sections 4.2 – 4.5)
+                    │
+                    ▼
+         Cross-paradigm Synthesis (Section 4.6)
+         All four coding dimensions converge
+         on the same absence
+                    │
+                    ▼
+         Mechanistic Evidence (Section 4.7)
+         Gap cannot be closed within the AI component
+                    │
+                    ▼
+         Proposed Architecture (Section 5)
+         G(S) + A_AI(S) — graduated governance pair
+```
+
 ---
 
 ## 4. LITERATURE REVIEW
 
 ### 4.1 Overview of Existing Governance Paradigms
 
-Existing AI governance frameworks in safety-critical systems fall into three main paradigms: **deterministic safety constraints**, which provide provable runtime guarantees by intercepting or blocking unsafe AI behaviour; **authority allocation frameworks**, which distribute decision rights between human and AI; and **adaptive risk-based systems**, which vary some aspect of system behaviour across graduated operational levels. The paradigms differ in what they graduate and what they guarantee: deterministic constraints prioritise provable safety over operational flexibility, authority allocation frameworks prioritise human agency over formal rigour, and adaptive systems attempt to bridge the two. None of them, however, graduates the AI's advisory scope: the semantic content of its recommendations to a human decision-maker. That is the dimension this review examines. A fourth body of literature (fisheries AI and low-resource deployment) is reviewed separately to establish whether the patterns observed in the governance literature persist in the application domain. Sections 4.2–4.5 review each body in turn and evaluate its capacity to handle intermediate-risk conditions; Section 4.6 synthesises across them to characterise the research gap; Section 4.7 examines mechanistic evidence for why the gap cannot be closed within the AI component itself; and Section 4.8 states the research objectives that follow.
+Existing AI governance frameworks in safety-critical systems fall into three main paradigms: **deterministic safety constraints**, which provide provable runtime guarantees by intercepting or blocking unsafe AI behaviour; **authority allocation frameworks**, which distribute decision rights between human and AI; and **adaptive risk-based systems**, which vary some aspect of system behaviour across graduated operational levels. The paradigms differ in what they graduate and what they guarantee: deterministic constraints prioritise provable safety over operational flexibility, authority allocation frameworks prioritise human agency over formal rigour, and adaptive systems attempt to bridge the two. None of them, however, graduates the AI's advisory scope: the semantic content of its recommendations to a human decision-maker. That is the dimension this review examines. A fourth body of literature (fisheries AI and low-resource deployment) is reviewed separately to establish whether the patterns observed in the governance literature persist in the application domain. Sections 4.2–4.5 review each body in turn and evaluate its capacity to handle intermediate-risk conditions; Section 4.6 synthesises across them to characterise the research gap; Section 4.7 examines mechanistic evidence for why the gap cannot be closed within the AI component itself; and Section 4.8 states the research objectives that follow. The review methodology that produced this synthesis is described in Section 3 and summarised in Figure 2.
 
 ### 4.2 Deterministic Safety Constraints: Binary by Construction
 
