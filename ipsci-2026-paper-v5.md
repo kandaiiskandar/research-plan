@@ -187,7 +187,51 @@ Based on the identified gap, this research pursues four objectives: (1) design a
 
 ## 5. PROPOSED ARCHITECTURE
 
-Section 4.7 establishes that internal self-restraint (relying on the AI component to narrow its own advisory scope) cannot be relied upon; the gap documented in Sections 4.2–4.6 must therefore be addressed through external governance. This section proposes a graduated safety-state-gated architecture that implements precisely such an external approach: both AI participation and advisory scope are conditioned on a classified environmental safety state, by an architectural layer outside the AI component. The design also answers a call from governance theory: where Engin and Hand argue that governance categories should be built as explicit thresholds over continuously monitored dimensions rather than as static classifications [32], the proposed architecture realises this pattern as an enforced runtime mechanism: continuous environmental observation E, deterministic thresholding S = f(E), and three actionable categories each carrying formally differentiated constraints. This supplies what the dimensional-governance proposal itself lacks: by-construction enforcement.
+Section 4.7 establishes that internal self-restraint (relying on the AI component to narrow its own advisory scope) cannot be relied upon; the gap documented in Sections 4.2–4.6 must therefore be addressed through external governance. This section proposes a graduated safety-state-gated architecture that implements precisely such an external approach: both AI participation and advisory scope are conditioned on a classified environmental safety state, by an architectural layer outside the AI component (Figure 3). The design also answers a call from governance theory: where Engin and Hand argue that governance categories should be built as explicit thresholds over continuously monitored dimensions rather than as static classifications [32], the proposed architecture realises this pattern as an enforced runtime mechanism: continuous environmental observation E, deterministic thresholding S = f(E), and three actionable categories each carrying formally differentiated constraints. This supplies what the dimensional-governance proposal itself lacks: by-construction enforcement.
+
+**Figure 3.** The graduated safety-state-gated architecture. Before any inference begins, a deterministic external classifier computes the environmental safety state S = f(E) outside the AI component. Both gates, G(S) and A_AI(S), are conditioned on S and together bound what the AI may recommend for the current observation.
+
+```
+Environmental observation vector E = {w, r, m, o, v, t}
+                    │
+                    ▼
+         ┌─────────────────────┐
+         │  Safety Classifier  │  S = f(E)
+         │  (deterministic,    │
+         │   external to AI)   │
+         └─────────┬───────────┘
+                   │
+         ┌─────────▼───────────┐
+         │  S ∈ {SAFE,         │
+         │       CAUTION,      │
+         │       UNSAFE}       │
+         └──┬──────┬───────────┘
+            │      │
+     ┌──────▼──┐ ┌─▼──────────────┐
+     │ G(S) = 0│ │   G(S) = 1     │
+     │ UNSAFE  │ │ SAFE / CAUTION │
+     │ AI off  │ └────────┬───────┘
+     └─────────┘          │
+                 ┌────────▼───────────────────────┐
+                 │  Advisory Gate A_AI(S)          │
+                 │  SAFE:    {Go, Delay,           │
+                 │            DepartureTime,       │
+                 │            Duration}            │
+                 │  CAUTION: {Go, Delay}           │
+                 └────────┬───────────────────────┘
+                          │
+                 ┌────────▼───────────┐
+                 │  Rule-based engine │
+                 │  (RS(S) supplied   │
+                 │   before inference)│
+                 └────────┬───────────┘
+                          │
+                 ┌────────▼───────────┐
+                 │  AI(E) ⊆ A_AI(S)   │
+                 │  Recommendations   │
+                 │  to human operator │
+                 └────────────────────┘
+```
 
 ### 5.1 Formal Structure
 
