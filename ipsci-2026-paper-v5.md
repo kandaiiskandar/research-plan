@@ -57,7 +57,36 @@ Which actions an autonomous agent may take
 
 ## 3. METHODOLOGY
 
-The review covered AI governance, runtime assurance, human-AI collaboration, and fisheries/low-resource deployment literature. Papers (N = 71) were selected through structured searches of academic databases (e.g., Scopus, IEEE Xplore, Web of Science) using terms including 'AI governance,' 'runtime assurance,' 'safety filter,' 'advisory scope,' and 'decision support,' with relevance to governance mechanisms, safety-critical AI decision systems, and low-resource deployment contexts as the primary inclusion criterion. The governance literature was organised into three lines of work: (i) deterministic safety constraints (shields, verifiers, safety filters), (ii) human-AI authority allocation frameworks, and (iii) adaptive risk-based systems. A fourth body (fisheries AI and low-resource deployment) was reviewed separately to establish whether the gap persists in the application domain. Three large-scale surveys [5], [6], [24] within the corpus serve as secondary evidence, extending effective coverage to several hundred additional primary studies.
+This review follows a structured literature review (StLR) protocol, structured rather than systematic: search and coding are disciplined, but the scope is purposive, covering only the bodies of literature where such a mechanism could plausibly appear. The central question is whether any existing architecture restricts an AI system's advisory scope as a function of classified environmental safety state. A systematic review promises completeness and reproducibility; this one promises analytical rigour and transparent reasoning. Reviewers should apply the latter standard.
+
+### 3.1 Search Strategy
+
+Papers were retrieved from Scopus, IEEE Xplore, Web of Science, and ACM Digital Library. Primary search strings included 'AI governance', 'runtime assurance', 'safety filter', 'advisory scope', 'decision support', 'human-AI collaboration', 'autonomy levels', 'guardrails', 'action restriction', and 'AI safety-critical'. Secondary searches for the application domain used 'fisheries AI', 'maritime decision support', and 'low-resource AI deployment'. The search was not date-bounded, though results were weighted toward 2022–2026.
+
+An initial candidate set was assembled through iterative database search. Three large-scale systematic reviews within that set — Indykov et al. [5] (206 papers, 16 architectural tactics), Shamsujjoha et al. [6] (13 guardrail actions, 32 agent studies), and Perez-Cerrolaza et al. [24] (294 references, safety-critical domains) — were retained as secondary evidence; their reviewed corpora extend coverage to several hundred additional primary studies without individually screening each. Papers were added through backward and forward citation tracing until no new governance mechanisms or architectural patterns emerged. 71 papers were carried through to full review.
+
+### 3.2 Screening, Inclusion, and Coding
+
+Screening proceeded in two stages. At the title and abstract stage, a paper was included if it addressed a mechanism that constrains or shapes AI behaviour during operation, targeted a safety-critical or human-in-the-loop context, or addressed AI deployment in low-resource or resource-constrained environments. Papers dealing only with training-time, fine-tuning, or static-configuration approaches with no runtime governance component were excluded. 71 papers were retained for full review.
+
+Each retained paper was coded on the following four dimensions:
+
+| Dimension | Values |
+|---|---|
+| **Primary governance target** | Participation / Advisory scope / Execution / Oversight |
+| **Runtime adaptation** | Binary (on/off) / Graduated (3+ levels) / None |
+| **Conditioning variable** | Environmental state / AI robustness / Task risk / Human authority / None |
+| **Recommendation restriction** | Yes (bounded output set) / No |
+
+The four dimensions were derived by decomposing the central research question. A mechanism that restricts AI advisory scope based on environmental safety state would need to: target advisory scope rather than participation or execution (a), use graduated rather than binary adaptation (b), condition its behaviour on the operator's environmental state rather than internal AI properties (c), and produce a formally bounded output set (d). Each requirement corresponds to one coding dimension. A paper coded Yes on all four would constitute a prior instance of the proposed mechanism; the coding determines whether any such paper exists. The label **Primary governance target** is used rather than simply "governance target" because some papers implement multiple mechanisms; the code records only the mechanism central to each paper's contribution.
+
+### 3.3 Theme Development and Synthesis
+
+Papers sharing a governance topology — the same combination of governance target and conditioning variable — were grouped into themes. This produced three governance paradigms (deterministic safety constraints, authority allocation frameworks, adaptive risk-based systems) and one application-domain body (fisheries and low-resource deployment), reviewed in Sections 4.2–4.5.
+
+Within each paradigm, papers were compared against the four coding dimensions to establish the paradigm's collective posture. Section 4.6 synthesises across them, tracing where all four dimensions point to the same absence. The closest structural precedents — papers that graduated some aspect of AI behaviour across three or more levels — were examined in greater detail to establish why they still did not satisfy dimension (d).
+
+The evidence in Section 4.7 is drawn from a separate, non-governance literature (LLM systems and cognition research) and was not subject to the same screening. It addresses a specific question: whether the governance gap could be closed within the AI component itself, rather than through external governance mechanisms.
 
 ---
 
