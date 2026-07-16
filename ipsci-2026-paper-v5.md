@@ -31,7 +31,27 @@ It makes two contributions. First, it establishes from a structured literature r
 
 Five concepts recur throughout this review and are defined here to fix terminology.
 
-An **AI decision support system** generates recommendations for a human decision-maker who retains final decision authority; it is distinct from an autonomous agent, which executes actions directly. A **safety-critical system** is one in which incorrect or inappropriately scoped output can contribute to harm to human life, health, or property. **Runtime governance** refers to mechanisms that constrain AI behaviour during operation, as distinct from design-time controls such as training, fine-tuning, or static configuration. Within runtime governance, this paper separates two dimensions: **participation gating** (whether the AI participates in the decision at all) and **advisory scope** (the set of recommendation types the AI is permitted to generate while participating). Advisory scope restriction is the contraction of that set. Finally, an **environmental safety state** is a classified summary S of an environmental observation vector E, produced by a classification function S = f(E) that is computed independently of the AI component; a **low-resource environment** is a deployment context lacking reliable connectivity, computing infrastructure, and institutional support, imposing offline-first and computationally lightweight requirements on any deployed system.
+An **AI decision support system** generates recommendations for a human decision-maker who retains final decision authority; it is distinct from an autonomous agent, which executes actions directly. A **safety-critical system** is one in which incorrect or inappropriately scoped output can contribute to harm to human life, health, or property. **Runtime governance** refers to mechanisms that constrain AI behaviour during operation, as distinct from design-time controls such as training, fine-tuning, or static configuration. Within runtime governance, this paper separates two dimensions: **participation gating** (whether the AI participates in the decision at all) and **advisory scope** (the set of recommendation types the AI is permitted to generate while participating). Advisory scope restriction is the contraction of that set (dimension 2, Figure 1). Finally, an **environmental safety state** is a classified summary S of an environmental observation vector E, produced by a classification function S = f(E) that is computed independently of the AI component; a **low-resource environment** is a deployment context lacking reliable connectivity, computing infrastructure, and institutional support, imposing offline-first and computationally lightweight requirements on any deployed system.
+
+**Figure 1.** Three governance dimensions in AI decision support systems. Dimensions 1 and 3 appear in existing work; dimension 2 is the gap this paper addresses.
+
+```
+Governance Dimension 1 — Participation
+Whether the AI may operate
+(addressed by: shields, safety filters, binary gates)
+
+          ↓
+
+Governance Dimension 2 — Advisory Scope          ← this paper
+What the AI is permitted to recommend
+(the admissible recommendation space A_AI(S))
+
+          ↓
+
+Governance Dimension 3 — Execution
+Which actions an autonomous agent may take
+(addressed by: action-class restriction, autonomy levels)
+```
 
 ---
 
