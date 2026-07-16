@@ -78,6 +78,8 @@ Each retained paper was coded on the following four dimensions:
 | **Conditioning variable** | Environmental state / AI robustness / Task risk / Human authority / None |
 | **Recommendation restriction** | Yes (bounded output set) / No |
 
+Table 1 in Section 4.4 presents the full coding of all frameworks that implement graduated adaptation.
+
 The four dimensions were derived by decomposing the central research question. A mechanism that restricts AI advisory scope based on environmental safety state would need to: target advisory scope rather than participation or execution (a), use graduated rather than binary adaptation (b), condition its behaviour on the operator's environmental state rather than internal AI properties (c), and produce a formally bounded output set (d). Each requirement corresponds to one coding dimension. A paper coded Yes on all four would constitute a prior instance of the proposed mechanism; the coding determines whether any such paper exists. The label **Primary governance target** is used rather than simply "governance target" because some papers implement multiple mechanisms; the code records only the mechanism central to each paper's contribution.
 
 ### 3.3 Theme Development and Synthesis
@@ -118,18 +120,18 @@ Three 2026 architectures extend this adaptive line and constitute the contempora
 
 Across all three paradigms, the concept of a state-conditioned, formally bounded recommendation menu A_AI(S) for a human decision-maker facing escalating environmental risk has not been identified in the reviewed literature.
 
-| Framework | Levels | Intermediate mode variable | AI status at maximum risk | Bounded advisory scope? |
-|---|---|---|---|---|
-| Shields [8], GS AI [9], safety filter [10] | 2 (on/off) | None (binary) | Blocked | No |
-| Tumato 2.0 [16] | 2 (permit/block per action) | None (binary per action) | — | No |
-| Flehmig et al. traffic-light [7] | 3 (green/orange/red) | **Human** oversight intensity | Control transferred to non-AI backup | No |
-| Kang GAIE [25] | 3 (HITL/HOTL/AWM) | **Human** audit and approval rigour | Full scope, HITL-gated | No |
-| Ghaleb et al. safety gate [27] | 3 (safe/borderline/unsafe) | **System** execution deferral / re-sensing | Switched to classical non-AI planner | No |
-| Sahoo AMAGF [26] | 5 (CQS bands) | **Agent** autonomous action-class | Complete autonomy disablement | No (action limits only) |
-| Baxi K-tier [15] | K tiers | **Agent** permission set (by AI robustness, not environmental state) | — | No (economic actions) |
-| **Proposed architecture** | 3 (SAFE/CAUTION/UNSAFE) | **AI** admissible recommendation space A_AI(S) | Disabled (G(S) = 0, A_AI = ∅) | **Yes** (A_AI(CAUTION) = {Go, Delay}) |
+| Framework | Governance target | Conditioning variable | Runtime adaptation | Intermediate mode variable | AI status at max risk | Output restriction |
+|---|---|---|---|---|---|---|
+| Shields [8], GS AI [9], safety filter [10] | Participation | Safety boundary | Binary (on/off) | None | Blocked | No |
+| Tumato 2.0 [16] | Execution | Constraint predicate | Binary per action | None | — | No |
+| Flehmig et al. traffic-light [7] | Oversight | AI degradation index | Graduated (3 levels) | **Human** supervisory intensity | Control → non-AI backup | No |
+| Kang GAIE [25] | Oversight | Task regulatory impact | Graduated (3 tiers) | **Human** audit and approval | Full scope, HITL-gated | No |
+| Ghaleb et al. safety gate [27] | Execution | Epistemic uncertainty | Graduated (3 regimes) | **System** re-sensing loop | Switched to classical planner | No |
+| Sahoo AMAGF [26] | Execution | Control quality score | Graduated (5 bands) | **Agent** reversible actions only | Autonomy disablement | No (action classes only) |
+| Baxi K-tier [15] | Execution | AI robustness (verified) | Graduated (K tiers) | **Agent** permission set | — | No (economic actions) |
+| **Proposed architecture** | **Advisory scope** | **Environmental safety state** | **Graduated (3 states)** | **AI** admissible recommendation space | Disabled (G(S) = 0, A_AI = ∅) | **Yes** (A_AI(CAUTION) = {Go, Delay}) |
 
-**Table 1.** Governance patterns in the reviewed architectures, organised by the variable each framework graduates at its intermediate level.
+**Table 1.** Coding of reviewed architectures against the four governance dimensions from Section 3.2. The proposed architecture is the only framework in the corpus that targets advisory scope and formally bounds the output set a human decision-maker may receive — conditioned on environmental safety state.
 
 *Shamsujjoha et al.'s Swiss Cheese Model [6] describes 13 guardrail actions applied to agent artifacts (prompts, plans, tools, FMs) and pipeline stages. All actions are content-focused (block, filter, flag, modify, validate); none condition AI advisory scope on environmental safety state.*
 
