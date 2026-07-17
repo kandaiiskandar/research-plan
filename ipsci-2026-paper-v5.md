@@ -220,7 +220,7 @@ This mechanistic evidence converts the gap documented in Sections 4.2–4.6 from
 
 ### 4.8 Objectives of This Study
 
-The review in Sections 4.1–4.7 establishes a concrete gap: no architecture identified in this review restricts AI advisory scope according to classified environmental safety state. This study has three objectives:
+The literature reviewed in Sections 4.1–4.7 establishes a research gap: the reviewed AI governance and decision-support architectures provide mechanisms for AI participation gating and autonomous action restriction, but do not restrict AI advisory scope according to classified environmental safety state. The mechanistic evidence presented in Section 4.7 further indicates that this gap cannot be resolved within the AI component itself, motivating the need for an externally enforced governance mechanism. To address this gap, this study has three objectives:
 
 1. **To determine whether existing AI governance and decision-support architectures implement mechanisms that restrict AI advisory scope according to classified environmental safety state.**
 
