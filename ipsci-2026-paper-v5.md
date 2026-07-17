@@ -57,7 +57,7 @@ Which actions an autonomous agent may take
 
 ## 3. METHODOLOGY
 
-This review follows a structured literature review (StLR) protocol, structured rather than systematic: search and coding are disciplined, but the scope is purposive, covering only the bodies of literature where such a mechanism could plausibly appear. The central question is whether any existing architecture restricts an AI system's advisory scope as a function of classified environmental safety state. A systematic review promises completeness and reproducibility; this one promises analytical rigour and transparent reasoning. Reviewers should apply the latter standard.
+This study adopts a Structured Literature Review (StLR) approach, structured rather than systematic: search and coding are disciplined, but the scope is purposive, covering only the bodies of literature where such a mechanism could plausibly appear. The central question is whether any existing architecture restricts an AI system's advisory scope as a function of classified environmental safety state. A systematic review promises completeness and reproducibility; this one promises analytical rigour and transparent reasoning. Reviewers should apply the latter standard.
 
 ### 3.1 Search Strategy
 
