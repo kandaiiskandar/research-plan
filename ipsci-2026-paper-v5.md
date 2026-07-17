@@ -220,15 +220,15 @@ This mechanistic evidence converts the gap documented in Sections 4.2–4.6 from
 
 ### 4.8 Objectives of This Study
 
-The review in Sections 4.1–4.7 establishes a concrete gap: no architecture identified in this review restricts AI advisory scope according to classified environmental safety state. Three objectives follow.
+The review in Sections 4.1–4.7 establishes a concrete gap: no architecture identified in this review restricts AI advisory scope according to classified environmental safety state. This study has three objectives:
 
-1. To determine whether existing AI governance and decision-support architectures implement mechanisms that restrict advisory scope according to classified environmental safety state.
+1. **To determine whether existing AI governance and decision-support architectures implement mechanisms that restrict AI advisory scope according to classified environmental safety state.**
 
-2. To characterise the advisory scope gap through a structured comparison across four literature streams: deterministic safety constraints, authority allocation frameworks, adaptive risk-based systems, and low-resource application domains.
+2. **To characterise the advisory scope gap through a structured comparison across deterministic safety constraints, authority allocation frameworks, adaptive risk-based systems, and low-resource application domains.**
 
-3. To derive a graduated safety-state-gated governance architecture that addresses the identified gap, separating AI participation from advisory scope through an external governance mechanism.
+3. **To derive a graduated safety-state-gated governance architecture that addresses the identified gap by separating AI participation from advisory scope through an externally enforced governance mechanism.**
 
-The structured literature review addresses the first two objectives; the architecture proposed in Section 5 addresses the third. The architecture also forms the conceptual basis for the broader PhD research programme, in which the governance model will be formally specified, implemented as a prototype for departure decision support in small-scale coastal fisheries, and evaluated in a low-resource operational environment.
+The structured literature review addresses the first two objectives, while the architecture proposed in Section 5 addresses the third.
 
 ---
 
