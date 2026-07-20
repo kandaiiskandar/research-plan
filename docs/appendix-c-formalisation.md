@@ -8,10 +8,10 @@ Let the environmental–operational state be defined as a state vector:
 
 Where:
 
-- **w** = wind condition (speed / strength, e.g., Beaufort scale or m/s)
-- **r** = rainfall intensity (e.g., none, light, moderate, heavy)
-- **m** = sea state (wave height / swell, e.g., calm, moderate, rough)
-- **o** = official marine warning level (e.g., no warning, caution, danger / warning)
+- **w** = wind speed (knots, sustained)
+- **r** = rainfall intensity (none, light, moderate, heavy, storm)
+- **m** = marine warning level (none, advisory, warning, alert)
+- **o** = ocean state (wave height m, swell period s)
 - **v** = vessel category (small, medium, big)
 - **t** = time of day (hour, 24‑hour clock)
 
@@ -82,7 +82,7 @@ S =
 - SAFE otherwise
 
 
-This example illustrates the classification logic using wind (w) and official warning level (o), which are the two most critical factors from the literature.  
+This example illustrates the classification logic using wind (w) and marine warning level (m), which are the two most critical factors from the literature.  
 In the full system, the function **f(E)** incorporates all variables in the environmental state vector **E** (including rainfall r, sea state m, vessel category v, and time of day t), with thresholds derived from Malaysian maritime safety data and expert elicitation during the design science research cycle.
 
 ---
