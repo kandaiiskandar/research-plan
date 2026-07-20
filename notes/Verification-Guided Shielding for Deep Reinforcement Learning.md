@@ -8,9 +8,10 @@
 - **Title:** Verification-Guided Shielding for Deep Reinforcement Learning
 - **Authors:** Davide Corsi, Guy Amir, Andoni Rodríguez, César Sánchez, Guy Katz, Roy Fox
 - **Year:** 2024
-- **Venue:** arXiv preprint (arXiv:2406.06507v2)
+- **Venue:** 1st Reinforcement Learning Conference (RLC), 2024
+- **DOI:** 10.48550/arXiv.2406.06507
 - **Type:** System design + empirical evaluation
-- **Provenance note:** Preprint as of June 2024. Multi-institutional (UC Irvine, Hebrew University of Jerusalem, IMDEA Software Institute). Strong author track record in formal verification (Katz — Marabou framework) and safe DRL (Corsi). Not yet peer-reviewed at a named venue — **treat as supporting reference, not load-bearing for gap claims.**
+- **Provenance note:** Published at RLC 2024. Multi-institutional (UC Irvine, Hebrew University of Jerusalem, IMDEA Software Institute). Strong author track record in formal verification (Katz — Marabou framework) and safe DRL (Corsi).
 
 ---
 

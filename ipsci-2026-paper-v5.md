@@ -333,39 +333,39 @@ The graduated safety-state-gated architecture proposed here addresses this gap t
 
 [4] H. Wen, Z. Sajid, and R. Arunthavanathan, "Risk perception in complex systems: A comparative analysis of process control and autonomous vehicle failures," *AI*, vol. 6, no. 8, p. 164, 2025. doi: 10.3390/ai6080164
 
-[5] V. Indykov, D. Strüber, and R. Wohlrab, "Architectural tactics to achieve quality attributes of machine-learning-enabled systems: A systematic literature review," *Journal of Systems and Software*, vol. 223, p. 112373, 2025. doi: 10.1016/j.jss.2024.112373
+[5] V. Indykov, D. Strüber, and R. Wohlrab, "Architectural tactics to achieve quality attributes of machine-learning-enabled systems: A systematic literature review," *Journal of Systems and Software*, vol. 223, p. 112373, 2025. doi: 10.1016/j.jss.2025.112373
 
 [6] Md. Shamsujjoha, Q. Lu, D. Zhao, and L. Zhu, "Swiss cheese model for AI safety: A taxonomy and reference architecture for multi-layered guardrails of foundation model based agents," in *Proc. IEEE 22nd Int. Conf. Software Architecture (ICSA)*, 2025, pp. 37–48. doi: 10.1109/ICSA65012.2025.00014
 
 [7] N. Flehmig, M. A. Lundteigen, and S. Yin, "Implementing artificial intelligence in safety-critical systems during operation: Challenges and extended framework for a quality assurance process," in *Proc. IEEE IECON 2024: 50th Annual Conf. IEEE Industrial Electronics Society*, 2024. doi: 10.1109/IECON55916.2024.10906021
 
-[8] B. Könighofer et al., "Shields for safe reinforcement learning," *Formal Methods in System Design*, vol. 65, pp. 1–38, 2025. doi: 10.1007/s10703-025-00456-7
+[8] B. Könighofer et al., "Shields for safe reinforcement learning," *Communications of the ACM*, vol. 68, no. 11, pp. 80–90, 2025. doi: 10.1145/3715958
 
 [9] D. Dalrymple et al., "Towards guaranteed safe AI: A framework for ensuring robust and reliable AI systems," *arXiv preprint arXiv:2405.06624*, 2024.
 
-[10] A. Bajcsy and J. F. Fisac, "Human–AI safety: A descendant of generative AI and control systems safety," *Annual Review of Control, Robotics, and Autonomous Systems*, 2024. doi: 10.1146/annurev-control-090623-114628
+[10] A. Bajcsy and J. F. Fisac, "Human–AI safety: A descendant of generative AI and control systems safety," *arXiv preprint arXiv:2405.09794*, 2024.
 
-[11] A. Corsi et al., "Verification-guided shielding for deep reinforcement learning," in *Proc. AAAI Conf. Artificial Intelligence*, vol. 38, no. 10, 2024, pp. 11391–11399. doi: 10.1609/aaai.v38i10.28999
+[11] A. Corsi, G. Amir, A. Rodriguez, C. Sanchez, G. Katz, and R. Fox, "Verification-guided shielding for deep reinforcement learning," in *Proc. 1st Reinforcement Learning Conference (RLC)*, 2024. doi: 10.48550/arXiv.2406.06507
 
-[12] J. Abella et al., "SAFEXPLAIN: A complete approach towards trustworthy AI-based safety-critical systems," *Safety Science*, vol. 181, p. 106699, 2025. doi: 10.1016/j.ssci.2024.106699
+[12] J. Abella et al., "SAFEXPLAIN: A complete approach towards trustworthy AI-based safety-critical systems," in *Proc. 28th Euromicro Conf. Digital System Design (DSD)*, IEEE, 2025, pp. 324–331. doi: 10.1109/DSD67783.2025.00053
 
 [13] I.F. Ramos, G. Gianini, M.C. Leva, and E. Damiani, "Collaborative intelligence for safety-critical industries: A literature review," *Information*, vol. 15, no. 11, p. 728, 2024. doi: 10.3390/info15110728
 
-[14] Z. Feng, J. McDonald, and C. Zhang, "Levels of autonomy for AI agents," *arXiv preprint arXiv:2506.01234*, 2025.
+[14] Z. Feng, J. McDonald, and C. Zhang, "Levels of autonomy for AI agents," *arXiv preprint arXiv:2506.12469*, 2025.
 
-[15] A. Baxi, "The comprehension-gated agent economy: A robustness-first architecture for AI economic agency," *arXiv preprint arXiv:2504.01234*, 2026.
+[15] A. Baxi, "The comprehension-gated agent economy: A robustness-first architecture for AI economic agency," *arXiv preprint arXiv:2603.15639*, 2026.
 
-[16] J. Vermaelen and T. Holvoet, "Tumato 2.0: A constraint-based planning approach for safe and robust robot behavior," *IEEE Transactions on Cognitive and Developmental Systems*, 2025. doi: 10.1109/TCDS.2025.00123
+[16] J. Vermaelen and T. Holvoet, "Tumato 2.0: A constraint-based planning approach for safe and robust robot behavior," *Annals of Mathematics and Artificial Intelligence*, vol. 93, pp. 541–567, 2025. doi: 10.1007/s10472-024-09949-3
 
-[17] M. S. Haque and S. Al Jufaili, "Applications of artificial intelligence in fisheries: From data to decisions," *Reviews in Aquaculture*, 2026. doi: 10.1111/raq.12967
+[17] M. S. Haque and S. Al Jufaili, "Applications of artificial intelligence in fisheries: From data to decisions," *Big Data and Cognitive Computing*, vol. 10, no. 1, art. 19, 2026. doi: 10.3390/bdcc10010019
 
 [18] Abd. Rahim et al., "Survival decisions and adaptation strategies of small-scale fishers in the face of extreme weather impacts in coastal areas," *Journal of Marine and Island Cultures*, vol. 13, no. 3, 2024. doi: 10.21463/jmic.2024.13.3.05
 
-[19] A. Katende, "Rethinking data-efficient artificial intelligence for low-resource settings," *AI & Society*, 2026. doi: 10.1007/s00146-026-01234-5
+[19] A. Katende, "Rethinking data-efficient artificial intelligence for low-resource settings," *Machine Learning with Applications*, vol. 23, p. 100796, 2026. doi: 10.1016/j.mlwa.2025.100796
 
-[20] A. Longobardi et al., "Peskas: Automated analytics for small-scale, data-deficient fisheries," *PLOS ONE*, vol. 20, no. 3, p. e0298765, 2025. doi: 10.1371/journal.pone.0298765
+[20] A. Longobardi et al., "Peskas: Automated analytics for small-scale, data-deficient fisheries," *SoftwareX*, vol. 29, p. 102028, 2025. doi: 10.1016/j.softx.2024.102028
 
-[21] P. Bhuvaneswari et al., "A human-centered hybrid AI framework for optimizing emergency triage in resource-constrained settings," *Applied Soft Computing*, vol. 168, p. 112487, 2025. doi: 10.1016/j.asoc.2025.112487
+[21] P. Bhuvaneswari, K. D. V. Prasad, M. Ashraf, and S. Jadhav, "A human-centered hybrid AI framework for optimizing emergency triage in resource-constrained settings," *Intelligence-Based Medicine*, vol. 12, p. 100311, 2025. doi: 10.1016/j.ibmed.2025.100311
 
 [22] B. Attard-Frost and K. Lyons, "AI governance systems: A multi-scale analysis framework, empirical findings, and future directions," *AI and Ethics*, vol. 5, pp. 2557–2604, 2025. doi: 10.1007/s43681-024-00569-5
 

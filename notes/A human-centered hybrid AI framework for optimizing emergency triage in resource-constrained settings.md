@@ -9,6 +9,7 @@
 - **Authors:** E. Bhuvaneswari, K.D.V. Prasad, Mohd Ashraf, Sachin Jadhav, TK Rama Krishna Rao, Tirukoti Sudha Rani
 - **Year:** 2025
 - **Venue:** Intelligence-Based Medicine, Volume 12, 100311 (Elsevier)
+- **DOI:** 10.1016/j.ibmed.2025.100311
 - **Type:** System design paper with empirical evaluation (simulated + pilot)
 
 ---
