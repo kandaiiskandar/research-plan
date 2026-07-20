@@ -211,7 +211,7 @@ Probing studies of reasoning LLMs show that how broadly a model explores alterna
 
 #### Self-assessed uncertainty is unreliable and non-learning
 
-In five preregistered studies comparing four LLMs with human participants, Cash et al. find that LLM confidence judgments are unpredictably calibrated across domains and models, biased toward overconfidence, and (for the models tested most extensively) insensitive to the models' own past performance: unlike humans, ChatGPT and Gemini failed to improve their calibration after completing a task, a deficit the authors attribute to LLMs' lack of access to mnemonic cues, the internal experiential signals that ground human metacognitive updating [30]. A safety-critical system therefore cannot delegate risk sensitivity to the AI component's self-reported uncertainty, and repeated operation does not make that self-assessment more trustworthy.
+In five studies comparing four LLMs with human participants, Cash et al. find that LLM confidence judgments are unpredictably calibrated across domains and models, biased toward overconfidence, and (for the models tested most extensively) insensitive to the models' own past performance: unlike humans, ChatGPT and Gemini failed to improve their calibration after completing a task, a deficit the authors attribute to LLMs' lack of access to mnemonic cues, the internal experiential signals that ground human metacognitive updating [30]. A safety-critical system therefore cannot delegate risk sensitivity to the AI component's self-reported uncertainty, and repeated operation does not make that self-assessment more trustworthy.
 
 #### Internal versus external governance
 

@@ -3,7 +3,8 @@
 **Scope:** `ipsci-2026-paper-v5.md`  
 **Against:** Notes files in `notes/` (via `docs/citation-notes-map.md`)  
 **Tier 1 verification:** Completed 2026-07-20  
-**Tier 2 / Tier 3:** Pending
+**Tier 2 verification:** Completed 2026-07-20  
+**Tier 3 verification:** Completed 2026-07-20
 
 ---
 
@@ -56,30 +57,52 @@ For each cited paper, identify the exact claim(s) made in the paper body, then v
 
 ## Tier 2 — Qualitative Gap Argument Claims
 
-| Ref | Paper | Claim in paper | Status |
-|---|---|---|---|
-| [7] | Flehmig et al. | Three-level traffic-light (green/orange/red); at orange: supervisory checks intensify; at red: control → non-AI backup; AI advisory scope **identical at green and orange** | Pending |
-| [7] | Flehmig et al. | Direct quote: *"To our knowledge, there is currently no existing framework or method for indexing AI degradation in safety-critical systems in such a manner"* — must match notes verbatim | Pending |
-| [9] | Dalrymple et al. | "Guaranteed Safe AI, requiring formal proof certificates before AI output is deployed" | Pending |
-| [25] | Kang | "Three oversight tiers via a deterministic classification model with monotonicity, fail-safety, and totality properties"; coding agent generates "full-scope, unconstrained code artifacts at every tier" | Pending |
-| [26] | Sahoo | "restricts to reversible actions only" at intermediate CQS; "governs an executing military agent rather than a human-facing recommendation menu" | Pending |
-| [15] | Baxi | "tiers determined by AI's own verified robustness, not by classified environmental state" | Pending |
-| [32] | Engin & Hand | "dimensions defined as properties of the human-AI relationship, not of the operator's physical environment" | Pending |
-| [35] | Kolt et al. | "effective governance must intervene early, at calibrated risk thresholds, on incomplete information" | Pending |
+| Ref | Paper | Claim in paper | Status | Finding |
+|---|---|---|---|---|
+| [7] | Flehmig et al. | Three-level traffic-light (green/orange/red); at orange: supervisory checks intensify; at red: control → non-AI backup; AI advisory scope **identical at green and orange** | **Confirmed** | Notes §6 confirms: Level 2 (Orange) → thorough checks + root-cause investigation; Level 3 (Red) → switch to non-AI controller; "AI recommendation scope does not vary across levels… identical at Level 1 and Level 2" |
+| [7] | Flehmig et al. | Direct quote: *"To our knowledge, there is currently no existing framework or method for indexing AI degradation in safety-critical systems in such a manner"* — must match notes verbatim | **Confirmed** | Notes §15 quote is verbatim identical. Paper renders it in italics with [7]. ✓ |
+| [9] | Dalrymple et al. | "Guaranteed Safe AI, requiring formal proof certificates before AI output is deployed" | **Confirmed** | Notes §2: "verifier producing an auditable proof certificate"; §4: "AI system's output is only deployed if this guarantee meets the required threshold." Characterisation accurate. |
+| [25] | Kang | "Three oversight tiers via a deterministic classification model with monotonicity, fail-safety, and totality properties"; coding agent generates "full-scope, unconstrained code artifacts at every tier" | **Confirmed** | Notes §2: Theorem 1 Monotonicity, Theorem 2 Fail-safety, Theorem 3 Totality — all confirmed. Notes §4: "all three tiers the agent produces full-scope output (complete code, tests, deployment artifacts)." ✓ |
+| [26] | Sahoo | "restricts to reversible actions only" at intermediate CQS; "governs an executing military agent rather than a human-facing recommendation menu" | **Confirmed** | Notes §2 Table: CQS 0.4–0.6 → "Reversible actions only; budget frozen" ✓. Notes §4: "governed object — autonomous execution space of an acting agent, not the admissible recommendation space of a human-facing advisory system" ✓ |
+| [15] | Baxi | "tiers determined by AI's own verified robustness, not by classified environmental state" | **Confirmed** | Notes §4: "AI agent robustness R = (CC, ER, AS, IH)" is classified; §16: "robustness-conditioned (not environment-conditioned). Agent properties determine tier, not environmental conditions." ✓ |
+| [32] | Engin & Hand | "dimensions defined as properties of the human-AI relationship, not of the operator's physical environment" | **Confirmed** | Notes §2: "decision authority, process autonomy, and accountability distribute dynamically across human-AI relationships"; §4: "Its dimensions (3As) are not environmental state… properties of the human-AI relationship." ✓ |
+| [35] | Kolt et al. | "effective governance must intervene early, at calibrated risk thresholds, on incomplete information" | **Confirmed** | Notes §2: "Early and scalable intervention — early action on limited information can prevent harm"; "policymakers must 'satisfice,' acting on incomplete information at calibrated thresholds." Paper at line 304 matches. ✓ |
+
+### Tier 2 Summary
+
+| Result | Count |
+|---|---|
+| Confirmed | 8 |
+| Wrong — corrected | 0 |
+| Needs review | 0 |
+
+**Tier 2 complete — all 8 qualitative gap argument claims verified clean. No corrections required.**
 
 ---
 
 ## Tier 3 — Structural Descriptions
 
-| Ref | Paper | Claim in paper | Status |
-|---|---|---|---|
-| [16] | Vermaelen & Holvoet | "allowed(a,s) predicate" as "absolute execution toggle" | Pending |
-| [34] | Wang et al. | "learns a Discrete-Time Markov Chain from execution traces" | Pending |
-| [27] | Ghaleb et al. | Three regimes: Safe to proceed / Borderline / Unsafe to proceed; Borderline forces "re-observation loop capturing alternative camera viewpoints" | Pending |
-| [28] | Kamath et al. | "compute-bound prefill phase" + "memory-bandwidth-bound decode phase" — two fixed phases of LLM inference | Pending |
-| [29] | Wu et al. | "models collapse onto single highest-probability component at each step"; "exploration restored only by externally injected, undirected randomness" | Pending |
-| [30] | Cash et al. | "five preregistered studies comparing four LLMs with human participants"; "ChatGPT and Gemini failed to improve calibration after task" | Pending |
-| [33] | Mussi et al. | "function allocation and automation levels fixed at design time" | Pending |
+| Ref | Paper | Claim in paper | Status | Finding |
+|---|---|---|---|---|
+| [16] | Vermaelen & Holvoet | "allowed(a,s) predicate" as "absolute execution toggle" | **Confirmed** | Notes §5: `allowed(a,s) ⇔ ∀effect ∈ effect(a,s) : effect ⇒ {state_rules}` — binary predicate; notes §6: "binary distinction: states either satisfy all state rules (safe) or violate at least one (unsafe)." The claim "absolute execution toggle: completely permitted or entirely blocked" matches exactly. |
+| [34] | Wang et al. | "learns a Discrete-Time Markov Chain from execution traces" | **Confirmed** | Notes §2 verbatim: "learns a Discrete-Time Markov Chain from execution traces." Exact phrase match. |
+| [27] | Ghaleb et al. | Three regimes: Safe to proceed / Borderline / Unsafe to proceed; Borderline forces "re-observation loop capturing alternative camera viewpoints" | **Confirmed** | Notes §2 confirms three regimes with exact labels. Notes §15 quote 2: "pausing and feeding the next camera frame (from a slightly different viewpoint)" = re-observation loop with alternative viewpoints. ✓ |
+| [28] | Kamath et al. | "compute-bound prefill phase" + "memory-bandwidth-bound decode phase" — two fixed phases of LLM inference | **Confirmed** | Notes §2 abstract: "compute-bound prefill and memory-bandwidth-bound decode." Notes §4: "structurally fixed pipeline: prefill… compute-bound… decode… memory-bandwidth-bound." Exact match. |
+| [29] | Wu et al. | "models collapse onto single highest-probability component at each step"; "exploration restored only by externally injected, undirected randomness" | **Confirmed** | Notes §2 (abstract): "single-threaded reasoners… reduces vanilla Soft Thinking to a form of greedy decoding." Notes §4: "collapses onto the single highest-probability component"; "exploration is restored only by externally injected, undirected randomness (Gumbel-Softmax)." Both sub-claims verified. |
+| [30] | Cash et al. | "five **preregistered** studies comparing four LLMs with human participants"; "ChatGPT and Gemini failed to improve calibration after task" | **Wrong — corrected** | Notes §1: "preregistered (AsPredicted, Studies 3–5)" — only three of five studies were preregistered; Studies 1–2 (NFL, Oscar) were not. "four LLMs" confirmed (ChatGPT-4, Gemini 1.5 Flash, Claude Sonnet, Claude Haiku). ChatGPT/Gemini calibration claim confirmed (notes §2). Paper corrected: "five preregistered studies" → "five studies". |
+| [33] | Mussi et al. | "function allocation and automation levels fixed at design time" | **Confirmed** | Notes §5: "governance is design-time (architectural patterns) and organisational (function allocation, automation levels), not runtime state-conditioned." Notes §7: "design-time architectural choices and organisational function allocation, not runtime state-conditioned governance." ✓ |
+
+### Tier 3 Summary
+
+| Result | Count |
+|---|---|
+| Confirmed | 6 |
+| Wrong — corrected | 1 |
+| Needs review | 0 |
+
+**[30] Cash et al. "five preregistered studies"** — notes record only Studies 3–5 were preregistered on AsPredicted; Studies 1–2 (aleatory uncertainty: NFL and Oscar predictions) were not preregistered. Corrected to "five studies" in the paper. The substantive finding (ChatGPT and Gemini failed to improve calibration) is confirmed from the preregistered studies subset and unaffected. ✓
+
+**Tier 3 complete — 6 confirmed, 1 wrong corrected.**
 
 ---
 
