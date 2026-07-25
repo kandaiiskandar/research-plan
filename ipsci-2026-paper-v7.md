@@ -178,7 +178,7 @@ Across the 72 reviewed papers, prior work addresses adjacent governance dimensio
 
 ## The Mechanistic Basis for External Governance
 
-Can the AI component itself be expected to narrow its advisory scope as conditions deteriorate, making external governance unnecessary? Evidence from the LLM systems and cognition literatures (external to the governance corpus reviewed above) indicates it cannot be relied upon to do so, at any of the three points where such self-restraint would have to arise. The proposed architecture uses a Symbolic AI Reasoning Engine rather than an LLM; the limitations above nonetheless point to a general constraint: effective AI governance cannot rely on an AI system's ability to self-regulate, whatever the underlying technique.
+Can the AI component itself be expected to narrow its advisory scope as conditions deteriorate, making external governance unnecessary? Evidence from the LLM systems and cognition literatures (external to the governance corpus surveyed in this review) indicates it cannot be relied upon to do so, at any of the three points where such self-restraint would have to arise. The proposed architecture uses a Symbolic AI Reasoning Engine rather than an LLM; the limitations above nonetheless point to a general constraint: effective AI governance cannot rely on an AI system's ability to self-regulate, whatever the underlying technique.
 
 ### Fixed inference pipeline
 
