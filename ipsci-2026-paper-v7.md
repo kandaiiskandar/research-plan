@@ -234,11 +234,12 @@ Environmental observation vector E = {w, r, m, o, v, t}
                  │  CAUTION: {Go, Delay}           │
                  └────────┬───────────────────────┘
                           │
-                 ┌────────▼───────────┐
-                 │  Rule-based engine │
-                 │  (RS(S) supplied   │
-                 │   before inference)│
-                 └────────┬───────────┘
+                 ┌────────▼───────────────┐
+                 │  Symbolic AI           │
+                 │  Reasoning Engine      │
+                 │  (RS(S) supplied       │
+                 │   before inference)    │
+                 └────────┬───────────────┘
                           │
                  ┌────────▼───────────┐
                  │  AI(E) ⊆ A_AI(S)   │
