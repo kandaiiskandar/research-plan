@@ -28,7 +28,7 @@ Four precise edits to the Proposed Architecture section. No other section is tou
 
 Add one sentence at the start of the opening paragraph of the Proposed Architecture section, before the existing sentence "The mechanistic evidence above establishes that internal self-restraint cannot be relied upon...":
 
-> *The proposed architecture employs a Symbolic AI Reasoning Engine, implemented as a knowledge-based rule system in the classical symbolic AI tradition [38], to generate recommendations within the constraints imposed by the participation and advisory-scope gates.*
+> *The proposed architecture employs a Symbolic AI Reasoning Engine, implemented as a knowledge-based expert system within the classical symbolic AI tradition [38], to generate recommendations within the constraints imposed by the participation and advisory-scope gates.*
 
 **Purpose:** Introduces the term before the figure so readers understand Fig. 3 immediately on first contact. The Belle (2025) citation anchors "Symbolic AI" in published literature, pre-empting any reviewer query about the term.
 
@@ -86,7 +86,7 @@ One sentence addition to the Mechanistic Basis section. No subsection content is
 
 At the end of the section's opening paragraph (after "...at any of the three points where such self-restraint would have to arise."), append:
 
-> *Although the proposed architecture employs a Symbolic AI Reasoning Engine rather than an LLM, these limitations illustrate a broader principle: AI governance should not depend on the AI component's ability to self-regulate, regardless of the underlying technique.*
+> *Although the proposed architecture employs a Symbolic AI Reasoning Engine rather than an LLM, these limitations illustrate a broader principle: effective AI governance should not depend on an AI system's ability to self-regulate, regardless of the underlying implementation technique.*
 
 **Purpose:** Preempts the reviewer question before they read through the three LLM-specific subsections. Establishes LLM evidence as motivation for a general principle, not as a description of the implementation.
 

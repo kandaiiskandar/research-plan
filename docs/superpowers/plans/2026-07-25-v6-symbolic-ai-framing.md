@@ -40,13 +40,13 @@ The mechanistic evidence above establishes that internal self-restraint cannot b
   Insert the following sentence immediately before "The mechanistic evidence above establishes...":
 
   ```
-  The proposed architecture employs a Symbolic AI Reasoning Engine, implemented as a knowledge-based rule system in the classical symbolic AI tradition [38], to generate recommendations within the constraints imposed by the participation and advisory-scope gates.
+  The proposed architecture employs a Symbolic AI Reasoning Engine, implemented as a knowledge-based expert system within the classical symbolic AI tradition [38], to generate recommendations within the constraints imposed by the participation and advisory-scope gates.
   ```
 
   The result should be two consecutive sentences at the start of the section:
 
   ```
-  The proposed architecture employs a Symbolic AI Reasoning Engine, implemented as a knowledge-based rule system in the classical symbolic AI tradition [38], to generate recommendations within the constraints imposed by the participation and advisory-scope gates. The mechanistic evidence above establishes that internal self-restraint cannot be relied upon; the gap requires an external architectural solution.
+  The proposed architecture employs a Symbolic AI Reasoning Engine, implemented as a knowledge-based expert system within the classical symbolic AI tradition [38], to generate recommendations within the constraints imposed by the participation and advisory-scope gates. The mechanistic evidence above establishes that internal self-restraint cannot be relied upon; the gap requires an external architectural solution.
   ```
 
 - [ ] **Step 3: Verify**
@@ -236,13 +236,13 @@ The References section ends with:
   Append the following sentence immediately after "...at any of the three points where such self-restraint would have to arise.":
 
   ```
-  Although the proposed architecture employs a Symbolic AI Reasoning Engine rather than an LLM, these limitations illustrate a broader principle: AI governance should not depend on the AI component's ability to self-regulate, regardless of the underlying technique.
+  Although the proposed architecture employs a Symbolic AI Reasoning Engine rather than an LLM, these limitations illustrate a broader principle: effective AI governance should not depend on an AI system's ability to self-regulate, regardless of the underlying implementation technique.
   ```
 
   The closing two sentences of the opening paragraph should now read:
 
   ```
-  Evidence from the LLM systems and cognition literatures (external to the governance corpus reviewed above) indicates it cannot be relied upon to do so, at any of the three points where such self-restraint would have to arise. Although the proposed architecture employs a Symbolic AI Reasoning Engine rather than an LLM, these limitations illustrate a broader principle: AI governance should not depend on the AI component's ability to self-regulate, regardless of the underlying technique.
+  Evidence from the LLM systems and cognition literatures (external to the governance corpus reviewed above) indicates it cannot be relied upon to do so, at any of the three points where such self-restraint would have to arise. Although the proposed architecture employs a Symbolic AI Reasoning Engine rather than an LLM, these limitations illustrate a broader principle: effective AI governance should not depend on an AI system's ability to self-regulate, regardless of the underlying implementation technique.
   ```
 
 - [ ] **Step 3: Add reference [38]**
