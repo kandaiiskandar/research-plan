@@ -7,7 +7,7 @@ metadata:
 
 # v6 Paper — Symbolic AI Framing Fixes
 
-**Goal:** Two targeted changes to `ipsci-2026-paper-v6.md` that resolve the two remaining presentation issues identified in pre-submission review. No structural changes; no new sections; no changes to Abstract, Conclusion, or References.
+**Goal:** Two targeted changes to `ipsci-2026-paper-v6.md` that resolve the two remaining presentation issues identified in pre-submission review. No structural changes; no new sections; no changes to Abstract or Conclusion. One new reference is added (Belle, 2025 [38]) to support the Symbolic AI terminology in change 1a.
 
 ## Context
 
@@ -28,9 +28,9 @@ Four precise edits to the Proposed Architecture section. No other section is tou
 
 Add one sentence at the start of the opening paragraph of the Proposed Architecture section, before the existing sentence "The mechanistic evidence above establishes that internal self-restraint cannot be relied upon...":
 
-> *The proposed architecture employs a Symbolic AI Reasoning Engine, implemented as a knowledge-based rule system, to generate recommendations within the constraints imposed by the participation and advisory-scope gates.*
+> *The proposed architecture employs a Symbolic AI Reasoning Engine, implemented as a knowledge-based rule system in the classical symbolic AI tradition [38], to generate recommendations within the constraints imposed by the participation and advisory-scope gates.*
 
-**Purpose:** Introduces the term before the figure so readers understand Fig. 3 immediately on first contact.
+**Purpose:** Introduces the term before the figure so readers understand Fig. 3 immediately on first contact. The Belle (2025) citation anchors "Symbolic AI" in published literature, pre-empting any reviewer query about the term.
 
 ### 1b — Fig. 3 ASCII diagram label rename
 
@@ -98,12 +98,20 @@ At the end of the section's opening paragraph (after "...at any of the three poi
 
 ## Constraints
 
-- Do not alter Abstract, Conclusion, or References.
+- Do not alter Abstract or Conclusion.
 - Do not alter formal notation (G(S), A_AI(S), AAI(S), E, S = f(E), Safety Dominance Property, containment expressions).
 - Do not alter Table I, II, III or Fig. 1, 2.
-- Preserve all citation numbers [1]–[37].
+- Preserve all citation numbers [1]–[37]; append [38] as the sole new reference.
 - Fig. abbreviation style: always "Fig. X", never "Figure X".
 - After all edits: invoke the humanizer skill on the four modified prose passages only — the intro sentence (1a), the caption addition (1c), the body sentence (1d), and the transition sentence (2a). The ASCII diagram (1b) is excluded from humanizer.
+
+## New reference to add
+
+Append as [38] at the end of the References section:
+
+> [38] V. Belle, "On the relevance of logic for artificial intelligence, and the promise of neurosymbolic learning," *Neurosymbolic Artificial Intelligence*, 2025. doi: 10.1177/29498732251339951
+
+Source: `notes/On the Relevance of Logic for Artificial Intelligence, and the Promise of Neurosymbolic Learning.md`
 
 ---
 
@@ -124,7 +132,7 @@ The following are explicitly out of scope for this change set:
 - [ ] "Symbolic AI Reasoning Engine" appears in: intro sentence before Fig. 3, Fig. 3 diagram, Fig. 3 caption, Domain Instantiation body text
 - [ ] "Rule-based engine" label no longer appears in Fig. 3 diagram
 - [ ] Mechanistic Basis opening paragraph ends with the transition sentence
-- [ ] All citation numbers [1]–[37] intact
-- [ ] No changes to Abstract, Conclusion, or References
+- [ ] Citation [38] (Belle, 2025) added to References; numbers [1]–[37] unchanged
+- [ ] No changes to Abstract or Conclusion
 - [ ] Formal notation unchanged throughout
 - [ ] Humanizer applied to the four modified paragraphs
