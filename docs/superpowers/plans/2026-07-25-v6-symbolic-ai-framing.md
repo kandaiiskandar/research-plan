@@ -140,13 +140,13 @@ Fig. 3. The graduated safety-state-gated architecture. Before any inference begi
   Append the following sentence directly after "...for the current observation.":
 
   ```
-  The Symbolic AI Reasoning Engine is a knowledge-based expert system that applies predefined decision rules to generate recommendations within the advisory scope enforced by the governance layer.
+  The Symbolic AI Reasoning Engine is a knowledge-based expert system that applies predefined knowledge rules to generate recommendations within the advisory scope enforced by the governance layer.
   ```
 
   The full caption should now read:
 
   ```
-  Fig. 3. The graduated safety-state-gated architecture. Before any inference begins, a deterministic external classifier computes the environmental safety state S = f (E) outside the AI component. Both gates, G(S) and AAI(S), are conditioned on S and together bound what the AI may recommend for the current observation. The Symbolic AI Reasoning Engine is a knowledge-based expert system that applies predefined decision rules to generate recommendations within the advisory scope enforced by the governance layer.
+  Fig. 3. The graduated safety-state-gated architecture. Before any inference begins, a deterministic external classifier computes the environmental safety state S = f (E) outside the AI component. Both gates, G(S) and AAI(S), are conditioned on S and together bound what the AI may recommend for the current observation. The Symbolic AI Reasoning Engine is a knowledge-based expert system that applies predefined knowledge rules to generate recommendations within the advisory scope enforced by the governance layer.
   ```
 
 - [ ] **Step 3: Verify**

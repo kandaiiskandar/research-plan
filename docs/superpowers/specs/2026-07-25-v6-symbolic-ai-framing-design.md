@@ -63,7 +63,7 @@ Extend the Fig. 3 caption by appending one explanatory sentence after the existi
 
 Existing: *"The graduated safety-state-gated architecture. Before any inference begins, a deterministic external classifier computes the environmental safety state S = f(E) outside the AI component. Both gates, G(S) and A_AI(S), are conditioned on S and together bound what the AI may recommend for the current observation."*
 
-Append: *"The Symbolic AI Reasoning Engine is a knowledge-based expert system that applies predefined decision rules to generate recommendations within the advisory scope enforced by the governance layer."*
+Append: *"The Symbolic AI Reasoning Engine is a knowledge-based expert system that applies predefined knowledge rules to generate recommendations within the advisory scope enforced by the governance layer."*
 
 **Purpose:** Removes all ambiguity for reviewers who read captions before body text.
 
