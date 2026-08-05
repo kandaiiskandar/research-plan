@@ -527,7 +527,7 @@ Use this to move your existing files into the new structure:
 ### Move into `publications/active/ipsci-2026/`
 - [ ] `docs/ipsci2026-extended-abstract-draft.md` → `publications/active/ipsci-2026/submissions/v1-initial-submission/manuscript.md`
 - [ ] `docs/ipsci2026-introduction.md` → `publications/active/ipsci-2026/submissions/archive/`
-- [ ] `docs/publication-plan.md` → `publications/active/ipsci-2026/README.md`
+- [ ] `docs/publication-plan.md` → `publications/publication-plan.md` *(covers all 3 papers, not IPSci only)*
 - [ ] `ipsci-2026-paper-v1.md` → `publications/active/ipsci-2026/submissions/archive/`
 - [ ] `ipsci-2026-paper-v2.md` → `publications/active/ipsci-2026/submissions/archive/`
 - [ ] `ipsci-2026-paper-v3.md` → `publications/active/ipsci-2026/submissions/archive/`

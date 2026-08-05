@@ -69,17 +69,17 @@ Always go to the right document — do not reconstruct content that already exis
 
 | Document | Role |
 |---|---|
-| `docs/appendix-c-formalisation.md` | **Single source of truth** for all formal variable definitions and governance properties |
-| `docs/architecture-illustration.md` | Full architecture walkthrough — layers, governance table, scenario, limitations |
-| `docs/discussion-notes-governance-gap-precedents-and-formal-foundations.md` | The four-layer gap argument; comparisons with Indykov, Dalrymple, Flehmig (2024) |
-| `docs/research-alignment-table.md` | RQ → Objective → Methodology traceability; the novelty thread |
-| `docs/chapter-2-draft.md` | Literature review draft — Sections 2.1–2.9 with bridge paragraph to Chapter 3 |
-| `docs/citation-notes-map.md` | Master citation → notes file mapping for all corpus papers |
-| `docs/justification-layer3-enforcement.md` | Layer 3 decision (rule-based engine), enforcement mechanism, and proof by construction of Safety Dominance Property |
-| `docs/evaluation-design-rq4.md` | RQ4 three-condition comparative evaluation design — scenarios, metrics, and C1 vs C2 discriminator logic |
-| `docs/rq5-study-design.md` | RQ5 contextual validation study design — three questions, instrument, participants, scope exclusions |
-| `docs/research-improvement-plan.md` | Six-step improvement plan produced 25 April 2026 — all steps completed |
-| `docs/justification-*.md` | Justification documents for specific design decisions |
+| `docs/canonical/appendix-c-formalisation.md` | **Single source of truth** for all formal variable definitions and governance properties |
+| `docs/canonical/architecture-illustration.md` | Full architecture walkthrough — layers, governance table, scenario, limitations |
+| `docs/canonical/discussion-notes-governance-gap-precedents-and-formal-foundations.md` | The four-layer gap argument; comparisons with Indykov, Dalrymple, Flehmig (2024) |
+| `docs/canonical/research-alignment-table.md` | RQ → Objective → Methodology traceability; the novelty thread |
+| `docs/chapters/chapter-2-literature-review/v1-initial-draft.md` | Literature review draft — Sections 2.1–2.9 with bridge paragraph to Chapter 3 |
+| `docs/canonical/citation-notes-map.md` | Master citation → notes file mapping for all corpus papers |
+| `docs/canonical/justification-layer3-enforcement.md` | Layer 3 decision (rule-based engine), enforcement mechanism, and proof by construction of Safety Dominance Property |
+| `docs/canonical/evaluation-design-rq4.md` | RQ4 three-condition comparative evaluation design — scenarios, metrics, and C1 vs C2 discriminator logic |
+| `docs/canonical/rq5-study-design.md` | RQ5 contextual validation study design — three questions, instrument, participants, scope exclusions |
+| `docs/reference/research-improvement-plan.md` | Six-step improvement plan produced 25 April 2026 — all steps completed |
+| `docs/justification/*.md` | Justification documents for specific design decisions |
 | `notes/` | Per-paper extraction notes for all 63 corpus papers |
 
 ---
@@ -88,9 +88,9 @@ Always go to the right document — do not reconstruct content that already exis
 
 **Layer 3 is a rule-based engine.** The Safety Dominance Property (AI(E) ⊆ A_AI(S)) is enforced by construction: the governance layer (Layer 2) supplies a rule set RS(S) to Layer 3 before any reasoning begins. RS(CAUTION) contains only rules producing {Go, Delay} — no rule in that configuration can produce DepartureTime or Duration. The property holds by definition of the rule sets, not by runtime filtering.
 
-- Full justification: `docs/justification-layer3-enforcement.md`
-- Proof by construction: `docs/appendix-c-formalisation.md` Section C.7.2
-- Architecture update: `docs/architecture-illustration.md` Layer 3 and Section 2
+- Full justification: `docs/canonical/justification-layer3-enforcement.md`
+- Proof by construction: `docs/canonical/appendix-c-formalisation.md` Section C.7.2
+- Architecture update: `docs/canonical/architecture-illustration.md` Layer 3 and Section 2
 
 **The Safety Dominance Property now holds by implementation, not only by design intent.**
 
@@ -100,7 +100,7 @@ Always go to the right document — do not reconstruct content that already exis
 
 - Do not introduce socio-technical systems theory (Rasmussen, Zarei, STA variable) as a primary theoretical framework — it belongs only in RQ5 discussion.
 - Do not treat Flehmig et al. (2025) "The Missing Variable" as a core corpus paper unless actively working on the RQ5 evaluation chapter.
-- Do not redefine formal variables without updating `docs/appendix-c-formalisation.md` first.
+- Do not redefine formal variables without updating `docs/canonical/appendix-c-formalisation.md` first.
 - Do not frame the research as a socio-technical study with a CS component — it is a CS architecture thesis with a contextual evaluation component.
 - Do not treat RQ5 as a co-equal contribution to RQ1/RQ2 in any framing, abstract, or introduction.
 
@@ -116,7 +116,10 @@ Always go to the right document — do not reconstruct content that already exis
 Author (Year) [[notes]](../notes/filename.md)
 ```
 
-- From `docs/` → path prefix is `../notes/`
+- From `docs/` (root level) → path prefix is `../notes/`
+- From `docs/canonical/` → path prefix is `../../notes/`
+- From `docs/justification/` → path prefix is `../../notes/`
+- From `docs/chapters/` subdirectories → path prefix is `../../../notes/`
 - From `papers/` → path prefix is `../notes/`
 - Spaces in filenames must be URL-encoded as `%20`
 - Special characters: `:` → `%3A`, `?` → `%3F`, `'` → `%27`, `,` → `%2C`, `&` → `%26`
@@ -124,7 +127,7 @@ Author (Year) [[notes]](../notes/filename.md)
 ### Reference lookup
 
 The master citation → notes file mapping is at:
-`docs/citation-notes-map.md`
+`docs/canonical/citation-notes-map.md`
 
 This file contains ready-to-paste `[[notes]](path)` quick links for all 63 papers in the corpus.
 
@@ -132,7 +135,7 @@ This file contains ready-to-paste `[[notes]](path)` quick links for all 63 paper
 
 ### When this rule applies
 
-- Writing or updating any justification document (`docs/justification-*.md`)
+- Writing or updating any justification document (`docs/justification/*.md`)
 - Writing or updating the literature review plan (`papers/review-plan.md`)
 - Writing or updating the comparison table (`papers/comparison-table.md`)
 - Writing any new document that cites corpus papers
