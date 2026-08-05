@@ -498,8 +498,8 @@ Use this to move your existing files into the new structure:
 
 > **⚠ Before running this checklist:**
 > 1. Use `git mv` (not plain `mv`) for every move to preserve git history.
-> 2. **776 `../notes/` relative links** across `docs/` files will break when files move into subdirectories — they will need to become `../../notes/`. Fix in a separate pass after migration. (TODO: automate with a sed/find script.)
-> 3. After all moves, run Section 9 to update CLAUDE.md paths.
+> 2. **Relative `../notes/` links** across `docs/` files will break when files move into subdirectories. Correct depths: one-level-deep subdirs → `../../notes/`; two-level-deep (chapters/) → `../../../notes/`. ✅ Fixed 2026-08-06 via sed.
+> 3. After all moves, run Section 9 to update CLAUDE.md paths. ✅ Done 2026-08-06.
 
 ### Move into `docs/canonical/`
 - [ ] `docs/appendix-c-formalisation.md` → `docs/canonical/`
@@ -582,8 +582,8 @@ Use this to move your existing files into the new structure:
 - [ ] `docs/writing-skill.md`
 
 ### Create new root-level files (do not exist yet)
-- [ ] `PUBLICATION-THESIS-SYNC.md` — use template from Section 7
-- [ ] `PhD-ORGANIZATION-SYSTEM.md` — copy of this file (organize.md) for root-level reference
+- [x] `PUBLICATION-THESIS-SYNC.md` — created 2026-08-05, populated with 3-paper plan
+- [x] `PhD-ORGANIZATION-SYSTEM.md` — created 2026-08-05, quick reference pointing to this file
 
 ### Remove empty directories (still pending as of 2026-08-05)
 - [ ] `improvement-plan/` — migrate contents to `docs/reference/` first
