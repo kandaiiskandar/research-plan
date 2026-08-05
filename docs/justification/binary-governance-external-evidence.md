@@ -22,7 +22,7 @@ The eight papers are ranked by their contribution to the novelty argument, from 
 
 **Impact: Highest**
 
-Zhang et al. (2025) [[notes]](../notes/Developing%20real-time%20IoT-based%20public%20safety%20alert%20and%20emergency%20response%20systems.md) provide the single most mathematically explicit proof of the binary governance paradigm. Their Equation 4 defines the alert classification function:
+Zhang et al. (2025) [[notes]](../../notes/Developing%20real-time%20IoT-based%20public%20safety%20alert%20and%20emergency%20response%20systems.md) provide the single most mathematically explicit proof of the binary governance paradigm. Their Equation 4 defines the alert classification function:
 
 > φ(X(t)) = {1, if P\_alert(X(t)) ≥ θ; 0, otherwise}
 
@@ -36,7 +36,7 @@ This paper's impact is highest because it provides a formal equation that can be
 
 **Impact: Very High**
 
-Feng, McDonald & Zhang (2025) [[notes]](../notes/Levels%20of%20Autonomy%20for%20AI%20Agents.md) contribute the most conceptually significant evidence. Their framework identifies two distinct governance dimensions for AI agents: *agency* (what tools and capabilities the AI can access) and *autonomy* (how much human involvement is required in decision-making). Five levels of autonomy are defined, from Level 0 (no task delegated) to Level 4 (full automation), each specifying a different human-AI interaction pattern (Figure 1).
+Feng, McDonald & Zhang (2025) [[notes]](../../notes/Levels%20of%20Autonomy%20for%20AI%20Agents.md) contribute the most conceptually significant evidence. Their framework identifies two distinct governance dimensions for AI agents: *agency* (what tools and capabilities the AI can access) and *autonomy* (how much human involvement is required in decision-making). Five levels of autonomy are defined, from Level 0 (no task delegated) to Level 4 (full automation), each specifying a different human-AI interaction pattern (Figure 1).
 
 The decisive finding is twofold. First, both agency and autonomy are "deliberate design decision[s]" (p.2) assigned at deployment time for "a fixed set of capabilities and a fixed operational environment" (p.4). Once an agent is configured as Level 3 (human-confirmed autonomy), it remains Level 3 regardless of whether environmental conditions are calm or dangerous. The governance is a constant — it does not respond to the state of the world.
 
@@ -48,7 +48,7 @@ The proposed architecture fills precisely this gap. A\_AI(S) is the missing thir
 
 **Impact: Very High**
 
-Kwon et al. (2025) [[notes]](../notes/Runtime%20Safety%20through%20Adaptive%20Shielding-%20From%20Hidden%20Parameter%20Inference%20to%20Provable%20Guarantees.md) present Adaptive Shielding — the closest existing system to the proposed architecture. It is environment-aware (environment-centric features E ∈ ℝ^n₂ explicitly modelled alongside agent state e(s) ∈ ℝ^n₁, Section 4.2), it adapts at runtime (the shield changes as the system infers hidden parameters), and it operates in safety-critical domains with formal provable guarantees.
+Kwon et al. (2025) [[notes]](../../notes/Runtime%20Safety%20through%20Adaptive%20Shielding-%20From%20Hidden%20Parameter%20Inference%20to%20Provable%20Guarantees.md) present Adaptive Shielding — the closest existing system to the proposed architecture. It is environment-aware (environment-centric features E ∈ ℝ^n₂ explicitly modelled alongside agent state e(s) ∈ ℝ^n₁, Section 4.2), it adapts at runtime (the shield changes as the system infers hidden parameters), and it operates in safety-critical domains with formal provable guarantees.
 
 The SafetyScore computation (Equations 11–12) evaluates each candidate action against a safety threshold. The pre-safety check (Equation 10) adds an additional layer: if the system detects that it is operating in an out-of-distribution (OOD) range, it triggers fallback. This is a binary decision: within distribution → proceed to SafetyScore evaluation; out of distribution → fallback.
 
@@ -60,7 +60,7 @@ This paper's impact is very high precisely because it is the strongest near-miss
 
 **Impact: High**
 
-The OWASP Top 10 for Agentic Applications (2025) [[notes]](../notes/OWASP%20Top%2010%20for%20Agentic%20Applications%202026.md) carries weight not from formal novelty but from institutional authority. This is the global industry consensus framework for agentic AI security, developed by John Sotiropoulos, Keren Katz, Ron F. Del Rosario and community contributors, published December 2025. It defines 10 vulnerability categories (ASI01–ASI10) with mitigation strategies that collectively represent the security community's current understanding of how to govern AI agents.
+The OWASP Top 10 for Agentic Applications (2025) [[notes]](../../notes/OWASP%20Top%2010%20for%20Agentic%20Applications%202026.md) carries weight not from formal novelty but from institutional authority. This is the global industry consensus framework for agentic AI security, developed by John Sotiropoulos, Keren Katz, Ron F. Del Rosario and community contributors, published December 2025. It defines 10 vulnerability categories (ASI01–ASI10) with mitigation strategies that collectively represent the security community's current understanding of how to govern AI agents.
 
 Every mitigation across all 10 categories is binary: ASI01#4 (pause/block agent execution), ASI02#1 (least privilege — grant or deny), ASI02#4 (Intent Gate with Policy Enforcement Point/Policy Decision Point — binary authorise/reject), ASI03#3 (per-action authorisation — approve/deny), ASI10#4 (kill-switches — terminate/continue). The Security Mapping Matrix in Appendix A cross-references all vulnerabilities against controls; no control implements graduated scope restriction.
 
@@ -72,7 +72,7 @@ When an examiner asks "but surely industry has addressed this?", OWASP provides 
 
 **Impact: High**
 
-Ogenyi, Ugwu & Ugwu (2025) [[notes]](../notes/Securing%20the%20future-%20AI-driven%20cybersecurity%20in%20the%20age%20of%20autonomous%20IoT.md) review the entire landscape of AI-driven cybersecurity for Autonomous IoT (A-IoT) — the third generation of IoT that is explicitly "self-governing, adaptive, and capable of autonomous decision-making" (p.3, Figure 1). This is the domain where environment-state-conditioned governance would most naturally appear: sensor-rich environments, autonomous AI systems, explicit discussion of adaptive security.
+Ogenyi, Ugwu & Ugwu (2025) [[notes]](../../notes/Securing%20the%20future-%20AI-driven%20cybersecurity%20in%20the%20age%20of%20autonomous%20IoT.md) review the entire landscape of AI-driven cybersecurity for Autonomous IoT (A-IoT) — the third generation of IoT that is explicitly "self-governing, adaptive, and capable of autonomous decision-making" (p.3, Figure 1). This is the domain where environment-state-conditioned governance would most naturally appear: sensor-rich environments, autonomous AI systems, explicit discussion of adaptive security.
 
 The paper's most valuable contribution to the gap argument is the conceptual distinction between *adaptive security* and *adaptive governance*. Section 9 articulates the A-IoT community's vision: "security models that can dynamically adapt the level of protection to the level of threat, the state of devices, and the priorities of the work" (p.12). This sounds like graduated governance — but it means adapting *protection intensity* (encryption strength, monitoring depth, detection thresholds), not *governance mode* or *AI advisory scope*.
 
@@ -88,7 +88,7 @@ The A-IoT review covers 9 AI technique categories (Table 3), 5 application domai
 
 **Impact: Moderate–High**
 
-Chandran et al. (2025) [[notes]](../notes/Smart%20technologies%20in%20aquaculture-%20An%20integrated%20IoT%2C%20AI%2C%20and%20blockchain%20framework%20for%20sustainable%20growth.md) present a systematic review of IoT, AI, and blockchain in aquaculture following PRISMA methodology (350 → 111 papers). Their three-tier architecture (Fig. 7: Edge Subsystem → Digital Farming Platform → Portals) from Qatar University represents the state of the art in aquaculture IoT engineering.
+Chandran et al. (2025) [[notes]](../../notes/Smart%20technologies%20in%20aquaculture-%20An%20integrated%20IoT%2C%20AI%2C%20and%20blockchain%20framework%20for%20sustainable%20growth.md) present a systematic review of IoT, AI, and blockchain in aquaculture following PRISMA methodology (350 → 111 papers). Their three-tier architecture (Fig. 7: Edge Subsystem → Digital Farming Platform → Portals) from Qatar University represents the state of the art in aquaculture IoT engineering.
 
 The gap evidence is the environment-as-input pattern. Section 5.2 explicitly discusses climate-aware forecasting — environmental sensors feed AI models that predict conditions — but environmental conditions never govern what the AI system may recommend. Smart contract governance on the blockchain layer (p.11) implements binary execution rules (conditions met → execute, conditions not met → do not execute). The quantitative findings (mortality reduced 45%, water management +30%, CNN accuracy 92%, hybrid AI 95%) demonstrate sophisticated AI capability — deployed entirely within a binary governance framework.
 
@@ -98,7 +98,7 @@ The paper explicitly discusses small-scale adoption barriers, confirming T4 (low
 
 **Impact: Moderate**
 
-Tandel et al. (2025) [[notes]](../notes/Smart%20Aquaculture-%20IoT%20and%20AI%20Application%20for%20Sustainable%20Fisheries.md) review IoT and AI applications in sustainable fisheries from the College of Fisheries Science, Kamdhenu University, Veraval, India. As a practitioner-oriented article (published in *The Science World* e-magazine), its methodological weight is lower than peer-reviewed sources. Its value is domain-specific: it directly addresses the proposed architecture's target application area.
+Tandel et al. (2025) [[notes]](../../notes/Smart%20Aquaculture-%20IoT%20and%20AI%20Application%20for%20Sustainable%20Fisheries.md) review IoT and AI applications in sustainable fisheries from the College of Fisheries Science, Kamdhenu University, Veraval, India. As a practitioner-oriented article (published in *The Science World* e-magazine), its methodological weight is lower than peer-reviewed sources. Its value is domain-specific: it directly addresses the proposed architecture's target application area.
 
 Three concrete examples confirm binary governance in fisheries IoT:
 
@@ -106,13 +106,13 @@ Three concrete examples confirm binary governance in fisheries IoT:
 - Smart control systems: "automatically adjusting temperature, oxygen levels and other critical factors to maintain ideal conditions" (p.3) — binary: out-of-range → adjust, in-range → no action
 - Cloud-based management: "Automated alert systems notify operators of any deviations, allowing for immediate corrective actions" (p.5) — binary: deviation → alert → corrective action
 
-The paper explicitly identifies small-scale fisheries barriers: "less accessible to small-scale aquaculture farmers who may lack the necessary capital" (p.6) and "remote areas where internet connectivity is limited or unreliable" (p.6). Claims should be corroborated with Chandran et al. (2025) [[notes]](../notes/Smart%20technologies%20in%20aquaculture-%20An%20integrated%20IoT%2C%20AI%2C%20and%20blockchain%20framework%20for%20sustainable%20growth.md) which covers similar ground with higher methodological rigour.
+The paper explicitly identifies small-scale fisheries barriers: "less accessible to small-scale aquaculture farmers who may lack the necessary capital" (p.6) and "remote areas where internet connectivity is limited or unreliable" (p.6). Claims should be corroborated with Chandran et al. (2025) [[notes]](../../notes/Smart%20technologies%20in%20aquaculture-%20An%20integrated%20IoT%2C%20AI%2C%20and%20blockchain%20framework%20for%20sustainable%20growth.md) which covers similar ground with higher methodological rigour.
 
 ### 2.8 Hamel-De le Court, Belardinelli & Goodall (2025) — Probabilistic but Still Binary
 
 **Impact: Moderate**
 
-Hamel-De le Court, Belardinelli & Goodall (2025) [[notes]](../notes/Probabilistic%20Shielding%20for%20Safe%20Reinforcement%20Learning.md) extend safety shields with probabilistic guarantees — P(safe) ≥ 1 − ε — which is a formal advance over deterministic shields. The probabilistic threshold ε allows tuning the trade-off between safety and performance. But the governance output remains binary: each action is either permitted or replaced by the shield. There is no intermediate "permitted with restricted scope" category. The probability threshold is set at design time, not conditioned on runtime environmental state classification.
+Hamel-De le Court, Belardinelli & Goodall (2025) [[notes]](../../notes/Probabilistic%20Shielding%20for%20Safe%20Reinforcement%20Learning.md) extend safety shields with probabilistic guarantees — P(safe) ≥ 1 − ε — which is a formal advance over deterministic shields. The probabilistic threshold ε allows tuning the trade-off between safety and performance. But the governance output remains binary: each action is either permitted or replaced by the shield. There is no intermediate "permitted with restricted scope" category. The probability threshold is set at design time, not conditioned on runtime environmental state classification.
 
 This paper confirms that even when the shield literature moves from deterministic to probabilistic guarantees, the fundamental governance structure — permit or block — does not change. The proposed architecture's tripartite classification and graduated advisory scope remain absent.
 
@@ -154,7 +154,7 @@ The eight papers reveal three structural reasons why the gap persists. These are
 
 The AI safety community (represented by Kwon et al., Hamel-De le Court et al., Feng et al., OWASP) builds governance mechanisms but conceptualises the world in terms of *internal system states*: agent capabilities, model confidence, action safety scores, threat levels, policy compliance. The environmental sensing community (represented by Zhang et al., Chandran et al., Tandel et al., Ogenyi et al.) has rich environmental data — pH, temperature, wave height, wind speed — but uses it exclusively as *input to AI reasoning*, never as a trigger for governing AI output scope.
 
-Kwon et al. (2025) [[notes]](../notes/Runtime%20Safety%20through%20Adaptive%20Shielding-%20From%20Hidden%20Parameter%20Inference%20to%20Provable%20Guarantees.md) come closest to bridging this boundary: they explicitly model environment-centric features E ∈ ℝ^n₂. But these features feed into a SafetyScore that evaluates individual actions — they do not classify the environmental state into governance modes. The environment is a parameter of the safety evaluation, not a governance trigger. Zhang et al. (2025) [[notes]](../notes/Developing%20real-time%20IoT-based%20public%20safety%20alert%20and%20emergency%20response%20systems.md) have sensors, edge computing, and real-time classification — all the infrastructure for environment-state-conditioned governance — but their classification function φ maps to {0, 1}, not to graduated governance states.
+Kwon et al. (2025) [[notes]](../../notes/Runtime%20Safety%20through%20Adaptive%20Shielding-%20From%20Hidden%20Parameter%20Inference%20to%20Provable%20Guarantees.md) come closest to bridging this boundary: they explicitly model environment-centric features E ∈ ℝ^n₂. But these features feed into a SafetyScore that evaluates individual actions — they do not classify the environmental state into governance modes. The environment is a parameter of the safety evaluation, not a governance trigger. Zhang et al. (2025) [[notes]](../../notes/Developing%20real-time%20IoT-based%20public%20safety%20alert%20and%20emergency%20response%20systems.md) have sensors, edge computing, and real-time classification — all the infrastructure for environment-state-conditioned governance — but their classification function φ maps to {0, 1}, not to graduated governance states.
 
 The proposed architecture sits precisely at this disciplinary intersection. It takes the governance mechanisms of the AI safety community (participation control, advisory scope restriction, formal safety properties) and the environmental sensing infrastructure of the IoT community (real-time environmental monitoring, state classification) and connects them: environmental state classification → governance mode selection → graduated AI advisory scope restriction.
 
@@ -162,7 +162,7 @@ The proposed architecture sits precisely at this disciplinary intersection. It t
 
 Across all eight papers and all four research communities, the default governance output is binary: permit/block, safe/unsafe, alert/no-alert, authorise/reject. This is true even when researchers explicitly discuss "adaptive" systems.
 
-Ogenyi et al. (2025) [[notes]](../notes/Securing%20the%20future-%20AI-driven%20cybersecurity%20in%20the%20age%20of%20autonomous%20IoT.md) are the clearest example. The entire A-IoT review discusses "adaptive security" — systems that adapt to threats — and every adaptation is an adjustment of binary monitoring intensity, not a change in governance mode. "Dynamically adapt the level of protection to the level of threat" (p.12) means: detect more carefully, encrypt more strongly, authenticate more stringently — but the governance decision for any specific action remains permit or block. The OWASP framework (2025) [[notes]](../notes/OWASP%20Top%2010%20for%20Agentic%20Applications%202026.md) similarly defines "Adaptive Trust Calibration" (ASI09#5) as adjusting oversight intensity, not as changing what the AI may recommend.
+Ogenyi et al. (2025) [[notes]](../../notes/Securing%20the%20future-%20AI-driven%20cybersecurity%20in%20the%20age%20of%20autonomous%20IoT.md) are the clearest example. The entire A-IoT review discusses "adaptive security" — systems that adapt to threats — and every adaptation is an adjustment of binary monitoring intensity, not a change in governance mode. "Dynamically adapt the level of protection to the level of threat" (p.12) means: detect more carefully, encrypt more strongly, authenticate more stringently — but the governance decision for any specific action remains permit or block. The OWASP framework (2025) [[notes]](../../notes/OWASP%20Top%2010%20for%20Agentic%20Applications%202026.md) similarly defines "Adaptive Trust Calibration" (ASI09#5) as adjusting oversight intensity, not as changing what the AI may recommend.
 
 The conceptual leap required is from "how intensely do we monitor/protect?" to "what is the AI permitted to recommend given current conditions?" This is a shift from governance-as-intensity to governance-as-scope. The binary model treats governance as a filter with adjustable sensitivity. The proposed model treats governance as a scope selector with environmentally-conditioned modes. No paper in the eight makes this shift.
 
@@ -170,7 +170,7 @@ The conceptual leap required is from "how intensely do we monitor/protect?" to "
 
 The most structurally novel aspect of the proposed architecture is not Level 1 (participation control — well-established in shields) or Level 2 (output restriction — well-established in guardrails) individually, but their *unification under a single classified environmental state variable*.
 
-Feng et al. (2025) [[notes]](../notes/Levels%20of%20Autonomy%20for%20AI%20Agents.md) govern participation (autonomy levels) but not advisory scope. OWASP (2025) [[notes]](../notes/OWASP%20Top%2010%20for%20Agentic%20Applications%202026.md) implements per-action output filtering but not state-conditioned participation governance. Kwon et al. (2025) [[notes]](../notes/Runtime%20Safety%20through%20Adaptive%20Shielding-%20From%20Hidden%20Parameter%20Inference%20to%20Provable%20Guarantees.md) provide runtime adaptive participation control but not graduated advisory scope. No paper governs both simultaneously via the same classified state.
+Feng et al. (2025) [[notes]](../../notes/Levels%20of%20Autonomy%20for%20AI%20Agents.md) govern participation (autonomy levels) but not advisory scope. OWASP (2025) [[notes]](../../notes/OWASP%20Top%2010%20for%20Agentic%20Applications%202026.md) implements per-action output filtering but not state-conditioned participation governance. Kwon et al. (2025) [[notes]](../../notes/Runtime%20Safety%20through%20Adaptive%20Shielding-%20From%20Hidden%20Parameter%20Inference%20to%20Provable%20Guarantees.md) provide runtime adaptive participation control but not graduated advisory scope. No paper governs both simultaneously via the same classified state.
 
 The governance pair (G(S), A\_AI(S)) means that a single state classification S = f(E) simultaneously answers two questions: "Does AI participate?" (G(S)) and "What may AI recommend?" (A\_AI(S)). The answers change together as environmental conditions change. This unification creates a formally parsimonious architecture — one classification, two governance functions, three states — that is absent from all existing work.
 
@@ -202,7 +202,7 @@ The irony is that IoT systems already possess every technical component the prop
 
 What is missing is a single architectural layer: the **environmental state classifier** that maps sensor readings to governance modes, and the **governance pair** that uses those modes to simultaneously control AI participation and advisory scope. The sensors exist. The AI exists. The actuation exists. The graduated governance layer that connects them does not.
 
-Chandran et al. (2025) [[notes]](../notes/Smart%20technologies%20in%20aquaculture-%20An%20integrated%20IoT%2C%20AI%2C%20and%20blockchain%20framework%20for%20sustainable%20growth.md) describe a three-tier architecture (Edge Subsystem → Digital Farming Platform → Portals). The proposed architecture adds a governance tier between the sensor layer and the AI advisory layer — a tier that classifies environmental state and uses that classification to govern what the AI tier may produce. This is an architectural insertion, not a replacement. It is compatible with existing IoT infrastructure and does not require new sensor technology.
+Chandran et al. (2025) [[notes]](../../notes/Smart%20technologies%20in%20aquaculture-%20An%20integrated%20IoT%2C%20AI%2C%20and%20blockchain%20framework%20for%20sustainable%20growth.md) describe a three-tier architecture (Edge Subsystem → Digital Farming Platform → Portals). The proposed architecture adds a governance tier between the sensor layer and the AI advisory layer — a tier that classifies environmental state and uses that classification to govern what the AI tier may produce. This is an architectural insertion, not a replacement. It is compatible with existing IoT infrastructure and does not require new sensor technology.
 
 ### 5.3 The Conceptual Leap
 

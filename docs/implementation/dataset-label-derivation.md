@@ -38,7 +38,7 @@ For an initial feasibility dataset, the label is simplified to the primary depar
 
 Labels are derived from documented real-world departure decision patterns across three independent empirical studies of small-scale fishers in Malaysia and coastal Indonesia. Environmental conditions described in each study are mapped to E vector values using MET Malaysia's published warning criteria.
 
-### 3.1 Rahim et al. (2024) [[notes]](../notes/Survival%20Decisions%20and%20Adaptation%20Strategies%20of%20Small-scale%20Fishers%20in%20the%20Face%20of%20Extreme%20Weather%20Impacts%20in%20Coastal%20Areas.md)
+### 3.1 Rahim et al. (2024) [[notes]](../../notes/Survival%20Decisions%20and%20Adaptation%20Strategies%20of%20Small-scale%20Fishers%20in%20the%20Face%20of%20Extreme%20Weather%20Impacts%20in%20Coastal%20Areas.md)
 
 **Study:** 79 small-scale fishing households, coastal Makassar City, Indonesia. Quantitative survey with logistic regression. Published in *Journal of Marine and Island Cultures*.
 
@@ -58,7 +58,7 @@ This study provides the most quantitatively detailed behavioral regimes, documen
 
 The East season behavioral pattern — where fishers continue to sea but with restricted scope and near-shore operations — is the closest empirical analogue to the CAUTION state. The West season pattern — full halt — confirms the UNSAFE state threshold.
 
-### 3.2 Gao (2024) [[notes]](../notes/Mapping%20the%20decision-making%20factors%20of%20small-scale%20fishers-%20a%20case%20study%20of%20Penang.md)
+### 3.2 Gao (2024) [[notes]](../../notes/Mapping%20the%20decision-making%20factors%20of%20small-scale%20fishers-%20a%20case%20study%20of%20Penang.md)
 
 **Study:** 25 semi-structured interviews, small-scale gill net fishers, Penang, Malaysia. Qualitative causal mapping methodology. M.Sc. thesis, CGIAR/WorldFish repository.
 
@@ -81,7 +81,7 @@ The importance of weather and safety concern confirms that w and o are the prima
 
 **Architectural alignment (from notes):** *"Fishers already operate an informal version of graduated, state-conditioned decision-making — they assess environmental state, classify conditions, and adjust both their participation and the scope of their decisions accordingly. My architecture formalises what fishers do intuitively."*
 
-### 3.3 Yamin et al. (2025) [[notes]](../notes/Interplay%20of%20traditional%20knowledge%20and%20adaptive%20capacity%20in%20climate%20change%20adaptation%20of%20small-scale%20fishers%20in%20central%20Terengganu%2C%20Malaysia%20.md)
+### 3.3 Yamin et al. (2025) [[notes]](../../notes/Interplay%20of%20traditional%20knowledge%20and%20adaptive%20capacity%20in%20climate%20change%20adaptation%20of%20small-scale%20fishers%20in%20central%20Terengganu%2C%20Malaysia%20.md)
 
 **Study:** 136 small-scale fishers, five coastal villages, central Terengganu, Malaysia. Quantitative questionnaire with SEM analysis. Published in *Frontiers in Marine Science* (Q1), 2025.
 
@@ -164,9 +164,9 @@ The current label set covers the primary departure decision (**Go / Delay**). Th
 
 | Study | n | Location | Method | Label contribution |
 |---|---|---|---|---|
-| Rahim et al. (2024) [[notes]](../notes/Survival%20Decisions%20and%20Adaptation%20Strategies%20of%20Small-scale%20Fishers%20in%20the%20Face%20of%20Extreme%20Weather%20Impacts%20in%20Coastal%20Areas.md) | 79 households | Makassar, Indonesia | Logistic regression + SWOT | Three-season behavioral regime with explicit wind/wave values; trip frequency and duration data |
-| Gao (2024) [[notes]](../notes/Mapping%20the%20decision-making%20factors%20of%20small-scale%20fishers-%20a%20case%20study%20of%20Penang.md) | 25 interviews | Penang, Malaysia | Qualitative causal mapping | Tripartite go/cautious-go/don't-go decision structure; direct fisher quotes; environmental factor importance ratings |
-| Yamin et al. (2025) [[notes]](../notes/Interplay%20of%20traditional%20knowledge%20and%20adaptive%20capacity%20in%20climate%20change%20adaptation%20of%20small-scale%20fishers%20in%20central%20Terengganu%2C%20Malaysia%20.md) | 136 fishers | Terengganu, Malaysia | Questionnaire + SEM | Empirical knowledge items ("if windy, I can't go"); hazard prevalence data (95%, 91%); flexibility deficit confirming Delay label novelty |
+| Rahim et al. (2024) [[notes]](../../notes/Survival%20Decisions%20and%20Adaptation%20Strategies%20of%20Small-scale%20Fishers%20in%20the%20Face%20of%20Extreme%20Weather%20Impacts%20in%20Coastal%20Areas.md) | 79 households | Makassar, Indonesia | Logistic regression + SWOT | Three-season behavioral regime with explicit wind/wave values; trip frequency and duration data |
+| Gao (2024) [[notes]](../../notes/Mapping%20the%20decision-making%20factors%20of%20small-scale%20fishers-%20a%20case%20study%20of%20Penang.md) | 25 interviews | Penang, Malaysia | Qualitative causal mapping | Tripartite go/cautious-go/don't-go decision structure; direct fisher quotes; environmental factor importance ratings |
+| Yamin et al. (2025) [[notes]](../../notes/Interplay%20of%20traditional%20knowledge%20and%20adaptive%20capacity%20in%20climate%20change%20adaptation%20of%20small-scale%20fishers%20in%20central%20Terengganu%2C%20Malaysia%20.md) | 136 fishers | Terengganu, Malaysia | Questionnaire + SEM | Empirical knowledge items ("if windy, I can't go"); hazard prevalence data (95%, 91%); flexibility deficit confirming Delay label novelty |
 
 ---
 

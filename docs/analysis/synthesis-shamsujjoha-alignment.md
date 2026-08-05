@@ -2,7 +2,7 @@
 
 **Document type:** Architectural alignment synthesis  
 **For:** Chapter 2 (Literature Review), Chapter 3 (Architecture Design), and viva preparation  
-**Paper:** Shamsujjoha et al. (2025) [[notes]](../notes/Swiss%20Cheese%20Model%20for%20AI%20Safety-%20A%20Taxonomy%20and%20Reference%20Architecture%20for%20Multi-Layered%20Guardrails%20of%20Foundation%20Model%20Based%20Agents.md) — *Swiss Cheese Model for AI Safety: A Taxonomy and Reference Architecture for Multi-Layered Guardrails of Foundation Model Based Agents*
+**Paper:** Shamsujjoha et al. (2025) [[notes]](../../notes/Swiss%20Cheese%20Model%20for%20AI%20Safety-%20A%20Taxonomy%20and%20Reference%20Architecture%20for%20Multi-Layered%20Guardrails%20of%20Foundation%20Model%20Based%20Agents.md) — *Swiss Cheese Model for AI Safety: A Taxonomy and Reference Architecture for Multi-Layered Guardrails of Foundation Model Based Agents*
 
 **Cross-references:** `docs/justification-architectural-comparison.md` (broader four-architecture comparison), `docs/justification-novelty-gap.md` (full gap argument), `docs/appendix-c-formalisation.md` (formal variable definitions)
 
@@ -10,7 +10,7 @@
 
 ## 2.1 Architectural Formalisation
 
-Shamsujjoha et al. (2025) [[notes]](../notes/Swiss%20Cheese%20Model%20for%20AI%20Safety-%20A%20Taxonomy%20and%20Reference%20Architecture%20for%20Multi-Layered%20Guardrails%20of%20Foundation%20Model%20Based%20Agents.md) identify the necessary components for multi-layered AI safety — Agent Components and Multi-layered Runtime Guardrails — but leave the activation logic implicit. Their reference architecture does not specify a mechanism that connects a specific operational context to a specific guardrail configuration; guardrail activation is determined per artifact and per quality attribute, not by classified environmental state.
+Shamsujjoha et al. (2025) [[notes]](../../notes/Swiss%20Cheese%20Model%20for%20AI%20Safety-%20A%20Taxonomy%20and%20Reference%20Architecture%20for%20Multi-Layered%20Guardrails%20of%20Foundation%20Model%20Based%20Agents.md) identify the necessary components for multi-layered AI safety — Agent Components and Multi-layered Runtime Guardrails — but leave the activation logic implicit. Their reference architecture does not specify a mechanism that connects a specific operational context to a specific guardrail configuration; guardrail activation is determined per artifact and per quality attribute, not by classified environmental state.
 
 This research introduces a **State-Conditioned Selection Mechanism** as a formal logic layer that makes this activation explicit. Specifically, the function S = f(E) classifies the current environmental state and the governance pair (G(S), A_AI(S)) determines which guardrail configuration applies. This formalises what Shamsujjoha et al.'s architecture leaves implicit: the transition logic between different safety configurations based on environmental risk.
 
@@ -32,7 +32,7 @@ This indirectly limits the effective Knowledge Base as well — RS(CAUTION) does
 
 The primary technical novelty of this research lies in moving beyond informal context-dependent safety to a formal, state-conditioned governance framework.
 
-**Defense statement:** While Shamsujjoha et al. (2025) [[notes]](../notes/Swiss%20Cheese%20Model%20for%20AI%20Safety-%20A%20Taxonomy%20and%20Reference%20Architecture%20for%20Multi-Layered%20Guardrails%20of%20Foundation%20Model%20Based%20Agents.md) acknowledge "context-dependent rules" as a valid guardrail category within their taxonomy, their reference architecture lacks a **formal**, state-conditioned activation mechanism. This research fills that gap by introducing an environmental state classification function S = f(E) and a governance pair (G(S), A_AI(S)) that provides a mathematical guarantee — the Safety Dominance Property AI(E) ⊆ A_AI(S) — that the AI's admissible advisory scope is structurally restricted across all possible environmental states.
+**Defense statement:** While Shamsujjoha et al. (2025) [[notes]](../../notes/Swiss%20Cheese%20Model%20for%20AI%20Safety-%20A%20Taxonomy%20and%20Reference%20Architecture%20for%20Multi-Layered%20Guardrails%20of%20Foundation%20Model%20Based%20Agents.md) acknowledge "context-dependent rules" as a valid guardrail category within their taxonomy, their reference architecture lacks a **formal**, state-conditioned activation mechanism. This research fills that gap by introducing an environmental state classification function S = f(E) and a governance pair (G(S), A_AI(S)) that provides a mathematical guarantee — the Safety Dominance Property AI(E) ⊆ A_AI(S) — that the AI's admissible advisory scope is structurally restricted across all possible environmental states.
 
 The two contributions are complementary. Shamsujjoha et al. taxonomise the governance action space — what governance actions exist, what targets they apply to, what rule types are possible. This architecture provides the state-conditioned selection mechanism — when to apply which governance configuration, governed by formally classified environmental state.
 

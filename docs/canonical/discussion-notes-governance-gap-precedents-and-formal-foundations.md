@@ -58,7 +58,7 @@ Existing architectures have only two states: green (AI fully on) and red (AI blo
 
 ## 2. Indykov et al. (2025) — Architectural Tactics for ML-Enabled Systems
 
-**Full reference**: Indykov, Strüber & Wohlrab (2025) [[notes]](../notes/Architectural%20tactics%20to%20achieve%20quality%20attributes%20of%20machine-learning-enabled%20systems-%20a%20systematic%20literature%20review.md), *The Journal of Systems & Software*, 223, 112373.
+**Full reference**: Indykov, Strüber & Wohlrab (2025) [[notes]](../../notes/Architectural%20tactics%20to%20achieve%20quality%20attributes%20of%20machine-learning-enabled%20systems-%20a%20systematic%20literature%20review.md), *The Journal of Systems & Software*, 223, 112373.
 
 ### Who they are and what they did
 
@@ -104,7 +104,7 @@ Indykov et al. (2025) provides **confirmatory background** — useful for establ
 
 ## 3. Dalrymple et al. (2024) — Guaranteed Safe AI
 
-**Full reference**: Dalrymple, Skalse, Bengio, Russell, Tegmark, Seshia, Omohundro, Szegedy et al. (2024) [[notes]](../notes/Towards%20Guaranteed%20Safe%20AI-%20A%20Framework%20for%20Ensuring%20Robust%20and%20Reliable%20AI%20Systems.md), arXiv:2405.06624. Affiliated institutions: UK ARIA, Oxford, Mila/Montreal, UC Berkeley, MIT, Stanford, CMU, Columbia, Cornell.
+**Full reference**: Dalrymple, Skalse, Bengio, Russell, Tegmark, Seshia, Omohundro, Szegedy et al. (2024) [[notes]](../../notes/Towards%20Guaranteed%20Safe%20AI-%20A%20Framework%20for%20Ensuring%20Robust%20and%20Reliable%20AI%20Systems.md), arXiv:2405.06624. Affiliated institutions: UK ARIA, Oxford, Mila/Montreal, UC Berkeley, MIT, Stanford, CMU, Columbia, Cornell.
 
 ### Who they are
 
@@ -163,7 +163,7 @@ In short: **Dalrymple et al. establish why formal guarantees are necessary. The 
 
 ## 4. Flehmig et al. (2024) — The Closest Structural Precedent
 
-**Full reference**: Flehmig, Lundteigen & Yin (2024) [[notes]](../notes/Implementing%20Artificial%20Intelligence%20in%20Safety-Critical%20Systems%20during%20Operation-%20Challenges%20and%20Extended%20Framework%20for%20a%20Quality%20Assurance%20Process.md), IEEE IECON 2024. All authors from NTNU, Norway.
+**Full reference**: Flehmig, Lundteigen & Yin (2024) [[notes]](../../notes/Implementing%20Artificial%20Intelligence%20in%20Safety-Critical%20Systems%20during%20Operation-%20Challenges%20and%20Extended%20Framework%20for%20a%20Quality%20Assurance%20Process.md), IEEE IECON 2024. All authors from NTNU, Norway.
 
 ### What they did and why it matters
 

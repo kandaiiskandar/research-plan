@@ -69,7 +69,7 @@ Option B is more CS-aligned. Option A is more accessible. Consider a single-sent
 
 **Source material**: `index.md` — Abstract (first paragraph); `index.md` — One sentence summary; `docs/justification-novelty-gap.md` — Section 1 (gap argument opening)
 
-**Key citations**: Perez-Cerrolaza et al. (2024) [[notes]](../notes/Artificial%20Intelligence%20for%20Safety-Critical%20Systems%20in%20Industrial%20and%20Transportation%20Domains-%20A%20Survey.md), Ramos et al. (2024) [[notes]](../notes/Collaborative%20Intelligence%20for%20Safety-Critical%20Industries-%20A%20Literature%20Review.md)
+**Key citations**: Perez-Cerrolaza et al. (2024) [[notes]](../../notes/Artificial%20Intelligence%20for%20Safety-Critical%20Systems%20in%20Industrial%20and%20Transportation%20Domains-%20A%20Survey.md), Ramos et al. (2024) [[notes]](../../notes/Collaborative%20Intelligence%20for%20Safety-Critical%20Industries-%20A%20Literature%20Review.md)
 
 ---
 
@@ -84,21 +84,21 @@ Formal safety shields (Könighofer et al., 2025), safety filters (Bajcsy & Fisac
 
 Source: `docs/justification-novelty-gap.md` Section 2 (shields); `docs/justification-binary-governance-external-evidence.md` Section 2.1 (Zhang et al. binary formalisation)
 
-Key citations: Könighofer et al. (2025) [[notes]](../notes/Shields%20for%20Safe%20Reinforcement%20Learning.md); Bajcsy & Fisac (2024) [[notes]](../notes/Human%E2%80%93AI%20Safety-%20A%20Descendant%20of%20Generative%20AI%20and%20Control%20Systems%20Safety.md); Wang et al. (2026) [[notes]](../notes/AgentSpec-%20Customizable%20Runtime%20Enforcement%20for%20Safe%20and%20Reliable%20LLM%20Agents.md); Newcomb & Ochoa (2026) [[notes]](../notes/Formal%20methods%20for%20safety-critical%20machine%20learning%3A%20a%20systematic%20literature%20review.md)
+Key citations: Könighofer et al. (2025) [[notes]](../../notes/Shields%20for%20Safe%20Reinforcement%20Learning.md); Bajcsy & Fisac (2024) [[notes]](../../notes/Human%E2%80%93AI%20Safety-%20A%20Descendant%20of%20Generative%20AI%20and%20Control%20Systems%20Safety.md); Wang et al. (2026) [[notes]](../../notes/AgentSpec-%20Customizable%20Runtime%20Enforcement%20for%20Safe%20and%20Reliable%20LLM%20Agents.md); Newcomb & Ochoa (2026) [[notes]](../../notes/Formal%20methods%20for%20safety-critical%20machine%20learning%3A%20a%20systematic%20literature%20review.md)
 
 **Paragraph 2 — Closest prior art: Flehmig et al. and the missing dimension**
 The closest existing work to a three-mode governance structure is Flehmig et al. (2024), whose traffic-light degradation index classifies AI operational status into three levels. At Level 2 (orange), the AI stays active under elevated supervisory scrutiny. The architectural structure maps onto SAFE/CAUTION/UNSAFE. But the governance at Level 2 controls supervisory intensity, not AI advisory scope — the AI at Level 2 produces identical output to Level 1. There is no A_AI(CAUTION) ⊂ A_AI(SAFE). Flehmig et al. also condition their degradation index on AI model performance, not on the safety state of the operational environment. These two absences — environmental state conditioning and advisory scope restriction — define the gap this research fills.
 
 Source: `docs/justification-novelty-gap.md` Section 3; `docs/research-alignment-table.md` (Primary comparators section)
 
-Key citation: Flehmig et al. (2024) [[notes]](../notes/Implementing%20Artificial%20Intelligence%20in%20Safety-Critical%20Systems%20during%20Operation-%20Challenges%20and%20Extended%20Framework%20for%20a%20Quality%20Assurance%20Process.md)
+Key citation: Flehmig et al. (2024) [[notes]](../../notes/Implementing%20Artificial%20Intelligence%20in%20Safety-Critical%20Systems%20during%20Operation-%20Challenges%20and%20Extended%20Framework%20for%20a%20Quality%20Assurance%20Process.md)
 
 **Paragraph 3 — Scope of the gap: four independent confirmations**
 The gap is confirmed across four independent bodies of literature: 91 collaborative intelligence papers (Ramos et al., 2024), 46 formal methods studies (Newcomb & Ochoa, 2026), 11 international AI safety frameworks (Bengio et al., 2026), and the cross-domain safety-critical AI survey (Perez-Cerrolaza et al., 2024). None identifies a mechanism that unifies participation governance and advisory scope governance under the same classified environmental state. The gap is the absence of a CAUTION mode — a formally defined intermediate state where AI participates within a restricted recommendation space because conditions are elevated but not yet prohibitive.
 
 Source: `index.md` — Novelty section (gap confirmed independently across four bodies); `docs/justification-novelty-gap.md` — introduction and conclusion
 
-Key citations: Ramos et al. (2024) [[notes]](../notes/Collaborative%20Intelligence%20for%20Safety-Critical%20Industries-%20A%20Literature%20Review.md); Newcomb & Ochoa (2026) [[notes]](../notes/Formal%20methods%20for%20safety-critical%20machine%20learning%3A%20a%20systematic%20literature%20review.md); Bengio et al. (2026) [[notes]](../notes/International%20AI%20Safety%20Report%202026.md); Perez-Cerrolaza et al. (2024) [[notes]](../notes/Artificial%20Intelligence%20for%20Safety-Critical%20Systems%20in%20Industrial%20and%20Transportation%20Domains-%20A%20Survey.md)
+Key citations: Ramos et al. (2024) [[notes]](../../notes/Collaborative%20Intelligence%20for%20Safety-Critical%20Industries-%20A%20Literature%20Review.md); Newcomb & Ochoa (2026) [[notes]](../../notes/Formal%20methods%20for%20safety-critical%20machine%20learning%3A%20a%20systematic%20literature%20review.md); Bengio et al. (2026) [[notes]](../../notes/International%20AI%20Safety%20Report%202026.md); Perez-Cerrolaza et al. (2024) [[notes]](../../notes/Artificial%20Intelligence%20for%20Safety-Critical%20Systems%20in%20Industrial%20and%20Transportation%20Domains-%20A%20Survey.md)
 
 ---
 
@@ -113,7 +113,7 @@ Small-scale coastal fisheries in Malaysia face a real AI governance problem: fis
 
 Source: `index.md` — PS3 problem statement; `docs/justification-low-resource-environments.md`
 
-Key citation: Haque & Al Jufaili (2026) [[notes]](../notes/AI%20in%20Fisheries%20and%20Aquaculture.md)
+Key citation: Haque & Al Jufaili (2026) [[notes]](../../notes/AI%20in%20Fisheries%20and%20Aquaculture.md)
 
 **Paragraph 2 — Why this domain is the right validation context**
 The departure decision maps directly onto the three-mode governance structure. Safe conditions admit full AI advice; elevated but non-prohibitive conditions call for directional guidance without precision scheduling; prohibitive conditions require silence from the AI with a deterministic safety alert. The environmental state vector E = {w, r, m, o, v, t} is observable from independent sources. The low-resource constraints (TinyML-compatible hardware, offline operation after initial deployment) validate Layer 2's O(1) threshold classification and Layer 3's production rule engine, both of which are designed to run on constrained devices without cloud dependency.
@@ -183,7 +183,7 @@ The architecture is implemented in four layers: Layer 1 observes E from sources 
 
 **Keep this section short.** One paragraph only. The full methodology is in Chapter 3.
 
-**Key sentence**: "This research follows the Design Science Research methodology (Peffers et al., 2007 [[notes]](../notes/A%20Design%20Science%20Research%20Methodology%20for%20Information%20Systems%20Research.md)), which structures the research cycle as problem identification, design, development, demonstration, and evaluation."
+**Key sentence**: "This research follows the Design Science Research methodology (Peffers et al., 2007 [[notes]](../../notes/A%20Design%20Science%20Research%20Methodology%20for%20Information%20Systems%20Research.md)), which structures the research cycle as problem identification, design, development, demonstration, and evaluation."
 
 **Do not detail the methodology here.** Mention DSR, state that the design artefact and the evaluation methods are detailed in Chapter 3, and move on.
 
@@ -245,16 +245,16 @@ The following papers are expected to appear in Chapter 1. All must include [[not
 
 | Paper | Section | Quick link |
 |---|---|---|
-| Perez-Cerrolaza et al. (2024) | 1.1, 1.2 | `[[notes]](../notes/Artificial%20Intelligence%20for%20Safety-Critical%20Systems%20in%20Industrial%20and%20Transportation%20Domains-%20A%20Survey.md)` |
-| Ramos et al. (2024) | 1.1, 1.2 | `[[notes]](../notes/Collaborative%20Intelligence%20for%20Safety-Critical%20Industries-%20A%20Literature%20Review.md)` |
-| Könighofer et al. (2025) | 1.2 | `[[notes]](../notes/Shields%20for%20Safe%20Reinforcement%20Learning.md)` |
-| Bajcsy & Fisac (2024) | 1.2 | `[[notes]](../notes/Human%E2%80%93AI%20Safety-%20A%20Descendant%20of%20Generative%20AI%20and%20Control%20Systems%20Safety.md)` |
-| Wang et al. (2026) | 1.2 | `[[notes]](../notes/AgentSpec-%20Customizable%20Runtime%20Enforcement%20for%20Safe%20and%20Reliable%20LLM%20Agents.md)` |
-| Flehmig et al. (2024) | 1.2 | `[[notes]](../notes/Implementing%20Artificial%20Intelligence%20in%20Safety-Critical%20Systems%20during%20Operation-%20Challenges%20and%20Extended%20Framework%20for%20a%20Quality%20Assurance%20Process.md)` |
-| Newcomb & Ochoa (2026) | 1.2 | `[[notes]](../notes/Formal%20methods%20for%20safety-critical%20machine%20learning%3A%20a%20systematic%20literature%20review.md)` |
-| Bengio et al. (2026) | 1.2 | `[[notes]](../notes/International%20AI%20Safety%20Report%202026.md)` |
-| Haque & Al Jufaili (2026) | 1.3 | `[[notes]](../notes/AI%20in%20Fisheries%20and%20Aquaculture.md)` |
-| Dalrymple et al. (2024) | 1.5 | `[[notes]](../notes/Towards%20Guaranteed%20Safe%20AI-%20A%20Framework%20for%20Ensuring%20Robust%20and%20Reliable%20AI%20Systems.md)` |
+| Perez-Cerrolaza et al. (2024) | 1.1, 1.2 | `[[notes]](../../notes/Artificial%20Intelligence%20for%20Safety-Critical%20Systems%20in%20Industrial%20and%20Transportation%20Domains-%20A%20Survey.md)` |
+| Ramos et al. (2024) | 1.1, 1.2 | `[[notes]](../../notes/Collaborative%20Intelligence%20for%20Safety-Critical%20Industries-%20A%20Literature%20Review.md)` |
+| Könighofer et al. (2025) | 1.2 | `[[notes]](../../notes/Shields%20for%20Safe%20Reinforcement%20Learning.md)` |
+| Bajcsy & Fisac (2024) | 1.2 | `[[notes]](../../notes/Human%E2%80%93AI%20Safety-%20A%20Descendant%20of%20Generative%20AI%20and%20Control%20Systems%20Safety.md)` |
+| Wang et al. (2026) | 1.2 | `[[notes]](../../notes/AgentSpec-%20Customizable%20Runtime%20Enforcement%20for%20Safe%20and%20Reliable%20LLM%20Agents.md)` |
+| Flehmig et al. (2024) | 1.2 | `[[notes]](../../notes/Implementing%20Artificial%20Intelligence%20in%20Safety-Critical%20Systems%20during%20Operation-%20Challenges%20and%20Extended%20Framework%20for%20a%20Quality%20Assurance%20Process.md)` |
+| Newcomb & Ochoa (2026) | 1.2 | `[[notes]](../../notes/Formal%20methods%20for%20safety-critical%20machine%20learning%3A%20a%20systematic%20literature%20review.md)` |
+| Bengio et al. (2026) | 1.2 | `[[notes]](../../notes/International%20AI%20Safety%20Report%202026.md)` |
+| Haque & Al Jufaili (2026) | 1.3 | `[[notes]](../../notes/AI%20in%20Fisheries%20and%20Aquaculture.md)` |
+| Dalrymple et al. (2024) | 1.5 | `[[notes]](../../notes/Towards%20Guaranteed%20Safe%20AI-%20A%20Framework%20for%20Ensuring%20Robust%20and%20Reliable%20AI%20Systems.md)` |
 | Peffers et al. (2007) | 1.7 | *(check citation-notes-map.md for DSR paper link)* |
 
 ---
