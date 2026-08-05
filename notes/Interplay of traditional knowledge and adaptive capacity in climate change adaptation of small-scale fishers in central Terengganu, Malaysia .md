@@ -14,6 +14,12 @@
 
 **Provenance assessment:** Strong. Q1 journal, DOI confirmed, primary empirical data, ethical approval documented. Suitable as a primary citation.
 
+**Verified national-scale statistics (from paper Introduction, verified against primary source):**
+- SSF constitute **75.8%** of all Malaysian registered fishers
+- **More than 5,023** registered SSF fishers operate within 5 nm in Terengganu specifically
+- ~**800 fishers** (registered + unregistered) in the local study area of Northern Terengganu (n = 136 surveyed, ~17% coverage)
+- **Note:** The figure "89,000 registered small-scale fishers" does NOT appear in this paper. It is a national LKIM institutional statistic from external Department of Fisheries reports — not citable as Yamin et al.
+
 ---
 
 ## 2. Research Problem (as relevant to this study)

@@ -8,9 +8,10 @@
 - **Title:** Verification-Guided Shielding for Deep Reinforcement Learning
 - **Authors:** Davide Corsi, Guy Amir, Andoni Rodríguez, César Sánchez, Guy Katz, Roy Fox
 - **Year:** 2024
-- **Venue:** arXiv preprint (arXiv:2406.06507v2)
+- **Venue:** 1st Reinforcement Learning Conference (RLC), 2024
+- **DOI:** 10.48550/arXiv.2406.06507
 - **Type:** System design + empirical evaluation
-- **Provenance note:** Preprint as of June 2024. Multi-institutional (UC Irvine, Hebrew University of Jerusalem, IMDEA Software Institute). Strong author track record in formal verification (Katz — Marabou framework) and safe DRL (Corsi). Not yet peer-reviewed at a named venue — **treat as supporting reference, not load-bearing for gap claims.**
+- **Provenance note:** Published at RLC 2024. Multi-institutional (UC Irvine, Hebrew University of Jerusalem, IMDEA Software Institute). Strong author track record in formal verification (Katz — Marabou framework) and safe DRL (Corsi).
 
 ---
 
@@ -23,7 +24,7 @@
   3. **Clustering** (agglomerative) — compress the set of unsafe regions into a compact representation
   4. **Symbolic representation** (Z3 SMT solver) — encode unsafe regions as succinct first-order logic formulas
   5. **Selective shield execution** — activate shield only in (potentially) unsafe regions; bypass in provably safe regions
-- **Main contributions:** Reduces shield activation overhead by 25–71% while preserving formal safety guarantees. Demonstrates that even well-trained DRL agents (95%+ success rate, 0% empirical collisions) have formally verifiable unsafe input configurations.
+- **Main contributions:** Reduces shield activation overhead by 20–71% while preserving formal safety guarantees (exact range 20.5–71.1% across all tested seeds; Particle World: 40.7–64.8%, Mapless Navigation: 20.5–71.1% — see Table 4). Demonstrates that even well-trained DRL agents (95%+ success rate, 0% empirical collisions) have formally verifiable unsafe input configurations.
 - **Novelty:** First approach to combine offline DNN verification with online shielding to achieve selective, region-dependent shield activation. The key insight is that the shield need not be invoked everywhere — only where the agent's behaviour cannot be formally guaranteed safe.
 
 ---
