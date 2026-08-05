@@ -71,10 +71,6 @@ project-root/
 │   │   ├── unified-governance.md
 │   │   └── viva-formalisation-architecture.md
 │   │
-│   ├── evaluation/                    ← RQ4 and RQ5 study designs
-│   │   ├── rq4-study-design.md
-│   │   └── rq5-study-design.md
-│   │
 │   ├── analysis/                      ← Synthesis, verification, viva prep
 │   │   ├── synthesis-shamsujjoha-alignment.md
 │   │   ├── verification-flehmig-shamsujjoha.md
@@ -500,6 +496,11 @@ Save this as `PUBLICATION-THESIS-SYNC.md` at your project root:
 
 Use this to move your existing files into the new structure:
 
+> **⚠ Before running this checklist:**
+> 1. Use `git mv` (not plain `mv`) for every move to preserve git history.
+> 2. **776 `../notes/` relative links** across `docs/` files will break when files move into subdirectories — they will need to become `../../notes/`. Fix in a separate pass after migration. (TODO: automate with a sed/find script.)
+> 3. After all moves, run Section 9 to update CLAUDE.md paths.
+
 ### Move into `docs/canonical/`
 - [ ] `docs/appendix-c-formalisation.md` → `docs/canonical/`
 - [ ] `docs/architecture-illustration.md` → `docs/canonical/`
@@ -516,7 +517,7 @@ Use this to move your existing files into the new structure:
 
 ### Move into `docs/chapters/`
 - [ ] `docs/chapter-2-draft.md` → `docs/chapters/chapter-2-literature-review/v1-initial-draft.md`
-- [ ] `docs/chapter-2-writing-plan.md` → `docs/writing-plans/plan-chapter-2-lit-review.md`
+- [ ] `docs/chapter-2-writing-plan.md` → `docs/writing-plans/plan-chapter-2-structure.md` *(review against literature-review-writing-plan.md first — merge if overlapping)*
 - [ ] `docs/literature-review-writing-plan.md` → `docs/writing-plans/plan-chapter-2-lit-review.md`
 - [ ] `docs/plan-chapter-1-introduction.md` → `docs/writing-plans/`
 - [ ] `docs/plan-layer3-model-type.md` → `docs/writing-plans/`
@@ -544,7 +545,8 @@ Use this to move your existing files into the new structure:
 - [ ] `docs/caution-state-technical-novelty-ref.md` → `docs/reference/`
 - [ ] `docs/research-improvement-plan.md` → `docs/reference/`
 - [ ] Root-level `keyword-novelty-check-dua-patel-2024.md` → `docs/reference/`
-- [ ] `improvement-plan/` contents → `docs/reference/`
+- [ ] `improvement-plan/improvement-plan-1.md` → `docs/reference/`
+- [ ] `improvement-plan/literature_review_improvement_plan-2.md` → `docs/reference/` *(note: underscore in filename)*
 - [ ] `review-comments/` contents → `docs/reference/`
 - [ ] `docs/citation-audit-report.md` → `docs/reference/`
 - [ ] `docs/paper-reference-list.md` → `docs/reference/`
@@ -578,6 +580,10 @@ Use this to move your existing files into the new structure:
 - [ ] `docs/research-proposal-v2.md`
 - [ ] `docs/research-proposal.docx`
 - [ ] `docs/writing-skill.md`
+
+### Create new root-level files (do not exist yet)
+- [ ] `PUBLICATION-THESIS-SYNC.md` — use template from Section 7
+- [ ] `PhD-ORGANIZATION-SYSTEM.md` — copy of this file (organize.md) for root-level reference
 
 ### Remove empty directories (still pending as of 2026-08-05)
 - [ ] `improvement-plan/` — migrate contents to `docs/reference/` first
