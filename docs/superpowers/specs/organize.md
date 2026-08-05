@@ -176,8 +176,12 @@ project-root/
 │   ├── PUBLICATION-THESIS-SYNC.md     ← Cross-linking tracker (see Section 7)
 │   └── PhD-ORGANIZATION-SYSTEM.md     ← This file (you're reading it)
 │
-└── methodologies/                     ← (Deprecated — moved to docs/implementation/)
-    └── (empty, remove after migration)
+├── methodologies/                     ← (Deprecated — moved to docs/implementation/)
+│   └── (empty, remove after migration)
+│
+├── data/                              ← Raw CSV data files (weather, marine, rainfall, tide)
+│
+└── scripts/                           ← Python data download scripts
 ```
 
 ---
@@ -519,11 +523,22 @@ Use this to move your existing files into the new structure:
 - [ ] `docs/research-proposal-v3.md` → `docs/chapters/archive/`
 - [ ] `docs/research-proposal-final.docx` → `docs/chapters/archive/`
 
-### Move into `docs/publication/` (or new `publications/` folder)
+### Move into `publications/active/ipsci-2026/`
 - [ ] `docs/ipsci2026-extended-abstract-draft.md` → `publications/active/ipsci-2026/submissions/v1-initial-submission/manuscript.md`
 - [ ] `docs/ipsci2026-introduction.md` → `publications/active/ipsci-2026/submissions/archive/`
 - [ ] `docs/publication-plan.md` → `publications/active/ipsci-2026/README.md`
-- [ ] Root-level IPSci files → `publications/active/ipsci-2026/submissions/archive/`
+- [ ] `ipsci-2026-paper-v1.md` → `publications/active/ipsci-2026/submissions/archive/`
+- [ ] `ipsci-2026-paper-v2.md` → `publications/active/ipsci-2026/submissions/archive/`
+- [ ] `ipsci-2026-paper-v3.md` → `publications/active/ipsci-2026/submissions/archive/`
+- [ ] `ipsci-2026-paper-v4.md` → `publications/active/ipsci-2026/submissions/archive/`
+- [ ] `ipsci-2026-paper-v5.md` → `publications/active/ipsci-2026/submissions/archive/`
+- [ ] `ipsci-2026-paper-v5.pdf` → `publications/active/ipsci-2026/submissions/archive/`
+- [ ] `ipsci-2026-paper-v6.md` → `publications/active/ipsci-2026/submissions/archive/`
+- [ ] `ipsci-2026-paper-v7.md` → `publications/active/ipsci-2026/submissions/archive/`
+- [ ] `ipsci-2026-paper-v8.md` → `publications/active/ipsci-2026/submissions/v2-post-review/manuscript.md` (latest version)
+- [ ] `ipsci-2026-extended-abstract-v2.md` → `publications/active/ipsci-2026/submissions/archive/`
+- [ ] `ipsci-2026-extended-abstract-v2-humanized.md` → `publications/active/ipsci-2026/submissions/archive/`
+- [ ] `ipsci-2026-extended-abstract-v3-slr.md` → `publications/active/ipsci-2026/submissions/archive/`
 
 ### Move into `docs/reference/`
 - [ ] `docs/caution-state-technical-novelty-ref.md` → `docs/reference/`
@@ -531,6 +546,9 @@ Use this to move your existing files into the new structure:
 - [ ] Root-level `keyword-novelty-check-dua-patel-2024.md` → `docs/reference/`
 - [ ] `improvement-plan/` contents → `docs/reference/`
 - [ ] `review-comments/` contents → `docs/reference/`
+- [ ] `docs/citation-audit-report.md` → `docs/reference/`
+- [ ] `docs/paper-reference-list.md` → `docs/reference/`
+- [ ] Root-level `instruction-plan.md` → `docs/reference/` (active command reference, not admin)
 
 ### Move into `docs/implementation/`
 - [ ] `docs/data-source-met-malaysia.md` → `docs/implementation/`
@@ -542,11 +560,15 @@ Use this to move your existing files into the new structure:
 - [ ] `docs/verification-flehmig-shamsujjoha.md` → `docs/analysis/`
 - [ ] `docs/viva-qa-novelty-problem-gap.md` → `docs/analysis/`
 - [ ] `docs/ai-detection.md` → `docs/analysis/`
+- [ ] `docs/content-audit-check2-plan.md` → `docs/analysis/`
+- [ ] `docs/content-audit-check3-analysis.md` → `docs/analysis/`
+- [ ] `docs/content-audit-check4-analysis.md` → `docs/analysis/`
+- [ ] `docs/content-audit-check5-analysis.md` → `docs/analysis/`
+- [ ] `docs/content-audit-check6-analysis.md` → `docs/analysis/`
 
 ### Move into `docs/admin/`
 - [ ] Root-level `part-i-student-report.md` → `docs/admin/`
 - [ ] Root-level `part-ii-research-goals.md` → `docs/admin/`
-- [ ] Root-level `instruction-plan.md` → `docs/admin/` (if still active)
 
 ### Move into `docs/obsolete/`
 - [ ] `docs/Architectural Layering Design and Graphic Representation.md`
@@ -557,10 +579,10 @@ Use this to move your existing files into the new structure:
 - [ ] `docs/research-proposal.docx`
 - [ ] `docs/writing-skill.md`
 
-### Remove empty directories
-- [ ] `improvement-plan/`
-- [ ] `review-comments/`
-- [ ] `methodologies/`
+### Remove empty directories (still pending as of 2026-08-05)
+- [ ] `improvement-plan/` — migrate contents to `docs/reference/` first
+- [ ] `review-comments/` — migrate contents to `docs/reference/` first
+- [ ] `methodologies/` — migrate contents to `docs/implementation/` first
 
 ---
 
