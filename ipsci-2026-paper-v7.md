@@ -178,7 +178,7 @@ Across the 72 reviewed papers, prior work addresses adjacent governance dimensio
 
 ## The Mechanistic Basis for External Governance
 
-Can the AI component itself be expected to narrow its advisory scope as conditions deteriorate, making external governance unnecessary? Evidence from the LLM systems and cognition literatures (external to the governance corpus reviewed above) indicates it cannot be relied upon to do so, at any of the three points where such self-restraint would have to arise.
+Can the AI component itself be expected to narrow its advisory scope as conditions deteriorate, making external governance unnecessary? Evidence from the LLM systems and cognition literatures (external to the governance corpus surveyed in this review) indicates it cannot be relied upon to do so, at any of the three points where such self-restraint would have to arise. The proposed architecture uses a Symbolic AI Reasoning Engine rather than an LLM; the limitations above nonetheless point to a general constraint: effective AI governance cannot rely on an AI system's ability to self-regulate, whatever the underlying technique.
 
 ### Fixed inference pipeline
 
@@ -200,10 +200,10 @@ The review establishes a research gap: the reviewed AI governance and decision-s
 
 #  Proposed Architecture
 
-The mechanistic evidence above establishes that internal self-restraint cannot be relied upon; the gap requires an external architectural solution. The graduated safety-state-gated architecture proposed here conditions both AI participation and advisory scope on a classified environmental safety state, enforced by a layer outside the AI component (Fig. 3). The design also responds to a specific gap in governance theory: Engin and Hand argue that governance categories should be built as explicit thresholds over continuously monitored dimensions rather than as static classifications [32], but their proposal lacks an enforcement mechanism. The proposed architecture realises that pattern as an enforced runtime mechanism: continuous environmental observation E, deterministic thresholding S = f(E), and three actionable categories each carrying formally differentiated constraints, enforced by construction rather than by design intent.
+The proposed architecture uses a Symbolic AI Reasoning Engine, a knowledge-based expert system in the classical symbolic AI tradition [38], to generate recommendations within the scope the participation and advisory-scope gates permit. The mechanistic evidence presented in the Mechanistic Basis section establishes that internal self-restraint cannot be relied upon; the gap requires an external architectural solution. The graduated safety-state-gated architecture proposed here conditions both AI participation and advisory scope on a classified environmental safety state, enforced by a layer outside the AI component (Fig. 3). The design also responds to a specific gap in governance theory: Engin and Hand argue that governance categories should be built as explicit thresholds over continuously monitored dimensions rather than as static classifications [32], but their proposal lacks an enforcement mechanism. The proposed architecture realises that pattern as an enforced runtime mechanism: continuous environmental observation E, deterministic thresholding S = f(E), and three actionable categories each carrying formally differentiated constraints, enforced by construction rather than by design intent.
 
 
-Fig. 3. The graduated safety-state-gated architecture. Before any inference begins, a deterministic external classifier computes the environmental safety state S = f (E) outside the AI component. Both gates, G(S) and AAI(S), are conditioned on S and together bound what the AI may recommend for the current observation.
+Fig. 3. The graduated safety-state-gated architecture. Before any inference begins, a deterministic external classifier computes the environmental safety state S = f (E) outside the AI component. Both gates, G(S) and AAI(S), are conditioned on S and together bound what the AI may recommend for the current observation. The Symbolic AI Reasoning Engine is a knowledge-based expert system that applies predefined knowledge rules to generate recommendations within the advisory scope the governance layer defines.
 
 ```
 Environmental observation vector E = {w, r, m, o, v, t}
@@ -234,11 +234,12 @@ Environmental observation vector E = {w, r, m, o, v, t}
                  │  CAUTION: {Go, Delay}           │
                  └────────┬───────────────────────┘
                           │
-                 ┌────────▼───────────┐
-                 │  Rule-based engine │
-                 │  (RS(S) supplied   │
-                 │   before inference)│
-                 └────────┬───────────┘
+                 ┌────────▼───────────────┐
+                 │  Symbolic AI           │
+                 │  Reasoning Engine      │
+                 │  (RS(S) supplied       │
+                 │   before inference)    │
+                 └────────┬───────────────┘
                           │
                  ┌────────▼───────────┐
                  │  AI(E) ⊆ A_AI(S)   │
@@ -277,11 +278,52 @@ CAUTION also has a theoretical basis independent of these operational trade-offs
 
 ## Domain Instantiation
 
-The architecture is being pursued as a formally specified prototype for AI departure decision support in small-scale coastal fisheries in Malaysia (Kota Kinabalu, Sabah). E = {w, r, m, o, v, t} where w is wind speed, r is rainfall intensity, m is marine warning level, o is ocean state, v is vessel category, and t is time of day. The rule-based reasoning engine enforces the Safety Dominance Property by construction, satisfying the offline-first and computationally lightweight requirements of the low-resource deployment context. To minimise mode-chattering at the classification boundaries of S = f(E) during marginal weather transitions, a dual-threshold hysteresis smoothing layer over the discrete state transitions is a deployment-floor design consideration, drawing on the empirically verified runtime-gating stability of Ghaleb et al. [27].
+The architecture is being pursued as a formally specified prototype for AI departure decision support in small-scale coastal fisheries in Malaysia (Kota Kinabalu, Sabah). E = {w, r, m, o, v, t} where w is wind speed, r is rainfall intensity, m is marine warning level, o is ocean state, v is vessel category, and t is time of day. The Symbolic AI Reasoning Engine enforces the Safety Dominance Property by construction and meets the offline-first and computationally lightweight requirements of the low-resource deployment context. To minimise mode-chattering at the classification boundaries of S = f(E) during marginal weather transitions, a dual-threshold hysteresis smoothing layer over the discrete state transitions is a deployment-floor design consideration, drawing on the empirically verified runtime-gating stability of Ghaleb et al. [27].
 
 This scenario reflects the documented departure decision process of small-scale fishers in coastal Malaysia, where assessment of environmental conditions (weather, tide, and safety) governs whether fishing proceeds normally, is modified, or is abandoned [37]; the runtime governance mechanism illustrated here is domain-independent.
 
-**Illustrative scenario.** A fisher prepares to depart at 0600. At SAFE state (wind 8 kt, no marine warning, calm swell), the system generates a full-scope recommendation: Go, with a suggested departure window of 0630–0700 and an estimated safe trip duration of four hours. Wind strengthens to 18 kt by mid-morning and the marine warning level rises to advisory; S = f(E) reclassifies the state to CAUTION. The AI remains engaged but its admissible space contracts to {Go, Delay}: it recommends Delay with a brief rationale, but withholds the departure time and duration it could no longer reliably support. By afternoon, sustained wind exceeds the UNSAFE threshold; G(S) = 0 disengages the AI entirely, and the system presents only the static government warning. The fisher receives calibrated guidance at each state rather than full-scope output until abrupt shutdown.
+**Illustrative scenario.** A fisher prepares to depart at 0600. At SAFE state (wind 8 kt, no marine warning, calm swell), the system generates a full-scope recommendation: Go, with a suggested departure window of 0630–0700 and an estimated safe trip duration of four hours. Wind strengthens to 18 kt by mid-morning and the marine warning level rises to advisory; S = f(E) reclassifies the state to CAUTION. The AI remains engaged but its admissible space contracts to {Go, Delay}: it recommends Delay with a brief rationale, but withholds the departure time and duration it could no longer reliably support. By afternoon, sustained wind exceeds the UNSAFE threshold; G(S) = 0 disengages the AI entirely, and the system presents only the static government warning. The fisher receives calibrated guidance at each state rather than full-scope output until abrupt shutdown (Fig. 4).
+
+Fig. 4. Graduated state transitions for an illustrative departure decision. Each row shows the environmental observation vector E at a point in time, the resulting safety state S = f(E), and the corresponding governance configuration (G(S), A_AI(S)). Vessel category (v = small) is fixed; dynamic parameters (w, r, m, o) change across rows.
+
+```
+=======================================================================================================================
+                                 GRADUATED SAFETY-STATE-GATED ARCHITECTURE
+                                           (Illustrative Values)
+=======================================================================================================================
+
+  INPUT VECTOR E                       SAFETY CLASSIFIER S = f(E)              AI GATING & ADMISSIBLE SPACE A_AI(S)
+-----------------------------------------------------------------------------------------------------------------------
+
+[0600 - Early Morning]
+ • Wind (w): 8 kt                      ┌────────────────────────┐              ┌─────────────────────────────────────┐
+ • Rain (r): none                      │          SAFE          │              │ G(SAFE) = 1 (Active)                │
+ • Warning (m): none                   └────────────────────────┘              │                                     │
+ • Ocean State (o): calm swell                                                 │ Admissible Scope A_AI(SAFE):        │
+ • Vessel Cat (v): small                          │                            │ { Go, Delay, DepartureTime,         │
+ • Time (t): 0600                                 │                            │   Duration }                        │
+                                                  ▼                            └─────────────────────────────────────┘
+                                   Condition Deteriorates
+                                                  │
+[Mid-Morning]                                     ▼
+ • Wind (w): 18 kt                     ┌────────────────────────┐              ┌─────────────────────────────────────┐
+ • Rain (r): moderate                  │        CAUTION         │              │ G(CAUTION) = 1 (Active)             │
+ • Warning (m): advisory               └────────────────────────┘              │                                     │
+ • Ocean State (o): moderate swell                                             │ Scope Contracts A_AI(CAUTION):      │
+ • Vessel Cat (v): small                          │                            │ { Go, Delay }                       │
+ • Time (t): 1000                                 │                            │                                     │
+                                                  ▼                            │ (DepartureTime & Duration withheld) │
+                                   Condition Exceeds Safety Limit              └─────────────────────────────────────┘
+                                                  │
+[Afternoon]                                       ▼
+ • Wind (w): 28 kt (sustained)         ┌────────────────────────┐              ┌─────────────────────────────────────┐
+ • Rain (r): heavy                     │         UNSAFE         │              │ G(UNSAFE) = 0 (Disengaged)          │
+ • Warning (m): warning                └────────────────────────┘              │                                     │
+ • Ocean State (o): rough seas                                                 │ Admissible Scope A_AI(UNSAFE):      │
+ • Vessel Cat (v): small                                                       │ ∅ (Empty Set — Static Alert Only)   │
+ • Time (t): 1400                                                              └─────────────────────────────────────┘
+=======================================================================================================================
+```
 
 # Conclusion
 
@@ -368,3 +410,5 @@ Will be add later!
 [36] A. Batool, D. Zowghi, and M. Bano, "AI governance: A systematic literature review," AI and Ethics, vol. 5, pp. 3265–3279, 2025. doi: 10.1007/s43681-024-00653-w
 
 [37] T. Gao, "Mapping the Decision-Making Factors of Small-Scale Fishers: A Case Study of Penang," M.Sc. thesis, International Master of Science in Rural Development, University of Pisa / WorldFish (CGIAR), 2024. [Online]. Available: https://hdl.handle.net/10568/152289
+
+[38] V. Belle, "On the relevance of logic for artificial intelligence, and the promise of neurosymbolic learning," Neurosymbolic Artificial Intelligence, 2025. doi: 10.1177/29498732251339951
