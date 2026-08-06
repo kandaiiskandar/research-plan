@@ -25,7 +25,7 @@ t ∈ [0, 24) is classified by the threshold function g_t(t) into three safety z
 - **CAUTION**: 17:00–19:00 (approaching darkness — elevated visual risk)
 - **UNSAFE**: 19:00–06:00 (night — insufficient daylight for safe small‑vessel operation)
 
-The overall safety state **S = max‑severity(S_w, S_r, S_m, S_o, S_v, S_t)** applies the conservative worst‑case rule across all six parameters, including t. Time of day is therefore a direct input to the governance classification, not a post‑hoc filter on recommendation types.
+The overall safety state **S = max‑severity(S_w, S_r, S_m, S_o, S_v, S_t)** applies the conservative worst‑case rule across all six parameters, including t. *(max‑severity is formally defined via the severity order in Definition C.1, Section C.2.)* Time of day is therefore a direct input to the governance classification, not a post‑hoc filter on recommendation types.
 
 **Empirical justification for t.** The inclusion of t is grounded in two complementary empirical sources. Atacan & Düzbastılar (2023) conducted a bridge navigation simulator study with 30 small‑scale fishing vessel captains and found that night navigation significantly elevates both accident probability (mean 4.08 vs. 3.43 at calm conditions) and consequence (mean 12.80 vs. 8.53). Combined night and heavy weather produced the highest consequence scores across all tested conditions (mean 37.03). Restricted visibility — the principal mechanism by which nighttime elevates risk for small vessels without radar — was rated the single most dangerous factor for sea navigation accident probability (mean 7.90, the highest across all six environmental scenarios). Dominguez‑Péry et al. (2023) analysed 504 IMO maritime accident investigation reports (2011–2021) and found that external environmental factors including visibility constitute the largest single risk cluster (26.7% of text segments), with time of day captured as a standard field in IMO accident records. These findings establish that time of day is an empirically validated maritime risk factor, not an arbitrary addition to E.
 
@@ -63,6 +63,20 @@ Additionally, Dominguez‑Péry et al. (2023) document contradictory findings ac
 
 ## C.2 Safety State Classification Function
 
+### Definition C.1 — Severity Order
+
+Define a total strict order ≻ on the safety state set {SAFE, CAUTION, UNSAFE} as:
+
+**UNSAFE ≻ CAUTION ≻ SAFE**
+
+This order is transitive (UNSAFE ≻ SAFE follows from UNSAFE ≻ CAUTION and CAUTION ≻ SAFE) and total (every pair of distinct states is ordered). The ordering reflects increasing operational risk: UNSAFE represents conditions in which departure is not survivable for the vessel category and no AI advisory output is permissible; CAUTION represents marginal conditions in which AI advisory output is restricted to coarse operational guidance; SAFE represents conditions in which all environmental parameters are within acceptable bounds and full AI advisory scope is available.
+
+The empirical basis for this ordering is established in C.1: Atacan & Düzbastılar (2023) document that combined adverse conditions produce consequence scores that far exceed any single adverse factor (mean 37.03 for combined night and heavy weather vs. 12.80 for night alone), establishing that UNSAFE is strictly more dangerous than CAUTION. Dominguez‑Péry et al. (2023) confirm that multi-variable adverse conditions constitute the highest risk cluster across 504 IMO accident reports, establishing that SAFE (all parameters within bounds) is strictly less dangerous than CAUTION (at least one parameter elevated).
+
+This definition is the formal basis for the worst‑case aggregation rule in the classification function and for Theorem C.2 (Monotonicity of A_AI) in C.6.
+
+---
+
 The deterministic safety layer maps the environmental state to a safety state:
 
 **S = f(E)**
@@ -71,19 +85,117 @@ Where:
 
 **S ∈ {SAFE, CAUTION, UNSAFE}**
 
-An example rule‑based classification (illustrative, not exhaustive):
+### Per-Component Classification Functions
 
+For each component xᵢ ∈ E, define a per-component classification function gᵢ : domain(xᵢ) → {SAFE, CAUTION, UNSAFE}. The overall classification function is then:
 
-An example rule-based classification:
+**f(E) = max-severity(g_w(w), g_r(r), g_m(m), g_o(o), g_v(v), g_t(t))**
 
-S =
-- UNSAFE if m = Warning or w > w_max
-- CAUTION if w_caution < w ≤ w_max
-- SAFE otherwise
+where max-severity applies the severity order ≻ from Definition C.1 and returns the most severe classification across all six components.
 
+The per-component functions and their threshold values are defined below. Thresholds are anchored to MET Malaysia's published Kawasan Perairan warning criteria and empirical fisher departure decision patterns documented across three independent studies (Rahim et al. 2024; Gao 2024; Yamin et al. 2025) — see `docs/implementation/dataset-label-derivation.md` for full derivation.
 
-This example illustrates the classification logic using wind (w) and marine warning level (m), which are the two most critical factors from the literature.  
-In the full system, the function **f(E)** incorporates all variables in the environmental state vector **E** (including rainfall r, sea state m, vessel category v, and time of day t), with thresholds derived from Malaysian maritime safety data and expert elicitation during the design science research cycle.
+---
+
+**g_w(w) — Wind Speed (knots, sustained)**
+
+| Classification | Threshold | Empirical basis |
+|---|---|---|
+| SAFE | w ≤ 22 knots | Full fishing operations observed; Rahim et al. fishing season (low winds) |
+| CAUTION | 22 < w ≤ 27 knots | Restricted operations (2–3 trips/week, near-shore); Rahim et al. East season |
+| UNSAFE | w > 27 knots | "Do not go at all" — Rahim et al. West season (30–40 knots); Gao: "if wind too strong, I don't go" |
+
+*Domain:* w ∈ ℝ≥0. The three intervals [0, 22], (22, 27], (27, +∞) partition ℝ≥0 exhaustively with no overlap.
+
+---
+
+**g_r(r) — Rainfall Intensity (ordinal categorical)**
+
+| Classification | Values of r | Empirical basis |
+|---|---|---|
+| SAFE | {none, light, moderate} | Normal operations documented under none/light rain; moderate rain alone does not trigger restriction |
+| CAUTION | {heavy} | Yamin et al.: erratic/heavy rainfall rated primary hazard by 91% of fishers; triggers restricted operations |
+| UNSAFE | {storm} | Ribut Petir (thunderstorm warning) or Ribut Taufan (cyclone) — unconditional halt in all three studies |
+
+*Domain:* r ∈ {none, light, moderate, heavy, storm}. All five values are assigned; the domain is fully covered.
+
+---
+
+**g_m(m) — Marine Warning Level (ordinal categorical)**
+
+| Classification | Values of m | Empirical basis |
+|---|---|---|
+| SAFE | {none} | No active warning — baseline operating condition |
+| CAUTION | {advisory} | Category 1 advisory — approaching warning threshold; signals elevated risk without full restriction |
+| UNSAFE | {warning, alert} | Category 2–3 warning, Ribut Petir, or Ribut Taufan — MET Malaysia institutional halt threshold |
+
+*Domain:* m ∈ {none, advisory, warning, alert}. All four values are assigned; the domain is fully covered.
+
+---
+
+**g_o(o) — Ocean State (wave height, metres)**
+
+| Classification | Threshold | Empirical basis |
+|---|---|---|
+| SAFE | o < 1.5m | Calm/mild swell — full operations; Rahim et al. fishing season |
+| CAUTION | 1.5m ≤ o ≤ 3.5m | Moderate swell — restricted scope; Rahim et al. East season (elevated waves, near-shore shift) |
+| UNSAFE | o > 3.5m | Rough seas — Rahim et al. West season (waves >2m combined with 30–40 knot winds = halt) |
+
+*Note:* Ocean state o is a tuple (wave height m, swell period s) in the general definition (C.1). For classification purposes, wave height is the primary component; swell period is a secondary modifier applied during domain instantiation. The threshold values above use wave height as the governing variable, consistent with MET Malaysia's Kawasan Perairan range vocabulary.
+
+*Domain:* o (wave height component) ∈ ℝ≥0. The three intervals [0, 1.5), [1.5, 3.5], (3.5, +∞) partition ℝ≥0 exhaustively.
+
+---
+
+**g_v(v) — Vessel Category (ordinal categorical)**
+
+| Classification | Values of v | Empirical basis |
+|---|---|---|
+| SAFE | {big} | Large vessels have lowest mean fatality rank (1.02); withstand adverse conditions that would restrict small vessels |
+| CAUTION | {small, medium} | Small vessels: highest mean fatality rank (3.67, p = 0.01) per Dominguez-Péry et al. (2023); cannot withstand severe weather (Rahim et al. 2024); vessels ≤22 ft within 5 nm shore (Shaffril et al. 2017; Yamin et al. 2025). Medium vessels: intermediate vulnerability. |
+
+*Note on UNSAFE:* g_v has no UNSAFE classification. Vessel category alone does not trigger UNSAFE — that state requires an environmental condition (e.g., extreme wind or an active marine warning) that is beyond the vessel's physical limits. The codomain of g_v is therefore {SAFE, CAUTION} ⊂ {SAFE, CAUTION, UNSAFE}. This is consistent with the totality requirement (Theorem C.1): every v maps to exactly one classification within {SAFE, CAUTION, UNSAFE}, and the absence of an UNSAFE row simply means no value of v maps to UNSAFE in isolation. The UNSAFE state for small and medium vessels arises through max-severity when g_v(v) = CAUTION combines with UNSAFE classifications from other components (e.g., g_w(w) = UNSAFE when w > 27 knots).
+
+*Note on interaction:* Vessel category contributes at minimum CAUTION to max-severity when v ∈ {small, medium}. This reflects the empirical finding that small and medium vessels carry elevated baseline risk regardless of other environmental conditions. In practice, the vessel category threshold shifts the effective safety boundary for w, o, and m: conditions classified as SAFE for a big vessel may classify as CAUTION or UNSAFE for a small vessel through the max-severity rule.
+
+*Domain:* v ∈ {small, medium, big}. All three values are assigned to exactly one classification; the domain is fully covered.
+
+---
+
+**g_t(t) — Time of Day (hour, 24-hour clock)**
+
+| Classification | Threshold | Empirical basis |
+|---|---|---|
+| SAFE | 06:00 ≤ t < 17:00 | Daytime — sufficient daylight for safe operation and return to port |
+| CAUTION | 17:00 ≤ t < 19:00 | Approaching darkness — elevated visual risk; restricted visibility onset |
+| UNSAFE | 19:00 ≤ t < 24:00 or 00:00 ≤ t < 06:00 | Night — restricted visibility; Atacan & Düzbastılar (2023): highest accident probability and consequence scores under night conditions |
+
+*Domain:* t ∈ [0, 24). The three intervals [6, 17), [17, 19), [19, 24) ∪ [0, 6) partition [0, 24) exhaustively.
+
+---
+
+### Theorem C.1 — Totality of f
+
+**Theorem C.1 (Totality of f).** For all E ∈ domain(E), f(E) is defined and returns exactly one element of {SAFE, CAUTION, UNSAFE}.
+
+**Proof.** It suffices to show that (i) each per-component function gᵢ is total over domain(xᵢ), and (ii) max-severity is total over {SAFE, CAUTION, UNSAFE}⁶.
+
+*(i) Totality of each gᵢ.*
+
+- **g_w:** The thresholds [0, 22], (22, 27], (27, +∞) partition ℝ≥0 exhaustively. Every w ∈ ℝ≥0 falls in exactly one interval. ✓
+- **g_r:** The five values {none, light, moderate, heavy, storm} are the complete domain of r. Each value is assigned to exactly one classification. ✓
+- **g_m:** The four values {none, advisory, warning, alert} are the complete domain of m. Each value is assigned to exactly one classification. ✓
+- **g_o:** The thresholds [0, 1.5), [1.5, 3.5], (3.5, +∞) partition ℝ≥0 exhaustively (wave height component). Every o ∈ ℝ≥0 falls in exactly one interval. ✓
+- **g_v:** The three values {small, medium, big} are the complete domain of v. Each value is assigned to exactly one classification. ✓
+- **g_t:** The intervals [6, 17), [17, 19), [19, 24) ∪ [0, 6) partition [0, 24) exhaustively. Every t ∈ [0, 24) falls in exactly one interval. ✓
+
+*(ii) Totality of max-severity.*
+
+max-severity takes a tuple (S_w, S_r, S_m, S_o, S_v, S_t) ∈ {SAFE, CAUTION, UNSAFE}⁶ and returns the element that is greatest under ≻ (Definition C.1). Since ≻ is a total strict order on a finite set, the maximum always exists and is unique. ✓
+
+Therefore f(E) = max-severity(g_w(w), g_r(r), g_m(m), g_o(o), g_v(v), g_t(t)) is defined and returns exactly one element of {SAFE, CAUTION, UNSAFE} for all E. ∎
+
+**Significance.** Theorem C.1 establishes that the safety classifier has no undefined states — every combination of environmental conditions maps to exactly one safety state. This is a necessary condition for runtime governance: a classifier that could fail to return a state would leave the governance layer without a basis for enforcing (G(S), A_AI(S)).
 
 ---
 
@@ -180,6 +292,48 @@ This ensures that CAUTION represents a restricted advisory mode rather than full
 
 ---
 
+### Theorem C.2 — Monotonicity of A_AI
+
+Formal safety architectures require that safety constraints tighten consistently as risk increases — a property Bloomfield & Rushby (2025) [[notes]](../../notes/Assurance%20of%20AI%20Systems%20From%20a%20Dependability%20Perspective.md) establish as a core expectation of deterministic guards surrounding AI components, and that Dalrymple et al. (2024) [[notes]](../../notes/Towards%20Guaranteed%20Safe%20AI-%20A%20Framework%20for%20Ensuring%20Robust%20and%20Reliable%20AI%20Systems.md) require of world model safety specifications under increasing uncertainty. The following theorem proves that the proposed architecture satisfies this property.
+
+**Theorem C.2 (Monotonicity of A_AI).** For all S₁, S₂ ∈ {SAFE, CAUTION, UNSAFE}, if S₁ ≻ S₂ then A_AI(S₁) ⊆ A_AI(S₂).
+
+*Informally:* as the safety state becomes more severe, the AI admissible recommendation space never expands — it either contracts or remains equal.
+
+**Proof.** From Definition C.1, the severity order ≻ on {SAFE, CAUTION, UNSAFE} yields three ordered pairs: (UNSAFE, CAUTION), (CAUTION, SAFE), and (UNSAFE, SAFE). We verify each case using the set definitions from C.4.
+
+**Case 1: S₁ = UNSAFE, S₂ = CAUTION (UNSAFE ≻ CAUTION).**
+
+A_AI(UNSAFE) = ∅ and A_AI(CAUTION) = {Go, Delay}.
+
+∅ ⊆ {Go, Delay} holds trivially, since the empty set is a subset of every set.
+
+Therefore A_AI(UNSAFE) ⊆ A_AI(CAUTION). ∎
+
+**Case 2: S₁ = CAUTION, S₂ = SAFE (CAUTION ≻ SAFE).**
+
+A_AI(CAUTION) = {Go, Delay} and A_AI(SAFE) = {Go, Delay, DepartureTime, Duration}.
+
+{Go, Delay} ⊆ {Go, Delay, DepartureTime, Duration} holds because every element of A_AI(CAUTION) is also an element of A_AI(SAFE).
+
+Therefore A_AI(CAUTION) ⊆ A_AI(SAFE). ∎
+
+**Case 3: S₁ = UNSAFE, S₂ = SAFE (UNSAFE ≻ SAFE, by transitivity of ≻).**
+
+A_AI(UNSAFE) = ∅ and A_AI(SAFE) = {Go, Delay, DepartureTime, Duration}.
+
+∅ ⊆ {Go, Delay, DepartureTime, Duration} holds trivially.
+
+Therefore A_AI(UNSAFE) ⊆ A_AI(SAFE). ∎
+
+All three ordered pairs satisfy the subset condition. The theorem holds. ∎
+
+**Corollary C.2 (Strict Monotonicity).** The inclusions in Cases 1 and 2 are strict: A_AI(UNSAFE) ⊊ A_AI(CAUTION) ⊊ A_AI(SAFE). This is precisely the containment relationship stated in C.4: A_AI(SAFE) ⊃ A_AI(CAUTION) ⊃ A_AI(UNSAFE) = ∅. Theorem C.2 provides the formal proof that this containment is not coincidental but follows necessarily from the severity ordering on S and the set definitions of A_AI(S).
+
+**Significance.** Theorem C.2 guarantees that the architecture is well-behaved across state transitions. As environmental conditions deteriorate (S moves up the severity order), the AI advisory scope never suddenly expands. The Safety Dominance Property (C.7) establishes that AI output is bounded at any single state; Theorem C.2 establishes that this bound tightens monotonically as risk increases. Together they characterise the full safety behaviour of the governance pair (G(S), A_AI(S)).
+
+---
+
 ## C.7 Safety Dominance Property
 
 The Graduated Safety‑State‑Gated Architecture satisfies the **Safety Dominance Property** if deterministic safety classification always constrains AI recommendations.
@@ -206,20 +360,61 @@ The rule engine fires only rules present in the active RS(S). No rule in RS(CAUT
 
 ### C.7.2 Proof of the Safety Dominance Property
 
-**Claim:** For all E, AI(E) ⊆ A_AI(f(E)).
+**Theorem C.3 (Safety Dominance Property).** Let AI(E) denote the set of recommendation types generated by the AI reasoning engine for environmental state E, and let S = f(E) be the safety state returned by the classifier. Then:
 
-**Proof by construction.** Let S = f(E) for arbitrary E.
+**For all E ∈ domain(E): AI(E) ⊆ A_AI(f(E))**
 
-**Case 1: S = UNSAFE.**
-G(UNSAFE) = 0. Layer 3 receives no input. AI(E) = ∅. Since A_AI(UNSAFE) = ∅, AI(E) ⊆ A_AI(UNSAFE) holds trivially. ∎
+and as a special case:
 
-**Case 2: S = CAUTION.**
-G(CAUTION) = 1. Layer 3 receives E and RS(CAUTION). By definition, RS(CAUTION) contains only rules producing recommendations in {Go, Delay}. The rule engine can produce only types present in its active rule set. Therefore AI(E) ⊆ {Go, Delay} = A_AI(CAUTION). ∎
+**If f(E) = UNSAFE, then AI(E) = ∅**
 
-**Case 3: S = SAFE.**
-G(SAFE) = 1. Layer 3 receives E and RS(SAFE). RS(SAFE) contains only rules producing recommendations in {Go, Delay, DepartureTime, Duration}. Therefore AI(E) ⊆ {Go, Delay, DepartureTime, Duration} = A_AI(SAFE). ∎
+**Assumptions.**
 
-The property holds in all three cases. The proof requires no runtime checking and depends only on the definition of RS(S), which is fully under the designer's control. See `docs/justification-layer3-enforcement.md` for the full enforcement justification.
+1. **(A1) Rule-based engine.** Layer 3 is implemented as a rule-based symbolic reasoning engine. It generates only recommendation types for which an active rule exists in its current rule set.
+
+2. **(A2) Rule set supply.** The governance layer (Layer 2) supplies rule set RS(S) to Layer 3 before any reasoning begins, where RS(S) is defined as:
+   - RS(SAFE) contains only rules producing recommendations in {Go, Delay, DepartureTime, Duration}
+   - RS(CAUTION) contains only rules producing recommendations in {Go, Delay}
+   - RS(UNSAFE) = ∅ — never supplied, since G(UNSAFE) = 0 gates off Layer 3 entirely
+
+3. **(A3) Gate enforcement.** If G(S) = 0, Layer 3 receives no input and produces no output: AI(E) = ∅.
+
+4. **(A4) Engine fidelity.** The rule engine fires only rules present in the active RS(S). No rule produces a recommendation type not present in the rule's conclusion.
+
+**Proof by exhaustive case analysis on S.**
+
+Since f(E) is total (Theorem C.1) and S ∈ {SAFE, CAUTION, UNSAFE}, there are exactly three cases.
+
+**Case 1: f(E) = UNSAFE.**
+
+By (A3), G(UNSAFE) = 0, so Layer 3 receives no input.
+By (A3), AI(E) = ∅.
+By definition, A_AI(UNSAFE) = ∅.
+Therefore AI(E) = ∅ = A_AI(UNSAFE), and in particular AI(E) ⊆ A_AI(UNSAFE). ∎
+
+**Case 2: f(E) = CAUTION.**
+
+By (A3), G(CAUTION) = 1, so Layer 3 is active.
+By (A2), Layer 3 receives RS(CAUTION), which contains only rules producing recommendations in {Go, Delay}.
+By (A4), the engine produces only recommendation types present in RS(CAUTION).
+Therefore AI(E) ⊆ {Go, Delay} = A_AI(CAUTION). ∎
+
+**Case 3: f(E) = SAFE.**
+
+By (A3), G(SAFE) = 1, so Layer 3 is active.
+By (A2), Layer 3 receives RS(SAFE), which contains only rules producing recommendations in {Go, Delay, DepartureTime, Duration}.
+By (A4), the engine produces only recommendation types present in RS(SAFE).
+Therefore AI(E) ⊆ {Go, Delay, DepartureTime, Duration} = A_AI(SAFE). ∎
+
+In all three cases, AI(E) ⊆ A_AI(f(E)). The Safety Dominance Property holds. ∎
+
+**Remarks.**
+
+- The proof is constructive: it depends only on the definitions of RS(S) and the gate function G(S), both of which are fully under the designer's control. No runtime checking is required.
+- The property holds *before* generation begins, not by filtering outputs after the fact. RS(S) is supplied to Layer 3 as a precondition; the engine has no mechanism to generate types outside its active rule set.
+- Together with Theorem C.2 (Monotonicity), this theorem characterises the full safety behaviour of the governance pair: at any given state, AI output is bounded within A_AI(S); as S becomes more severe, that bound tightens.
+
+See `docs/canonical/justification-layer3-enforcement.md` for the full enforcement justification and design rationale for the rule set supply mechanism.
 
 ---
 
@@ -249,7 +444,7 @@ The formal architecture is defined by four core functions:
 | **G(S)** | AI participation gate |
 | **A_AI(S)** | AI admissible recommendation space |
 
-These four functions together define the **Graduated Safety‑State‑Gated Hybrid AI Decision Architecture**.
+These four functions together define the **Graduated Safety‑State‑Gated Architecture**.
 
 ---
 
@@ -277,7 +472,7 @@ In this architecture:
 5. The AI generates recommendations within the permitted advisory scope.
 6. The human operator makes the final decision.
 
-This structure represents a state‑governed hybrid AI decision architecture where deterministic safety classification governs probabilistic AI advisory behaviour.
+This structure represents a state‑governed architecture where deterministic safety classification governs symbolic AI advisory behaviour.
 
 ---
 
