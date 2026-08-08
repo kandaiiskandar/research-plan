@@ -81,12 +81,14 @@ Twenty scenarios across five categories. Each specifies E vector values and the 
 
 | Parameter | SAFE | CAUTION | UNSAFE |
 |---|---|---|---|
-| w (wind speed) | < 15 kn | 15–25 kn | > 25 kn |
-| r (rainfall) | none / light | moderate | heavy / storm |
-| m (marine warning) | none | advisory | warning / alert |
-| o (wave height) | < 1.0 m | 1.0–2.0 m | > 2.0 m |
-| v (vessel category) | big | medium | small |
+| w (wind speed) | < 22 kn (< 40 km/h) | 22–27 kn (40–50 km/h) | > 27 kn (> 50 km/h) |
+| r (rainfall) | none / light / moderate | heavy | storm (Ribut Petir) |
+| m (marine warning) | none | Category 1 advisory | Category 2/3, Ribut Petir, Ribut Taufan |
+| o (wave height) | < 1.5 m | 1.5–3.5 m | > 3.5 m |
+| v (vessel category) | big | small / medium | — (vessel category alone does not trigger UNSAFE) |
 | t (time of day) | 06:00–17:00 | 17:00–19:00 | 19:00–06:00 |
+
+*Thresholds anchored to MET Malaysia Kriteria Amaran Angin Kencang dan Laut Bergelora. Source: https://www.met.gov.my/en/ramalan/angin-kencang-and-laut-bergelora/ (verified August 2026). Rainfall/thunderstorm: https://www.met.gov.my/en/ramalan/ribut-petir/. Canonical formal definition: `appendix-c-formalisation.md` Section C.2.*
 
 ### Category A: Pure SAFE (5 scenarios)
 
@@ -106,10 +108,10 @@ Exactly one parameter classifies as CAUTION; none classifies as UNSAFE. S = CAUT
 
 | ID | w | r | m | o | v | t | S | Trigger |
 |---|---|---|---|---|---|---|---|---|
-| SC-06 | 18 kn | none | none | 0.5 m | big | 08:00 | CAUTION | Wind |
-| SC-07 | 8 kn | moderate | none | 0.5 m | big | 09:00 | CAUTION | Rainfall |
-| SC-08 | 8 kn | none | advisory | 0.5 m | big | 10:00 | CAUTION | Marine advisory |
-| SC-09 | 8 kn | none | none | 1.3 m | big | 08:00 | CAUTION | Wave height |
+| SC-06 | 24 kn | none | none | 0.5 m | big | 08:00 | CAUTION | Wind (22–27 kn = Category 1 zone) |
+| SC-07 | 8 kn | heavy | none | 0.5 m | big | 09:00 | CAUTION | Rainfall (heavy, below Ribut Petir threshold) |
+| SC-08 | 8 kn | none | advisory | 0.5 m | big | 10:00 | CAUTION | Marine advisory (Category 1) |
+| SC-09 | 8 kn | none | none | 1.7 m | big | 08:00 | CAUTION | Wave height (1.5–3.5 m = CAUTION zone) |
 | SC-10 | 8 kn | none | none | 0.5 m | big | 18:00 | CAUTION | Time of day (approaching darkness) |
 
 ### Category C: Pure UNSAFE (5 scenarios)
@@ -118,11 +120,11 @@ At least one parameter classifies as UNSAFE. S = UNSAFE, G(S) = 0. C1 and C2 pro
 
 | ID | w | r | m | o | v | t | S | Trigger |
 |---|---|---|---|---|---|---|---|---|
-| SC-11 | 30 kn | none | none | 0.5 m | big | 08:00 | UNSAFE | Wind |
-| SC-12 | 8 kn | heavy | none | 0.5 m | big | 09:00 | UNSAFE | Rainfall |
-| SC-13 | 8 kn | none | warning | 0.5 m | big | 10:00 | UNSAFE | Marine warning |
-| SC-14 | 8 kn | none | none | 2.5 m | big | 08:00 | UNSAFE | Wave height |
-| SC-15 | 8 kn | none | none | 0.5 m | small | 08:00 | UNSAFE | Vessel category (small vessel) |
+| SC-11 | 30 kn | none | none | 0.5 m | big | 08:00 | UNSAFE | Wind (> 27 kn = Category 2+) |
+| SC-12 | 8 kn | storm | none | 0.5 m | big | 09:00 | UNSAFE | Rainfall (storm = Ribut Petir, > 20 mm/hr) |
+| SC-13 | 8 kn | none | warning | 0.5 m | big | 10:00 | UNSAFE | Marine warning (Category 2/3) |
+| SC-14 | 8 kn | none | none | 4.0 m | big | 08:00 | UNSAFE | Wave height (> 3.5 m = above Category 1 maximum) |
+| SC-15 | 8 kn | none | none | 0.5 m | big | 22:00 | UNSAFE | Time of day (night, 19:00–06:00) |
 
 ### Category D: Boundary scenarios (3 scenarios)
 
@@ -130,9 +132,9 @@ Conditions at or near classification thresholds. Tests whether the implementatio
 
 | ID | w | r | m | o | v | t | S | Boundary tested |
 |---|---|---|---|---|---|---|---|---|
-| SC-16 | 14.5 kn | none | none | 0.5 m | big | 16:30 | SAFE | Wind just below SAFE/CAUTION threshold (15 kn) |
-| SC-17 | 15.5 kn | none | none | 0.5 m | big | 08:00 | CAUTION | Wind just above SAFE/CAUTION threshold |
-| SC-18 | 24.5 kn | moderate | advisory | 1.8 m | big | 08:00 | CAUTION | Wind near CAUTION/UNSAFE threshold; multiple CAUTION parameters simultaneously |
+| SC-16 | 21.5 kn | none | none | 0.5 m | big | 16:30 | SAFE | Wind just below SAFE/CAUTION threshold (22 kn) |
+| SC-17 | 22.5 kn | none | none | 0.5 m | big | 08:00 | CAUTION | Wind just above SAFE/CAUTION threshold (22 kn) |
+| SC-18 | 26.5 kn | moderate | advisory | 2.0 m | big | 08:00 | CAUTION | Wind near CAUTION/UNSAFE threshold; multiple CAUTION parameters simultaneously |
 
 ### Category E: Adversarial scenarios (2 scenarios)
 

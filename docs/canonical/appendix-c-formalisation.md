@@ -93,7 +93,12 @@ For each component xᵢ ∈ E, define a per-component classification function g�
 
 where max-severity applies the severity order ≻ from Definition C.1 and returns the most severe classification across all six components.
 
-The per-component functions and their threshold values are defined below. Thresholds are anchored to MET Malaysia's published Kawasan Perairan warning criteria and empirical fisher departure decision patterns documented across three independent studies (Rahim et al. 2024; Gao 2024; Yamin et al. 2025) — see `docs/implementation/dataset-label-derivation.md` for full derivation.
+The per-component functions and their threshold values are defined below. Thresholds are anchored to MET Malaysia's published warning criteria and empirical fisher departure decision patterns documented across three independent studies (Rahim et al. 2024; Gao 2024; Yamin et al. 2025) — see `docs/implementation/dataset-label-derivation.md` for full derivation.
+
+**MET Malaysia source links (verified August 2026):**
+- Strong Wind & Rough Seas Warning Criteria: https://www.met.gov.my/en/ramalan/angin-kencang-and-laut-bergelora/
+- Thunderstorm Warning Criteria: https://www.met.gov.my/en/ramalan/ribut-petir/
+- Live Marine Warning Bulletin: https://www.met.gov.my/data/IDM20016.html
 
 ---
 
@@ -143,6 +148,8 @@ The per-component functions and their threshold values are defined below. Thresh
 
 *Note:* Ocean state o is a tuple (wave height m, swell period s) in the general definition (C.1). For classification purposes, wave height is the primary component; swell period is a secondary modifier applied during domain instantiation. The threshold values above use wave height as the governing variable, consistent with MET Malaysia's Kawasan Perairan range vocabulary.
 
+*Empirical support for the 1.5 m CAUTION boundary:* Jeong & Im (2023) [[notes]](../../notes/Proposal%20of%20Restrictions%20on%20the%20Departure%20of%20Korea%20Small%20Fishing%20Vessel%20according%20to%20Wave%20Height.md), analyzing 66 small fishing vessel capsizing incidents in Korean coastal waters over 23 years (1999–2022), show that 38% of capsizing incidents occurred at wave heights at or below 3 m — including incidents at Hs as low as 1.0 m — establishing that departure restrictions anchored to 3 m significantly underestimate the wave height at which capsizing risk materializes. Applying the Wolfson Unit critical wave height formula to Korean fishing vessel geometry, they derive a length-dependent threshold formula (Hs_KIMO = √(1 + 0.4 × (0.88 × LOA)) − 1) that produces departure caution thresholds of approximately 1.1–1.6 m for vessels in the 10–16 m LOA range, consistent with the 1.5 m SAFE/CAUTION boundary. The 3.5 m CAUTION/UNSAFE boundary aligns with MET Malaysia Category 1 maximum wave height criteria (https://www.met.gov.my/en/ramalan/angin-kencang-and-laut-bergelora/, verified August 2026). *Geographic note:* The Hs_KIMO formula was calibrated for Korean fishing vessel geometry; Malaysian small fishing vessels may have different beam-to-length ratios. The formula provides empirical corroboration for the 1-2 m departure restriction zone, not a direct numerical match.
+
 *Domain:* o (wave height component) ∈ ℝ≥0. The three intervals [0, 1.5), [1.5, 3.5], (3.5, +∞) partition ℝ≥0 exhaustively.
 
 ---
@@ -157,6 +164,8 @@ The per-component functions and their threshold values are defined below. Thresh
 *Note on UNSAFE:* g_v has no UNSAFE classification. Vessel category alone does not trigger UNSAFE — that state requires an environmental condition (e.g., extreme wind or an active marine warning) that is beyond the vessel's physical limits. The codomain of g_v is therefore {SAFE, CAUTION} ⊂ {SAFE, CAUTION, UNSAFE}. This is consistent with the totality requirement (Theorem C.1): every v maps to exactly one classification within {SAFE, CAUTION, UNSAFE}, and the absence of an UNSAFE row simply means no value of v maps to UNSAFE in isolation. The UNSAFE state for small and medium vessels arises through max-severity when g_v(v) = CAUTION combines with UNSAFE classifications from other components (e.g., g_w(w) = UNSAFE when w > 27 knots).
 
 *Note on interaction:* Vessel category contributes at minimum CAUTION to max-severity when v ∈ {small, medium}. This reflects the empirical finding that small and medium vessels carry elevated baseline risk regardless of other environmental conditions. In practice, the vessel category threshold shifts the effective safety boundary for w, o, and m: conditions classified as SAFE for a big vessel may classify as CAUTION or UNSAFE for a small vessel through the max-severity rule.
+
+*Hydrodynamic justification for g_v(small) = CAUTION always:* Yaakob et al. (2015) [[notes]](../../notes/Stability%2C%20Seakeeping%20and%20Safety%20Assessment%20of%20Small%20Fishing%20Boats%20Operating%20in%20Southern%20Coast%20of%20Peninsular%20Malaysia.md), assessing seakeeping performance of two traditional Malaysian small fishing boats (LOA 5.0–6.5 m, < 10 GRT, Johor coast) using Maxsurf naval architecture software (JONSWAP spectrum, NORDFORSK 1987 criteria), found that the smaller vessel (5.03 m) failed seakeeping criteria at Sea State 3 (Hs ≈ 0.875 m) and the larger (6.54 m) at Sea State 4 (Hs ≈ 1.875 m). Both passed static stability criteria (IMO decked fishing vessel requirements) at all loading conditions. This establishes that Malaysian Zone A small vessels have dynamic operability limits well below the nominal wave height thresholds, such that their risk is correctly captured through the vessel category contribution (g_v(small) = CAUTION always) rather than wave height alone. A small vessel at g_o = SAFE (Hs < 1.5m) will still classify as f(E) = CAUTION via max-severity over g_v — consistent with Yaakob et al.'s finding that operability failure occurs for these vessels at Hs as low as 0.875m.
 
 *Domain:* v ∈ {small, medium, big}. All three values are assigned to exactly one classification; the domain is fully covered.
 

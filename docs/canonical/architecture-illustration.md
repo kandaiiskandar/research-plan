@@ -221,14 +221,14 @@ Each parameter is independently classified into a safety zone using threshold co
 
 | Parameter | SAFE | CAUTION | UNSAFE |
 |---|---|---|---|
-| **w** — Wind speed | < 15 knots | 15-25 knots | > 25 knots |
-| **r** — Rainfall | None / light | Moderate | Heavy / storm |
-| **m** — Marine warning | None | Advisory | Warning / alert |
-| **o** — Ocean state (wave height) | < 1.0 m | 1.0-2.0 m | > 2.0 m |
-| **v** — Vessel category | Big | Medium | Small |
-| **t** — Time of day | 06:00-17:00 | 17:00-19:00 | 19:00-06:00 |
+| **w** — Wind speed | < 22 knots (< 40 km/h) | 22–27 knots (40–50 km/h) | > 27 knots (> 50 km/h) |
+| **r** — Rainfall | None / light / moderate | Heavy | Storm (Ribut Petir) |
+| **m** — Marine warning | None | Category 1 advisory | Category 2/3, Ribut Petir, Ribut Taufan |
+| **o** — Ocean state (wave height) | < 1.5 m | 1.5–3.5 m | > 3.5 m |
+| **v** — Vessel category | Big | Small / medium | — (vessel category alone does not trigger UNSAFE) |
+| **t** — Time of day | 06:00–17:00 | 17:00–19:00 | 19:00–06:00 |
 
-*Thresholds are illustrative. Final values require domain expert calibration and validation against Malaysian maritime safety data. The architecture's formal properties hold for any valid threshold assignment.*
+*Thresholds anchored to MET Malaysia's published Kriteria Amaran Angin Kencang dan Laut Bergelora: Category 1 onset = 40 km/h wind / 3.5m wave (dangerous to small crafts); Category 2 onset = 50 km/h / 4.5m (dangerous to all fishing). Source: https://www.met.gov.my/en/ramalan/angin-kencang-and-laut-bergelora/ (verified August 2026). Rainfall/thunderstorm threshold: https://www.met.gov.my/en/ramalan/ribut-petir/. Canonical formal definition: `appendix-c-formalisation.md` Section C.2.*
 
 ### 5.3 Worst-Case Aggregation
 
