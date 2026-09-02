@@ -348,18 +348,149 @@ Section 6 proves Theorems 5.1–5.3 (Totality, Monotonicity, Safety Dominance Pr
 
 ## 6. Theoretical Analysis
 
-**Purpose:** Prove the key properties of the architecture. This section does not exist in the conference paper.
+### 6.1 Overview
 
-**Key properties to prove:**
-- **Safety Dominance Property:** For all E, AI(E) ⊆ A_AI(S) — holds by construction (proof by construction from rule set RS(S))
-- **Monotonicity:** A_AI is monotone-decreasing in risk: if S₁ is riskier than S₂ then A_AI(S₁) ⊆ A_AI(S₂)
-- **Completeness of classification:** f(E) is total — every E maps to exactly one S
-- **Worst-case aggregation correctness:** when E contains conflicting signals, the conservative classification wins
+This section proves the three formal properties stated in Section 5. All proofs proceed by exhaustive case analysis over the finite state set {SAFE, CAUTION, UNSAFE} — no induction is required. The proofs are by construction: they depend only on the definitions given in Section 5, not on runtime behaviour or empirical observation.
 
-> **Source:** `docs/canonical/appendix-c-formalisation.md` Sections C.6–C.7  
-> **Source:** `docs/justification/justification-layer3-enforcement.md`
+The three theorems and their dependencies are:
 
-*(Draft here)*
+- **Theorem 6.1 (Totality of f):** every environmental state E maps to exactly one safety state S. This is a necessary precondition for the other two theorems — they presuppose that f(E) is always defined.
+- **Theorem 6.2 (Monotonicity of A_AI):** as the safety state becomes more severe, the AI admissible recommendation space never expands. Properties 5.1 and 5.2 follow as corollaries.
+- **Theorem 6.3 (Safety Dominance Property):** the AI can only generate recommendations within the admissible space defined by the current safety state. This is the load-bearing safety theorem; it holds by construction from the RS(S) supply mechanism.
+
+Together, the three theorems characterise the full safety behaviour of the governance pair (G(S), A_AI(S)): the classifier is total, the advisory scope tightens monotonically with risk, and AI output is bounded within that scope at every state.
+
+---
+
+### 6.2 Theorem 6.1: Totality of f
+
+**Theorem 6.1 (Totality of f).** For all E in its domain, f(E) is defined and returns exactly one element of {SAFE, CAUTION, UNSAFE}.
+
+**Proof.** It suffices to show (i) each per-component function gᵢ is total over its domain, and (ii) max_≻ over a finite totally ordered set is always defined and unique.
+
+*(i) Totality of each gᵢ.*
+
+- **g_w:** The three intervals [0, 22], (22, 27], (27, +∞) partition ℝ≥0 exhaustively with no gaps and no overlaps. Every w ∈ ℝ≥0 falls in exactly one interval. ✓
+- **g_r:** The five values {none, light, moderate, heavy, storm} constitute the complete domain of r. Each value is assigned to exactly one classification (SAFE, SAFE, SAFE, CAUTION, UNSAFE respectively). ✓
+- **g_m:** The four values {none, advisory, warning, alert} constitute the complete domain of m. Each is assigned to exactly one classification (SAFE, CAUTION, UNSAFE, UNSAFE respectively). ✓
+- **g_o:** The three intervals [0, 1.5), [1.5, 3.5], (3.5, +∞) partition ℝ≥0 exhaustively. Every o ∈ ℝ≥0 falls in exactly one interval. ✓
+- **g_v:** The three values {small, medium, big} constitute the complete domain of v. Each is assigned to exactly one classification (CAUTION, CAUTION, SAFE respectively). ✓
+- **g_t:** The intervals [6.0, 17.0), [17.0, 19.0), [19.0, 24.0) ∪ [0.0, 6.0) partition [0, 24) exhaustively. Every t ∈ [0, 24) falls in exactly one interval. ✓
+
+In each case, the domain of xᵢ is partitioned into exhaustive, mutually exclusive subsets, each mapped to exactly one element of {SAFE, CAUTION, UNSAFE}. Each gᵢ is therefore total.
+
+*(ii) Totality of max_≻.*
+
+max_≻ takes the set {g_w(w), g_r(r), g_m(m), g_o(o), g_v(v), g_t(t)} ⊆ {SAFE, CAUTION, UNSAFE} and returns the greatest element under ≻ (Definition 5.3). Since ≻ is a total strict order on a finite non-empty set, the maximum always exists and is unique. ✓
+
+Therefore f(E) = max_≻ {g_w(w), g_r(r), g_m(m), g_o(o), g_v(v), g_t(t)} is defined and returns exactly one element of {SAFE, CAUTION, UNSAFE} for all E. ∎
+
+**Fail-safe extension.** The fail-safe rule stated in Section 5.2 (if any xᵢ = ⊥ then f(E) = UNSAFE) preserves totality: the pre-condition check maps every ⊥ input to UNSAFE before any gᵢ is evaluated, extending the domain of f to include undefined or corrupted inputs without introducing any undefined output states. ✓
+
+**Significance.** Theorem 6.1 establishes **completeness**: the safety classifier has no undefined states — every combination of observable environmental conditions, including incomplete inputs, maps to exactly one safety state. This is a necessary operational property: a classifier that could fail to return a state would leave Layer 2 without a basis for deriving G(S) and A_AI(S) at runtime, making the governance pair unenforceable. Totality is therefore the precondition that enables the remaining two theorems.
+
+---
+
+### 6.3 Theorem 6.2: Monotonicity of A_AI
+
+Formal safety architectures require that safety constraints tighten consistently as risk increases. Bloomfield & Rushby (2025) establish this as a core expectation of deterministic guards surrounding AI components; Dalrymple et al. (2024) require it of world model safety specifications under increasing uncertainty. The following theorem proves the proposed architecture satisfies this requirement.
+
+**Theorem 6.2 (Monotonicity of A_AI).** For all S₁, S₂ ∈ {SAFE, CAUTION, UNSAFE}, if S₁ ≻ S₂ then A_AI(S₁) ⊆ A_AI(S₂).
+
+*Informally:* as the safety state becomes more severe, the AI admissible recommendation space never expands — it either contracts or remains a subset of the less severe state's space.
+
+**Proof.** From Definition 5.3, the severity order ≻ on {SAFE, CAUTION, UNSAFE} produces exactly three ordered pairs: (UNSAFE, CAUTION), (CAUTION, SAFE), and (UNSAFE, SAFE). We verify each case using the set definitions from Definition 5.8.
+
+**Case 1: S₁ = UNSAFE, S₂ = CAUTION (UNSAFE ≻ CAUTION).**
+
+A_AI(UNSAFE) = ∅ and A_AI(CAUTION) = {Go, Delay}.
+
+∅ ⊆ {Go, Delay} holds trivially — the empty set is a subset of every set. ✓
+
+**Case 2: S₁ = CAUTION, S₂ = SAFE (CAUTION ≻ SAFE).**
+
+A_AI(CAUTION) = {Go, Delay} and A_AI(SAFE) = {Go, Delay, DepartureTime, Duration}.
+
+Every element of A_AI(CAUTION) — namely Go and Delay — is also an element of A_AI(SAFE). Therefore {Go, Delay} ⊆ {Go, Delay, DepartureTime, Duration}. ✓
+
+**Case 3: S₁ = UNSAFE, S₂ = SAFE (UNSAFE ≻ SAFE, by transitivity of ≻).**
+
+A_AI(UNSAFE) = ∅ and A_AI(SAFE) = {Go, Delay, DepartureTime, Duration}.
+
+∅ ⊆ {Go, Delay, DepartureTime, Duration} holds trivially. ✓
+
+All three ordered pairs satisfy the subset condition. Theorem 6.2 holds. ∎
+
+**Corollary 6.2 (Strict Monotonicity).** The inclusions in Cases 1 and 2 are strict: A_AI(UNSAFE) ⊊ A_AI(CAUTION) ⊊ A_AI(SAFE). This produces the containment chain:
+
+**A_AI(SAFE) ⊃ A_AI(CAUTION) ⊃ A_AI(UNSAFE) = ∅**
+
+The containment is not coincidental — it follows necessarily from the severity ordering on S and the set definitions of A_AI(S).
+
+**Corollary 6.3 (Properties 5.1 and 5.2).** Both governance constraints stated in Section 5.5 follow directly.
+
+*Property 5.1 (Participation Constraint):* G(S) = 0 ⟹ A_AI(S) = ∅. G(S) = 0 if and only if S = UNSAFE (Definition 5.7). A_AI(UNSAFE) = ∅ by Definition 5.8. Therefore G(S) = 0 ⟹ A_AI(S) = ∅. ✓
+
+*Property 5.2 (Advisory Restriction Constraint):* S = CAUTION ⟹ A_AI(CAUTION) ⊊ A_AI(SAFE). This is precisely Case 2 of Theorem 6.2, with the strict subset confirmed by Corollary 6.2: A_AI(SAFE) \ A_AI(CAUTION) = {DepartureTime, Duration} ≠ ∅. ✓
+
+**Significance.** Theorem 6.2 establishes **consistency**: the architecture never relaxes safety constraints as risk increases. As environmental conditions deteriorate — as S moves up the severity order — the AI advisory scope never suddenly expands. The CAUTION state is not SAFE with extra information: it is a governance state with a formally smaller and provably distinct advisory scope. Any architecture that does not satisfy Monotonicity could, in principle, permit broader AI advisory output under worse conditions than under better ones — a governance failure that Theorem 6.2 structurally prevents.
+
+---
+
+### 6.4 Theorem 6.3: Safety Dominance Property
+
+**Theorem 6.3 (Safety Dominance Property).** For all E in its domain:
+
+**AI(E) ⊆ A_AI(f(E))**
+
+and as a special case: if f(E) = UNSAFE then AI(E) = ∅.
+
+**Proof.** The proof proceeds by exhaustive case analysis on S = f(E), which is total by Theorem 6.1. Since S ∈ {SAFE, CAUTION, UNSAFE}, there are exactly three cases. The proof relies on four assumptions about the Layer 3 implementation, which correspond to the causal flow illustrated in Figure 2: Layer 2 supplies RS(S) to Layer 3 *before* inference begins, and Layer 3 is a deterministic rule engine that cannot generate types outside its active rule set.
+
+- **(A1) Rule-based engine.** Layer 3 generates only recommendation types for which an active rule exists in its current rule set.
+- **(A2) RS(S) supply.** Layer 2 supplies RS(S) to Layer 3 before any reasoning begins (Definition 5.10): RS(SAFE) contains only rules producing recommendations in {Go, Delay, DepartureTime, Duration}; RS(CAUTION) contains only rules producing recommendations in {Go, Delay}; RS(UNSAFE) = ∅ and is never supplied.
+- **(A3) Gate enforcement.** If G(S) = 0, Layer 3 receives no input and AI(E) = ∅ (Definition 5.11).
+- **(A4) Engine fidelity.** The rule engine fires only rules present in the active RS(S). No rule produces a recommendation type outside its stated conclusion.
+
+**Case 1: f(E) = UNSAFE.**
+
+By Definition 5.7, G(UNSAFE) = 0. By (A3), Layer 3 receives no input and AI(E) = ∅. By Definition 5.8, A_AI(UNSAFE) = ∅. Therefore AI(E) = ∅ = A_AI(UNSAFE), and in particular AI(E) ⊆ A_AI(UNSAFE). ✓
+
+**Case 2: f(E) = CAUTION.**
+
+By Definition 5.7, G(CAUTION) = 1, so Layer 3 is active. By (A2), Layer 3 receives RS(CAUTION), which contains only rules producing recommendations in {Go, Delay}. By (A4), the engine produces only recommendation types present in RS(CAUTION). Therefore AI(E) ⊆ {Go, Delay} = A_AI(CAUTION). ✓
+
+**Case 3: f(E) = SAFE.**
+
+By Definition 5.7, G(SAFE) = 1, so Layer 3 is active. By (A2), Layer 3 receives RS(SAFE), which contains only rules producing recommendations in {Go, Delay, DepartureTime, Duration}. By (A4), the engine produces only recommendation types present in RS(SAFE). Therefore AI(E) ⊆ {Go, Delay, DepartureTime, Duration} = A_AI(SAFE). ✓
+
+In all three cases, AI(E) ⊆ A_AI(f(E)). The Safety Dominance Property holds. ∎
+
+**Remarks.**
+
+The proof is constructive: it depends only on the definitions of RS(S) (Definition 5.10), the gate function G(S) (Definition 5.7), and the AI output mapping (Definition 5.11) — all of which are fully under the designer's control. No runtime checking or monitoring is required.
+
+The property holds before generation begins. RS(S) is supplied to Layer 3 as a precondition; the engine has no mechanism to generate types outside its active rule set. This is fundamentally different from a post-hoc output filter, which could fail, be bypassed, or have edge cases in which the filter condition evaluates incorrectly. The construction-time enforcement means the Safety Dominance Property is not a test result — it is a structural guarantee.
+
+**Significance.** Theorem 6.3 establishes **effectiveness**: the safety constraints are actually enforced on the AI output. The AI cannot — by construction — produce a recommendation outside the scope defined by the current safety state. No environmental condition can cause the AI to generate DepartureTime or Duration under CAUTION, and no condition can cause any recommendation under UNSAFE. This guarantee holds for all E, not just for tested scenarios. It is the load-bearing safety guarantee of the architecture.
+
+---
+
+### 6.5 Composite Guarantee
+
+The three theorems together characterise the full formal safety behaviour of the architecture.
+
+**Table 5. Formal guarantees of the graduated safety-state-gated architecture.**
+
+| Theorem | Guarantee | Implication |
+|---------|-----------|-------------|
+| 6.1 (Totality) | f(E) is defined for all E, including inputs with ⊥ | No environmental state can leave the governance layer without a safety classification |
+| 6.2 (Monotonicity) | A_AI(S₁) ⊆ A_AI(S₂) whenever S₁ ≻ S₂ | Advisory scope never expands as conditions worsen; CAUTION is provably stricter than SAFE |
+| 6.3 (Safety Dominance) | AI(E) ⊆ A_AI(f(E)) for all E | AI output is bounded within the admissible scope at every state, by construction |
+
+These guarantees are independent — each is proved from definitions alone, without relying on the others — and they are cumulative. Totality ensures the governance layer always has a state to enforce. Monotonicity ensures that state appropriately restricts scope as risk increases. Safety Dominance ensures that the AI advisory engine actually respects that restriction. An architecture satisfying all three has no formally identifiable path by which an AI recommendation can exceed the scope warranted by the current environmental conditions.
+
+Section 10 evaluates whether these formal guarantees produce correct behavioural outcomes in empirical test scenarios, comparing the graduated architecture against ungated and binary-gated baselines across the three safety states.
 
 ---
 
