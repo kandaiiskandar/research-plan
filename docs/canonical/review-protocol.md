@@ -3,6 +3,8 @@
 **Date:** 2026-09-07
 **Role:** Single source of truth for the Search and Selection Protocol figures (Table 1) and the primary comparator inclusion rationale (Table 2). Both tables are the reviewer-facing deliverables; every Table 1 cell traces to a §-section further down. Do NOT edit downstream artefacts (manuscript, chapter, CLAUDE.md, citation map) without updating the relevant §-section here first.
 
+**Companion artefact:** the per-paper coding audit lives in [`master-coding-table.md`](master-coding-table.md) (Tables 3a and 3b), covering 18 primary comparators (formally coded, verbatim from Chapter 2 Table 2.1) and 86 extended-corpus papers (coded during extraction; the per-paper coding lives in each paper's extraction notes and is indexed with links).
+
 **Provenance note.** Where the elicitation could not recover a value at drafting time, the §-section either quotes the corresponding passage from an existing project artefact (with source line) or carries the literal string `Not recorded — disclosed as limitation`. Elements sourced from artefacts remain subject to user confirmation and may be amended.
 
 ## Search and Selection Protocol (table)

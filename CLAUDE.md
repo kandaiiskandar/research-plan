@@ -136,7 +136,7 @@ The master citation → notes file mapping is at:
 
 This file contains ready-to-paste `[[notes]](path)` quick links for all 111 papers in the active corpus.
 
-**Special case**: Muhamad et al. (2024) notes file is in `../papers/sources/` not `../notes/`.
+**No special cases** — all corpus notes files live in `../notes/`. (An earlier version of this doc noted Muhamad et al. (2024) as a `papers/sources/` special case; the file was consolidated into `notes/` on 2026-09-07.)
 
 ### When this rule applies
 
