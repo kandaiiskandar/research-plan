@@ -110,10 +110,15 @@ Total: 532 secondary references.
 - Initial records, post-duplicate count, and post-title-abstract count were not archived. Only the retained corpus size (n = 72) is verifiable in artefacts.
 - Coding was performed by a single reviewer (the thesis author). No dual-coding audit was performed on any sample, so inter-rater reliability is not available.
 
-## Corpus reconciliation (open — not resolved in this plan)
+## Corpus reconciliation (resolved 2026-09-07)
 
-- **72** = final full-text-reviewed corpus (manuscript claim; used in the table).
-- **111** = data rows in `citation-notes-map.md` as of 2026-09-06.
-- **112** = `.md` files in `notes/` as of 2026-09-06.
-- **63** = stale figure in `CLAUDE.md:82,137` as of 2026-09-06.
-- Reconciliation of these four numbers is deferred to a follow-up task. If that reconciliation concludes n ≠ 72, the table row `Final corpus | 72` and every downstream artefact quoting 72 must re-issue.
+The four numbers count different populations. Each is correct at its own scope.
+
+- **72** — Full-reviewed corpus at manuscript submission. The subset that "advanced to full review" per `manuscript-v3.md:107`, coded on the four dimensions in TABLE I. This remains the reviewer-facing figure and the value in Table 1 above. Do not change unless the manuscript is resubmitted with a new methodology.
+- **111** — Current active corpus. The mapped rows in `citation-notes-map.md` as of 2026-09-07 — the thesis-level operational corpus that has grown since manuscript submission through added comparators and chapter drafting.
+- **112** — `.md` files in `notes/` as of 2026-09-07. Equals the 111 active corpus plus one archived stub (`Agent Governance Toolkit- Runtime Security for Autonomous AI Agents.md`, superseded by OWASP Top 10 for Agentic Applications 2026; the stub file itself records the archival).
+- **63** — Historical figure in `CLAUDE.md:82,137` that no longer reflected the corpus. Updated 2026-09-07 to reference 111 (active) and 72 (manuscript-facing).
+
+Two filename typos in `citation-notes-map.md` were fixed as part of this reconciliation: the Newcomb & Ochoa row used `:` where the actual file uses `-`, and the Shaffril et al. row carried a trailing space before `.md` that the actual file does not have.
+
+Because 72 is a properly-defined subset of the manuscript-time corpus rather than an out-of-date count, the `Final corpus | 72` row in Table 1 stands. The "Live dependency" note above Table 1 is retained as a historical marker; the dependency it warned about is now resolved.

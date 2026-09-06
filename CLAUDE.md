@@ -85,7 +85,7 @@ Always go to the right document — do not reconstruct content that already exis
 | `docs/canonical/rq5-study-design.md` | RQ5 contextual validation study design — three questions, instrument, participants, scope exclusions |
 | `docs/reference/research-improvement-plan.md` | Six-step improvement plan produced 25 April 2026 — all steps completed |
 | `docs/justification/*.md` | Justification documents for specific design decisions |
-| `notes/` | Per-paper extraction notes for all 63 corpus papers |
+| `notes/` | Per-paper extraction notes for the 111 active corpus papers (plus one archived stub for a paper superseded by OWASP Top 10 for Agentic Applications 2026); the manuscript's reviewer-facing figure is 72, which is the subset that "advanced to full review" at manuscript submission — see `docs/canonical/review-protocol.md` §Corpus reconciliation |
 
 ---
 
@@ -134,7 +134,7 @@ Author (Year) [[notes]](../notes/filename.md)
 The master citation → notes file mapping is at:
 `docs/canonical/citation-notes-map.md`
 
-This file contains ready-to-paste `[[notes]](path)` quick links for all 63 papers in the corpus.
+This file contains ready-to-paste `[[notes]](path)` quick links for all 111 papers in the active corpus.
 
 **Special case**: Muhamad et al. (2024) notes file is in `../papers/sources/` not `../notes/`.
 
