@@ -361,6 +361,12 @@ Blocked by: Stage 4.
 
 ---
 
+> ## ⚠️ Superseded in part — see `docs/canonical/decision-record-empirical-first.md`
+>
+> This plan was written before the classifier was run against site data. Stage 2 (evaluation redesign) assumed the 20-scenario design would be patched. The 2026-09-06 historical replay changed that: **`g_w` never fires in five years**, and the superseded vessel-blind `g_o` never produced UNSAFE at all.
+>
+> **Stages 0, 1 and 3 (Tiers 1–3) stand as executed and verified.** Stage 2 is superseded — the evaluation is now built on historical replay over 43,848 hourly records rather than 20 constructed scenarios, and the classifier specification itself is open pending diagnostic analysis. See the decision record for open questions Q1–Q5.
+
 ## Status at a glance
 
 | Stage | Scope | State |

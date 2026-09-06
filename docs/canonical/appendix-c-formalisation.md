@@ -136,7 +136,11 @@ The per-component functions and their threshold values are defined below. Thresh
 | CAUTION | 22 < w ≤ 27 knots | Restricted operations (2–3 trips/week, near-shore); Rahim et al. East season |
 | UNSAFE | w > 27 knots | MET Malaysia Category 2 onset (50 km/h ≈ 27 kn). Corroborated by Gao: "if wind too strong, I don't go" |
 
-*Note on `w` as sustained wind (added 2026-09-06).* `w` is defined as **sustained** wind speed, and the thresholds are MET Malaysia sustained-wind criteria. Care is needed when drawing on fisher-interview sources, which often report gusts: Rahim et al. (2024) [[notes]](../../notes/Survival%20Decisions%20and%20Adaptation%20Strategies%20of%20Small-scale%20Fishers%20in%20the%20Face%20of%20Extreme%20Weather%20Impacts%20in%20Coastal%20Areas.md) describe West season as "wind **gusts** of 30 to 40 knots per hour," which at typical gust ratios implies roughly 19–31 kn sustained — straddling rather than clearly exceeding the 27 kn boundary. That paper's West season figure was previously cited here as direct support for the UNSAFE threshold; the citation has been removed, since the threshold rests on MET Malaysia criteria and the West season classification is more securely driven by wave height (> 2 m) than by wind. Any future empirical corroboration of `g_w` must confirm whether the source reports sustained or gust values.
+*Note on `w` as sustained wind (added 2026-09-06, revised same day).* `w` is defined as **sustained** wind speed. Care is needed when drawing on fisher-interview sources, which often report gusts: Rahim et al. (2024) [[notes]](../../notes/Survival%20Decisions%20and%20Adaptation%20Strategies%20of%20Small-scale%20Fishers%20in%20the%20Face%20of%20Extreme%20Weather%20Impacts%20in%20Coastal%20Areas.md) describe West season as "wind **gusts** of 30 to 40 knots per hour," which at typical gust ratios implies roughly 19–31 kn sustained — straddling rather than clearly exceeding the 27 kn boundary. That paper's West season figure was previously cited here as direct support for the UNSAFE threshold; the citation has been removed, since the threshold rests on MET Malaysia criteria and the West season classification is more securely driven by wave height (> 2 m) than by wind. Any future empirical corroboration of `g_w` must confirm whether the source reports sustained or gust values.
+
+Note also that MET Malaysia's published criteria state "wind speeds from 40–50 kmph" **without specifying sustained or gust** — the ambiguity is in the source, not in this formalisation.
+
+> **Correction.** An earlier version of this note additionally claimed that ERA5 `wind_speed_10m` is an hourly mean and therefore under-represents peak sustained wind. **That was wrong** — Open-Meteo documents the variable's valid time as *"Instant"*. The `10m` denotes height above ground (the WMO standard reference level), not an averaging window. See `empirical-findings-2026-09-06.md` F-9. A separate and more likely explanation for the observed low wind values is that the archive request used the default `cell_selection=land`, returning wind over a land grid cell while wave data came from a sea cell — see F-10, currently untested.
 
 *Domain:* w ∈ ℝ≥0. The three intervals [0, 22], (22, 27], (27, +∞) partition ℝ≥0 exhaustively with no overlap.
 
@@ -177,6 +181,24 @@ g_o is a two-argument function: the wave height component of o, and the vessel c
 | big (> 25) | o < 1.5 m | 1.5 ≤ o ≤ 3.5 m | o > 3.5 m |
 
 *Note on the tuple:* Ocean state o is a tuple (wave height m, swell period s) in the general definition (C.1). Classification depends only on the wave height component; swell period is retained in the state representation as a secondary modifier for domain instantiation but does not enter g_o. The thresholds use wave height as the governing variable, consistent with MET Malaysia's Kawasan Perairan range vocabulary.
+
+**Threshold provenance — why some boundaries are not MET-derived.**
+
+MET Malaysia's published criteria state that Category 1 covers *"rough seas with wave heights of **up to** 3.5 metres."* The 3.5 m figure is the Category 1 / Category 2 boundary. **MET does not state where Category 1 begins.**
+
+The published criteria therefore supply an upper boundary and no lower one, and cannot provide the SAFE/CAUTION threshold for any vessel class. Nor do they differentiate by vessel size beyond the qualitative phrase "dangerous to small crafts."
+
+The architecture accordingly adopts MET criteria wherever MET speaks, and fills with peer-reviewed hydrodynamic evidence only where MET is silent:
+
+| Boundary | Source |
+|---|---|
+| CAUTION/UNSAFE, big vessel (3.5 m) | **MET Category 1 maximum — official** |
+| SAFE/CAUTION, all vessels | Hydrodynamic — MET provides no value |
+| Small and medium vessel rows | Hydrodynamic — MET has no vessel-specific criteria |
+
+This is not a departure from official criteria; it fills a gap those criteria leave open. Full analysis, including a quantified comparison against Yaakob et al. and Jeong & Im on five years of site data, is in `finding-met-hydrodynamic-gap.md` — **the source of truth for threshold provenance.**
+
+> **Open amendment (2026-09-06, not yet applied).** The small-vessel UNSAFE boundary of 1.9 m derives from Yaakob Boat A's NORDFORSK *failure point* (SS4, Hs ≈ 1.875 m). Yaakob reports a distinct quantity — Boat A's **operational ceiling of 1.25 m**, the top of Sea State 3. The ceiling is arguably the more appropriate basis for a departure gate. On five years of site data the current 1.9 m boundary is **never reached** (max observed wave 1.84 m), so small-vessel UNSAFE-by-wave has zero occurrences; at 1.25 m it would occur in 2.8% of departure hours. Awaiting decision — see `finding-met-hydrodynamic-gap.md` §6.
 
 **Empirical basis by row.**
 

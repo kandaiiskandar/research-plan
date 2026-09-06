@@ -1,3 +1,19 @@
+> ## ⚠️ SUPERSEDED 2026-09-06 — do not build from this document as-is
+>
+> This design predates any execution of `f(E)` against site data. Three of its assumptions are now known to be wrong:
+>
+> 1. **All 20 scenarios use `v = big`** — not the deployment population, and the vessel dimension is never exercised.
+> 2. **Wave thresholds are vessel-blind** (< 1.5 / 1.5–3.5 / > 3.5 m). Under those thresholds, UNSAFE-by-wave is **unreachable at the deployment site** — five years of hourly data, maximum observed wave 2.60 m, zero occurrences.
+> 3. **The scenario set is unnecessary as the primary evidence.** `data/` holds 43,848 hourly records for Kota Kinabalu (2020–2024). Historical replay over real conditions is stronger than 20 constructed cases, and directly answers the reviewer objection that the paper lacks empirical validation.
+>
+> The scenario set retains value as **boundary and fail-safe cases** within a larger empirical frame — not as the evaluation itself.
+>
+> Rewrite per `docs/canonical/decision-record-empirical-first.md` §7. Note that the classifier specification is itself open pending diagnostic analysis (Q1), so this document should be rewritten **after** that resolves, not before.
+>
+> Working analysis: `scripts/historical_replay.py`.
+
+---
+
 # RQ4 evaluation design: three-condition comparative analysis
 
 **RQ4:** Does the two-level graduated governance architecture produce safer and more consistent recommendation behaviour than binary-gated and ungated baselines, particularly under CAUTION conditions?

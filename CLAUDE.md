@@ -69,6 +69,10 @@ Always go to the right document — do not reconstruct content that already exis
 
 | Document | Role |
 |---|---|
+| `docs/canonical/decision-record-empirical-first.md` | **Read before any domain-instantiation work.** Records the 2026-09-06 decision that site data now drives the classifier specification, not the reverse. Carries open questions Q1–Q5 |
+| `docs/canonical/empirical-findings-2026-09-06.md` | **Findings F-1 to F-12** from 5 years of site data. Includes the headline result (Level 2 binds 12.4% of departure hours) and one claim that must be withdrawn (mode-chattering) |
+| `docs/canonical/finding-met-hydrodynamic-gap.md` | **Source of truth for threshold provenance.** MET defines where Category 1 *ends* (3.5 m), never where it *begins* — so MET cannot supply the SAFE/CAUTION boundary. MET criteria sit 2.8–7× above the measured operability limits of actual Malaysian boats |
+| `docs/canonical/data-provenance.md` | **Check before citing any empirical figure.** Where each variable actually comes from, at what resolution, and whether it is fit for the threshold it is compared against |
 | `docs/canonical/appendix-c-formalisation.md` | **Single source of truth** for all formal variable definitions and governance properties |
 | `docs/canonical/architecture-illustration.md` | Full architecture walkthrough — layers, governance table, scenario, limitations |
 | `docs/canonical/discussion-notes-governance-gap-precedents-and-formal-foundations.md` | The four-layer gap argument; comparisons with Indykov, Dalrymple, Flehmig (2024) |
@@ -167,6 +171,18 @@ This file contains ready-to-paste `[[notes]](path)` quick links for all 63 paper
 | o | ℝ≥0 × ℝ≥0 | Ocean state (wave height m, swell period s). Classification uses the wave height component only; swell period is retained but unused — see appendix-c C.9.3 |
 | v | ordinal categorical | Vessel category {small, medium, big}, defined by **GRT**: small < 10, medium 10–25, big > 25 (Yunus 2007, via Yaakob et al. 2015). Tonnage rather than LOA because the source LOA bands overlap |
 | t | [0, 24) | Time of day (hour, 24-hour clock) |
+
+### ⚠️ Open question on g_w — do not treat as settled
+
+`g_w` **never fires** at the deployment site: sustained wind over five years of hourly data ranges 0–17.8 kn against thresholds of 22 and 27 kn. Zero activations. Whether `w` should read sustained wind, gusts, or be removed entirely is **open question Q1** in `docs/canonical/decision-record-empirical-first.md`.
+
+Do not repair `g_w` to preserve the existing model. The agreed sequencing is diagnostic first, specification second.
+
+Diagnostic complete (2026-09-06): only **three** functions ever bind at this site — `g_o`, `g_t`, `g_r`. `g_w` never fires; `g_m` has no historical data. `g_o` accounts for 97.5% of daylight CAUTION. The framing decision is open — see `empirical-findings-2026-09-06.md` §3.
+
+### ⚠️ Mode-chattering claim is unsupported — do not repeat it
+
+Both papers assert mode-chattering at classification boundaries as a deployment concern requiring dual-threshold hysteresis. **Measured: 70 oscillation events in five years (14/yr), and hysteresis reduces non-scheduled transitions by 6.2%.** The claim is not supported at hourly resolution. Withdraw it, or retain it only as an explicitly untested precaution noting that sub-hourly data would be needed. See `empirical-findings-2026-09-06.md` F-6.
 
 ### Classification structure (amended 2026-09-06)
 
