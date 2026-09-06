@@ -47,7 +47,7 @@ This study provides the most quantitatively detailed behavioral regimes, documen
 | Season | Documented conditions | Fisher behavior | Mapped label |
 |---|---|---|---|
 | **Fishing season** (Mar–Jun) | Low winds, moderate precipitation, mild swells | Full operations: 5–6 trips/week, 7–10 hours per trip | **Go** |
-| **East season** (Mar–Jun, wind-dominant) | Vigorous winds, heavy precipitation, but calm seas (~5 knots wind) | Restricted operations: 2–3 trips/week, 3–5 hours, near-shore only | **Delay** |
+| **East season** (Mar–Jun, wind-dominant) | Vigorous winds, heavy precipitation, but calm seas ⚠️ *(see note)* | Restricted operations: 2–3 trips/week, 3–5 hours, near-shore only | **Delay** |
 | **West season** (Nov–Feb) | Intense winds 30–40 knots, heavy precipitation, waves >2m | "Do not go at all" — dramatic curtailment of fishing activity | **AI off** (UNSAFE state; G(S) = 0) |
 
 **Key quantitative evidence:**
@@ -56,7 +56,29 @@ This study provides the most quantitatively detailed behavioral regimes, documen
 - Near-shore operational shift under elevated wind → confirms CAUTION-state behavior
 - Income drop from IDR 656K → 213K per trip under adverse conditions → risk is real and economic
 
-The East season behavioral pattern — where fishers continue to sea but with restricted scope and near-shore operations — is the closest empirical analogue to the CAUTION state. The West season pattern — full halt — confirms the UNSAFE state threshold.
+> **Resolved 2026-09-06 — East season is CAUTION via rainfall, not wind.**
+>
+> The East season row previously read "Vigorous winds, heavy precipitation, but calm seas **(~5 knots wind)**", which is self-contradictory — 5 knots is Beaufort force 2 and classifies SAFE under `g_w`, not the CAUTION implied by the restricted-operations behaviour.
+>
+> Checking the source notes: Rahim reports wind across all three seasons spanning **5–40 knots**, with West season at 30–40 kn. The 5 kn figure sits at the bottom of that range and is not obviously a transcription error. Reading the three seasons together resolves the mapping:
+>
+> | Season | Wind | Precipitation | Seas | Classifies as |
+> |---|---|---|---|---|
+> | Fishing | low | **moderate** | mild swells | SAFE — `g_r(moderate)` = SAFE |
+> | East | ~5 kn (SAFE) | **heavy** | calm | **CAUTION — via `g_r(heavy)`** |
+> | West | 30–40 kn | heavy | > 2 m | UNSAFE — via `g_w` |
+>
+> The distinction between Fishing season and East season is precisely **moderate vs. heavy precipitation** — exactly where `g_r`'s SAFE/CAUTION boundary sits. The East season → Delay evidence therefore holds, but it supports the **rainfall-driven** CAUTION row in §4, not a wind-driven one. §4 has been amended accordingly; East season no longer underwrites the 22–27 kn row.
+>
+> **Source verified 2026-09-06.** The original paper was checked directly. It states: *"The East Season transpires from March to June, marked by vigorous winds and substantial precipitation but calm seas. In the East Season, the wind velocity is 5 knots per hour."* **The contradiction is in the source, not in these notes.** Three further points emerged from that check:
+>
+> **(a) West season figures are gusts, not sustained wind.** The paper reads: *"sea waves may exceed 2 meters, accompanied by wind **gusts** of 30 to 40 knots per hour."* Since `w` is defined as sustained wind speed, 30–40 kn gusts imply roughly 19–31 kn sustained at typical gust ratios — straddling rather than clearly exceeding the 27 kn UNSAFE boundary. **West season's UNSAFE classification therefore rests on wave height (> 2 m → UNSAFE for a small vessel under `g_o`), not on wind.** The corresponding citation has been removed from `appendix-c` C.2's `g_w` row.
+>
+> **(b) East and Fishing seasons overlap.** Both are given as March–June. The paper separately describes the Fishing season as *"low wind velocities, moderate precipitation, and mild oceanic swells."* Since East season is 5 kn — also low — the two are not distinguished by wind at all. They are distinguished by **precipitation: substantial vs. moderate**, which is exactly the `g_r` SAFE/CAUTION boundary. This reinforces the mapping above rather than undermining it.
+>
+> **(c) The contradiction is itself a finding.** The paper appears to combine meteorological data (5 kn sustained, plausibly from BMKG) with fisher interview descriptions ("vigorous"). Fishers characterising a 5 kn sustained wind as vigorous is a divergence between measured conditions and perceived risk — relevant to RQ5, which asks whether operators interpret governance states as intended. If perception diverges from measurement at the input side, that is a consideration for how classified states are communicated. Worth carrying into the RQ5 discussion rather than treating purely as a data-quality defect.
+
+The East season behavioral pattern — where fishers continue to sea but with restricted scope and near-shore operations — is the closest empirical analogue to the CAUTION state, driven by heavy precipitation rather than wind. The West season pattern (30–40 kn, waves > 2 m) — full halt — confirms the UNSAFE threshold and is internally consistent, since 30–40 kn exceeds the 27 kn boundary.
 
 ### 3.2 Gao (2024) [[notes]](../../notes/Mapping%20the%20decision-making%20factors%20of%20small-scale%20fishers-%20a%20case%20study%20of%20Penang.md)
 
@@ -71,13 +93,17 @@ This study documents the tripartite decision structure used by Penang fishers an
 | **Don't go** (adverse conditions) | *"If the wind is too strong, I don't go"* — trips cancelled entirely | **AI off** (UNSAFE) |
 
 **Environmental factor importance ratings from Penang fishers (1–5 scale):**
-- Tide (ocean state, o): **4.55** — highest rated
+- Tide: **4.55** — highest rated
 - Fishing resource: **4.45**
 - Previous catch: **4.38**
 - Weather (wind, w): **3.75**
 - Safety concern: **3.40**
 
-The importance of weather and safety concern confirms that w and o are the primary go/no-go determinants. The documented informal tripartite classification (go / cautious-go / don't go) directly parallels the formal SAFE / CAUTION / UNSAFE states.
+> **Correction 2026-09-06.** The first item was previously annotated "Tide (**ocean state, o**)". **Tide is not `o`.** `o` is ocean state — wave height and swell period, driven by wind and swell propagation. Tide is tidal height, driven by lunar and solar forcing. They are distinct physical phenomena with different determinants and different time signatures. The conflation matters twice over: it misrepresents what Gao's respondents rated, and it implies E captures the fishers' highest-rated factor when it does not.
+>
+> **Tide is not in E at all.** This is a genuine scope limitation rather than a transcription slip, and it should be stated as such: the highest-rated decision factor in the only Malaysian study that ranked factors is absent from the environmental state vector. Two of the top three (fishing resource, previous catch) are likewise absent — though those are catch-productivity factors rather than safety factors, so their exclusion from a *safety* classifier is defensible. Tide is less clearly defensible: tidal state affects harbour access, bar crossing, and grounding risk for shallow-draft vessels. Recorded as a limitation in `appendix-c-formalisation.md` C.9 — see the follow-up note below.
+
+The documented informal tripartite classification (go / cautious-go / don't go) directly parallels the formal SAFE / CAUTION / UNSAFE states, and this remains the study's principal contribution to the label logic. The factor ratings confirm that weather and safety concern are *among* the determinants fishers weigh, but they do not establish w and o as the *primary* ones — tide outranked both.
 
 **Architectural alignment (from notes):** *"Fishers already operate an informal version of graduated, state-conditioned decision-making — they assess environmental state, classify conditions, and adjust both their participation and the scope of their decisions accordingly. My architecture formalises what fishers do intuitively."*
 
@@ -101,20 +127,55 @@ This is the most recent and methodologically strongest study in the corpus for e
 
 ## 4. Label Derivation Logic
 
-Combining the three studies, the label logic is as follows. Environmental conditions are expressed using MET Malaysia's Kawasan Perairan range bands and warning thresholds:
+Combining the three studies, the label logic is as follows. Environmental conditions are expressed using MET Malaysia's Kawasan Perairan range bands and warning thresholds.
+
+> **Revision 2026-09-06 — wave thresholds are now vessel-conditional.** The previous version of this table specified wave-height bands without reference to vessel category, using the single vessel-blind set (< 1.5 / 1.5–3.5 / > 3.5 m). Under the amended model, `g_o(o, v)` selects thresholds by vessel category, so the same wave height maps to different states for different vessels. Several rows below were **wrong for the deployment population** — e.g. "waves 1.5–3.5 m → CAUTION" holds for a big vessel but a small vessel is UNSAFE above 1.9 m. Since these rows generate training labels, the error would have mislabelled the training data for exactly the vessel class the system is built for. Table restructured below.
+
+**Vessel-independent conditions** — these determine S regardless of vessel category:
+
+| Condition | Classification |
+|---|---|
+| Wind ≤ 22 kn | SAFE |
+| Wind 22–27 kn | CAUTION |
+| Wind > 27 kn | UNSAFE |
+| Rain none / light / moderate | SAFE |
+| Rain heavy | CAUTION |
+| Rain storm (Ribut Petir) | UNSAFE |
+| Warning none | SAFE |
+| Warning advisory (Category 1) | CAUTION |
+| Warning warning / alert (Category 2/3, Ribut Taufan) | UNSAFE |
+| Time 06:00–17:00 | SAFE |
+| Time 17:00–19:00 | CAUTION |
+| Time 19:00–06:00 | UNSAFE |
+
+**Wave height — conditional on vessel category:**
+
+| v (GRT) | SAFE | CAUTION | UNSAFE |
+|---|---|---|---|
+| small (< 10) | o < 1.0 m | 1.0–1.9 m | > 1.9 m |
+| medium (10–25) | o < 1.4 m | 1.4–2.8 m | > 2.8 m |
+| big (> 25) | o < 1.5 m | 1.5–3.5 m | > 3.5 m |
+
+**Label logic for the primary deployment case (small vessel, < 10 GRT):**
 
 | Environmental conditions (E) | S | Study evidence | Label |
 |---|---|---|---|
-| Wind <22 knots, waves <1.5m, none/light rain, no warning | **SAFE** | Rahim fishing season; Gao "go" pattern | **Go** |
-| Wind <22 knots, waves <1.5m, moderate rain, no warning | **SAFE** | Gao weather importance (3.75) — moderate rain, otherwise calm = still safe | **Go** |
-| Wind 22–27 knots, waves 1.5–2.5m, none/light rain, no warning | **CAUTION** | Rahim East season — elevated wind, restricted operations | **Delay** |
-| Wind 22–27 knots, waves 1.5–3.5m, moderate rain, no warning | **CAUTION** | Rahim East season + Yamin erratic rainfall | **Delay** |
-| Wind 22–27 knots, waves <1.5m, heavy rain / thunderstorm | **CAUTION** | Yamin erratic rainfall as primary hazard; Ribut Petir approaching threshold | **Delay** |
-| Wind >27 knots, waves >3.5m, any rain, Category 1+ warning | **UNSAFE** | Rahim West season "do not go at all"; Gao "if wind too strong, I don't go" | **AI off** |
-| Any wind, any wave, Ribut Petir warning active | **UNSAFE** | Yamin: sudden weather change = can't go; Rahim: intense precipitation season = halt | **AI off** |
-| Any wind, any wave, Ribut Taufan advisory active | **UNSAFE** | Tropical cyclone = unconditional halt | **AI off** |
+| Wind ≤ 22 kn, waves < 1.0 m, none/light/moderate rain, no warning, daytime | **SAFE** | Rahim fishing season; Gao "go" pattern | **Go** |
+| Wind 22–27 kn, waves < 1.0 m, no warning, daytime | **CAUTION** | Gao "cautious-go" pattern under elevated wind; MET Category 1 onset | **Delay** |
+| Wind ≤ 22 kn, waves 1.0–1.9 m, no warning, daytime | **CAUTION** | Yaakob operability limits for Zone A hulls; Jeong & Im ≤10 m departure restriction | **Delay** |
+| Wind ≤ 22 kn, waves < 1.0 m, heavy rain (below Ribut Petir), no warning | **CAUTION** | **Rahim East season** — heavy precipitation with light wind and calm seas, restricted operations; Yamin erratic rainfall as primary hazard | **Delay** |
+| Wind ≤ 22 kn, waves < 1.0 m, advisory (Category 1) active, daytime | **CAUTION** | MET Category 1 = *berbahaya kepada bot-bot kecil* | **Delay** |
+| Wind > 27 kn, any waves, any rain | **UNSAFE** | Rahim West season "do not go at all"; Gao "if wind too strong, I don't go" | **AI off** |
+| Any wind, **waves > 1.9 m** | **UNSAFE** | Yaakob: 6.54 m hull exceeds NORDFORSK limits at SS4 (Hs ≈ 1.875 m) | **AI off** |
+| Any conditions, Ribut Petir active | **UNSAFE** | Yamin: sudden weather change = can't go | **AI off** |
+| Any conditions, Ribut Taufan / Category 2–3 warning active | **UNSAFE** | Tropical cyclone or higher-tier warning = unconditional halt | **AI off** |
+| Any conditions, t ∈ [19:00, 06:00) | **UNSAFE** | Night navigation; Atacan & Düzbastılar highest consequence scores | **AI off** |
+
+For medium and big vessels the same logic applies with the corresponding wave-height row substituted. **Every training row must therefore carry `v_vessel`** — the label cannot be derived from weather alone.
 
 **Value interpretation rule**: Upper bound of each MET range band is used (e.g., 10–20 km/h → treated as 20 km/h). This is consistent with the worst-case (max-severity) aggregation principle in the architecture.
+
+**Note on the previous "Category 1+ warning" phrasing.** An earlier row read "Wind >27 knots, waves >3.5m, any rain, Category 1+ warning → UNSAFE". Category 1 corresponds to `advisory`, which classifies **CAUTION**, not UNSAFE; only Category 2/3 (`warning`, `alert`) classify UNSAFE. That row's conclusion was correct only because wind > 27 kn drives UNSAFE independently. The warning tiers are stated explicitly above to avoid the ambiguity.
 
 ---
 

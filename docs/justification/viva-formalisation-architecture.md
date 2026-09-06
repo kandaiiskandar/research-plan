@@ -5,10 +5,40 @@
 **Core notation**:
 - E = {w, r, m, o, v, t} — environmental state vector
 - S = f(E) — deterministic safety classification; S ∈ {SAFE, CAUTION, UNSAFE}
+- **f(E) = max-severity(g_w(w), g_r(r), g_m(m), g_o(o, v), g_t(t))** — five condition terms; `v` conditions `g_o` rather than contributing a term of its own
 - G(S) — participation gate: G(SAFE)=1, G(CAUTION)=1, G(UNSAFE)=0
 - A_AI(S) — admissible recommendation space
 - Containment: A_AI(SAFE) ⊃ A_AI(CAUTION) ⊃ A_AI(UNSAFE) = ∅
 - Safety Dominance: AI(E) ⊆ A_AI(S) for all E
+
+**Canonical threshold values** — memorise these; earlier drafts of this document carried three mutually inconsistent wind threshold sets:
+
+| Function | SAFE | CAUTION | UNSAFE |
+|---|---|---|---|
+| g_w (wind, kn) | ≤ 22 | 22 < w ≤ 27 | > 27 |
+| g_r (rainfall) | none, light, moderate | heavy | storm |
+| g_m (marine warning) | none | advisory | warning, alert |
+| g_o (wave, m) — small (< 10 GRT) | < 1.0 | 1.0–1.9 | > 1.9 |
+| g_o — medium (10–25 GRT) | < 1.4 | 1.4–2.8 | > 2.8 |
+| g_o — big (> 25 GRT) | < 1.5 | 1.5–3.5 | > 3.5 |
+| g_t (hour) | 6.0–17.0 | 17.0–19.0 | 19.0–24.0 ∪ 0.0–6.0 |
+
+**Source of thresholds:** MET Malaysia (Malaysian Meteorological Department) published warning criteria for w, r, m; Jeong & Im (2023) and Yaakob et al. (2015) for the vessel-conditional g_o rows; Atacan & Düzbastılar (2023) for g_t. **Not MMEA** — the Maritime Enforcement Agency does not publish these criteria, and earlier drafts of this document misattributed them.
+
+**Fail-safe:** if any xᵢ = ⊥ (missing or corrupted), f(E) = UNSAFE — applied as a pre-condition before any gᵢ is evaluated.
+
+> ### ⚠️ Revision notice — 2026-09-06
+>
+> This document was audited against `docs/canonical/appendix-c-formalisation.md` and contained multiple threshold and notation errors, listed here because several appear in answers that would be delivered verbally under examination:
+>
+> - **Three mutually inconsistent wind threshold sets** — HR-5 used 25/22 kn, HR-10 used 25/35 kn, PD-1 used 13/22 kn. None matched the canonical 22/27 kn.
+> - **Source misattribution** — thresholds credited to MMEA throughout; they derive from MET Malaysia.
+> - **`v` described as "vessel condition"** with its own pre-departure-checklist thresholds. `v` is vessel *category* (size, by GRT) and now has no thresholds of its own — it conditions `g_o`.
+> - **Severity vocabulary** — EC-1, EC-3, PD-2 used {LOW, MEDIUM, HIGH}; canonical is {SAFE, CAUTION, UNSAFE}.
+> - **Malformed example vectors** in EC-7 — rainfall as a number, `v = GOOD`, ocean state as an ordinal label.
+> - **Six-term aggregation** in HR-6 and EC-5, superseded by the five-term form.
+>
+> All corrected below. Answers whose *substance* was unaffected have been left otherwise intact.
 
 ---
 
@@ -76,7 +106,7 @@ CAUTION creates the space where Go and Delay remain valid and informative, while
 
 **Direct answer: Four standard engineering mechanisms — hysteresis, time-windowed averaging, conservative default, and minimum dwell time — collectively eliminate oscillation at threshold boundaries, and all are standard practice in safety-critical control systems.**
 
-Threshold oscillation (rapid alternation between states as a variable crosses the boundary) is a known hazard in any discrete-state system driven by continuous inputs. The architecture addresses this through four layered mechanisms. First, hysteresis: different thresholds are used for upward (worsening) and downward (improving) state transitions. If wind speed w crosses 25 knots to trigger CAUTION, it must fall below 22 knots to return to SAFE — not back to 25. This prevents single-measurement fluctuations from causing repeated state changes.
+Threshold oscillation (rapid alternation between states as a variable crosses the boundary) is a known hazard in any discrete-state system driven by continuous inputs. The architecture addresses this through four layered mechanisms. First, hysteresis: different thresholds are used for upward (worsening) and downward (improving) state transitions. If wind speed w rises past 22 knots to trigger CAUTION, it must fall below a lower return threshold — say 20 knots — to revert to SAFE, not back to 22. This prevents single-measurement fluctuations at the boundary from causing repeated state changes.
 
 Second, time-windowed averaging: each environmental variable in E is computed as a rolling average over a configurable window (e.g., 10 minutes for w and r), not as an instantaneous reading. A brief gust does not trigger a state change; the sustained average must cross the threshold. Third, conservative default: when a variable is within a defined proximity band around a threshold (e.g., within 5% of the CAUTION/UNSAFE boundary), the system resolves to the more restrictive state. This implements the ALARP principle as identified by Perez-Cerrolaza et al. (2024) [[notes]](../../notes/Artificial%20Intelligence%20for%20Safety-Critical%20Systems%20in%20Industrial%20and%20Transportation%20Domains-%20A%20Survey.md) — uncertainty resolves conservatively. Fourth, minimum dwell time: once a state change occurs, the system requires a minimum period (e.g., 15 minutes) in the new state before another transition is permitted.
 
@@ -90,11 +120,13 @@ These are parameters, not structural properties — their values are calibrated 
 
 **Direct answer: Max-severity implements the weakest-link principle appropriate for safety governance — weighted averaging can mask a single dangerous parameter, probabilistic methods require joint distribution data unavailable in low-resource settings, and max-severity produces deterministic auditable decisions consistent with ALARP.**
 
-f(E) = max(severity(w), severity(r), severity(m), severity(o), severity(v), severity(t)) reflects a fundamental safety engineering principle: a system is only as safe as its most dangerous component. A vessel facing calm seas but gale-force winds is in a dangerous state — averaging wind severity (HIGH) with wave severity (LOW) and marine warning severity (NONE) would produce a misleadingly moderate aggregate. The max operator ensures that any single variable at HIGH severity escalates the overall classification, preventing masking effects.
+f(E) = max-severity(g_w(w), g_r(r), g_m(m), g_o(o, v), g_t(t)) reflects a fundamental safety engineering principle: a system is only as safe as its most dangerous component. A vessel facing calm seas but gale-force winds is in a dangerous state — averaging wind severity (UNSAFE) with wave severity (SAFE) and marine warning severity (SAFE) would produce a misleadingly moderate aggregate. The max operator ensures that any single condition at UNSAFE escalates the overall classification, preventing masking effects.
+
+**Note on the aggregation set.** Five terms, not six. Vessel category `v` does not contribute a severity term — it parameterises `g_o`. This matters for the max specifically: a constant term inside a maximum establishes a floor on the output but cannot shift a threshold. An earlier formulation included `g_v(v) = CAUTION` for small and medium vessels, which floored the output at CAUTION but left the CAUTION/UNSAFE boundary identical for all vessel sizes — a 5 m boat and a 20 m boat classified UNSAFE at the same wave height. Conditioning `g_o` on `v` shifts the boundary, which is what the hydrodynamic evidence (Yaakob et al. 2015) requires. If asked why `v` is treated differently from the other five, the answer is that it is a *fixed attribute of the operator* rather than a time-varying condition, so it acts as a parameter rather than an observation.
 
 Baxi (2026) [[notes]](../../notes/The%20Comprehension-Gated%20Agent%20Economy-%20A%20Robustness-First%20Architecture%20for%20AI%20Economic%20Agency.md) applies the identical weakest-link logic in the Comprehension-Gated Agent Economy: the gate function is conditioned on the minimum robustness across all evaluated dimensions, not the average. The reasoning is the same — in safety-relevant gating, the weakest dimension determines the appropriate governance response. Dalrymple et al. (2024) [[notes]](../../notes/Towards%20Guaranteed%20Safe%20AI-%20A%20Framework%20for%20Ensuring%20Robust%20and%20Reliable%20AI%20Systems.md) argue that governance systems must be verifiable and must not share failure modes with the AI system. Probabilistic aggregation introduces model-derived probability estimates into the governance layer, creating shared failure modes with the AI it is meant to govern — precisely the independence violation Dalrymple identifies.
 
-Weighted methods require empirically validated weights across the joint distribution of {w, r, m, o, v, t} — data that is systematically unavailable in low-resource coastal fisheries contexts as documented by Katende (2026) [[notes]](../../notes/Rethinking%20data-efficient%20artificial%20intelligence%20for%20low-resource%20settings.md). Max-severity requires only ordinal severity classification of each individual variable, which can be validated against existing MMEA (Malaysian Maritime Enforcement Agency) thresholds and meteorological standards independently and auditably. Perez-Cerrolaza et al. (2024) [[notes]](../../notes/Artificial%20Intelligence%20for%20Safety-Critical%20Systems%20in%20Industrial%20and%20Transportation%20Domains-%20A%20Survey.md) confirm ALARP: when uncertain, resolve conservatively. Max-severity is the ALARP-consistent aggregation function.
+Weighted methods require empirically validated weights across the joint distribution of {w, r, m, o, v, t} — data that is systematically unavailable in low-resource coastal fisheries contexts as documented by Katende (2026) [[notes]](../../notes/Rethinking%20data-efficient%20artificial%20intelligence%20for%20low-resource%20settings.md). Max-severity requires only ordinal classification of each individual condition, which can be validated against existing MET Malaysia published warning criteria independently and auditably. Perez-Cerrolaza et al. (2024) [[notes]](../../notes/Artificial%20Intelligence%20for%20Safety-Critical%20Systems%20in%20Industrial%20and%20Transportation%20Domains-%20A%20Survey.md) confirm ALARP: when uncertain, resolve conservatively. Max-severity is the ALARP-consistent aggregation function.
 
 *Viva one-liner: Weighted averaging can hide a deadly variable behind benign ones — max-severity ensures the worst condition determines the governance response, which is the correct principle for a safety gate.*
 
@@ -104,7 +136,7 @@ Weighted methods require empirically validated weights across the joint distribu
 
 **Direct answer: Yes — the governance pipeline E → f(E) → (G, A_AI) is computed entirely from physical sensor observations before AI reasoning runs, with no path by which AI outputs can influence f(E), making the independence structural and not merely procedural.**
 
-The independence argument has three components. First, the inputs to f(E) are physical measurements: wind speed (anemometer), rainfall (rain gauge), marine warnings (MMEA broadcast), ocean state (buoy or satellite), vessel category (known vessel attribute), and time of day (clock). None of these are AI outputs or AI-derived values. The AI system receives E as read-only input for generating recommendations; it has no write access to E.
+The independence argument has three components. First, the inputs to f(E) are physical measurements or registry facts: wind speed (anemometer), rainfall (rain gauge), marine warnings (MET Malaysia broadcast), ocean state (buoy or satellite), vessel category (registered tonnage — a fixed operator attribute, not a measurement), and time of day (clock). None of these are AI outputs or AI-derived values. The AI system receives E as read-only input for generating recommendations; it has no write access to E.
 
 Second, the pipeline is acyclic by design: E → f(E) → (G, A_AI) → AI(E) → human. AI outputs are recommendations to humans, not inputs to the governance computation. A fisher who receives a Go recommendation and departs does not update w or r — those are physical measurements of an external environment. Dalrymple et al. (2024) [[notes]](../../notes/Towards%20Guaranteed%20Safe%20AI-%20A%20Framework%20for%20Ensuring%20Robust%20and%20Reliable%20AI%20Systems.md) specifically require that the verifier must not share failure modes with the AI system — this is satisfied because f(E) degrades only when sensors fail, while the AI degrades when its training distribution shifts. These are distinct failure modes.
 
@@ -146,11 +178,11 @@ This distinction is formally captured in the difference between G(S) and A_AI(S)
 
 **Direct answer: Incorrect thresholds produce two distinct failure modes — over-conservative (false alarm) and under-conservative (missed escalation) — and the architecture prefers over-conservative failures by ALARP design while thresholds are parameters not structure, updatable without altering formal properties.**
 
-The threshold values embedded in f(E) (e.g., wind speed w > 25 knots → CAUTION, w > 35 knots → UNSAFE) are domain parameters validated against MMEA guidelines and meteorological standards. They are not structural properties of the formal model. The Safety Dominance property AI(E) ⊆ A_AI(S) holds regardless of which specific threshold values are chosen — it is a property of the relationship between f, G, and A_AI, not of the threshold numbers themselves.
+The threshold values embedded in f(E) (e.g., wind speed 22 < w ≤ 27 knots → CAUTION, w > 27 → UNSAFE) are domain parameters validated against MET Malaysia published warning criteria. They are not structural properties of the formal model. The Safety Dominance property AI(E) ⊆ A_AI(S) holds regardless of which specific threshold values are chosen — it is a property of the relationship between f, G, and A_AI, not of the threshold numbers themselves.
 
 Over-conservative thresholds (triggering CAUTION when conditions are actually safe) result in unnecessarily restricted advisory scope — the AI cannot recommend DepartureTime when it arguably could. This is suboptimal but safe: the fisher receives less information than they could and makes a more cautious decision. Under-conservative thresholds (failing to trigger CAUTION when conditions are actually borderline) result in full advisory scope being applied to conditions that warrant restriction — a genuine safety failure. The architecture is designed to prefer over-conservative failures, consistent with the ALARP principle documented by Perez-Cerrolaza et al. (2024) [[notes]](../../notes/Artificial%20Intelligence%20for%20Safety-Critical%20Systems%20in%20Industrial%20and%20Transportation%20Domains-%20A%20Survey.md).
 
-Threshold calibration is part of the design-science research (DSR) cycle: thresholds are initialised from authoritative domain sources (MMEA, Malaysian Meteorological Department standards), validated against historical incident data, and refined through field evaluation. Bloomfield & Rushby (2025) [[notes]](../../notes/Assurance%20of%20AI%20Systems%20From%20a%20Dependability%20Perspective.md) argue that safety cases must be revisable as evidence accumulates — the threshold-as-parameter design supports this directly: threshold updates do not require formal re-verification of the architecture, only re-validation of the parameter values.
+Threshold calibration is part of the design-science research (DSR) cycle: thresholds are initialised from authoritative domain sources (MET Malaysia published warning criteria, plus peer-reviewed naval architecture and accident analysis for the vessel-conditional wave rows), validated against historical incident data, and refined through field evaluation. Bloomfield & Rushby (2025) [[notes]](../../notes/Assurance%20of%20AI%20Systems%20From%20a%20Dependability%20Perspective.md) argue that safety cases must be revisable as evidence accumulates — the threshold-as-parameter design supports this directly: threshold updates do not require formal re-verification of the architecture, only re-validation of the parameter values.
 
 *Viva one-liner: Thresholds are parameters not structure — incorrect values are correctable through DSR iteration, and the architecture is designed to fail conservatively when thresholds err.*
 
@@ -286,7 +318,7 @@ Additionally, probabilistic models for joint environmental distributions require
 
 If the governance layer learns from AI performance (e.g., restricting scope when AI recommendations are historically unreliable in certain conditions), it becomes dependent on AI outputs. This creates the circular dependency that Dalrymple et al. (2024) [[notes]](../../notes/Towards%20Guaranteed%20Safe%20AI-%20A%20Framework%20for%20Ensuring%20Robust%20and%20Reliable%20AI%20Systems.md) identify as a critical failure: the verifier sharing failure modes with the AI. When the AI degrades under novel conditions, the learned governance may degrade simultaneously — failing precisely when safety governance is most needed.
 
-Bloomfield & Rushby (2025) [[notes]](../../notes/Assurance%20of%20AI%20Systems%20From%20a%20Dependability%20Perspective.md) warn against self-referential safety cases — arguments whose premises depend on the system being argued about. Learned governance is self-referential: it learns what governance is appropriate from the AI it governs. Pre-specified governance derived from domain safety standards (MMEA thresholds, meteorological severity scales) is grounded in external authority, not AI performance.
+Bloomfield & Rushby (2025) [[notes]](../../notes/Assurance%20of%20AI%20Systems%20From%20a%20Dependability%20Perspective.md) warn against self-referential safety cases — arguments whose premises depend on the system being argued about. Learned governance is self-referential: it learns what governance is appropriate from the AI it governs. Pre-specified governance derived from domain safety standards (MET Malaysia warning criteria, published seakeeping and capsizing analyses) is grounded in external authority, not AI performance.
 
 Könighofer et al. (2025) [[notes]](../../notes/Shields%20for%20Safe%20Reinforcement%20Learning.md) design shields as static formal specifications precisely to avoid learned governance — the shield must be provably correct independently of the agent it constrains. This architecture applies the same principle: f(E) and A_AI(S) are specified from domain knowledge, not learned from AI behaviour.
 
@@ -300,15 +332,17 @@ Könighofer et al. (2025) [[notes]](../../notes/Shields%20for%20Safe%20Reinforce
 
 ### EC-1. What happens if E contains missing or incomplete data?
 
-**Direct answer: Missing data defaults to the most conservative severity classification for that variable, ensuring that data absence escalates rather than reduces the governance response — an unknown wind speed is treated as potentially severe, not as benign.**
+**Direct answer: A missing or corrupted component forces f(E) = UNSAFE directly, as a pre-condition evaluated before any classification function runs — data absence escalates the governance response to maximum rather than reducing it.**
 
-Each variable in E has a defined default severity under data absence: if w is unavailable, severity(w) defaults to HIGH; if m (marine warnings) is unavailable, severity(m) defaults to HIGH (absence of a broadcast could indicate communication failure, not absence of a warning). Since f(E) = max(severity(w), severity(r), ...), a single HIGH-default variable escalates S to UNSAFE or CAUTION as appropriate. This implements ALARP under data uncertainty: when in doubt, resolve conservatively.
+The fail-safe rule is stated formally in appendix-c C.2: if any xᵢ = ⊥ (undefined or corrupted), then f(E) = UNSAFE. Note the mechanism: this is **not** a per-variable default that then flows through max-severity. It is a guard applied before any gᵢ is evaluated. The distinction matters for Theorem C.1 (Totality) — the fail-safe extends totality to inputs outside the nominal domains rather than requiring each gᵢ to accept ⊥.
 
-This is not an edge case requiring special architecture — it is a parameter of the severity function. The severity classification for each variable is a mapping from (observed value | missing) → {LOW, MEDIUM, HIGH}, and "missing" maps to HIGH. The formal properties of the architecture (containment, Safety Dominance) are unaffected by this choice — they hold regardless of how defaults are set. The default values are domain parameters validated against maritime safety practice.
+The rationale is strongest for marine warning m: absence of a broadcast could indicate communication failure rather than absence of a warning, so silence cannot be read as safety. The same logic applies to every component — an unknown wind speed is treated as potentially severe, not as benign. This implements ALARP under data uncertainty: when in doubt, resolve conservatively.
+
+The formal properties of the architecture (containment, Safety Dominance) are unaffected by this choice — Theorem C.3's case analysis covers f(E) = UNSAFE identically whether that state arose from a threshold crossing or from the fail-safe guard.
 
 Katende (2026) [[notes]](../../notes/Rethinking%20data-efficient%20artificial%20intelligence%20for%20low-resource%20settings.md) documents intermittent connectivity and sensor dropout as systematic features of low-resource deployment environments — not exceptional conditions. The default-to-conservative design is a deliberate response to this deployment reality, not a fallback for rare failures.
 
-*Viva one-liner: Missing data defaults to HIGH severity — data absence escalates the governance response rather than reducing it, implementing ALARP under sensor dropout.*
+*Viva one-liner: A missing component forces f(E) = UNSAFE by a guard that runs before any classification — data absence escalates to the most restrictive state, implementing ALARP under sensor dropout.*
 
 ---
 
@@ -316,7 +350,7 @@ Katende (2026) [[notes]](../../notes/Rethinking%20data-efficient%20artificial%20
 
 **Direct answer: Max-severity aggregation by design resolves conflicts in favour of the most severe signal — conflicting signals (e.g., calm seas but high wind) produce the governance response appropriate for the worst-case component, which is the correct safety response.**
 
-"Conflicting signals" in E means that different variables classify at different severity levels — wind HIGH, rain LOW, marine warnings NONE. This is not a conflict in the logical sense (variables do not contradict each other); it is a multi-factor assessment where one factor is more severe than others. Max-severity resolves this by treating each variable as an independent safety dimension: S = UNSAFE if any variable is at UNSAFE severity, S = CAUTION if no variable is at UNSAFE but at least one is at CAUTION, S = SAFE only if all variables are at SAFE severity.
+"Conflicting signals" in E means that different conditions classify at different severity levels — wind UNSAFE, rain SAFE, marine warning SAFE. This is not a conflict in the logical sense (conditions do not contradict each other); it is a multi-factor assessment where one factor is more severe than others. Max-severity resolves this by treating each condition as an independent safety dimension: S = UNSAFE if any classifies UNSAFE, S = CAUTION if none is UNSAFE but at least one is CAUTION, S = SAFE only if all classify SAFE.
 
 This resolution is conservative and correct. A vessel facing calm seas but sustained gale-force winds is in a dangerous condition — the high wind is not "cancelled" by the calm seas. Weighted aggregation that averages wind severity down due to good sea state would mask the genuine hazard. Max-severity ensures the most dangerous component determines the governance response. This is the weakest-link principle: safety is determined by the weakest safety dimension.
 
@@ -328,7 +362,7 @@ This resolution is conservative and correct. A vessel facing calm seas but susta
 
 **Direct answer: Max-severity is always correct for safety governance because it is the only aggregation function that guarantees no dangerous variable can be masked by benign values — any softer aggregation (weighted average, majority vote) creates the possibility of a masked hazard.**
 
-The formal argument: define an aggregation function g: (severity_1, ..., severity_n) → {SAFE, CAUTION, UNSAFE} to be "hazard-safe" if g(..., UNSAFE, ...) = UNSAFE for any input containing at least one UNSAFE severity component. Max-severity satisfies this. A weighted average does not — sufficiently low weights on the UNSAFE component can produce a SAFE or CAUTION output. A majority vote does not — a minority of UNSAFE variables can be outvoted by SAFE variables. Only max-severity guarantees hazard-safety.
+The formal argument: define an aggregation function A: {SAFE, CAUTION, UNSAFE}⁵ → {SAFE, CAUTION, UNSAFE} to be "hazard-safe" if A(..., UNSAFE, ...) = UNSAFE for any input containing at least one UNSAFE component. Max-severity satisfies this. A weighted average does not — sufficiently low weights on the UNSAFE component can produce a SAFE or CAUTION output. A majority vote does not — a minority of UNSAFE conditions can be outvoted by SAFE ones. Only max-severity guarantees hazard-safety.
 
 The cost of max-severity is over-classification: some states are classified more severely than a nuanced multi-factor assessment would suggest. This is the acceptable side of the ALARP trade-off — false alarms (over-conservative) are preferable to missed escalations (under-conservative). Perez-Cerrolaza et al. (2024) [[notes]](../../notes/Artificial%20Intelligence%20for%20Safety-Critical%20Systems%20in%20Industrial%20and%20Transportation%20Domains-%20A%20Survey.md) confirm ALARP as the appropriate principle for safety-critical governance under uncertainty.
 
@@ -342,7 +376,7 @@ The cost of max-severity is over-classification: some states are classified more
 
 f(E) is not a machine learning model — it does not generalise from training data or extrapolate from learned representations. It is a deterministic function that compares each variable against domain-defined thresholds. A wind speed of 150 knots has never been observed in deployment — but the threshold function correctly classifies it as UNSAFE (above the UNSAFE threshold), not as an out-of-distribution anomaly requiring special handling. The threshold logic is complete for all possible input values.
 
-This robustness to extreme inputs is a consequence of the architecture's design choice to use a deterministic rule-based governance function rather than a learned one. Newcomb & Ochoa (2026) [[notes]](../../notes/Formal%20methods%20for%20safety-critical%20machine%20learning%3A%20a%20systematic%20literature%20review.md) identify out-of-distribution robustness as a critical challenge for learned safety components — deterministic threshold functions do not share this challenge. Sensor saturation (a reading that exceeds the sensor's measurement range) is handled by the missing-data default (EC-1): a saturated reading is treated as unknown → defaults to HIGH severity.
+This robustness to extreme inputs is a consequence of the architecture's design choice to use a deterministic rule-based governance function rather than a learned one. Newcomb & Ochoa (2026) [[notes]](../../notes/Formal%20methods%20for%20safety-critical%20machine%20learning%3A%20a%20systematic%20literature%20review.md) identify out-of-distribution robustness as a critical challenge for learned safety components — deterministic threshold functions do not share this challenge. Sensor saturation (a reading that exceeds the sensor's measurement range) is handled by the fail-safe (EC-1): a saturated reading is marked ⊥, forcing f(E) = UNSAFE.
 
 *Viva one-liner: f(E) is threshold-based, not learned — extreme values are classified by the highest applicable threshold, not treated as out-of-distribution anomalies.*
 
@@ -352,7 +386,7 @@ This robustness to extreme inputs is a consequence of the architecture's design 
 
 **Direct answer: Yes — adding variables to E requires only defining their severity classification function and adding them to the max-severity computation; all formal properties (containment, Safety Dominance) are preserved because the architecture of f(E) is compositional.**
 
-E can be extended to E' = {w, r, m, o, v, t, e₁, e₂, ...} where new variables carry their own severity classification. f(E') = max(severity(w), ..., severity(t), severity(e₁), ...) extends naturally. The safety argument for the new variables must be validated independently (what thresholds are appropriate for e₁?), but the formal architecture is unchanged. Adding variables can only leave S unchanged or escalate it — it cannot reduce S, since max-severity only responds to the maximum. This monotonicity is a useful extensibility property.
+E can be extended to E' = {w, r, m, o, v, t, e₁, e₂, ...} where new *condition* variables carry their own classification function. f(E') = max-severity(g_w(w), g_r(r), g_m(m), g_o(o, v), g_t(t), g_{e₁}(e₁), ...) extends naturally. A new variable that is a fixed operator attribute rather than a time-varying condition — as `v` is — would instead parameterise an existing function, following the `g_o(o, v)` pattern. The safety argument for the new variables must be validated independently (what thresholds are appropriate for e₁?), but the formal architecture is unchanged. Adding variables can only leave S unchanged or escalate it — it cannot reduce S, since max-severity only responds to the maximum. This monotonicity is a useful extensibility property.
 
 Adding variables does create domain validation work: each new variable requires threshold calibration against authoritative domain standards. This is not an architectural limitation but an epistemological one — any safety-relevant variable requires validated thresholds before inclusion. The architecture provides the formal structure; domain expertise provides the threshold values.
 
@@ -376,7 +410,12 @@ Gyllenhammar et al. (2025) [[notes]](../../notes/The%20Road%20to%20Safe%20Automa
 
 **Direct answer: Yes, many-to-one mapping from E to S is both expected and correct — S captures only the governance-relevant information about E, and different physical conditions with the same safety severity level should receive the same governance response.**
 
-By design, S = f(E) compresses the six-dimensional E into three categories. Many distinct E configurations will map to CAUTION: {w=20, r=15, m=ADVISORY, o=MODERATE, v=GOOD, t=DAY} and {w=15, r=25, m=NONE, o=HIGH, v=GOOD, t=NIGHT} might both classify as CAUTION via different variables reaching MEDIUM severity. Both receive the same governance response: A_AI(CAUTION) = {Go, Delay}. This is correct — both environmental configurations warrant the same governance mode even though they have different physical characteristics.
+By design, S = f(E) compresses E into three categories. Many distinct E configurations map to CAUTION. Two examples, both for a small vessel:
+
+- **E₁** = (w = 24, r = none, m = none, o = 0.6, v = small, t = 09.0) → CAUTION via `g_w` (22 < 24 ≤ 27); all others SAFE
+- **E₂** = (w = 10, r = moderate, m = none, o = 1.5, v = small, t = 09.0) → CAUTION via `g_o(1.5, small)` (1.0 ≤ 1.5 ≤ 1.9); all others SAFE
+
+Both receive the same governance response: A_AI(CAUTION) = {Go, Delay}. This is correct — both configurations warrant the same governance mode even though the driving condition differs.
 
 The AI layer still receives the full E for reasoning — the many-to-one compression in S does not deprive the AI of environmental detail. The AI can use the full six-dimensional vector to distinguish between these two CAUTION configurations and tailor its Go/Delay recommendation accordingly (e.g., "Go — but rain is the primary concern, check waterproofing" vs. "Delay — ocean state is the primary constraint"). S compresses only the governance-relevant information; E preserves all detail for AI reasoning.
 
@@ -428,7 +467,7 @@ For example, adding a Route type (recommended fishing route) would likely be adm
 
 **Direct answer: Classification and governance serve distinct functions with different validation requirements — f maps physical conditions to safety categories and is validated against domain meteorological standards, while G and A_AI map categories to participation and scope decisions and are validated against reliability-of-recommendation-type evidence.**
 
-f: E → S requires domain meteorological expertise to calibrate — what wind speed threshold distinguishes CAUTION from UNSAFE? This is validated against MMEA maritime guidelines and Malaysian Meteorological Department standards. The governance functions G: S → {0,1} and A_AI: S → 2^R require reliability-of-inference expertise — which recommendation types are reliable under CAUTION conditions? This is validated against evidence on AI prediction reliability under environmental uncertainty.
+f: E → S requires domain meteorological expertise to calibrate — what wind speed threshold distinguishes CAUTION from UNSAFE? This is validated against MET Malaysia published warning criteria, supplemented for the vessel-conditional wave thresholds by naval architecture and accident-analysis sources. The governance functions G: S → {0,1} and A_AI: S → 2^R require reliability-of-inference expertise — which recommendation types are reliable under CAUTION conditions? This is validated against evidence on AI prediction reliability under environmental uncertainty.
 
 Mixing classification and governance into a single function would require simultaneously validating both meteorological thresholds and recommendation reliability with a single artefact — making the validation burden undifferentiated and harder to assign to domain experts. Separation allows meteorologists to certify f independently of AI reliability analysts certifying A_AI. This matches the principle of separation of concerns in dependable systems design and supports Bloomfield & Rushby's (2025) [[notes]](../../notes/Assurance%20of%20AI%20Systems%20From%20a%20Dependability%20Perspective.md) requirement for compositional safety assurance.
 
@@ -486,7 +525,7 @@ Perez-Cerrolaza et al. (2024) [[notes]](../../notes/Artificial%20Intelligence%20
 
 ### AD-6. What happens if governance fails but AI still runs?
 
-**Direct answer: Governance failure (f(E) producing incorrect S) propagates through the architecture to incorrect A_AI, which is why governance failure modes are designed to be conservative — sensor dropout defaults to HIGH severity, threshold errors prefer over-classification — and sensor integrity monitoring provides a detection layer.**
+**Direct answer: Governance failure (f(E) producing incorrect S) propagates through the architecture to incorrect A_AI, which is why governance failure modes are designed to be conservative — sensor dropout triggers the fail-safe to UNSAFE, threshold errors prefer over-classification — and sensor integrity monitoring provides a detection layer.**
 
 If f(E) produces S=SAFE when S should be CAUTION (under-conservative governance failure), then A_AI(SAFE) = {Go, Delay, DepartureTime, Duration} is applied when A_AI(CAUTION) = {Go, Delay} should have been applied. The AI can produce DepartureTime and Duration recommendations under borderline conditions. This is the most dangerous failure mode and is addressed by: (1) conservative threshold design (near-threshold inputs default to higher severity, per HR-5); (2) sensor validation that rejects readings outside physical plausibility ranges; (3) conservative defaults for missing data (per EC-1).
 
@@ -530,11 +569,15 @@ G(S) is implicit in A_AI(UNSAFE) = ∅. The minimal version requires four elemen
 
 ### PD-1. How do you validate and calibrate safety thresholds?
 
-**Direct answer: Thresholds are initialised from authoritative domain standards (MMEA maritime safety guidelines, Malaysian Meteorological Department Beaufort-scale equivalents), validated against historical incident data where available, and refined through DSR evaluation cycles with domain expert review.**
+**Direct answer: Thresholds are initialised from authoritative domain standards — MET Malaysia published warning criteria for the meteorological variables, peer-reviewed naval architecture and accident analysis for the vessel-conditional wave thresholds — validated against historical incident data where available, and refined through DSR evaluation cycles with domain expert review.**
 
-Each variable in E has established domain thresholds. Wind speed w thresholds are grounded in Beaufort scale categories used by MMEA and Malaysian fishing authority communications — Force 4 (>13 knots) for CAUTION, Force 6 (>22 knots) for UNSAFE, calibrated against the vessel classes typical in Malaysian coastal small-scale fisheries. Marine warning codes m directly import MMEA's categorical system (ADVISORY, WARNING, DANGER) as severity levels. Ocean state o thresholds reference WMO sea state scale categories. Vessel condition v thresholds are derived from pre-departure checklist standards in Malaysian maritime regulations.
+Each condition variable in E has established domain thresholds. **Wind** w is anchored to MET Malaysia's *Kriteria Amaran Angin Kencang dan Laut Bergelora*: Category 1 onset at 40 km/h (≈22 kn) for CAUTION, Category 2 onset at 50 km/h (≈27 kn) for UNSAFE. **Marine warning** m imports MET Malaysia's warning tiers directly {none, advisory, warning, alert}. **Rainfall** r uses MET Malaysia's operational definition, with Ribut Petir (thunderstorm) as the unconditional halt. **Ocean state** o is vessel-conditional: the big-vessel row (1.5 / 3.5 m) is anchored to MET Malaysia Category 1 criteria and corroborated by Jeong & Im's (2023) Hs_KIMO formula, which yields 1.58 m at 16 m LOA; the small-vessel row (1.0 / 1.9 m) comes from Jeong & Im's Table 12 recommendation for vessels ≤ 10 m together with Yaakob et al.'s (2015) NORDFORSK results for two Malaysian hulls. **Time** t is grounded in Atacan & Düzbastılar's (2023) night-navigation risk scoring.
 
-Historical validation uses available incident data from MMEA maritime accident reports and Department of Fisheries Malaysia records — cross-referencing the environmental conditions at time of incident against what S classification those conditions would have produced. Katende (2026) [[notes]](../../notes/Rethinking%20data-efficient%20artificial%20intelligence%20for%20low-resource%20settings.md) documents the limited availability of such data in low-resource settings — the architecture is designed so that thresholds can be set conservatively from domain standards even in the absence of rich historical datasets, with refinement possible as data accumulates.
+**Vessel category** v has no thresholds of its own — it selects which row of `g_o` applies. Categories are defined by gross registered tonnage per Yunus (2007): small < 10, medium 10–25, big > 25. Tonnage rather than length, because the source LOA bands overlap.
+
+*If asked why MET Malaysia rather than MMEA:* MET Malaysia is the meteorological authority that publishes the warning criteria; MMEA is the enforcement agency and does not publish these thresholds. Earlier drafts of this document misattributed them.
+
+Historical validation uses available incident data from maritime accident reports and Department of Fisheries Malaysia records — cross-referencing the environmental conditions at time of incident against what S classification those conditions would have produced. Katende (2026) [[notes]](../../notes/Rethinking%20data-efficient%20artificial%20intelligence%20for%20low-resource%20settings.md) documents the limited availability of such data in low-resource settings — the architecture is designed so that thresholds can be set conservatively from domain standards even in the absence of rich historical datasets, with refinement possible as data accumulates.
 
 *Viva one-liner: Thresholds start from authoritative domain standards that pre-exist the architecture, get cross-validated against historical incidents, and are refined through DSR evaluation — they are not designed from scratch.*
 
@@ -542,15 +585,15 @@ Historical validation uses available incident data from MMEA maritime accident r
 
 ### PD-2. What happens if sensor data is incorrect or unavailable?
 
-**Direct answer: Incorrect data within plausible physical ranges is handled by conservative threshold margins; out-of-range data triggers sensor failure detection and defaults to HIGH severity for the affected variable; unavailable data defaults to HIGH severity — all pathways resolve conservatively.**
+**Direct answer: Incorrect data within plausible physical ranges is handled by conservative threshold margins; out-of-range and unavailable data are treated as ⊥ and trigger the fail-safe, forcing f(E) = UNSAFE — all pathways resolve conservatively.**
 
-The three sensor failure modes are handled distinctly. First, incorrect data within physical plausibility range (e.g., anemometer miscalibration reporting 18 knots instead of 22): threshold margins and hysteresis (HR-5) provide tolerance for small calibration errors. Near-threshold inputs default conservatively (HR-10). This mode cannot be eliminated without external reference sensors; the architecture's conservative defaults limit the damage from small calibration errors.
+The three sensor failure modes are handled distinctly. First, incorrect data within physical plausibility range (e.g., anemometer miscalibration reporting 18 knots instead of 22): threshold margins and hysteresis (HR-5) provide tolerance for small calibration errors. This mode cannot be eliminated without external reference sensors; conservative margins limit the damage.
 
-Second, out-of-range data (e.g., anemometer reporting −5 knots or 500 knots): a sensor validation layer rejects readings outside physically possible ranges and treats the variable as missing. Missing defaults to HIGH severity (EC-1). This ensures sensor hardware failure escalates rather than reduces the safety response. Third, unavailable data (sensor offline, communication failure, intermittent connectivity): treated identically to missing — HIGH severity default.
+Second, out-of-range data (e.g., anemometer reporting −5 knots or 500 knots): a sensor validation layer rejects readings outside physically possible ranges and marks the component ⊥. By the fail-safe rule (EC-1), f(E) = UNSAFE. Third, unavailable data (sensor offline, communication failure, intermittent connectivity): treated identically — the component is ⊥ and the fail-safe applies.
 
-The marine warning variable m has special treatment: if the MMEA broadcast channel is unavailable, m defaults to HIGH severity (ADVISORY or higher assumed) rather than NONE (no warnings), because communication failure cannot be interpreted as confirmation of safe conditions.
+The marine warning variable m makes the rationale clearest: if the broadcast channel is unavailable, m is ⊥ rather than `none`, because communication failure cannot be interpreted as confirmation that no warning is in force. Reading silence as safety is precisely the failure mode the fail-safe exists to prevent.
 
-*Viva one-liner: Every sensor failure pathway — bad data, out-of-range, unavailable — resolves conservatively to HIGH severity, so sensor failures escalate the governance response rather than reducing it.*
+*Viva one-liner: Every sensor failure pathway — bad data, out-of-range, unavailable — resolves to ⊥ and triggers the fail-safe, so sensor failures escalate to UNSAFE rather than reducing the governance response.*
 
 ---
 
@@ -570,7 +613,7 @@ The AI recommendation layer does require more resources, but its governance wrap
 
 **Direct answer: Yes — the governance layer is fully offline-capable since f is a deterministic threshold computation requiring no connectivity; the AI recommendation layer may require connectivity for model inference depending on implementation, but governance continues to operate independently.**
 
-The governance computation E → f(E) → (G, A_AI) requires only: (1) sensor readings from local hardware (anemometer, rain gauge, clock); (2) threshold tables stored locally; (3) a lookup table for A_AI. All three are local resources requiring no network connectivity. Marine warning data m may require receiving an MMEA broadcast signal — if unavailable, defaults to HIGH severity (EC-1). The system can classify E and enforce A_AI completely offline.
+The governance computation E → f(E) → (G, A_AI) requires only: (1) sensor readings from local hardware (anemometer, rain gauge, clock); (2) threshold tables stored locally; (3) a lookup table for A_AI. All three are local resources requiring no network connectivity. Marine warning data m may require receiving a MET Malaysia broadcast — if unavailable, m is ⊥ and the fail-safe forces UNSAFE (EC-1). The system can classify E and enforce A_AI completely offline.
 
 The AI recommendation layer, depending on implementation, may use a locally deployed model (fully offline) or a cloud API (requiring connectivity). The architecture supports both — the governance layer wraps the AI regardless of where the AI computation occurs. In a pure offline deployment, a lightweight local model operates within the governance constraints. In a connected deployment, a cloud model operates within the same constraints. The formal properties (Safety Dominance, containment) hold in both cases.
 

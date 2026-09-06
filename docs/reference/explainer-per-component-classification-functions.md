@@ -1,56 +1,63 @@
-# Explainer: Per-Component Classification Functions (gᵢ)
+# Explainer: Per-Component Classification Functions
 
-**Type:** Author reading reference — plain-language + formal explanation  
-**Relates to:** `docs/canonical/appendix-c-formalisation.md` Section C.2; manuscript Section 5.3  
+**Type:** Author reading reference — plain-language + formal explanation
+**Relates to:** `docs/canonical/appendix-c-formalisation.md` Section C.2; manuscript Section 5.3
 **Date added:** 2026-08-09
+**Last revised:** 2026-09-06 — `g_v` removed; `g_o` parameterised by vessel category. See Section 7.
 
 ---
 
-## What are the gᵢ functions?
+## What are the classification functions?
 
-Each `gᵢ` is a **per-component classification function** — it takes one parameter from E and maps it to a safety state. There are six, one per component of E. Together they are the heart of how the safety state is determined.
+Each classification function takes one condition from E and maps it to a safety state. There are **five** of them — one for each *condition* variable. Together they determine the safety state.
+
+The sixth component of E, vessel category `v`, is different in kind: it is not a condition that changes, and it does not classify on its own. It **parameterises** the ocean state function. Section 2 explains why.
 
 ---
 
 ## 1. Intuitive Explanation (Plain English)
 
-Think of each environmental parameter as **voting** on how dangerous the conditions are.
+Think of each environmental condition as **voting** on how dangerous things are right now.
 
-| Parameter | What it measures | What it says |
+| Function | What it measures | What it says |
 |-----------|------------------|--------------|
 | **g_w(w)** | Wind speed | "The wind is calm" (SAFE) / "The wind is strong" (CAUTION) / "The wind is extreme" (UNSAFE) |
 | **g_r(r)** | Rain intensity | "It's drizzling" (SAFE) / "It's heavy rain" (CAUTION) / "It's a storm" (UNSAFE) |
 | **g_m(m)** | Marine warning level | "No warnings" (SAFE) / "Be careful" (CAUTION) / "Serious warnings" (UNSAFE) |
-| **g_o(o)** | Wave height | "The sea is flat" (SAFE) / "Moderate waves" (CAUTION) / "Huge waves" (UNSAFE) |
-| **g_v(v)** | Vessel size | "Your boat is big" (SAFE) / "Your boat is small" (CAUTION) — *never UNSAFE alone* |
+| **g_o(o, v)** | Wave height, **for this boat** | "The sea is fine for this vessel" (SAFE) / "Getting marginal for this vessel" (CAUTION) / "Beyond this vessel" (UNSAFE) |
 | **g_t(t)** | Time of day | "Daytime" (SAFE) / "Dusk" (CAUTION) / "Nighttime" (UNSAFE) |
 
-Each function takes a **single input** (one component of E) and returns **one of three safety states**.
+**The key insight:** no single condition decides alone. They all vote, and the **worst vote wins** (max_≻ aggregation). This is the "non-compensatory" principle — good weather cannot compensate for bad weather.
 
-**The key insight:** No single parameter decides the final safety state alone. They all vote, and the **worst-case vote wins** (max_≻ aggregation). This is the "non-compensatory" principle — good weather cannot compensate for bad weather.
+**The second key insight:** `g_o` asks a different question from the others. Not "are the waves big?" but "are the waves big *for this boat*?" A 1.2 m sea is unremarkable for a 20 m vessel and marginal for a 6 m one. The same water, a different answer.
 
 ---
 
 ## 2. Formal Explanation (Mathematical Structure)
 
-### What type of function is gᵢ?
-
-Each gᵢ is a **total function** that maps its input domain to the set {SAFE, CAUTION, UNSAFE}:
+### Function signatures
 
 ```
-g_w : ℝ≥0 → {SAFE, CAUTION, UNSAFE}
-g_r : {none, light, moderate, heavy, storm} → {SAFE, CAUTION, UNSAFE}
-g_m : {none, advisory, warning, alert} → {SAFE, CAUTION, UNSAFE}
-g_o : ℝ≥0 → {SAFE, CAUTION, UNSAFE}
-g_v : {small, medium, big} → {SAFE, CAUTION}        ← UNSAFE not in codomain
-g_t : [0, 24) → {SAFE, CAUTION, UNSAFE}
+g_w : ℝ≥0                                        → {SAFE, CAUTION, UNSAFE}
+g_r : {none, light, moderate, heavy, storm}      → {SAFE, CAUTION, UNSAFE}
+g_m : {none, advisory, warning, alert}           → {SAFE, CAUTION, UNSAFE}
+g_o : (ℝ≥0 × ℝ≥0) × {small, medium, big}         → {SAFE, CAUTION, UNSAFE}
+g_t : [0, 24)                                    → {SAFE, CAUTION, UNSAFE}
 ```
 
-**"Total" means:** Every possible input value maps to exactly one output. There are no undefined cases. This is what Theorem 5.1 (Totality of f) depends on — because if every gᵢ is total, then f(E) = max_≻ over all gᵢ is also total.
+Aggregation:
 
-### How is each gᵢ defined internally?
+```
+f(E) = max_≻ {g_w(w), g_r(r), g_m(m), g_o(o, v), g_t(t)}
+```
 
-Each gᵢ is a **piecewise function** defined by threshold intervals. For continuous parameters (w, o, t):
+Five terms. `v` appears inside `g_o`, not as a separate argument to the maximum.
+
+**"Total" means:** every possible input maps to exactly one output — no undefined cases. This is what Theorem C.1 (Totality of f) depends on: if every classification function is total, then `f(E)` is total.
+
+### How each is defined internally
+
+Threshold intervals for the continuous variables:
 
 **g_w(w)**
 ```
@@ -59,139 +66,231 @@ g_w(w) = CAUTION if 22 < w ≤ 27
 g_w(w) = UNSAFE  if w > 27
 ```
 
-**g_o(o)**
-```
-g_o(o) = SAFE    if o < 1.5
-g_o(o) = CAUTION if 1.5 ≤ o ≤ 3.5
-g_o(o) = UNSAFE  if o > 3.5
-```
-
-**g_t(t)** (note the wrap-around for UNSAFE)
+**g_t(t)** — note the wrap-around for UNSAFE
 ```
 g_t(t) = SAFE    if 6.0 ≤ t < 17.0
 g_t(t) = CAUTION if 17.0 ≤ t < 19.0
 g_t(t) = UNSAFE  if t ∈ [19.0, 24.0) ∪ [0.0, 6.0)
 ```
 
-For categorical parameters (r, m, v), the function is a **lookup table**:
+Lookup tables for the categorical variables:
 
 **g_r(r)**
 ```
-g_r(none)     = SAFE
-g_r(light)    = SAFE
-g_r(moderate) = SAFE
-g_r(heavy)    = CAUTION
-g_r(storm)    = UNSAFE
+g_r(none) = g_r(light) = g_r(moderate) = SAFE
+g_r(heavy)                             = CAUTION
+g_r(storm)                             = UNSAFE
 ```
 
-### Why are the thresholds where they are?
+**g_m(m)**
+```
+g_m(none)                = SAFE
+g_m(advisory)            = CAUTION
+g_m(warning) = g_m(alert) = UNSAFE
+```
 
-| Parameter | Threshold basis |
+### The parameterised one: g_o(o, v)
+
+`g_o` is a **family of three threshold functions**, selected by vessel category:
+
+| v (GRT) | SAFE | CAUTION | UNSAFE |
+|---|---|---|---|
+| small (< 10) | o < 1.0 m | 1.0 ≤ o ≤ 1.9 m | o > 1.9 m |
+| medium (10–25) | o < 1.4 m | 1.4 ≤ o ≤ 2.8 m | o > 2.8 m |
+| big (> 25) | o < 1.5 m | 1.5 ≤ o ≤ 3.5 m | o > 3.5 m |
+
+Read it as: pick the row for the vessel, then apply that row's thresholds to the wave height.
+
+**Why the wave height only?** `o` is formally a tuple `(wave height, swell period)`. Classification uses the height component; swell period is carried in the state representation but not used. This is a known limitation — encounter period relative to hull natural period genuinely matters for seakeeping, and the model cannot currently distinguish a short-period wind sea from a long-period swell at the same significant height. See appendix-c C.9.3.
+
+**Why is `v` a parameter and not its own function?** This is the important structural point.
+
+A prior version of the model defined `g_v(v)` returning CAUTION for small and medium vessels, contributing to the maximum like any other term. That does not work, and the reason is worth internalising:
+
+> **A constant term inside a maximum is a floor. It cannot shift a threshold.**
+
+If `g_v(small) = CAUTION` always, then `f(E) ≥ CAUTION` always — the output is floored. But the *boundary* between CAUTION and UNSAFE is set entirely by the other functions, and none of them know the vessel size. So a 5 m boat and a 20 m boat would be declared UNSAFE at precisely the same wave height (3.5 m) and the same wind speed (27 kn).
+
+That contradicts the evidence. Yaakob et al. (2015) [[notes]](../../notes/Stability%2C%20Seakeeping%20and%20Safety%20Assessment%20of%20Small%20Fishing%20Boats%20Operating%20in%20Southern%20Coast%20of%20Peninsular%20Malaysia.md) show a 6.54 m Malaysian vessel exceeding NORDFORSK operability limits at Hs ≈ 1.875 m — roughly half the wave height at which the old model would have called it UNSAFE.
+
+Parameterising `g_o` by `v` shifts the boundary, which is what the physics requires. A floor cannot do this; a parameter can.
+
+### Why the thresholds are where they are
+
+| Function | Threshold basis |
 |-----------|-----------------|
-| w (wind) | MET Malaysia official warning criteria: Category 1 onset = 40 km/h (≈22 kn); Category 2 onset = 50 km/h (≈27 kn) |
-| o (wave height) | Three-Tier Triangulation: hydrodynamic modelling (Yaakob et al. 2015), empirical risk analysis (Jeong & Im 2023), state policy (MET Malaysia Category 1 max = 3.5 m) |
-| r (rain) | MET Malaysia operational definition: Ribut Petir (thunderstorm/cyclone) = unconditional halt |
-| m (marine warning) | MET Malaysia three-tier warning system: none → advisory → warning → alert |
-| v (vessel) | Vessel-size fatality gradient from 504 IMO accident reports (Dominguez-Péry et al. 2023) |
-| t (time) | Night navigation risk: highest accident probability and consequence scores (Atacan & Düzbastılar 2023) |
+| g_w | MET Malaysia warning criteria: Category 1 onset = 40 km/h (≈22 kn); Category 2 onset = 50 km/h (≈27 kn) |
+| g_r | MET Malaysia operational definition: Ribut Petir (thunderstorm) = unconditional halt |
+| g_m | MET Malaysia three-tier warning system: none → advisory → warning → alert |
+| g_o (big) | MET Malaysia Category 1 max (3.5 m); Jeong & Im (2023) [[notes]](../../notes/Proposal%20of%20Restrictions%20on%20the%20Departure%20of%20Korea%20Small%20Fishing%20Vessel%20according%20to%20Wave%20Height.md) Hs_KIMO = 1.58 m at 16 m LOA |
+| g_o (small) | Jeong & Im Table 12: vessels ≤10 m restricted at Hs ≥ 1.0 m; Yaakob et al. 6.54 m vessel operational limit ≈ 1.25 m; SS4 (1.875 m) NORDFORSK failure → UNSAFE at 1.9 m |
+| g_o (medium) | Hs_KIMO across 10–15 m LOA = 1.13–1.48 m; UNSAFE boundary interpolated |
+| g_t | Night navigation risk: highest accident probability and consequence scores — Atacan & Düzbastılar (2023) [[notes]](../../notes/Determination%20of%20risk%20perception%20in%20small-scale%20fishing%20and%20navigation.md) |
 
-### The special case: g_v
+Vessel category itself is grounded in Dominguez-Péry et al. (2023) [[notes]](../../notes/A%20holistic%20view%20of%20maritime%20navigation%20accidents%20and%20risk%20indicators-%20examining%20IMO%20reports%20from%202011%20to%202021.md) — small vessels carry the highest mean fatality rank (3.67, p = 0.01), which justifies setting their thresholds conservatively.
 
-**g_v is unique** because its codomain is {SAFE, CAUTION} — it never returns UNSAFE.
-
-```
-g_v(big)    = SAFE
-g_v(small)  = CAUTION
-g_v(medium) = CAUTION
-```
-
-Why? Because **vessel category alone cannot make conditions UNSAFE**. A small boat in calm seas is still risky (CAUTION), but it is not inherently UNSAFE — that requires a combination with another parameter (e.g., high wind + small boat = UNSAFE via max_≻).
-
-This is architecturally important: if g_v could return UNSAFE, then every small vessel would be UNSAFE in every condition, which is not operationally correct. The risk of small vessels is *contextual* — it depends on the weather.
+Two values are **design decisions rather than sourced numbers**: the small-vessel UNSAFE boundary (1.9 m) reads NORDFORSK operability failure as a departure prohibition, which Yaakob et al. do not themselves claim; and the medium-vessel UNSAFE boundary (2.8 m) is interpolated with no direct source. Both are recorded in appendix-c C.9.1.
 
 ---
 
 ## 3. Operational Explanation (Step-by-Step Runtime Evaluation)
 
-### Example A — CAUTION scenario
+### Example A — SAFE, small vessel
 
-Fisher requests a departure advisory. Layer 1 reads:
+A calm morning. Fisher with a 6 m boat (< 10 GRT) requests a departure advisory.
 
 | Component | Value |
 |-----------|-------|
-| w | 25 kn |
-| r | moderate |
-| m | advisory |
-| o | 2.0 m |
+| w | 8 kn |
+| r | none |
+| m | none |
+| o | 0.5 m |
 | v | small |
-| t | 14.5 (14:30) |
-
-Layer 2 evaluates each gᵢ:
+| t | 08:00 |
 
 | Function | Input | Output | Reason |
 |----------|-------|--------|--------|
-| g_w(25) | 25 kn | **CAUTION** | 22 < 25 ≤ 27 |
-| g_r(moderate) | moderate | **SAFE** | moderate ∈ {none, light, moderate} |
-| g_m(advisory) | advisory | **CAUTION** | advisory ∈ {advisory} |
-| g_o(2.0) | 2.0 m | **CAUTION** | 1.5 ≤ 2.0 ≤ 3.5 |
-| g_v(small) | small | **CAUTION** | small ∈ {small, medium} |
-| g_t(14.5) | 14.5 | **SAFE** | 6.0 ≤ 14.5 < 17.0 |
+| g_w(8) | 8 kn | **SAFE** | 8 ≤ 22 |
+| g_r(none) | none | **SAFE** | none ∈ {none, light, moderate} |
+| g_m(none) | none | **SAFE** | no active warning |
+| g_o(0.5, small) | 0.5 m, small | **SAFE** | 0.5 < 1.0 (small row) |
+| g_t(8.0) | 8.0 | **SAFE** | 6.0 ≤ 8.0 < 17.0 |
 
-Aggregation: f(E) = max_≻ {CAUTION, SAFE, CAUTION, CAUTION, CAUTION, SAFE} = **CAUTION**
+f(E) = max_≻ {SAFE, SAFE, SAFE, SAFE, SAFE} = **SAFE**
 
-Result: G(CAUTION) = 1, A_AI(CAUTION) = {Go, Delay}. Layer 3 receives RS(CAUTION). Advisory output: "Departure is possible — exercise caution."
+G(SAFE) = 1, A_AI(SAFE) = {Go, Delay, DepartureTime, Duration}. Full advisory scope.
 
----
-
-### Example B — UNSAFE scenario (one parameter changes)
-
-Same as above but w = 30 kn:
-
-| Function | Input | Output |
-|----------|-------|--------|
-| g_w(30) | 30 kn | **UNSAFE** | 30 > 27 |
-| (others) | — | SAFE / CAUTION |
-
-Aggregation: f(E) = max_≻ {**UNSAFE**, SAFE, CAUTION, CAUTION, CAUTION, SAFE} = **UNSAFE**
-
-Result: G(UNSAFE) = 0. Layer 3 not invoked. AI(E) = ∅. Advisory output: "Departure not recommended — conditions are unsafe."
-
-**Key point:** One UNSAFE component dominates everything else. Extreme wind cannot be compensated by calm seas or a large vessel.
+> **Note:** this outcome was *impossible* under the superseded model — `g_v(small) = CAUTION` floored every small vessel at CAUTION regardless of conditions. Restoring reachable SAFE for the deployment population is what makes the three-state architecture observable in the target domain.
 
 ---
 
-## 4. Why the Per-Component Functions Are Critical
+### Example B — CAUTION, same vessel, worse sea
+
+Same boat, same day, larger swell.
+
+| Component | Value |
+|-----------|-------|
+| w | 10 kn |
+| r | none |
+| m | none |
+| o | **1.5 m** |
+| v | small |
+| t | 08:00 |
+
+| Function | Output | Reason |
+|----------|--------|--------|
+| g_w(10) | SAFE | 10 ≤ 22 |
+| g_r(none) | SAFE | — |
+| g_m(none) | SAFE | — |
+| g_o(1.5, small) | **CAUTION** | 1.0 ≤ 1.5 ≤ 1.9 (small row) |
+| g_t(8.0) | SAFE | — |
+
+f(E) = **CAUTION**. A_AI(CAUTION) = {Go, Delay}. DepartureTime and Duration withheld.
+
+---
+
+### Example C — UNSAFE by wave height alone
+
+Same boat, distant-storm swell, no wind, no warning issued.
+
+| Component | Value |
+|-----------|-------|
+| w | 10 kn |
+| r | none |
+| m | none |
+| o | **2.5 m** |
+| v | small |
+| t | 08:00 |
+
+| Function | Output | Reason |
+|----------|--------|--------|
+| g_o(2.5, small) | **UNSAFE** | 2.5 > 1.9 (small row) |
+| (all others) | SAFE | — |
+
+f(E) = **UNSAFE**. G = 0, AI(E) = ∅.
+
+> **This is the case the superseded model got wrong.** With `g_o` vessel-blind, 2.5 m fell in [1.5, 3.5] = CAUTION, and `g_v(small) = CAUTION` added nothing further — so a 6 m boat in a 2.5 m sea received "Go, with caution." Jeong & Im's finding that **82% of capsizings occurred on days with no weather warning** is precisely this scenario: swell without wind, no institutional alert, and a vessel-blind threshold that misses it.
+
+---
+
+### Example D — the same sea, three different vessels
+
+Conditions held constant at o = 2.5 m; everything else SAFE.
+
+| v | g_o(2.5, v) | f(E) | A_AI(S) |
+|---|---|---|---|
+| small | **UNSAFE** | UNSAFE | ∅ |
+| medium | CAUTION | CAUTION | {Go, Delay} |
+| big | CAUTION | CAUTION | {Go, Delay} |
+
+Same water, three governance outcomes. Under the superseded model all three rows read CAUTION.
+
+---
+
+### Example E — one UNSAFE condition dominates
+
+Small vessel, calm sea, but extreme wind.
+
+| Function | Output |
+|----------|--------|
+| g_w(30) | **UNSAFE** (30 > 27) |
+| g_o(0.5, small) | SAFE |
+| (others) | SAFE |
+
+f(E) = **UNSAFE**. One UNSAFE condition dominates everything else — extreme wind cannot be compensated by a calm sea. This is the non-compensatory principle.
+
+---
+
+## 4. Why These Functions Are Critical
 
 | Reason | Explanation |
 |--------|-------------|
-| They establish the safety state | The entire governance mechanism depends on S = f(E). If any gᵢ is wrong, the entire architecture fails. |
-| They encode domain expertise | Thresholds are derived from meteorological standards, hydrodynamic modelling, and empirical risk analysis — not arbitrary. |
-| They are the formal basis for Theorem 5.1 | Because each gᵢ is total, f(E) is total. |
-| They implement non-compensation | The worst-case aggregation rule (max_≻) is only meaningful because gᵢ produces a totally ordered output set. |
-| They are the enforcement boundary | The Safety Dominance Property (Property 5.3) depends on Layer 2's correct evaluation of gᵢ. Misclassification → wrong RS(S) → governance failure. |
+| They establish the safety state | The entire governance mechanism depends on S = f(E). If any classification function is wrong, the architecture fails. |
+| They encode domain expertise | Thresholds derive from meteorological standards, hydrodynamic modelling, and empirical accident analysis — not arbitrary choices. |
+| They are the formal basis for Theorem C.1 | Because each is total, f(E) is total. |
+| They implement non-compensation | max_≻ is only meaningful because each function produces values in a totally ordered set. |
+| They are the enforcement boundary | The Safety Dominance Property depends on Layer 2 classifying correctly. Misclassification → wrong RS(S) → governance failure. |
+| **g_o carries the vessel model** | Vessel size affects safety *only* through `g_o`. If that parameterisation is wrong, vessel size is effectively ignored. |
 
 ---
 
-## 5. Summary Table: gᵢ at a Glance
+## 5. Summary Table
 
 | Function | Domain | SAFE | CAUTION | UNSAFE | Key citation |
 |----------|--------|------|---------|--------|--------------|
-| g_w | ℝ≥0 | ≤ 22 kn | 22–27 kn | > 27 kn | MET Malaysia (2026) |
-| g_r | {none, light, moderate, heavy, storm} | none, light, moderate | heavy | storm | MET Malaysia (2026) |
-| g_m | {none, advisory, warning, alert} | none | advisory | warning, alert | MET Malaysia (2026) |
-| g_o | ℝ≥0 | < 1.5 m | 1.5–3.5 m | > 3.5 m | Jeong & Im (2023); Yaakob et al. (2015) |
-| g_v | {small, medium, big} | big | small, medium | — (never) | Dominguez-Péry et al. (2023) |
-| g_t | [0, 24) | 6.0 ≤ t < 17.0 | 17.0 ≤ t < 19.0 | [19.0, 24.0) ∪ [0.0, 6.0) | Atacan & Düzbastılar (2023) |
+| g_w | ℝ≥0 | ≤ 22 kn | 22–27 kn | > 27 kn | MET Malaysia |
+| g_r | {none…storm} | none, light, moderate | heavy | storm | MET Malaysia |
+| g_m | {none…alert} | none | advisory | warning, alert | MET Malaysia |
+| g_o (small) | ℝ≥0 × {v} | < 1.0 m | 1.0–1.9 m | > 1.9 m | Jeong & Im; Yaakob et al. |
+| g_o (medium) | ℝ≥0 × {v} | < 1.4 m | 1.4–2.8 m | > 2.8 m | Jeong & Im (Hs_KIMO) |
+| g_o (big) | ℝ≥0 × {v} | < 1.5 m | 1.5–3.5 m | > 3.5 m | MET Malaysia; Jeong & Im |
+| g_t | [0, 24) | 6.0–17.0 | 17.0–19.0 | 19.0–24.0 ∪ 0.0–6.0 | Atacan & Düzbastılar |
+
+**Fail-safe:** if any component of E is undefined or corrupted (xᵢ = ⊥), f(E) = UNSAFE before any classification function is evaluated.
 
 ---
 
 ## 6. What This Means for the Paper
 
-When Section 5.3.2 defines the per-component classification functions, it is simultaneously doing four things:
+When Section 5.3 defines the classification functions, it is doing four things at once:
 
-1. **Formally defining** the classification functions (mathematical precision → Section 6 proofs)
-2. **Empirically justifying** the thresholds (scientific credibility → Section 5.3.2 citations)
-3. **Enabling the proofs** in Section 6 (Theorem 5.1 Totality, Theorem 5.2 Monotonicity)
-4. **Specifying the implementation** for Section 9 (prototype rule sets RS(SAFE), RS(CAUTION))
+1. **Formally defining** them — mathematical precision, feeding the Section 6 proofs
+2. **Empirically justifying** the thresholds — scientific credibility, via the Section 5.3.2 citations
+3. **Enabling the proofs** — Theorem 6.1 (Totality) depends on each function being total
+4. **Specifying the implementation** — the prototype rule sets in Section 9
 
-This is why Section 5.3.2 is dense — it is doing multiple jobs at once.
+This is why Section 5.3 is dense: it carries four jobs simultaneously.
+
+---
+
+## 7. What Changed on 2026-09-06
+
+The model previously had **six** classification functions including `g_v(v) → {SAFE, CAUTION}`, with `f(E)` a maximum over six terms.
+
+**Removed** because a constant term in a maximum floors the output but cannot shift a threshold. Under that formulation vessel category had no effect whatsoever on the CAUTION/UNSAFE boundary — all vessel sizes were declared UNSAFE at identical wave heights and wind speeds, under-classifying small-vessel risk across the entire 1.5–3.5 m band where the CAUTION mode is meant to operate. A secondary consequence was that SAFE became unreachable for any vessel under 25 GRT, i.e. for the entire deployment population, which made the architecture's central containment claim unobservable in-domain.
+
+**Replaced by** parameterising `g_o(o, v)`, which implements the vessel effect as a threshold shift.
+
+Full rationale: `docs/canonical/appendix-c-formalisation.md` C.2, "Note: there is no g_v", and `docs/superpowers/plans/2026-09-06-formal-model-and-evaluation-realignment.md`.
+
+⚠️ `notes/Stability, Seakeeping and Safety Assessment...md` §4.2 still argues for the superseded design. Treat that section as historical; the seakeeping data it reports remains valid.

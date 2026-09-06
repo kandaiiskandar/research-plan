@@ -1,14 +1,31 @@
 # IPSCI-2026 Revision Notes
 
-**Status:** Under review (submitted v2.5)  
-**Submitted file:** `submissions/v2-post-review/manuscript-v2.5-submitted.md`  
-**Corrected .md:** same file (TABLE II and [37]→[33] fixed post-submission)
+**Status:** **REJECTED** (v2.5). Revision in progress for resubmission or retargeting.
+**Submitted artifact:** v2.5 **.docx** — authoritative record of what reviewers saw
+**Active working file:** `submissions/v3-revision/manuscript-v3.md` *(forked 2026-09-06)*
+**Frozen:** `submissions/v2-post-review/manuscript-v2.5-submitted.md` — do not edit
+
+> **The v2.5 .md is not the submitted paper.** It carried post-submission corrections (TABLE II, [37]→[33]) and then, on 2026-08-20, six new sections added in response to supervisor feedback — Formal Properties, Algorithm Specification, Computational Complexity, Generalisation, Deployment Challenges, Threats to Validity — plus a rewritten Conclusion. **Reviewers saw none of that.** Review 3's objection that the paper lacks technical evidence for its safety claims was made against a version containing no formal proofs.
+
+## Review outcome (v2.5)
+
+| Review | Verdict | Substance |
+|---|---|---|
+| 1 | Accept, minor revision | Check the comparative table; add experimental validation or case studies |
+| 2 | Accept, minor revision | **Disregard — reviews a different paper.** Twitter bot detection, TwiBot-22, F1 0.552, SHAP beeswarm, BotRGCN/BIC/ETS-MM baselines; names the AMICT Machine Intelligence/Cybersecurity track. No overlap with this submission. **Raise with chairs** — discounting it leaves 1 accept-minor and 1 reject, which is borderline rather than a clear rejection |
+| 3 | **Reject** | "Lacks the technical and empirical evidence necessary to establish its novelty, effectiveness, and safety claims" |
+
+**Converged signal from Reviews 1 and 3:** no empirical validation. The evaluation is designed (`docs/canonical/evaluation-design-rq4.md`) but has not been run. Review 1's comparative-table comment likely refers to TABLE II, which has six wrong reference numbers — listed below.
 
 ---
 
 ## Known Errors in Submitted Paper
 
 These errors exist in the submitted .docx but are corrected in the .md. Fix in any revised submission.
+
+> **Verified 2026-09-06 against `v3-revision/manuscript-v3.md`:** all six TABLE II reference numbers below are **already correct in the .md**. They are wrong only in the submitted .docx. The `[37]`→`[33]` fix is also already applied.
+>
+> **One error not previously recorded, now fixed in v3:** Domain Instantiation cited "Ghaleb et al. **[27]**" for runtime-gating stability. Reference [27] is Cash et al., *Quantifying uncert-AI-nty*; Ghaleb et al. is **[24]**. Corrected in v3. Worth checking whether the same error appears in the .docx.
 
 | Location | Error | Correction |
 |---|---|---|

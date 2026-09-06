@@ -8,8 +8,8 @@
 
 | Formal Component | Appendix C Section | Architecture Diagram Element | Alignment Table Reference |
 |---|---|---|---|
-| E = {w, r, m, o, v, t} where:<br>w = wind condition (speed/strength)<br>r = rainfall intensity<br>m = sea state (wave height/swell)<br>o = official marine warning level (e.g., no warning, caution, danger)<br>v = vessel category (small, medium, big)<br>t = time of day (hour, 24-hour clock) | C.1 Environmental State Representation | L1 box: "Environmental data input" with subtitle "E = {w, r, m, o, v, t}" | PS2 gap: environmental state vector mapped to safety states; O2: formally define E |
-| S = f(E) | C.2 Safety State Classification Function | L2 box: "Safety Classification & Aggregation" with subtitle "S = f(E) (max-severity)" | PS2 gap: no architecture classifies environmental conditions into discrete safety states; O2: formally define S = f(E) |
+| E = {w, r, m, o, v, t} where:<br>w = wind speed (knots, sustained)<br>r = rainfall intensity {none, light, moderate, heavy, storm}<br>**m = marine warning level** {none, advisory, warning, alert}<br>**o = ocean state** (wave height m, swell period s)<br>v = vessel category {small, medium, big}, by GRT<br>t = time of day (hour, 24-hour clock) | C.1 Environmental State Representation | L1 box: "Environmental data input" with subtitle "E = {w, r, m, o, v, t}" | PS2 gap: environmental state vector mapped to safety states; O2: formally define E |
+| S = f(E) = max-severity(g_w, g_r, g_m, **g_o(o, v)**, g_t) — five condition terms; `v` conditions `g_o` rather than contributing a term | C.2 Safety State Classification Function | L2 box: "Safety Classification & Aggregation" with subtitle "S = f(E) (max-severity)" | PS2 gap: no architecture classifies environmental conditions into discrete safety states; O2: formally define S = f(E) |
 | S ∈ {SAFE, CAUTION, UNSAFE} | C.2 Classification output | Three state boxes: SAFE (green), CAUTION (amber), UNSAFE (red) | PS1: graduated AI participation — enabled, restricted, disabled; O1: three-mode architecture |
 | G(S) | C.3 AI Participation Gate Function | Control Gate Level 1: PARTICIPATION boxes: G(S) = 1 (enabled), G(S) = 1 (restricted), G(S) = 0 (disabled) per state | PS1 gap: existing architectures implement binary governance; O2: formally define G(S) |
 | R = {Go, Delay, DepartureTime, Duration} | C.4 Recommendation type set | Implicit in A_AI box subtitles: "{Go, Delay, DepartureTime, Duration}" | PS3 gap: domain-specific operationalisation for fisheries; O2: domain-specific operationalisation of safety thresholds |
@@ -21,7 +21,7 @@
 | Participation constraint: G(S) = 0 ⇒ A_AI(S) = ∅ | C.6 Governance Constraints | UNSAFE column: G(S) = 0 (Level 1) → A_AI(UNSAFE) = ∅ (Level 2) | O4: safety compliance evaluation metric |
 | Advisory restriction: A_AI(CAUTION) ⊂ A_AI(SAFE) | C.6 Governance Constraints | CAUTION column drops DepartureTime, Duration relative to SAFE column | O4: CAUTION discriminator — C1 vs C2 comparison under CAUTION isolates Level 2 contribution; O5: Q2 tests whether users interpret restriction as scope limitation |
 | RS(S) — rule set per safety state:<br>RS(SAFE) = rules producing {Go, Delay, DepartureTime, Duration}<br>RS(CAUTION) = rules producing {Go, Delay}<br>RS(UNSAFE) = ∅ | C.7.1 Enforcement mechanism | L3 box: rule-based engine receives RS(S) from Layer 2 before reasoning begins | O2: formal enforcement of A_AI(S); O4: Safety Dominance Property verification |
-| Safety Dominance: AI(E) ⊆ A_AI(S) — proved by construction via RS(S) | C.7 Safety Dominance Property; C.7.1 Enforcement mechanism; C.7.2 Proof by construction | Diagram footer: "AI(E) ⊂ A_AI(S) (Safety Dominance Property)"; Layer 3 configured with RS(S) before reasoning | O4: primary metric — 100% compliance required per scenario; proof in `docs/justification-layer3-enforcement.md` |
+| Safety Dominance: AI(E) ⊆ A_AI(S) — proved by construction via RS(S) | C.7 Safety Dominance Property; C.7.1 Enforcement mechanism; C.7.2 Proof by construction | Diagram footer: "AI(E) ⊂ A_AI(S) (Safety Dominance Property)"; Layer 3 configured with RS(S) before reasoning | O4: primary metric — 100% compliance required per scenario; proof in `docs/canonical/justification-layer3-enforcement.md` |
 | Human decision authority | Architectural principle (not formalised) | L4 box: "Human Decision Layer" / "Fisher / Operator (Final Decision Authority)" | O5: user perception of safety states (Q1), interpretation of CAUTION restriction (Q2), decision behaviour (Q3) |
 | Pipeline: E → S = f(E) → (G(S), A_AI(S)) → AI(E) | C.5 page 6 summary | Diagram footer text | Contribution statement in alignment table traceability notes |
 
@@ -66,12 +66,15 @@
 | GoWithCaution does NOT appear anywhere | ✓ Removed from formalisation and diagram |
 | No objective can be satisfied by a binary gate | ✓ Verified in Table 2 final column |
 | A_H(S) does NOT appear anywhere | ✓ Correctly excluded from formalisation and diagram |
-| Parameter definitions in E are consistent across Appendix C and this traceability table | ✓ Both use {w, r, m, o, v, t} with matching definitions (wind, rainfall, sea state, official warning, vessel category, time of day) |
+| Parameter definitions in E are consistent across Appendix C and this traceability table | ✓ **Corrected 2026-09-06.** This row previously read "✓ ... matching definitions (wind, rainfall, **sea state, official warning**, vessel category, time of day)" — but `m` and `o` were **swapped** in Table 1 relative to Appendix C, and this check certified the mismatch as verified. Canonical order is `m` = marine warning level, `o` = ocean state. Table 1 corrected; this check re-run against C.1. |
+| No `g_v` — vessel category conditions `g_o` rather than contributing a severity term | ✓ Table 1 row 2 states the five-term form; Appendix C.2 "Note: there is no g_v" |
+| `g_o` threshold rows match between C.2 and architecture-illustration §5.2 | ✓ small < 1.0 / 1.0–1.9 / > 1.9; medium < 1.4 / 1.4–2.8 / > 2.8; big < 1.5 / 1.5–3.5 / > 3.5 |
+| Worked scenarios in architecture-illustration classify correctly under C.2 thresholds | ✓ **Added 2026-09-06** after six misclassifications were found and corrected in §7. This check did not previously exist. |
 | RS(S) appears in Appendix C.7.1 and Layer 3 description | ✓ Rule set RS(S) defined for all three safety states; enforces Safety Dominance Property by construction |
-| Safety Dominance Property proved by construction in C.7.2 | ✓ Three-case proof covers UNSAFE, CAUTION, and SAFE; proof in `docs/justification-layer3-enforcement.md` Section 4 |
+| Safety Dominance Property proved by construction in C.7.2 | ✓ Three-case proof covers UNSAFE, CAUTION, and SAFE; proof in `docs/canonical/justification-layer3-enforcement.md` Section 4 |
 | Layer 3 specified as rule-based engine | ✓ Updated in architecture-illustration.md, appendix-c-formalisation.md, justification-layer3-enforcement.md |
-| RQ5 scoped to three questions only (Q1, Q2, Q3) | ✓ Verified in `docs/rq5-study-design.md`; no socio-technical theory as primary framework |
-| Evaluation conditions labelled C0, C1, C2 consistently | ✓ Verified in `docs/evaluation-design-rq4.md` and research-alignment-table.md |
+| RQ5 scoped to three questions only (Q1, Q2, Q3) | ✓ Verified in `docs/canonical/rq5-study-design.md`; no socio-technical theory as primary framework |
+| Evaluation conditions labelled C0, C1, C2 consistently | ⚠ **Pending re-verification.** `docs/canonical/evaluation-design-rq4.md` is scheduled for rewrite under the amended formal model — all 20 scenarios use `v = big` and vessel-blind thresholds. A fourth condition (C3, Flehmig-style precedent) is also planned. Re-run this check after Stage 2 of `docs/superpowers/plans/2026-09-06-formal-model-and-evaluation-realignment.md`. |
 
 ---
 

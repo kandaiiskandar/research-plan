@@ -6,6 +6,22 @@
 
 ---
 
+> ## ⚠️ Partial revision notice — 2026-09-06
+>
+> **Sections 1, 2, 3, 5 and 6 of these notes are unaffected.** The paper's findings — the two vessels, the NORDFORSK and IMO results, the operability limits, the safety equipment survey — are reported accurately and remain the corpus record for this source.
+>
+> **Section 4 contained architectural inferences that have been superseded.** Those inferences argued that the paper justifies `g_v(small) = CAUTION always` — a per-component classification function contributing a constant severity term to max-severity. That formulation was removed from the formal model on 2026-09-06.
+>
+> **Why:** a constant term inside a maximum establishes a floor on the output but cannot shift a threshold. Under that formulation, vessel category had no effect at all on the CAUTION/UNSAFE boundary — a 5 m boat and a 20 m boat were classified UNSAFE at identical wave heights (3.5 m) and wind speeds (27 kn). This paper's own data contradicts that: Boat A exceeds NORDFORSK operability limits at Hs ≈ 1.875 m, roughly half the wave height at which the superseded model would have declared it UNSAFE.
+>
+> **What the paper actually supports:** vessel-specific wave height limits. That is now implemented directly as `g_o(o, v)` — vessel category parameterises the ocean state thresholds rather than voting independently.
+>
+> Section 4 below has been revised in place. Superseded reasoning is retained in blockquote for the record.
+>
+> Full rationale: `docs/canonical/appendix-c-formalisation.md` C.2 and `docs/superpowers/plans/2026-09-06-formal-model-and-evaluation-realignment.md`.
+
+---
+
 ## 1. What the paper does
 
 Assesses seakeeping, static stability, and safety equipment compliance of two traditional Malaysian small fishing boats from the Johor coast (Southern Peninsular Malaysia), using Maxsurf Ship Design software (Hydromax module for stability, Seakeeper module for seakeeping). Evaluates both boats against NORDFORSK 1987 seakeeping criteria and IMO stability criteria for fishing vessels under 12m.
@@ -97,39 +113,79 @@ Both boats **FAIL** multiple IMO/Torremolinos requirements:
 
 **Core finding relevant to thresholds:** Malaysian Zone A small fishing boats (< 10 GRT, 5–7m LOA) have seakeeping operability limits between Hs ≈ 0.55m (Boat B operational limit) and Hs ≈ 1.25m (Boat A operational limit). These boats begin experiencing operability failure well below the 1.5m SAFE/CAUTION boundary.
 
-**However — this validates the architecture design, not necessarily the 1.5m number.**
+**However — this validates the need for vessel-specific thresholds, not the 1.5m number.**
 
-The architecture captures this risk correctly through TWO mechanisms:
-1. **g_v(small) = CAUTION always** — for any small vessel (GRT < 10, Zone A), the vessel category itself contributes CAUTION to max-severity, regardless of wave height
-2. **g_o(o) contributes wave-height-specific CAUTION when Hs ≥ 1.5m**
+**Current interpretation (2026-09-06).** The paper's core contribution to the formal model is that *the wave height at which conditions become dangerous depends on the vessel*. Boat B (5.03 m) reaches its operational ceiling at Sea State 2; Boat A (6.54 m) at Sea State 3. Same water, different limits. This is a conditional relationship, and it is implemented as `g_o(o, v)` — vessel category selects the threshold row:
 
-For a small vessel at Hs = 0.875m (which causes Boat B to fail): g_o = SAFE (0.875 < 1.5), g_v = CAUTION → f(E) = CAUTION. Correct — the architecture restricts the AI advisory scope.
+| v (GRT) | SAFE | CAUTION | UNSAFE |
+|---|---|---|---|
+| small (< 10) | o < 1.0 m | 1.0 ≤ o ≤ 1.9 m | o > 1.9 m |
+| medium (10–25) | o < 1.4 m | 1.4 ≤ o ≤ 2.8 m | o > 2.8 m |
+| big (> 25) | o < 1.5 m | 1.5 ≤ o ≤ 3.5 m | o > 3.5 m |
 
-For a small vessel at Hs = 1.875m (which causes Boat A to fail): g_o = CAUTION (1.5 ≤ 1.875 ≤ 3.5), g_v = CAUTION → f(E) = CAUTION. Correct — still restricted.
+The small-vessel row is grounded in this paper: the 1.9 m UNSAFE boundary corresponds to SS4 (Hs ≈ 1.875 m), where Boat A failed NORDFORSK on multiple parameters. The 1.0 m CAUTION onset comes from Jeong & Im's Table 12 recommendation for vessels ≤ 10 m, corroborated by Boat A's ≈ 1.25 m operational limit.
 
-**The architecture correctly captures the risk for the smallest vessels through g_v, not g_o alone.** This is consistent with the paper's finding that vessel size is the primary determinant of wave height operability limits.
+*Caveat:* reading NORDFORSK operability failure as an UNSAFE trigger is an interpretation. This paper reports that the crew cannot safely perform heavy manual work at that sea state; it does not characterise this as a departure prohibition. Recorded as a design decision in appendix-c C.9.1.
 
-### 4.2 What it validates about g_v design
+> **Superseded reasoning (retained for the record).**
+>
+> *The architecture captures this risk correctly through TWO mechanisms:*
+> 1. *`g_v(small) = CAUTION always` — for any small vessel (GRT < 10, Zone A), the vessel category itself contributes CAUTION to max-severity, regardless of wave height*
+> 2. *`g_o(o)` contributes wave-height-specific CAUTION when Hs ≥ 1.5m*
+>
+> *For a small vessel at Hs = 0.875m: g_o = SAFE, g_v = CAUTION → f(E) = CAUTION. Correct — the architecture restricts the AI advisory scope.*
+>
+> *For a small vessel at Hs = 1.875m: g_o = CAUTION, g_v = CAUTION → f(E) = CAUTION. Correct — still restricted.*
+>
+> **Why this was wrong.** The two worked cases above are both correct as far as they go, but they only test the SAFE→CAUTION transition, where the `g_v` floor does work. They never test the CAUTION→UNSAFE boundary, where it does nothing. Extending the same reasoning to Hs = 3.0 m: `g_o` = CAUTION (1.5 ≤ 3.0 ≤ 3.5), `g_v` = CAUTION → f(E) = **CAUTION** — a 6.5 m boat in a 3 m sea, 2.4× past its own operability limit, receiving "Go, with caution." The mechanism that was supposed to protect small vessels contributed nothing at exactly the point it mattered most.
 
-The paper provides hydrodynamic justification for why g_v(small) = CAUTION (never SAFE):
-- Zone A small boats fail seakeeping criteria at Hs as low as 0.875m
-- Even under static stability pass, they have operability and survivability risks
-- These boats should never receive full-scope AI advisory output (DepartureTime, Duration) in any sea state, because their safety envelope is narrow and dynamic conditions quickly exceed it
+### 4.2 ~~What it validates about g_v design~~ — SUPERSEDED 2026-09-06
 
-**This supports the architectural choice that vessel category alone never returns SAFE for small vessels.** The paper provides the hydrodynamic reason why.
+**There is no `g_v` in the current model.** This section argued for it. Retained below for the record, with the counter-argument.
 
-### 4.3 What it validates about the 1.5m CAUTION boundary for g_o
+> *The paper provides hydrodynamic justification for why g_v(small) = CAUTION (never SAFE):*
+> - *Zone A small boats fail seakeeping criteria at Hs as low as 0.875m*
+> - *Even under static stability pass, they have operability and survivability risks*
+> - *These boats should never receive full-scope AI advisory output (DepartureTime, Duration) in any sea state, because their safety envelope is narrow and dynamic conditions quickly exceed it*
+>
+> ***This supports the architectural choice that vessel category alone never returns SAFE for small vessels.** The paper provides the hydrodynamic reason why.*
 
-For medium and large vessels (LOA 7.5-25m, GRT 10+), which are not studied in this paper, the 1.5m threshold for wave height CAUTION represents the wave condition at which even larger vessels begin encountering elevated risk. The paper establishes that small vessels are already in constrained territory at much lower wave heights — but their risk is captured via g_v, leaving g_o to capture the wave-specific risk contribution that applies to all vessel sizes.
+**Why this was rejected.**
 
-The 1.5m boundary is conservative relative to what would be derived from this paper if only small vessels were considered — but the architecture is designed for multiple vessel sizes, and the smallest vessels have additional protection via g_v.
+*It is not the paper's claim.* Yaakob et al. report seakeeping and stability results. They make no statement about advisory systems, recommendation scope, or what information should be provided to operators. The third bullet — "should never receive full-scope AI advisory output" — is an architectural inference layered on top of the source, not a finding transferred from it.
+
+*It made the contribution unobservable.* Because `g_v(small) = CAUTION` held unconditionally, `f(E) ≥ CAUTION` for every vessel under 25 GRT. The deployment population is predominantly below 40 GRT, so for real users SAFE was unreachable and the three-state architecture collapsed to two reachable states. The strict containment `A_AI(SAFE) ⊃ A_AI(CAUTION)` — the thesis's principal formal claim — could never be exercised in the target domain, and RQ5 ("user study across three safety states") was unrunnable as designed.
+
+*The premise doesn't require the mechanism.* If the concern is that these vessels have a narrow envelope, the correct response is thresholds tight enough to reflect that envelope — which `g_o(o, v)` now provides, with the small-vessel UNSAFE boundary at 1.9 m rather than 3.5 m. A blanket floor was a coarse substitute for a threshold the model didn't yet have.
+
+*The safety-equipment argument belongs elsewhere.* Section 3.3 of these notes documents both vessels failing IMO/Torremolinos requirements. That is a genuine risk factor and genuinely condition-independent — but it concerns vessel *certification*, not environmental state. `f(E)` classifies environmental conditions; encoding a compliance judgment inside it conflates two distinct governance questions. If advisory restriction on compliance grounds is wanted, it needs its own gate. Recorded in appendix-c C.9.3.
+
+**What survives:** the hydrodynamic finding that these vessels have operability limits far below conventional wave height thresholds. That finding is now expressed through the small-vessel row of `g_o`, where it does the work it was always meant to do.
+
+### 4.3 What it validates about the g_o threshold rows
+
+*Revised 2026-09-06.*
+
+This paper studies only small vessels (5.03 m and 6.54 m, both < 10 GRT), so it grounds the **small row** of `g_o` directly and says nothing about the others:
+
+- **small (< 10 GRT)** — grounded here. UNSAFE at 1.9 m from Boat A's SS4 NORDFORSK failure (Hs ≈ 1.875 m); CAUTION onset at 1.0 m corroborated by Boat A's ≈ 1.25 m operational ceiling.
+- **medium (10–25 GRT)** — not studied here. Grounded in Jeong & Im's Hs_KIMO across 10–15 m LOA (1.13–1.48 m). UNSAFE boundary interpolated, no direct source.
+- **big (> 25 GRT)** — not studied here. MET Malaysia Category 1 criteria; Hs_KIMO = 1.58 m at 16 m LOA.
+
+The 1.5 m figure that previously applied to all vessels corresponds, under Hs_KIMO, to a vessel of roughly 15 m LOA. This paper's boats are 5–6.5 m. Applying a 15 m vessel's threshold to a 6 m hull was the underlying error; that threshold is now confined to the big row where it belongs.
+
+> **Superseded (retained for the record):** *"...small vessels are already in constrained territory at much lower wave heights — but their risk is captured via g_v, leaving g_o to capture the wave-specific risk contribution that applies to all vessel sizes... the smallest vessels have additional protection via g_v."* — The "additional protection" did not extend to the CAUTION/UNSAFE boundary. See §4.1 and §4.2.
 
 ### 4.4 Accurate citation text for Section 5.3 or Foundations section
 
 > Yaakob et al. (2015), assessing seakeeping and stability performance of two traditional Malaysian small fishing boats (LOA 5.0–6.5 m, < 10 GRT) from the Johor coast using Maxsurf naval architecture software (JONSWAP spectrum, NORDFORSK 1987 criteria), found that the smaller vessel (5.03 m LOA) failed seakeeping criteria at Sea State 3 (Hs ≈ 0.875 m), while the larger (6.54 m LOA) failed at Sea State 4 (Hs ≈ 1.875 m). Both passed static stability criteria. This establishes that Malaysian Zone A small fishing vessels have dynamic operability limits well within the conditions under which they routinely operate, and that static stability alone does not capture the wave height risk these vessels face.
 
-**For justifying g_v design specifically:**
-> The hydrodynamic operability limits documented by Yaakob et al. (2015) — as low as Hs ≈ 0.875 m for the smallest Zone A vessels — justify the design decision that vessel category alone (g_v(v ∈ {small, medium}) = CAUTION) contributes CAUTION to the worst-case aggregation regardless of other parameters, ensuring the AI advisory scope is restricted even in nominally safe wave conditions.
+**For justifying the vessel-conditional thresholds** *(replaces the former g_v justification text, 2026-09-06)*:
+> The hydrodynamic operability limits documented by Yaakob et al. (2015) establish that the wave height at which conditions become unsafe is vessel-specific: the 5.03 m vessel reached its NORDFORSK ceiling at Sea State 2 (Hs ≈ 0.5 m) and the 6.54 m vessel at Sea State 3 (Hs ≈ 1.25 m), with the latter failing multiple criteria at Sea State 4 (Hs ≈ 1.875 m). This justifies the design decision to parameterise the ocean state classification function by vessel category, g_o(o, v), rather than applying a single vessel-independent threshold set. A vessel-blind threshold calibrated for larger vessels would classify a 6.5 m hull as merely marginal in conditions well beyond its documented operability envelope.
+
+> **Superseded (retained for the record):** *"The hydrodynamic operability limits documented by Yaakob et al. (2015) — as low as Hs ≈ 0.875 m for the smallest Zone A vessels — justify the design decision that vessel category alone (g_v(v ∈ {small, medium}) = CAUTION) contributes CAUTION to the worst-case aggregation regardless of other parameters, ensuring the AI advisory scope is restricted even in nominally safe wave conditions."*
+>
+> Note also that 0.875 m is the sea state at which Boat B *fails*, not its operational limit — the limit is the top of SS2, Hs ≈ 0.5 m. The superseded text conflated failure points with operational ceilings throughout.
 
 ### 4.5 Placement in Three-Tier Triangulation
 
@@ -143,7 +199,7 @@ The 1.5m boundary is conservative relative to what would be derived from this pa
 
 ## 5. What this paper does NOT support
 
-- It does not directly validate 1.5m as the CAUTION boundary (the studied boats fail at much lower Hs — but their risk is captured via g_v)
+- It does not validate 1.5 m as a CAUTION boundary for the vessels it studies — both boats reach their operability ceilings well below that. It grounds the **small row** of g_o (CAUTION onset 1.0 m, UNSAFE 1.9 m); the medium and big rows rest on other sources.
 - It does not study medium or large vessels
 - Two boats is a very limited sample; the paper itself notes that "different design factor and different operating area may produce different results"
 - The boats are from 2015 — though traditional Malaysian wooden boat design has not changed fundamentally

@@ -1,35 +1,45 @@
 <!--
 ================================================================================
-FROZEN 2026-09-06 — DO NOT EDIT. Superseded by ../v3-revision/manuscript-v3.md
-================================================================================
+IPSci 2026 — v3 REVISION (working draft)
+Forked 2026-09-06 from v2-post-review/manuscript-v2.5-submitted.md
 
-STATUS: v2.5 was submitted to IPSci 2026 and REJECTED.
+LINEAGE
+  v2.5 .docx    — the artifact actually submitted for review; contains embedded
+                  figures. This is the authoritative submitted record.
+  v2.5 .md      — working transcript of the above. Already carried post-submission
+                  corrections before this fork (TABLE II reference numbers,
+                  [37]→[33]) per revision-notes.md, plus the supervisor-feedback
+                  additions of 2026-08-20 (Formal Properties, Algorithm
+                  Specification, Computational Complexity, Generalisation,
+                  Deployment Challenges, Threats to Validity, rewritten
+                  Conclusion). It has therefore not matched the submitted .docx
+                  for some time.
+  v3 .md        — THIS FILE. All further revision happens here. v2.5 .md is now
+                  frozen.
 
-IMPORTANT — this .md does NOT match the submitted artifact.
+REVIEW OUTCOME (v2.5): REJECTED
+  Review 1 — accept w/ minor revision; check comparative table; add experimental
+             validation or case studies
+  Review 2 — DISREGARD. Reviews a different paper entirely (Twitter bot
+             detection, TwiBot-22, F1 0.552, SHAP, BotRGCN; names the AMICT
+             track). Raise with chairs.
+  Review 3 — reject; "lacks the technical and empirical evidence necessary to
+             establish its novelty, effectiveness, and safety claims"
 
-  The submitted artifact is the v2.5 .docx (contains the embedded figures this
-  file references as "[Figure N — embedded image in submitted .docx]"). That
-  .docx is the authoritative record of what reviewers saw.
-
-  This .md is a working transcript that diverged from it in two stages:
-    1. Post-submission corrections applied before review concluded — TABLE II
-       reference numbers and [37]→[33] (documented in ../../revision-notes.md)
-    2. Supervisor-feedback additions on 2026-08-20 — Formal Properties,
-       Algorithm Specification, Computational Complexity, Generalisation,
-       Deployment Challenges and Limitations, Threats to Validity, and a
-       rewritten Conclusion
-
-  Reviewers did NOT see the content added in stage 2. When interpreting the
-  reviews, read against the .docx, not against this file. Review 3's objection
-  that the paper "lacks technical evidence to establish safety claims" was
-  raised against a version with no formal proofs — those were added afterwards.
-
-  The pre-stage-2 state of this file is not recoverable from git history: the
-  file appears in only one commit (8ddf83d), which already includes those edits.
-  The nearest pre-additions text is ./manuscript.md (354 lines, 5 Aug), an
-  earlier v2 draft.
-
-All further revision: ../v3-revision/manuscript-v3.md
+PENDING WORK IN THIS FILE
+  [x] Formal model realignment — g_v removed; g_o(o,v) vessel-conditional.
+      New TABLE IIIb + rationale subsection; Theorem 1 product-domain proof;
+      Algorithm 1 five terms; complexity claim; Threats to Validity qualified.
+  [x] Fig. 4 — all three panels now carry numeric values and per-component
+      classifications, verifiable against TABLE IIIb for v = small.
+  [x] TABLE II reference numbers — VERIFIED CORRECT in this .md. The six errors
+      listed in revision-notes.md exist in the submitted .docx only.
+  [x] Citation error found and fixed: Ghaleb et al. was cited as [27] in Domain
+      Instantiation; [27] is Cash et al. Corrected to [24]. NOT in revision-notes.
+  [ ] Acknowledgment placeholder still present
+  [ ] Empirical results once the evaluation is run
+  [ ] Consider adding C3 (Flehmig-style baseline) results — the external
+      comparison that answers Review 3's novelty objection
 ================================================================================
 -->
 
@@ -197,13 +207,31 @@ These sets satisfy the containment relationship *A*_AI(*SAFE*) ⊃ *A*_AI(*CAUTI
 
 **Design Principle.** Each safety state admits only those recommendation types that can be justified by the environmental information available in that state. A domain deployment instantiates A_AI(S) by mapping each candidate recommendation type to its evidential requirements and verifying whether those requirements hold at each classified state.
 
+### Classification and the role of vessel category
+
+The classifier aggregates five condition classifications under the severity order UNSAFE ≻ CAUTION ≻ SAFE:
+
+***f*(*E*) = max_≻ {*g*_w(*w*), *g*_r(*r*), *g*_m(*m*), *g*_o(*o*, *v*), *g*_t(*t*)}**
+
+Vessel category *v* does not contribute a term. It parameterises the wave height function, selecting the threshold row appropriate to the vessel:
+
+**TABLE IIIb.** Vessel-conditional wave height thresholds, *g*_o(*o*, *v*). Categories by gross registered tonnage.
+
+| v (GRT) | SAFE | CAUTION | UNSAFE |
+|---|---|---|---|
+| small (< 10) | o < 1.0 m | 1.0–1.9 m | > 1.9 m |
+| medium (10–25) | o < 1.4 m | 1.4–2.8 m | > 2.8 m |
+| big (> 25) | o < 1.5 m | 1.5–3.5 m | > 3.5 m |
+
+The distinction matters structurally. A vessel term would be constant for any given operator, and a constant inside a maximum establishes a floor on the output without shifting a boundary: under such a formulation, vessels of every size would be classified UNSAFE at the same wave height. Yaakob et al. report a 6.54 m Malaysian hull exceeding NORDFORSK operability limits at Hs ≈ 1.875 m — roughly half the threshold at which a vessel-independent set would first declare it UNSAFE. The objection that correlated parameters compensate does not hold empirically: Jeong and Im report that 82% of capsizing accidents in their 2017–2022 sample occurred on days with no weather warning in force. Conditioning *g*_o on *v* shifts the boundary, which is what the hydrodynamic evidence requires, and removes a double-count of wave-related risk for small vessels.
+
 ## Formal Properties
 
 Three properties characterise the safety behaviour of the architecture. All proofs are by exhaustive case analysis over the three-element set {SAFE, CAUTION, UNSAFE}; no induction is required.
 
 **Theorem 1 (Totality).** *For all E in its domain, f(E) is defined and returns exactly one element of* {SAFE, CAUTION, UNSAFE}.
 
-*Proof sketch.* Each per-component function gᵢ partitions its input domain exhaustively and without overlap: g_w partitions ℝ≥0 into [0, 22], (22, 27], (27, +∞); g_r and g_m enumerate all categorical values without omission; g_o partitions ℝ≥0 into [0, 1.5), [1.5, 3.5], (3.5, +∞); g_v enumerates {small, medium, big}; g_t partitions [0, 24) into [6.0, 17.0), [17.0, 19.0), [19.0, 24.0) ∪ [0.0, 6.0). Each gᵢ is therefore total. The aggregation f(E) = max_≻ {gᵢ(xᵢ)} over a finite totally ordered set is always defined and returns a unique maximum. The fail-safe rule — if any xᵢ = ⊥ then f(E) = UNSAFE — extends totality to corrupted or missing inputs. □
+*Proof sketch.* Each condition classification function partitions its input domain exhaustively and without overlap: g_w partitions ℝ≥0 into [0, 22], (22, 27], (27, +∞); g_r and g_m enumerate all categorical values without omission; g_t partitions [0, 24) into [6.0, 17.0), [17.0, 19.0), [19.0, 24.0) ∪ [0.0, 6.0). The wave height function g_o(o, v) is two-argument, with domain ℝ≥0 × {small, medium, big}: for each fixed v the corresponding row of TABLE IIIb induces three intervals partitioning ℝ≥0 exhaustively, and {small, medium, big} is finite and exhausts the domain of v, so every pair (o, v) selects exactly one row and falls in exactly one interval of that row. Parameterisation by a finite index set preserves totality provided each induced partition is exhaustive. Each function is therefore total. The aggregation f(E) = max_≻ {gᵢ(xᵢ)} over a finite totally ordered set is always defined and returns a unique maximum. The fail-safe rule — if any xᵢ = ⊥ then f(E) = UNSAFE — extends totality to corrupted or missing inputs. □
 
 Totality is the necessary precondition for runtime governance: a classifier with undefined states would leave (G(S), A_AI(S)) without a basis for enforcement at those inputs.
 
@@ -245,11 +273,11 @@ Output: S ∈ {SAFE, CAUTION, UNSAFE}
       S_w ← g_w(w)    // SAFE if w ≤ 22 kn; CAUTION if 22 < w ≤ 27; UNSAFE if w > 27
       S_r ← g_r(r)    // SAFE if r ∈ {none, light, moderate}; CAUTION if heavy; UNSAFE if storm
       S_m ← g_m(m)    // SAFE if none; CAUTION if advisory; UNSAFE if warning or alert
-      S_o ← g_o(o)    // SAFE if o < 1.5 m; CAUTION if 1.5 ≤ o ≤ 3.5 m; UNSAFE if o > 3.5 m
-      S_v ← g_v(v)    // SAFE if big; CAUTION if small or medium
+      S_o ← g_o(o, v) // thresholds selected by vessel category — see TABLE IIIb
       S_t ← g_t(t)    // SAFE if 6.0 ≤ t < 17.0; CAUTION if 17.0 ≤ t < 19.0; UNSAFE otherwise
-3.  return max_≻ {S_w, S_r, S_m, S_o, S_v, S_t}
-      // max_≻: UNSAFE ≻ CAUTION ≻ SAFE — worst-case component dominates
+3.  return max_≻ {S_w, S_r, S_m, S_o, S_t}
+      // max_≻: UNSAFE ≻ CAUTION ≻ SAFE — worst-case condition dominates
+      // five terms: v conditions g_o rather than contributing a term
 ```
 
 ```
@@ -292,14 +320,14 @@ The governance layer is designed for bounded-time, resource-minimal execution. T
 
 | Component | Time complexity | Space complexity | Notes |
 |---|---|---|---|
-| Safety classifier f(E) | O(1) | O(1) | Six independent threshold comparisons; no iteration |
+| Safety classifier f(E) | O(1) | O(1) | Five threshold comparisons plus one row selection by vessel category; no iteration |
 | Governance gate G(S), A_AI(S) | O(1) | O(1) | Direct lookup on three-element enum |
 | RS(S) selection | O(1) | O(1) | Pre-built rule sets; atomic swap on state change |
 | Rule engine execution | O(n) | O(n) | n = number of rules in active RS(S); finite and bounded |
 | Full governance pipeline | O(n) | O(n) | Dominated by rule engine; classifier and gate are O(1) |
 | State transition (hysteresis) | O(1) | O(1) | Dual-threshold comparison at boundary |
 
-Three properties follow directly from this characterisation. First, the governance layer (Layers 1 and 2, comprising the classifier and gate) runs entirely in O(1) — six threshold comparisons and a maximum over six elements, with no iteration, no learned inference, and no GPU dependency. Second, because RS(CAUTION) ⊂ RS(SAFE), the rule engine executes fewer rules under CAUTION than under SAFE: the more restrictive governance state is also the computationally cheaper one. Third, end-to-end decision latency is dominated by external data acquisition (obtaining w, r, m, o from meteorological feeds), not by governance computation; the pipeline itself adds negligible overhead.
+Three properties follow directly from this characterisation. First, the governance layer (Layers 1 and 2, comprising the classifier and gate) runs entirely in O(1) — five threshold comparisons, one constant-time row selection by vessel category, and a maximum over five elements, with no iteration, no learned inference, and no GPU dependency. Second, because RS(CAUTION) ⊂ RS(SAFE), the rule engine executes fewer rules under CAUTION than under SAFE: the more restrictive governance state is also the computationally cheaper one. Third, end-to-end decision latency is dominated by external data acquisition (obtaining w, r, m, o from meteorological feeds), not by governance computation; the pipeline itself adds negligible overhead.
 
 This meets the hard requirement for AI deployed on constrained devices in low-resource settings [17]: bounded-time inference with no dependency on cloud compute or specialist hardware. The architecture runs on commodity smartphones or low-cost single-board computers with no modification to the computational requirements of the governance components.
 
@@ -313,7 +341,7 @@ Runtime assurance evidence supports the operational case. All-or-nothing gating 
 
 ## Domain Instantiation
 
-The architecture is being developed as a formally specified prototype for AI departure decision support in small-scale coastal fisheries in Malaysia (Kota Kinabalu, Sabah). *E* = {*w, r, m, o, v, t*} where *w* is wind speed, *r* is rainfall intensity, *m* is marine warning level, *o* is ocean state, *v* is vessel category and *t* is time of day. The Symbolic AI Reasoning Engine enforces the Safety Dominance Property by construction, satisfying the offline-first and computationally lightweight requirements of the low-resource deployment context. A dual-threshold hysteresis smoothing layer over the discrete state transitions is a deployment-floor consideration, drawing on the empirically verified runtime-gating stability of Ghaleb et al. [27], to minimise mode-chattering at the classification boundaries of *S* = *f*(*E*) during weather transitions near the margins.
+The architecture is being developed as a formally specified prototype for AI departure decision support in small-scale coastal fisheries in Malaysia (Kota Kinabalu, Sabah). *E* = {*w, r, m, o, v, t*} where *w* is wind speed (sustained, knots), *r* is rainfall intensity, *m* is marine warning level, *o* is ocean state (significant wave height), *v* is vessel category by gross registered tonnage and *t* is time of day. Thresholds for *w*, *r* and *m* are anchored to MET Malaysia published warning criteria; the vessel-conditional rows of *g*_o draw on seakeeping analysis of Malaysian hulls and a length-dependent capsizing formula derived from a 23-year Korean accident record. The deployment population operates vessels below 40 GRT, so the small-vessel row of TABLE IIIb is the operative case. The Symbolic AI Reasoning Engine enforces the Safety Dominance Property by construction, satisfying the offline-first and computationally lightweight requirements of the low-resource deployment context. A dual-threshold hysteresis smoothing layer over the discrete state transitions is a deployment-floor consideration, drawing on the empirically verified runtime-gating stability of Ghaleb et al. [24], to minimise mode-chattering at the classification boundaries of *S* = *f*(*E*) during weather transitions near the margins.
 
 The case shown here is domain independent, representing the documented departure decision process of small-scale fishers in coastal Malaysia, where assessment of environmental conditions (weather, tide, and safety) governs whether fishing proceeds normally, is modified, or is abandoned [33].
 
@@ -330,33 +358,39 @@ The case shown here is domain independent, representing the documented departure
   INPUT VECTOR E                       SAFETY CLASSIFIER S = f(E)              AI GATING & ADMISSIBLE SPACE A_AI(S)
 -----------------------------------------------------------------------------------------------------------------------
 
+Vessel category v = small (< 10 GRT) throughout — g_o thresholds 1.0 / 1.9 m apply (TABLE IIIb)
+
 [0600 - Early Morning]
- • Wind (w): 8 kt                      ┌────────────────────────┐              ┌─────────────────────────────────────┐
- • Rain (r): none                      │          SAFE          │              │ G(SAFE) = 1 (Active)                │
- • Warning (m): none                   └────────────────────────┘              │                                     │
- • Ocean State (o): calm swell                                                 │ Admissible Scope A_AI(SAFE):        │
- • Vessel Cat (v): small                          │                            │ { Go, Delay, DepartureTime,         │
- • Time (t): 0600                                 │                            │   Duration }                        │
-                                                  ▼                            └─────────────────────────────────────┘
+ • Wind (w): 8 kt        → SAFE       ┌────────────────────────┐              ┌─────────────────────────────────────┐
+ • Rain (r): none        → SAFE       │          SAFE          │              │ G(SAFE) = 1 (Active)                │
+ • Warning (m): none     → SAFE       └────────────────────────┘              │                                     │
+ • Ocean (o): 0.6 m      → SAFE                                               │ Admissible Scope A_AI(SAFE):        │
+ • Time (t): 0600        → SAFE                  │                            │ { Go, Delay, DepartureTime,         │
+                                                 │                            │   Duration }                        │
+   max_≻ = SAFE                                  ▼                            └─────────────────────────────────────┘
                                    Condition Deteriorates
-                                                  │
-[Mid-Morning]                                     ▼
- • Wind (w): 18 kt                     ┌────────────────────────┐              ┌─────────────────────────────────────┐
- • Rain (r): moderate                  │        CAUTION         │              │ G(CAUTION) = 1 (Active)             │
- • Warning (m): advisory               └────────────────────────┘              │                                     │
- • Ocean State (o): moderate swell                                             │ Scope Contracts A_AI(CAUTION):      │
- • Vessel Cat (v): small                          │                            │ { Go, Delay }                       │
- • Time (t): 1000                                 │                            │                                     │
-                                                  ▼                            │ (DepartureTime & Duration withheld) │
-                                   Condition Exceeds Safety Limit              └─────────────────────────────────────┘
-                                                  │
-[Afternoon]                                       ▼
- • Wind (w): 28 kt (sustained)         ┌────────────────────────┐              ┌─────────────────────────────────────┐
- • Rain (r): heavy                     │         UNSAFE         │              │ G(UNSAFE) = 0 (Disengaged)          │
- • Warning (m): warning                └────────────────────────┘              │                                     │
- • Ocean State (o): rough seas                                                 │ Admissible Scope A_AI(UNSAFE):      │
- • Vessel Cat (v): small                                                       │ ∅ (Empty Set — Static Alert Only)   │
- • Time (t): 1400                                                              └─────────────────────────────────────┘
+                                                 │
+[Mid-Morning]                                    ▼
+ • Wind (w): 18 kt       → SAFE       ┌────────────────────────┐              ┌─────────────────────────────────────┐
+ • Rain (r): moderate    → SAFE       │        CAUTION         │              │ G(CAUTION) = 1 (Active)             │
+ • Warning (m): advisory → CAUTION    └────────────────────────┘              │                                     │
+ • Ocean (o): 1.4 m      → CAUTION                                            │ Scope Contracts A_AI(CAUTION):      │
+ • Time (t): 1000        → SAFE                  │                            │ { Go, Delay }                       │
+                                                 │                            │                                     │
+   max_≻ = CAUTION                               ▼                            │ (DepartureTime & Duration withheld) │
+                                   Condition Exceeds Safety Limit             └─────────────────────────────────────┘
+                                                 │
+[Afternoon]                                      ▼
+ • Wind (w): 28 kt       → UNSAFE     ┌────────────────────────┐              ┌─────────────────────────────────────┐
+ • Rain (r): heavy       → CAUTION    │         UNSAFE         │              │ G(UNSAFE) = 0 (Disengaged)          │
+ • Warning (m): warning  → UNSAFE     └────────────────────────┘              │                                     │
+ • Ocean (o): 2.4 m      → UNSAFE                                             │ Admissible Scope A_AI(UNSAFE):      │
+ • Time (t): 1400        → SAFE                                               │ ∅ (Empty Set — Static Alert Only)   │
+                                                                              └─────────────────────────────────────┘
+   max_≻ = UNSAFE
+=======================================================================================================================
+ Note: wind at 18 kt is SAFE (CAUTION begins above 22 kt) — CAUTION at mid-morning is driven by the marine advisory
+ and the sea state. At 1.4 m the sea is CAUTION for this small vessel but would classify SAFE for a vessel > 25 GRT.
 =======================================================================================================================
 ```
 
@@ -381,7 +415,7 @@ Three limitations bound the scope of the claims. First, the recommendation type 
 
 # Threats to Validity
 
-**Internal validity.** The primary internal threat is threshold selection: are the SAFE/CAUTION/UNSAFE boundaries principled rather than arbitrary? The thresholds for each gᵢ are anchored to independently established sources — MET Malaysia published warning criteria for wind (g_w), rainfall (g_r), and marine warning level (g_m); hydrodynamic seakeeping analysis and a 23-year empirical capsizing dataset for wave height (g_o); vessel-size fatality data for vessel category (g_v); and risk perception scoring for time of day (g_t) [3]. This convergence across methodologically distinct sources reduces the threat to low. A secondary internal threat is rule set completeness: RS(SAFE) and RS(CAUTION) are constructed for the fisheries domain and may not cover novel condition combinations encountered in deployment. This is partially mitigated by the fail-safe rule — any undefined or corrupted input returns UNSAFE — but cannot be fully eliminated without exhaustive domain testing. Prototype fidelity is verified through the three-condition comparative evaluation: 100% Safety Dominance compliance across all 20 test scenarios constitutes the fidelity check between specification and implementation.
+**Internal validity.** The primary internal threat is threshold selection: are the SAFE/CAUTION/UNSAFE boundaries principled rather than arbitrary? Thresholds are anchored to independently established sources — MET Malaysia published warning criteria for wind (g_w), rainfall (g_r), and marine warning level (g_m); hydrodynamic seakeeping analysis of Malaysian hulls together with a 23-year Korean capsizing record and its length-dependent departure formula for the vessel-conditional wave rows (g_o); and risk perception scoring for time of day (g_t) [3]. Convergence across methodologically distinct sources reduces the threat, but three qualifications are required. First, the small-vessel UNSAFE boundary reads NORDFORSK operability failure as a departure prohibition — an interpretation of the seakeeping results rather than a claim the source makes. Second, the medium-vessel UNSAFE boundary is interpolated; no corpus source provides a direct value for that class. Third, the Malaysian hull evidence rests on a sample of two vessels, and the length-dependent formula was calibrated on Korean vessel geometry. Wind thresholds are not vessel-conditioned, as no source provides vessel-specific wind criteria; wind-driven risk is partly captured through correlated wave height, but this is not a formal guarantee. A related caution: fisher-interview sources frequently report gust rather than sustained values, and g_w is defined over sustained wind. A secondary internal threat is rule set completeness: RS(SAFE) and RS(CAUTION) are constructed for the fisheries domain and may not cover novel condition combinations encountered in deployment. This is partially mitigated by the fail-safe rule — any undefined or corrupted input returns UNSAFE — but cannot be fully eliminated without exhaustive domain testing. Prototype fidelity is verified through the three-condition comparative evaluation: 100% Safety Dominance compliance across all 20 test scenarios constitutes the fidelity check between specification and implementation.
 
 **External validity.** Results are demonstrated in one domain — small-scale coastal fisheries in Kota Kinabalu, Sabah, Malaysia — with one vessel population and one regulatory context. The formal properties (Totality, Monotonicity, Safety Dominance) transfer by construction to any correct domain instantiation, but whether the three-state governance structure is practically appropriate in other domains has not been empirically validated. A further external threat concerns engine type: the Safety Dominance proof assumes a rule-based reasoning engine (A1–A4 in Theorem 3). Applicability to ML or LLM advisory components would require a different enforcement argument, since those components cannot provide the rule-conclusion guarantees that A4 requires.
 

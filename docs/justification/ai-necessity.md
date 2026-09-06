@@ -90,7 +90,7 @@ Lookup tables are functionally equivalent to the governance layer's classificati
 
 ### 5.1 What a Warning-Only System Would Mean
 
-A warning-only system would classify environmental conditions (SAFE/CAUTION/UNSAFE) and communicate the classification to the fisher — without generating any recommendations. The fisher would receive "CAUTION: winds 22 knots, waves 2.1m" and make their own decisions. This is the governance layer without the AI layer.
+A warning-only system would classify environmental conditions (SAFE/CAUTION/UNSAFE) and communicate the classification to the fisher — without generating any recommendations. The fisher would receive "CAUTION: winds 24 knots, waves 1.6m" and make their own decisions. This is the governance layer without the AI layer.
 
 ### 5.2 Why Warnings Alone Are Insufficient
 

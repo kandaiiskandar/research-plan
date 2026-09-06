@@ -224,9 +224,18 @@ Each parameter is independently classified into a safety zone using threshold co
 | **w** — Wind speed | < 22 knots (< 40 km/h) | 22–27 knots (40–50 km/h) | > 27 knots (> 50 km/h) |
 | **r** — Rainfall | None / light / moderate | Heavy | Storm (Ribut Petir) |
 | **m** — Marine warning | None | Category 1 advisory | Category 2/3, Ribut Petir, Ribut Taufan |
-| **o** — Ocean state (wave height) | < 1.5 m | 1.5–3.5 m | > 3.5 m |
-| **v** — Vessel category | Big | Small / medium | — (vessel category alone does not trigger UNSAFE) |
+| **o** — Ocean state (wave height) | *vessel-conditional — see below* | | |
 | **t** — Time of day | 06:00–17:00 | 17:00–19:00 | 19:00–06:00 |
+
+**Ocean state thresholds are conditioned on vessel category.** There is no separate classification for `v`; vessel category selects which row of `g_o` applies:
+
+| **v** — Vessel category (GRT) | SAFE | CAUTION | UNSAFE |
+|---|---|---|---|
+| small (< 10) | o < 1.0 m | 1.0–1.9 m | > 1.9 m |
+| medium (10–25) | o < 1.4 m | 1.4–2.8 m | > 2.8 m |
+| big (> 25) | o < 1.5 m | 1.5–3.5 m | > 3.5 m |
+
+The same sea classifies differently depending on the vessel: a 2.5 m swell is UNSAFE for a small boat and CAUTION for a big one. A single vessel-blind threshold would treat a 6 m traditional hull and a 20 m vessel identically, which the hydrodynamic evidence contradicts — see `appendix-c-formalisation.md` C.1, Vessel Category Classification Note.
 
 *Thresholds anchored to MET Malaysia's published Kriteria Amaran Angin Kencang dan Laut Bergelora: Category 1 onset = 40 km/h wind / 3.5m wave (dangerous to small crafts); Category 2 onset = 50 km/h / 4.5m (dangerous to all fishing). Source: https://www.met.gov.my/en/ramalan/angin-kencang-and-laut-bergelora/ (verified August 2026). Rainfall/thunderstorm threshold: https://www.met.gov.my/en/ramalan/ribut-petir/. Canonical formal definition: `appendix-c-formalisation.md` Section C.2.*
 
@@ -234,15 +243,17 @@ Each parameter is independently classified into a safety zone using threshold co
 
 The overall safety state is determined by the most severe per-parameter classification:
 
-**S = max-severity(S_w, S_r, S_m, S_o, S_v, S_t)**
+**S = max-severity(S_w, S_r, S_m, S_o, S_t)**
 
-If *any single parameter* classifies as UNSAFE, the overall state is UNSAFE.  
-If *any parameter* classifies as CAUTION and *none* as UNSAFE, the overall state is CAUTION.  
-Only if *all parameters* classify as SAFE is the overall state SAFE.
+Five condition classifications. Vessel category does not appear as a separate term — it enters through `S_o = g_o(o, v)`.
+
+If *any single condition* classifies as UNSAFE, the overall state is UNSAFE.  
+If *any condition* classifies as CAUTION and *none* as UNSAFE, the overall state is CAUTION.  
+Only if *all conditions* classify as SAFE is the overall state SAFE.
 
 **Example: How worst-case aggregation works in practice**
 
-Suppose a fisher checks conditions at 07:00 on a day with a marine advisory:
+Suppose a fisher with a small boat (< 10 GRT) checks conditions at 07:00 on a day with a marine advisory:
 
 ```
   Parameter          Reading          Status
@@ -250,12 +261,11 @@ Suppose a fisher checks conditions at 07:00 on a day with a marine advisory:
   Wind speed         10 knots         SAFE
   Rainfall           none             SAFE
   Marine warning     advisory         CAUTION  <── worst reading
-  Wave height        0.8m             SAFE
-  Vessel category    big              SAFE
+  Wave height        0.8m (small)     SAFE     ← 0.8 < 1.0, small-vessel row
   Time of day        07:00            SAFE
   ─────────────────────────────────────────────
 
-  Five out of six readings are SAFE.
+  Four out of five readings are SAFE.
   But one reading (marine warning) is CAUTION.
 
   Result:  Overall state = CAUTION
@@ -365,20 +375,21 @@ Consider what happens when conditions become dangerous. Each existing approach r
 
 ## 7. Scenario Walkthrough: A Fisher's Day
 
-This walkthrough traces a single day of operations to illustrate how the governance architecture responds to changing environmental conditions.
+This walkthrough traces a single day of operations to illustrate how the governance architecture responds to changing environmental conditions. The fisher operates a **small vessel (< 10 GRT)**, the typical case in the target domain, so the small-vessel row of `g_o` applies throughout.
+
+> **Corrections applied 2026-09-06.** These scenarios previously used `v = big` and contained several classifications inconsistent with the threshold table in §5.2 — `w = 18 kn` labelled CAUTION (SAFE below 22 kn), `r = moderate` labelled CAUTION (SAFE), `r = heavy` labelled UNSAFE (CAUTION), and a reference to a "15 kn threshold" that does not exist in the model. All classifications below are recomputed against `appendix-c-formalisation.md` C.2. Note that the two wave-height readings (1.3 m → CAUTION, 2.5 m → UNSAFE) were *already* consistent with the small-vessel row now adopted, and inconsistent with the vessel-blind thresholds in force when they were written.
 
 ### 05:30 — Pre-Dawn Assessment
 
 ```
 Environmental State:
-  w = 8 knots     → S_w = SAFE
-  r = none        → S_r = SAFE
-  m = none        → S_m = SAFE
-  o = 0.5m waves  → S_o = SAFE
-  v = big         → S_v = SAFE
-  t = 05:30       → S_t = UNSAFE  ← night hours
+  w = 8 knots       → S_w = SAFE
+  r = none          → S_r = SAFE
+  m = none          → S_m = SAFE
+  o = 0.5m, small   → S_o = SAFE      ← 0.5 < 1.0 (small-vessel row)
+  t = 05:30         → S_t = UNSAFE    ← night hours
 
-S = max-severity(SAFE, SAFE, SAFE, SAFE, SAFE, UNSAFE) = UNSAFE
+S = max-severity(SAFE, SAFE, SAFE, SAFE, UNSAFE) = UNSAFE
 G(S) = 0    |    A_AI(S) = {}
 ```
 
@@ -390,18 +401,19 @@ The fisher sees conditions are good apart from darkness. The system is transpare
 
 ```
 Environmental State:
-  w = 8 knots     → S_w = SAFE
-  r = none        → S_r = SAFE
-  m = none        → S_m = SAFE
-  o = 0.5m waves  → S_o = SAFE
-  v = big         → S_v = SAFE
-  t = 06:15       → S_t = SAFE  ← daylight
+  w = 8 knots       → S_w = SAFE
+  r = none          → S_r = SAFE
+  m = none          → S_m = SAFE
+  o = 0.5m, small   → S_o = SAFE      ← 0.5 < 1.0 (small-vessel row)
+  t = 06:15         → S_t = SAFE      ← daylight
 
-S = max-severity(SAFE, SAFE, SAFE, SAFE, SAFE, SAFE) = SAFE
+S = max-severity(SAFE, SAFE, SAFE, SAFE, SAFE) = SAFE
 G(S) = 1    |    A_AI(S) = {Go, Delay, DepartureTime, Duration}
 ```
 
 **System display:** "SAFE — Full advisory available."
+
+> A small vessel reaching SAFE is only possible under vessel-conditional thresholds. Under the superseded model, `g_v(small) = CAUTION` floored every small vessel at CAUTION regardless of conditions, so this scenario — and full advisory scope for the target population — was unreachable.
 
 **AI recommendations (full scope):**
 - **Go**: "Conditions are favourable for departure"
@@ -414,16 +426,17 @@ The fisher reviews the full advisory set and decides to depart at 07:00.
 
 ```
 Environmental State:
-  w = 18 knots    → S_w = CAUTION  ← wind increasing
-  r = moderate    → S_r = CAUTION  ← rain beginning
-  m = advisory    → S_m = CAUTION  ← advisory issued
-  o = 1.3m waves  → S_o = CAUTION  ← seas building
-  v = big         → S_v = SAFE
-  t = 13:00       → S_t = SAFE
+  w = 18 knots      → S_w = SAFE       ← rising, but still ≤ 22 kn
+  r = moderate      → S_r = SAFE       ← rain beginning; moderate is SAFE
+  m = advisory      → S_m = CAUTION    ← advisory issued
+  o = 1.3m, small   → S_o = CAUTION    ← 1.0 ≤ 1.3 ≤ 1.9 (small-vessel row)
+  t = 13:00         → S_t = SAFE
 
-S = max-severity(CAUTION, CAUTION, CAUTION, CAUTION, SAFE, SAFE) = CAUTION
+S = max-severity(SAFE, SAFE, CAUTION, CAUTION, SAFE) = CAUTION
 G(S) = 1    |    A_AI(S) = {Go, Delay}
 ```
+
+Two conditions drive CAUTION here — the marine advisory and the sea state. Wind has risen from 8 to 18 knots without changing its classification: a parameter can move substantially within a band without affecting the governance state. Note also that 1.3 m would classify SAFE for a big vessel; it is the small hull that makes this sea marginal.
 
 **System display:** "CAUTION — Restricted advisory. Conditions elevated. Detailed timing and duration guidance unavailable."
 
@@ -437,16 +450,17 @@ The AI does *not* provide DepartureTime or Duration. It cannot say "you have 3 m
 
 ```
 Environmental State:
-  w = 28 knots    → S_w = UNSAFE  ← exceeds threshold
-  r = heavy       → S_r = UNSAFE
-  m = warning     → S_m = UNSAFE
-  o = 2.5m waves  → S_o = UNSAFE
-  v = big         → S_v = SAFE
-  t = 16:30       → S_t = SAFE
+  w = 28 knots      → S_w = UNSAFE    ← exceeds 27 kn
+  r = heavy         → S_r = CAUTION   ← heavy is CAUTION; storm is UNSAFE
+  m = warning       → S_m = UNSAFE    ← Category 2/3
+  o = 2.5m, small   → S_o = UNSAFE    ← 2.5 > 1.9 (small-vessel row)
+  t = 16:30         → S_t = SAFE
 
-S = max-severity(UNSAFE, UNSAFE, UNSAFE, UNSAFE, SAFE, SAFE) = UNSAFE
+S = max-severity(UNSAFE, CAUTION, UNSAFE, UNSAFE, SAFE) = UNSAFE
 G(S) = 0    |    A_AI(S) = {}
 ```
+
+The 2.5 m sea is UNSAFE for this vessel but would classify CAUTION for a big one — the same water, a different governance outcome. Under the superseded vessel-blind model it was CAUTION for every vessel, so a 6 m hull in a 2.5 m sea would have received "Go, with caution."
 
 **System display:** "UNSAFE — AI advisory withdrawn. Dangerous conditions: high wind (28 kn), heavy rain, 2.5m seas, marine warning active. Return to shore immediately. This is a safety alert, not AI advice."
 
@@ -456,14 +470,13 @@ The AI is completely silent. The safety alert is a deterministic system message 
 
 ```
 Environmental State:
-  w = 12 knots    → S_w = SAFE  (below 15 kn threshold)
-  r = light       → S_r = SAFE
-  m = none        → S_m = SAFE  (advisory lifted)
-  o = 0.8m waves  → S_o = SAFE
-  v = big         → S_v = SAFE
-  t = 18:30       → S_t = CAUTION  ← approaching darkness
+  w = 12 knots      → S_w = SAFE       ← below 22 kn threshold
+  r = light         → S_r = SAFE
+  m = none          → S_m = SAFE       ← advisory lifted
+  o = 0.8m, small   → S_o = SAFE       ← 0.8 < 1.0 (small-vessel row)
+  t = 18:30         → S_t = CAUTION    ← approaching darkness
 
-S = max-severity(SAFE, SAFE, SAFE, SAFE, SAFE, CAUTION) = CAUTION
+S = max-severity(SAFE, SAFE, SAFE, SAFE, CAUTION) = CAUTION
 G(S) = 1    |    A_AI(S) = {Go, Delay}
 ```
 

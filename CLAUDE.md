@@ -155,7 +155,7 @@ This file contains ready-to-paste `[[notes]](path)` quick links for all 63 paper
 
 ### The canonical definition file
 
-`docs/appendix-c-formalisation.md` is the single source of truth for all formal variable definitions.
+`docs/canonical/appendix-c-formalisation.md` is the single source of truth for all formal variable definitions.
 
 ### Current canonical definitions
 
@@ -164,13 +164,29 @@ This file contains ready-to-paste `[[notes]](path)` quick links for all 63 paper
 | w | ℝ≥0 | Wind speed (knots, sustained) |
 | r | ordinal categorical | Rainfall intensity {none, light, moderate, heavy, storm} |
 | m | ordinal categorical | Marine warning level {none, advisory, warning, alert} |
-| o | ℝ≥0 × ℝ≥0 | Ocean state (wave height m, swell period s) |
-| v | ordinal categorical | Vessel category {small, medium, big} |
+| o | ℝ≥0 × ℝ≥0 | Ocean state (wave height m, swell period s). Classification uses the wave height component only; swell period is retained but unused — see appendix-c C.9.3 |
+| v | ordinal categorical | Vessel category {small, medium, big}, defined by **GRT**: small < 10, medium 10–25, big > 25 (Yunus 2007, via Yaakob et al. 2015). Tonnage rather than LOA because the source LOA bands overlap |
 | t | [0, 24) | Time of day (hour, 24-hour clock) |
+
+### Classification structure (amended 2026-09-06)
+
+**f(E) = max-severity(g_w(w), g_r(r), g_m(m), g_o(o, v), g_t(t))** — five terms, not six.
+
+`v` is a **conditioning parameter, not an independent classifier**. There is no `g_v`. Vessel category parameterises the ocean state thresholds:
+
+| v (GRT) | SAFE | CAUTION | UNSAFE |
+|---|---|---|---|
+| small (< 10) | o < 1.0 m | 1.0 ≤ o ≤ 1.9 m | o > 1.9 m |
+| medium (10–25) | o < 1.4 m | 1.4 ≤ o ≤ 2.8 m | o > 2.8 m |
+| big (> 25) | o < 1.5 m | 1.5 ≤ o ≤ 3.5 m | o > 3.5 m |
+
+**Do not reintroduce `g_v`.** A prior formulation defined `g_v(v)` with codomain {SAFE, CAUTION} contributing an independent severity term. It was superseded because a constant term in a maximum is a floor, not a threshold shift — vessel category had no effect on the CAUTION/UNSAFE boundary, under-classifying small-vessel risk across the 1.5–3.5 m band, and made SAFE unreachable for the entire deployment population. Full rationale in `appendix-c-formalisation.md` C.2 ("Note: there is no g_v") and `docs/superpowers/plans/2026-09-06-formal-model-and-evaluation-realignment.md`.
+
+Note that `notes/Stability, Seakeeping and Safety Assessment...md` §4.2 still argues for the superseded design; treat that section as historical.
 
 ### When a variable definition changes
 
-1. **Update `docs/appendix-c-formalisation.md` first** — this is the canonical source
+1. **Update `docs/canonical/appendix-c-formalisation.md` first** — this is the canonical source
 2. **Search all docs for the old definition** and update every occurrence
 3. **Check these files every time** — they all reference E vector components:
    - `docs/justification-formal-model.md`

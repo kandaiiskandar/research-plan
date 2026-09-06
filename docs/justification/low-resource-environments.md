@@ -35,8 +35,8 @@ Katende (2026) [[notes]](../../notes/Rethinking%20data-efficient%20artificial%20
 ### 2.1 The Governance Layer Is Computationally Lightweight
 
 The governance layer — S = f(E) → (G(S), A_AI(S)) — consists entirely of:
-- Threshold comparisons on six environmental parameters
-- A worst-case aggregation (max-severity across six component classifications)
+- Threshold comparisons on five condition parameters, with the wave-height comparison selecting its threshold row by vessel category
+- A worst-case aggregation (max-severity across five condition classifications)
 - Two lookup operations (G(S), A_AI(S))
 
 This is computationally trivial. It requires no matrix operations, no model inference, no gradient computation, no GPU. It can execute on any microcontroller, smartphone, or embedded device in constant time O(1) with negligible memory. The entire governance function could be implemented in fewer than 100 lines of code in any programming language.
@@ -74,7 +74,7 @@ The combined argument: in low-resource, edge-deployed settings where compute is 
 
 ### 2.3 Environmental State Is Observable Without Data Infrastructure
 
-The conditioning variable S = f(E) requires six environmental parameters. Every one is observable without sophisticated data infrastructure:
+The conditioning variable S = f(E) draws on six components of E — five time-varying conditions plus vessel category, which is a fixed registry attribute. Every one is observable without sophisticated data infrastructure:
 
 | Parameter | Low-resource observation method | High-resource observation method |
 |---|---|---|
@@ -82,10 +82,10 @@ The conditioning variable S = f(E) requires six environmental parameters. Every 
 | Rainfall (r) | Visual observation (none/light/moderate/heavy) | Rain gauge, weather radar |
 | Marine warnings (m) | Radio broadcast; SMS alert from maritime authority | API integration with weather service |
 | Ocean state (o) | Visual wave height estimation (Douglas scale); swell observation | Wave buoy, satellite altimetry |
-| Vessel condition (v) | Pre-departure visual inspection checklist | IoT sensor instrumentation |
+| Vessel category (v) | Known from vessel registration (GRT) — no measurement required | Same; a registry lookup |
 | Time of day (t) | Clock (24-hour) | GPS with astronomical computation |
 
-The governance layer does not require calibrated instruments, continuous data streams, or real-time API access. It can operate on qualitative assessments — the same assessments fishers already make before every trip. Gao (2024) [[notes]](../../notes/Mapping%20the%20decision-making%20factors%20of%20small-scale%20fishers-%20a%20case%20study%20of%20Penang.md) documents that fishers assess tide (4.55/5 importance), weather (3.75/5), and safety (3.40/5) as part of their daily decision-making. The governance layer formalises these existing assessments, not replaces them with technology-dependent measurements.
+The governance layer does not require calibrated instruments, continuous data streams, or real-time API access. It can operate on qualitative assessments — the same assessments fishers already make before every trip. Gao (2024) [[notes]](../../notes/Mapping%20the%20decision-making%20factors%20of%20small-scale%20fishers-%20a%20case%20study%20of%20Penang.md) documents that fishers assess tide (4.55/5 importance), weather (3.75/5), and safety (3.40/5) as part of their daily decision-making. The governance layer formalises the weather and safety assessments — using the same qualitative judgements fishers already make — rather than replacing them with technology-dependent measurements. It does **not** formalise tide, which is not represented in E; that omission is a documented scope limitation (`appendix-c-formalisation.md` C.9.3) and is worth noting precisely because tide is the highest-rated factor in this study.
 
 This is a direct consequence of choosing environmental state as the governance trigger. Alternative triggers — AI confidence, model uncertainty, performance degradation — all require the AI system to be operational and generating outputs before governance can function. Environmental state governance requires only sensor observation, making it the only governance trigger suitable for low-resource deployment. See `justification-environmental-state-governance.md` §3.2 for the full independence argument.
 

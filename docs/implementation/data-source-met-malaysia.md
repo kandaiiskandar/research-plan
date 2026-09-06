@@ -79,18 +79,24 @@ Wave height (Ketinggian Ombak): [range] m
 | Band 1 | 10–20 | 5–11 | Calm — normal fishing conditions |
 | Band 2 | 20–30 | 11–16 | Light wind — generally safe |
 | Band 3 | 30–40 | 16–22 | Moderate — approaching CAUTION threshold |
-| Band 4 | 40–50 | 22–27 | Strong — Category 1 warning zone (UNSAFE for small vessels) |
-| Band 5 | >50 | >27 | Category 2/3 — UNSAFE for all fishing |
+| Band 4 | 40–50 | 22–27 | Strong — Category 1 warning zone → **CAUTION** |
+| Band 5 | >50 | >27 | Category 2/3 → **UNSAFE** for all fishing |
+
+> **Correction 2026-09-06.** Band 4 previously read "(UNSAFE for small vessels)". Wind classification `g_w` is **not** vessel-conditional, and 22–27 kn classifies **CAUTION** for every vessel. MET describes Category 1 as *berbahaya kepada bot-bot kecil* — dangerous to small craft — but that is MET's advisory language, not this model's state assignment. Only the wave-height function `g_o` varies by vessel.
 
 **Wave height range bands observed:**
 
 | Band | Metres | Typical condition |
 |---|---|---|
-| Band 1 | 0.5–1.0 | Calm — full advisory scope |
-| Band 2 | 1.0–1.5 | Slight — full to restricted scope transition |
-| Band 3 | 1.5–2.5 | Moderate — CAUTION zone |
-| Band 4 | 3.0–3.5 | Rough — approaching Category 1 UNSAFE threshold |
-| Band 5 | >3.5 | Very rough — Category 1+ UNSAFE |
+| Band | Metres | small (< 10 GRT) | medium (10–25) | big (> 25) |
+|---|---|---|---|---|
+| Band 1 | 0.5–1.0 | **CAUTION** at upper bound | SAFE | SAFE |
+| Band 2 | 1.0–1.5 | **CAUTION** | **CAUTION** at upper bound | **CAUTION** at upper bound |
+| Band 3 | 1.5–2.5 | **UNSAFE** at upper bound | **CAUTION** | **CAUTION** |
+| Band 4 | 3.0–3.5 | **UNSAFE** | **UNSAFE** | **CAUTION** at upper bound |
+| Band 5 | >3.5 | **UNSAFE** | **UNSAFE** | **UNSAFE** |
+
+> **Correction 2026-09-06.** The previous version of this table gave a single vessel-blind interpretation per band ("Calm — full advisory scope", "Moderate — CAUTION zone", and so on). Wave classification is now vessel-conditional via `g_o(o, v)`, so a band maps to different states for different vessels. Note the practical consequence for the deployment population: **a small vessel is already at CAUTION at the top of Band 1** (1.0 m), and reaches UNSAFE within Band 3 — where the old vessel-blind reading said CAUTION. Classifications above apply the upper-bound rule below.
 
 **Value interpretation rule**: For classification purposes, the **upper bound** of each range is used. This is consistent with the worst-case (max-severity) aggregation principle of the architecture — if conditions are anywhere in the 40–50 km/h band, the system treats wind as 50 km/h (the most adverse plausible reading).
 
@@ -102,10 +108,22 @@ The UNSAFE boundary for w and o is anchored to MET Malaysia's published **Kriter
 
 | Parameter | SAFE | CAUTION | UNSAFE | MET authority basis |
 |---|---|---|---|---|
-| **Wind speed (w)** | < 22 knots (< 40 km/h) | 22–27 knots (40–50 km/h) | > 27 knots (> 50 km/h) | Category 1 onset: 40 km/h; Category 2 onset: 50 km/h |
-| **Wave height (o)** | < 1.5 m | 1.5–3.5 m | > 3.5 m | Category 1 wave threshold: 3.5 m (dangerous to small craft) |
-| **Rainfall (r)** | None/light (< 5 mm/hr) | Moderate (5–20 mm/hr) | Heavy/storm (> 20 mm/hr) | Ribut Petir warning threshold: > 20 mm/hr |
-| **Marine warnings (m)** | None | Category 1 (Angin Kencang Kategori Pertama) | Category 2/3, Ribut Petir, or Ribut Taufan |  MET Malaysia three-tier warning system |
+| **Wind speed (w)** | ≤ 22 knots (≤ 40 km/h) | 22–27 knots (40–50 km/h) | > 27 knots (> 50 km/h) | Category 1 onset: 40 km/h; Category 2 onset: 50 km/h |
+| **Wave height (o)** | *vessel-conditional — see below* | | | Category 1 wave threshold 3.5 m anchors the **big-vessel** row |
+| **Rainfall (r)** | none, light, **moderate** | **heavy** | **storm** (Ribut Petir) | Ribut Petir warning threshold: > 20 mm/hr |
+| **Marine warnings (m)** | none | advisory — Category 1 (Angin Kencang Kategori Pertama) | warning / alert — Category 2/3, Ribut Petir, Ribut Taufan | MET Malaysia three-tier warning system |
+
+**Wave height thresholds — `g_o(o, v)`:**
+
+| v (GRT) | SAFE | CAUTION | UNSAFE |
+|---|---|---|---|
+| small (< 10) | o < 1.0 m | 1.0–1.9 m | > 1.9 m |
+| medium (10–25) | o < 1.4 m | 1.4–2.8 m | > 2.8 m |
+| big (> 25) | o < 1.5 m | 1.5–3.5 m | > 3.5 m |
+
+> **Corrections 2026-09-06.** Two errors in the previous version of this table:
+> - **Rainfall** read "None/light (< 5 mm/hr) SAFE, Moderate (5–20 mm/hr) CAUTION, Heavy/storm (> 20 mm/hr) UNSAFE." Canonical is SAFE = {none, light, **moderate**}, CAUTION = {**heavy**}, UNSAFE = {**storm**}. Moderate rain does not trigger CAUTION, and heavy rain is not UNSAFE. *The same error was found independently in `docs/justification/safety-state-design.md`.*
+> - **Wave height** was a single vessel-blind row (< 1.5 / 1.5–3.5 / > 3.5 m). That row is retained as the big-vessel case; smaller vessels reach CAUTION and UNSAFE at lower wave heights.
 | **Vessel category (v)** | Medium / big | Small (≤ 22 ft / < 40 GRT) | — | Small craft = primary risk group in Category 1 criteria |
 | **Time of day (t)** | 06:00–17:00 | 17:00–19:00 | 19:00–06:00 | Empirical basis: Atacan & Düzbastılar (2023) night navigation risk |
 
@@ -158,12 +176,33 @@ For the three-condition comparative evaluation (C1: ungated, C2: binary-gated, C
 
 | Scenario type | w | o | r | m | Expected S |
 |---|---|---|---|---|---|
-| SAFE | 10–20 km/h | 0.5–1.0 m | Tiada hujan (no rain) | None | SAFE |
-| SAFE (borderline) | 30–40 km/h | 1.0–1.5 m | Hujan ringan (light rain) | None | SAFE |
-| CAUTION | 30–40 km/h | 1.5–2.5 m | Hujan (rain) | None | CAUTION |
-| CAUTION (near-UNSAFE) | 40–50 km/h | 2.5–3.0 m | Ribut petir (thunderstorm) | Category 1 | CAUTION |
-| UNSAFE | 40–50 km/h | 3.0–3.5 m | Ribut petir | Category 1 | UNSAFE |
-| UNSAFE (severe) | > 50 km/h | > 3.5 m | Ribut petir | Category 2/3 | UNSAFE |
+Scenarios are stated for a **small vessel (< 10 GRT)**, the deployment-typical case, applying the upper-bound rule to every range band. The `v` column is now mandatory: the same weather yields different states for different vessels.
+
+| Intent | v | Wind | Wave | Rain | Warning | S |
+|---|---|---|---|---|---|---|
+| SAFE | small | 10–20 km/h (→11 kn) | 0.5–0.9 m | Tiada hujan | None | **SAFE** |
+| CAUTION via wave | small | 10–20 km/h (→11 kn) | 1.0–1.5 m (→1.5 m) | Hujan ringan | None | **CAUTION** |
+| CAUTION via wind | small | 40–50 km/h (→27 kn) | 0.5–0.9 m | Tiada hujan | None | **CAUTION** |
+| CAUTION via warning | small | 10–20 km/h (→11 kn) | 0.5–0.9 m | Hujan | Category 1 | **CAUTION** |
+| UNSAFE via wave | small | 30–40 km/h (→22 kn) | 1.5–2.5 m (→2.5 m) | Hujan | None | **UNSAFE** |
+| UNSAFE via rain | small | 40–50 km/h (→27 kn) | 1.0–1.5 m | **Ribut petir** | Category 1 | **UNSAFE** |
+| UNSAFE (severe) | small | > 50 km/h | > 3.5 m | Ribut petir | Category 2/3 | **UNSAFE** |
+
+**Vessel contrast** — identical weather, different vessels:
+
+| v | Wind | Wave | Rain | Warning | S |
+|---|---|---|---|---|---|
+| small | 30–40 km/h (→22 kn) | 1.5–2.5 m (→2.5 m) | Hujan | None | **UNSAFE** |
+| medium | 30–40 km/h (→22 kn) | 1.5–2.5 m (→2.5 m) | Hujan | None | **CAUTION** |
+| big | 30–40 km/h (→22 kn) | 1.5–2.5 m (→2.5 m) | Hujan | None | **CAUTION** |
+
+> **Corrections 2026-09-06.** Three rows in the previous scenario table were wrong, **two of them under the old vessel-blind model as well**:
+>
+> - *"SAFE (borderline) | 30–40 km/h | 1.0–1.5 m | light rain | None | **SAFE**"* — applying the upper-bound rule gives o = 1.5 m, which was **CAUTION** even under the old thresholds (1.5 ≤ o ≤ 3.5). Labelled SAFE in error, independent of the vessel change.
+> - *"CAUTION (near-UNSAFE) | 40–50 km/h | 2.5–3.0 m | **Ribut petir** | Category 1 | **CAUTION**"* — Ribut petir is the storm-tier rainfall trigger and classifies **UNSAFE**, as this same document states in its warning-category table. The row was internally inconsistent with the document's own definitions.
+> - *"CAUTION | 30–40 km/h | 1.5–2.5 m | ... | CAUTION"* — correct for medium and big vessels, **UNSAFE** for small. Now split into the vessel-contrast table above.
+>
+> No `v` column existed previously, so no row could be evaluated unambiguously.
 
 All scenario values are drawn directly from MET Malaysia's published range bands and warning criteria — they are grounded in the official data vocabulary, not synthetic.
 

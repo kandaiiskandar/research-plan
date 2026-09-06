@@ -133,10 +133,14 @@ where:
 | r | Ordinal categorical | {none, light, moderate, heavy, storm} | Rainfall intensity |
 | m | Ordinal categorical | {none, advisory, warning, alert} | Marine warning level |
 | o | ℝ≥0 | [0, ∞) | Significant wave height (metres) |
-| v | Ordinal categorical | {small, medium, big} | Vessel category |
+| v | Ordinal categorical | {small, medium, big} | Vessel category, by gross registered tonnage |
 | t | ℝ | [0, 24) | Time of day (hour, 24-hour clock) |
 
-The first four parameters (w, r, m, o) are dynamic: they vary over time and are sourced from external meteorological and marine data feeds. The specific data products, update frequencies, and spatial resolutions for each variable are implementation-level concerns addressed in Section 9. The parameter v is an operational constant: it is determined by the vessel in use and does not change within a single decision episode. The parameter t is derived from the system clock.
+Vessel category is defined by gross registered tonnage following the Malaysian small boat classification of Yunus (2007), reproduced by Yaakob et al. (2015): small < 10 GRT, medium 10–25 GRT, big > 25 GRT. Tonnage rather than length overall is the discriminating variable because the length bands in that classification overlap — a 12 m vessel falls within both the medium and large length ranges — whereas the tonnage bands are disjoint and exhaustive.
+
+The first four parameters (w, r, m, o) are dynamic: they vary over time and are sourced from external meteorological and marine data feeds. The specific data products, update frequencies, and spatial resolutions for each variable are implementation-level concerns addressed in Section 9. The parameter t is derived from the system clock.
+
+The parameter v differs in kind from the other five. It is not a time-varying condition but a fixed attribute of the operator, constant across every decision episode for a given vessel. This distinction is not merely descriptive: it determines how v enters the classification. Whereas each of the five condition parameters is classified independently and contributes a term to the worst-case aggregation, v is a **conditioning parameter** — it selects the threshold set applied to wave height, rather than producing a classification of its own. Section 5.3.2 gives the formal treatment and the reasoning behind it.
 
 **Definition 5.2 (Governance Independence).** The computation of S = f(E) and the governance pair (G(S), A_AI(S)) at Layer 2 must not depend on any output or internal state of Layer 3. All six components of E must be observable independently of the AI advisory engine.
 
@@ -160,38 +164,65 @@ The inclusion of each parameter in E is empirically grounded: w and o are the pr
 
 The order is transitive (UNSAFE ≻ SAFE follows by transitivity from UNSAFE ≻ CAUTION and CAUTION ≻ SAFE) and total (every pair of distinct states is ordered). It reflects increasing operational risk: UNSAFE denotes conditions in which departure is not permissible for the given vessel category and no AI advisory output is generated; CAUTION denotes marginal conditions in which AI advisory output is restricted to coarse operational guidance; SAFE denotes conditions in which all environmental parameters are within acceptable bounds and full AI advisory scope is available.
 
-This ordering is the formal basis for the worst-case aggregation rule applied across the six per-component classification functions (Section 5.3.3) and for the Monotonicity Theorem proved in Section 6.
+This ordering is the formal basis for the worst-case aggregation rule applied across the five condition classification functions (Section 5.3.3) and for the Monotonicity Theorem proved in Section 6.
 
 #### 5.3.2 Per-Component Classification Functions
 
-For each component xᵢ ∈ E, define a per-component classification function gᵢ that maps xᵢ to a safety state in {SAFE, CAUTION, UNSAFE}.
+For each condition component xᵢ ∈ {w, r, m, o, t}, define a classification function gᵢ that maps xᵢ to a safety state in {SAFE, CAUTION, UNSAFE}. Four of these take a single argument. The fifth, g_o, takes two: significant wave height and vessel category.
 
-**Definition 5.4 (Per-Component Classification Functions).** The six functions gᵢ and their threshold values are:
+**Definition 5.4 (Classification Functions).** The five condition classification functions and their threshold values are:
 
-**Table 1. Per-component classification thresholds.**
+**Table 1. Condition classification thresholds.**
 
 | Function | SAFE | CAUTION | UNSAFE | Basis |
 |----------|------|---------|--------|-------|
 | g_w(w) | w ≤ 22 kn | 22 < w ≤ 27 kn | w > 27 kn | MET Malaysia Category 1 onset 40 km/h (≈22 kn); Category 2 onset 50 km/h (≈27 kn) |
 | g_r(r) | {none, light, moderate} | {heavy} | {storm} | MET Malaysia Ribut Petir (thunderstorm/cyclone) = unconditional halt |
 | g_m(m) | {none} | {advisory} | {warning, alert} | MET Malaysia three-tier marine warning system |
-| g_o(o) | o < 1.5 m | 1.5 m ≤ o ≤ 3.5 m | o > 3.5 m | MET Malaysia Category 1 maximum wave height 3.5 m; Tier 2 empirical corroboration (Jeong & Im, 2023) |
-| g_v(v) | {big} | {small, medium} | — (not defined) | Vessel-size fatality gradient (Dominguez-Péry et al., 2023); hydrodynamic operability limits (Yaakob et al., 2015) |
+| g_o(o, v) | *vessel-conditional* | | | See Table 1b |
 | g_t(t) | 6.0 ≤ t < 17.0 | 17.0 ≤ t < 19.0 | t ∈ [19.0, 24.0) ∪ [0.0, 6.0) | Night navigation risk: highest accident probability and consequence scores (Atacan & Düzbastılar, 2023) |
 
-Thresholds for g_w and g_o are anchored to MET Malaysia's published Kriteria Amaran Angin Kencang dan Laut Bergelora (Strong Wind and Rough Seas Warning Criteria, verified August 2026). The 1.5 m SAFE/CAUTION boundary for g_o is supported by a Three-Tier Triangulation: (Tier 1, Hydrodynamics) Yaakob et al. (2015), using naval architecture methods (Maxsurf, JONSWAP spectrum, NORDFORSK 1987 criteria) on two traditional Malaysian small fishing boats (LOA 5.03–6.54 m, < 10 GRT, Johor coast), found seakeeping failure at wave heights as low as Hs ≈ 0.875 m, establishing that Malaysian Zone A small vessels have dynamic operability limits well within the conditions they routinely encounter; (Tier 2, Empirical Risk) Jeong & Im (2023), analysing 66 Korean small fishing vessel capsizing incidents over 23 years, show that 38% occurred at wave heights at or below 3 m — including incidents at Hs as low as 1.0 m — and derive a length-dependent departure caution formula (Hs_KIMO = √(1 + 0.4 × (0.88 × LOA)) − 1) that produces thresholds of 1.1–1.6 m for vessels of 10–16 m LOA; (Tier 3, State Policy) MET Malaysia's Category 1 maximum wave height of 3.5 m anchors the CAUTION/UNSAFE boundary for g_o and the overall classification.
+**Table 1b. Vessel-conditional wave height thresholds, g_o(o, v).**
 
-Two notes on Table 1 require explicit statement. First, g_v has no UNSAFE classification: vessel category alone does not produce UNSAFE. The codomain of g_v is {SAFE, CAUTION} ⊂ {SAFE, CAUTION, UNSAFE}. UNSAFE for any vessel arises through worst-case aggregation when g_v = CAUTION combines with UNSAFE from another component (e.g., g_w(w) = UNSAFE when w > 27 kn). The absence of g_v = UNSAFE is consistent with the finding that small vessels pass static stability criteria at all loading conditions (Yaakob et al., 2015); the dynamic risk of small vessels manifests as seakeeping operability failure, captured through g_v = CAUTION always rather than g_v = UNSAFE. Second, g_v(v ∈ {small, medium}) = CAUTION always: for any small or medium vessel, the vessel category alone contributes CAUTION to aggregation regardless of wave height. This reflects the hydrodynamic finding that Malaysian Zone A small fishing boats begin experiencing seakeeping failure at Hs as low as 0.875 m — below the 1.5 m CAUTION boundary for g_o. A small vessel at g_o = SAFE (Hs < 1.5 m) still classifies as f(E) = CAUTION via max-severity over g_v, which is architecturally correct.
+| v (GRT) | SAFE | CAUTION | UNSAFE | Basis |
+|---|---|---|---|---|
+| small (< 10) | o < 1.0 m | 1.0 ≤ o ≤ 1.9 m | o > 1.9 m | Jeong & Im (2023) Table 12 restriction for vessels ≤ 10 m LOA; Yaakob et al. (2015) operational limit Hs ≈ 1.25 m for a 6.54 m hull; NORDFORSK failure at SS4 (Hs ≈ 1.875 m) |
+| medium (10–25) | o < 1.4 m | 1.4 ≤ o ≤ 2.8 m | o > 2.8 m | Hs_KIMO evaluated across 10–15 m LOA (1.13–1.48 m); UNSAFE boundary interpolated |
+| big (> 25) | o < 1.5 m | 1.5 ≤ o ≤ 3.5 m | o > 3.5 m | MET Malaysia Category 1 maximum wave height 3.5 m; Hs_KIMO = 1.58 m at 16 m LOA |
+
+Thresholds for g_w are anchored to MET Malaysia's published Kriteria Amaran Angin Kencang dan Laut Bergelora (Strong Wind and Rough Seas Warning Criteria, verified August 2026). Note that g_w is defined over *sustained* wind speed; fisher-interview sources frequently report gust values, and the two must not be conflated when drawing empirical corroboration.
+
+The vessel-conditional thresholds for g_o are supported by a Three-Tier Triangulation, in which each tier contributes to a different row of Table 1b rather than to a single vessel-independent boundary.
+
+*Tier 1 — Hydrodynamics.* Yaakob et al. (2015), applying naval architecture methods (Maxsurf, JONSWAP spectrum, NORDFORSK 1987 criteria) to two traditional Malaysian small fishing boats from the Johor coast (LOA 5.03 and 6.54 m, both < 10 GRT), established vessel-specific operability limits: the 6.54 m hull remained within NORDFORSK limits to Sea State 3 (operational ceiling Hs ≈ 1.25 m) and exceeded them at Sea State 4 (Hs ≈ 1.875 m), while the 5.03 m hull remained within limits only to Sea State 2 (ceiling Hs ≈ 0.5 m). Both passed IMO static stability criteria at every loading condition, establishing that dynamic seakeeping rather than static stability is the binding constraint — and, critically, that the binding wave height differs by vessel. This grounds the small-vessel row.
+
+*Tier 2 — Empirical Risk.* Jeong & Im (2023), analysing 66 Korean small fishing vessel capsizing incidents over 23 years, show that 38% occurred at wave heights at or below 3 m, including incidents at Hs as low as 1.0 m. They derive a length-dependent departure restriction formula from the Wolfson Unit critical wave height framework — Hs_KIMO = √(1 + 0.4 × (0.88 × LOA)) − 1 — producing thresholds from 1.13 m at 10 m LOA to 2.07 m at 24 m LOA, and propose a graduated management scheme restricting vessels ≤ 10 m at Hs ≥ 1.0 m. Their central finding is that 82% of capsizing accidents between 2017 and 2022 occurred on days with no active weather warning, establishing that vessel-independent institutional thresholds systematically fail to capture small-vessel risk. This grounds the medium row and corroborates the small row.
+
+*Tier 3 — State Policy.* MET Malaysia's Category 1 maximum wave height of 3.5 m anchors the big-vessel CAUTION/UNSAFE boundary, and Hs_KIMO independently returns 1.58 m at 16 m LOA — bracketing the 1.5 m SAFE/CAUTION boundary for that row.
+
+The three tiers converge on a single conclusion: the wave height at which conditions become dangerous is a function of the vessel, not a constant. A 1.5 m threshold corresponds under Hs_KIMO to a vessel of roughly 15 m LOA; the deployment population operates vessels of 5–7 m. Applying a single institutional threshold across all vessel classes would classify a 6 m traditional hull as merely marginal in conditions well beyond its documented operability envelope.
+
+**Why vessel category conditions a threshold rather than contributing a term.** An alternative formulation would treat vessel category as a sixth classification function g_v, assigning CAUTION to small and medium vessels and SAFE to big ones, with the result entering the worst-case aggregation alongside the five condition classifications. That formulation is rejected here, and the reason is structural rather than empirical.
+
+Under worst-case aggregation, a term whose value is constant for a given operator establishes a floor on the output but cannot shift a boundary. If g_v(small) = CAUTION unconditionally, then f(E) ≥ CAUTION for every small vessel — but the CAUTION/UNSAFE boundary is determined entirely by the remaining terms, none of which is vessel-aware. A 5 m traditional hull and a 20 m vessel would therefore be classified UNSAFE at precisely the same wave height (3.5 m) and the same wind speed (27 kn). This contradicts Tier 1: Yaakob et al. (2015) report the 6.54 m hull exceeding NORDFORSK operability limits at Hs ≈ 1.875 m, roughly half the wave height at which such a formulation would first classify it UNSAFE. Across the 1.5–3.5 m band — precisely the range in which the CAUTION mode is intended to operate — the formulation would under-classify risk for the vessels the architecture is designed to serve.
+
+The objection that correlated parameters would compensate, high wave heights implying high winds or an active marine warning, is not supported by the accident record. Jeong & Im (2023) report that 82% of capsizing accidents in their 2017–2022 sample occurred on days with no weather warning in force. Distant-storm swell under locally calm wind, with no issued advisory, is the specific case a vessel-independent threshold set fails to capture.
+
+Conditioning g_o on v shifts the boundary rather than flooring the output, which is what the hydrodynamic evidence requires. It also removes a double-count: wave-related risk would otherwise be represented twice for small vessels, once through g_o and again through a constant vessel penalty.
+
+Two consequences follow. First, a small vessel in genuinely benign conditions — Hs below 1.0 m, wind within limits, daylight, no warning — classifies SAFE and receives full advisory scope. Under the alternative formulation SAFE would be unreachable for any vessel below 25 GRT, and since the deployment population operates below 40 GRT (Yamin et al., 2025), the strict containment A_AI(SAFE) ⊃ A_AI(CAUTION) would never be exercised in the target domain. Second, the empirical sources previously invoked to justify a vessel term — the vessel-size fatality gradient across 504 IMO accident reports (Dominguez-Péry et al., 2023), the vessel capacity constraint documented by Rahim et al. (2024), and the population characterisations of Shaffril et al. (2017) and Yamin et al. (2025) — are retained. They justify setting the small-vessel thresholds conservatively: a smaller vessel warrants greater margin because the consequence of misclassification is more severe. That is an argument for tighter boundaries, not for a constant floor.
 
 #### 5.3.3 Classification Function and Totality Theorem
 
 **Definition 5.5 (Safety State Classification Function).** The overall classification function is:
 
-**f(E) = max_≻ {g_w(w), g_r(r), g_m(m), g_o(o), g_v(v), g_t(t)}**
+**f(E) = max_≻ {g_w(w), g_r(r), g_m(m), g_o(o, v), g_t(t)}**
 
 where max_≻ denotes the maximum under the severity order ≻ from Definition 5.3, returning the greatest element of the set under that order. The output S = f(E) ∈ {SAFE, CAUTION, UNSAFE}.
 
-The worst-case aggregation rule implements three strict operational principles: (i) UNSAFE dominance — if any component classifies as UNSAFE, f(E) = UNSAFE, regardless of all other components; (ii) CAUTION priority — if no component is UNSAFE but at least one is CAUTION, f(E) = CAUTION; (iii) SAFE unanimity — f(E) = SAFE only if every component classifies as SAFE. This reflects the non-compensatory nature of maritime safety risk: calm seas cannot compensate for extreme wind, and safe wave heights cannot compensate for a vessel operating after dark without navigation lights.
+The aggregation is over five terms. Vessel category v appears within g_o rather than as an independent argument to max_≻, for the reasons given in Section 5.3.2.
+
+The worst-case aggregation rule implements three strict operational principles: (i) UNSAFE dominance — if any condition classifies as UNSAFE, f(E) = UNSAFE, regardless of all others; (ii) CAUTION priority — if no condition is UNSAFE but at least one is CAUTION, f(E) = CAUTION; (iii) SAFE unanimity — f(E) = SAFE only if every condition classifies as SAFE. This reflects the non-compensatory nature of maritime safety risk: calm seas cannot compensate for extreme wind, and safe wave heights cannot compensate for a vessel operating after dark without navigation lights.
 
 **Theorem 5.1 (Totality of f).** For all E in its domain, f(E) is defined and returns exactly one element of {SAFE, CAUTION, UNSAFE}.
 
@@ -329,7 +360,8 @@ Table 4 collects the formal symbols defined in this section.
 |--------|---------|
 | E = (w, r, m, o, v, t) | Environmental–operational state vector (Definition 5.1) |
 | ≻ | Severity order: UNSAFE ≻ CAUTION ≻ SAFE (Definition 5.3) |
-| gᵢ | Per-component classification function for xᵢ ∈ E (Definition 5.4) |
+| gᵢ | Classification function for condition xᵢ ∈ {w, r, m, o, t} (Definition 5.4) |
+| g_o(o, v) | Wave height classification, conditioned on vessel category (Definition 5.4, Table 1b) |
 | S = f(E) | Safety state classification function — worst-case aggregation (Definition 5.5) |
 | R | Recommendation type space {Go, Delay, DepartureTime, Duration} (Definition 5.6) |
 | G(S) | AI participation gate — Level 1 governance (Definition 5.7) |
@@ -366,24 +398,25 @@ Together, the three theorems characterise the full safety behaviour of the gover
 
 **Theorem 6.1 (Totality of f).** For all E in its domain, f(E) is defined and returns exactly one element of {SAFE, CAUTION, UNSAFE}.
 
-**Proof.** It suffices to show (i) each per-component function gᵢ is total over its domain, and (ii) max_≻ over a finite totally ordered set is always defined and unique.
+**Proof.** It suffices to show (i) each condition classification function is total over its domain, and (ii) max_≻ over a finite totally ordered set is always defined and unique.
 
-*(i) Totality of each gᵢ.*
+*(i) Totality of each classification function.*
 
 - **g_w:** The three intervals [0, 22], (22, 27], (27, +∞) partition ℝ≥0 exhaustively with no gaps and no overlaps. Every w ∈ ℝ≥0 falls in exactly one interval. ✓
 - **g_r:** The five values {none, light, moderate, heavy, storm} constitute the complete domain of r. Each value is assigned to exactly one classification (SAFE, SAFE, SAFE, CAUTION, UNSAFE respectively). ✓
 - **g_m:** The four values {none, advisory, warning, alert} constitute the complete domain of m. Each is assigned to exactly one classification (SAFE, CAUTION, UNSAFE, UNSAFE respectively). ✓
-- **g_o:** The three intervals [0, 1.5), [1.5, 3.5], (3.5, +∞) partition ℝ≥0 exhaustively. Every o ∈ ℝ≥0 falls in exactly one interval. ✓
-- **g_v:** The three values {small, medium, big} constitute the complete domain of v. Each is assigned to exactly one classification (CAUTION, CAUTION, SAFE respectively). ✓
+- **g_o:** Two-argument, with domain ℝ≥0 × {small, medium, big}. Totality follows in two steps. First, for each fixed v, the corresponding row of Table 1b induces three intervals partitioning ℝ≥0 exhaustively with no overlap — [0, 1.0), [1.0, 1.9], (1.9, +∞) for small; [0, 1.4), [1.4, 2.8], (2.8, +∞) for medium; [0, 1.5), [1.5, 3.5], (3.5, +∞) for big. Second, {small, medium, big} is finite and exhausts the domain of v. Every pair (o, v) therefore selects exactly one row and falls within exactly one interval of that row. ✓
 - **g_t:** The intervals [6.0, 17.0), [17.0, 19.0), [19.0, 24.0) ∪ [0.0, 6.0) partition [0, 24) exhaustively. Every t ∈ [0, 24) falls in exactly one interval. ✓
 
-In each case, the domain of xᵢ is partitioned into exhaustive, mutually exclusive subsets, each mapped to exactly one element of {SAFE, CAUTION, UNSAFE}. Each gᵢ is therefore total.
+In each case the domain is partitioned into exhaustive, mutually exclusive subsets, each mapped to exactly one element of {SAFE, CAUTION, UNSAFE}. Each function is therefore total.
+
+Note that the two-argument form of g_o does not weaken the argument. Parameterisation by a finite index set preserves totality provided each induced partition is itself exhaustive, which the three rows of Table 1b are by construction.
 
 *(ii) Totality of max_≻.*
 
-max_≻ takes the set {g_w(w), g_r(r), g_m(m), g_o(o), g_v(v), g_t(t)} ⊆ {SAFE, CAUTION, UNSAFE} and returns the greatest element under ≻ (Definition 5.3). Since ≻ is a total strict order on a finite non-empty set, the maximum always exists and is unique. ✓
+max_≻ takes the set {g_w(w), g_r(r), g_m(m), g_o(o, v), g_t(t)} ⊆ {SAFE, CAUTION, UNSAFE} and returns the greatest element under ≻ (Definition 5.3). Since ≻ is a total strict order on a finite non-empty set, the maximum always exists and is unique. ✓
 
-Therefore f(E) = max_≻ {g_w(w), g_r(r), g_m(m), g_o(o), g_v(v), g_t(t)} is defined and returns exactly one element of {SAFE, CAUTION, UNSAFE} for all E. ∎
+Therefore f(E) = max_≻ {g_w(w), g_r(r), g_m(m), g_o(o, v), g_t(t)} is defined and returns exactly one element of {SAFE, CAUTION, UNSAFE} for all E. ∎
 
 **Fail-safe extension.** The fail-safe rule stated in Section 5.2 (if any xᵢ = ⊥ then f(E) = UNSAFE) preserves totality: the pre-condition check maps every ⊥ input to UNSAFE before any gᵢ is evaluated, extending the domain of f to include undefined or corrupted inputs without introducing any undefined output states. ✓
 

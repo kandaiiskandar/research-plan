@@ -48,14 +48,18 @@ The boundary between safety states is defined by the deterministic classificatio
 |---|---|---|
 | Wind speed | w | Sustained wind velocity (knots) |
 | Rainfall | r | Precipitation intensity (mm/hr) or categorical |
-| Marine warnings | m | Official maritime authority warnings (categorical) |
+| Marine warnings | m | MET Malaysia warning level (categorical) |
 | Ocean state | o | Wave height (m), swell period (s) |
-| Vessel condition | v | Vessel operational readiness (categorical) |
+| Vessel category | v | Vessel size by GRT: small < 10, medium 10–25, big > 25 |
 | Time of day | t | Hour of day (24-hour clock) |
+
+> **Correction 2026-09-06.** `v` was previously described as "vessel **condition** — vessel operational readiness." It is vessel *category* — size, by gross registered tonnage. Operational readiness is not part of E.
 
 ### 2.2 Threshold-Based Classification
 
-f(E) is a threshold-based classifier. Each environmental parameter has defined thresholds that partition its range into three zones corresponding to SAFE, CAUTION, and UNSAFE. The overall safety state is determined by a **worst-case (conservative) rule**: S = max-severity(S_w, S_r, S_m, S_o, S_v, S_t) — if any parameter classifies as UNSAFE, the overall state is UNSAFE; if any classifies as CAUTION and none as UNSAFE, the overall state is CAUTION.
+f(E) is a threshold-based classifier. Each *condition* parameter has defined thresholds partitioning its range into three zones corresponding to SAFE, CAUTION, and UNSAFE. The overall safety state is determined by a **worst-case (conservative) rule**: S = max-severity(S_w, S_r, S_m, S_o, S_t) — if any condition classifies as UNSAFE, the overall state is UNSAFE; if any classifies as CAUTION and none as UNSAFE, the overall state is CAUTION.
+
+Five terms, not six. Vessel category `v` does not classify independently — it parameterises the ocean state function, g_o(o, v). See §2.3.
 
 This worst-case rule is formally equivalent to the weakest-link formulation used by Baxi (2026) [[notes]](../../notes/The%20Comprehension-Gated%20Agent%20Economy-%20A%20Robustness-First%20Architecture%20for%20AI%20Economic%20Agency.md) in the CGAE architecture: k = min(g₁(CC), g₂(ER), g₃(AS)), where the overall tier is determined by the worst-performing dimension. The principle is the same: safety governance should be determined by the most concerning condition, not by averaging across conditions.
 
@@ -69,12 +73,23 @@ The SAFE–CAUTION boundary marks the transition from full AI advisory scope to 
 
 | Parameter | SAFE | CAUTION | UNSAFE |
 |---|---|---|---|
-| Wind speed (w) | < 22 knots (< 40 km/h) | 22–27 knots (40–50 km/h) | > 27 knots (> 50 km/h) |
-| Wave height (o) | < 1.5 m | 1.5–3.5 m | > 3.5 m |
-| Rainfall (r) | None/light (< 5 mm/hr) | Moderate (5–20 mm/hr) | Heavy/storm (> 20 mm/hr) |
-| Marine warnings (m) | None | Category 1 (Angin Kencang Kategori Pertama) | Category 2/3, Ribut Petir, or Ribut Taufan |
-| Vessel category (v) | Medium/big | Small (≤ 22 ft / below 40 GRT) | — |
+| Wind speed (w) | ≤ 22 knots (≤ 40 km/h) | 22–27 knots (40–50 km/h) | > 27 knots (> 50 km/h) |
+| Rainfall (r) | none, light, moderate | heavy | storm (Ribut Petir) |
+| Marine warnings (m) | none | advisory — Category 1 (Angin Kencang Kategori Pertama) | warning, alert — Category 2/3, Ribut Petir, Ribut Taufan |
 | Time of day (t) | 06:00–17:00 | 17:00–19:00 | 19:00–06:00 |
+
+**Wave height thresholds are vessel-conditional** — g_o(o, v):
+
+| v (GRT) | SAFE | CAUTION | UNSAFE |
+|---|---|---|---|
+| small (< 10) | o < 1.0 m | 1.0–1.9 m | > 1.9 m |
+| medium (10–25) | o < 1.4 m | 1.4–2.8 m | > 2.8 m |
+| big (> 25) | o < 1.5 m | 1.5–3.5 m | > 3.5 m |
+
+> **Corrections 2026-09-06.** Three errors in the previous version of this table:
+> - **Rainfall** read "None/light (< 5 mm/hr) SAFE, Moderate (5–20 mm/hr) CAUTION, Heavy/storm (> 20 mm/hr) UNSAFE." Canonical is SAFE = {none, light, **moderate**}, CAUTION = {heavy}, UNSAFE = {storm}. Moderate rain does not trigger CAUTION.
+> - **Vessel category** had its own row — SAFE = {medium, big}, CAUTION = {small} — which additionally disagreed with the then-canonical appendix-c (SAFE = {big}, CAUTION = {small, medium}). The row is removed: `v` now conditions g_o and has no independent classification.
+> - **Wave height** was a single vessel-blind row (1.5 / 3.5 m). That row is retained as the *big-vessel* case; small and medium vessels reach CAUTION and UNSAFE at lower wave heights.
 
 **Basis for the UNSAFE boundary.** The UNSAFE thresholds for w and o are anchored directly to MET Malaysia's published Kriteria Amaran Angin Kencang dan Laut Bergelora. Category 1 (40–50 km/h wind, waves up to 3.5 m) is explicitly described as *berbahaya kepada bot-bot kecil* — dangerous to small craft — which is the vessel class of the target population (Kota Kinabalu small-scale fishers). Category 2 (50–60 km/h, waves up to 4.5 m) and Category 3 (> 60 km/h, waves > 4.5 m) are dangerous to all fishing and shipping. For small vessels, Category 1 therefore marks the UNSAFE floor. The Ribut Petir (thunderstorm) warning threshold of > 20 mm/hr provides the rainfall UNSAFE boundary. Unit conversion: 1 km/h ≈ 0.54 knots; hence 40 km/h ≈ 22 knots, 50 km/h ≈ 27 knots, 60 km/h ≈ 32 knots.
 
@@ -131,7 +146,7 @@ Under-classification is **unsafe** — the system provides recommendations whose
 
 **Conservative threshold setting**: Thresholds should be set to favour over-classification (false CAUTION, false UNSAFE) over under-classification (false SAFE). This is the standard approach in safety engineering: set alarm thresholds to favour false positives over false negatives. Perez-Cerrolaza et al. (2024) [[notes]](../../notes/Artificial%20Intelligence%20for%20Safety-Critical%20Systems%20in%20Industrial%20and%20Transportation%20Domains-%20A%20Survey.md) document this principle across automotive, avionics, railway, and industrial domains: safety mechanisms are calibrated to err on the side of restriction, with the caveat that "excessive false alarms could lead to new system-level hazards" — which is why the architecture uses three states rather than binary (binary blocking at conservative thresholds produces the excessive false alarm problem; CAUTION provides a proportionate intermediate response).
 
-**Worst-case aggregation**: The worst-case rule (S = max-severity across all parameters) means that a single parameter exceeding a CAUTION threshold triggers CAUTION governance regardless of all other parameters. This structural conservatism provides a safety margin against individual parameter measurement errors.
+**Worst-case aggregation**: The worst-case rule (S = max-severity across the five condition classifications) means that a single condition exceeding a CAUTION threshold triggers CAUTION governance regardless of all others. This structural conservatism provides a safety margin against individual measurement errors.
 
 **Independent observability**: Because f(E) operates on physical sensor measurements (wind speed, wave height, visibility), misclassification can be detected by the human operator through direct observation. A fisher who sees calm seas and light winds while the system displays CAUTION can identify a potential sensor fault. This is a unique advantage of environmental-state-conditioned governance over AI-confidence-conditioned governance: the human can independently verify the governance trigger. Bloomfield & Rushby (2025) [[notes]](../../notes/Assurance%20of%20AI%20Systems%20From%20a%20Dependability%20Perspective.md) identify this as a defining property of assuredly guarded systems — guards that can be verified by means independent of the system they protect.
 
@@ -216,7 +231,8 @@ Environmental conditions in coastal fisheries change at a physical timescale:
 - **Rainfall**: changes over minutes (squalls) to hours (sustained precipitation)
 - **Marine warnings**: updated on hour-to-day timescales by maritime authorities
 - **Visibility**: changes over minutes (fog, rain squalls) to hours
-- **Vessel condition**: changes on day-to-trip timescales (unless in-trip damage occurs)
+
+Vessel category (v) does not appear in this list because it does not change at all within a decision episode — it is a fixed attribute of the operator's vessel, which is why it conditions a threshold rather than contributing a time-varying classification (§2.2).
 
 The governance mode changes at the environmental timescale — typically hours, occasionally minutes. This is fundamentally different from AI-confidence-based governance, which would change with every inference cycle (seconds or faster). Environmental-state governance provides stable governance periods aligned with actual operational decisions.
 
@@ -249,7 +265,7 @@ The safety state is determined from E = {w, r, m, o, v, t} — six observable en
 | Rainfall (r) | Rain gauge, weather radar, visual observation | Fully independent — physical sensor |
 | Marine warnings (m) | Maritime authority broadcasts, weather service API | Fully independent — institutional source |
 | Ocean state (o) | Wave buoy, visual observation, satellite altimetry | Fully independent — physical sensor |
-| Vessel condition (v) | Pre-departure checklist, maintenance records | Fully independent — operator assessment |
+| Vessel category (v) | Vessel registration — gross registered tonnage | Fully independent — fixed registry attribute |
 | Time of day (t) | Clock (24-hour) | Fully independent — deterministic |
 
 ### 7.2 Why These Six Parameters
@@ -258,7 +274,7 @@ The selection of E vector components is not arbitrary — it is grounded in empi
 
 **Yamin et al. (2025)** [[notes]](../../notes/Interplay%20of%20traditional%20knowledge%20and%20adaptive%20capacity%20in%20climate%20change%20adaptation%20of%20small-scale%20fishers%20in%20central%20Terengganu%2C%20Malaysia%20.md) document the target population's own hazard identification: wind/wave intensification (95% of 136 fishers), weather events (91%), erratic rainfall (91%). These map directly onto w, o, and r.
 
-**Gao (2024)** [[notes]](../../notes/Mapping%20the%20decision-making%20factors%20of%20small-scale%20fishers-%20a%20case%20study%20of%20Penang.md) documents environmental factor importance ratings: tide (4.55/5 — captured in o as ocean state), weather (3.75/5 — captured across w, r, and m), safety concern (3.40/5 — captured across all parameters as the aggregated classification).
+**Gao (2024)** [[notes]](../../notes/Mapping%20the%20decision-making%20factors%20of%20small-scale%20fishers-%20a%20case%20study%20of%20Penang.md) documents environmental factor importance ratings: tide (4.55/5 — **not represented in E**, see below), weather (3.75/5 — captured across w, r, m, and o), safety concern (3.40/5 — captured across all parameters as the aggregated classification). This entry previously read "tide (4.55/5 — captured in o as ocean state)", which conflates two distinct phenomena: `o` is wind- and swell-driven wave height, whereas tide is lunar and solar forced. The highest-rated factor in the only corpus study that ranks factors is therefore unmodelled — a scope limitation recorded in `appendix-c-formalisation.md` C.9.3.
 
 **Rahim et al. (2024)** [[notes]](../../notes/Survival%20Decisions%20and%20Adaptation%20Strategies%20of%20Small-scale%20Fishers%20in%20the%20Face%20of%20Extreme%20Weather%20Impacts%20in%20Coastal%20Areas.md) document that wind velocity, wave height, precipitation, season, and vessel size are the primary inputs to fisher operational decisions in coastal Indonesia — confirming w, o, r, and v as cross-nationally validated parameters.
 

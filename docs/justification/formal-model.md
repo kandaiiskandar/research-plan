@@ -15,14 +15,16 @@
 **Definition.** E = {w, r, m, o, v, t} is a vector of observable environmental parameters, where:
 - w ∈ ℝ≥0 — wind speed (knots, sustained)
 - r ∈ {none, light, moderate, heavy, storm} — rainfall intensity (ordinal categorical)
-- m ∈ ℝ≥0 × ℝ≥0 — sea state (wave height in metres, swell period in seconds)
-- o ∈ {none, advisory, warning, alert} — official marine warning level (ordinal categorical)
-- v ∈ {small, medium, big} — vessel category (ordinal categorical)
+- **m ∈ {none, advisory, warning, alert} — marine warning level (ordinal categorical)**
+- **o ∈ ℝ≥0 × ℝ≥0 — ocean state (wave height in metres, swell period in seconds)**
+- v ∈ {small, medium, big} — vessel category by GRT: small < 10, medium 10–25, big > 25
 - t ∈ [0, 24) — time of day (hour, 24-hour clock)
 
-E is a mixed-type vector: some components are continuous (w, m, t), others are ordinal categorical (r, o, v). The domain of E is the Cartesian product of all component domains: E ∈ D_w × D_r × D_m × D_o × D_v × D_t.
+> **Correction 2026-09-06.** This list previously had `m` and `o` **swapped** — `m` defined as sea state and `o` as marine warning level, contradicting `appendix-c-formalisation.md` C.1. Canonical order is `m` = marine warning, `o` = ocean state. The same swap was found and corrected in `docs/canonical/traceability-table.md`. Downstream text and worked examples in this document have been corrected accordingly.
 
-**Why these six parameters.** The selection is empirically grounded: Yamin et al. (2025) [[notes]](../../notes/Interplay%20of%20traditional%20knowledge%20and%20adaptive%20capacity%20in%20climate%20change%20adaptation%20of%20small-scale%20fishers%20in%20central%20Terengganu%2C%20Malaysia%20.md) document that the target population identifies wind/waves (95%), weather events (91%), and erratic rainfall (91%) as primary hazards — mapping onto w, o, and r. Gao (2024) [[notes]](../../notes/Mapping%20the%20decision-making%20factors%20of%20small-scale%20fishers-%20a%20case%20study%20of%20Penang.md) documents factor importance ratings: tide (4.55/5, captured in o), weather (3.75/5, captured across w, r, m), safety concern (3.40/5, aggregated across all parameters). Rahim et al. (2024) [[notes]](../../notes/Survival%20Decisions%20and%20Adaptation%20Strategies%20of%20Small-scale%20Fishers%20in%20the%20Face%20of%20Extreme%20Weather%20Impacts%20in%20Coastal%20Areas.md) independently confirm wind velocity, wave height, precipitation, and vessel size as primary fisher decision inputs. The E vector formalises the environmental inputs that domain practitioners already use.
+E is a mixed-type vector: some components are continuous (w, o, t), others are ordinal categorical (r, m, v). The domain of E is the Cartesian product of all component domains: E ∈ D_w × D_r × D_m × D_o × D_v × D_t.
+
+**Why these six parameters.** The selection is empirically grounded: Yamin et al. (2025) [[notes]](../../notes/Interplay%20of%20traditional%20knowledge%20and%20adaptive%20capacity%20in%20climate%20change%20adaptation%20of%20small-scale%20fishers%20in%20central%20Terengganu%2C%20Malaysia%20.md) document that the target population identifies wind/waves (95%), weather events (91%), and erratic rainfall (91%) as primary hazards — mapping onto w, o, and r. Gao (2024) [[notes]](../../notes/Mapping%20the%20decision-making%20factors%20of%20small-scale%20fishers-%20a%20case%20study%20of%20Penang.md) documents factor importance ratings: tide (4.55/5), fishing resource (4.45/5), previous catch (4.38/5), weather (3.75/5, captured across w, r, m, o), safety concern (3.40/5, aggregated across all parameters). **Tide is not represented in E** — it is a distinct phenomenon from ocean state, being driven by lunar and solar forcing rather than wind and swell, and it was previously and incorrectly described here as "captured in o". Its exclusion is a scope limitation recorded in `appendix-c-formalisation.md` C.9.3: tidal state affects harbour access, bar crossing, and grounding risk for shallow-draft vessels. Fishing resource and previous catch are also unrepresented, but those are catch-productivity rather than safety factors, so their exclusion from a safety classifier is defensible. Rahim et al. (2024) [[notes]](../../notes/Survival%20Decisions%20and%20Adaptation%20Strategies%20of%20Small-scale%20Fishers%20in%20the%20Face%20of%20Extreme%20Weather%20Impacts%20in%20Coastal%20Areas.md) independently confirm wind velocity, wave height, precipitation, and vessel size as primary fisher decision inputs. The E vector formalises the environmental inputs that domain practitioners already use.
 
 **Why t (time of day) is included.** Time of day requires specific justification as a contextual amplifier rather than a direct physical hazard. Atacan & Düzbastılar (2023) [[notes]](../../notes/Determination%20of%20risk%20perception%20in%20small-scale%20fishing%20and%20navigation.md) provide direct empirical evidence from a bridge navigation simulator study with 30 small-scale fishing vessel captains: night navigation produces significantly higher accident probability ratings than daytime conditions (mean 4.08 vs. 3.43 for calm conditions), and combined night with heavy weather yields the highest consequence scores across all tested environmental conditions (mean 37.03 — the maximum in the study). Critically, restricted visibility — the primary mechanism through which t elevates risk for small vessels without electronic navigation aids — is rated the single most dangerous factor for sea navigation accident probability (mean 7.90, highest across all six tested conditions). Dominguez-Péry et al. (2023) [[notes]](../../notes/A%20holistic%20view%20of%20maritime%20navigation%20accidents%20and%20risk%20indicators-%20examining%20IMO%20reports%20from%202011%20to%202021.md), analysing 504 IMO maritime accident investigation reports across 2011–2021, confirm that external environmental factors including visibility constitute the largest single risk cluster in maritime accident reporting (26.7% of all text segments), with time of day embedded as a standard contextual field in the IMO reporting structure. Together, these two papers establish that time of day is a documented, empirically validated maritime safety factor. g_t(t) classifies t ∈ [0, 24) into three safety zones: SAFE (06:00–17:00), CAUTION (17:00–19:00, approaching darkness), and UNSAFE (19:00–06:00, night).
 
@@ -36,15 +38,25 @@ f: D_E → {SAFE, CAUTION, UNSAFE}
 
 where D_E is the domain of E. The function is implemented as a threshold-based classifier with worst-case aggregation:
 
-1. Each component of E is independently classified: S_w = g_w(w), S_r = g_r(r), ..., S_t = g_t(t), where each g_i maps the component to {SAFE, CAUTION, UNSAFE} via domain-specific thresholds.
+1. Each *condition* component of E is classified: S_w = g_w(w), S_r = g_r(r), S_m = g_m(m), S_o = g_o(o, v), S_t = g_t(t), where each maps to {SAFE, CAUTION, UNSAFE} via domain-specific thresholds. Note that g_o takes two arguments — wave height and vessel category.
 
-2. The overall state is the maximum severity across all components:
+2. The overall state is the maximum severity across the five condition classifications:
 
 ```
-S = max-severity(S_w, S_r, S_m, S_o, S_v, S_t)
+S = max-severity(S_w, S_r, S_m, S_o, S_t)
 ```
 
 where the severity ordering is SAFE < CAUTION < UNSAFE.
+
+**Vessel category is a parameter, not a term.** `v` does not classify independently; it selects which threshold row `g_o` applies:
+
+| v (GRT) | SAFE | CAUTION | UNSAFE |
+|---|---|---|---|
+| small (< 10) | o < 1.0 m | 1.0–1.9 m | > 1.9 m |
+| medium (10–25) | o < 1.4 m | 1.4–2.8 m | > 2.8 m |
+| big (> 25) | o < 1.5 m | 1.5–3.5 m | > 3.5 m |
+
+A constant term inside a maximum is a floor, not a threshold shift — a `g_v` returning CAUTION for small vessels would leave the CAUTION/UNSAFE boundary identical across all vessel sizes. See `appendix-c-formalisation.md` C.2, "Note: there is no g_v".
 
 **Properties of f:**
 - **Deterministic**: The same E always produces the same S. No randomness, no learned parameters, no AI inference.
@@ -274,10 +286,13 @@ The model assumes a single, system-wide environmental assessment. It does not fo
 
 The classification function f: D_E → {SAFE, CAUTION, UNSAFE} is surjective and many-to-one. The domain D_E is a large (potentially uncountable) set of environmental parameter vectors; the codomain has only three elements. Many distinct environmental conditions map to the same safety state.
 
-**Examples within CAUTION:**
-- E₁ = {w=20 knots, r=none, m=1.5m, o=none, v=big, t=10hrs} → CAUTION (triggered by wind)
-- E₂ = {w=10 knots, r=heavy, m=0.5m, o=none, v=big, t=10hrs} → CAUTION (triggered by rainfall)
-- E₃ = {w=10 knots, r=none, m=0.8m, o=advisory, v=medium, t=6hrs} → CAUTION (triggered by marine warning + vessel category + time)
+**Examples within CAUTION** *(corrected 2026-09-06 — `m`/`o` swap and trigger attributions)*:
+- E₁ = {w=20 kn, r=none, m=none, o=1.5 m, v=big, t=10.0} → CAUTION, triggered by **ocean state** — g_o(1.5, big) = CAUTION. *Note: w = 20 kn is SAFE, not CAUTION; the threshold is 22 kn. This example was previously annotated "triggered by wind."*
+- E₂ = {w=10 kn, r=heavy, m=none, o=0.5 m, v=big, t=10.0} → CAUTION, triggered by **rainfall** — g_r(heavy) = CAUTION.
+- E₃ = {w=10 kn, r=none, m=advisory, o=0.8 m, v=medium, t=6.0} → CAUTION, triggered by **marine warning alone** — g_m(advisory) = CAUTION. *Note: t = 6.0 is SAFE (the SAFE band is 6.0 ≤ t < 17.0), and g_o(0.8, medium) = SAFE. This example was previously annotated "marine warning + vessel category + time"; neither of those contributes.*
+
+A fourth example shows the vessel parameterisation, which none of the above exercises:
+- E₄ = {w=10 kn, r=none, m=none, o=1.2 m, v=small, t=10.0} → **CAUTION** via g_o(1.2, small). The same E with v=big classifies **SAFE**, since g_o(1.2, big) = SAFE. Identical conditions, different governance outcome by vessel.
 
 All three produce S = CAUTION and therefore the same governance configuration: G(S) = 1, A_AI(S) = {Go, Delay}. But the underlying conditions are different, and the AI's go/no-go and delay recommendations may differ accordingly — the governance scope is the same, but the recommendation *content* within that scope reflects the specific E.
 
