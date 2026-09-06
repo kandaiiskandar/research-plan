@@ -231,7 +231,7 @@ Each parameter is independently classified into a safety zone using threshold co
 
 | **v** — Vessel category (GRT) | SAFE | CAUTION | UNSAFE |
 |---|---|---|---|
-| small (< 10) | o < 1.0 m | 1.0–1.9 m | > 1.9 m |
+| small (< 10) | o < 1.0 m | 1.0–1.25 m | > 1.25 m |
 | medium (10–25) | o < 1.4 m | 1.4–2.8 m | > 2.8 m |
 | big (> 25) | o < 1.5 m | 1.5–3.5 m | > 3.5 m |
 

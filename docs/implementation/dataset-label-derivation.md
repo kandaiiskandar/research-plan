@@ -152,7 +152,7 @@ Combining the three studies, the label logic is as follows. Environmental condit
 
 | v (GRT) | SAFE | CAUTION | UNSAFE |
 |---|---|---|---|
-| small (< 10) | o < 1.0 m | 1.0–1.9 m | > 1.9 m |
+| small (< 10) | o < 1.0 m | 1.0–1.25 m | > 1.25 m |
 | medium (10–25) | o < 1.4 m | 1.4–2.8 m | > 2.8 m |
 | big (> 25) | o < 1.5 m | 1.5–3.5 m | > 3.5 m |
 
@@ -162,11 +162,11 @@ Combining the three studies, the label logic is as follows. Environmental condit
 |---|---|---|---|
 | Wind ≤ 22 kn, waves < 1.0 m, none/light/moderate rain, no warning, daytime | **SAFE** | Rahim fishing season; Gao "go" pattern | **Go** |
 | Wind 22–27 kn, waves < 1.0 m, no warning, daytime | **CAUTION** | Gao "cautious-go" pattern under elevated wind; MET Category 1 onset | **Delay** |
-| Wind ≤ 22 kn, waves 1.0–1.9 m, no warning, daytime | **CAUTION** | Yaakob operability limits for Zone A hulls; Jeong & Im ≤10 m departure restriction | **Delay** |
+| Wind ≤ 22 kn, waves 1.0–1.25 m, no warning, daytime | **CAUTION** | Jeong & Im ≤10 m departure restriction (1.0 m onset); below Yaakob operational ceiling | **Delay** |
 | Wind ≤ 22 kn, waves < 1.0 m, heavy rain (below Ribut Petir), no warning | **CAUTION** | **Rahim East season** — heavy precipitation with light wind and calm seas, restricted operations; Yamin erratic rainfall as primary hazard | **Delay** |
 | Wind ≤ 22 kn, waves < 1.0 m, advisory (Category 1) active, daytime | **CAUTION** | MET Category 1 = *berbahaya kepada bot-bot kecil* | **Delay** |
 | Wind > 27 kn, any waves, any rain | **UNSAFE** | Rahim West season "do not go at all"; Gao "if wind too strong, I don't go" | **AI off** |
-| Any wind, **waves > 1.9 m** | **UNSAFE** | Yaakob: 6.54 m hull exceeds NORDFORSK limits at SS4 (Hs ≈ 1.875 m) | **AI off** |
+| Any wind, **waves > 1.25 m** | **UNSAFE** | Yaakob: 1.25 m is the 6.54 m hull's operational ceiling — top of SS3, the highest band it passes | **AI off** |
 | Any conditions, Ribut Petir active | **UNSAFE** | Yamin: sudden weather change = can't go | **AI off** |
 | Any conditions, Ribut Taufan / Category 2–3 warning active | **UNSAFE** | Tropical cyclone or higher-tier warning = unconditional halt | **AI off** |
 | Any conditions, t ∈ [19:00, 06:00) | **UNSAFE** | Night navigation; Atacan & Düzbastılar highest consequence scores | **AI off** |

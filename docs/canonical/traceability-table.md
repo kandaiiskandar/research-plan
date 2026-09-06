@@ -68,7 +68,7 @@
 | A_H(S) does NOT appear anywhere | ✓ Correctly excluded from formalisation and diagram |
 | Parameter definitions in E are consistent across Appendix C and this traceability table | ✓ **Corrected 2026-09-06.** This row previously read "✓ ... matching definitions (wind, rainfall, **sea state, official warning**, vessel category, time of day)" — but `m` and `o` were **swapped** in Table 1 relative to Appendix C, and this check certified the mismatch as verified. Canonical order is `m` = marine warning level, `o` = ocean state. Table 1 corrected; this check re-run against C.1. |
 | No `g_v` — vessel category conditions `g_o` rather than contributing a severity term | ✓ Table 1 row 2 states the five-term form; Appendix C.2 "Note: there is no g_v" |
-| `g_o` threshold rows match between C.2 and architecture-illustration §5.2 | ✓ small < 1.0 / 1.0–1.9 / > 1.9; medium < 1.4 / 1.4–2.8 / > 2.8; big < 1.5 / 1.5–3.5 / > 3.5 |
+| `g_o` threshold rows match between C.2 and architecture-illustration §5.2 | ✓ small < 1.0 / 1.0–1.25 / > 1.9; medium < 1.4 / 1.4–2.8 / > 2.8; big < 1.5 / 1.5–3.5 / > 3.5 |
 | Worked scenarios in architecture-illustration classify correctly under C.2 thresholds | ✓ **Added 2026-09-06** after six misclassifications were found and corrected in §7. This check did not previously exist. |
 | RS(S) appears in Appendix C.7.1 and Layer 3 description | ✓ Rule set RS(S) defined for all three safety states; enforces Safety Dominance Property by construction |
 | Safety Dominance Property proved by construction in C.7.2 | ✓ Three-case proof covers UNSAFE, CAUTION, and SAFE; proof in `docs/canonical/justification-layer3-enforcement.md` Section 4 |

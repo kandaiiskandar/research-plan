@@ -82,7 +82,7 @@ The SAFE–CAUTION boundary marks the transition from full AI advisory scope to 
 
 | v (GRT) | SAFE | CAUTION | UNSAFE |
 |---|---|---|---|
-| small (< 10) | o < 1.0 m | 1.0–1.9 m | > 1.9 m |
+| small (< 10) | o < 1.0 m | 1.0–1.25 m | > 1.25 m |
 | medium (10–25) | o < 1.4 m | 1.4–2.8 m | > 2.8 m |
 | big (> 25) | o < 1.5 m | 1.5–3.5 m | > 3.5 m |
 
@@ -112,6 +112,14 @@ This boundary also corresponds to the point where the physical risk of maritime 
 The UNSAFE boundary is inherently more conservative than the CAUTION boundary because the governance consequence is more severe: complete AI withdrawal. The asymmetry is deliberate — it is better to provide restricted guidance under genuinely unsafe conditions (the AI says go/no-go when it should say nothing) than to withhold guidance under genuinely cautionary conditions (the AI says nothing when it should say go/no-go).
 
 ### 2.5 Hysteresis
+
+> ⚠️ **Qualified 2026-09-06 by empirical finding F-6. Read this before citing the section.**
+>
+> The rationale below is a *design* argument, and it stands as one. What does **not** stand is the implied claim that mode-chattering is a demonstrated problem at the deployment site. Measured over five years of hourly data: 5,416 state transitions, of which **95.8% are scheduled clock events** at the time-of-day boundaries; only 227 are condition-driven; genuine A→B→A round trips within three hours number **70 in five years — fourteen per year**. Dual-threshold hysteresis with a 10% return margin reduces condition-driven transitions by **6.2%**.
+>
+> Every observed oscillation is a single-hour flip at the 1.0 m wave boundary.
+>
+> **Correct framing:** hysteresis is retained as a low-cost precaution grounded in the trust literature cited below, *not* as a mitigation for an observed instability. The result is bounded by hourly resolution — sub-hourly oscillation is invisible in this data. Anywhere this section is cited in a paper, that qualification must travel with it. See `../canonical/empirical-findings-2026-09-06.md` F-6.
 
 Boundary transitions incorporate hysteresis to prevent rapid oscillation between states when environmental conditions hover near a threshold. Once the system transitions from SAFE to CAUTION, it requires conditions to improve beyond the SAFE threshold by a margin before transitioning back. This prevents governance mode flickering that would undermine user trust and mode awareness.
 

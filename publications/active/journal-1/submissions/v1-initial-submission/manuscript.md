@@ -186,7 +186,7 @@ For each condition component xᵢ ∈ {w, r, m, o, t}, define a classification f
 
 | v (GRT) | SAFE | CAUTION | UNSAFE | Basis |
 |---|---|---|---|---|
-| small (< 10) | o < 1.0 m | 1.0 ≤ o ≤ 1.9 m | o > 1.9 m | Jeong & Im (2023) Table 12 restriction for vessels ≤ 10 m LOA; Yaakob et al. (2015) operational limit Hs ≈ 1.25 m for a 6.54 m hull; NORDFORSK failure at SS4 (Hs ≈ 1.875 m) |
+| small (< 10) | o < 1.0 m | 1.0 ≤ o ≤ 1.25 m | o > 1.25 m | Jeong & Im (2023) Table 12 restriction for vessels ≤ 10 m LOA (CAUTION onset); Yaakob et al. (2015) **operational ceiling Hs ≈ 1.25 m** for a 6.54 m hull — top of Sea State 3, the highest band the vessel passes under NORDFORSK |
 | medium (10–25) | o < 1.4 m | 1.4 ≤ o ≤ 2.8 m | o > 2.8 m | Hs_KIMO evaluated across 10–15 m LOA (1.13–1.48 m); UNSAFE boundary interpolated |
 | big (> 25) | o < 1.5 m | 1.5 ≤ o ≤ 3.5 m | o > 3.5 m | MET Malaysia Category 1 maximum wave height 3.5 m; Hs_KIMO = 1.58 m at 16 m LOA |
 
@@ -570,7 +570,7 @@ Section 10 evaluates whether these formal guarantees produce correct behavioural
 - Implementation stack (low-resource constraints: offline-first, lightweight)
 - How the three layers are implemented in software
 - How RS(S) is encoded and supplied to the reasoning engine
-- Hysteresis smoothing at state transition boundaries (mode-chattering prevention)
+- Hysteresis smoothing at state transition boundaries. ⚠️ **Present as a retained precaution, not a necessity.** Measured on five years of site data: 70 oscillation events (14/yr), hysteresis reduces condition-driven transitions by only 6.2%. State the hourly-resolution bound. See `empirical-findings-2026-09-06.md` F-6
 - Deployment environment: Kota Kinabalu, Sabah, Malaysia fisheries context
 
 > **Source:** `docs/implementation/` documents  
@@ -625,7 +625,7 @@ Section 10 evaluates whether these formal guarantees produce correct behavioural
 **Ablation conditions to test:**
 - Remove advisory scope restriction (A_AI(S) = full set at all states) — reduces to binary gate
 - Remove participation gate (G(S) = 1 always) — removes safety disengagement
-- Remove hysteresis smoothing — measures mode-chattering frequency
+- Remove hysteresis smoothing — measures mode-chattering frequency. ⚠️ **Already run on historical replay (F-6): 5,416 transitions, 95.8% scheduled clock events, 70 genuine oscillations in five years, 6.2% reduction from hysteresis.** This ablation reports a near-null result; write it up as such rather than re-running it as an open question
 - Remove worst-case aggregation — measures misclassification rate at E boundary conditions
 
 *(To be written after experiments are run)*

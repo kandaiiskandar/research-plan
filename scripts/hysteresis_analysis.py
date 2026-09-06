@@ -31,7 +31,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 DATA = ROOT / "data"
 
-LO, HI = 1.0, 1.9          # g_o small-vessel thresholds
+LO, HI = 1.0, 1.25         # g_o small-vessel thresholds — amended 2026-09-06
 MARGIN = 0.10              # 10% return margin for hysteresis
 
 

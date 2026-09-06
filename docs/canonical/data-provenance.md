@@ -98,7 +98,7 @@ Both near 1.0 — **no linear-interpolation signature.** Intermediate hours carr
 | **Variable** | `wave_height` = **significant wave height (Hs)** — semantically correct for thresholds derived from Yaakob and Jeong & Im |
 | **Valid time** | Instant |
 | **Grid cell** | **SEA — 6.0, 116.0** (marine API defaults to `cell_selection=sea`; correct) |
-| **Fit for threshold?** | ⚠️ **COARSE — see F-12.** Carries 97.5% of daylight CAUTION decisions. A ~50 km open-water average, compared against 1.0 m / 1.9 m thresholds, governing boats operating within ~9 km of an island-sheltered coast |
+| **Fit for threshold?** | ⚠️ **COARSE — see F-12.** Carries ~95–97% of daylight CAUTION decisions (97.40% primary / 95.05% resolution — see empirical-findings §0a). A ~50 km open-water average, compared against 1.0 m / 1.9 m thresholds, governing boats operating within ~9 km of an island-sheltered coast |
 
 **The model choice was effectively forced and is defensible.** Every finer model begins in 2021 or later:
 

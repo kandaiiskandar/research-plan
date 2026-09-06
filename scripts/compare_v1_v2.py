@@ -9,7 +9,7 @@ import pandas as pd, numpy as np
 from pathlib import Path
 
 DATA = Path(__file__).resolve().parent.parent / "data"
-TH = {"small": (1.0, 1.9), "medium": (1.4, 2.8), "big": (1.5, 3.5)}
+TH = {"small": (1.0, 1.25), "medium": (1.4, 2.8), "big": (1.5, 3.5)}
 
 
 def rd(name, cols):

@@ -24,7 +24,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 DATA = ROOT / "data"
 
-VESSEL_THRESHOLDS = {"small": (1.0, 1.9), "medium": (1.4, 2.8), "big": (1.5, 3.5)}
+VESSEL_THRESHOLDS = {"small": (1.0, 1.25), "medium": (1.4, 2.8), "big": (1.5, 3.5)}
 FUNCS = ["g_w", "g_r", "g_m", "g_o", "g_t"]
 
 

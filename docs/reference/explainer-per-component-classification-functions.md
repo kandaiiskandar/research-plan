@@ -95,7 +95,7 @@ g_m(warning) = g_m(alert) = UNSAFE
 
 | v (GRT) | SAFE | CAUTION | UNSAFE |
 |---|---|---|---|
-| small (< 10) | o < 1.0 m | 1.0 ≤ o ≤ 1.9 m | o > 1.9 m |
+| small (< 10) | o < 1.0 m | 1.0 ≤ o ≤ 1.25 m | o > 1.25 m |
 | medium (10–25) | o < 1.4 m | 1.4 ≤ o ≤ 2.8 m | o > 2.8 m |
 | big (> 25) | o < 1.5 m | 1.5 ≤ o ≤ 3.5 m | o > 3.5 m |
 
@@ -111,7 +111,7 @@ A prior version of the model defined `g_v(v)` returning CAUTION for small and me
 
 If `g_v(small) = CAUTION` always, then `f(E) ≥ CAUTION` always — the output is floored. But the *boundary* between CAUTION and UNSAFE is set entirely by the other functions, and none of them know the vessel size. So a 5 m boat and a 20 m boat would be declared UNSAFE at precisely the same wave height (3.5 m) and the same wind speed (27 kn).
 
-That contradicts the evidence. Yaakob et al. (2015) [[notes]](../../notes/Stability%2C%20Seakeeping%20and%20Safety%20Assessment%20of%20Small%20Fishing%20Boats%20Operating%20in%20Southern%20Coast%20of%20Peninsular%20Malaysia.md) show a 6.54 m Malaysian vessel exceeding NORDFORSK operability limits at Hs ≈ 1.875 m — roughly half the wave height at which the old model would have called it UNSAFE.
+That contradicts the evidence. Yaakob et al. (2015) [[notes]](../../notes/Stability%2C%20Seakeeping%20and%20Safety%20Assessment%20of%20Small%20Fishing%20Boats%20Operating%20in%20Southern%20Coast%20of%20Peninsular%20Malaysia.md) report a 6.54 m Malaysian vessel with an operational ceiling of Hs ≈ 1.25 m — under a third of the wave height at which the old model would have called it UNSAFE.
 
 Parameterising `g_o` by `v` shifts the boundary, which is what the physics requires. A floor cannot do this; a parameter can.
 
@@ -123,13 +123,13 @@ Parameterising `g_o` by `v` shifts the boundary, which is what the physics requi
 | g_r | MET Malaysia operational definition: Ribut Petir (thunderstorm) = unconditional halt |
 | g_m | MET Malaysia three-tier warning system: none → advisory → warning → alert |
 | g_o (big) | MET Malaysia Category 1 max (3.5 m); Jeong & Im (2023) [[notes]](../../notes/Proposal%20of%20Restrictions%20on%20the%20Departure%20of%20Korea%20Small%20Fishing%20Vessel%20according%20to%20Wave%20Height.md) Hs_KIMO = 1.58 m at 16 m LOA |
-| g_o (small) | Jeong & Im Table 12: vessels ≤10 m restricted at Hs ≥ 1.0 m; Yaakob et al. 6.54 m vessel operational limit ≈ 1.25 m; SS4 (1.875 m) NORDFORSK failure → UNSAFE at 1.9 m |
+| g_o (small) | Jeong & Im Table 12: vessels ≤10 m restricted at Hs ≥ 1.0 m → CAUTION onset; Yaakob et al. 6.54 m vessel **operational ceiling 1.25 m** (top of SS3, last passing band) → UNSAFE |
 | g_o (medium) | Hs_KIMO across 10–15 m LOA = 1.13–1.48 m; UNSAFE boundary interpolated |
 | g_t | Night navigation risk: highest accident probability and consequence scores — Atacan & Düzbastılar (2023) [[notes]](../../notes/Determination%20of%20risk%20perception%20in%20small-scale%20fishing%20and%20navigation.md) |
 
 Vessel category itself is grounded in Dominguez-Péry et al. (2023) [[notes]](../../notes/A%20holistic%20view%20of%20maritime%20navigation%20accidents%20and%20risk%20indicators-%20examining%20IMO%20reports%20from%202011%20to%202021.md) — small vessels carry the highest mean fatality rank (3.67, p = 0.01), which justifies setting their thresholds conservatively.
 
-Two values are **design decisions rather than sourced numbers**: the small-vessel UNSAFE boundary (1.9 m) reads NORDFORSK operability failure as a departure prohibition, which Yaakob et al. do not themselves claim; and the medium-vessel UNSAFE boundary (2.8 m) is interpolated with no direct source. Both are recorded in appendix-c C.9.1.
+Two values are **design decisions rather than sourced numbers**: the small-vessel UNSAFE boundary (1.25 m) treats Yaakob's operational ceiling as a departure gate, which the paper does not itself claim; and the medium-vessel UNSAFE boundary (2.8 m) is interpolated with no direct source. Both are recorded in appendix-c C.9.1. *The small-vessel value was amended from 1.9 m on 2026-09-06 — the prior value used Yaakob's failure point rather than his operational ceiling.*
 
 ---
 
@@ -261,7 +261,7 @@ f(E) = **UNSAFE**. One UNSAFE condition dominates everything else — extreme wi
 | g_w | ℝ≥0 | ≤ 22 kn | 22–27 kn | > 27 kn | MET Malaysia |
 | g_r | {none…storm} | none, light, moderate | heavy | storm | MET Malaysia |
 | g_m | {none…alert} | none | advisory | warning, alert | MET Malaysia |
-| g_o (small) | ℝ≥0 × {v} | < 1.0 m | 1.0–1.9 m | > 1.9 m | Jeong & Im; Yaakob et al. |
+| g_o (small) | ℝ≥0 × {v} | < 1.0 m | 1.0–1.25 m | > 1.25 m | Jeong & Im; Yaakob et al. |
 | g_o (medium) | ℝ≥0 × {v} | < 1.4 m | 1.4–2.8 m | > 2.8 m | Jeong & Im (Hs_KIMO) |
 | g_o (big) | ℝ≥0 × {v} | < 1.5 m | 1.5–3.5 m | > 3.5 m | MET Malaysia; Jeong & Im |
 | g_t | [0, 24) | 6.0–17.0 | 17.0–19.0 | 19.0–24.0 ∪ 0.0–6.0 | Atacan & Düzbastılar |

@@ -176,9 +176,26 @@ g_o is a two-argument function: the wave height component of o, and the vessel c
 
 | v (GRT) | SAFE | CAUTION | UNSAFE |
 |---|---|---|---|
-| small (< 10) | o < 1.0 m | 1.0 ≤ o ≤ 1.9 m | o > 1.9 m |
+| small (< 10) | o < 1.0 m | 1.0 ≤ o ≤ **1.25** m | o > **1.25** m |
 | medium (10–25) | o < 1.4 m | 1.4 ≤ o ≤ 2.8 m | o > 2.8 m |
 | big (> 25) | o < 1.5 m | 1.5 ≤ o ≤ 3.5 m | o > 3.5 m |
+
+> **Amended 2026-09-06: small-vessel UNSAFE 1.9 m → 1.25 m.**
+>
+> Yaakob et al. (2015) tested each vessel at the mean of successive sea-state bands. Boat A (6.54 m LOA) **passes** Sea State 3 (tested at Hs ≈ 0.875 m) and **fails** Sea State 4 (tested at Hs ≈ 1.875 m). Two distinct quantities follow:
+>
+> - **1.25 m** — the top of the SS3 band: the highest wave height at which the vessel is *demonstrated operable*
+> - **1.875 m** — the point at which it is *demonstrated to fail*
+>
+> The prior threshold of 1.9 m used the failure point. For a departure gate the conservative reading is the operational ceiling: the boundary should sit at the edge of the demonstrated-safe envelope, not at the demonstrated-failure point. The true limit lies between 0.875 m and 1.875 m; 1.25 m is the highest value the evidence supports as safe.
+>
+> **Empirical consequence** (MFWAM 8 km, 2021-10 to 2024-12, small vessel): daylight UNSAFE rises from **3 hours to 409** (0.02% → 3.13%), and the weather-driven share of all UNSAFE hours from **0.1% to 7.0%**. Under the prior threshold the participation gate `G(S) = 0` was reachable only by darkness; it is now reachable by sea state.
+>
+> **Cost, stated plainly:** Level 2 binding in the departure window falls from **8.3% to 6.1%**, since hours previously classified CAUTION now classify UNSAFE. The amendment was adopted on the provenance argument, not the resulting figures — it produces a *smaller* headline number.
+>
+> Full analysis: `finding-met-hydrodynamic-gap.md` §6, `scripts/threshold_decision.py`.
+>
+> **Open:** the medium and big rows still use failure-point-style reasoning scaled from MET. Neither has vessel-specific NORDFORSK data, so neither can be given the same treatment without new evidence.
 
 *Note on the tuple:* Ocean state o is a tuple (wave height m, swell period s) in the general definition (C.1). Classification depends only on the wave height component; swell period is retained in the state representation as a secondary modifier for domain instantiation but does not enter g_o. The thresholds use wave height as the governing variable, consistent with MET Malaysia's Kawasan Perairan range vocabulary.
 
@@ -204,7 +221,9 @@ This is not a departure from official criteria; it fills a gap those criteria le
 
 *big (> 25 GRT) — unchanged from the prior vessel-independent definition.* The 1.5 m SAFE/CAUTION boundary is corroborated by Jeong & Im (2023) [[notes]](../../notes/Proposal%20of%20Restrictions%20on%20the%20Departure%20of%20Korea%20Small%20Fishing%20Vessel%20according%20to%20Wave%20Height.md), whose Hs_KIMO formula yields 1.58 m at 16 m LOA and 1.43 m at 14 m LOA — bracketing 1.5 m. The 3.5 m CAUTION/UNSAFE boundary aligns with MET Malaysia Category 1 maximum wave height criteria (https://www.met.gov.my/en/ramalan/angin-kencang-and-laut-bergelora/, verified August 2026).
 
-*small (< 10 GRT).* The 1.0 m SAFE/CAUTION boundary is Jeong & Im's own proposed restriction for vessels ≤ 10 m LOA (their Table 12), independently corroborated by Yaakob et al. (2015) [[notes]](../../notes/Stability%2C%20Seakeeping%20and%20Safety%20Assessment%20of%20Small%20Fishing%20Boats%20Operating%20in%20Southern%20Coast%20of%20Peninsular%20Malaysia.md), whose 6.54 m Malaysian vessel had a NORDFORSK operational limit of Hs ≈ 1.25 m. The 1.9 m CAUTION/UNSAFE boundary corresponds to Sea State 4 (Hs ≈ 1.875 m), at which Yaakob's 6.54 m vessel failed NORDFORSK criteria on multiple parameters (RMS vertical acceleration at FP = 0.332 g against a 0.275 g limit; bridge = 0.195 g against 0.150 g). **Design decision:** treating NORDFORSK operability failure as the UNSAFE trigger is an interpretation of Yaakob et al.'s seakeeping results, not a claim the paper makes. The reasoning is that a sea state in which the crew cannot safely perform heavy manual work is one in which departure should not be advised at all. This is recorded as a threat to internal validity in C.9.
+*small (< 10 GRT).* The 1.0 m SAFE/CAUTION boundary is Jeong & Im's own proposed restriction for vessels ≤ 10 m LOA (their Table 12). The **1.25 m CAUTION/UNSAFE boundary is Yaakob et al.'s (2015)** [[notes]](../../notes/Stability%2C%20Seakeeping%20and%20Safety%20Assessment%20of%20Small%20Fishing%20Boats%20Operating%20in%20Southern%20Coast%20of%20Peninsular%20Malaysia.md) **operational ceiling for their 6.54 m Malaysian vessel** — the top of Sea State 3, the highest band the hull passes under NORDFORSK 1987 criteria. At Sea State 4 (Hs ≈ 1.875 m) the same vessel fails on multiple parameters (RMS vertical acceleration at FP = 0.332 g against a 0.275 g limit; bridge = 0.195 g against 0.150 g).
+
+**Design decision:** the boundary is placed at the operational ceiling rather than the failure point. Yaakob et al. do not themselves characterise either value as a departure prohibition; the reasoning applied here is that a departure gate should sit at the edge of the demonstrated-safe envelope, not at the point of demonstrated failure. The true limit lies between the last passing test (0.875 m) and the first failing test (1.875 m); 1.25 m is the highest value the evidence supports as safe. Recorded as a threat to internal validity in C.9.
 
 *medium (10–25 GRT).* The 1.4 m SAFE/CAUTION boundary derives from Hs_KIMO evaluated across the 10–15 m LOA range (1.13 m at 10 m, 1.48 m at 15 m). **Design decision:** the 2.8 m CAUTION/UNSAFE boundary is interpolated between the small and big rows, preserving an approximately proportional CAUTION band width. No corpus source provides a direct medium-vessel UNSAFE threshold. This is the weakest-grounded value in the table and is recorded as a threat to internal validity in C.9.
 
@@ -504,7 +523,7 @@ The following are recorded as limitations of the current formalisation. Each is 
 
 ### C.9.1 Threshold grounding
 
-**Small-vessel UNSAFE boundary (1.9 m).** Derived by treating NORDFORSK 1987 operability failure as the UNSAFE trigger. Yaakob et al. (2015) report that their 6.54 m vessel exceeded RMS vertical acceleration limits at Sea State 4 (Hs ≈ 1.875 m); the reasoning applied here is that a sea state in which the crew cannot safely perform heavy manual work is one in which departure should not be advised. Yaakob et al. do not themselves characterise this as a departure prohibition. The interpretation is defensible but is not a finding of the source.
+**Small-vessel UNSAFE boundary (1.25 m).** *Amended 2026-09-06 from 1.9 m.* Set at Yaakob Boat A's **operational ceiling** — the top of Sea State 3, the highest band the 6.54 m hull passes under NORDFORSK 1987 — rather than at its failure point (SS4, Hs ≈ 1.875 m). Yaakob et al. do not characterise either value as a departure prohibition; treating the operational ceiling as the gate is an interpretation, though a conservative one: the boundary sits at the edge of the demonstrated-safe envelope rather than at demonstrated failure. The true limit lies between the last passing test (0.875 m) and the first failing test (1.875 m), and is not resolved by the source.
 
 **Medium-vessel UNSAFE boundary (2.8 m).** Interpolated between the small and big rows to preserve an approximately proportional CAUTION band width. No corpus source provides a medium-vessel UNSAFE threshold. This is the weakest-grounded value in the g_o table.
 

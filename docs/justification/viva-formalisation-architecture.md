@@ -18,7 +18,7 @@
 | g_w (wind, kn) | ≤ 22 | 22 < w ≤ 27 | > 27 |
 | g_r (rainfall) | none, light, moderate | heavy | storm |
 | g_m (marine warning) | none | advisory | warning, alert |
-| g_o (wave, m) — small (< 10 GRT) | < 1.0 | 1.0–1.9 | > 1.9 |
+| g_o (wave, m) — small (< 10 GRT) | < 1.0 | 1.0–1.25 | > 1.25 |
 | g_o — medium (10–25 GRT) | < 1.4 | 1.4–2.8 | > 2.8 |
 | g_o — big (> 25 GRT) | < 1.5 | 1.5–3.5 | > 3.5 |
 | g_t (hour) | 6.0–17.0 | 17.0–19.0 | 19.0–24.0 ∪ 0.0–6.0 |

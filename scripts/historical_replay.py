@@ -29,7 +29,7 @@ STATE = {0: "SAFE", 1: "CAUTION", 2: "UNSAFE"}
 
 # g_o thresholds by vessel category (GRT). appendix-c C.2 Table.
 VESSEL_THRESHOLDS = {
-    "small":  (1.0, 1.9),   # < 10 GRT
+    "small":  (1.0, 1.25),  # < 10 GRT — amended 2026-09-06
     "medium": (1.4, 2.8),   # 10-25 GRT
     "big":    (1.5, 3.5),   # > 25 GRT
 }

@@ -108,7 +108,13 @@ These are different things. "Should not depart" maps more naturally to the ceili
 
 This is **the same source, read more carefully** — not a recalibration chosen to make the model fire. The distinction between operational ceiling and failure point is Yaakob's own, and the ceiling is the more appropriate quantity for a departure gate.
 
-**Not yet applied.** This is a formal model change and must go through `appendix-c-formalisation.md` first, per the Formal Model Consistency Rule.
+**✅ ADOPTED 2026-09-06.** Applied to `appendix-c-formalisation.md` first, then propagated to 10 downstream documents and 4 analysis scripts. Registered as P19/P20.
+
+**Why it was adopted despite producing a worse headline.** The Level 2 binding figure falls from 8.3% to 6.1%. The amendment was made on the provenance argument — the operational ceiling is the more defensible reading of Yaakob — and *not* on its effect on the numbers. Adopting a threshold because it produced a larger headline would have been the same error the decision record warns against for `g_w`.
+
+**What it buys.** Daylight UNSAFE rises from **3 hours to 409** (0.02% → 3.13%), and the weather-driven share of all UNSAFE hours from **0.1% to 7.0%**. Under the prior threshold the participation gate was reachable only by darkness; it is now reachable by sea state. That removes the sharpest criticism available against the domain instantiation — that `G(S) = 0` was a night curfew rather than a weather gate.
+
+**Reportable figure is now 6.1%**, superseding 8.3%. P18 remains valid for the threshold it was registered against.
 
 **Open:** whether the medium and big rows need the same treatment. Both currently use failure-point-style reasoning scaled from MET. Neither has vessel-specific NORDFORSK data.
 
