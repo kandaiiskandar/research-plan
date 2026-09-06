@@ -7,7 +7,31 @@
 
 ## Search and Selection Protocol (table)
 
-<!-- FILLED IN TASK 2 -->
+**Table 1. Search and Selection Protocol.**
+
+| Protocol element | Value |
+|---|---|
+| Databases | Scopus; IEEE Xplore; Web of Science; ACM Digital Library |
+| Search executed | *Not recorded — disclosed as limitation* |
+| Publication window | No pre-specified filter; observed range 2023–2026 for the bulk, with three older foundational references (2015, 2017, 2022) |
+| Search string families (primary) | AI governance; runtime assurance; safety filters; decision support; autonomy levels; guardrails |
+| Search string families (secondary) | fisheries AI; low-resource deployment |
+| Inclusion criteria | Addresses a mechanism that constrains or shapes AI behaviour during operation; OR targets a safety-critical or human-in-the-loop context; OR addresses AI deployment in low-resource or resource-constrained environments |
+| Exclusion criteria | Deals only with training-time, fine-tuning, or static-configuration approaches with no runtime governance component |
+| Snowballing | Citation tracing off the initial database pool plus the three anchor systematic reviews, continued until no new governance mechanisms emerged; seed-paper list not archived |
+| Screening flow (initial → dedup → title/abstract) | *Not recorded — reconstructed from the retained corpus; see §Limitations* |
+| Retained for full-text review | 72 |
+| Final corpus | 72 |
+| Anchor systematic reviews (secondary evidence)ᵃ | Indykov et al. (2025) [[notes]](../../notes/Architectural%20tactics%20to%20achieve%20quality%20attributes%20of%20machine-learning-enabled%20systems-%20a%20systematic%20literature%20review.md) — 206 papers · Shamsujjoha et al. (2025) [[notes]](../../notes/Swiss%20Cheese%20Model%20for%20AI%20Safety-%20A%20Taxonomy%20and%20Reference%20Architecture%20for%20Multi-Layered%20Guardrails%20of%20Foundation%20Model%20Based%20Agents.md) — 32 agent studies · Perez-Cerrolaza et al. (2024) [[notes]](../../notes/Artificial%20Intelligence%20for%20Safety-Critical%20Systems%20in%20Industrial%20and%20Transportation%20Domains-%20A%20Survey.md) — 294 references. 532 refs total. |
+| Coding — reviewers | Single reviewer (thesis author) |
+| Coding — dual-coding audit | Not performed |
+| Coding — ambiguity adjudication | "Partial" rating assigned when a paper addresses a governance dimension incompletely, per the column-definitions footnote to Table 2.1 of the thesis Chapter 2 |
+
+ᵃ Sourced from `manuscript-v3.md:107`, not from the elicitation. See §Anchor systematic reviews.
+
+The review is structured-purposive, not systematic. Scope covers the bodies of literature where an advisory-scope restriction mechanism could plausibly appear, and coding runs against the four fixed dimensions above rather than a full PRISMA protocol. Some elements were not archived at review time: search execution dates, the intermediate screening counts before the retained set was fixed, and any dual-coding audit. These are disclosed in §Limitations rather than reconstructed after the fact. Only the retained corpus of 72 papers is verifiable in artefacts.
+
+**Live dependency.** The `Final corpus | 72` row depends on a deferred corpus-count reconciliation (see §Corpus reconciliation). If that reconciliation concludes n ≠ 72, the row and every downstream artefact quoting 72 re-issue.
 
 ---
 
@@ -66,9 +90,9 @@ Sourced from `ipsci-2026-paper-v6.md:47`. Papers were added through citation tra
 
 Sourced from `manuscript-v3.md:107` — not from the elicitation. These are the three large-scale systematic reviews retained as secondary evidence supporting the four-body absence claim.
 
-- Indykov et al. — 206 papers, 16 architectural tactics
-- Shamsujjoha et al. — 13 guardrail actions across 32 agent studies
-- Perez-Cerrolaza et al. — 294 references
+- Indykov et al. (2025) [[notes]](../../notes/Architectural%20tactics%20to%20achieve%20quality%20attributes%20of%20machine-learning-enabled%20systems-%20a%20systematic%20literature%20review.md) — 206 papers, 16 architectural tactics
+- Shamsujjoha et al. (2025) [[notes]](../../notes/Swiss%20Cheese%20Model%20for%20AI%20Safety-%20A%20Taxonomy%20and%20Reference%20Architecture%20for%20Multi-Layered%20Guardrails%20of%20Foundation%20Model%20Based%20Agents.md) — 13 guardrail actions across 32 agent studies
+- Perez-Cerrolaza et al. (2024) [[notes]](../../notes/Artificial%20Intelligence%20for%20Safety-Critical%20Systems%20in%20Industrial%20and%20Transportation%20Domains-%20A%20Survey.md) — 294 references
 
 Total: 532 secondary references.
 
@@ -81,10 +105,10 @@ Total: 532 secondary references.
 
 ## Limitations (unrecorded elements)
 
-- Search execution date(s) were not archived.
-- No pre-specified publication-year filter was applied. The observed range (2023–2026 for the bulk; three older foundational references) reflects the retained corpus, not a policy.
-- Initial records returned, post-duplicate count, and post-title/abstract count were not archived; only the retained corpus size (n = 72) is verifiable in artefacts.
-- Coding was performed by a single reviewer (the thesis author). No dual-coding audit was performed on any sample; inter-rater reliability is therefore not available.
+- Search execution dates were not archived.
+- No publication-year filter was applied. The observed range (2023–2026 for the bulk, plus three older foundational references) reflects the retained corpus, not a policy.
+- Initial records, post-duplicate count, and post-title-abstract count were not archived. Only the retained corpus size (n = 72) is verifiable in artefacts.
+- Coding was performed by a single reviewer (the thesis author). No dual-coding audit was performed on any sample, so inter-rater reliability is not available.
 
 ## Corpus reconciliation (open — not resolved in this plan)
 
