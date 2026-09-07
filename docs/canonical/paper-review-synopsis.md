@@ -3,7 +3,7 @@
 **Date:** 2026-09-07
 **Purpose:** Single-document review of the papers that carry the argument. Two tables: Table A covers the 18 primary comparators with deep prose per paper (what it does · our comment · why we selected it); Table B covers the 86 extended-corpus papers at index depth (category · role in the review). Each row also links to the paper's full extraction notes.
 **Audience:** Supervisor / reviewer wanting to see the whole review in one artefact rather than distributed across chapter prose, individual notes files, and the master coding table.
-**Status:** Table A drafted 2026-09-07 (this commit). Table B follows in a second pass, once Table A tone is signed off.
+**Status:** Complete. Table A drafted 2026-09-07 (18 rows, deep); Table B added later the same day (86 rows, grouped by nine thematic categories, shallow-index depth).
 
 ---
 
@@ -36,7 +36,158 @@ The 18 systems from Chapter 2 Table 2.1, alphabetical by first author. Each row 
 
 ## Table B — Extended-corpus papers (86)
 
-*Placeholder — populated in the second pass, once Table A tone is signed off. Structure will be: `Paper · Category · Role in the review · Notes link` — two substantive columns per row, pulled from each paper's extraction-notes Positioning / Bottom Line section where available.*
+The 86 substantively-extracted corpus papers that are not among the 18 primary comparators in Table A. Rows are grouped by thematic category (nine groups) so the table skims by theme; within each group, rows are alphabetical by first author. Each row's *Role in the review* summarises the paper's argumentative function; open the linked notes for the full extraction and per-paper analysis.
+
+Coverage: 71 of the 86 rows carry a positioning statement extracted from the paper's own extraction notes (Positioning / Bottom Line / Relationship to My Research sections). The remaining 15 carry a generic pointer to the notes file — those are papers whose extraction notes do not use an explicit positioning section header, and their argumentative role is inferable only from prose. Follow the notes link to see the full analysis for any row.
+
+### AI governance frameworks (26)
+
+*Governance frameworks that establish the general shape of the problem or provide contextual comparators. Included to anchor the review in institutional and regulatory literature adjacent to the technical comparators in Table A.*
+
+| Paper | Role in the review |
+|---|---|
+| Attard-Frost & Lyons (2025) [[notes]](../../notes/AI%20governance%20systems-%20A%20multi-scale%20analysis%20framework%2C%20empirical%20findings%2C%20and%20future%20directions.%20AI%20and%20Ethics.md) | This paper is a high-quality, peer-reviewed source that you can use to establish what institutional AI governance looks like at maximum empirical resolution — and to show that even at that resolution, the concept of state-conditioned runtime advisory scope restriction does not appear. |
+| Batool et al. (2025) [AI governance SLR, external evidence] [[notes]](../../notes/AI%20governance-%20a%20systematic%20literature%20review.md) | Positioning paragraph: Batool, Zowghi, and Bano (2025), systematically reviewing 28 AI governance studies, find coverage to be fragmentary — only three studies address who governs, what is governed, when, and how — with solutions concentrated at the organizational level and oriented toward compliance and risk management rather than enforceable principle. |
+| Bello y Villarino et al. (2025) [[notes]](../../notes/Are%20We%20Regulating%20the%20Right%20Digital%20Systems%3F%20Testing%20Emerging%20Artificial%20Intelligence%20Frameworks%20against%20Real-World%20Public%20Sector%20Systems.md) | \| Theme \| Addressed? |
+| Bengio et al. (2026) [Intl AI Safety Report] [[notes]](../../notes/International%20AI%20Safety%20Report%202026.md) | \| Theme \| Addressed? |
+| Bengio, Hinton et al. (2024) [Science] [[notes]](../../notes/Managing%20extreme%20AI%20risks%20amid%20rapid%20progress.md) | \| Theme \| Addressed? |
+| Bloomfield & Rushby (2025) [[notes]](../../notes/Assurance%20of%20AI%20Systems%20From%20a%20Dependability%20Perspective.md) | Bloomfield & Rushby (2025) represents the most comprehensive treatment of AI assurance from the dependability perspective, providing a systematic taxonomy of guarded architectures for safety-critical AI systems. |
+| Castagnone & Nitti (2026) [[notes]](../../notes/A%20Neuro-Symbolic%20Framework%20for%20Ensuring%20Deterministic%20Reliability%20in%20AI-Assisted%20Structural%20Engineering-%20The%20SYNAPSE%20Architecture.md) | \| Theme \| Addressed? |
+| Chen et al. (2025) [LLM Safety Survey] [[notes]](../../notes/AI%20Safety%20Landscape%20for%20Large%20Language%20Models-%20Taxonomy%2C%20State-of-the-art%2C%20and%20Future%20Directions.md) | \| Theme \| Addressed? |
+| Engin & Hand (2025) [dimensional governance, external evidence] [[notes]](../../notes/Towards%20Adaptive%20Categories-%20Dimensional%20Governance%20for%20Agentic%20AI.md) | Positioning paragraph: Engin and Hand (2025) argue from the governance-theory literature that static categorical frameworks — fixed risk tiers, autonomy levels, oversight models — are increasingly insufficient for dynamic AI systems, and propose dimensional governance: categories repositioned as explicit thresholds over continuously monitored dimensions, adjusted as conditions evolve, with system ... |
+| Kamath et al. (2025) [POD-Attention, external evidence] [[notes]](../../notes/POD-Attention-%20Unlocking%20Full%20Prefill-Decode%20Overlap%20for%20Faster%20LLM%20Inference.md) | Positioning paragraph: Kamath et al. |
+| Kang (2026) [[notes]](../../notes/Governed%20AI-Assisted%20Engineering-%20Graduated%20Human%20Oversight%20for%20Agentic%20Code%20Generation%20in%20Regulated%20Domains.md) | \| Theme \| Addressed? |
+| Kolt et al. (2025) [complex systems AI governance, external evidence] [[notes]](../../notes/Lessons%20from%20complex%20systems%20science%20for%20AI%20governance.md) | Positioning paragraph: Kolt, Shur-Ofry, and Cohen (2025) argue from complex systems science that AI governance premised on linear cause-and-effect is structurally inadequate: because AI systems exhibit nonlinear growth, emergence, and cascading effects, governance must intervene early and at calibrated risk thresholds, acting on incomplete information — since by the time full evidence of danger is... |
+| Koohestani (2025) [AgentGuard, runtime verification, workshop PoC] [[notes]](../../notes/AgentGuard-%20Runtime%20Verification%20of%20AI%20Agents.md) | Positioning paragraph: Koohestani (2025) represents the current frontier of the runtime verification line: AgentGuard replaces static pre-deployment verification with Dynamic Probabilistic Assurance, observing an agent's I/O, abstracting it into formal events, learning a Markov Decision Process of the agent's emergent behaviour online, and verifying quantitative PCTL properties in real time, with ... |
+| NIST (2023) [AI RMF 1.0] [[notes]](../../notes/Artificial%20Intelligence%20Risk%20Management%20Framework%20%28AI%20RMF%201.0%29.md) | Extraction notes carry substantive analysis; see [[notes]] for the paper's role in the argument. |
+| Paz (2025) [complexity governance white paper, external evidence, unreviewed] [[notes]](../../notes/From%20Linear%20Risk%20to%20Emergent%20Harm-%20Complexity%20as%20the%20Missing%20Core%20of%20AI%20Governance.md) | Positioning paragraph: Paz (2025), in a policy white paper, argues that risk-based AI governance fails structurally because it assumes linear causality and stable system boundaries, whereas AI operates in complex adaptive socio-technical systems where harm is emergent, delayed, and amplified through feedback loops — and that governance should therefore prioritise dynamic system state over static c... |
+| Pitale et al. (2025) [[notes]](../../notes/HySAFE-AI-%20Hybrid%20Safety%20Architectural%20Analysis%20Framework%20for%20AI%20Systems-%20A%20Case%20Study.md) | \| Theme \| Addressed? |
+| Porter et al. (2025) [INSYTE] [[notes]](../../notes/INSYTE-%20A%20Classification%20Framework%20for%20Traditional%20to%20Agentic%20AI%20Systems.md) | \| Theme \| Addressed? |
+| Reuel et al. (2025) [RAI maturity survey, external evidence] [[notes]](../../notes/Responsible%20AI%20in%20the%20Global%20Context-%20Maturity%20Model%20and%20Survey.md) | Positioning paragraph: Reuel et al. |
+| Robles & Mallinson (2025) [UAIGF, abstract-level only, full text pending] [[notes]](../../notes/Advancing%20AI%20governance%20with%20a%20unified%20theoretical%20framework-%20a%20systematic%20review.md) | Extraction notes carry substantive analysis; see [[notes]] for the paper's role in the argument. |
+| Sahoo (2026) [[notes]](../../notes/The%20Controllability%20Trap-%20A%20Governance%20Framework%20for%20Military%20AI%20Agents.md) | \| Theme \| Addressed? |
+| Saup et al. (2026) [[notes]](../../notes/From%20pilots%20to%20decision%20systems-%20embedding%20generative%20AI%20into%20strategic%20decision-making%20through%20a%20socio-technical%20and%20governance%20lens.md) | \| Theme \| Addressed? |
+| Selvam et al. (2026) [[notes]](../../notes/Artificial%20Intelligence%20in%20Process%20Safety-%20A%20Review%20of%20Opportunities%2C%20Challenges%2C%20and%20Future%20Directions%20for%20the%20Chemical%20Process%20Industries.md) | \| Theme \| Addressed? |
+| Seong, Lim & Yoon (2025) [CLGuard] [[notes]](../../notes/CLGuard-%20A%20Context-Aware%20Suppression%20Framework%20for%20Resilient%20Driving%20Control.md) | Extraction notes carry substantive analysis; see [[notes]] for the paper's role in the argument. |
+| Vermaelen & Holvoet (2025) [[notes]](../../notes/umato%202.0%20%E2%80%94%20A%20Constraint-Based%20Planning%20Approach%20for%20Safe%20and%20Robust%20Robot%20Behavior.md) | \| Theme \| Addressed? |
+| Wu et al. (2025) [single-threaded reasoners, external evidence, preprint] [[notes]](../../notes/LLMs%20are%20Single-threaded%20Reasoners-%20Demystifying%20the%20Working%20Mechanism%20of%20Soft%20Thinking.md) | Positioning paragraph: Wu et al. |
+| Zhao & Yuan (2025) [[notes]](../../notes/AI%20in%20Healthcare%20for%20Resource%20Limited%20Settings-%20An%20Exploration%20and%20Ethical%20Evaluation.md) | \| Theme \| Addressed? |
+
+### Formal methods / safety-critical (5)
+
+*Formal-methods and safety-critical AI papers that extend or complement the shielding / GS AI machinery in Table A. Included to show that the binary-governance pattern holds across the formal-methods stream, not just the applied one.*
+
+| Paper | Role in the review |
+|---|---|
+| Bach, Kristiansen et al. (2024) [HAII SLR] [[notes]](../../notes/Unpacking%20Human-AI%20Interaction%20in%20Safety-Critical%20Industries-%20A%20Systematic%20Literature%20Review.md) | \| Theme \| Addressed? |
+| Klüver et al. (2024) [[notes]](../../notes/A%20requirements%20model%20for%20AI%20algorithms%20in%20functional%20safety-critical%20systems%20with%20an%20explainable%20self-enforcing%20network%20from%20a%20developer%20perspective.md) | \| Theme \| Addressed? |
+| Mussi et al. (2025) [[notes]](../../notes/Human-AI%20interaction%20in%20safety-critical%20network%20infrastructures.md) | \| Theme \| Addressed? |
+| Newcomb & Ochoa (2026) [[notes]](../../notes/Formal%20methods%20for%20safety-critical%20machine%20learning-%20a%20systematic%20literature%20review.md) | \| Theme \| Addressed? |
+| Wang, Poskitt et al. (2025) [Pro2Guard, proactive enforcement, preprint] [[notes]](../../notes/Pro2Guard-%20Proactive%20Runtime%20Enforcement%20of%20LLM%20Agent%20Safety%20via%20Probabilistic%20Model%20Checking.md) | Positioning paragraph: Wang et al. |
+
+### Hybrid / neurosymbolic AI (8)
+
+*Papers on combining deterministic rule-based systems with probabilistic AI. Included as the theoretical basis for Layer 3 of the proposed architecture (rule-based reasoning engine).*
+
+| Paper | Role in the review |
+|---|---|
+| Belle (2025) [[notes]](../../notes/On%20the%20Relevance%20of%20Logic%20for%20Artificial%20Intelligence%2C%20and%20the%20Promise%20of%20Neurosymbolic%20Learning.md) | Extraction notes carry substantive analysis; see [[notes]] for the paper's role in the argument. |
+| Herbold et al. (2024) [contrastive explanations] [[notes]](../../notes/Generating%20Context-Aware%20Contrastive%20Explanations%20in%20Rule-based%20Systems.md) | The paper demonstrates that rule-based systems can generate transparent and context-aware explanations, improving user understanding and trust. |
+| Hildebrandt et al. (2026) [XHAILe] [[notes]](../../notes/XHAILe%20%E2%80%94%20Explainable%20Hybrid%20AI%20for%20Computational%20Law%20and%20Accurate%20Legal%20Chatbots.md) | Extraction notes carry substantive analysis; see [[notes]] for the paper's role in the argument. |
+| Pappula & Rusum (2024) [[notes]](../../notes/AI-Assisted%20Address%20Validation%20Using%20Hybrid%20Rule-Based%20and%20ML%20Models.md) | The paper demonstrates that hybrid rule-based and machine learning systems improve performance in structured tasks. |
+| Punzi et al. (2024) [[notes]](../../notes/AI%2C%20Meet%20Human-%20Learning%20Paradigms%20for%20Hybrid%20Decision-Making%20Systems.md) | \| Theme \| Addressed? |
+| Rozenfeld et al. (2026) [GAVEL] [[notes]](../../notes/GAVEL-%20Rule-Based%20Activation-Level%20Safety%20for%20AI%20Systems.md) | GAVEL demonstrates that rule-based mechanisms can constrain AI behaviour by monitoring internal activations and applying logical rules. |
+| Sabiri et al. (2025) [hybrid quality recommender SLR] [[notes]](../../notes/Hybrid%20Quality-Based%20Recommender%20Systems-%20A%20Systematic%20Literature%20Review.md) | Extraction notes carry substantive analysis; see [[notes]] for the paper's role in the argument. |
+| Turgunbaev (2025) [rule-based reasoning] [[notes]](../../notes/Rule-Based%20Reasoning%20and%20Its%20Role%20in%20Intelligent%20Decision%20Making.md) | Rule-based reasoning provides a deterministic and interpretable foundation for decision-making. |
+
+### LLM safety and agentic systems (2)
+
+*LLM- and agent-specific safety work that complements the primary LLM comparators in Table A (SHIELDAGENT, CRANE, AgentSpec).*
+
+| Paper | Role in the review |
+|---|---|
+| Cash et al. (2025) [LLM confidence judgments, external evidence] [[notes]](../../notes/Quantifying%20uncert-AI-nty-%20Testing%20the%20accuracy%20of%20LLMs%27%20confidence%20judgments.md) | Positioning paragraph: Cash et al. |
+| OWASP (2025) [[notes]](../../notes/OWASP%20Top%2010%20for%20Agentic%20Applications%202026.md) | Extraction notes carry substantive analysis; see [[notes]] for the paper's role in the argument. |
+
+### Human-AI interaction and decision-making (2)
+
+*Empirical and theoretical studies of how humans and AI share decision authority. Included to inform the human-decision-maker interface and the assumption that the human retains final authority.*
+
+| Paper | Role in the review |
+|---|---|
+| Leppinen et al. (2026) [[notes]](../../notes/A%20Stage-Gate%20Decision%20Process%20for%20Guiding%20the%20Development%20of%20AI%20Solutions%20for%20Preventive%20Maintenance.md) | \| Theme \| Addressed? |
+| Madsen & Kim (2024) [[notes]](../../notes/A%20state-of-the-art%20review%20of%20AI%20decision%20transparency%20for%20autonomous%20shipping.md) | \| Theme \| Addressed? |
+
+### Trust and calibration (8)
+
+*Trust-measurement and calibration literature. Included to establish that trust-calibration approaches are orthogonal to state-conditioned advisory-scope restriction.*
+
+| Paper | Role in the review |
+|---|---|
+| Aquilino et al. (2025) [[notes]](../../notes/Decoding%20Trust%20in%20Artificial%20Intelligence-%20A%20Systematic%20Review%20of%20Quantitative%20Measures%20and%20Related%20Variables.md) | ### Role in the argumentative chain |
+| Atf & Lewis (2026) [[notes]](../../notes/Is%20Trust%20Correlated%20With%20Explainability%20in%20AI%3F%20A%20Meta-Analysis.md) | ### Role in the argumentative chain |
+| Bach et al. (2024) [HCI trust SLR] [[notes]](../../notes/A%20Systematic%20Literature%20Review%20of%20User%20Trust%20in%20AI-Enabled%20Systems-%20An%20HCI%20Perspective.md) | ### Role in the argumentative chain |
+| Ghaleb et al. (2026) [[notes]](../../notes/Uncertainty-Calibrated%20Safety%20Gating%20for%20Vision%E2%80%93Language%E2%80%93Action%20Manipulation%20Under%20Domain%20Shift-%20Reliability%20Gains%20and%20Intervention%E2%80%93Efficiency%20Trade-Offs.md) | \| Theme \| Addressed? |
+| McGrath et al. (2025) [S-TIAS] [[notes]](../../notes/Measuring%20trust%20in%20artificial%20intelligence-%20validation%20of%20an%20established%20scale%20and%20its%20short%20form.md) | ### Role in the argumentative chain |
+| Nastoska et al. (2025) [[notes]](../../notes/Evaluating%20Trustworthiness%20in%20AI-%20Risks%2C%20Metrics%2C%20and%20Applications%20Across%20Industries.md) | \| Theme \| Addressed? |
+| Schrills et al. (2025) [[notes]](../../notes/Questioning%20Trust%20in%20AI%20Research-%20Exploring%20the%20Influence%20of%20Trust%20Assessment%20on%20Dependence%20in%20AI-Assisted%20Decision-Making.md) | ### Role in the argumentative chain |
+| Tatasciore & Loft (2025) [[notes]](../../notes/Calibrating%20Reliance%20on%20Automated%20Advice-%20Transparency%20and%20Trust%20Calibration%20Feedback.md) | Extraction notes carry substantive analysis; see [[notes]] for the paper's role in the argument. |
+
+### Low-resource / IoT deployment (6)
+
+*Deployment-context papers on low-resource, resource-constrained, and IoT settings. Included to support the deployment-context argument in §2.7 of Chapter 2.*
+
+| Paper | Role in the review |
+|---|---|
+| Bhuvaneswari et al. (2025) [[notes]](../../notes/A%20human-centered%20hybrid%20AI%20framework%20for%20optimizing%20emergency%20triage%20in%20resource-constrained%20settings.md) | \| Theme \| Addressed? |
+| Di Paco et al. (2026) [AISAFETY] [[notes]](../../notes/AISAFETY-%20An%20AI-based%20smart%20system%20for%20enhancing%20operator%20safety%20in%20production%20processes.md) | This paper demonstrates the effectiveness of rule-based systems for safety monitoring. |
+| Katende (2026) [[notes]](../../notes/Rethinking%20data-efficient%20artificial%20intelligence%20for%20low-resource%20settings.md) | \| Theme \| Addressed? |
+| Ogenyi et al. (2025) [[notes]](../../notes/Securing%20the%20future-%20AI-driven%20cybersecurity%20in%20the%20age%20of%20autonomous%20IoT.md) | Extraction notes carry substantive analysis; see [[notes]] for the paper's role in the argument. |
+| Toskov & Toskova (2026) [AgroNova] [[notes]](../../notes/AgroNova-%20An%20Autonomous%20IoT%20Platform%20for%20Greenhouse%20Climate%20Control.md) | AgroNova demonstrates a practical hybrid architecture where deterministic rule-based control is combined with an AI advisory component. |
+| Zhang et al. (2025) [[notes]](../../notes/Developing%20real-time%20IoT-based%20public%20safety%20alert%20and%20emergency%20response%20systems.md) | Extraction notes carry substantive analysis; see [[notes]] for the paper's role in the argument. |
+
+### Fisheries / maritime domain (22)
+
+*Domain evidence for coastal fisheries: empirical studies of fisher decision-making, risk perception, adaptive capacity, and maritime navigation. Included to establish the deployment context and validate the environmental variables in E.*
+
+| Paper | Role in the review |
+|---|---|
+| Atacan & Düzbastılar (2023) [[notes]](../../notes/Determination%20of%20risk%20perception%20in%20small-scale%20fishing%20and%20navigation.md) | \| Section \| Use \| Specific claim supported \| \|---\|---\|---\| \| Appendix C / C.1 (t variable justification) \| Primary \| Night navigation significantly increases accident probability and consequence for small-scale fishing vessels; restricted visibility (governed by time of day) is the single highest-rated risk factor for sea navigation \| \| Appendix C / C.1 (max-severity rule) \| Supporting \| Night + h... |
+| Bossier et al. (2025) [[notes]](../../notes/How%20much%20time%20and%20who%20will%20do%20it%3F%20Organizing%20the%20toolbox%20of%20climate%20adaptations%20for%20small-scale%20fisheries.md) | \| Theme \| Addressed? |
+| Chandran et al. (2025) [[notes]](../../notes/Smart%20technologies%20in%20aquaculture-%20An%20integrated%20IoT%2C%20AI%2C%20and%20blockchain%20framework%20for%20sustainable%20growth.md) | Extraction notes carry substantive analysis; see [[notes]] for the paper's role in the argument. |
+| Dominguez-Péry et al. (2023) [[notes]](../../notes/A%20holistic%20view%20of%20maritime%20navigation%20accidents%20and%20risk%20indicators-%20examining%20IMO%20reports%20from%202011%20to%202021.md) | \| Section \| Use \| Specific claim supported \| \|---\|---\|---\| \| Section 1 (Motivation) \| Supporting \| Small vessels face disproportionate fatality risk — motivates the need for safety governance in coastal fisheries \| \| Section 2.1 (Domain context) \| Supporting \| External environmental factors (wind, weather, visibility) are the most prominently reported risk category in maritime accident investigati... |
+| Gao (2024) [[notes]](../../notes/Mapping%20the%20decision-making%20factors%20of%20small-scale%20fishers-%20a%20case%20study%20of%20Penang.md) | \| Theme \| Addressed? |
+| Haque & Al Jufaili (2026) [[notes]](../../notes/Applications%20of%20Artificial%20Intelligence%20in%20Fisheries-%20From%20Data%20to%20Decisions.md) | \| Theme \| Addressed? |
+| Jeong & Im (2023) [wave height departure restrictions, Korea small fishing vessels] [[notes]](../../notes/Proposal%20of%20Restrictions%20on%20the%20Departure%20of%20Korea%20Small%20Fishing%20Vessel%20according%20to%20Wave%20Height.md) | Extraction notes carry substantive analysis; see [[notes]] for the paper's role in the argument. |
+| Kühn et al. (2025) [[notes]](../../notes/Machine%20Learning%20Applications%20for%20Fisheries%E2%80%94At%20Scales%20from%20Genomics%20to%20Ecosystems.md) | \| Theme \| Addressed? |
+| Longobardi et al. (2025) [Peskas] [[notes]](../../notes/Peskas-%20Automated%20analytics%20for%20small-scale%2C%20data-deficient%20fisheries.md) | \| Theme \| Addressed? |
+| Muhamad et al. (2024) [[notes]](../../notes/Validation%20of%20Factor%20Weights%20Affecting%20Productivity%20Efficiency%20in%20Malaysia%27s%20Small-Scale%20Fisheries%20Sector.md) | Muhamad et al. |
+| Obi et al. (2025) [[notes]](../../notes/Overview%20of%20the%20fishery%20and%20aquaculture%20sectors%20in%20Malaysia.md) | \| Theme \| Addressed? |
+| Rahim et al. (2024) [[notes]](../../notes/Survival%20Decisions%20and%20Adaptation%20Strategies%20of%20Small-scale%20Fishers%20in%20the%20Face%20of%20Extreme%20Weather%20Impacts%20in%20Coastal%20Areas.md) | \| Theme \| Addressed? |
+| Ryu & Han (2025) [[notes]](../../notes/Environment-Aware%20Multi-Sensor%20Fusion%20for%20Maritime%20Domain%20Awareness-%20A%20Comprehensive%20Review.md) | Extraction notes carry substantive analysis; see [[notes]] for the paper's role in the argument. |
+| Shaffril et al. (2017) [[notes]](../../notes/Adapting%20towards%20climate%20change%20impacts-%20Strategies%20for%20small-scale%20fishermen%20in%20Malaysia.md) | Shaffril et al. |
+| Tahsin et al. (2025) [[notes]](../../notes/Towards%20the%20adoption%20of%20AI%2C%20IoT%2C%20and%20Blockchain%20technologies%20in%20Bangladesh%27s%20maritime%20industry-%20Challenges%20and%20insights.md) | \| Theme \| Addressed? |
+| Talpur et al. (2025) [[notes]](../../notes/AI%20in%20Maritime%20Security-%20Applications%2C%20Challenges%2C%20Future%20Directions%2C%20and%20Key%20Data%20Sources.md) | \| Theme \| Addressed? |
+| Tandel et al. (2025) [[notes]](../../notes/Smart%20Aquaculture-%20IoT%20and%20AI%20Application%20for%20Sustainable%20Fisheries.md) | Extraction notes carry substantive analysis; see [[notes]] for the paper's role in the argument. |
+| Welch et al. (2024) [[notes]](../../notes/Harnessing%20AI%20to%20map%20global%20fishing%20vessel%20activity.md) | \| Theme \| Addressed? |
+| Wing & Woodward (2024) [[notes]](../../notes/Advancing%20artificial%20intelligence%20in%20fisheries%20requires%20novel%20cross-sector%20collaborations.md) | \| Theme \| Addressed? |
+| Yaakob et al. (2015) [seakeeping stability Malaysian small fishing boats, Tier 1 hydrodynamics] [[notes]](../../notes/Stability%2C%20Seakeeping%20and%20Safety%20Assessment%20of%20Small%20Fishing%20Boats%20Operating%20in%20Southern%20Coast%20of%20Peninsular%20Malaysia.md) | Extraction notes carry substantive analysis; see [[notes]] for the paper's role in the argument. |
+| Yamin et al. (2025) [[notes]](../../notes/Interplay%20of%20traditional%20knowledge%20and%20adaptive%20capacity%20in%20climate%20change%20adaptation%20of%20small-scale%20fishers%20in%20central%20Terengganu%2C%20Malaysia%20.md) | Yamin et al. |
+| Yuzui & Kaneko (2025) [[notes]](../../notes/Toward%20a%20hybrid%20approach%20for%20the%20risk%20analysis%20of%20maritime%20autonomous%20surface%20ships-%20a%20systematic%20review.md) | \| Theme \| Addressed? |
+
+### Other / background (7)
+
+*Adjacent-domain papers cited for specific background arguments (LLM inference mechanics, complex-systems science, standards). Included where the argument in Chapter 2 draws on non-governance-specific evidence.*
+
+| Paper | Role in the review |
+|---|---|
+| Gabriel et al. (2022) [[notes]](../../notes/Requirements%20Analysis%20for%20an%20Intelligent%20Workforce%20Planning%20System-%20A%20Socio-Technical%20Approach%20to%20Design%20AI-Based%20Systems.md) | \| Theme \| Addressed? |
+| Indykov et al. (2025) [[notes]](../../notes/Architectural%20tactics%20to%20achieve%20quality%20attributes%20of%20machine-learning-enabled%20systems-%20a%20systematic%20literature%20review.md) | Governance levels implemented: None of the 16 ATs implement Level 1 (participation gate G(S)) or Level 2 (advisory scope restriction A_AI(S)) in the sense used in this architecture. |
+| Kalmykov & Kalmykov (2025) [[notes]](../../notes/Towards%20eXplicitly%20eXplainable%20Artificial%20Intelligence.md) | \| Theme \| Addressed? |
+| Li et al. (2026) [[notes]](../../notes/Safety-Enhanced%20Deep%20Reinforcement%20Learning%20for%20Autonomous%20Driving-%20Dare%20to%20Make%20Mistakes%20to%20Learn%20Better%20and%20Faster.md) | \| Theme \| Addressed? |
+| Liang et al. (2025) [[notes]](../../notes/Safeguarded%20AI-Driven%20Semantic%20Communication-%20Design%20Principles%2C%20Architecture%2C%20and%20Challenges.md) | \| Theme \| Addressed? |
+| Wen et al. (2025) [[notes]](../../notes/Risk%20Perception%20in%20Complex%20Systems-%20A%20Comparative%20Analysis%20of%20Process%20Control%20and%20Autonomous%20Vehicle%20Failures.md) | \| Theme \| Addressed? |
+| Yang & Zhu (2024) [industrial expert systems] [[notes]](../../notes/Industrial%20Expert%20Systems%20Review-%20A%20Comprehensive%20Analysis%20of%20Typical%20Applications.md) | Industrial expert systems demonstrate that rule-based reasoning remains a reliable and interpretable approach for decision support in real-world environments. |
 
 ---
 
