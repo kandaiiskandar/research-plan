@@ -1,5 +1,8 @@
 # Dataset Label Derivation: Advisory AI Training Labels from Empirical Fisher Studies
 
+> **⚠️ SDR-001 APPLIED 2026-09-08 — `g_t` is now the canonical solar-event classifier: SAFE sunrise ≤ t < sunset, UNSAFE otherwise, `g_t(⊥) = UNSAFE`. It emits **no CAUTION**. The fixed clock 06:00 / 17:00 / 19:00 and its 17:00–19:00 CAUTION band are **superseded** — retained below only as the historical specification. **"Daylight" now means sunrise ≤ t < sunset.** Canonical figures: Level 2 binds **5.81% / 4.48%** (7.72% / 5.98% were computed under the superseded classifier). See `report-c8-migration-2026-09-08.md`.**
+
+
 **Document type**: Dataset methodology note  
 **For**: RQ3 (prototype implementation) — advisory AI training dataset  
 **Prepared**: May 2026  
@@ -144,8 +147,8 @@ Combining the three studies, the label logic is as follows. Environmental condit
 | Warning none | SAFE |
 | Warning advisory (Category 1) | CAUTION |
 | Warning warning / alert (Category 2/3, Ribut Taufan) | UNSAFE |
-| Time 06:00–17:00 | SAFE |
-| Time 17:00–19:00 | CAUTION |
+| Time sunrise ≤ t < sunset (was 06:00–17:00) | SAFE |
+| ~~Time 17:00–19:00 | CAUTION~~ — **withdrawn 2026-09-08 (SDR-001): `g_t` emits no CAUTION** |
 | Time 19:00–06:00 | UNSAFE |
 
 **Wave height — conditional on vessel category:**
@@ -169,7 +172,7 @@ Combining the three studies, the label logic is as follows. Environmental condit
 | Any wind, **waves > 1.25 m** | **UNSAFE** | Yaakob: 1.25 m is the 6.54 m hull's operational ceiling — top of SS3, the highest band it passes | **AI off** |
 | Any conditions, Ribut Petir active | **UNSAFE** | Yamin: sudden weather change = can't go | **AI off** |
 | Any conditions, Ribut Taufan / Category 2–3 warning active | **UNSAFE** | Tropical cyclone or higher-tier warning = unconditional halt | **AI off** |
-| Any conditions, t ∈ [19:00, 06:00) | **UNSAFE** | Night navigation; Atacan & Düzbastılar highest consequence scores | **AI off** |
+| Any conditions, t outside [sunrise, sunset) (was [19:00, 06:00)) | **UNSAFE** | Night navigation; Atacan & Düzbastılar highest consequence scores | **AI off** |
 
 For medium and big vessels the same logic applies with the corresponding wave-height row substituted. **Every training row must therefore carry `v_vessel`** — the label cannot be derived from weather alone.
 

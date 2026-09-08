@@ -1,5 +1,8 @@
 # Explainer: Per-Component Classification Functions
 
+> **⚠️ SDR-001 APPLIED 2026-09-08 — `g_t` is now the canonical solar-event classifier: SAFE sunrise ≤ t < sunset, UNSAFE otherwise, `g_t(⊥) = UNSAFE`. It emits **no CAUTION**. The fixed clock 06:00 / 17:00 / 19:00 and its 17:00–19:00 CAUTION band are **superseded** — retained below only as the historical specification. **"Daylight" now means sunrise ≤ t < sunset.** Canonical figures: Level 2 binds **5.81% / 4.48%** (7.72% / 5.98% were computed under the superseded classifier). See `report-c8-migration-2026-09-08.md`.**
+
+
 **Type:** Author reading reference — plain-language + formal explanation
 **Relates to:** `docs/canonical/appendix-c-formalisation.md` Section C.2; manuscript Section 5.3
 **Date added:** 2026-08-09
@@ -25,7 +28,7 @@ Think of each environmental condition as **voting** on how dangerous things are 
 | **g_r(r)** | Rain intensity | "It's drizzling" (SAFE) / "It's heavy rain" (CAUTION) / "It's a storm" (UNSAFE) |
 | **g_m(m)** | Marine warning level | "No warnings" (SAFE) / "Be careful" (CAUTION) / "Serious warnings" (UNSAFE) |
 | **g_o(o, v)** | Wave height, **for this boat** | "The sea is fine for this vessel" (SAFE) / "Getting marginal for this vessel" (CAUTION) / "Beyond this vessel" (UNSAFE) |
-| **g_t(t)** | Time of day | "Daytime" (SAFE) / "Dusk" (CAUTION) / "Nighttime" (UNSAFE) |
+| **g_t(t, date)** | Time of day | "Daytime" (SAFE, sunrise≤t<sunset) / "Nighttime" (UNSAFE). **No CAUTION** |
 
 **The key insight:** no single condition decides alone. They all vote, and the **worst vote wins** (max_≻ aggregation). This is the "non-compensatory" principle — good weather cannot compensate for bad weather.
 
@@ -42,7 +45,7 @@ g_w : ℝ≥0                                        → {SAFE, CAUTION, UNSAFE}
 g_r : {none, light, moderate, heavy, storm}      → {SAFE, CAUTION, UNSAFE}
 g_m : {none, advisory, warning, alert}           → {SAFE, CAUTION, UNSAFE}
 g_o : (ℝ≥0 × ℝ≥0) × {small, medium, big}         → {SAFE, CAUTION, UNSAFE}
-g_t : [0, 24)                                    → {SAFE, CAUTION, UNSAFE}
+g_t : ([0, 24) × Date) ∪ {⊥}                     → {SAFE, UNSAFE}
 ```
 
 Aggregation:
@@ -69,7 +72,7 @@ g_w(w) = UNSAFE  if w > 27
 **g_t(t)** — note the wrap-around for UNSAFE
 ```
 g_t(t) = SAFE    if 6.0 ≤ t < 17.0
-g_t(t) = CAUTION if 17.0 ≤ t < 19.0
+g_t(t, date) = SAFE if sunrise(date) ≤ t < sunset(date), else UNSAFE   [superseded: CAUTION if 17.0 ≤ t < 19.0]
 g_t(t) = UNSAFE  if t ∈ [19.0, 24.0) ∪ [0.0, 6.0)
 ```
 

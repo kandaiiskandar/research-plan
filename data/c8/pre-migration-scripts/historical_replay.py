@@ -22,15 +22,6 @@ import pandas as pd
 import numpy as np
 from pathlib import Path
 
-# --- SDR-001 APPLIED 2026-09-08: g_t is the canonical solar-event classifier.
-# Imported from scripts/canonical_gt.py, which reads the frozen C-3 artefact
-# data/solar/solar-events-daily.csv. No solar astronomy is computed here.
-# "Daylight" now means sunrise <= t < sunset, NOT the superseded 06:00-17:00.
-import sys as _sys
-_sys.path.insert(0, str(Path(__file__).resolve().parent))
-from canonical_gt import g_t as _canonical_g_t, is_daylight as _is_daylight
-
-
 # Wind thresholds — anchored 2026-09-08. MET Malaysia Cat 1 / Cat 2 onsets,
 # preserved at the source value rather than rounded:
 #   W_CAUTION  40 km/h / 1.852 = 21.598 kn -> 21.6 at data resolution.
@@ -96,7 +87,7 @@ def g_r(precip_mm_hr, wmo_code):
 
 def g_t(hour):
     """Time of day. SAFE 06:00-17:00, CAUTION 17:00-19:00, UNSAFE otherwise."""
-    raise NotImplementedError("superseded; use canonical_gt.g_t (SDR-001)")
+    return 0 if 6 <= hour < 17 else (1 if 17 <= hour < 19 else 2)
 
 
 def g_o(wave_m, vessel):
@@ -112,41 +103,17 @@ def g_o_vessel_blind(wave_m):
 
 
 def load():
-
-# --- SDR-001 / C-8 data-source migration ------------------------------------
-# CANONICAL configuration is v2 SEA-CELL: raw_weather_sea.csv (wind, precip,
-# WMO) joined to raw_marine_era5_sea.csv (waves). raw_rainfall.csv and
-# raw_weather.csv sit on the LAND cell that F-10 condemned and are retained
-# only behind --v1-historical for reproducing pre-migration findings.
-    if "--v1-historical" in __import__("sys").argv:
-        w = pd.read_csv(DATA / "raw_weather.csv", skiprows=3)
-        m = pd.read_csv(DATA / "raw_marine.csv", skiprows=3)
-        r = pd.read_csv(DATA / "raw_rainfall.csv", skiprows=3)
-        precip = r["precipitation (mm)"].values
-        time = pd.to_datetime(w["time"])
-        wave = m["wave_height (m)"].values
-        wind = w["wind_speed_10m (kn)"].values
-        wmo = w["weather_code (wmo code)"].values
-    else:
-        w = pd.read_csv(DATA / "raw_weather_sea.csv", skiprows=3)
-        m = pd.read_csv(DATA / "raw_marine_era5_sea.csv", skiprows=3)
-        w["time"] = pd.to_datetime(w["time"])
-        m["time"] = pd.to_datetime(m["time"])
-        j = w.merge(m, on="time", how="inner").dropna(
-            subset=["wind_speed_10m (kn)", "wave_height (m)", "precipitation (mm)"])
-        time = j["time"]
-        wind = j["wind_speed_10m (kn)"].values
-        wmo = j["weather_code (wmo code)"].values
-        wave = j["wave_height (m)"].values
-        precip = j["precipitation (mm)"].values
+    w = pd.read_csv(DATA / "raw_weather.csv", skiprows=3)
+    m = pd.read_csv(DATA / "raw_marine.csv", skiprows=3)
+    r = pd.read_csv(DATA / "raw_rainfall.csv", skiprows=3)
 
     d = pd.DataFrame({
-        "time": time,
-        "wind": wind,
+        "time":  pd.to_datetime(w["time"]),
+        "wind":  w["wind_speed_10m (kn)"].values,
         "gust":  w["wind_gusts_10m (kn)"].values,
-        "wmo":  wmo,
-        "wave": wave,
-        "precip": precip,
+        "wmo":   w["weather_code (wmo code)"].values,
+        "wave":  m["wave_height (m)"].values,
+        "precip": r["precipitation (mm)"].values,
     })
     d["hour"] = d["time"].dt.hour
     d["month"] = d["time"].dt.month
@@ -155,7 +122,7 @@ def load():
     d["c_wind"] = d["wind"].apply(g_w)
     d["c_gust"] = d["gust"].apply(g_w)          # counterfactual: if gusts were used
     d["c_rain"] = [g_r(p, c) for p, c in zip(d["precip"], d["wmo"])]
-    d["c_time"] = _canonical_g_t(d["time"], d["hour"])
+    d["c_time"] = d["hour"].apply(g_t)
     # m held at 'none' -> 0. Documented limitation.
     d["c_warn"] = 0
     return d
@@ -236,7 +203,7 @@ def main():
     # --- Main replays ---
     report(d, "ALL HOURS")
     report(d, "DEPARTURE WINDOW 05:00-09:00", (d.hour >= 5) & (d.hour <= 9))
-    report(d, "DAYLIGHT (sunrise-sunset)", _is_daylight(d["time"], d["hour"]))
+    report(d, "DAYLIGHT 06:00-17:00", (d.hour >= 6) & (d.hour < 17))
 
     # --- Safety Dominance check ---
     print(f"\n{'='*78}\nSAFETY DOMINANCE COMPLIANCE\n{'='*78}")

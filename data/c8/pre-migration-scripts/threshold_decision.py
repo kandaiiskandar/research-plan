@@ -36,15 +36,6 @@ W_CAUTION, W_UNSAFE = 21.6, 27.0
 R_CAUTION, R_UNSAFE = 10.0, 20.0
 from pathlib import Path
 
-# --- SDR-001 APPLIED 2026-09-08: g_t is the canonical solar-event classifier.
-# Imported from scripts/canonical_gt.py, which reads the frozen C-3 artefact
-# data/solar/solar-events-daily.csv. No solar astronomy is computed here.
-# "Daylight" now means sunrise <= t < sunset, NOT the superseded 06:00-17:00.
-import sys as _sys
-_sys.path.insert(0, str(Path(__file__).resolve().parent))
-from canonical_gt import g_t as _canonical_g_t, is_daylight as _is_daylight
-
-
 DATA = Path(__file__).resolve().parent.parent / "data"
 CAUTION_ON = 1.0          # small-vessel CAUTION onset, unchanged
 CANDIDATES = [1.90, 1.75, 1.50, 1.25, 1.00]
@@ -62,7 +53,8 @@ def load():
     d["g_w"] = np.where(d.wind > W_UNSAFE, 2, np.where(d.wind > W_CAUTION, 1, 0))
     d["g_r"] = np.where((d.precip > R_UNSAFE) | d.wmo.isin([95, 96, 99]), 2,
                         np.where(d.precip > R_CAUTION, 1, 0))
-    d["g_t"] = _canonical_g_t(d["time"], d["hr"])
+    d["g_t"] = np.where((d.hr >= 6) & (d.hr < 17), 0,
+                        np.where((d.hr >= 17) & (d.hr < 19), 1, 2))
     return d
 
 
@@ -85,7 +77,7 @@ def main():
     windows = {
         "ALL HOURS":              np.ones(len(d), bool),
         "DEPARTURE 05:00-09:00": ((d.hr >= 5) & (d.hr <= 9)).values,
-        "DAYLIGHT (sunrise-sunset)":  _is_daylight(d["time"], d["hr"]),
+        "DAYLIGHT 06:00-17:00":  ((d.hr >= 6) & (d.hr < 17)).values,
     }
 
     print("=" * 78)
@@ -116,7 +108,7 @@ def main():
     print("\n" + "=" * 78)
     print("3.  DAYLIGHT-ONLY UNSAFE — the darkness-free test")
     print("=" * 78)
-    day = windows["DAYLIGHT (sunrise-sunset)"]
+    day = windows["DAYLIGHT 06:00-17:00"]
     print(f"  {'UNSAFE at':<12}{'UNSAFE hrs in daylight':>26}{'% of daylight':>16}")
     for u in CANDIDATES:
         f, _ = classify(d, u)

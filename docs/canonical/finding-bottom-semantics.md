@@ -16,7 +16,7 @@
 
 Every historical replay in this project holds **`m = none` for all 43,848 hours**, because no marine warning archive exists for the site (Q2, F-11 standing caveat). That is exactly the case the document says must be `⊥`.
 
-Applied literally: `g_m(⊥) = UNSAFE`, aggregation is by maximum, therefore `f(E) = UNSAFE` at every hour, and **the 7.72% Level 2 binding rate — the headline result of the thesis — would be meaningless.**
+Applied literally: `g_m(⊥) = UNSAFE`, aggregation is by maximum, therefore `f(E) = UNSAFE` at every hour, and **the 7.72% Level 2 binding rate — the headline result of the thesis — would be meaningless.** *(figure computed under the superseded fixed-clock `g_t`; canonical after SDR-001 is 5.81% / 4.48% — see `report-c8-migration-2026-09-08.md`)*
 
 The resolution exists but is written nowhere:
 

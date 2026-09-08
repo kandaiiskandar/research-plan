@@ -41,15 +41,6 @@ import pandas as pd
 import numpy as np
 from pathlib import Path
 
-# --- SDR-001 APPLIED 2026-09-08: g_t is the canonical solar-event classifier.
-# Imported from scripts/canonical_gt.py, which reads the frozen C-3 artefact
-# data/solar/solar-events-daily.csv. No solar astronomy is computed here.
-# "Daylight" now means sunrise <= t < sunset, NOT the superseded 06:00-17:00.
-import sys as _sys
-_sys.path.insert(0, str(Path(__file__).resolve().parent))
-from canonical_gt import g_t as _canonical_g_t, is_daylight as _is_daylight
-
-
 ROOT = Path(__file__).resolve().parent.parent
 DATA = ROOT / "data"
 
@@ -161,7 +152,8 @@ def classify(d):
     storm = (d["precip"] > R_UNSAFE) | d["wmo"].isin([95, 96, 99])
     g_r = np.where(storm, UNSAFE, np.where(d["precip"] > R_CAUTION, CAUTION, SAFE))
     g_o = np.where(d["wave"] > HI, UNSAFE, np.where(d["wave"] >= LO, CAUTION, SAFE))
-    g_t = _canonical_g_t(d["time"], d["hour"])
+    g_t = np.where((d["hour"] >= 6) & (d["hour"] < 17), SAFE,
+                   np.where((d["hour"] >= 17) & (d["hour"] < 19), CAUTION, UNSAFE))
     g_m = np.full(len(d), SAFE)
     return np.max(np.column_stack([g_w, g_r, g_m, g_o, g_t]), axis=1)
 
@@ -216,17 +208,6 @@ def run_config(cfg_label, marine_file):
     r_all, _ = divergence_matrix(states, allh.values, "ALL HOURS")
     r_dep, _ = divergence_matrix(states, dep.values, "DEPARTURE WINDOW 05:00-09:00")
     return r_all, r_dep
-
-
-
-# --- SDR-001 / C-8: register writes are OPT-IN, never silent -------------
-# C-5 and C-7 found that this script wrote data/prediction-register.csv on
-# every run. An analysis script that rewrites resolved verdicts whenever the
-# specification moves records nothing. Writing now requires an explicit flag.
-def _register_write_enabled():
-    import os, sys
-    return ("--write-register" in sys.argv
-            or os.environ.get("ALLOW_REGISTER_WRITE") == "1")
 
 
 def _register_guard(reg, pid):
@@ -330,11 +311,8 @@ def main():
         if _register_guard(reg, pid):
             reg.loc[reg.id == pid, "resolved"] = "2026-09-06"
 
-    if _register_write_enabled():
-        reg.to_csv(DATA / "prediction-register.csv", index=False)
-        print("Register updated (explicit --write-register).")
-    else:
-        print("Register NOT written (read-only default; pass --write-register to enable).")
+    reg.to_csv(DATA / "prediction-register.csv", index=False)
+    print("\nRegister updated.")
 
     print(f"""
 {'='*78}

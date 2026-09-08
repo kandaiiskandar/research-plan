@@ -17,12 +17,6 @@ import pandas as pd
 import numpy as np
 from pathlib import Path
 
-# --- SDR-001 APPLIED 2026-09-08: canonical solar-event g_t / daylight.
-# "Daylight" means sunrise <= t < sunset, NOT the superseded 06:00-17:00.
-import sys as _sys
-_sys.path.insert(0, str(Path(__file__).resolve().parent))
-from canonical_gt import g_t as _canonical_g_t, is_daylight as _is_daylight
-
 DATA = Path(__file__).resolve().parent.parent / "data"
 
 # ---------------------------------------------------------------------------
@@ -48,7 +42,7 @@ def main():
     m["time"] = pd.to_datetime(m["time"])
     m = m.dropna(subset=["wave"])
     m["hr"] = m["time"].dt.hour
-    day = m[_is_daylight(m["time"], m["hr"])]   # astronomical daylight
+    day = m[(m.hr >= 6) & (m.hr < 17)]
     dep = m[(m.hr >= 5) & (m.hr <= 9)]
 
     n, nd = len(m), len(day)

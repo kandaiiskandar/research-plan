@@ -1,5 +1,8 @@
 # Data Source: MET Malaysia — Environmental Variables for f(E)
 
+> **⚠️ SDR-001 APPLIED 2026-09-08 — `g_t` is now the canonical solar-event classifier: SAFE sunrise ≤ t < sunset, UNSAFE otherwise, `g_t(⊥) = UNSAFE`. It emits **no CAUTION**. The fixed clock 06:00 / 17:00 / 19:00 and its 17:00–19:00 CAUTION band are **superseded** — retained below only as the historical specification. **"Daylight" now means sunrise ≤ t < sunset.** Canonical figures: Level 2 binds **5.81% / 4.48%** (7.72% / 5.98% were computed under the superseded classifier). See `report-c8-migration-2026-09-08.md`.**
+
+
 **Document type**: Data acquisition and variable mapping note  
 **For**: Chapter 3 (Architecture Design) — prototype implementation (RQ3) and evaluation dataset (RQ4)  
 **Prepared**: May 2026  
@@ -125,7 +128,7 @@ The UNSAFE boundary for w and o is anchored to MET Malaysia's published **Kriter
 > - **Rainfall** read "None/light (< 5 mm/hr) SAFE, Moderate (5–20 mm/hr) CAUTION, Heavy/storm (> 20 mm/hr) UNSAFE." Canonical is SAFE = {none, light, **moderate**}, CAUTION = {**heavy**}, UNSAFE = {**storm**}. Moderate rain does not trigger CAUTION, and heavy rain is not UNSAFE. *The same error was found independently in `docs/justification/safety-state-design.md`.*
 > - **Wave height** was a single vessel-blind row (< 1.5 / 1.5–3.5 / > 3.5 m). That row is retained as the big-vessel case; smaller vessels reach CAUTION and UNSAFE at lower wave heights.
 | **Vessel category (v)** | Medium / big | Small (≤ 22 ft / < 40 GRT) | — | Small craft = primary risk group in Category 1 criteria |
-| **Time of day (t)** | 06:00–17:00 | 17:00–19:00 | 19:00–06:00 | Empirical basis: Atacan & Düzbastılar (2023) night navigation risk |
+| **Time of day (t)** | sunrise ≤ t < sunset | *(none)* | otherwise | **SDR-001 2026-09-08:** boundary from COLREGs Rule 20(b); Atacan & Düzbastılar (2023) establish elevated night risk, not the boundary |
 
 **MET Malaysia warning category summary (for reference):**
 

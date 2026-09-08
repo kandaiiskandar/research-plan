@@ -1,5 +1,8 @@
 # A Formally Verified Runtime AI Governance Architecture Based on Graduated Safety-State Gating
 
+> **⚠️ SDR-001 APPLIED 2026-09-08 — active working manuscript.** `g_t` is the canonical solar-event classifier: **SAFE sunrise ≤ t < sunset, UNSAFE otherwise**, `g_t(⊥) = UNSAFE`, and it emits **no CAUTION**. The fixed clock 06:00 / 17:00 / 19:00 and its 17:00–19:00 CAUTION band are superseded. **"Daylight" means sunrise ≤ t < sunset.** Canonical figures: Level 2 binds **5.81% / 4.48%**; prediction register **15 CONFIRMED / 9 REFUTED**. Earlier values (7.72% / 5.98%, 22/2, 5,416 / 70 / 6.2%) are provenance only. Submitted and archived versions are historical and are not edited. See `report-c8-migration-2026-09-08.md`.
+
+
 **Journal:** Safety Science (Elsevier) — primary target  
 **Fallback:** Artificial Intelligence Review (Springer) / AI & Ethics (Springer)  
 **Type:** Full research article  
@@ -180,7 +183,7 @@ For each condition component xᵢ ∈ {w, r, m, o, t}, define a classification f
 | g_r(r) | {none, light, moderate} | {heavy} | {storm} | MET Malaysia Ribut Petir (thunderstorm/cyclone) = unconditional halt |
 | g_m(m) | {none} | {advisory} | {warning, alert} | MET Malaysia three-tier marine warning system |
 | g_o(o, v) | *vessel-conditional* | | | See Table 1b |
-| g_t(t) | 6.0 ≤ t < 17.0 | 17.0 ≤ t < 19.0 | t ∈ [19.0, 24.0) ∪ [0.0, 6.0) | Night navigation risk: highest accident probability and consequence scores (Atacan & Düzbastılar, 2023) |
+| g_t(t, date) | sunrise(date) ≤ t < sunset(date) | *(none — g_t emits no CAUTION)* | otherwise; UNSAFE if t = ⊥ | **Boundary: COLREGs Rule 20(b), "from sunset to sunrise" (SDR-001, applied 2026-09-08).** Atacan & Düzbastılar (2023) establish elevated night risk, not the boundary |
 
 **Table 1b. Vessel-conditional wave height thresholds, g_o(o, v).**
 
@@ -570,7 +573,7 @@ Section 10 evaluates whether these formal guarantees produce correct behavioural
 - Implementation stack (low-resource constraints: offline-first, lightweight)
 - How the three layers are implemented in software
 - How RS(S) is encoded and supplied to the reasoning engine
-- Hysteresis smoothing at state transition boundaries. ⚠️ **Present as a retained precaution, not a necessity.** Measured on five years of site data: 70 oscillation events (14/yr), hysteresis reduces condition-driven transitions by only 6.2%. State the hourly-resolution bound. See `empirical-findings-2026-09-06.md` F-6
+- Hysteresis smoothing at state transition boundaries. ⚠️ **Present as a retained precaution, not a necessity.** Measured on five years of site data under the canonical specification: 26 oscillation events (5.2/yr), hysteresis reduces non-scheduled transitions by 10.36%. State the hourly-resolution bound. See `empirical-findings-2026-09-06.md` F-6
 - Deployment environment: Kota Kinabalu, Sabah, Malaysia fisheries context
 
 > **Source:** `docs/implementation/` documents  
@@ -625,7 +628,7 @@ Section 10 evaluates whether these formal guarantees produce correct behavioural
 **Ablation conditions to test:**
 - Remove advisory scope restriction (A_AI(S) = full set at all states) — reduces to binary gate
 - Remove participation gate (G(S) = 1 always) — removes safety disengagement
-- Remove hysteresis smoothing — measures mode-chattering frequency. ⚠️ **Already run on historical replay (F-6): 5,416 transitions, 95.8% scheduled clock events, 70 genuine oscillations in five years, 6.2% reduction from hysteresis.** This ablation reports a near-null result; write it up as such rather than re-running it as an open question
+- Remove hysteresis smoothing — measures mode-chattering frequency. ⚠️ **Already run on historical replay (F-6), canonical specification: 3,661 transitions, the large majority scheduled solar events, 26 genuine oscillations in five years, 10.36% reduction from hysteresis.** This ablation reports a near-null result; write it up as such rather than re-running it as an open question
 - Remove worst-case aggregation — measures misclassification rate at E boundary conditions
 
 *(To be written after experiments are run)*

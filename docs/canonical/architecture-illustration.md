@@ -1,5 +1,8 @@
 # Architecture Illustration: Graduated Safety-State-Gated Hybrid AI Decision Architecture
 
+> **⚠️ SDR-001 APPLIED 2026-09-08 — `g_t` is now the canonical solar-event classifier: SAFE sunrise ≤ t < sunset, UNSAFE otherwise, `g_t(⊥) = UNSAFE`. It emits **no CAUTION**. The fixed clock 06:00 / 17:00 / 19:00 and its 17:00–19:00 CAUTION band are **superseded** — retained below only as the historical specification. **"Daylight" now means sunrise ≤ t < sunset.** Canonical figures: Level 2 binds **5.81% / 4.48%** (7.72% / 5.98% were computed under the superseded classifier). See `report-c8-migration-2026-09-08.md`.**
+
+
 This document illustrates the proposed two-level governance architecture through diagrams, tables, and a worked scenario. All formal definitions are canonical in [`appendix-c-formalisation.md`](appendix-c-formalisation.md).
 
 ---
@@ -231,7 +234,7 @@ Each parameter is independently classified into a safety zone using threshold co
 | **r** — Rainfall | None / light / moderate | Heavy | Storm (Ribut Petir) |
 | **m** — Marine warning | None | Category 1 advisory | Category 2/3, Ribut Petir, Ribut Taufan |
 | **o** — Ocean state (wave height) | *vessel-conditional — see below* | | |
-| **t** — Time of day | 06:00–17:00 | 17:00–19:00 | 19:00–06:00 |
+| **t** — Time of day | sunrise ≤ t < sunset | *(none — `g_t` emits no CAUTION)* | otherwise |
 
 **Ocean state thresholds are conditioned on vessel category.** There is no separate classification for `v`; vessel category selects which row of `g_o` applies:
 
@@ -393,7 +396,7 @@ Environmental State:
   r = none          → S_r = SAFE
   m = none          → S_m = SAFE
   o = 0.5m, small   → S_o = SAFE      ← 0.5 < 1.0 (small-vessel row)
-  t = 05:30         → S_t = UNSAFE    ← night hours
+  t = 05:30, 2024-03-20 → S_t = UNSAFE  ← before sunrise (06:20 that date)
 
 S = max-severity(SAFE, SAFE, SAFE, SAFE, UNSAFE) = UNSAFE
 G(S) = 0    |    A_AI(S) = {}
@@ -460,7 +463,7 @@ Environmental State:
   r = heavy         → S_r = CAUTION   ← heavy is CAUTION; storm is UNSAFE
   m = warning       → S_m = UNSAFE    ← Category 2/3
   o = 2.5m, small   → S_o = UNSAFE    ← 2.5 > 1.9 (small-vessel row)
-  t = 16:30         → S_t = SAFE
+  t = 16:30, 2024-03-20 → S_t = SAFE    ← before sunset (18:27 that date)
 
 S = max-severity(UNSAFE, CAUTION, UNSAFE, UNSAFE, SAFE) = UNSAFE
 G(S) = 0    |    A_AI(S) = {}
@@ -482,7 +485,7 @@ Environmental State:
   r = light         → S_r = SAFE
   m = none          → S_m = SAFE       ← advisory lifted
   o = 0.8m, small   → S_o = SAFE       ← 0.8 < 1.0 (small-vessel row)
-  t = 18:30         → S_t = CAUTION    ← approaching darkness
+  t = 18:30, 2024-03-20 → S_t = UNSAFE  ← after sunset (18:27 that date)
 
 S = max-severity(SAFE, SAFE, SAFE, SAFE, CAUTION) = CAUTION
 G(S) = 1    |    A_AI(S) = {Go, Delay}

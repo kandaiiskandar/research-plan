@@ -17,25 +17,32 @@
 
 **Report BOTH columns.** The decision of 2026-09-06 ("option C") is that neither configuration alone is the result. Both use **sea-cell** weather — so the F-10 land/sea error is corrected in both — the amended small-vessel wave thresholds **1.0 / 1.25 m**, and the MET-anchored rainfall thresholds **10.0 / 20.0 mm/hr** (amended 2026-09-08, see `finding-met-lower-boundary-gap.md`).
 
+> ### ⚠️ Regenerated 2026-09-08 under the canonical solar-event `g_t` (SDR-001 APPLIED, C-8)
+>
+> **The table below is the current canonical figure set**, produced by `scripts/canonical_figures.py` after migration. **`g_t` is now SAFE sunrise ≤ t < sunset, UNSAFE otherwise**, and **"daylight" means the astronomical interval**, not the superseded 06:00–17:00 clock window.
+>
+> **Previous canonical figures under the superseded fixed-clock `g_t`** — retained for provenance, **no longer current**: Level 2 binding **7.72% / 5.98%**; daylight UNSAFE **1,170 / 409**; weather-driven share **11.8% / 7.0%**; small-vs-big **12.16% / 7.94%**; `g_o` daylight CAUTION **98.66% / 97.41%**; `g_t` all-hours non-SAFE **87.63% / 91.10%**; `g_r` daylight CAUTION **1.55% / 2.99%**. Migration record: `report-c8-migration-2026-09-08.md`.
+
 | Quantity | **PRIMARY**<br>5.00 yr · ERA5-Ocean ~50 km | **RESOLUTION**<br>3.25 yr · MFWAM ~8 km |
 |---|---|---|
 | Hourly records | 43,848 | 28,501 |
 | Period | 2020-01 → 2024-12 | 2021-10 → 2024-12 |
-| **Level 2 binding rate** (S = CAUTION, departure 05:00–09:00) | **7.72%** | **5.98%** |
-| Daylight UNSAFE hours (06:00–17:00) | 1,170 (5.82%) | 409 (3.13%) |
-| Weather-driven share of all UNSAFE hours | 11.8% | 7.0% |
-| Small vs big classify differently (departure) | 12.16% | 7.94% |
-| `g_o` share of daylight CAUTION | 98.66% | 97.41% |
-| `g_t` share of all-hours non-SAFE | 87.63% | 91.10% |
-| `g_r` share of daylight CAUTION | 1.55% | 2.99% |
+| **Level 2 binding rate** (S = CAUTION, departure 05:00–09:00) | **5.81%** | **4.48%** |
+| Daylight UNSAFE hours (sunrise–sunset) | 1,262 (5.80%) | 455 (3.23%) |
+| Weather-driven share of all UNSAFE hours | 10.9% | 6.4% |
+| Small vs big classify differently (departure) | 9.11% | 5.86% |
+| `g_o` share of daylight CAUTION | 98.71% | 97.66% |
+| `g_t` share of all-hours non-SAFE | 86.82% | 90.19% |
+| `g_r` share of daylight CAUTION | 1.48% | 2.70% |
+| `g_t` share of daylight CAUTION | **0.00%** — `g_t` emits no CAUTION | **0.00%** |
 | `g_w`, `g_m` — ever bind | **0%** | **0%** |
 | Max sustained wind | 21.8 kn | 21.7 kn |
 | `g_w` activations (> 21.6 kn) | **2** in 5 yr | 1 in 3.25 yr |
 | Max wave height | 2.60 m | 1.84 m |
 | **C3 (Flehmig) vs C1 (binary) divergence** | **0.00%** | **0.00%** |
-| Level 2 contribution isolated (C0↔C2 − C0↔C1) | 7.72% | 5.98% |
+| Level 2 contribution isolated (C0↔C2 − C0↔C1) | 5.81% | 4.48% |
 
-**The 1.7-point gap between the columns IS the grid-resolution sensitivity** (F-14). Report it as a robustness result, not as uncertainty about which number is true. PRIMARY is the headline because it covers the full five years; RESOLUTION is the check because it resolves nearshore island sheltering that a 50 km cell averages away.
+**The 1.3-point gap between the columns IS the grid-resolution sensitivity** (F-14). Report it as a robustness result, not as uncertainty about which number is true. PRIMARY is the headline because it covers the full five years; RESOLUTION is the check because it resolves nearshore island sheltering that a 50 km cell averages away.
 
 **F-15 (C3 ≡ C1) holds in both configurations at exactly 0.00%** — it is a structural property of the mapping, not a data artefact, so it cannot move with the wave model.
 

@@ -1,0 +1,32 @@
+=== PRE-MIGRATION ANCHORS  2026-09-08T12:46:12Z ===
+-- register --
+d95cf81f19341c3c14f136070473bbf56ffa1928458d164fbd4bbf85bed218ce  data/prediction-register.csv
+   entries 24 {'REFUTED': 2, 'CONFIRMED': 22}
+-- Appendix C --
+7681261ea5f48ea01a4d019a7aff9766d1ea9e0553a609feb6b5a0b84120f634  docs/canonical/appendix-c-formalisation.md
+-- 8 canonical scripts --
+5af9eaf7f442018007d695a23839f247111372d3c0e89192113a26e7b0d4d79f  scripts/canonical_figures.py
+1f0f4e9cd2868820c935ff6ac6bd191abf713f418fc621f83c84ccee923c0679  scripts/condition_comparison.py
+69bc2bd63bcad289e08c239fd1411db0cac39db8d975ade4918284587efd052b  scripts/diagnostic_binding.py
+73015d881a29cd4d8e62c92ca49f13c40b168e6404459c18fbada427c4edcefe  scripts/hysteresis_analysis.py
+dd6a6c3f726be9f09f271c66857164c448b4d5e720522df6462af4fdddf51538  scripts/historical_replay.py
+8e977c90aaf583c417f7d4600f1c415b2c094d0115749096df7c48330f8d0462  scripts/compare_v1_v2.py
+d051cac4834f7bf037abf14c10a1f5997a4a2ebe216331a612bb82e4473f45de  scripts/threshold_decision.py
+7e799b5fc4050bd88d1c482fbc3f61c8718d460008a7249a67da7b2ccf0e36c8  scripts/threshold_comparison.py
+-- frozen artefacts C-3/C-5/C-6/C-7 --
+057c46a19d0e8ea7956cdc38ae3d7615cf43cf800e7bc33ab286dfdc20ce1894  data/solar/solar-events-daily.csv
+da14a8dca224ae1869466c0ee03d58e5fc908fcee9ac3ac89172a8bf4a159c81  data/solar/usno-validation-2026-09-08.csv
+3566cd6b1aab6cd362180bb7034e97b6497c259ffd7414061d33c53b4a76feb7  data/c5/c5-three-stage-metrics.csv
+46474a320e11502c0b62d383d13d8df1db7a14c9132702db8b5fcd294d604a64  data/c6/prediction-reresolution.csv
+d5db567c50a2927ab8b94f52753210b2b0aea702a16bfc359a19290396780b30  data/c7/baseline-provenance.csv
+-- findings + manuscripts --
+dd29cddb3fe82d45a863316b84121607e9d6ba49a7961c24c42f9538ab3560e1  docs/canonical/empirical-findings-2026-09-06.md
+ffc366c1d9d889bf1e01d0f1389702c953f0b1b11d7a7fef89a5e6ffdb9eebdb  publications/active/ipsci-2026/submissions/v3-revision/manuscript-v3.md
+b917df033b8d53a863e042e7694639f3e3fddbfb511f736adcba4f13920b11d7  publications/active/journal-1/submissions/v1-initial-submission/manuscript.md
+-- incumbent g_t present in Appendix C (expect 3) --
+3
+-- headline 7.72 / 5.98 --
+8
+5
+-- SDR status --
+1

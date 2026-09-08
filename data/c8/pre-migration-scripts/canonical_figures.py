@@ -47,15 +47,6 @@ import pandas as pd
 import numpy as np
 from pathlib import Path
 
-# --- SDR-001 APPLIED 2026-09-08: g_t is the canonical solar-event classifier.
-# Imported from scripts/canonical_gt.py, which reads the frozen C-3 artefact
-# data/solar/solar-events-daily.csv. No solar astronomy is computed here.
-# "Daylight" now means sunrise <= t < sunset, NOT the superseded 06:00-17:00.
-import sys as _sys
-_sys.path.insert(0, str(Path(__file__).resolve().parent))
-from canonical_gt import g_t as _canonical_g_t, is_daylight as _is_daylight
-
-
 ROOT = Path(__file__).resolve().parent.parent
 DATA = ROOT / "data"
 
@@ -127,7 +118,8 @@ def components(d, vessel):
     storm = (d["precip"] > R_UNSAFE) | d["wmo"].isin([95, 96, 99])
     g_r = np.where(storm, UNSAFE, np.where(d["precip"] > R_CAUTION, CAUTION, SAFE))
     g_o = np.where(d["wave"] > hi, UNSAFE, np.where(d["wave"] >= lo, CAUTION, SAFE))
-    g_t = _canonical_g_t(d["time"], d["hour"])
+    g_t = np.where((d["hour"] >= 6) & (d["hour"] < 17), SAFE,
+                   np.where((d["hour"] >= 17) & (d["hour"] < 19), CAUTION, UNSAFE))
     g_m = np.full(len(d), SAFE)
     f = np.max(np.column_stack([g_w, g_r, g_m, g_o, g_t]), axis=1)
     return f, {"g_w": g_w, "g_r": g_r, "g_m": g_m, "g_o": g_o, "g_t": g_t}
@@ -139,7 +131,7 @@ def figures(name, cfg):
     f_big, _ = components(d, "big")
 
     dep = ((d.hour >= 5) & (d.hour <= 9)).values
-    day = _is_daylight(d["time"], d["hour"])   # astronomical daylight
+    day = ((d.hour >= 6) & (d.hour < 17)).values
     years = (d.time.max() - d.time.min()).days / 365.25
 
     caution_day = day & (f_small == CAUTION)

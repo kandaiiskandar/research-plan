@@ -32,11 +32,12 @@ Tonnage is the discriminating variable because the LOA ranges in the source clas
 
 ### Time of Day Classification Note
 
-t ∈ [0, 24) is classified by the threshold function g_t(t) into three governance zones:
+t is classified by `g_t(t, date)` into **two** governance zones *(SDR-001 applied 2026-09-08)*:
 
-- **SAFE**: 06:00–17:00 (daytime operating condition — full AI advisory scope admissible)
-- **CAUTION**: 17:00–19:00 (transition to darkness — elevated visual risk; restricted AI advisory scope)
-- **UNSAFE**: 19:00–06:00 (night-time operating condition — AI advisory participation withdrawn)
+- **SAFE**: sunrise(date) ≤ t < sunset(date) — daytime operating condition; full AI advisory scope admissible
+- **UNSAFE**: otherwise, and for t = ⊥ — night-time operating condition; AI advisory participation withdrawn
+
+**`g_t` is deliberately binary and emits no CAUTION** (C.2). The architecture remains three-state: `𝒮 = {SAFE, CAUTION, UNSAFE}`, with CAUTION reached through `g_o` and `g_r`. **Superseded 2026-09-08:** the fixed clock 06:00 / 17:00 / 19:00, whose boundaries had no located source and whose 17:00–19:00 CAUTION band no source supported.
 
 *Wording revised 2026-09-08 (pre-adoption semantic cleanup).* These rows previously read "sufficient daylight for safe operation and return" and "night — **insufficient daylight for safe small-vessel operation**". The second was an unsupported physical-safety claim: Atacan & Düzbastılar establish that night navigation carries *elevated* accident probability and consequence, not that it is unsafe or infeasible, and small-scale fishers demonstrably operate at night. Per Definition C.1, the rows now name the **operating condition** and the **governance response**, which is what the classifier actually determines. **The thresholds 06:00 / 17:00 / 19:00 are unchanged.**
 
@@ -351,17 +352,17 @@ while remaining **well typed and total**. Totality is a requirement on the *doma
 
 and because CAUTION is reachable in 𝒮 — at this site principally through `g_o` and `g_r` (F-7). Whether any single gᵢ realises CAUTION is a property of that component and its evidence, not of the architecture.
 
-> #### Approved replacement design, pending canonical migration — `g_t` under Model B
+> #### Canonical time classifier following SDR-001 application — `g_t` under Model B
 >
-> **This subsection describes a design decision that is APPROVED but NOT YET CANONICAL. The canonical `g_t` is the incumbent fixed-clock classifier defined below (06:00 / 17:00 / 19:00) and is unchanged.**
+> **APPLIED 2026-09-08. This is the canonical `g_t`.** The superseded fixed-clock classifier is recorded in the `g_t` table below.
 >
-> **SDR-001** (approved 2026-09-08, `finding-gt-evidence-closure.md` Part 6) replaces `g_t` with a solar-event classifier for which
+> **SDR-001** (`finding-gt-evidence-closure.md` Part 6) defines `g_t` as a solar-event classifier for which
 >
 > **Im(g_t) = {SAFE, UNSAFE}**  and  **CAUTION ∉ Im(g_t)**
 >
 > **by deliberate design, not by oversight.** Three independent reviews located no source supporting a time-based intermediate state: the cited simulator study tested no twilight condition, COLREGs Rule 20(b) has no intermediate level, and no corpus paper reports a graded dusk risk profile. Retaining a three-valued time classifier for architectural symmetry would exceed the evidence.
 >
-> Under that design the architecture remains globally three-state and graduated: in the approved **Model B sensitivity result** (approved-design evidence, **not** a canonical figure) **2,091 of 43,848 PRIMARY hours — 4.77% — remain globally CAUTION, all weather-driven**. **The canonical figures remain 7.72% (PRIMARY) / 5.98% (RESOLUTION).**
+> The architecture remains globally three-state and graduated: **2,091 of 43,848 PRIMARY hours — 4.77% — are globally CAUTION, all weather-driven**. **Canonical figures after migration: Level 2 binds 5.81% (PRIMARY) / 4.48% (RESOLUTION).** The pre-migration figures 7.72% / 5.98% were computed under the superseded fixed-clock `g_t`.
 >
 > The accepted transition cost of that design is recorded in C.9.5.
 
@@ -557,9 +558,27 @@ Vessel category now enters through g_o(o, v) as documented above. The empirical 
 
 | Classification | Threshold | Empirical basis |
 |---|---|---|
-| SAFE | 06:00 ≤ t < 17:00 | Daytime operating condition — the baseline against which Atacan & Düzbastılar (2023) measure elevated night-time risk |
-| CAUTION | 17:00 ≤ t < 19:00 | Transition to darkness — elevated visual risk |
-| UNSAFE | 19:00 ≤ t < 24:00 or 00:00 ≤ t < 06:00 | Night-time operating condition — Atacan & Düzbastılar (2023) report elevated accident probability (4.08 vs 3.43) and consequence (12.80 vs 8.53) relative to the daytime baseline |
+| **SAFE** | **sunrise(date) ≤ t < sunset(date)** | Daytime operating condition — the baseline against which Atacan & Düzbastılar (2023) measure elevated night-time risk |
+| **UNSAFE** | **t < sunrise(date) or t ≥ sunset(date)** | Night-time operating condition — Atacan & Düzbastılar (2023) report elevated accident probability (4.08 vs 3.43) and consequence (12.80 vs 8.53) relative to the daytime baseline. **Boundary from COLREGs Rule 20(b)**, "from sunset to sunrise" |
+| **UNSAFE** | **t = ⊥** | Missing or invalid clock, date or solar lookup — fail-safe, Corollary C.1b.1 |
+
+**Type:** `g_t : (X_t × Date) ∪ {⊥} → {SAFE, UNSAFE}`
+
+**Half-open by construction: exact sunrise is SAFE, exact sunset is UNSAFE.** The two intervals partition `[0, 24)` exhaustively for every date, which is what Theorem C.1 requires.
+
+**`g_t` emits no CAUTION.** `Im(g_t) = {SAFE, UNSAFE}` and `CAUTION ∉ Im(g_t)`, **by deliberate design** — see "Component classifiers are not required to be surjective" above. The architecture remains three-state; CAUTION is reached through `g_o` and `g_r`.
+
+**Canonical implementation:** `scripts/canonical_gt.py`, reading the frozen solar artefact `data/solar/solar-events-daily.csv` (`solar-spec-v1`, `solar-v1`, 5.98° N / 116.01° E, UTC+8). **No canonical script computes solar astronomy independently** — the dependency is *stored solar artefact → `g_t` → `f`*.
+
+> **⚠️ SUPERSEDED 2026-09-08 by SDR-001.** The previous canonical classifier was the fixed clock **SAFE 06:00 ≤ t < 17:00 · CAUTION 17:00 ≤ t < 19:00 · UNSAFE otherwise**. Its three boundaries had **no located source** across five priority tiers, and `SAFE` began at 06:00 while sunrise at this site falls between 06:01 and 06:34 — so SAFE began before sunrise on every day of the year. **It is retained in `canonical_gt.g_t_incumbent_superseded` for historical reproduction only and must not be used for current results.** Full record: `finding-gt-provenance-audit.md`, `finding-gt-evidence-closure.md` Part 6, `report-c8-migration-2026-09-08.md`.
+>
+> **The 17:00–19:00 CAUTION band is withdrawn, not relocated.** Three independent reviews located no source for a twilight intermediate state: the cited simulator study tested no twilight condition, COLREGs has no intermediate level, and no corpus paper reports a graded dusk risk profile.
+
+> ### Evidence and policy — do not collapse these
+>
+> **Evidence establishes:** night navigation carries **elevated** operational risk; COLREGs Rule 20(b) defines sunset-to-sunrise as the boundary **for navigation lights**; the superseded 06:00/17:00/19:00 values have no source; no source supports a twilight CAUTION band.
+>
+> **Architecture policy decides:** **night ⇒ `g_t` = UNSAFE ⇒ AI advisory unavailable.** **No source establishes this implication.** COLREGs regulates lights, not decision support, and **does not require AI abstention**. Nothing here asserts that night operation is prohibited or physically unsafe — fishers demonstrably operate at night. `S = UNSAFE` sets `G(S) = 0` and `A_AI(S) = ∅`; **human decision authority remains unconditional** (C.8.2 step 6).
 
 *Column revised 2026-09-08 (pre-adoption semantic cleanup); **thresholds unchanged**. The SAFE row previously claimed "sufficient daylight for safe operation and return to port" — an unsupported physical-safety claim, matching the one corrected in C.1. The UNSAFE row's figures are now given explicitly so that what the source establishes — **elevated risk relative to a baseline** — is visible rather than compressed into "highest scores".*
 
@@ -986,20 +1005,20 @@ The following are recorded as limitations of the current formalisation. Each is 
 
 ### C.9.5 Accepted transition cost of the approved `g_t` replacement design
 
-*Added 2026-09-08 (SDR-001 execution condition C-4). **Records a cost accepted at approval. Applies to the approved replacement design, which is NOT YET CANONICAL** — the canonical `g_t` remains the incumbent fixed-clock classifier (C.2).*
+*Added 2026-09-08 (C-4); updated on migration (C-8). **This cost was accepted at approval and is now an observed property of the canonical classifier.** SDR-001 applied 2026-09-08.*
 
-**The boundary step.** Under the approved solar-event design, `g_t` transitions **directly between SAFE and UNSAFE** at sunrise and at sunset. It has no intermediate value, so the governance response to the time component is **discontinuous at those two instants**.
+**The boundary step.** Under the canonical solar-event classifier, `g_t` transitions **directly between SAFE and UNSAFE** at sunrise and at sunset. It has no intermediate value, so the governance response to the time component is **discontinuous at those two instants**.
 
-**Magnitude** — from the approved **Model B sensitivity analysis** (approved-design evidence; **not** canonical figures), PRIMARY replay, 43,848 hours:
+**Magnitude** — canonical, PRIMARY replay, 43,848 hours:
 
-| | Incumbent (canonical) | Approved design (sensitivity) |
+| | Superseded fixed clock | **Canonical (Model B)** |
 |---|---|---|
 | **Direct SAFE→UNSAFE transitions** | **2** | **1,536** |
 | **`g_t`-driven SAFE→CAUTION transitions** | **1,545** | **0** |
 
 **Interpretation.** This is a consequence of **removing an unsupported intermediate time band**, not evidence that the world changes discontinuously at sunset. Nothing physical, meteorological or physiological is claimed to be discontinuous there. What changes discontinuously is the *governance response*, because the classifier no longer interposes a state for which no evidence was found.
 
-**Architectural consequence.** The governance response is discontinuous **for the time component**, while the **global architecture retains its CAUTION mode through the weather classifiers** — `g_o` and `g_r` (2,091 PRIMARY hours, 4.77%, all weather-driven, in the sensitivity analysis). System-level graduation, per C.4 and Corollary C.2, is unaffected. The tension is real and is between this component's behaviour and the architecture's graduated-governance narrative; it is not a failure of any formal property.
+**Architectural consequence.** The governance response is discontinuous **for the time component**, while the **global architecture retains its CAUTION mode through the weather classifiers** — `g_o` and `g_r` (2,091 PRIMARY hours, 4.77%, all weather-driven). System-level graduation, per C.4 and Corollary C.2, is unaffected. The tension is real and is between this component's behaviour and the architecture's graduated-governance narrative; it is not a failure of any formal property.
 
 **Usability concern.** Predictable withdrawal of advisory support at sunset may require **anticipatory interface support**. That is a UI/notification matter and is deliberately kept outside the classifier — see C.9.6.
 

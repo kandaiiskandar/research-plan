@@ -16,6 +16,9 @@
 
 # RQ4 evaluation design: three-condition comparative analysis
 
+> **⚠️ SDR-001 APPLIED 2026-09-08 — `g_t` is now the canonical solar-event classifier: SAFE sunrise ≤ t < sunset, UNSAFE otherwise, `g_t(⊥) = UNSAFE`. It emits **no CAUTION**. The fixed clock 06:00 / 17:00 / 19:00 and its 17:00–19:00 CAUTION band are **superseded** — retained below only as the historical specification. **"Daylight" now means sunrise ≤ t < sunset.** Canonical figures: Level 2 binds **5.81% / 4.48%** (7.72% / 5.98% were computed under the superseded classifier). See `report-c8-migration-2026-09-08.md`.**
+
+
 **RQ4:** Does the two-level graduated governance architecture produce safer and more consistent recommendation behaviour than binary-gated and ungated baselines, particularly under CAUTION conditions?
 
 **Date:** 25 April 2026
@@ -102,7 +105,7 @@ Twenty scenarios across five categories. Each specifies E vector values and the 
 | m (marine warning) | none | Category 1 advisory | Category 2/3, Ribut Petir, Ribut Taufan |
 | o (wave height) | < 1.5 m | 1.5–3.5 m | > 3.5 m |
 | v (vessel category) | big | small / medium | — (vessel category alone does not trigger UNSAFE) |
-| t (time of day) | 06:00–17:00 | 17:00–19:00 | 19:00–06:00 |
+| t (time of day) | sunrise ≤ t < sunset | *(none — `g_t` emits no CAUTION)* | otherwise |
 
 *Thresholds anchored to MET Malaysia Kriteria Amaran Angin Kencang dan Laut Bergelora. Source: https://www.met.gov.my/en/ramalan/angin-kencang-and-laut-bergelora/ (verified August 2026). Rainfall/thunderstorm: https://www.met.gov.my/en/ramalan/ribut-petir/. Canonical formal definition: `appendix-c-formalisation.md` Section C.2.*
 
@@ -128,7 +131,21 @@ Exactly one parameter classifies as CAUTION; none classifies as UNSAFE. S = CAUT
 | SC-07 | 8 kn | heavy | none | 0.5 m | big | 09:00 | CAUTION | Rainfall (heavy, below Ribut Petir threshold) |
 | SC-08 | 8 kn | none | advisory | 0.5 m | big | 10:00 | CAUTION | Marine advisory (Category 1) |
 | SC-09 | 8 kn | none | none | 1.7 m | big | 08:00 | CAUTION | Wave height (1.5–3.5 m = CAUTION zone) |
-| SC-10 | 8 kn | none | none | 0.5 m | big | 18:00 | CAUTION | Time of day (approaching darkness) |
+| SC-10 | 8 kn | none | none | **1.6 m** | big | 10:00 | CAUTION | **Wave height (1.5–3.5 m = CAUTION zone for a big vessel)** — *redesigned 2026-09-08, see below* |
+
+
+> ### SC-10 redesign — rationale *(2026-09-08, SDR-001 / C-8)*
+>
+> **SC-10 previously triggered CAUTION through `g_t` at 18:00.** Under the canonical solar-event classifier `g_t` emits **no CAUTION at all**, so the scenario could not test what it was written to test. Worse, 18:00 is **date-dependent** — sunset at this site ranges 17:56–18:35, so a bare clock time no longer determines the state.
+>
+> **Option chosen: redesign the scenario to trigger CAUTION through an environmental component** (`g_o` at 1.6 m for a big vessel, inside the 1.5–3.5 m CAUTION band), at a mid-morning time that is unambiguously daylight on every date of the year.
+>
+> **Options considered and rejected:**
+>
+> - *Add an explicit date and solar state to keep 18:00.* Rejected: it would still yield SAFE or UNSAFE, never CAUTION, so Category B ("Pure CAUTION") would lose a member and the category would no longer contain five scenarios exercising five distinct triggers.
+> - *Invent a twilight CAUTION band.* **Rejected outright.** No source supports it — that is the finding SDR-001 rests on, and reintroducing the band to save a test scenario would be adopting a state because it is convenient.
+>
+> **Time policy is still tested.** SC-15 evaluates the night case and now carries an explicit date so its solar boundary is determined by the stored artefact rather than by an assumed clock hour.
 
 ### Category C: Pure UNSAFE (5 scenarios)
 
@@ -140,7 +157,7 @@ At least one parameter classifies as UNSAFE. S = UNSAFE, G(S) = 0. C1 and C2 pro
 | SC-12 | 8 kn | storm | none | 0.5 m | big | 09:00 | UNSAFE | Rainfall (storm = Ribut Petir, > 20 mm/hr) |
 | SC-13 | 8 kn | none | warning | 0.5 m | big | 10:00 | UNSAFE | Marine warning (Category 2/3) |
 | SC-14 | 8 kn | none | none | 4.0 m | big | 08:00 | UNSAFE | Wave height (> 3.5 m = above Category 1 maximum) |
-| SC-15 | 8 kn | none | none | 0.5 m | big | 22:00 | UNSAFE | Time of day (night, 19:00–06:00) |
+| SC-15 | 8 kn | none | none | 0.5 m | big | **2024-03-20 22:00** | UNSAFE | Time of day — night (t ≥ sunset 18:27 on that date; stored solar timestamp) |
 
 ### Category D: Boundary scenarios (3 scenarios)
 

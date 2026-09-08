@@ -1,9 +1,10 @@
 # Finding: `g_t` Evidence Closure and Specification Decision Record
 
 **Date:** 2026-09-08 · **SDR-001 approved 2026-09-08**
-**Status:** **Evidence closure + SDR-001 — APPROVED, NOT YET APPLIED.** *(Was: DRAFT decision record. Approved 2026-09-08 on the readiness verdict READY WITH EXECUTION CONDITIONS, with C-0 closed.)*
+**Status:** **Evidence closure + SDR-001 — APPLIED, MODEL B CANONICAL (2026-09-08).** *(Was: DRAFT decision record. Approved 2026-09-08 on the readiness verdict READY WITH EXECUTION CONDITIONS, with C-0 closed.)*
 
-> **⚠️ APPROVAL IS A DESIGN DECISION, NOT A MIGRATION.** Model B is the **selected replacement design** for `g_t`. **It is not canonical and not in effect.** The incumbent fixed-clock `g_t` (06:00 / 17:00 / 19:00) remains the canonical and runtime specification, and **7.72% / 5.98% remain the authoritative published figures**. Canonical `g_t`, Appendix C, canonical scripts, `solar.py`, replay outputs, figures and the prediction register (24 predictions, 22 CONFIRMED / 2 REFUTED) are all **unmodified**. No prediction re-resolved. **C-1 through C-8 remain OPEN and are binding on migration** — Part 6.
+> ### ✅ **SDR-001 APPLIED 2026-09-08 — Model B is CANONICAL.**
+> The solar-event classifier is the canonical and runtime `g_t`; the fixed clock 06:00 / 17:00 / 19:00 is **superseded**. Canonical figures: **Level 2 binds 5.81% (PRIMARY) / 4.48% (RESOLUTION)**. Prediction register: **15 CONFIRMED / 9 REFUTED** (24 entries; original texts and bands unchanged, previous outcomes preserved in notes). **All execution conditions C-0 … C-8 are CLOSED.** Migration record: `report-c8-migration-2026-09-08.md`.
 
 **Predecessors:** `finding-gt-provenance-audit.md` · `finding-gt-operational-semantics.md` · `finding-gt-sensitivity-analysis.md`
 **Approval chain:** `finding-unsafe-semantics-audit.md` → `cleanup-report-unsafe-semantics-2026-09-08.md` → `finding-sdr-001-readiness-audit.md` → `cleanup-report-c0-solar-provenance-2026-09-08.md` → `approval-report-sdr-001-2026-09-08.md`
@@ -204,34 +205,41 @@ This is the same correction already applied to Definition C.1's severity orderin
 
 > ### SDR-001 — `g_t`: fixed-clock three-state → solar-event two-state
 >
-> # **Status: APPROVED — NOT YET APPLIED**
+> # **Status: APPLIED — MODEL B CANONICAL**
 >
 > | | |
 > |---|---|
-> | **Status** | **APPROVED — NOT YET APPLIED** |
+> | **Status** | **APPLIED — MODEL B CANONICAL** |
+> | **Applied** | **2026-09-08** (C-8 migration) |
+> | **Implementation** | `scripts/canonical_gt.py` — shared by all 8 canonical scripts |
+> | **Solar spec / impl** | `solar-spec-v1` / `solar-v1` |
+> | **Solar artefact sha256** | `057c46a19d0e8ea7956cdc38ae3d7615cf43cf800e7bc33ab286dfdc20ce1894` |
+> | **Prediction register sha256** | `5574b88ea65168b6ef5e308629f3eb14fb70f8688a592fde279103ea4b37eae6` — **15 CONFIRMED / 9 REFUTED** |
+> | **Canonical figures** | Level 2 binds **5.81%** (PRIMARY) / **4.48%** (RESOLUTION) |
+> | **Migration report** | `report-c8-migration-2026-09-08.md` |
 > | **Approved** | 2026-09-08 |
-> | **Prior status** | DRAFT — NOT APPROVED — NOT APPLIED (superseded 2026-09-08) |
+> | **Prior status** | DRAFT (superseded) → APPROVED — NOT YET APPLIED (superseded 2026-09-08 on migration) |
 > | **Decision type** | Design decision — selects the replacement design for `g_t` |
-> | **Canonical status** | ❌ **NOT canonical.** The incumbent fixed-clock `g_t` remains the canonical and runtime specification |
+> | **Canonical status** | ✅ **CANONICAL.** The solar-event classifier is the canonical and runtime specification; the fixed clock is superseded |
 > | **Approval basis** | `finding-sdr-001-readiness-audit.md` — verdict **READY WITH EXECUTION CONDITIONS**; **C-0 CLOSED** (`cleanup-report-c0-solar-provenance-2026-09-08.md`) |
-> | **Blocking conditions** | **C-1 … C-8 — all OPEN.** See "Execution conditions" below |
+> | **Blocking conditions** | **None — C-0 … C-8 all CLOSED.** See "Execution conditions" below |
 >
 > ### 🚧 MIGRATION GATE
 >
-> > # **APPROVAL DOES NOT AUTHORISE CANONICAL MIGRATION.**
+> > # ✅ **MIGRATION COMPLETED 2026-09-08 (C-8).**
 > >
-> > Canonical migration may begin **only** through a separate controlled task that explicitly executes **C-1 through C-8**. Until that migration completes:
+> > C-1 through C-8 were executed as separate controlled tasks and all are closed.
 > >
-> > **`g_t^canonical` = `g_t^incumbent`** — SAFE 06:00 ≤ t < 17:00 · CAUTION 17:00 ≤ t < 19:00 · UNSAFE otherwise
+> > **`g_t^canonical` = Model B** — SAFE sunrise(date) ≤ t < sunset(date) · UNSAFE otherwise · `g_t(⊥) = UNSAFE`
 > >
-> > **The currently published figures therefore remain authoritative and must continue to be reported:**
+> > **Canonical figures after migration:**
 > >
 > > | | |
 > > |---|---|
-> > | **PRIMARY Level 2 binding** | **7.72%** |
-> > | **RESOLUTION Level 2 binding** | **5.98%** |
+> > | **PRIMARY Level 2 binding** | **5.81%** |
+> > | **RESOLUTION Level 2 binding** | **4.48%** |
 > >
-> > **The Model B sensitivity values (5.81% / 4.48%) are counterfactual and must not replace them.** They were produced by non-canonical analysis code and remain hypothetical until migration completes.
+> > **7.72% / 5.98% were computed under the superseded fixed-clock `g_t` and are now provenance only.**
 >
 > ### What this approval does and does not establish
 >
@@ -372,7 +380,7 @@ If pursued, it must remain **separate from `g_t`**:
 | **C-5** | **Three-stage hysteretic re-run** for P12 and related predictions | ✅ **CLOSED 2026-09-08** — gate passed: Stage 1 reproduces **P12 = 7.83 exactly**. **P12: 7.83 → 8.70 → 10.36**, Δ_data **+0.87**, Δ_g_t **+1.66**. Stage 3 consumed the frozen C-3 solar artefact. Artefacts in `data/c5/`; register byte-identical. **P09 baseline found non-reproducible and diagnosed → C-7.** `report-c5-closure-2026-09-08.md` |
 | **C-6** | **Re-resolve affected predictions** using the established protocol | ✅ **CLOSED 2026-09-08** — 20 affected, 4 unaffected. **7 candidate status flips, but only 3 attributable to SDR-001** (P20, P23, P24); P04/P09/P18/P19 were already REFUTED under the incumbent at the current configuration. Candidate totals **15 CONFIRMED / 9 REFUTED**; **canonical totals remain 22/2**. Register annotated additively — no `actual` or `status` changed. `data/c6/prediction-reresolution.csv` · `report-c6-closure-2026-09-08.md` |
 | **C-7** | **Reconcile baseline discrepancies before any comparison** | ✅ **CLOSED 2026-09-08** — single cause identified: all four "stale" values are the **pre-amendment threshold vintage** (v1, `r` 7.5, `o` 1.9) and reproduce exactly under it; the register holds the current-threshold values and also reproduces exactly. **P09 is the sole register exception** — its 5,416 is the pre-amendment figure, retained as historical; comparable current-threshold baseline **5,220**. Register **not mutated**; provenance in `data/c7/baseline-provenance.csv`. `report-c7-closure-2026-09-08.md` |
-| **C-8** | **Execute the complete propagation/update list** — **8 scripts** (incl. `threshold_comparison.py`) and **~17 documents** (incl. `evaluation-design-rq4.md` SC-10, the Journal 1 manuscript, and every "daylight" label). **"Daylight" is redefined, not merely recomputed** | 🔴 **OPEN** |
+| **C-8** | **Execute the complete propagation/update list** — **8 scripts** (incl. `threshold_comparison.py`) and **~17 documents** (incl. `evaluation-design-rq4.md` SC-10, the Journal 1 manuscript, and every "daylight" label). **"Daylight" is redefined, not merely recomputed**  — 8 scripts + shared `canonical_gt.py`; ~17 documents; register promoted; SC-10 redesigned. `report-c8-migration-2026-09-08.md` |
 
 **Full detail: `finding-sdr-001-readiness-audit.md` §11.**
 

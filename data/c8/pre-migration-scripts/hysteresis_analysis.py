@@ -28,15 +28,6 @@ import pandas as pd
 import numpy as np
 from pathlib import Path
 
-# --- SDR-001 APPLIED 2026-09-08: g_t is the canonical solar-event classifier.
-# Imported from scripts/canonical_gt.py, which reads the frozen C-3 artefact
-# data/solar/solar-events-daily.csv. No solar astronomy is computed here.
-# "Daylight" now means sunrise <= t < sunset, NOT the superseded 06:00-17:00.
-import sys as _sys
-_sys.path.insert(0, str(Path(__file__).resolve().parent))
-from canonical_gt import g_t as _canonical_g_t, is_daylight as _is_daylight
-
-
 ROOT = Path(__file__).resolve().parent.parent
 DATA = ROOT / "data"
 
@@ -62,48 +53,24 @@ LO, HI = 1.0, 1.25         # g_o small-vessel thresholds — amended 2026-09-06
 MARGIN = 0.10              # 10% return margin for hysteresis
 
 
-def load(v1_historical=False):
-    """Canonical loader.
-
-    SDR-001 / C-8: the CANONICAL configuration is v2 SEA-CELL data --
-    raw_weather_sea.csv (wind, precipitation, WMO) joined to
-    raw_marine_era5_sea.csv (waves). Precipitation comes from the sea-cell
-    weather file, NOT raw_rainfall.csv, which is still sited on the land cell
-    that F-10 condemned.
-
-    Pass v1_historical=True (or --v1-historical) ONLY to reproduce
-    pre-migration findings. Those figures must not be quoted as current.
-    """
-    if v1_historical:
-        w = pd.read_csv(DATA / "raw_weather.csv", skiprows=3)
-        m = pd.read_csv(DATA / "raw_marine.csv", skiprows=3)
-        r = pd.read_csv(DATA / "raw_rainfall.csv", skiprows=3)
-        d = pd.DataFrame({
-            "time": pd.to_datetime(w["time"]),
-            "wind": w["wind_speed_10m (kn)"].values,
-            "wmo":  w["weather_code (wmo code)"].values,
-            "wave": m["wave_height (m)"].values,
-            "precip": r["precipitation (mm)"].values,
-        })
-    else:
-        w = pd.read_csv(DATA / "raw_weather_sea.csv", skiprows=3)
-        m = pd.read_csv(DATA / "raw_marine_era5_sea.csv", skiprows=3)
-        w["time"] = pd.to_datetime(w["time"])
-        m["time"] = pd.to_datetime(m["time"])
-        j = w.merge(m, on="time", how="inner")
-        d = pd.DataFrame({
-            "time": j["time"],
-            "wind": j["wind_speed_10m (kn)"].values,
-            "wmo":  j["weather_code (wmo code)"].values,
-            "wave": j["wave_height (m)"].values,
-            "precip": j["precipitation (mm)"].values,
-        }).dropna(subset=["wind", "wave", "precip"])
+def load():
+    w = pd.read_csv(DATA / "raw_weather.csv", skiprows=3)
+    m = pd.read_csv(DATA / "raw_marine.csv", skiprows=3)
+    r = pd.read_csv(DATA / "raw_rainfall.csv", skiprows=3)
+    d = pd.DataFrame({
+        "time": pd.to_datetime(w["time"]),
+        "wind": w["wind_speed_10m (kn)"].values,
+        "wmo":  w["weather_code (wmo code)"].values,
+        "wave": m["wave_height (m)"].values,
+        "precip": r["precipitation (mm)"].values,
+    })
     d["hour"] = d["time"].dt.hour
     return d.sort_values("time").reset_index(drop=True)
 
 
 def g_t_series(d):
-    return _canonical_g_t(d["time"], d["hour"])
+    return np.where((d["hour"] >= 6) & (d["hour"] < 17), 0,
+                    np.where((d["hour"] >= 17) & (d["hour"] < 19), 1, 2))
 
 
 def classify_plain(d):
@@ -190,17 +157,6 @@ def count_oscillations(f, g_t, window=3):
     return osc, examples
 
 
-
-# --- SDR-001 / C-8: register writes are OPT-IN, never silent -------------
-# C-5 and C-7 found that this script wrote data/prediction-register.csv on
-# every run. An analysis script that rewrites resolved verdicts whenever the
-# specification moves records nothing. Writing now requires an explicit flag.
-def _register_write_enabled():
-    import os, sys
-    return ("--write-register" in sys.argv
-            or os.environ.get("ALLOW_REGISTER_WRITE") == "1")
-
-
 def _register_guard(reg, pid):
     """Refuse to overwrite an already-resolved prediction.
 
@@ -217,7 +173,7 @@ def _register_guard(reg, pid):
 
 
 def main():
-    d = load("--v1-historical" in __import__("sys").argv)
+    d = load()
     print(__doc__)
     print(f"Loaded {len(d):,} records over {len(d)/24:.0f} days")
 
@@ -277,11 +233,8 @@ def main():
         reg.loc[reg.id == "P13", "resolved"] = "2026-09-06"
     print(f"  P13  predicted           NO   (chattering not demonstrated)   {p13}")
 
-    if _register_write_enabled():
-        reg.to_csv(DATA / "prediction-register.csv", index=False)
-        print("Register updated (explicit --write-register).")
-    else:
-        print("Register NOT written (read-only default; pass --write-register to enable).")
+    reg.to_csv(DATA / "prediction-register.csv", index=False)
+    print(f"\nRegister updated.")
 
 
 if __name__ == "__main__":

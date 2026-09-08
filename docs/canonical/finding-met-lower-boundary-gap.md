@@ -81,6 +81,8 @@ The WMO thunderstorm codes 95/96/99 remain an alternative route to UNSAFE where 
 
 ## 5. Empirical effect
 
+*(All figures in this section were computed under the **superseded fixed-clock `g_t`**. They remain the correct record of the rainfall amendment's effect, which is what this finding measures. Canonical figures after SDR-001: Level 2 binds 5.81% / 4.48% — `report-c8-migration-2026-09-08.md`.)*
+
 Small vessel, wave thresholds 1.0 / 1.25 m, sea-cell weather. Both reporting configurations (see `empirical-findings-2026-09-06.md` §0a).
 
 | | PRIMARY 5.00 yr | | RESOLUTION 3.25 yr | |
