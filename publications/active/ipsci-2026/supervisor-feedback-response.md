@@ -201,7 +201,7 @@ Run the first two ablation conditions against the 20 evaluation scenarios (same 
 
 **Connectivity.** The architecture is designed offline-first: the governance classifier f(E) and rule engine RS(S) must operate without real-time API access. Environmental data (w, r, m, o) may be pre-cached or sourced from local sensors. The fail-safe rule (if any xᵢ = ⊥, return UNSAFE) ensures graceful degradation when data feeds are unavailable.
 
-**Hardware constraints.** Target deployment: commodity smartphones or low-cost single-board computers (< $50). O(1) governance layer and O(n) rule engine both execute without GPU. Storage footprint for RS(SAFE) and RS(CAUTION) is minimal.
+**Hardware constraints.** Target deployment: commodity smartphones or low-cost single-board computers. O(1) governance layer and O(n) rule engine both execute without GPU. Storage footprint for RS(SAFE) and RS(CAUTION) is minimal.
 
 **Threshold maintenance.** Classification thresholds (g_w, g_o, etc.) are anchored to MET Malaysia published criteria. As climate patterns shift or MET Malaysia revises criteria, thresholds must be recalibrated and RS(S) must be updated to preserve A_AI(SAFE) ⊃ A_AI(CAUTION) ⊃ A_AI(UNSAFE) = ∅.
 
