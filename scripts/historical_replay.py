@@ -22,6 +22,23 @@ import pandas as pd
 import numpy as np
 from pathlib import Path
 
+# Wind thresholds — anchored 2026-09-08. MET Malaysia Cat 1 / Cat 2 onsets,
+# preserved at the source value rather than rounded:
+#   W_CAUTION  40 km/h / 1.852 = 21.598 kn -> 21.6 at data resolution.
+#   W_UNSAFE   50 km/h / 1.852 = 26.998 kn -> 27.0 at data resolution.
+# Superseded: W_CAUTION was 22, an undocumented rounding of 21.598. That
+# rounding suppressed 2 activations in 5 years and made F-1 read "never
+# fires" rather than "almost never binds". See appendix-c C.2 and F-17.
+W_CAUTION, W_UNSAFE = 21.6, 27.0
+
+# Rainfall thresholds — anchored 2026-09-08. See appendix-c C.2 and
+# docs/canonical/finding-met-lower-boundary-gap.md.
+#   R_UNSAFE  MET Malaysia Ribut Petir warning trigger (> 20 mm/hr). OFFICIAL.
+#   R_CAUTION JPS/DID Infobanjir Light-category upper limit (10 mm/hr); MET
+#             publishes no criterion below 20, so necessarily non-MET.
+# Superseded: R_CAUTION was 7.5, matching no published source.
+R_CAUTION, R_UNSAFE = 10.0, 20.0
+
 DATA = Path(__file__).resolve().parent.parent / "data"
 
 # Severity encoding: 0 = SAFE, 1 = CAUTION, 2 = UNSAFE
@@ -47,14 +64,25 @@ A_AI = {
 
 def g_w(w_kn):
     """Wind speed, sustained knots. MET Malaysia Cat 1 / Cat 2 onset."""
-    return 2 if w_kn > 27 else (1 if w_kn > 22 else 0)
+    return 2 if w_kn > W_UNSAFE else (1 if w_kn > W_CAUTION else 0)
 
 
 def g_r(precip_mm_hr, wmo_code):
-    """Rainfall intensity. WMO 95/96/99 = thunderstorm -> Ribut Petir."""
-    if precip_mm_hr > 20 or wmo_code in (95, 96, 99):
+    """Rainfall intensity. WMO 95/96/99 = thunderstorm -> Ribut Petir.
+
+    Thresholds anchored 2026-09-08 — see appendix-c C.2 and
+    docs/canonical/finding-met-lower-boundary-gap.md.
+      > 20.0 mm/hr  MET Malaysia Ribut Petir warning trigger. OFFICIAL.
+      > 10.0 mm/hr  JPS/DID Infobanjir Light-category upper limit. MET
+                    publishes no criterion below 20 mm/hr, so this boundary
+                    is necessarily non-MET.
+    Superseded: the CAUTION boundary was 7.5, which matched no published
+    source. NOTE this script still reads the v1 LAND-cell files; its figures
+    are historical. canonical_figures.py is the authority.
+    """
+    if precip_mm_hr > R_UNSAFE or wmo_code in (95, 96, 99):
         return 2
-    return 1 if precip_mm_hr > 7.5 else 0
+    return 1 if precip_mm_hr > R_CAUTION else 0
 
 
 def g_t(hour):

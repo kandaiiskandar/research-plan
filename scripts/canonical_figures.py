@@ -50,6 +50,24 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 DATA = ROOT / "data"
 
+# Wind thresholds — anchored 2026-09-08. MET Malaysia Cat 1 / Cat 2 onsets,
+# preserved at the source value rather than rounded:
+#   W_CAUTION  40 km/h / 1.852 = 21.598 kn -> 21.6 at data resolution.
+#   W_UNSAFE   50 km/h / 1.852 = 26.998 kn -> 27.0 at data resolution.
+# Superseded: W_CAUTION was 22, an undocumented rounding of 21.598. That
+# rounding suppressed 2 activations in 5 years and made F-1 read "never
+# fires" rather than "almost never binds". See appendix-c C.2 and F-17.
+W_CAUTION, W_UNSAFE = 21.6, 27.0
+
+# Rainfall thresholds — anchored 2026-09-08. See
+# docs/canonical/finding-met-lower-boundary-gap.md and appendix-c C.2.
+#   R_UNSAFE  MET Malaysia Ribut Petir warning trigger (> 20 mm/hr).
+#   R_CAUTION JPS/DID Infobanjir Light-category upper limit (10 mm/hr).
+#             MET publishes NO criterion below 20 mm/hr, so this boundary
+#             is necessarily non-MET — the same structure as the wave case.
+# Superseded: R_CAUTION was 7.5, which matched no published source.
+R_CAUTION, R_UNSAFE = 10.0, 20.0
+
 SAFE, CAUTION, UNSAFE = 0, 1, 2
 
 # Vessel-conditional wave thresholds, amended 2026-09-06 (Yaakob operational
@@ -96,9 +114,9 @@ def load(cfg):
 def components(d, vessel):
     """The five component functions. g_m is held at `none` — no archive."""
     lo, hi = TH[vessel]
-    g_w = np.where(d["wind"] > 27, UNSAFE, np.where(d["wind"] > 22, CAUTION, SAFE))
-    storm = (d["precip"] > 20) | d["wmo"].isin([95, 96, 99])
-    g_r = np.where(storm, UNSAFE, np.where(d["precip"] > 7.5, CAUTION, SAFE))
+    g_w = np.where(d["wind"] > W_UNSAFE, UNSAFE, np.where(d["wind"] > W_CAUTION, CAUTION, SAFE))
+    storm = (d["precip"] > R_UNSAFE) | d["wmo"].isin([95, 96, 99])
+    g_r = np.where(storm, UNSAFE, np.where(d["precip"] > R_CAUTION, CAUTION, SAFE))
     g_o = np.where(d["wave"] > hi, UNSAFE, np.where(d["wave"] >= lo, CAUTION, SAFE))
     g_t = np.where((d["hour"] >= 6) & (d["hour"] < 17), SAFE,
                    np.where((d["hour"] >= 17) & (d["hour"] < 19), CAUTION, UNSAFE))

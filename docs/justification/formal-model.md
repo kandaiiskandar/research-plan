@@ -284,7 +284,17 @@ The model assumes a single, system-wide environmental assessment. It does not fo
 
 ### 7.1 Yes — the Mapping Is Many-to-One
 
-The classification function f: D_E → {SAFE, CAUTION, UNSAFE} is surjective and many-to-one. The domain D_E is a large (potentially uncountable) set of environmental parameter vectors; the codomain has only three elements. Many distinct environmental conditions map to the same safety state.
+The classification function f: D_E → {SAFE, CAUTION, UNSAFE} is **many-to-one**. The domain D_E is a large (potentially uncountable) set of environmental parameter vectors; the codomain has only three elements. Many distinct environmental conditions map to the same safety state.
+
+**Whether f is also *onto* is a separate question, and the answer is configuration-dependent** *(qualified 2026-09-08, SDR-001 condition C-4; this sentence previously asserted "surjective and many-to-one" without qualification)*. Three things must be kept apart:
+
+| | |
+|---|---|
+| **Codomain** | `{SAFE, CAUTION, UNSAFE}` — fixed by the type declaration. This is what the signature states, and it is unconditional |
+| **Empirical image, deployed configuration** | Under the deployment the project actually runs — `D = {m}`, five years of site data — **all three states occur**, so f is onto *in that configuration*. This is an empirical property of the site and the exclusion set, not a structural guarantee |
+| **Structural surjectivity over every admissible D** | **Not claimed, and not required by any theorem.** No result in `appendix-c-formalisation.md` depends on f being onto — Theorem C.1 and C.1b establish *totality*; C.2 and C.3 quantify over `S ∈ 𝒮` and never over the image of f |
+
+**The qualification is not academic.** Lemma C.1c permits exclusion sets up to `D = {w, r, m, o}`, at which point the classifier reduces to a time curfew. Under the approved (not yet canonical) two-valued `g_t` of SDR-001, that configuration would leave **CAUTION unreachable** and f non-surjective — while remaining total, well typed, and fully compliant with every theorem. **Totality is the property the architecture requires; surjectivity is not.** See `appendix-c-formalisation.md` C.2, "Component classifiers are not required to be surjective".
 
 **Examples within CAUTION** *(corrected 2026-09-06 — `m`/`o` swap and trigger attributions)*:
 - E₁ = {w=20 kn, r=none, m=none, o=1.5 m, v=big, t=10.0} → CAUTION, triggered by **ocean state** — g_o(1.5, big) = CAUTION. *Note: w = 20 kn is SAFE, not CAUTION; the threshold is 22 kn. This example was previously annotated "triggered by wind."*

@@ -1,6 +1,6 @@
 # Session Log — 2026-09-06
 
-**One working day.** Started with a rejected conference paper and a formal model that had never been run against data. Ended with the model corrected, the data audited, and fifteen empirical findings (F-1 to F-15) — one of which contradicts a claim in both papers.
+**One working day.** Started with a rejected conference paper and a formal model that had never been run against data. Ended with the model corrected, the data audited, and sixteen empirical findings (F-1 to F-16) — one of which contradicts a claim in both papers.
 
 ---
 
@@ -62,7 +62,7 @@ Five years of hourly data had been sitting in `data/` since May. This was the fi
 | **F-4** | Vessel conditioning is operative: small vs big differ in **10.7%** of departure hours |
 | **F-5** | **Level 2 governance binds 12.4% of departure hours** — the result the papers were missing |
 | **F-6** | **Mode-chattering is NOT a demonstrated problem.** 70 events in 5 years (14/yr); hysteresis helps by 6.2% |
-| **F-7** | Only **3 of 5** functions ever bind: `g_o` (97.5% of daylight CAUTION *as first measured; 97.40% / 95.05% after the Part 6 recomputation*), `g_t`, `g_r` |
+| **F-7** | Only **3 of 5** functions ever bind: `g_o` (97.5% of daylight CAUTION *as first measured; **98.66% / 97.41%** after the Part 6 recomputation and the 2026-09-08 rainfall amendment*), `g_t`, `g_r` |
 | **F-8** | MET's criteria are **disjunctive** ("and/or") — independent institutional support for max-severity, currently uncited |
 
 ### Data provenance problems, found by checking
@@ -101,7 +101,7 @@ Jeong & Im's Korean finding — 82% of capsizings with no warning issued — rep
 
 **24 predictions registered before their analyses ran** (P01–P18 during the diagnostic work, P19–P20 with the threshold amendment, P21–P24 with the four-condition comparison), in `data/prediction-register.csv` with machine-comparable bounds. Scripts populate `actual`/`status` automatically.
 
-**23 confirmed, 1 refuted** (24 predictions).
+**22 confirmed, 2 refuted** (24 predictions). *P22 refuted 2026-09-08 by the MET rainfall amendment — see F-16.*
 
 The refutation (P16 — I predicted sea-cell wind would cross 22 kn) is the most useful result of the day: it converted F-1 from *suspected artefact* to *established property of the site*.
 
@@ -118,7 +118,7 @@ Two predictions were deliberately uncomfortable and both held: **P13** (mode-cha
 | File | Purpose |
 |---|---|
 | `decision-record-empirical-first.md` | The sequencing decision; open questions Q1–Q8 |
-| `empirical-findings-2026-09-06.md` | F-1 to F-15 with consequences for both papers |
+| `empirical-findings-2026-09-06.md` | F-1 to F-16 with consequences for both papers |
 | `finding-met-hydrodynamic-gap.md` | **Source of truth** for threshold provenance |
 | `data-provenance.md` | Where each variable comes from; **check before citing any figure** |
 | `session-log-2026-09-06.md` | This document |
@@ -199,9 +199,9 @@ Yaakob tested Boat A at the mean of successive sea-state bands: it **passes** SS
 | | PRIMARY | RESOLUTION |
 |---|---|---|
 | | 5.00 yr · ERA5-Ocean ~50 km | 3.25 yr · MFWAM ~8 km |
-| Level 2 binds | **7.84%** | **6.15%** |
+| Level 2 binds | **7.72%** | **5.98%** |
 | Daylight UNSAFE | 1,170 hrs (5.82%) | 409 hrs (3.13%) |
-| Small vs big differ | 12.14% | 7.92% |
+| Small vs big differ | 12.16% | 7.94% |
 | C3 vs C1 divergence | **0.00%** | **0.00%** |
 
 The 1.7-point spread is the grid-resolution sensitivity, reported rather than resolved. F-15 holds at exactly 0.00% in both — it is structural, not data-dependent.

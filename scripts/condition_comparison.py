@@ -44,6 +44,24 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 DATA = ROOT / "data"
 
+# Wind thresholds — anchored 2026-09-08. MET Malaysia Cat 1 / Cat 2 onsets,
+# preserved at the source value rather than rounded:
+#   W_CAUTION  40 km/h / 1.852 = 21.598 kn -> 21.6 at data resolution.
+#   W_UNSAFE   50 km/h / 1.852 = 26.998 kn -> 27.0 at data resolution.
+# Superseded: W_CAUTION was 22, an undocumented rounding of 21.598. That
+# rounding suppressed 2 activations in 5 years and made F-1 read "never
+# fires" rather than "almost never binds". See appendix-c C.2 and F-17.
+W_CAUTION, W_UNSAFE = 21.6, 27.0
+
+# Rainfall thresholds — anchored 2026-09-08. See
+# docs/canonical/finding-met-lower-boundary-gap.md and appendix-c C.2.
+#   R_UNSAFE  MET Malaysia Ribut Petir warning trigger (> 20 mm/hr).
+#   R_CAUTION JPS/DID Infobanjir Light-category upper limit (10 mm/hr).
+#             MET publishes NO criterion below 20 mm/hr, so this boundary
+#             is necessarily non-MET — the same structure as the wave case.
+# Superseded: R_CAUTION was 7.5, which matched no published source.
+R_CAUTION, R_UNSAFE = 10.0, 20.0
+
 # Small vessel (< 10 GRT) — the deployment population. Amended 2026-09-06:
 # UNSAFE at Yaakob's operational ceiling, not his NORDFORSK failure point.
 LO, HI = 1.0, 1.25
@@ -130,9 +148,9 @@ def classify(d):
     Because aggregation is by maximum, g_m can only RAISE severity, so every
     figure produced here is a lower bound.
     """
-    g_w = np.where(d["wind"] > 27, UNSAFE, np.where(d["wind"] > 22, CAUTION, SAFE))
-    storm = (d["precip"] > 20) | d["wmo"].isin([95, 96, 99])
-    g_r = np.where(storm, UNSAFE, np.where(d["precip"] > 7.5, CAUTION, SAFE))
+    g_w = np.where(d["wind"] > W_UNSAFE, UNSAFE, np.where(d["wind"] > W_CAUTION, CAUTION, SAFE))
+    storm = (d["precip"] > R_UNSAFE) | d["wmo"].isin([95, 96, 99])
+    g_r = np.where(storm, UNSAFE, np.where(d["precip"] > R_CAUTION, CAUTION, SAFE))
     g_o = np.where(d["wave"] > HI, UNSAFE, np.where(d["wave"] >= LO, CAUTION, SAFE))
     g_t = np.where((d["hour"] >= 6) & (d["hour"] < 17), SAFE,
                    np.where((d["hour"] >= 17) & (d["hour"] < 19), CAUTION, UNSAFE))
@@ -190,6 +208,21 @@ def run_config(cfg_label, marine_file):
     r_all, _ = divergence_matrix(states, allh.values, "ALL HOURS")
     r_dep, _ = divergence_matrix(states, dep.values, "DEPARTURE WINDOW 05:00-09:00")
     return r_all, r_dep
+
+
+def _register_guard(reg, pid):
+    """Refuse to overwrite an already-resolved prediction.
+
+    Added 2026-09-08. Twice, re-running an analysis after a SPECIFICATION
+    change silently rewrote verdicts for predictions registered against an
+    earlier configuration (P09, P18 — both restored by hand). A register whose
+    verdicts move whenever the specification moves records nothing. Resolved
+    entries are therefore immutable here: a prediction that no longer holds
+    under a new specification is handled by an explicit, documented
+    re-resolution (as P16 and P22 were), never by a silent re-run.
+    """
+    row = reg.loc[reg.id == pid]
+    return not (len(row) and str(row["status"].iloc[0]).strip() in ("CONFIRMED", "REFUTED"))
 
 
 def main():
@@ -271,9 +304,12 @@ def main():
         status = "CONFIRMED" if ok else "REFUTED"
         stated = reg.loc[reg.id == pid, "pred_stated"].iloc[0]
         print(f"  {pid}  predicted {str(stated):>10}   actual {actual:8.2f}   {status}")
-        reg.loc[reg.id == pid, "actual"] = round(float(actual), 2)
-        reg.loc[reg.id == pid, "status"] = status
-        reg.loc[reg.id == pid, "resolved"] = "2026-09-06"
+        if _register_guard(reg, pid):
+            reg.loc[reg.id == pid, "actual"] = round(float(actual), 2)
+        if _register_guard(reg, pid):
+            reg.loc[reg.id == pid, "status"] = status
+        if _register_guard(reg, pid):
+            reg.loc[reg.id == pid, "resolved"] = "2026-09-06"
 
     reg.to_csv(DATA / "prediction-register.csv", index=False)
     print("\nRegister updated.")

@@ -19,7 +19,7 @@ Read carefully: **3.5 m is where Category 1 ends.** It is the Cat 1 / Cat 2 boun
 
 **MET never states where Category 1 begins.**
 
-The published criteria therefore supply an *upper* boundary and no *lower* one. **They structurally cannot provide the SAFE/CAUTION threshold.** This is not an omission in our reading — the value is absent from the source.
+The published criteria therefore supply an *upper* boundary and no *lower* one. **They do not provide the SAFE/CAUTION threshold, and the structure of a warning criterion explains why: it states when to broadcast an alert, not when an operator should begin taking care.** This is not an omission in our reading — the value is absent from the source. *For the scope of the general claim across MET's criteria, see `finding-met-lower-boundary-gap.md` §1.*
 
 **Consequence for the architecture.** The existing design is already correct in structure: MET anchors the upper boundary (CAUTION/UNSAFE), hydrodynamic evidence fills the lower (SAFE/CAUTION). Using non-MET sources for the SAFE/CAUTION boundary is not a departure from official criteria — it is filling a gap those criteria leave open.
 

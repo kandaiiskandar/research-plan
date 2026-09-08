@@ -19,11 +19,38 @@ def rd(name, cols):
     return d
 
 
-def g_w(x):  return np.where(x > 27, 2, np.where(x > 22, 1, 0))
-def g_r(p, c): return np.where((p > 20) | np.isin(c, [95, 96, 99]), 2, np.where(p > 7.5, 1, 0))
+# Wind thresholds anchored 2026-09-08 to MET Cat 1 / Cat 2 onsets, preserved
+# at source value: 40 km/h = 21.598 kn -> 21.6; 50 km/h = 26.998 kn -> 27.0.
+# Superseded: W_CAUTION was 22, an undocumented rounding. See appendix-c C.2.
+W_CAUTION, W_UNSAFE = 21.6, 27.0
+
+
+def g_w(x):  return np.where(x > W_UNSAFE, 2, np.where(x > W_CAUTION, 1, 0))
+# Rainfall thresholds anchored 2026-09-08: 20.0 = MET Ribut Petir trigger
+# (official); 10.0 = JPS/DID Light upper limit, MET being silent below 20.
+# See docs/canonical/finding-met-lower-boundary-gap.md. Was 7.5 — unsourced.
+R_CAUTION, R_UNSAFE = 10.0, 20.0
+
+
+def g_r(p, c): return np.where((p > R_UNSAFE) | np.isin(c, [95, 96, 99]), 2, np.where(p > R_CAUTION, 1, 0))
 def g_t(h):  return np.where((h >= 6) & (h < 17), 0, np.where((h >= 17) & (h < 19), 1, 2))
 def g_o(o, v):
     lo, hi = TH[v]; return np.where(o > hi, 2, np.where(o >= lo, 1, 0))
+
+
+def _register_guard(reg, pid):
+    """Refuse to overwrite an already-resolved prediction.
+
+    Added 2026-09-08. Twice, re-running an analysis after a SPECIFICATION
+    change silently rewrote verdicts for predictions registered against an
+    earlier configuration (P09, P18 — both restored by hand). A register whose
+    verdicts move whenever the specification moves records nothing. Resolved
+    entries are therefore immutable here: a prediction that no longer holds
+    under a new specification is handled by an explicit, documented
+    re-resolution (as P16 and P22 were), never by a silent re-run.
+    """
+    row = reg.loc[reg.id == pid]
+    return not (len(row) and str(row["status"].iloc[0]).strip() in ("CONFIRMED", "REFUTED"))
 
 
 def main():
@@ -35,7 +62,7 @@ def main():
     print("=" * 76)
     print("1.  WIND — LAND CELL (v1) vs SEA CELL (v2)          P15, P16")
     print("=" * 76)
-    print(f"{'':<22}{'max':>8}{'mean':>8}{'p99':>8}{'>22kn':>9}{'>27kn':>9}")
+    print(f"{'':<22}{'max':>8}{'mean':>8}{'p99':>8}{'>21.6kn':>9}{'>27kn':>9}")
     for lab, d in [("v1 LAND 5.940,116.100", w1), ("v2 SEA  5.940,116.025", w2)]:
         a = d["wind"]; g = g_w(a)
         print(f"{lab:<22}{a.max():>8.1f}{a.mean():>8.2f}{a.quantile(.99):>8.1f}"
@@ -104,7 +131,10 @@ def main():
         st = "CONFIRMED" if ok else "REFUTED"
         stated = reg.loc[reg.id==pid, "pred_stated"].iloc[0]
         print(f"  {pid}  predicted {stated:>24}   actual {act:8.2f}   {st}")
-        reg.loc[reg.id==pid, ["actual","status","resolved"]] = [round(float(act),2), st, "2026-09-06"]
+        if _register_guard(reg, pid):
+            reg.loc[reg.id==pid, ["actual","status","resolved"]] = [round(float(act),2), st, "2026-09-06"]
+        else:
+            print(f"       -> already resolved; register NOT overwritten")
     reg.to_csv(DATA / "prediction-register.csv", index=False)
     print("\n  register updated")
 

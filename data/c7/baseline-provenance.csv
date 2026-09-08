@@ -1,0 +1,6 @@
+prediction,metric,registered_actual,registered_vintage,baseline_v1_current_thresholds,vintage_A_v1_preamend_r7.5_o1.9,vintage_B_v1_current_r10.0_o1.25,vintage_C_v2_current_r10.0_o1.25,stale_value_in_findings,stale_value_vintage,register_reproduces_under_current_spec,provenance_status,c6_comparable_baseline
+P07,share of non-SAFE hours where g_t is at the maximum (%),87.58,v1 + current thresholds,87.58,88.23,87.58,87.63,88.23,vintage_A_v1_preamend,YES,REGISTER REPRODUCES — stale prose value is vintage A,87.58
+P09,total state transitions (no hysteresis),5416.0,v1 + PRE-AMENDMENT thresholds,5220,5416,5220,5201,5416 (same as registered),vintage_A_v1_preamend,NO,HISTORICAL ACTUAL FROM SUPERSEDED THRESHOLD SPECIFICATION — retained,5220
+P10,non-time-driven transitions,230.0,v1 + current thresholds,230,227,230,207,227,vintage_A_v1_preamend,YES,REGISTER REPRODUCES — stale prose value is vintage A,230
+P11,A->B->A oscillations within 3 hours,37.0,v1 + current thresholds,37,70,37,27,70,vintage_A_v1_preamend,YES,REGISTER REPRODUCES — stale prose value is vintage A,37
+P12,percentage reduction in non-time-driven transitions from hysteresis (%),7.83,v1 + current thresholds,7.83,6.17,7.83,8.70,6.17,vintage_A_v1_preamend,YES,REGISTER REPRODUCES — stale prose value is vintage A,7.83

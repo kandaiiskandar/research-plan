@@ -266,7 +266,7 @@ f(E) = **UNSAFE**. One UNSAFE condition dominates everything else — extreme wi
 | g_o (big) | ℝ≥0 × {v} | < 1.5 m | 1.5–3.5 m | > 3.5 m | MET Malaysia; Jeong & Im |
 | g_t | [0, 24) | 6.0–17.0 | 17.0–19.0 | 19.0–24.0 ∪ 0.0–6.0 | Atacan & Düzbastılar |
 
-**Fail-safe:** if any component of E is undefined or corrupted (xᵢ = ⊥), f(E) = UNSAFE before any classification function is evaluated.
+**Fail-safe:** if any component resolves to ⊥ — absent, invalid, or stale beyond its permitted age — then f(E) = UNSAFE. *Updated 2026-09-08: this is a corollary of the aggregation rule (gᵢ(⊥) = UNSAFE, UNSAFE maximal), not a separate check run first. A variable with no data source in a given deployment is a **declared exclusion** pinned at SAFE, not a fault — see appendix-c C.2.0.*
 
 ---
 

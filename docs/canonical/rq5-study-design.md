@@ -74,7 +74,9 @@ Three decision scenarios, matched to the three states:
 |---|---|---|---|
 | DT-SAFE | 8 kn, none, none, 0.5 m, big, 08:00 | SAFE | Full advisory: Go recommended, departure window 06:30–07:30, duration up to 8 hours |
 | DT-CAUTION | 18 kn, none, none, 0.5 m, big, 08:00 | CAUTION | Restricted advisory: Proceed with caution / Consider delaying. No departure time or duration shown. |
-| DT-UNSAFE | 30 kn, none, none, 0.5 m, big, 08:00 | UNSAFE | No AI advisory. Safety alert: dangerous conditions. |
+| DT-UNSAFE | 30 kn, none, none, 0.5 m, big, 08:00 | UNSAFE | No AI advisory. State notice: "UNSAFE governance state — AI advisory unavailable. Triggered by: wind 30 kn. Final decision remains with the operator." |
+
+*Display wording revised 2026-09-08 (pre-adoption semantic cleanup): previously "Safety alert: dangerous conditions." Neutral state-reporting matters more here than elsewhere, because this display is the stimulus participants respond to — a message asserting danger or instructing the participant would confound the measurement of whether graduated governance changes reliance behaviour.*
 
 Decision response options presented to participant: Go now / Delay departure / Do not go. Record choice and the reasoning offered. Do not prompt for specific reasoning categories.
 

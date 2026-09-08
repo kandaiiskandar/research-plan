@@ -31,6 +31,24 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 DATA = ROOT / "data"
 
+# Wind thresholds — anchored 2026-09-08. MET Malaysia Cat 1 / Cat 2 onsets,
+# preserved at the source value rather than rounded:
+#   W_CAUTION  40 km/h / 1.852 = 21.598 kn -> 21.6 at data resolution.
+#   W_UNSAFE   50 km/h / 1.852 = 26.998 kn -> 27.0 at data resolution.
+# Superseded: W_CAUTION was 22, an undocumented rounding of 21.598. That
+# rounding suppressed 2 activations in 5 years and made F-1 read "never
+# fires" rather than "almost never binds". See appendix-c C.2 and F-17.
+W_CAUTION, W_UNSAFE = 21.6, 27.0
+
+# Rainfall thresholds — anchored 2026-09-08. See
+# docs/canonical/finding-met-lower-boundary-gap.md and appendix-c C.2.
+#   R_UNSAFE  MET Malaysia Ribut Petir warning trigger (> 20 mm/hr).
+#   R_CAUTION JPS/DID Infobanjir Light-category upper limit (10 mm/hr).
+#             MET publishes NO criterion below 20 mm/hr, so this boundary
+#             is necessarily non-MET — the same structure as the wave case.
+# Superseded: R_CAUTION was 7.5, which matched no published source.
+R_CAUTION, R_UNSAFE = 10.0, 20.0
+
 LO, HI = 1.0, 1.25         # g_o small-vessel thresholds — amended 2026-09-06
 MARGIN = 0.10              # 10% return margin for hysteresis
 
@@ -56,9 +74,9 @@ def g_t_series(d):
 
 
 def classify_plain(d):
-    g_w = np.where(d["wind"] > 27, 2, np.where(d["wind"] > 22, 1, 0))
-    storm = (d["precip"] > 20) | d["wmo"].isin([95, 96, 99])
-    g_r = np.where(storm, 2, np.where(d["precip"] > 7.5, 1, 0))
+    g_w = np.where(d["wind"] > W_UNSAFE, 2, np.where(d["wind"] > W_CAUTION, 1, 0))
+    storm = (d["precip"] > R_UNSAFE) | d["wmo"].isin([95, 96, 99])
+    g_r = np.where(storm, 2, np.where(d["precip"] > R_CAUTION, 1, 0))
     g_o = np.where(d["wave"] > HI, 2, np.where(d["wave"] >= LO, 1, 0))
     g_t = g_t_series(d)
     return np.max(np.column_stack([g_w, g_r, g_o, g_t]), axis=1), g_t
@@ -68,16 +86,16 @@ def classify_hysteretic(d):
     """Dual-threshold: rising uses nominal, falling requires a lower return."""
     wave = d["wave"].values
     precip = d["precip"].values
-    storm = ((d["precip"] > 20) | d["wmo"].isin([95, 96, 99])).values
+    storm = ((d["precip"] > R_UNSAFE) | d["wmo"].isin([95, 96, 99])).values
     g_t = g_t_series(d)
-    g_w = np.where(d["wind"] > 27, 2, np.where(d["wind"] > 22, 1, 0))
+    g_w = np.where(d["wind"] > W_UNSAFE, 2, np.where(d["wind"] > W_CAUTION, 1, 0))
 
     n = len(d)
     go = np.zeros(n, dtype=int)
     gr = np.zeros(n, dtype=int)
     prev_o, prev_r = 0, 0
     lo_dn, hi_dn = LO * (1 - MARGIN), HI * (1 - MARGIN)
-    r_dn = 7.5 * (1 - MARGIN)
+    r_dn = R_CAUTION * (1 - MARGIN)
 
     for i in range(n):
         # g_o with hysteresis
@@ -98,7 +116,7 @@ def classify_hysteretic(d):
         elif prev_r >= 1:
             s = 1 if precip[i] > r_dn else 0
         else:
-            s = 1 if precip[i] > 7.5 else 0
+            s = 1 if precip[i] > R_CAUTION else 0
         gr[i] = s
         prev_r = s
 
@@ -137,6 +155,21 @@ def count_oscillations(f, g_t, window=3):
                     examples.append((i, a, b, j - i))
                 break
     return osc, examples
+
+
+def _register_guard(reg, pid):
+    """Refuse to overwrite an already-resolved prediction.
+
+    Added 2026-09-08. Twice, re-running an analysis after a SPECIFICATION
+    change silently rewrote verdicts for predictions registered against an
+    earlier configuration (P09, P18 — both restored by hand). A register whose
+    verdicts move whenever the specification moves records nothing. Resolved
+    entries are therefore immutable here: a prediction that no longer holds
+    under a new specification is handled by an explicit, documented
+    re-resolution (as P16 and P22 were), never by a silent re-run.
+    """
+    row = reg.loc[reg.id == pid]
+    return not (len(row) and str(row["status"].iloc[0]).strip() in ("CONFIRMED", "REFUTED"))
 
 
 def main():
@@ -183,15 +216,21 @@ def main():
         status = "CONFIRMED" if ok else "REFUTED"
         stated = reg.loc[reg.id == pid, "pred_stated"].iloc[0]
         print(f"  {pid}  predicted {stated:>12}   actual {actual:9.1f}   {status}")
-        reg.loc[reg.id == pid, "actual"] = round(float(actual), 2)
-        reg.loc[reg.id == pid, "status"] = status
-        reg.loc[reg.id == pid, "resolved"] = "2026-09-06"
+        if _register_guard(reg, pid):
+            reg.loc[reg.id == pid, "actual"] = round(float(actual), 2)
+        if _register_guard(reg, pid):
+            reg.loc[reg.id == pid, "status"] = status
+        if _register_guard(reg, pid):
+            reg.loc[reg.id == pid, "resolved"] = "2026-09-06"
 
     # P13 — interpretation
     p13 = "CONFIRMED" if (non_p <= 500 and osc_p <= 100) else "REFUTED"
-    reg.loc[reg.id == "P13", "actual"] = f"non-sched={non_p}, osc={osc_p}"
-    reg.loc[reg.id == "P13", "status"] = p13
-    reg.loc[reg.id == "P13", "resolved"] = "2026-09-06"
+    if _register_guard(reg, "P13"):
+        reg.loc[reg.id == "P13", "actual"] = f"non-sched={non_p}, osc={osc_p}"
+    if _register_guard(reg, "P13"):
+        reg.loc[reg.id == "P13", "status"] = p13
+    if _register_guard(reg, "P13"):
+        reg.loc[reg.id == "P13", "resolved"] = "2026-09-06"
     print(f"  P13  predicted           NO   (chattering not demonstrated)   {p13}")
 
     reg.to_csv(DATA / "prediction-register.csv", index=False)

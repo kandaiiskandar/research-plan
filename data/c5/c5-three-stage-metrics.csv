@@ -1,0 +1,4 @@
+stage,rows,days,first,last,P09_total_transitions,scheduled_transitions,P10_non_scheduled,P11_oscillations,P12_reduction_pct,P12_reduction_pct_full,hyst_total_transitions,hyst_non_scheduled,hyst_oscillations,P13_non_sched,P13_osc
+stage1_v1_incumbent,43848,1827.0,2020-01-01 00:00:00,2024-12-31 23:00:00,5220,4990,230,37,7.83,7.826086956521739,5090,212,30,230,37
+stage2_v2_incumbent,43848,1827.0,2020-01-01 00:00:00,2024-12-31 23:00:00,5201,4994,207,27,8.7,8.695652173913043,5071,189,21,207,27
+stage3_v2_modelb,43848,1827.0,2020-01-01 00:00:00,2024-12-31 23:00:00,3661,3439,222,26,10.36,10.36036036036036,3575,199,20,222,26

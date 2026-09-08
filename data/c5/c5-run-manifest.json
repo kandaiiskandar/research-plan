@@ -1,0 +1,95 @@
+{
+  "condition": "C-5",
+  "generated_utc": "2026-09-08T05:59:02+00:00",
+  "sdr_001_status": "APPROVED - NOT YET APPLIED",
+  "canonical_g_t": "incumbent fixed clock 06:00/17:00/19:00 - UNCHANGED",
+  "harness": {
+    "path": "scripts/c5/three_stage_hysteresis.py",
+    "sha256": "846b93abea5fc952632f649a3b72cb94bb77b9cd81f64f13037c4694ada9377a"
+  },
+  "reused_implementation": {
+    "path": "scripts/hysteresis_analysis.py",
+    "sha256": "73015d881a29cd4d8e62c92ca49f13c40b168e6404459c18fbada427c4edcefe",
+    "note": "imported and reused; NEVER executed (its main() writes the register)"
+  },
+  "hysteresis": {
+    "applies_to": [
+      "g_o",
+      "g_r"
+    ],
+    "not_applied_to": [
+      "g_w",
+      "g_t",
+      "aggregate"
+    ],
+    "level": "component, before max-severity",
+    "margin": 0.1,
+    "init": "prev_o=prev_r=0 (SAFE)",
+    "LO": 1.0,
+    "HI": 1.25,
+    "R_CAUTION": 10.0,
+    "R_UNSAFE": 20.0
+  },
+  "thresholds": {
+    "W_CAUTION": 21.6,
+    "W_UNSAFE": 27.0,
+    "R_CAUTION": 10.0,
+    "R_UNSAFE": 20.0,
+    "o_small": [
+      1.0,
+      1.25
+    ]
+  },
+  "exclusions": {
+    "D": [
+      "m"
+    ],
+    "note": "g_m pinned SAFE, absent from the max"
+  },
+  "stages": {
+    "stage1_v1_incumbent": {
+      "inputs": {
+        "raw_weather.csv": "1ee535cd12e6b339f2daabde7add4069a039fc14b3cbaad4593565dc348c8503",
+        "raw_marine.csv": "8d5e269f0b427c80443dc90ad98e258b27a11cace153a261ab93743716e9c8f3",
+        "raw_rainfall.csv": "faeededdaa3ff799cb198f14a5d3d8b5a84e0c74c247af969ca2baacd9ffcff5"
+      },
+      "g_t": "incumbent 06:00/17:00/19:00",
+      "solar_artefact": null,
+      "rows": 43848
+    },
+    "stage2_v2_incumbent": {
+      "inputs": {
+        "raw_weather_sea.csv": "96850d7547189ffa5ccc02a36cf69987bfae742e54b61597c2ca7d251e84c424",
+        "raw_marine_era5_sea.csv": "6754e2c2ee5586ee864e590f1ccf363bbd8840b364763e01e8c9eb05e5d63888"
+      },
+      "g_t": "incumbent 06:00/17:00/19:00",
+      "solar_artefact": null,
+      "rows": 43848
+    },
+    "stage3_v2_modelb": {
+      "inputs": {
+        "raw_weather_sea.csv": "96850d7547189ffa5ccc02a36cf69987bfae742e54b61597c2ca7d251e84c424",
+        "raw_marine_era5_sea.csv": "6754e2c2ee5586ee864e590f1ccf363bbd8840b364763e01e8c9eb05e5d63888"
+      },
+      "g_t": "Model B: SAFE sunrise<=t<sunset else UNSAFE; g_t(bottom)=UNSAFE",
+      "solar_artefact": {
+        "path": "data/solar/solar-events-daily.csv",
+        "sha256": "057c46a19d0e8ea7956cdc38ae3d7615cf43cf800e7bc33ab286dfdc20ce1894",
+        "spec": "solar-spec-v1",
+        "impl": "solar-v1"
+      },
+      "rows": 43848
+    }
+  },
+  "outputs": {
+    "metrics_csv": {
+      "path": "data/c5/c5-three-stage-metrics.csv",
+      "sha256": "3566cd6b1aab6cd362180bb7034e97b6497c259ffd7414061d33c53b4a76feb7"
+    },
+    "deltas_json": {
+      "path": "data/c5/c5-three-stage-deltas.json",
+      "sha256": "23de3c07558b0c979b0ffceb86d56364c730d7185c5c4bf4a1541a0b94ed92ec"
+    }
+  },
+  "register_sha256_before": "538808b6d82249faa66caf20fece38e994144fbbe2280b62d3193817a3cdc484"
+}

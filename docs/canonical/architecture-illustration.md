@@ -140,7 +140,13 @@ Each safety state defines a distinct governance configuration — a specific com
 
 **Why the fisher always decides.** The human operator retains final decision authority in all three states — including SAFE, where full AI advice is available. The AI is advisory in every state; it never acts autonomously. This is a deliberate design choice grounded in the deployment context: Gao (2024) documents that fishers make departure decisions based on personal experience (importance 4.71/5 — the highest-rated factor), integrating environmental conditions with tacit knowledge about local waters, vessel capabilities, and economic needs that the AI cannot fully capture. The architecture supports this existing decision structure rather than replacing it. Wen et al. (2025), analysing 60 real-world accident reports, find that human intervention was ineffective in 83.3% of process control incidents — but this was in contexts where AI acted autonomously and the human was asked to override. In the proposed architecture, the relationship is reversed: the AI advises, the human acts. The governance layer constrains the AI, not the human.
 
-**What happens under UNSAFE.** When G(S) = 0 and A_AI(S) = {}, the AI is silent — it generates no recommendations. However, the governance layer (Layer 2) may still display a deterministic safety alert (e.g., "Dangerous conditions — return to shore"). This alert is not an AI recommendation — it is a pre-defined system message triggered directly by the safety state classification, with no AI reasoning involved. It is functionally equivalent to a weather warning broadcast: a deterministic, rule-based message that does not depend on the AI advisory layer. The formal model's guarantee A_AI(UNSAFE) = {} is preserved because the alert originates from the governance layer, not from AI(E).
+**What happens under UNSAFE.** When G(S) = 0 and A_AI(S) = {}, the AI is silent — it generates no recommendations. However, the governance layer (Layer 2) may still display a deterministic **state notice** — for example:
+
+> **UNSAFE governance state — AI advisory unavailable.** Triggered by: wave height 4.0 m (above the configured limit for this vessel). Final decision remains with the operator.
+
+This notice is not an AI recommendation — it is a pre-defined system message triggered directly by the safety state classification, with no AI reasoning involved. The formal model's guarantee A_AI(UNSAFE) = {} is preserved because the notice originates from the governance layer, not from AI(E).
+
+**Why the wording is state-reporting rather than an instruction** *(revised 2026-09-08, pre-adoption semantic cleanup)*. This example previously read *"Dangerous conditions — return to shore"*. Two problems. First, it asserts danger, which UNSAFE does not establish — the state can be reached by a fail-safe on a missing observation while the sea is flat (Definition C.1, route 2). Second, it instructs the operator, which contradicts the unconditional human authority stated in the paragraph immediately above and in C.8.2 step 6. **The governance layer constrains the AI, not the human**, so its messages report what the system is doing and why, and leave the decision where it belongs. A notice of this form carries four things: the state, the fact that AI advisory is unavailable, the triggering reason where one is available, and the operator's retained authority.
 
 ---
 
@@ -462,7 +468,9 @@ G(S) = 0    |    A_AI(S) = {}
 
 The 2.5 m sea is UNSAFE for this vessel but would classify CAUTION for a big one — the same water, a different governance outcome. Under the superseded vessel-blind model it was CAUTION for every vessel, so a 6 m hull in a 2.5 m sea would have received "Go, with caution."
 
-**System display:** "UNSAFE — AI advisory withdrawn. Dangerous conditions: high wind (28 kn), heavy rain, 2.5m seas, marine warning active. Return to shore immediately. This is a safety alert, not AI advice."
+**System display:** "UNSAFE governance state — AI advisory unavailable. Triggered by: wind 28 kn, heavy rain, 2.5 m seas, marine warning active. This is a deterministic system notice, not AI advice. Final decision remains with the operator."
+
+*Wording revised 2026-09-08 (pre-adoption semantic cleanup): previously "Dangerous conditions… **Return to shore immediately.**" The readings here do fall outside the supported envelope, so the trigger is reported — but the imperative is removed, because the governance layer constrains the AI, not the human (C.8.2 step 6).*
 
 The AI is completely silent. The safety alert is a deterministic system message from the governance layer, not an AI recommendation. The fisher relies on own judgement and any operational safety systems (radio, GPS, emergency beacon).
 
@@ -543,9 +551,11 @@ The architecture makes deliberate trade-offs in favour of safety. The following 
 
 ### L1. Loss of planning capability under UNSAFE
 
-When the system classifies UNSAFE, the fisher — typically on shore — receives no AI advisory support. The governance layer can issue pre-defined safety alerts (e.g., "dangerous conditions — do not depart"), but these are generic deterministic messages, not contextualised guidance. The AI cannot advise on *when conditions are expected to improve*, *whether tomorrow's forecast is better*, or *how to plan around the adverse period* — those would be AI recommendations, which A_AI(UNSAFE) = {} prohibits.
+When the system classifies UNSAFE, the fisher — typically on shore — receives no AI advisory support. The governance layer can issue a pre-defined state notice (e.g., *"UNSAFE governance state — AI advisory unavailable. Triggered by: [component and reading]. Final decision remains with the operator."*), but these are generic deterministic messages, not contextualised guidance. The AI cannot advise on *when conditions are expected to improve*, *whether tomorrow's forecast is better*, or *how to plan around the adverse period* — those would be AI recommendations, which A_AI(UNSAFE) = {} excludes.
 
-The practical cost is lost planning capability during the waiting period. The fisher knows conditions are dangerous (the system tells them so), but cannot get AI-assisted guidance on when they might safely resume operations. For fishers who depend on daily catches for income — Rahim et al. (2024) document that income drops from IDR 656,000 to IDR 213,000 per trip during extreme weather and trip frequency halves — this planning gap has direct economic consequences. The fisher's situation under UNSAFE is equivalent to the current status quo (no AI decision support at all), not a degradation from it — but the architecture could, in principle, provide more.
+*Wording revised 2026-09-08 (pre-adoption semantic cleanup): the example previously read "dangerous conditions — do not depart", which both asserted danger the state does not establish and instructed the operator, against the unconditional human authority of C.8.2 step 6.*
+
+The practical cost is lost planning capability during the waiting period. The fisher can see which component triggered the state and what it read, but cannot get AI-assisted guidance on when they might resume operations. For fishers who depend on daily catches for income — Rahim et al. (2024) document that income drops from IDR 656,000 to IDR 213,000 per trip during extreme weather and trip frequency halves — this planning gap has direct economic consequences. The fisher's situation under UNSAFE is equivalent to the current status quo (no AI decision support at all), not a degradation from it — but the architecture could, in principle, provide more.
 
 ### L2. Binary cliff at the CAUTION-UNSAFE boundary
 

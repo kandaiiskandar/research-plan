@@ -25,7 +25,7 @@
 
 **Source of thresholds:** MET Malaysia (Malaysian Meteorological Department) published warning criteria for w, r, m; Jeong & Im (2023) and Yaakob et al. (2015) for the vessel-conditional g_o rows; Atacan & Düzbastılar (2023) for g_t. **Not MMEA** — the Maritime Enforcement Agency does not publish these criteria, and earlier drafts of this document misattributed them.
 
-**Fail-safe:** if any xᵢ = ⊥ (missing or corrupted), f(E) = UNSAFE — applied as a pre-condition before any gᵢ is evaluated.
+**Fail-safe:** if any xᵢ resolves to ⊥ (absent, invalid or stale), f(E) = UNSAFE. *Corrected 2026-09-08: this is **not** a pre-condition check applied before the gᵢ. It is Corollary C.1b.1 — gᵢ(⊥) = UNSAFE and UNSAFE is maximal under ≻, so the fail-safe falls out of the aggregation. Permanently unavailable variables are excluded (C.2.0.4), not faulted.*
 
 > ### ⚠️ Revision notice — 2026-09-06
 >
@@ -238,7 +238,9 @@ The VOI framework (value of information) provides the principled answer. A recom
 
 Atf & Lewis (2026) [[notes]](../../notes/Is%20Trust%20Correlated%20With%20Explainability%20in%20AI%3F%20A%20Meta-Analysis.md) provide the VOI framing explicitly: explanations that do not improve decisions add cognitive load without benefit. The same principle applies to recommendation types: outputs that degrade decisions under the prevailing conditions are not useful — they are harmful. Retaining them in the name of "not over-constraining" would be the actual error.
 
-Under SAFE, the full type set {Go, Delay, DepartureTime, Duration} is available — maximum AI utility. Under CAUTION, {Go, Delay} remains — the AI continues to provide decision support on the most important question (go or not). Only under UNSAFE does the AI go silent, and in that state no maritime authority recommends fishing activity. The constraint follows the reliability boundary precisely.
+Under SAFE, the full type set {Go, Delay, DepartureTime, Duration} is available — maximum AI utility. Under CAUTION, {Go, Delay} remains — the AI continues to provide decision support on the most important question (go or not). Only under UNSAFE does the AI go silent, and there the architecture withdraws advisory participation entirely under its predefined governance policy. The constraint follows the reliability boundary precisely.
+
+*Revised 2026-09-08 (pre-adoption semantic cleanup).* This passage previously closed with "and in that state no maritime authority recommends fishing activity." That is a universal empirical claim about maritime authorities which the project has not established and does not need — UNSAFE is reachable by routes no authority speaks to at all, including a fail-safe on a missing observation (Definition C.1, route 2). It has not been replaced with another universal claim; what the architecture can support is only that it suppresses AI advisory participation there, by policy.
 
 *Viva one-liner: Restricting types with negative VOI under the current safety state is not over-constraint — it is the definition of useful AI output.*
 
@@ -591,9 +593,13 @@ The three sensor failure modes are handled distinctly. First, incorrect data wit
 
 Second, out-of-range data (e.g., anemometer reporting −5 knots or 500 knots): a sensor validation layer rejects readings outside physically possible ranges and marks the component ⊥. By the fail-safe rule (EC-1), f(E) = UNSAFE. Third, unavailable data (sensor offline, communication failure, intermittent connectivity): treated identically — the component is ⊥ and the fail-safe applies.
 
-The marine warning variable m makes the rationale clearest: if the broadcast channel is unavailable, m is ⊥ rather than `none`, because communication failure cannot be interpreted as confirmation that no warning is in force. Reading silence as safety is precisely the failure mode the fail-safe exists to prevent.
+The marine warning variable m makes the rationale clearest: **in a deployment with a live broadcast channel**, if that channel is unavailable, m is ⊥ rather than `none`, because communication failure cannot be interpreted as confirmation that no warning is in force. Reading silence as safety is precisely the failure mode the fail-safe exists to prevent.
 
-*Viva one-liner: Every sensor failure pathway — bad data, out-of-range, unavailable — resolves to ⊥ and triggers the fail-safe, so sensor failures escalate to UNSAFE rather than reducing the governance response.*
+> **⚠️ Distinguish this from the retrospective case (added 2026-09-08).** A *momentary* channel failure in a live deployment is a runtime fault → ⊥ → UNSAFE, as above. A variable for which **no data source exists at all** is a different condition: it is a **declared scope exclusion** (appendix-c C.2.0.4), pinned at SAFE, with every severity figure reported as a lower bound. The historical replays in this project run with D = {m} for exactly this reason — no marine warning archive exists for the site.
+>
+> The distinction is load-bearing. Applied to the replay, the ⊥ reading above would classify **all 43,848 hours UNSAFE** and void the headline result. See `finding-bottom-semantics.md` §1.
+
+*Viva one-liner: Every **runtime** sensor failure — bad data, out-of-range, unavailable, stale — resolves to ⊥ and triggers the fail-safe, so faults escalate to UNSAFE rather than reducing the governance response. A variable with **no source at all** is declared out of scope instead, pinned low, and every figure is reported as a lower bound — because treating a permanent absence as a permanent fault would classify every hour UNSAFE.*
 
 ---
 
