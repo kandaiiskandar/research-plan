@@ -1,0 +1,177 @@
+{
+  "generated_utc": "2026-09-08T05:59:02+00:00",
+  "gate": "PASS",
+  "authoritative_P12": 7.83,
+  "stage1_P12": 7.83,
+  "stages": [
+    {
+      "stage": "stage1_v1_incumbent",
+      "rows": 43848,
+      "days": 1827.0,
+      "first": "2020-01-01 00:00:00",
+      "last": "2024-12-31 23:00:00",
+      "P09_total_transitions": 5220,
+      "scheduled_transitions": 4990,
+      "P10_non_scheduled": 230,
+      "P11_oscillations": 37,
+      "P12_reduction_pct": 7.83,
+      "P12_reduction_pct_full": 7.826086956521739,
+      "hyst_total_transitions": 5090,
+      "hyst_non_scheduled": 212,
+      "hyst_oscillations": 30,
+      "P13_non_sched": 230,
+      "P13_osc": 37
+    },
+    {
+      "stage": "stage2_v2_incumbent",
+      "rows": 43848,
+      "days": 1827.0,
+      "first": "2020-01-01 00:00:00",
+      "last": "2024-12-31 23:00:00",
+      "P09_total_transitions": 5201,
+      "scheduled_transitions": 4994,
+      "P10_non_scheduled": 207,
+      "P11_oscillations": 27,
+      "P12_reduction_pct": 8.7,
+      "P12_reduction_pct_full": 8.695652173913043,
+      "hyst_total_transitions": 5071,
+      "hyst_non_scheduled": 189,
+      "hyst_oscillations": 21,
+      "P13_non_sched": 207,
+      "P13_osc": 27
+    },
+    {
+      "stage": "stage3_v2_modelb",
+      "rows": 43848,
+      "days": 1827.0,
+      "first": "2020-01-01 00:00:00",
+      "last": "2024-12-31 23:00:00",
+      "P09_total_transitions": 3661,
+      "scheduled_transitions": 3439,
+      "P10_non_scheduled": 222,
+      "P11_oscillations": 26,
+      "P12_reduction_pct": 10.36,
+      "P12_reduction_pct_full": 10.36036036036036,
+      "hyst_total_transitions": 3575,
+      "hyst_non_scheduled": 199,
+      "hyst_oscillations": 20,
+      "P13_non_sched": 222,
+      "P13_osc": 26
+    }
+  ],
+  "temporal": [
+    {
+      "stage": "stage1_v1_incumbent",
+      "rows": 43848,
+      "duplicates": 0,
+      "monotonic_increasing": true,
+      "non_hourly_steps": 0,
+      "expected_rows_from_span": 43848,
+      "complete_hourly": true
+    },
+    {
+      "stage": "stage2_v2_incumbent",
+      "rows": 43848,
+      "duplicates": 0,
+      "monotonic_increasing": true,
+      "non_hourly_steps": 0,
+      "expected_rows_from_span": 43848,
+      "complete_hourly": true
+    },
+    {
+      "stage": "stage3_v2_modelb",
+      "rows": 43848,
+      "duplicates": 0,
+      "monotonic_increasing": true,
+      "non_hourly_steps": 0,
+      "expected_rows_from_span": 43848,
+      "complete_hourly": true
+    }
+  ],
+  "deltas": {
+    "P09_total_transitions": {
+      "v1_incumbent": 5220,
+      "v2_incumbent": 5201,
+      "v2_modelb": 3661,
+      "delta_data": -19,
+      "delta_g_t": -1540,
+      "delta_total": -1559,
+      "additive_check": true
+    },
+    "P10_non_scheduled": {
+      "v1_incumbent": 230,
+      "v2_incumbent": 207,
+      "v2_modelb": 222,
+      "delta_data": -23,
+      "delta_g_t": 15,
+      "delta_total": -8,
+      "additive_check": true
+    },
+    "P11_oscillations": {
+      "v1_incumbent": 37,
+      "v2_incumbent": 27,
+      "v2_modelb": 26,
+      "delta_data": -10,
+      "delta_g_t": -1,
+      "delta_total": -11,
+      "additive_check": true
+    },
+    "P12_reduction_pct": {
+      "v1_incumbent": 7.83,
+      "v2_incumbent": 8.7,
+      "v2_modelb": 10.36,
+      "delta_data": 0.87,
+      "delta_g_t": 1.66,
+      "delta_total": 2.53,
+      "additive_check": true
+    }
+  },
+  "register_crosscheck_stage1": {
+    "P09": {
+      "computed": 5220,
+      "registered": 5416,
+      "match": false
+    },
+    "P10": {
+      "computed": 230,
+      "registered": 230,
+      "match": true
+    },
+    "P11": {
+      "computed": 37,
+      "registered": 37,
+      "match": true
+    },
+    "P12": {
+      "computed": 7.83,
+      "registered": 7.83,
+      "match": true
+    }
+  },
+  "p09_provenance_sweep": [
+    {
+      "r_caution": "10.0 current",
+      "o_unsafe": "1.25 current",
+      "total_transitions": 5220,
+      "matches_registered_5416": false
+    },
+    {
+      "r_caution": "10.0 current",
+      "o_unsafe": "1.9 pre-amend",
+      "total_transitions": 5356,
+      "matches_registered_5416": false
+    },
+    {
+      "r_caution": "7.5 pre-amend",
+      "o_unsafe": "1.25 current",
+      "total_transitions": 5280,
+      "matches_registered_5416": false
+    },
+    {
+      "r_caution": "7.5 pre-amend",
+      "o_unsafe": "1.9 pre-amend",
+      "total_transitions": 5416,
+      "matches_registered_5416": true
+    }
+  ]
+}

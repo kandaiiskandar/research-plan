@@ -1,0 +1,392 @@
+
+THE authoritative figure generator. Every number in §0a of
+`empirical-findings-2026-09-06.md` comes from here.
+
+WHY THIS SCRIPT EXISTS
+----------------------
+On 2026-09-06 a coverage check found that the published binding-profile
+figures (F-4 10.7%, F-7 97.5% / 3.4% / 88.2%) reproduced ONLY under the v1
+land-cell data AND the superseded 1.9 m threshold. They had been left
+untouched when the threshold amendment was propagated: the constants in the
+analysis scripts were updated, but the findings were never recomputed. The
+paper was printing them alongside 6.1%, which came from different data at a
+different threshold, as though one analysis had produced all of them.
+
+Three scripts (historical_replay, diagnostic_binding, hysteresis_analysis)
+still read `raw_weather.csv` (the LAND cell that F-10 identified as wrong) and
+`raw_marine.csv` (ERA5-Ocean 50 km). This script supersedes their figure
+reporting. It reads sea-cell data only.
+
+THE TWO CONFIGURATIONS (decision of 2026-09-06, "option C")
+-----------------------------------------------------------
+Both use sea-cell weather, so the F-10 land/sea error is corrected in both,
+and both use the amended small-vessel thresholds 1.0 / 1.25 m.
+
+  PRIMARY    sea wind + ERA5-Ocean waves (~50 km)   2020-01..2024-12   5.00 yr
+  RESOLUTION sea wind + MFWAM waves      (~8 km)    2021-10..2024-12   3.25 yr
+
+PRIMARY is the headline: full five-year record, sea cells throughout.
+RESOLUTION is the sensitivity check: finer waves, shorter record. The gap
+between them quantifies grid-resolution dependence rather than hiding it.
+
+Neither is "the right one". Reporting both is the point — see F-14.
+
+A NOTE ON THE PREDICTION REGISTER
+---------------------------------
+These figures are NOT registered as predictions. They are recomputations of
+quantities whose values were already observed during the coverage check.
+Registering them now would invert the method: the register exists so that
+expectations are recorded before results are seen, and back-filling it with
+known values would make it decorative. P01-P24 stand as they are. The
+superseded entries (P04, P05, P19, P22) remain valid for the configurations
+they were registered against and are annotated accordingly.
+
+==============================================================================
+CANONICAL FIGURES — small vessel (< 10 GRT), thresholds 1.0 / 1.25 m
+==============================================================================
+
+                                                 PRIMARY        RESOLUTION
+                                         5 yr, ERA5 50km    3.25 yr, MFWAM
+------------------------------------------------------------------------------
+  hourly records                                  43,848            28,501
+  years covered                                     5.00              3.25
+  Level 2 binds (departure 05-09)                  5.81%             4.48%
+  daylight UNSAFE hours                            1,262               455
+  daylight UNSAFE share                            5.80%             3.23%
+  weather-driven share of UNSAFE                   10.9%              6.4%
+  small vs big differ (departure)                  9.11%             5.86%
+  max sustained wind (kn)                           21.8              21.7
+  max wave height (m)                               2.60              1.84
+
+  COMPONENT BINDING SHARES                                                
+  (share of hours at the maximum)     
+  g_o — daylight CAUTION                          98.71%            97.66%
+  g_o — all-hours non-SAFE                        18.00%            12.66%
+  g_t — daylight CAUTION                           0.00%             0.00%
+  g_t — all-hours non-SAFE                        86.82%            90.19%
+  g_r — daylight CAUTION                           1.48%             2.70%
+  g_r — all-hours non-SAFE                         0.20%             0.26%
+  g_w — daylight CAUTION                           0.00%             0.00%
+  g_w — all-hours non-SAFE                         0.00%             0.00%
+  g_m — daylight CAUTION                           0.00%             0.00%
+  g_m — all-hours non-SAFE                         0.00%             0.00%
+
+==============================================================================
+HOW TO REPORT THESE
+==============================================================================
+  Headline           : Level 2 binds 5.8% of departure hours
+                       (5 years, sea-cell weather, ERA5-Ocean 50 km waves)
+  Resolution check   : 4.5% on MFWAM 8 km over 3.25 years
+  The gap (1.3 points) IS the grid-resolution sensitivity.
+  Report both. Neither alone is the result.
+
+  g_w never binds in either configuration. Max sustained wind 21.8 kn
+  against a 22 kn threshold — a property of the site (F-13), not an artefact.
+  g_m never binds because it was never measured. All figures are LOWER BOUNDS.
+
+
+########## HYSTERESIS ##########
+
+Hysteresis / mode-chattering analysis.
+
+Both papers assert mode-chattering at classification boundaries as a
+deployment concern, mitigated by dual-threshold hysteresis. Neither presents
+evidence. The 20-scenario evaluation design could not test it — all scenarios
+were static single-point evaluations. The hourly time series can.
+
+Resolves pre-registered predictions P09-P13 (data/prediction-register.csv).
+
+Method
+------
+1. Classify f(E) for every hour, small vessel.
+2. Count state transitions f[i] != f[i-1].
+3. Separate SCHEDULED transitions (g_t changed across the boundary — these
+   are deterministic clock events at 06:00 / 17:00 / 19:00 and are not
+   chattering) from NON-SCHEDULED ones.
+4. Count A->B->A round trips within a 3-hour window, excluding scheduled.
+5. Re-run with dual-threshold hysteresis on g_o and g_r and measure the
+   reduction in non-scheduled transitions.
+
+CAVEAT: hourly resolution. Sub-hourly oscillation is invisible in this data.
+A null result here bounds the claim at hourly resolution only.
+
+Loaded 43,848 records over 1827 days
+
+==============================================================================
+TRANSITION COUNTS — small vessel, all hours
+==============================================================================
+
+WITHOUT hysteresis
+  total state transitions      :  3,661
+  scheduled (g_t changed)      :  3,439  (93.9%)
+  NON-scheduled                :    222  ( 6.1%)
+  transitions per day          :   2.00
+
+WITH hysteresis (10% return margin)
+  total state transitions      :  3,575
+  scheduled (g_t changed)      :  3,376  (94.4%)
+  NON-scheduled                :    199  ( 5.6%)
+  transitions per day          :   1.96
+
+  Reduction in non-scheduled transitions: 222 -> 199  (10.4%)
+
+==============================================================================
+MODE-CHATTERING: A->B->A round trips within 3 hours (scheduled excluded)
+==============================================================================
+  without hysteresis :    26   (5.2 per year)
+  with hysteresis    :    20   (4.0 per year)
+  examples (index, from, to, hours to return):
+    2020-10-06 09:00:00  1->2->1  after 2h
+    2020-11-05 15:00:00  1->2->1  after 2h
+    2021-01-17 13:00:00  1->2->1  after 2h
+    2022-05-17 09:00:00  0->1->0  after 1h
+    2022-06-21 10:00:00  0->1->0  after 3h
+
+==============================================================================
+PRE-REGISTERED PREDICTION CHECK
+==============================================================================
+  P09  predicted    5400-8000   actual    3661.0   REFUTED
+  P10  predicted         <500   actual     222.0   CONFIRMED
+  P11  predicted  <100 (tens)   actual      26.0   CONFIRMED
+  P12  predicted        5-40%   actual      10.4   CONFIRMED
+  P13  predicted           NO   (chattering not demonstrated)   CONFIRMED
+Register NOT written (read-only default; pass --write-register to enable).
+
+########## CONDITIONS ##########
+
+Four-condition governance comparison, including a Flehmig-style baseline (C3).
+
+Answers Review 3's novelty objection empirically. The paper claims no existing
+architecture restricts AI advisory scope as a function of classified safety
+state. That claim currently rests on a literature coding table. This script
+instantiates the CLOSEST STRUCTURAL PRECEDENT in the corpus on the same site
+data and measures whether it diverges from a plain binary gate.
+
+Conditions
+----------
+C0  Ungated          A_AI = full set at every hour. No governance.
+C1  Binary-gated     G(S) gates participation. A_AI = full when G = 1, else empty.
+C3  Flehmig-style    Three-level traffic-light. AI stays the safety function at
+                     green AND orange with UNCHANGED scope; switches to non-AI
+                     backup at red. Only the SUPERVISORY response varies across
+                     the intermediate level.
+C2  Proposed         Two-level governance pair. A_AI contracts at CAUTION.
+
+FAIRNESS NOTE — read before quoting any number from this script.
+Flehmig et al. condition their index on AI DEGRADATION (drift, outliers,
+performance decay), not on environmental state. C3 ports their GOVERNANCE
+TOPOLOGY onto our conditioning variable so the two can be compared on the same
+axis. It is not a claim about their system on their problem, and it is not a
+reproduction of their results. Their framework answers a different question and
+is correct for it. What is being compared is the structure of the mapping from
+a three-level classification to admissible AI output.
+
+Metric
+------
+Admissible-set divergence: for each hour and each pair of conditions, do the
+two conditions permit the same set of recommendation types? This is defined by
+the architecture, NOT by the reasoning engine, so it runs without Layer 3.
+What Layer 3 would add is the actual AI(E) content inside each set.
+
+Resolves pre-registered predictions P21-P24 (data/prediction-register.csv).
+
+
+
+##############################################################################
+# PRIMARY  (5.00 yr, sea wind + ERA5-Ocean ~50 km)
+##############################################################################
+Loaded 43,848 hourly records  2020-01-01 to 2024-12-31
+
+==============================================================================
+ALL HOURS   (n = 43,848 hours)
+==============================================================================
+  state distribution: SAFE 18,401 (42.0%)   CAUTION 2,091 (4.8%)   UNSAFE 23,356 (53.3%)
+
+  Pairwise admissible-set divergence (% of hours the two
+  conditions permit DIFFERENT recommendation sets)
+
+                               C0 ungated     C1 binary-gated    C3 Flehmig-style         C2 proposed
+  C0 ungated                           —              53.27%              53.27%              58.03%
+  C1 binary-gated                 53.27%                   —               0.00%               4.77%
+  C3 Flehmig-style                53.27%               0.00%                   —               4.77%
+  C2 proposed                     58.03%               4.77%               4.77%                   —
+
+==============================================================================
+DEPARTURE WINDOW 05:00-09:00   (n = 9,135 hours)
+==============================================================================
+  state distribution: SAFE 4,687 (51.3%)   CAUTION 531 (5.8%)   UNSAFE 3,917 (42.9%)
+
+  Pairwise admissible-set divergence (% of hours the two
+  conditions permit DIFFERENT recommendation sets)
+
+                               C0 ungated     C1 binary-gated    C3 Flehmig-style         C2 proposed
+  C0 ungated                           —              42.88%              42.88%              48.69%
+  C1 binary-gated                 42.88%                   —               0.00%               5.81%
+  C3 Flehmig-style                42.88%               0.00%                   —               5.81%
+  C2 proposed                     48.69%               5.81%               5.81%                   —
+
+
+##############################################################################
+# RESOLUTION (3.25 yr, sea wind + MFWAM ~8 km)
+##############################################################################
+Loaded 28,501 hourly records  2021-10-01 to 2024-12-31
+
+==============================================================================
+ALL HOURS   (n = 28,501 hours)
+==============================================================================
+  state distribution: SAFE 12,540 (44.0%)   CAUTION 1,110 (3.9%)   UNSAFE 14,851 (52.1%)
+
+  Pairwise admissible-set divergence (% of hours the two
+  conditions permit DIFFERENT recommendation sets)
+
+                               C0 ungated     C1 binary-gated    C3 Flehmig-style         C2 proposed
+  C0 ungated                           —              52.11%              52.11%              56.00%
+  C1 binary-gated                 52.11%                   —               0.00%               3.89%
+  C3 Flehmig-style                52.11%               0.00%                   —               3.89%
+  C2 proposed                     56.00%               3.89%               3.89%                   —
+
+==============================================================================
+DEPARTURE WINDOW 05:00-09:00   (n = 5,935 hours)
+==============================================================================
+  state distribution: SAFE 3,231 (54.4%)   CAUTION 266 (4.5%)   UNSAFE 2,438 (41.1%)
+
+  Pairwise admissible-set divergence (% of hours the two
+  conditions permit DIFFERENT recommendation sets)
+
+                               C0 ungated     C1 binary-gated    C3 Flehmig-style         C2 proposed
+  C0 ungated                           —              41.08%              41.08%              45.56%
+  C1 binary-gated                 41.08%                   —               0.00%               4.48%
+  C3 Flehmig-style                41.08%               0.00%                   —               4.48%
+  C2 proposed                     45.56%               4.48%               4.48%                   —
+
+
+==============================================================================
+C1 vs C3 DIVERGENCE — BOTH CONFIGURATIONS
+==============================================================================
+  PRIMARY  (5.00 yr, sea wind + ERA5-Ocean ~50 km)
+      all hours   0.00%      departure window   0.00%
+  RESOLUTION (3.25 yr, sea wind + MFWAM ~8 km)
+      all hours   0.00%      departure window   0.00%
+
+==============================================================================
+THE RESULT THAT ANSWERS THE NOVELTY OBJECTION
+==============================================================================
+
+  C3 (Flehmig-style, three-level) vs C1 (plain binary gate):
+
+      all hours            0.00%  divergence
+      departure window     0.00%  divergence
+
+  The closest structural precedent in the reviewed literature produces the
+  SAME admissible recommendation set as a binary gate in every hour of the
+  record. Its intermediate level is not observable in AI output at all.
+
+  C2 (proposed) vs C1:     5.81%  of departure hours
+  C2 (proposed) vs C3:     5.81%  of departure hours
+
+  Those hours are the CAUTION state. They are where the proposed architecture
+  restricts advisory scope and every other condition does not.
+
+==============================================================================
+ISOLATING THE LEVEL 2 CONTRIBUTION
+==============================================================================
+
+  C0 vs C1  =  42.88%   attributable to Level 1 (participation gate)
+  C0 vs C2  =  48.69%   attributable to Levels 1 + 2 combined
+  difference=   5.81%   attributable to LEVEL 2 ALONE
+
+  Level 2 is the contribution no reviewed architecture implements.
+
+==============================================================================
+PRE-REGISTERED PREDICTION CHECK
+==============================================================================
+  Scored against the MFWAM configuration these were registered on.
+
+  P21  predicted          0   actual     0.00   CONFIRMED
+  P22  predicted       6.1%   actual     4.48   REFUTED
+  P23  predicted     20-30%   actual    45.56   REFUTED
+  P24  predicted     14-24%   actual    41.08   REFUTED
+Register NOT written (read-only default; pass --write-register to enable).
+
+==============================================================================
+SCOPE OF THIS RESULT — state these alongside any figure above
+==============================================================================
+  1. Admissible-set level only. The reasoning engine is not implemented, so
+     AI(E) content within each set is not compared. Layer 3 would add that.
+  2. C3 ports Flehmig's governance topology onto environmental state. Their
+     index conditions on AI degradation. This compares structures, not systems.
+  3. g_m held at `none` throughout — no archive. All figures are LOWER BOUNDS.
+  4. No incident data exists for this site. This measures what the conditions
+     DO, not whether what they do is correct.
+
+
+########## DIAGNOSTIC ##########
+
+Diagnostic: which classification function actually binds?
+
+For every hour where f(E) != SAFE, identify which g function(s) sit at the
+maximum. Ties are counted for every tied function, so shares may sum above
+100%. This is deliberate: when two functions are jointly at the maximum,
+both are binding.
+
+Resolves pre-registered predictions P05-P08 and P14
+(see data/prediction-register.csv).
+
+Data: Open-Meteo archive, Kota Kinabalu, 2020-01-01 to 2024-12-31.
+
+CAVEAT: m (marine warning) has no historical archive and is held at 'none'.
+It therefore never binds here. That is a data limitation, not a finding
+about the model.
+
+Loaded 43,848 records: 2020-01-01 00:00:00 to 2024-12-31 23:00:00
+
+==============================================================================
+BINDING ANALYSIS — small vessel (< 10 GRT), the deployment population
+==============================================================================
+
+ALL HOURS (n=43,848) — non-SAFE hours: 25,447
+  g_w   at max:       0     0.0%  
+  g_r   at max:      52     0.2%  
+  g_m   at max:       0     0.0%  
+  g_o   at max:   4,580    18.0%  #######
+  g_t   at max:  22,094    86.8%  ##################################
+
+DAYLIGHT (sunrise-sunset) — CAUTION hours: 2,091
+  g_w   at max:       0     0.0%  
+  g_r   at max:      31     1.5%  
+  g_m   at max:       0     0.0%  
+  g_o   at max:   2,064    98.7%  #######################################
+  g_t   at max:       0     0.0%  
+
+DAYLIGHT (sunrise-sunset) — non-SAFE hours: 3,353
+  g_w   at max:       0     0.0%  
+  g_r   at max:      39     1.2%  
+  g_m   at max:       0     0.0%  
+  g_o   at max:   3,319    99.0%  #######################################
+  g_t   at max:       0     0.0%  
+
+DEPARTURE WINDOW 05:00-09:00 — non-SAFE hours: 4,448
+  g_w   at max:       0     0.0%  
+  g_r   at max:      18     0.4%  
+  g_m   at max:       0     0.0%  
+  g_o   at max:   1,042    23.4%  #########
+  g_t   at max:   3,599    80.9%  ################################
+
+Distinct functions ever at the maximum (departure window): 3 — g_r, g_o, g_t
+NEVER binds: g_w, g_m
+
+==============================================================================
+g_o BINDING SHARE BY VESSEL CLASS (daylight, CAUTION hours)
+==============================================================================
+  small  :  2,091 CAUTION hours, g_o at max in  98.7%
+  medium :    704 CAUTION hours, g_o at max in  95.2%
+  big    :    443 CAUTION hours, g_o at max in  92.3%
+
+==============================================================================
+PRE-REGISTERED PREDICTION CHECK
+==============================================================================
+  P05  predicted             >90%   actual     98.7   CONFIRMED
+  P06  predicted              <5%   actual      1.2   CONFIRMED
+  P07  predicted             >70%   actual     86.8   CONFIRMED
+  P08  predicted  <=4 (g_w never)   actual      3.0   CONFIRMED
+Register NOT written (read-only default; pass --write-register to enable).
