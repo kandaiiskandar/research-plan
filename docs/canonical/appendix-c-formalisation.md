@@ -111,11 +111,13 @@ This order is transitive (UNSAFE ≻ SAFE follows from UNSAFE ≻ CAUTION and CA
 
 #### How UNSAFE is reached
 
-S = UNSAFE is produced by max-severity whenever any component classifier returns UNSAFE. Three distinct routes exist, and the state does not record which one applies — see C.2.0.8:
+S = UNSAFE is produced by max-severity whenever any component classifier returns UNSAFE. Three routes exist and can coexist. The state itself does not record them; the provenance reason set in C.2.0.8 distinguishes fault, hazard, policy and their combinations:
 
 1. **Environmental observation outside a supported operating envelope.** A valid reading falls in a component's UNSAFE band — e.g. g_o beyond the vessel-conditional wave boundary (C.9.1), g_w above the MET Category 2 onset, g_r above the Ribut Petir trigger. This is the case the threshold evidence in C.1 and C.2 speaks to.
-2. **Fail-safe classification on a required observation.** A required component is unavailable, invalid or stale, so yᵢ = ⊥ and gᵢ(⊥) = UNSAFE (Corollary C.1b.1). **Nothing has been observed about the environment at all** — the system has lost an input it needs.
+2. **Fail-safe classification on a required observation.** A required component is unavailable, invalid or stale, so yᵢ = ⊥ and gᵢ(⊥) = UNSAFE (Corollary C.1b.1). **No valid observation is available for the failed required input** — the system has lost an input it needs. Other valid components may simultaneously contribute environmental or policy reasons.
 3. **An explicitly defined conservative governance condition.** A component's UNSAFE band is set on policy grounds rather than by a source that establishes danger at that boundary. Where this applies it must be labelled as such at the component (C.9.1 already does so for the interpolated medium-vessel boundary).
+
+**Reason terminology.** A valid environmental non-SAFE band contributes `hazard`; required resolution failure contributes `fault`; valid nighttime contributes `policy`. Conservative choices within environmental thresholds remain band-provenance details, not an additional nighttime-policy trigger. Reasons overlap and annotate the state; they do not define it (C.2.0.8).
 
 **What UNSAFE does not assert.** It does not assert that operation is physically impossible, prohibited, or unsafe for every operator and vessel. Route 2 makes this plain: a failed sensor feed produces UNSAFE while the sea may be flat. Human decision authority is unconditional in all three states (C.8.2 step 6).
 
@@ -287,23 +289,44 @@ The four conditions are resolved in a fixed order, and the order is load-bearing
 
 ---
 
-#### C.2.0.8 Fault-driven and hazard-driven UNSAFE are distinguishable
+#### C.2.0.8 Provenance reason sets over an evaluated trace
 
-Governance treats them identically — G(UNSAFE) = 0 either way, which is the purpose of the fail-safe. But they differ epistemically, and conflating them in the record is a defect: a deployment could sit in fault-driven UNSAFE for weeks while the logs read as sustained bad weather, and an operator told *"conditions are unsafe"* when the truth is *"the wave feed is down"* has been misinformed about the world.
+*Canonical semantic cleanup, 2026-09-08, after SDR-001. Supersedes the scalar fault/hazard fallback; historical audit reports retain the earlier contract. This changes provenance semantics only.*
 
-Define alongside f a cause function
+**Trace and type.** Let **q ∈ Q** be an explanatory abstraction over the information used and produced by the existing resolution/classification evaluation. Q is the set of completed, internally consistent evaluated traces under the current canonical specification. It is not a new environmental variable, a replacement for Y, an extra input to f, or a newly implemented runtime structure.
 
-**cause : Y → {fault, hazard}**, with **cause(y) = fault** if yᵢ = ⊥ for any i ∉ D, and **hazard** otherwise
+Each trace retains:
 
-The pair (F_{D,τ}, cause(y)) is what the system records and displays. **cause has no effect on G(S) or A_AI(S)** — it is provenance, not governance, and the formal properties are untouched by it.
+- The configured vessel category v, declared exclusion set D, and applicable resolution/freshness context τ.
+- For each i ∈ {w,r,m,o,t}: component identity, exclusion status, resolution status (excluded, valid, or fault with the failed required input identified), and resulting component severity sᵢ. Excluded components have sᵢ = SAFE; required faults have sᵢ = UNSAFE. A valid environmental component retains its resolved reading and the applicable classifier band, including v for g_o.
+- For time: clock value and validity, date and validity, required solar-lookup validity, the sunrise/sunset values actually used and artefact identity, and resulting g_t. A failed required time dependency resolves to the existing fail-safe UNSAFE; it does not establish nighttime. If a dependency was not evaluated after an earlier failure, that status is retained rather than asserted valid.
+- The existing aggregate S = max-severity(sᵢ). Trace consistency means these entries agree with the existing evaluation; an arbitrary or contradictory record is not in Q.
 
-*Consequence for reported figures.* Any metric partitioning UNSAFE hours by driver must carry a third category. `scripts/canonical_figures.py` currently reports a "weather-driven share of UNSAFE" against `g_o`, `g_r`, `g_w`; under a non-empty fault set that metric needs a fault row rather than silently absorbing faults into weather. In the present replays D = {m} and no runtime faults occur, so the reported figures are unaffected.
+Only completed classifications have a trace in Q. Missing v or an ill-formed D (including t ∈ D) refuses startup as before (C.2.0.5–7); no classified state or reason set is presented. Exclusions are resolved before faults. Missing parts not read by a classifier, such as swell period for g_o, do not become required-input faults.
 
-> **OPEN — `cause` taxonomy, deferred. This block is unchanged and remains canonical.**
->
-> `finding-unsafe-semantics-audit.md` §7 records a **genuine semantic mismatch** in the two-value partition: it is built on a single distinction — *did the measurement apparatus fail?* — and has no place for a third kind of trigger that is neither an apparatus failure nor a detected environmental condition. A `g_t`-driven UNSAFE at 19:00 on a calm night is assigned `hazard` by the "otherwise" branch, when nothing hazardous has been observed and nothing was detected. The mismatch is **pre-existing** under the current fixed-clock `g_t`.
->
-> **Deliberately not fixed here.** `cause` is provenance only (below), so the mismatch affects the operator record and audit trail alone: no safety behaviour changes, and no theorem requires re-proof — C.7.2 states that Theorem C.3's proof "depends only on the value of S, never on how S was reached". No third value is introduced, no signature altered, no term renamed. Sequenced as a separate provenance workstream **after** the `g_t` decision, so that one change does not carry two rationales.
+Define the canonical provenance annotation:
+
+**reasons : Q → 𝒫({fault, hazard, policy})**
+
+For q ∈ Q, include each label independently:
+
+| Label | Necessary and sufficient condition |
+|---|---|
+| **fault** | At least one required, non-excluded component or required time dependency fails resolution (missing, invalid or stale where freshness applies). |
+| **hazard** | At least one valid, non-excluded environmental component i ∈ {w,r,m,o} has sᵢ ∈ {CAUTION, UNSAFE}. |
+| **policy** | Valid clock, date and solar lookup establish t < sunrise(date) or t ≥ sunset(date), hence g_t = UNSAFE under the canonical nighttime advisory policy. |
+
+**SAFE and concurrency.** No active restriction gives reasons(q) = ∅; for consistent traces this holds iff S = SAFE. The labels are overlapping: valid night plus wave CAUTION gives {hazard, policy}; wind fault plus valid wave UNSAFE plus valid night gives {fault, hazard, policy}. No priority discards a concurrent reason. An excluded component contributes no label, even if its raw data are missing. Valid night and failed time resolution must be distinguished from trace validity, never from g_t = UNSAFE alone. Exact valid sunrise contributes no policy label; exact valid sunset does.
+
+**Bounded meaning.** hazard means an environmental reading is in a configured non-SAFE band, including CAUTION. It does not prove physical danger, certain harm, prohibited navigation or causation beyond the classifier. Threshold evidence and conservative boundary choices (including the medium-vessel interpolation) remain separate provenance details. The policy label here specifically identifies the nighttime advisory trigger; it does not imply that other governance responses are policy-free. Detailed provenance should identify the component, band and evidence/policy basis; the time detail may be `nighttime_advisory_policy`.
+
+**Active triggers, not a binding-cause partition.** All non-SAFE environmental triggers remain recorded even when a more severe component determines S. Retained component severities permit separate binding analysis, including ties. Reason shares may overlap and must not be summed to 100% without a separately defined mutually exclusive metric. Existing “weather-driven UNSAFE” metrics are not reinterpreted as a partition of these reason sets.
+
+**Annotation only.** The conceptual annotated output is (S, reasons(q)); projection onto S returns exactly the existing F_{D,τ}(obs,v). Provenance reasons never participate in governance: they do not alter resolution, max-severity, G(S), A_AI(S), RS(S), rule selection, or human authority. Theorem C.3 continues to depend only on S. No classifier, threshold or fail-safe changes.
+
+**Specification boundary and operator wording.** This is a canonical contract, not a claim that a runtime logger, UI or engine currently implements it. No implemented cause function or consumer was found in scripts/ during cleanup. An implementation using this contract should say “AI advisory unavailable: nighttime policy applies.” For simultaneous wave restriction: “AI advisory unavailable: nighttime policy applies. Wave reading exceeds the configured band.” Human decision authority remains unconditional.
+
+**Closure:** the former OPEN taxonomy mismatch is closed at specification level by this contract. Verification and integrity evidence: [cleanup report](cleanup-report-cause-taxonomy-2026-09-08.md). Runtime trace capture remains unimplemented.
 
 ---
 
@@ -842,7 +865,7 @@ and as a special case:
    - RS(CAUTION) contains only rules producing recommendations in {Go, Delay}
    - RS(UNSAFE) = ∅ — never supplied, since G(UNSAFE) = 0 gates off Layer 3 entirely
 
-3. **(A3) Gate enforcement.** If G(S) = 0, Layer 3 receives no input and produces no output: AI = ∅. *This holds regardless of why S = UNSAFE — hazard or fault.*
+3. **(A3) Gate enforcement.** If G(S) = 0, Layer 3 receives no input and produces no output: AI = ∅. *This holds regardless of the reason set: fault, hazard, policy or any combination.*
 
 4. **(A4) Engine fidelity.** The rule engine fires only rules present in the active RS(S). No rule produces a recommendation type not present in the rule's conclusion.
 
@@ -850,7 +873,7 @@ and as a special case:
 
 Since S is total — by Theorem C.1 in the ideal case, by **Theorem C.1b** in the operational case — and S ∈ {SAFE, CAUTION, UNSAFE}, there are exactly three cases.
 
-**The proof depends only on the value of S, never on how S was reached.** This is what makes it robust to the fault/hazard distinction of C.2.0.8: whether UNSAFE arose from a hazard (some gᵢ(yᵢ) = UNSAFE for a valid yᵢ) or from a fault (some yᵢ = ⊥, Corollary C.1b.1), the state is UNSAFE and Case 1 applies unchanged. `cause` is provenance and does not enter the case analysis.
+**The proof depends only on the value of S, never on how S was reached.** This makes it independent of reasons(q) in C.2.0.8: environmental UNSAFE (`hazard`), required resolution failure (`fault`, Corollary C.1b.1), valid nighttime (`policy`), and mixed reason sets all use Case 1 whenever S = UNSAFE. A hazard trigger in CAUTION uses Case 2. Reasons are annotations and never enter the case analysis or select RS(S).
 
 **Case 1: S = UNSAFE.**
 
@@ -933,10 +956,10 @@ Stage by stage:
 2. **Resolution (ρ_{D,τ}).** Excluded components (i ∈ D) are pinned at SAFE; the remainder pass through validation and freshness, resolving to Xᵢ ∪ {⊥}. Evaluation order is fixed and load-bearing — C.2.0.7.
 3. **Classification (f).** Max-severity aggregation over the five component classifiers, with gᵢ(⊥) = UNSAFE. Total by **Theorem C.1b**.
 4. **Governance.** G(S) sets participation; A_AI(S) sets admissible advisory scope.
-5. **Advisory generation.** The rule engine draws only on RS(S). **AI ⊆ A_AI(S)** by **Theorem C.3**, and this holds whether S arose from a hazard or from a fault.
+5. **Advisory generation.** The rule engine draws only on RS(S). **AI ⊆ A_AI(S)** by **Theorem C.3**, and this holds for fault, hazard, policy and mixed reason sets; only S selects the governance configuration.
 6. **Human decision.** Unconditional; the operator may act contrary to any recommendation.
 
-Alongside S the system records **cause(y) ∈ {fault, hazard}** (C.2.0.8) — provenance only, with no effect on G(S) or A_AI(S).
+Alongside S, the specification defines **reasons(q) ∈ 𝒫({fault, hazard, policy})**, where q ∈ Q is the evaluated trace of C.2.0.8. This annotation never participates in governance or changes RS(S). SAFE has an empty reason set. Runtime recording is not yet implemented; this is the provenance contract.
 
 ### C.8.3 The ideal form — theorem scope, not the deployed pipeline
 
@@ -1057,7 +1080,8 @@ Any such notice must follow the operator-message standard already adopted: repor
 | **f** | Resolved classifier; `f(E)` is its ideal-form abbreviation | C.2, C.8.1 |
 | **F_{D,τ}** | Operational classifier — what a deployment executes | C.8.1–C.8.2 |
 | **gᵢ** | Component classifier, gᵢ(⊥) = UNSAFE | C.2 |
-| **cause** | Fault/hazard provenance of a non-SAFE state | C.2.0.8 |
+| **q ∈ Q** | Evaluated trace abstraction over existing resolution/classification context; not an environmental variable | C.2.0.8 |
+| **reasons** | Q → 𝒫({fault, hazard, policy}); overlapping provenance annotations, empty for SAFE; never used by governance | C.2.0.8 |
 | **G(S)** | AI participation gate | C.3 |
 | **A_AI(S)** | AI admissible recommendation space | C.4 |
 

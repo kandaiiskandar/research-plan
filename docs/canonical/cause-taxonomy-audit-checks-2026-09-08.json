@@ -1,0 +1,22 @@
+{
+  "status": "PASS",
+  "cases": 12288,
+  "scope": "Abstract proposed trigger-set semantics only; not production implementation or runtime fidelity verification",
+  "coverage": "16 exclusion sets x 256 environmental component status combinations x 3 time statuses; vessel effect abstracted by component severity",
+  "reason_set_counts": {
+    "empty": 625,
+    "fault": 1967,
+    "fault+hazard": 3824,
+    "fault+hazard+policy": 1024,
+    "fault+policy": 671,
+    "hazard": 1776,
+    "hazard+policy": 1776,
+    "policy": 625
+  },
+  "checks": [
+    "State projection unchanged",
+    "Governance pair unchanged",
+    "Empty reason set iff SAFE",
+    "Fault implies UNSAFE"
+  ]
+}

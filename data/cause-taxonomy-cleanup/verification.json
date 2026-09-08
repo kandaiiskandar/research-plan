@@ -1,0 +1,164 @@
+{
+  "status": "PASS",
+  "abstract_cases": 12288,
+  "reason_set_counts": {
+    "empty": 625,
+    "fault": 1967,
+    "fault+hazard": 3824,
+    "fault+hazard+policy": 1024,
+    "fault+policy": 671,
+    "hazard": 1776,
+    "hazard+policy": 1776,
+    "policy": 625
+  },
+  "checks": [
+    "state projection",
+    "G",
+    "A_AI",
+    "abstract RS identity",
+    "SAFE empty iff",
+    "fault implies UNSAFE",
+    "all eight subsets",
+    "excluded-input invariance",
+    "valid night distinct from time failure"
+  ],
+  "required_cases": [
+    {
+      "case": "daylight + all weather SAFE",
+      "state": "SAFE",
+      "reasons": [],
+      "status": "PASS"
+    },
+    {
+      "case": "daylight + wave CAUTION",
+      "state": "CAUTION",
+      "reasons": [
+        "hazard"
+      ],
+      "status": "PASS"
+    },
+    {
+      "case": "daylight + wave UNSAFE",
+      "state": "UNSAFE",
+      "reasons": [
+        "hazard"
+      ],
+      "status": "PASS"
+    },
+    {
+      "case": "valid night + weather SAFE",
+      "state": "UNSAFE",
+      "reasons": [
+        "policy"
+      ],
+      "status": "PASS"
+    },
+    {
+      "case": "valid night + wave CAUTION",
+      "state": "UNSAFE",
+      "reasons": [
+        "hazard",
+        "policy"
+      ],
+      "status": "PASS"
+    },
+    {
+      "case": "valid night + wave UNSAFE",
+      "state": "UNSAFE",
+      "reasons": [
+        "hazard",
+        "policy"
+      ],
+      "status": "PASS"
+    },
+    {
+      "case": "wave fault + daylight",
+      "state": "UNSAFE",
+      "reasons": [
+        "fault"
+      ],
+      "status": "PASS"
+    },
+    {
+      "case": "wave fault + valid night",
+      "state": "UNSAFE",
+      "reasons": [
+        "fault",
+        "policy"
+      ],
+      "status": "PASS"
+    },
+    {
+      "case": "wind fault + wave UNSAFE + valid night",
+      "state": "UNSAFE",
+      "reasons": [
+        "fault",
+        "hazard",
+        "policy"
+      ],
+      "status": "PASS"
+    },
+    {
+      "case": "clock failure + weather SAFE",
+      "state": "UNSAFE",
+      "reasons": [
+        "fault"
+      ],
+      "status": "PASS"
+    },
+    {
+      "case": "date failure + weather SAFE",
+      "state": "UNSAFE",
+      "reasons": [
+        "fault"
+      ],
+      "status": "PASS"
+    },
+    {
+      "case": "solar lookup failure + weather SAFE",
+      "state": "UNSAFE",
+      "reasons": [
+        "fault"
+      ],
+      "status": "PASS"
+    },
+    {
+      "case": "excluded m absent + daylight SAFE",
+      "state": "SAFE",
+      "reasons": [],
+      "status": "PASS"
+    },
+    {
+      "case": "exact valid sunrise",
+      "state": "SAFE",
+      "reasons": [],
+      "status": "PASS"
+    },
+    {
+      "case": "exact valid sunset",
+      "state": "UNSAFE",
+      "reasons": [
+        "policy"
+      ],
+      "status": "PASS"
+    },
+    {
+      "case": "missing vessel",
+      "state": null,
+      "reasons": null,
+      "status": "PASS: startup refused"
+    },
+    {
+      "case": "excluded time",
+      "state": null,
+      "reasons": null,
+      "status": "PASS: startup refused"
+    }
+  ],
+  "solar_boundary_fixture": {
+    "date": "2024-03-20",
+    "sunrise_hours": 6.341591,
+    "sunset_hours": 18.452345
+  },
+  "limitations": "Abstract contract verification only. No classifier replay, raw resolution, runtime logger, UI, rule engine or production solar execution tested. RS comparison uses existing state-indexed identities."
+}

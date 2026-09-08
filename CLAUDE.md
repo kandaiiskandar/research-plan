@@ -192,7 +192,10 @@ This file contains ready-to-paste `[[notes]](path)` quick links for all 111 pape
 | **`f`** | **Y × V → S** | **Resolved classifier.** `f(E)` is the *ideal-form* abbreviation, every component valid |
 | **`F_{D,τ}`** | **f ∘ ρ_{D,τ}** | **Operational classifier** — what a deployment executes |
 | `gᵢ` | Xᵢ ∪ {⊥} → S | Component classifier, with `gᵢ(⊥) = UNSAFE` |
-| `cause` | Y → {fault, hazard} | Provenance of a non-SAFE state. **No effect on G(S) or A_AI(S)** |
+| `q ∈ Q` | Evaluated trace abstraction | Existing resolution/classification context: D, τ, configured v, component validity/severity, clock/date/solar validity; not an environmental variable |
+| `reasons` | Q → 𝒫({fault, hazard, policy}) | Overlapping active triggers; ∅ for SAFE. **Provenance reasons are annotations only and never participate in governance.** |
+
+**Provenance contract (post-SDR-001 cleanup).** Follow Appendix C C.2.0.8: `fault` requires failed required non-excluded resolution; `hazard` requires a valid environmental non-SAFE band; `policy` requires valid nighttime, never a failed clock/date/solar lookup. Exclusions contribute no reasons; missing vessel configuration refuses startup without a classified record. Retain concurrent reasons and bounded band provenance; do not interpret hazard as physical danger proven or reason shares as a partition. Reasons cannot select rules or alter S, G(S), A_AI(S), RS(S) or human authority. This is a specification contract; runtime capture is unimplemented.
 
 **Write `f(E)` only for the ideal case; write `F_{D,τ}` for deployed behaviour.** Theorem C.1 covers the first, Theorem C.1b the second. Safety Dominance (Theorem C.3) holds for both, and its proof depends only on the *value* of S — so it covers fault-driven UNSAFE unchanged.
 
