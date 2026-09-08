@@ -1,0 +1,10 @@
+{
+  "status": "PASS",
+  "unchanged_files": 217,
+  "register_entries": 24,
+  "register_statuses": {
+    "REFUTED": 9,
+    "CONFIRMED": 15
+  },
+  "source_edits": 0
+}
