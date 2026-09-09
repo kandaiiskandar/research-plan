@@ -1,0 +1,5 @@
+item,location,blocker_type,required_before
+Fig. 1 not embedded - three governance dimensions,Introduction,PACKAGING - not a scientific closure blocker,Final submission
+Fig. 2 not embedded - structured review process,Literature Review,PACKAGING - not a scientific closure blocker,Final submission
+Acknowledgment section absent from body; working-header checklist still lists it as an outstanding placeholder,Working header comment block,PACKAGING - stale checklist entry; no placeholder text exists in the body,Final submission
+Section numbering assumed I-VI for cross-references to Section IV,Empirical Characterisation; Generalisation,PACKAGING - verify numbering survives docx conversion,Final submission

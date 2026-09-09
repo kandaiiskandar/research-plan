@@ -1,0 +1,11 @@
+id,item,resolution,status
+REV-1,"Abstract asserts all governance is uniformly binary, contradicting TABLE II which lists five graduated architectures","Abstract, Introduction and Introduction contribution paragraph rewritten to the narrower defensible claim: graduated governance exists, graduated ADVISORY-SCOPE governance does not",CLOSED
+REV-2,Three further binary-premise sites required classification rather than edit,"Deterministic-constraints heading, cross-paradigm synthesis and Result 1 verified as correctly scoped to a named paradigm or to the instantiated C1 baseline; retained unchanged",CLOSED
+REV-3,"g_r formal typing defect: r typed over the reals, Theorem 1 partitions only that axis, Algorithm 1 admits a storm indication with no formal representation","Option A. g_r retyped as a product domain over rate and thunderstorm indication kappa, matching all eight canonical scripts; totality proof, signature, Algorithm 1, domain declaration and resolution wording all updated",CLOSED
+REV-4,Domain-independence overstatement in Domain Instantiation,Reworded to separate the re-instantiable governance structure from the domain-specific case; existing bounded claims elsewhere retained unchanged,CLOSED
+REV-5,Conclusion turns a structural containment theorem into an epistemic-validity claim via warranted scope,"Replaced with configured admissible scope, plus an explicit statement that the theorem does not assert the configured set is epistemically correct",CLOSED
+REV-6,Protected scientific state must be unchanged,"19 protected artefacts re-hashed; only the manuscript changed. Canonical generators re-run: 5.81/4.48, 1262/455, 98.71/97.66, 86.82/90.19 all reproduce",CLOSED
+REV-7,Prediction register must be untouched,"24 entries, 15 CONFIRMED / 9 REFUTED, P09 actual 3661, P20 actual 1529 — all unchanged",CLOSED
+REV-8,Reference integrity must not regress,"40 references, zero orphan, zero dangling",CLOSED
+REV-9,Packaging placeholders,Recorded in submission-packaging-checklist.csv; not scientific closure blockers,RECORDED
+REV-10,Repository drift outside the manuscript,Recorded in repository-drift.csv; recommended as a separate bounded cleanup after reviewer closure,RECORDED

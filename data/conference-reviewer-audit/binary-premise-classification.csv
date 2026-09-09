@@ -1,0 +1,8 @@
+location,text_before,classification,action
+Abstract,Existing governance mechanisms are uniformly binary,FALSE UNIVERSAL - contradicted by TABLE II,REWRITTEN to the oversight/participation/execution/authority/action-space distinction
+Introduction para 2,Current systems see this as a binary: the AI makes its entire set of recommendations or it is turned off,FALSE UNIVERSAL,"REWRITTEN - graduated mechanisms acknowledged, binary restricted to the advisory-scope axis"
+Introduction contribution para,Existing governance mechanisms conflate two distinct variables into a single binary,AMBIGUOUS - reads as universal,NARROWED to architectures that are graduated on some other dimension
+Literature Review heading,Deterministic Safety Constraints: Binary by Construction,ACCURATE - scoped to one named paradigm,RETAINED
+Cross-paradigm synthesis,Deterministic constraints are binary by construction; adaptive risk-based systems apply their intermediate levels to human workflows or execution deferral rather than output scope,ACCURATE - already differentiates graduated from advisory-scope-graduated,RETAINED
+Result 1,"A binary architecture, having no state between participation and withdrawal, supplies the full recommendation set",ACCURATE - refers to the instantiated C1 baseline,RETAINED
+Fisheries application level,None of the fisheries AI systems identified implement formal advisory scope restriction,ACCURATE - scoped to the application domain,RETAINED

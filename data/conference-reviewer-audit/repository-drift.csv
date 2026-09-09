@@ -1,0 +1,4 @@
+file,stale_value,canonical_value,severity,recommended_action
+CLAUDE.md,g_o daylight CAUTION 98.66% / 97.41%,98.71% / 97.66%,Repository hygiene - manuscript is correct,Separate bounded cleanup after reviewer closure
+scripts/canonical_figures.py (trailer prose only),against a 22 kn threshold,21.6 kn,"Repository hygiene - computation unaffected, prose only",Separate bounded cleanup after reviewer closure
+docs/canonical/appendix-c-formalisation.md,"g_r : R>=0 -> S declared, while the WMO 95/96/99 route is described in adjacent prose as formally part of the specification and is implemented as a second argument in all eight canonical scripts","g_r : R>=0 x {0,1} -> S","CANONICAL - newly identified, same defect the manuscript just resolved","Bounded Appendix C typing repair - NOT performed here, out of scope for this task"
