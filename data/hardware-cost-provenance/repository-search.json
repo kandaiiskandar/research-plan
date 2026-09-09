@@ -1,0 +1,66 @@
+{
+  "terms": "USD\\s*50|US\\$\\s*50|\\$\\s*50|50\\s*(USD|dollars)|fifty dollars|single.board|\\bSBC\\b|hardware budget|deployment hardware|low.cost hardware|commodity smartphone|Raspberry Pi|Orange Pi|edge device|Android|mobile.first",
+  "scope": "All tracked textual files in listed formats, excluding generated publication-audit evidence; binary PDFs are not text-searched. No grant/budget cost record located.",
+  "hits": [
+    {
+      "file": "docs/canonical/report-publication-consistency-audit-2026-09-08.md",
+      "line": 64,
+      "text": "> The target deployment hardware is commodity smartphones or low-cost single-board computers (under USD 50)."
+    },
+    {
+      "file": "docs/canonical/report-publication-consistency-audit-2026-09-08.md",
+      "line": 66,
+      "text": "The same limit appears in `supervisor-feedback-response.md:204` as \u201c< $50\u201d and the historical submitted v2.5 manuscript at line 378. Searches for `USD 50`, `US$50`, `$50`, `50 USD`, `50 dollars` and `fifty dollars` across docs, publications, scripts, data and notes located these repetitions but no canonical budget decision, bill of materials, measured hardware result or cited cost artefact establishing the limit."
+    },
+    {
+      "file": "docs/canonical/report-publication-consistency-audit-2026-09-08.md",
+      "line": 166,
+      "text": "SC-3 remains unresolved: the USD 50 hardware target has no located canonical provenance. Known stale manuscript passages have not been corrected. Full quantitative tracing, scientific-language classification, policy/evidence mapping and all supporting-document checks remain incomplete. Accordingly closure criteria 1\u201319 and 25 are not collectively satisfied, and criterion 26 (no unresolved stop condition) fails. Integrity requirements are satisfied, but integrity alone cannot close a consistency audit."
+    },
+    {
+      "file": "docs/canonical/report-publication-consistency-audit-2026-09-08.md",
+      "line": 172,
+      "text": "Resolve the hardware-cost provenance first: identify the existing authoritative record if one exists, or explicitly decide whether the USD 50 limit is a documented design-budget assumption or an unsupported number to remove. Resume this same Publication Consistency Audit after that stop condition is resolved, using the finding table and pending coverage queue. Do not start Solar Citation Closure or the Full Reviewer Audit yet."
+    },
+    {
+      "file": "notes/Artificial Intelligence for Safety-Critical Systems in Industrial and Transportation Domains- A Survey.md",
+      "line": 154,
+      "text": "- **Resource-aware design:** Mentions DNN compression for avionics collision avoidance, deployment on edge devices (GPUs, FPGAs, TPUs, NPUs), and the need for temporal predictability. Discusses lightweight approaches but not in the context of developing-nation low-resource environments."
+    },
+    {
+      "file": "notes/Developing real-time IoT-based public safety alert and emergency response systems.md",
+      "line": 82,
+      "text": "| T4: Low-resource environments | \u2705 Yes | Edge computing on Raspberry Pi/ESP32; LoRa fallback for \"rural or low-connectivity environments\" (abstract); designed for \"both developed and resource-constrained urban areas\" (p.6) |"
+    },
+    {
+      "file": "notes/Smart technologies in aquaculture- An integrated IoT, AI, and blockchain framework for sustainable growth.md",
+      "line": 25,
+      "text": "- **Key architecture (Fig. 7, p.9):** Edge Subsystem (IoT sensor nodes: temp, humidity, CO\u2082, NH\u2083, light + cameras \u2192 Edge Gateway via BLE/LoRa/Ethernet \u2192 Edge Device for AI/Inference) \u2192 Digital Farming Platform (IoT platform, farm management, incident detection, alert hub, stress detection, food mix optimisation, detection of dead fishes, fish weight estimation) \u2192 Portals (user portal, command center, mobile app, admin portal, data storage)."
+    },
+    {
+      "file": "publications/active/ipsci-2026/submissions/v2-post-review/manuscript-v2.5-submitted.md",
+      "line": 304,
+      "text": "This meets the hard requirement for AI deployed on constrained devices in low-resource settings [17]: bounded-time inference with no dependency on cloud compute or specialist hardware. The architecture runs on commodity smartphones or low-cost single-board computers with no modification to the computational requirements of the governance components."
+    },
+    {
+      "file": "publications/active/ipsci-2026/submissions/v2-post-review/manuscript-v2.5-submitted.md",
+      "line": 378,
+      "text": "Four deployment challenges are anticipated in the target context. **Connectivity.** The architecture is designed offline-first: the governance classifier f(E) and reasoning engine RS(S) must operate without real-time API access. Environmental data may be pre-cached or sourced from local sensors. The fail-safe rule \u2014 if any x\u1d62 = \u22a5, return UNSAFE \u2014 ensures graceful degradation when a data feed is unavailable; the system defaults to the most restrictive governance state rather than failing open. **Hardware constraints.** The target deployment hardware is commodity smartphones or low-cost single-board computers (under USD 50). The O(1) governance layer and O(n) rule engine both execute without GPU or cloud compute, and the storage footprint for RS(SAFE) and RS(CAUTION) is minimal. **Threshold maintenance.** Classification thresholds (g_w, g_o, and others) are anchored to MET Malaysia published criteria. As climate patterns shift or MET Malaysia revises its warning thresholds, the g\u1d62 definitions and corresponding RS(S) must be recalibrated. Any recalibration must preserve the containment property A_AI(SAFE) \u2283 A_AI(CAUTION) \u2283 A_AI(UNSAFE) = \u2205, which is a structural constraint on the recalibration process rather than a property of the thresholds themselves. **Mode-chattering.** At classification boundaries \u2014 for example, wind speed near 22 kn \u2014 rapid oscillation of S would produce unstable advisory output. This is mitigated by dual-threshold hysteresis: a state transition from SAFE to CAUTION requires sustained exceedance of the upper threshold, and a return transition requires sustained recovery below a lower threshold. Empirical validation of hysteresis parameters is part of the prototype evaluation work."
+    },
+    {
+      "file": "publications/active/ipsci-2026/submissions/v3-revision/manuscript-v3.md",
+      "line": 371,
+      "text": "This meets the hard requirement for AI deployed on constrained devices in low-resource settings [17]: bounded-time inference with no dependency on cloud compute or specialist hardware. The architecture runs on commodity smartphones or low-cost single-board computers with no modification to the computational requirements of the governance components."
+    },
+    {
+      "file": "publications/active/ipsci-2026/submissions/v3-revision/manuscript-v3.md",
+      "line": 504,
+      "text": "Four deployment challenges are anticipated in the target context. **Connectivity.** The architecture is designed offline-first: the governance classifier f(E) and reasoning engine RS(S) must operate without real-time API access. Environmental data may be pre-cached or sourced from local sensors. The fail-safe rule \u2014 if any component resolves to \u22a5, f(E) = UNSAFE \u2014 ensures graceful degradation when a data feed is unavailable; the system defaults to the most restrictive governance state rather than failing open. This is a **derived corollary** of operational totality (Theorem C.1b), not a separate pre-condition check: \u22a5 classifies UNSAFE and UNSAFE is maximal under the severity order, so the fail-safe follows from the aggregation rule itself. A permanently unavailable data source is treated differently \u2014 as a **declared scope exclusion** rather than a continuous fault \u2014 because treating it as a fault would classify every hour UNSAFE and make the system unusable. **Hardware constraints.** The target deployment hardware is commodity smartphones or low-cost single-board computers (under USD 50). The O(1) governance layer and O(n) rule engine both execute without GPU or cloud compute, and the storage footprint for RS(SAFE) and RS(CAUTION) is minimal. **Threshold maintenance.** Classification thresholds (g_w, g_o, and others) are anchored to MET Malaysia published criteria. As climate patterns shift or MET Malaysia revises its warning thresholds, the g\u1d62 definitions and corresponding RS(S) must be recalibrated. Any recalibration must preserve the containment property A_AI(SAFE) \u2283 A_AI(CAUTION) \u2283 A_AI(UNSAFE) = \u2205, which is a structural constraint on the recalibration process rather than a property of the thresholds themselves. **Mode-chattering.** At classification boundaries, rapid oscillation of S would in principle produce unstable advisory output, and dual-threshold hysteresis is the standard mitigation: a transition from SAFE to CAUTION requires exceedance of the upper threshold, and the return transition requires recovery below a lower one. **Measured against five years of hourly environmental data at the deployment site, this concern is not borne out.** Of 5,416 state transitions, 95.8% are scheduled clock events at the time-of-day boundaries; only 227 are condition-driven, and genuine A\u2192B\u2192A round trips within three hours number 70 across the whole period \u2014 fourteen per year. Adding dual-threshold hysteresis with a 10% return margin reduces condition-driven transitions by 6.2%. Hysteresis is therefore retained as a low-cost precaution rather than a demonstrated necessity. This result is bounded by the hourly resolution of the data: sub-hourly oscillation is invisible to it, and a deployment sampling at minute scale could reach a different conclusion."
+    },
+    {
+      "file": "publications/active/ipsci-2026/supervisor-feedback-response.md",
+      "line": 204,
+      "text": "**Hardware constraints.** Target deployment: commodity smartphones or low-cost single-board computers (< $50). O(1) governance layer and O(n) rule engine both execute without GPU. Storage footprint for RS(SAFE) and RS(CAUTION) is minimal."
+    }
+  ]
+}

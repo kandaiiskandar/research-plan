@@ -1,0 +1,143 @@
+file,role,coverage,action
+publications/active/.DS_Store,publication-supporting document,inventoried only; audit not completed,preserved; no edits
+publications/active/ipsci-2026/README.md,publication-supporting document,partially inspected,preserved; no edits
+publications/active/ipsci-2026/revision-notes.md,publication-supporting document,inventoried only; audit not completed,preserved; no edits
+publications/active/ipsci-2026/session-log.md,historical record,inventoried only; audit not completed,preserved; no edits
+publications/active/ipsci-2026/submissions/.DS_Store,publication-supporting document,inventoried only; audit not completed,preserved; no edits
+publications/active/ipsci-2026/submissions/archive/ipsci-2026-extended-abstract-v2-humanized.md,historical/frozen,inventoried only; audit not completed,preserved; no edits
+publications/active/ipsci-2026/submissions/archive/ipsci-2026-extended-abstract-v2.md,historical/frozen,inventoried only; audit not completed,preserved; no edits
+publications/active/ipsci-2026/submissions/archive/ipsci-2026-extended-abstract-v3-slr.md,historical/frozen,inventoried only; audit not completed,preserved; no edits
+publications/active/ipsci-2026/submissions/archive/ipsci-2026-paper-v1.md,historical/frozen,inventoried only; audit not completed,preserved; no edits
+publications/active/ipsci-2026/submissions/archive/ipsci-2026-paper-v2.md,historical/frozen,inventoried only; audit not completed,preserved; no edits
+publications/active/ipsci-2026/submissions/archive/ipsci-2026-paper-v3.md,historical/frozen,inventoried only; audit not completed,preserved; no edits
+publications/active/ipsci-2026/submissions/archive/ipsci-2026-paper-v4.md,historical/frozen,inventoried only; audit not completed,preserved; no edits
+publications/active/ipsci-2026/submissions/archive/ipsci-2026-paper-v5.md,historical/frozen,inventoried only; audit not completed,preserved; no edits
+publications/active/ipsci-2026/submissions/archive/ipsci-2026-paper-v5.pdf,historical/frozen,inventoried only; audit not completed,preserved; no edits
+publications/active/ipsci-2026/submissions/archive/ipsci-2026-paper-v6.md,historical/frozen,inventoried only; audit not completed,preserved; no edits
+publications/active/ipsci-2026/submissions/archive/ipsci-2026-paper-v7.md,historical/frozen,inventoried only; audit not completed,preserved; no edits
+publications/active/ipsci-2026/submissions/archive/ipsci2026-introduction.md,historical/frozen,inventoried only; audit not completed,preserved; no edits
+publications/active/ipsci-2026/submissions/v1-initial-submission/manuscript.md,historical/frozen,inventoried only; audit not completed,preserved; no edits
+publications/active/ipsci-2026/submissions/v2-post-review/manuscript-v2.5-submitted.md,historical/frozen,inventoried only; audit not completed,preserved; no edits
+publications/active/ipsci-2026/submissions/v2-post-review/manuscript.md,historical/frozen,inventoried only; audit not completed,preserved; no edits
+publications/active/ipsci-2026/submissions/v3-revision/manuscript-v3.md,active working manuscript,partially inspected,preserved; no edits
+publications/active/ipsci-2026/supervisor-feedback-response.md,publication-supporting document,partially inspected,preserved; no edits
+publications/active/ipsci-2026/supervisor-feedback-response.pdf,supporting rendered asset; version not yet assessed,inventoried only; audit not completed,preserved; no edits
+publications/active/journal-1/README.md,publication-supporting document,partially inspected,preserved; no edits
+publications/active/journal-1/correspondence/notes.md,historical record,inventoried only; audit not completed,preserved; no edits
+publications/active/journal-1/research-design.md,publication-supporting document,inventoried only; audit not completed,preserved; no edits
+publications/active/journal-1/section-5-plan.md,publication-supporting document,inventoried only; audit not completed,preserved; no edits
+publications/active/journal-1/section-6-plan.md,publication-supporting document,inventoried only; audit not completed,preserved; no edits
+publications/active/journal-1/session-log.md,historical record,inventoried only; audit not completed,preserved; no edits
+publications/active/journal-1/submissions/.DS_Store,publication-supporting document,inventoried only; audit not completed,preserved; no edits
+publications/active/journal-1/submissions/v1-initial-submission/manuscript.md,active working manuscript,partially inspected,preserved; no edits
+publications/active/journal-2/README.md,publication-supporting document,partially inspected,preserved; no edits
+publications/publication-plan.md,publication-supporting document,inventoried only; audit not completed,preserved; no edits
+publications/templates/journal-template.md,publication-supporting document,inventoried only; audit not completed,preserved; no edits
+publications/templates/response-to-reviewers-template.md,publication-supporting document,inventoried only; audit not completed,preserved; no edits
+docs/MASTER_LOG.md,canonical source or supporting document; scope review pending,inventoried only; audit not completed,preserved; no edits
+docs/admin/part-i-student-report.md,canonical source or supporting document; scope review pending,inventoried only; audit not completed,preserved; no edits
+docs/admin/part-ii-research-goals.md,canonical source or supporting document; scope review pending,inventoried only; audit not completed,preserved; no edits
+docs/analysis/ai-detection.md,canonical source or supporting document; scope review pending,inventoried only; audit not completed,preserved; no edits
+docs/analysis/content-audit-check2-plan.md,canonical source or supporting document; scope review pending,inventoried only; audit not completed,preserved; no edits
+docs/analysis/content-audit-check3-analysis.md,canonical source or supporting document; scope review pending,inventoried only; audit not completed,preserved; no edits
+docs/analysis/content-audit-check4-analysis.md,canonical source or supporting document; scope review pending,inventoried only; audit not completed,preserved; no edits
+docs/analysis/content-audit-check5-analysis.md,canonical source or supporting document; scope review pending,inventoried only; audit not completed,preserved; no edits
+docs/analysis/content-audit-check6-analysis.md,canonical source or supporting document; scope review pending,inventoried only; audit not completed,preserved; no edits
+docs/analysis/synthesis-shamsujjoha-alignment.md,canonical source or supporting document; scope review pending,inventoried only; audit not completed,preserved; no edits
+docs/analysis/verification-flehmig-shamsujjoha.md,canonical source or supporting document; scope review pending,inventoried only; audit not completed,preserved; no edits
+docs/analysis/viva-qa-novelty-problem-gap.md,canonical source or supporting document; scope review pending,inventoried only; audit not completed,preserved; no edits
+docs/canonical/CHANGELOG.md,canonical source or supporting document; scope review pending,inventoried only; audit not completed,preserved; no edits
+docs/canonical/appendix-c-formalisation.md,canonical source or supporting document; scope review pending,partially inspected,preserved; no edits
+docs/canonical/approval-report-sdr-001-2026-09-08.md,historical/provenance,inventoried only; audit not completed,preserved; no edits
+docs/canonical/architecture-illustration.md,canonical source or supporting document; scope review pending,partially inspected,preserved; no edits
+docs/canonical/citation-notes-map.md,canonical source or supporting document; scope review pending,inventoried only; audit not completed,preserved; no edits
+docs/canonical/cleanup-report-c0-solar-provenance-2026-09-08.md,historical/provenance,inventoried only; audit not completed,preserved; no edits
+docs/canonical/cleanup-report-cause-taxonomy-2026-09-08.md,historical/provenance,inventoried only; audit not completed,preserved; no edits
+docs/canonical/cleanup-report-unsafe-semantics-2026-09-08.md,historical/provenance,inventoried only; audit not completed,preserved; no edits
+docs/canonical/data-provenance.md,canonical source or supporting document; scope review pending,inventoried only; audit not completed,preserved; no edits
+docs/canonical/decision-record-empirical-first.md,historical/provenance,inventoried only; audit not completed,preserved; no edits
+docs/canonical/discussion-notes-governance-gap-precedents-and-formal-foundations.md,canonical source or supporting document; scope review pending,inventoried only; audit not completed,preserved; no edits
+docs/canonical/empirical-findings-2026-09-06.md,canonical source or supporting document; scope review pending,inventoried only; audit not completed,preserved; no edits
+docs/canonical/evaluation-design-rq4.md,explicitly superseded scenario design; later time annotation retained,partially inspected,preserved; no edits
+docs/canonical/finding-bottom-semantics.md,historical/provenance,inventoried only; audit not completed,preserved; no edits
+docs/canonical/finding-cause-taxonomy-audit-2026-09-08.md,historical/provenance,inventoried only; audit not completed,preserved; no edits
+docs/canonical/finding-gt-evidence-closure.md,historical/provenance,inventoried only; audit not completed,preserved; no edits
+docs/canonical/finding-gt-operational-semantics.md,historical/provenance,inventoried only; audit not completed,preserved; no edits
+docs/canonical/finding-gt-provenance-audit.md,historical/provenance,inventoried only; audit not completed,preserved; no edits
+docs/canonical/finding-gt-sensitivity-analysis.md,historical/provenance,inventoried only; audit not completed,preserved; no edits
+docs/canonical/finding-met-hydrodynamic-gap.md,historical/provenance,inventoried only; audit not completed,preserved; no edits
+docs/canonical/finding-met-lower-boundary-gap.md,historical/provenance,inventoried only; audit not completed,preserved; no edits
+docs/canonical/finding-sdr-001-readiness-audit.md,historical/provenance,inventoried only; audit not completed,preserved; no edits
+docs/canonical/finding-unsafe-semantics-audit.md,historical/provenance,inventoried only; audit not completed,preserved; no edits
+docs/canonical/justification-layer3-enforcement.md,canonical source or supporting document; scope review pending,inventoried only; audit not completed,preserved; no edits
+docs/canonical/master-coding-table.md,canonical source or supporting document; scope review pending,inventoried only; audit not completed,preserved; no edits
+docs/canonical/paper-review-synopsis.md,canonical source or supporting document; scope review pending,inventoried only; audit not completed,preserved; no edits
+docs/canonical/report-c1-c2-c3-solar-reproducibility-2026-09-08.md,historical/provenance,inventoried only; audit not completed,preserved; no edits
+docs/canonical/report-c2-closure-2026-09-08.md,historical/provenance,inventoried only; audit not completed,preserved; no edits
+docs/canonical/report-c4-closure-2026-09-08.md,historical/provenance,inventoried only; audit not completed,preserved; no edits
+docs/canonical/report-c5-closure-2026-09-08.md,historical/provenance,inventoried only; audit not completed,preserved; no edits
+docs/canonical/report-c6-closure-2026-09-08.md,historical/provenance,inventoried only; audit not completed,preserved; no edits
+docs/canonical/report-c7-closure-2026-09-08.md,historical/provenance,inventoried only; audit not completed,preserved; no edits
+docs/canonical/report-c8-migration-2026-09-08.md,historical/provenance,inventoried only; audit not completed,preserved; no edits
+docs/canonical/research-alignment-table.md,canonical source or supporting document; scope review pending,inventoried only; audit not completed,preserved; no edits
+docs/canonical/review-protocol.md,canonical source or supporting document; scope review pending,inventoried only; audit not completed,preserved; no edits
+docs/canonical/rq5-study-design.md,canonical source or supporting document; scope review pending,inventoried only; audit not completed,preserved; no edits
+docs/canonical/session-log-2026-09-06.md,historical/provenance,inventoried only; audit not completed,preserved; no edits
+docs/canonical/session-log-2026-09-08.md,historical/provenance,inventoried only; audit not completed,preserved; no edits
+docs/canonical/traceability-table.md,canonical source or supporting document; scope review pending,inventoried only; audit not completed,preserved; no edits
+docs/chapters/archive/research-proposal-v3.md,historical/provenance,inventoried only; audit not completed,preserved; no edits
+docs/chapters/chapter-2-literature-review/v1-initial-draft.md,canonical source or supporting document; scope review pending,inventoried only; audit not completed,preserved; no edits
+docs/implementation/data-source-met-malaysia.md,canonical source or supporting document; scope review pending,inventoried only; audit not completed,preserved; no edits
+docs/implementation/dataset-label-derivation.md,canonical source or supporting document; scope review pending,inventoried only; audit not completed,preserved; no edits
+docs/implementation/extraction-prompt-methodological.md,canonical source or supporting document; scope review pending,inventoried only; audit not completed,preserved; no edits
+docs/implementation/extraction-prompt-search-methodology.md,canonical source or supporting document; scope review pending,inventoried only; audit not completed,preserved; no edits
+docs/justification/advisory-scope-restriction.md,canonical source or supporting document; scope review pending,inventoried only; audit not completed,preserved; no edits
+docs/justification/ai-necessity.md,canonical source or supporting document; scope review pending,inventoried only; audit not completed,preserved; no edits
+docs/justification/architectural-comparison.md,canonical source or supporting document; scope review pending,inventoried only; audit not completed,preserved; no edits
+docs/justification/architecture-differentiation.md,canonical source or supporting document; scope review pending,inventoried only; audit not completed,preserved; no edits
+docs/justification/big-questions.md,canonical source or supporting document; scope review pending,inventoried only; audit not completed,preserved; no edits
+docs/justification/binary-governance-external-evidence.md,canonical source or supporting document; scope review pending,inventoried only; audit not completed,preserved; no edits
+docs/justification/caution-mode-operation.md,canonical source or supporting document; scope review pending,inventoried only; audit not completed,preserved; no edits
+docs/justification/coding-dimensions.md,canonical source or supporting document; scope review pending,inventoried only; audit not completed,preserved; no edits
+docs/justification/contribution-characterisation.md,canonical source or supporting document; scope review pending,inventoried only; audit not completed,preserved; no edits
+docs/justification/environmental-state-governance.md,canonical source or supporting document; scope review pending,inventoried only; audit not completed,preserved; no edits
+docs/justification/formal-model.md,canonical source or supporting document; scope review pending,inventoried only; audit not completed,preserved; no edits
+docs/justification/literature-review-methodology.md,canonical source or supporting document; scope review pending,inventoried only; audit not completed,preserved; no edits
+docs/justification/low-resource-environments.md,canonical source or supporting document; scope review pending,inventoried only; audit not completed,preserved; no edits
+docs/justification/novelty-gap.md,canonical source or supporting document; scope review pending,inventoried only; audit not completed,preserved; no edits
+docs/justification/rainfall-intensity-mapping.md,canonical source or supporting document; scope review pending,inventoried only; audit not completed,preserved; no edits
+docs/justification/safety-state-design.md,canonical source or supporting document; scope review pending,inventoried only; audit not completed,preserved; no edits
+docs/justification/socio-technical-evaluation.md,canonical source or supporting document; scope review pending,inventoried only; audit not completed,preserved; no edits
+docs/justification/three-states.md,canonical source or supporting document; scope review pending,inventoried only; audit not completed,preserved; no edits
+docs/justification/unified-governance.md,canonical source or supporting document; scope review pending,inventoried only; audit not completed,preserved; no edits
+docs/justification/viva-formalisation-architecture.md,canonical source or supporting document; scope review pending,inventoried only; audit not completed,preserved; no edits
+docs/obsolete/Architectural Layering Design and Graphic Representation.md,historical/provenance,inventoried only; audit not completed,preserved; no edits
+docs/obsolete/architectural-layering-design.md,historical/provenance,inventoried only; audit not completed,preserved; no edits
+docs/obsolete/research-proposal-draft.md,historical/provenance,inventoried only; audit not completed,preserved; no edits
+docs/obsolete/research-proposal-v2.md,historical/provenance,inventoried only; audit not completed,preserved; no edits
+docs/obsolete/writing-skill.md,historical/provenance,inventoried only; audit not completed,preserved; no edits
+docs/reference/caution-state-technical-novelty-ref.md,canonical source or supporting document; scope review pending,inventoried only; audit not completed,preserved; no edits
+docs/reference/citation-audit-report.md,canonical source or supporting document; scope review pending,inventoried only; audit not completed,preserved; no edits
+docs/reference/comments-1.md,canonical source or supporting document; scope review pending,inventoried only; audit not completed,preserved; no edits
+docs/reference/explainer-per-component-classification-functions.md,canonical source or supporting document; scope review pending,inventoried only; audit not completed,preserved; no edits
+docs/reference/improvement-plan-1.md,canonical source or supporting document; scope review pending,inventoried only; audit not completed,preserved; no edits
+docs/reference/instruction-plan.md,canonical source or supporting document; scope review pending,inventoried only; audit not completed,preserved; no edits
+docs/reference/literature_review_improvement_plan-2.md,canonical source or supporting document; scope review pending,inventoried only; audit not completed,preserved; no edits
+docs/reference/paper-reference-list.md,canonical source or supporting document; scope review pending,inventoried only; audit not completed,preserved; no edits
+docs/reference/research-improvement-plan.md,canonical source or supporting document; scope review pending,inventoried only; audit not completed,preserved; no edits
+docs/superpowers/plans/2026-04-01-research-commands.md,canonical source or supporting document; scope review pending,inventoried only; audit not completed,preserved; no edits
+docs/superpowers/plans/2026-07-16-ipsci-paper-v4-revision.md,canonical source or supporting document; scope review pending,inventoried only; audit not completed,preserved; no edits
+docs/superpowers/plans/2026-07-22-v6-restructure.md,canonical source or supporting document; scope review pending,inventoried only; audit not completed,preserved; no edits
+docs/superpowers/plans/2026-07-25-v6-symbolic-ai-framing.md,canonical source or supporting document; scope review pending,inventoried only; audit not completed,preserved; no edits
+docs/superpowers/plans/2026-09-06-formal-model-and-evaluation-realignment.md,canonical source or supporting document; scope review pending,inventoried only; audit not completed,preserved; no edits
+docs/superpowers/plans/2026-09-06-search-and-selection-protocol.md,canonical source or supporting document; scope review pending,inventoried only; audit not completed,preserved; no edits
+docs/superpowers/specs/2026-04-01-research-commands-design.md,canonical source or supporting document; scope review pending,inventoried only; audit not completed,preserved; no edits
+docs/superpowers/specs/2026-07-12-docs-organization-plan.md,canonical source or supporting document; scope review pending,inventoried only; audit not completed,preserved; no edits
+docs/superpowers/specs/2026-07-12-migration-plan.md,canonical source or supporting document; scope review pending,inventoried only; audit not completed,preserved; no edits
+docs/superpowers/specs/2026-07-25-v6-symbolic-ai-framing-design.md,canonical source or supporting document; scope review pending,inventoried only; audit not completed,preserved; no edits
+docs/superpowers/specs/2026-07-27-amict-compression-design.md,canonical source or supporting document; scope review pending,inventoried only; audit not completed,preserved; no edits
+docs/superpowers/specs/organize.md,canonical source or supporting document; scope review pending,inventoried only; audit not completed,preserved; no edits
+docs/writing-plans/plan-chapter-1-introduction.md,canonical source or supporting document; scope review pending,inventoried only; audit not completed,preserved; no edits
+docs/writing-plans/plan-chapter-2-lit-review.md,canonical source or supporting document; scope review pending,inventoried only; audit not completed,preserved; no edits
+docs/writing-plans/plan-chapter-2-structure.md,canonical source or supporting document; scope review pending,inventoried only; audit not completed,preserved; no edits
+docs/writing-plans/plan-layer3-model-type.md,canonical source or supporting document; scope review pending,inventoried only; audit not completed,preserved; no edits

@@ -1,5 +1,7 @@
 # IPSci 2026 Submission Tracking
 
+**Current working revision:** [manuscript-v3.md](submissions/v3-revision/manuscript-v3.md). v2.5 remains the historical submitted version; the response notes below track that earlier submission. Current canonical figures are 5.81% / 4.48% with 15 CONFIRMED / 9 REFUTED.
+
 ## Venue Details
 - **Conference:** IPSci 2026
 - **Track/Special Issue:** TBD

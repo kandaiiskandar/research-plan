@@ -222,7 +222,7 @@ E = { w, r, m, o, v, t }
       +----------------- w: Wind speed (knots, sustained)
 ```
 
-All six parameters are measurable by non-AI sensors. This independence from the AI system is a formal requirement: the governance layer must not depend on the system it governs.
+The five condition components are resolved independently of AI; vessel category is supplied at configuration time. This independence from the AI system is a formal requirement: the governance layer must not depend on the system it governs.
 
 ### 5.2 Per-Parameter Classification
 
@@ -230,8 +230,8 @@ Each parameter is independently classified into a safety zone using threshold co
 
 | Parameter | SAFE | CAUTION | UNSAFE |
 |---|---|---|---|
-| **w** — Wind speed | < 22 knots (< 40 km/h) | 22–27 knots (40–50 km/h) | > 27 knots (> 50 km/h) |
-| **r** — Rainfall | None / light / moderate | Heavy | Storm (Ribut Petir) |
+| **w** — Wind speed | w ≤ 21.6 knots | 21.6 < w ≤ 27.0 knots | w > 27.0 knots |
+| **r** — Rainfall (mm/hr) | r ≤ 10.0 | 10.0 < r ≤ 20.0 | r > 20.0; specified storm indication where available |
 | **m** — Marine warning | None | Category 1 advisory | Category 2/3, Ribut Petir, Ribut Taufan |
 | **o** — Ocean state (wave height) | *vessel-conditional — see below* | | |
 | **t** — Time of day | sunrise ≤ t < sunset | *(none — `g_t` emits no CAUTION)* | otherwise |
@@ -570,7 +570,7 @@ A finer graduation (e.g., a fourth state between CAUTION and UNSAFE) is architec
 
 ### L3. No degraded AI fallback within UNSAFE
 
-The participation gate G(S) is binary: AI is either enabled (G = 1) or disabled (G = 0). The architecture does not define a minimal or degraded AI mode within UNSAFE — for example, a simple rule-based fallback that could provide basic directional guidance without the full probabilistic model. Whether wind is 26 knots (just over the UNSAFE threshold) or 50 knots (extreme storm), the system response is identical: AI off.
+The participation gate G(S) is binary: AI is either enabled (G = 1) or disabled (G = 0). The architecture does not define a minimal or degraded AI mode within UNSAFE — for example, a simple rule-based fallback that could provide basic directional guidance without the full probabilistic model. Whether wind is 28 knots (above the 27.0-kn UNSAFE threshold) or 50 knots, the system response is identical: AI off.
 
 This limitation is a consequence of the Safety Dominance Property. If AI(E) ⊆ A_AI(S) and A_AI(UNSAFE) = {}, then AI must produce nothing. Allowing any AI output under UNSAFE would violate the formal safety guarantee. A degraded fallback would need to be classified as a non-AI deterministic system (like the safety alert) rather than as AI advisory output — an extension that the current formalisation does not address.
 

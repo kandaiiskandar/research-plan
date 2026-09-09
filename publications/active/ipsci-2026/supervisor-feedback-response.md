@@ -1,5 +1,7 @@
 # Supervisor Feedback Response — IPSci 2026 Conference Paper
 
+> **Reuse note, 2026-09-09:** This document records earlier supervisor responses and proposed insertions. Its dated examples and draft passages are historical, not the current architecture specification. For publication reuse, use [the active v3 manuscript](submissions/v3-revision/manuscript-v3.md) and Appendix C, including 5.81% / 4.48%, 15 CONFIRMED / 9 REFUTED, binary solar-event time and overlapping provenance reasons. The hardware-cost parenthetical was removed separately under Outcome C; that resolution remains in force.
+
 **Date:** 2026-08-12  
 **Status:** Paper under review. This document tracks the response to each supervisor comment for use when revisions are requested.  
 **Key source:** Much of the content needed for points 2–9 is already drafted in the journal paper at `publications/active/journal-1/submissions/v1-initial-submission/manuscript.md`. Adapt from there rather than rewriting from scratch.
@@ -201,7 +203,7 @@ Run the first two ablation conditions against the 20 evaluation scenarios (same 
 
 **Connectivity.** The architecture is designed offline-first: the governance classifier f(E) and rule engine RS(S) must operate without real-time API access. Environmental data (w, r, m, o) may be pre-cached or sourced from local sensors. The fail-safe rule (if any xᵢ = ⊥, return UNSAFE) ensures graceful degradation when data feeds are unavailable.
 
-**Hardware constraints.** Target deployment: commodity smartphones or low-cost single-board computers (< $50). O(1) governance layer and O(n) rule engine both execute without GPU. Storage footprint for RS(SAFE) and RS(CAUTION) is minimal.
+**Hardware constraints.** Target deployment: commodity smartphones or low-cost single-board computers. O(1) governance layer and O(n) rule engine both execute without GPU. Storage footprint for RS(SAFE) and RS(CAUTION) is minimal.
 
 **Threshold maintenance.** Classification thresholds (g_w, g_o, etc.) are anchored to MET Malaysia published criteria. As climate patterns shift or MET Malaysia revises criteria, thresholds must be recalibrated and RS(S) must be updated to preserve A_AI(SAFE) ⊃ A_AI(CAUTION) ⊃ A_AI(UNSAFE) = ∅.
 

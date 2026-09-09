@@ -1,0 +1,16 @@
+{
+  "status": "PASS",
+  "outcome": "C \u2014 unsupported number",
+  "SC-3": "CLEARED",
+  "changed_existing_files": [
+    "publications/active/ipsci-2026/submissions/v3-revision/manuscript-v3.md",
+    "publications/active/ipsci-2026/supervisor-feedback-response.md"
+  ],
+  "unchanged_tracked_files": 481,
+  "register_entries": 24,
+  "CONFIRMED": 15,
+  "REFUTED": 9,
+  "headline": "5.81% / 4.48% unchanged",
+  "historical_audit_preserved": true,
+  "audit_resume": "Use original finding table and quantitative coverage queue; this approved two-file delta resolves only hardware-cost SC-3. The old audit integrity builder intentionally compares to pre-edit bytes and is not a post-resolution validator. Preserve its baseline and account for this delta when audit resumes."
+}

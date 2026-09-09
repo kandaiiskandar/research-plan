@@ -1,0 +1,737 @@
+[
+  {
+    "file": "publications/active/ipsci-2026/submissions/v3-revision/manuscript-v3.md",
+    "before": "The caution mode binds in 7.7% of departure-window hours",
+    "after": "The caution mode binds in 5.81% of departure-window hours",
+    "canonical_source": "docs/canonical/report-c8-migration-2026-09-08.md; data/c8/canonical-results-post-migration.txt",
+    "occurrences": 1
+  },
+  {
+    "file": "publications/active/ipsci-2026/submissions/v3-revision/manuscript-v3.md",
+    "before": "and 6.0% when the wave input",
+    "after": "and 4.48% when the wave input",
+    "canonical_source": "docs/canonical/report-c8-migration-2026-09-08.md; data/c8/canonical-results-post-migration.txt",
+    "occurrences": 1
+  },
+  {
+    "file": "publications/active/ipsci-2026/submissions/v3-revision/manuscript-v3.md",
+    "before": "twenty-two of twenty-four were confirmed and two refuted. Two predictions were additionally re-resolved when threshold provenance audits changed the specification they had been scored against \u2014 in one case reversing a refutation into a confirmation, in the other the reverse.",
+    "after": "fifteen of twenty-four are confirmed and nine refuted under the canonical specification. Of seven status changes across the migration history, three follow from the time-classifier decision and four had already been refuted by earlier threshold and data corrections; registered predictions and bounds were preserved.",
+    "canonical_source": "docs/canonical/report-c8-migration-2026-09-08.md; data/c8/canonical-results-post-migration.txt",
+    "occurrences": 1
+  },
+  {
+    "file": "publications/active/ipsci-2026/submissions/v3-revision/manuscript-v3.md",
+    "before": "Twenty-four predictions were registered; twenty-three were confirmed and one refuted.",
+    "after": "Twenty-four predictions were registered; fifteen are confirmed and nine refuted under the canonical specification. Re-resolution preserved the registered text, bounds and original scope rather than adjusting predictions to observed results.",
+    "canonical_source": "docs/canonical/report-c8-migration-2026-09-08.md; data/c8/canonical-results-post-migration.txt",
+    "occurrences": 1
+  },
+  {
+    "file": "publications/active/ipsci-2026/submissions/v3-revision/manuscript-v3.md",
+    "before": "chattering occurs approximately fourteen times per year and hysteresis reduces condition-driven transitions by 6.2%",
+    "after": "26 oscillations occur over 2020\u20132024 (approximately 5.2 per year) and hysteresis reduces non-scheduled transitions by 10.36%",
+    "canonical_source": "docs/canonical/report-c8-migration-2026-09-08.md; data/c8/canonical-results-post-migration.txt",
+    "occurrences": 1
+  },
+  {
+    "file": "publications/active/ipsci-2026/submissions/v3-revision/manuscript-v3.md",
+    "before": "Of 5,416 state transitions, 95.8% are scheduled clock events at the time-of-day boundaries; only 227 are condition-driven, and genuine A\u2192B\u2192A round trips within three hours number 70 across the whole period \u2014 fourteen per year. Adding dual-threshold hysteresis with a 10% return margin reduces condition-driven transitions by 6.2%.",
+    "after": "Of 3,661 state transitions, 3,439 (93.9%) occur at hourly steps where g_t changes and are classified as scheduled; the remaining 222 are non-scheduled. This coincidence criterion does not establish that time is the sole driver. Genuine non-scheduled A\u2192B\u2192A round trips within three hours number 26 across 2020\u20132024 \u2014 approximately 5.2 per year. Dual-threshold hysteresis with a 10% return margin reduces non-scheduled transitions from 222 to 199 (10.36%).",
+    "canonical_source": "docs/canonical/report-c8-migration-2026-09-08.md; data/c8/canonical-results-post-migration.txt; data/c5/c5-three-stage-deltas.json",
+    "occurrences": 1
+  },
+  {
+    "file": "publications/active/ipsci-2026/submissions/v3-revision/manuscript-v3.md",
+    "before": "| **C0 ungated** | \u2014 | 24.64% | 24.64% | 32.36% |",
+    "after": "| **C0 ungated** | \u2014 | 42.88% | 42.88% | 48.69% |",
+    "canonical_source": "docs/canonical/report-c8-migration-2026-09-08.md; data/c8/canonical-results-post-migration.txt",
+    "occurrences": 1
+  },
+  {
+    "file": "publications/active/ipsci-2026/submissions/v3-revision/manuscript-v3.md",
+    "before": "primary configuration (9,133 hours)",
+    "after": "primary configuration (9,135 hourly records; hours 05:00 through 09:00 inclusive)",
+    "canonical_source": "docs/canonical/report-c8-migration-2026-09-08.md; data/c8/canonical-results-post-migration.txt",
+    "occurrences": 1
+  },
+  {
+    "file": "publications/active/ipsci-2026/submissions/v3-revision/manuscript-v3.md",
+    "before": "| *g*_r (rainfall) | 1.55% / 2.99% | 0.19% / 0.24% |",
+    "after": "| *g*_r (rainfall) | 1.48% / 2.70% | 0.20% / 0.26% |",
+    "canonical_source": "docs/canonical/report-c8-migration-2026-09-08.md; data/c8/canonical-results-post-migration.txt",
+    "occurrences": 1
+  },
+  {
+    "file": "publications/active/ipsci-2026/submissions/v3-revision/manuscript-v3.md",
+    "before": "restricted advisory scope on 7.7% of departure mornings",
+    "after": "restricted advisory scope in 5.81% of PRIMARY departure-window hours (4.48% in RESOLUTION)",
+    "canonical_source": "docs/canonical/report-c8-migration-2026-09-08.md; data/c8/canonical-results-post-migration.txt",
+    "occurrences": 1
+  },
+  {
+    "file": "publications/active/ipsci-2026/submissions/v3-revision/manuscript-v3.md",
+    "before": "and not that those were the correct mornings to restrict",
+    "after": "and not that those were the correct hours to restrict",
+    "canonical_source": "docs/canonical/report-c8-migration-2026-09-08.md; data/c8/canonical-results-post-migration.txt",
+    "occurrences": 1
+  },
+  {
+    "file": "publications/active/ipsci-2026/submissions/v3-revision/manuscript-v3.md",
+    "before": "*g*_t(*t*)",
+    "after": "*g*_t(*t*, date)",
+    "canonical_source": "docs/canonical/appendix-c-formalisation.md C.2",
+    "occurrences": 1
+  },
+  {
+    "file": "publications/active/ipsci-2026/submissions/v3-revision/manuscript-v3.md",
+    "before": "*Proof sketch.* Each condition classification function partitions its input domain exhaustively and without overlap: g_w partitions \u211d\u22650 into [0, 22], (22, 27], (27, +\u221e); g_r and g_m enumerate all categorical values without omission; g_t partitions [0, 24) into [6.0, 17.0), [17.0, 19.0), [19.0, 24.0) \u222a [0.0, 6.0). The wave height function g_o(o, v) is two-argument, with domain \u211d\u22650 \u00d7 {small, medium, big}: for each fixed v the corresponding row of TABLE IIIb induces three intervals partitioning \u211d\u22650 exhaustively, and {small, medium, big} is finite and exhausts the domain of v, so every pair (o, v) selects exactly one row and falls in exactly one interval of that row. Parameterisation by a finite index set preserves totality provided each induced partition is exhaustive. Each function is therefore total. The aggregation f(E) = max_\u227b {g\u1d62(x\u1d62)} over a finite totally ordered set is always defined and returns a unique maximum. The fail-safe rule \u2014 if any x\u1d62 = \u22a5 then f(E) = UNSAFE \u2014 extends totality to corrupted or missing inputs. \u25a1",
+    "after": "*Proof sketch.* For valid inputs, g_w partitions \u211d\u22650 into [0, 21.6], (21.6, 27.0], (27.0, +\u221e); the numeric rainfall-rate bands are [0, 10.0], (10.0, 20.0], (20.0, +\u221e), with the specified thunderstorm indication also mapping to UNSAFE where available. g_m covers {none, advisory, warning, alert}. For each configured vessel category, TABLE IIIb partitions the wave-height domain exhaustively. For a valid date and solar lookup, g_t returns SAFE on [sunrise(date), sunset(date)) and UNSAFE on its complement; it need not emit CAUTION. Each component has one output, so max-severity over the finite, non-empty ordered set has a unique maximum. For operational inputs, exclusions are resolved first and each required failed observation or time dependency maps to \u22a5 and hence UNSAFE. This gives operational totality of F_{D,\u03c4} = f \u2218 \u03c1_{D,\u03c4} under valid startup configuration; missing v or ill-formed D refuses startup rather than producing a classified state. \u25a1",
+    "canonical_source": "docs/canonical/appendix-c-formalisation.md C.1/C.1b/C.2",
+    "occurrences": 1
+  },
+  {
+    "file": "publications/active/ipsci-2026/submissions/v3-revision/manuscript-v3.md",
+    "before": "Algorithm 1: Safety Classification  S = f(E)\nInput:  E = (w, r, m, o, v, t)\nOutput: S \u2208 {SAFE, CAUTION, UNSAFE}\n\n0.  If v is unconfigured: refuse to start        [precondition, not a state]\n1.  for i \u2208 D (declared unavailable):  S\u1d62 \u2190 SAFE  [scope exclusion; figures\n                                                   are lower bounds]\n    for i \u2209 D:  y\u1d62 \u2190 fresh(val(obs\u1d62))             [absent/invalid/stale \u2192 \u22a5]\n                if y\u1d62 = \u22a5 then S\u1d62 \u2190 UNSAFE        [fail-safe, Cor. C.1b.1]\n2.  Compute per-component states:\n      S_w \u2190 g_w(w)    // SAFE if w \u2264 21.6 kn; CAUTION if 21.6 < w \u2264 27.0; UNSAFE if w > 27.0\n      S_r \u2190 g_r(r)    // SAFE if r \u2264 10.0 mm/hr; CAUTION if 10.0 < r \u2264 20.0; UNSAFE if r > 20.0\n      S_m \u2190 g_m(m)    // SAFE if none; CAUTION if advisory; UNSAFE if warning or alert\n      S_o \u2190 g_o(o, v) // thresholds selected by vessel category \u2014 see TABLE IIIb\n      S_t \u2190 g_t(t, date)  // SAFE if sunrise(date) \u2264 t < sunset(date); UNSAFE otherwise; UNSAFE if t = \u22a5\n3.  return max_\u227b {S_w, S_r, S_m, S_o, S_t}\n      // max_\u227b: UNSAFE \u227b CAUTION \u227b SAFE \u2014 worst-case condition dominates\n      // five terms: v conditions g_o rather than contributing a term",
+    "after": "Algorithm 1: Operational Safety Classification  S = F_{D,\u03c4}(obs, v)\nInput: observations obs_i, configured v, declared D, resolution context \u03c4,\n       clock/date and canonical solar lookup context\nOutput: S \u2208 {SAFE, CAUTION, UNSAFE}, or startup refused\n\n0.  If v is unconfigured or D is ill-formed (including t \u2208 D): refuse startup\n1.  For each i \u2208 {w,r,m,o,t}:\n      If i \u2208 D: S_i \u2190 SAFE; continue       // exclusion before faults\n      Resolve required inputs: y_i \u2190 fresh(val(obs_i))\n      For t, include clock/date/solar dependency validity\n      If required resolution fails: S_i \u2190 UNSAFE; continue\n      Otherwise evaluate the valid resolved component:\n        w: g_w(y_w)       // \u226421.6 SAFE; (21.6,27.0] CAUTION; >27.0 UNSAFE\n        r: g_r(y_r)       // \u226410 SAFE; (10,20] CAUTION; >20 UNSAFE (mm/hr)\n                          // specified storm indication also UNSAFE where available\n        m: g_m(y_m)       // none SAFE; advisory CAUTION; warning/alert UNSAFE\n        o: g_o(y_o, v)    // wave-height coordinate only; TABLE IIIb\n        t: g_t(y_t, date) // SAFE iff sunrise(date) \u2264 y_t < sunset(date)\n2.  Return max_\u227b {S_w,S_r,S_m,S_o,S_t}\n      // UNSAFE \u227b CAUTION \u227b SAFE; v selects a row, not a sixth term",
+    "canonical_source": "docs/canonical/appendix-c-formalisation.md C.2.0.7",
+    "occurrences": 1
+  },
+  {
+    "file": "publications/active/ipsci-2026/submissions/v3-revision/manuscript-v3.md",
+    "before": "Let *E* denote the environmental observation vector and *S* = *f*(*E*) a classifier that maps observations to a safety state *S* \u2208 {*SAFE, CAUTION, UNSAFE*}.",
+    "after": "Let *E* denote the ideal valid-input shorthand, including configured vessel category v. Operationally, C = {w,r,m,o,t}, Obs_i = (X_i \u00d7 \ud835\udd4b) \u222a {\u22a5}, and S = F_{D,\u03c4}(obs,v) = f(\u03c1_{D,\u03c4}(obs),v). v is a startup configuration, not an observation; t \u2209 D. The ocean classifier consumes wave height, so missing unconsumed wave period does not fault it. Valid date and solar context accompany the clock value.",
+    "canonical_source": "docs/canonical/appendix-c-formalisation.md C.2.0",
+    "occurrences": 1
+  },
+  {
+    "file": "publications/active/ipsci-2026/submissions/v3-revision/manuscript-v3.md",
+    "before": "which implies the Safety Dominance Property:",
+    "after": "while the rule-set construction under assumptions A1\u2013A4 establishes the Safety Dominance Property:",
+    "canonical_source": "docs/canonical/appendix-c-formalisation.md C.7.2",
+    "occurrences": 1
+  },
+  {
+    "file": "publications/active/ipsci-2026/submissions/v3-revision/manuscript-v3.md",
+    "before": "[0600 - Early Morning]",
+    "after": "[0700 - Early Morning, 2024-03-20]",
+    "canonical_source": "docs/canonical/appendix-c-formalisation.md; data/solar/solar-events-daily.csv 2024-03-20",
+    "occurrences": 1
+  },
+  {
+    "file": "publications/active/ipsci-2026/submissions/v3-revision/manuscript-v3.md",
+    "before": "\u2022 Time (t): 0600        \u2192 SAFE",
+    "after": "\u2022 Time (t): 0700        \u2192 SAFE",
+    "canonical_source": "data/solar/solar-events-daily.csv 2024-03-20",
+    "occurrences": 1
+  },
+  {
+    "file": "publications/active/ipsci-2026/submissions/v3-revision/manuscript-v3.md",
+    "before": " \u2022 Rain (r): none        \u2192 SAFE",
+    "after": " \u2022 Rain (r): 0 mm/hr     \u2192 SAFE",
+    "canonical_source": "docs/canonical/appendix-c-formalisation.md g_r",
+    "occurrences": 1
+  },
+  {
+    "file": "publications/active/ipsci-2026/submissions/v3-revision/manuscript-v3.md",
+    "before": " \u2022 Rain (r): moderate    \u2192 SAFE",
+    "after": " \u2022 Rain (r): 5 mm/hr     \u2192 SAFE",
+    "canonical_source": "docs/canonical/appendix-c-formalisation.md g_r; illustrative values",
+    "occurrences": 1
+  },
+  {
+    "file": "publications/active/ipsci-2026/submissions/v3-revision/manuscript-v3.md",
+    "before": " \u2022 Rain (r): heavy       \u2192 CAUTION",
+    "after": " \u2022 Rain (r): 15 mm/hr    \u2192 CAUTION",
+    "canonical_source": "docs/canonical/appendix-c-formalisation.md g_r; illustrative values",
+    "occurrences": 1
+  },
+  {
+    "file": "publications/active/ipsci-2026/submissions/v3-revision/manuscript-v3.md",
+    "before": "Vessel category v = small (< 10 GRT) throughout \u2014 g_o thresholds 1.0 / 1.25 m apply (TABLE IIIb)",
+    "after": "Date 2024-03-20, Kota Kinabalu, UTC+8 throughout; frozen sunrise 6.341591 h, sunset 18.452345 h.\nVessel category v = small (< 10 GRT) throughout \u2014 g_o thresholds 1.0 / 1.25 m apply (TABLE IIIb)",
+    "canonical_source": "data/solar/solar-events-daily.csv 2024-03-20",
+    "occurrences": 1
+  },
+  {
+    "file": "publications/active/ipsci-2026/submissions/v3-revision/manuscript-v3.md",
+    "before": "CAUTION begins above 22 kt",
+    "after": "CAUTION begins above 21.6 kt",
+    "canonical_source": "docs/canonical/appendix-c-formalisation.md g_w",
+    "occurrences": 1
+  },
+  {
+    "file": "publications/active/ipsci-2026/submissions/v3-revision/manuscript-v3.md",
+    "before": "Condition Exceeds Safety Limit",
+    "after": "Component Enters UNSAFE Band",
+    "canonical_source": "docs/canonical/appendix-c-formalisation.md C.1",
+    "occurrences": 1
+  },
+  {
+    "file": "publications/active/ipsci-2026/submissions/v3-revision/manuscript-v3.md",
+    "before": "The fisher receives calibrated guidance at each state rather than full-scope output until abrupt shutdown.",
+    "after": "The example shows the permitted recommendation types at each state; calibrated reliance remains an evaluation question.",
+    "canonical_source": "docs/canonical/appendix-c-formalisation.md C.8.2; docs/canonical/rq5-study-design.md",
+    "occurrences": 1
+  },
+  {
+    "file": "publications/active/ipsci-2026/submissions/v3-revision/manuscript-v3.md",
+    "before": "Thresholds for *w*, *r* and *m* are anchored to MET Malaysia published warning criteria;",
+    "after": "Wind and marine-warning criteria draw on MET Malaysia; rainfall uses the JPS/DID 10.0 mm/hr lower boundary and the MET 20.0 mm/hr trigger;",
+    "canonical_source": "docs/canonical/appendix-c-formalisation.md C.2",
+    "occurrences": 1
+  },
+  {
+    "file": "publications/active/ipsci-2026/submissions/v3-revision/manuscript-v3.md",
+    "before": "so *m* is held at *none* throughout the replay.",
+    "after": "so the retrospective evaluation declares D = {m} and pins its contribution at SAFE (represented as none) throughout the replay. This scope exclusion does not direct a live deployment to ignore an available required marine-warning feed;",
+    "canonical_source": "docs/canonical/appendix-c-formalisation.md C.2.0.5",
+    "occurrences": 1
+  },
+  {
+    "file": "publications/active/ipsci-2026/submissions/v3-revision/manuscript-v3.md",
+    "before": "if any component resolves to \u22a5, f(E) = UNSAFE",
+    "after": "if any required non-excluded component resolves to \u22a5, F_{D,\u03c4} = UNSAFE",
+    "canonical_source": "docs/canonical/appendix-c-formalisation.md C.1b",
+    "occurrences": 1
+  },
+  {
+    "file": "publications/active/ipsci-2026/submissions/v3-revision/manuscript-v3.md",
+    "before": "Classification thresholds (g_w, g_o, and others) are anchored to MET Malaysia published criteria.",
+    "after": "Threshold provenance differs by component: MET wind/warning criteria, JPS/DID and MET rainfall bands, vessel-specific wave evidence and conservative interpolation, and a nighttime architecture policy.",
+    "canonical_source": "docs/canonical/appendix-c-formalisation.md C.2/C.9",
+    "occurrences": 1
+  },
+  {
+    "file": "publications/active/ipsci-2026/submissions/v3-revision/manuscript-v3.md",
+    "before": "particularly for the wind component, where the reported null sits 0.2 kn from its threshold.",
+    "after": "particularly for wind, where the corrected 21.6 kn threshold is crossed twice and binds in neither case.",
+    "canonical_source": "docs/canonical/appendix-c-formalisation.md g_w; C8",
+    "occurrences": 1
+  },
+  {
+    "file": "publications/active/ipsci-2026/submissions/v3-revision/manuscript-v3.md",
+    "before": "**External validity.**",
+    "after": "**Boundary provenance and solar limits.** The medium-vessel 2.8 m wave boundary is a conservative interpolation and the weakest-grounded wave boundary; it is not a measured operating limit for every medium vessel. The frozen solar-event formulation has reproducibility and validation artefacts, but its publication-reference closure remains outstanding. Computed events use the fixed site and specified solar convention, not measured local visibility. Neither the solar boundary nor external warning thresholds independently mandate AI abstention. Required clock, date or solar-lookup failures trigger the existing fail-safe, not a valid-night inference.\n\n**Provenance annotations.** The canonical specification permits overlapping reasons: required resolution failure (fault), valid environmental non-SAFE bands (hazard), and valid nighttime advisory policy (policy). SAFE has no active reason. These annotations never alter state, rules, advisory scope or human authority; runtime reason-set instrumentation has not been implemented.\n\n**External validity.**",
+    "canonical_source": "docs/canonical/appendix-c-formalisation.md C.2.0.8/C.9; report-c1-c2-c3-solar-reproducibility-2026-09-08.md",
+    "occurrences": 1
+  },
+  {
+    "file": "publications/active/journal-1/submissions/v1-initial-submission/manuscript.md",
+    "before": "The governance layer's input is a tuple of six observable parameters that together characterise the environmental and operational conditions relevant to departure safety.",
+    "after": "The ideal-input shorthand E combines five condition components with configured vessel category v. Operational observations are resolved before classification; v is not a sampled observation.",
+    "canonical_source": "docs/canonical/appendix-c-formalisation.md",
+    "occurrences": 1
+  },
+  {
+    "file": "publications/active/journal-1/submissions/v1-initial-submission/manuscript.md",
+    "before": "| r | Ordinal categorical | {none, light, moderate, heavy, storm} | Rainfall intensity |",
+    "after": "| r | \u211d\u22650 | [0, \u221e) | Rainfall intensity (mm/hr) |",
+    "canonical_source": "docs/canonical/appendix-c-formalisation.md",
+    "occurrences": 1
+  },
+  {
+    "file": "publications/active/journal-1/submissions/v1-initial-submission/manuscript.md",
+    "before": "| o | \u211d\u22650 | [0, \u221e) | Significant wave height (metres) |",
+    "after": "| o | \u211d\u22650 \u00d7 \u211d\u22650 | Wave height and swell-period tuple | g_o reads only significant wave height (metres) |",
+    "canonical_source": "docs/canonical/appendix-c-formalisation.md",
+    "occurrences": 1
+  },
+  {
+    "file": "publications/active/journal-1/submissions/v1-initial-submission/manuscript.md",
+    "before": "| v | Ordinal categorical | {small, medium, big} | Vessel category, by gross registered tonnage |",
+    "after": "| v | Configuration | {small, medium, big} | Vessel category by GRT; required before startup |",
+    "canonical_source": "docs/canonical/appendix-c-formalisation.md",
+    "occurrences": 1
+  },
+  {
+    "file": "publications/active/journal-1/submissions/v1-initial-submission/manuscript.md",
+    "before": "*Note on the representation of t.* Time of day is encoded as a real number in [0, 24), but clock time is cyclically structured: 23:59 and 00:01 are numerically far apart while operationally adjacent. In the current architecture, Layer 2 applies only explicit interval rules to t (e.g., t \u2265 19 \u2228 t < 6 for the UNSAFE partition), so the numeric discontinuity at midnight does not affect classification correctness \u2014 the partition [6, 17), [17, 19), [19, 24) \u222a [0, 6) handles the wrap-around explicitly. However, if E is used downstream in any computation involving distances, scores, or similarity measures \u2014 for example, nearest-neighbour retrieval of historical decision scenarios \u2014 t must be re-encoded as a pair of cyclic coordinates: t_sin = sin(2\u03c0t/24), t_cos = cos(2\u03c0t/24). The linear representation in Definition 5.1 is appropriate for Layer 2's threshold-based classification and must not be carried forward to any distance-based computation without this transformation.",
+    "after": "*Time and observation context.* For C = {w,r,m,o,t}, Obs_i = (X_i \u00d7 \ud835\udd4b) \u222a {\u22a5}; y = \u03c1_{D,\u03c4}(obs) is the resolved input and S = F_{D,\u03c4}(obs,v) = f(y,v). Time retains its clock value in [0,24) and is evaluated with a valid date and canonical solar lookup. g_t is SAFE iff sunrise(date) \u2264 t < sunset(date), and UNSAFE otherwise. It emits no CAUTION; exact sunrise is SAFE and exact sunset UNSAFE. Daylight means this astronomical interval. E and f(E) elsewhere abbreviate the valid-input case, with this time context understood.",
+    "canonical_source": "docs/canonical/appendix-c-formalisation.md",
+    "occurrences": 1
+  },
+  {
+    "file": "publications/active/journal-1/submissions/v1-initial-submission/manuscript.md",
+    "before": "*Fail-safe rule for missing or corrupted inputs.* Definition 5.1 assumes all six components of E are available. In low-resource coastal deployments, API calls may time out or sensor feeds may drop. To satisfy the conservative bias required of safety-critical governance, the following rule applies: if any component x\u1d62 \u2208 E is undefined or corrupted (denoted x\u1d62 = \u22a5), then f(E) = UNSAFE. This ensures the architecture fails toward maximum restriction rather than toward permissiveness when the information basis for classification is incomplete. The fail-safe rule is a precondition check applied before any g\u1d62 evaluation; it takes priority over all threshold comparisons.",
+    "after": "*Operational exclusion and fail-safe.* v must be configured and D well-formed before startup; t \u2209 D. Exclusions are resolved before faults and contribute SAFE. For each remaining component, missing, invalid or stale required observations resolve to \u22a5; g_i(\u22a5) = UNSAFE, so maximum severity gives operational UNSAFE as a corollary, not a separate override preceding all classification. Required clock/date/solar failures use the same fail-safe. Missing swell period does not fault o because g_o consumes wave height only. Historical replay declares D = {m} because no warning archive exists; this is not an instruction to ignore a required live warning feed. Under valid startup configuration, the operational classifier is total.",
+    "canonical_source": "docs/canonical/appendix-c-formalisation.md",
+    "occurrences": 1
+  },
+  {
+    "file": "publications/active/journal-1/submissions/v1-initial-submission/manuscript.md",
+    "before": "r and m encode MET Malaysia's structured warning system;",
+    "after": "r uses numeric JPS/DID and MET rainfall bands and m encodes marine-warning level;",
+    "canonical_source": "docs/canonical/appendix-c-formalisation.md",
+    "occurrences": 1
+  },
+  {
+    "file": "publications/active/journal-1/submissions/v1-initial-submission/manuscript.md",
+    "before": "The order is transitive (UNSAFE \u227b SAFE follows by transitivity from UNSAFE \u227b CAUTION and CAUTION \u227b SAFE) and total (every pair of distinct states is ordered). It reflects increasing operational risk: UNSAFE denotes conditions in which departure is not permissible for the given vessel category and no AI advisory output is generated; CAUTION denotes marginal conditions in which AI advisory output is restricted to coarse operational guidance; SAFE denotes conditions in which all environmental parameters are within acceptable bounds and full AI advisory scope is available.",
+    "after": "The order is transitive and total. Its state meanings are governance consequences: UNSAFE means AI advisory participation is unavailable, CAUTION permits restricted advisory scope, and SAFE permits full scope. UNSAFE can arise from environmental bands, required-input faults or valid nighttime policy; it does not establish that departure is prohibited or that physical harm is certain. Human authority remains unconditional.",
+    "canonical_source": "docs/canonical/appendix-c-formalisation.md",
+    "occurrences": 1
+  },
+  {
+    "file": "publications/active/journal-1/submissions/v1-initial-submission/manuscript.md",
+    "before": "Four of these take a single argument. The fifth, g_o, takes two: significant wave height and vessel category.",
+    "after": "g_o is conditioned on configured vessel category; g_t uses date and solar context as well as clock time.",
+    "canonical_source": "docs/canonical/appendix-c-formalisation.md",
+    "occurrences": 1
+  },
+  {
+    "file": "publications/active/journal-1/submissions/v1-initial-submission/manuscript.md",
+    "before": "| g_w(w) | w \u2264 22 kn | 22 < w \u2264 27 kn | w > 27 kn | MET Malaysia Category 1 onset 40 km/h (\u224822 kn); Category 2 onset 50 km/h (\u224827 kn) |",
+    "after": "| g_w(w) | w \u2264 21.6 kn | 21.6 < w \u2264 27.0 kn | w > 27.0 kn | MET Category 1 onset 40 km/h (21.598 kn, represented as 21.6); Category 2 onset 50 km/h (26.998 kn, represented as 27.0) |",
+    "canonical_source": "docs/canonical/appendix-c-formalisation.md",
+    "occurrences": 1
+  },
+  {
+    "file": "publications/active/journal-1/submissions/v1-initial-submission/manuscript.md",
+    "before": "| g_r(r) | {none, light, moderate} | {heavy} | {storm} | MET Malaysia Ribut Petir (thunderstorm/cyclone) = unconditional halt |",
+    "after": "| g_r(r) | r \u2264 10.0 mm/hr | 10.0 < r \u2264 20.0 mm/hr | r > 20.0 mm/hr; specified storm indication where available | JPS/DID lower boundary; MET hourly-rate trigger; advisory governance policy, not a departure prohibition |",
+    "canonical_source": "docs/canonical/appendix-c-formalisation.md",
+    "occurrences": 1
+  },
+  {
+    "file": "publications/active/journal-1/submissions/v1-initial-submission/manuscript.md",
+    "before": "otherwise; UNSAFE if t = \u22a5",
+    "after": "otherwise; UNSAFE on required clock/date/solar resolution failure",
+    "canonical_source": "docs/canonical/appendix-c-formalisation.md",
+    "occurrences": 1
+  },
+  {
+    "file": "publications/active/journal-1/submissions/v1-initial-submission/manuscript.md",
+    "before": "This grounds the medium row and corroborates the small row.",
+    "after": "This informs the medium row and corroborates the small row; the medium 2.8 m upper boundary remains conservative interpolation, not a directly measured operating limit.",
+    "canonical_source": "docs/canonical/appendix-c-formalisation.md",
+    "occurrences": 1
+  },
+  {
+    "file": "publications/active/journal-1/submissions/v1-initial-submission/manuscript.md",
+    "before": "g_t(t)}",
+    "after": "g_t(t, date)}",
+    "canonical_source": "docs/canonical/appendix-c-formalisation.md",
+    "occurrences": 3
+  },
+  {
+    "file": "publications/active/journal-1/submissions/v1-initial-submission/manuscript.md",
+    "before": "safe wave heights cannot compensate for a vessel operating after dark without navigation lights.",
+    "after": "a valid nighttime advisory-policy trigger is not cancelled by lower environmental component states. Navigation-light equipment is not a classifier input.",
+    "canonical_source": "docs/canonical/appendix-c-formalisation.md",
+    "occurrences": 1
+  },
+  {
+    "file": "publications/active/journal-1/submissions/v1-initial-submission/manuscript.md",
+    "before": "Proof deferred to Section 6.1.",
+    "after": "Proof deferred to Section 6.2.",
+    "canonical_source": "docs/canonical/appendix-c-formalisation.md",
+    "occurrences": 1
+  },
+  {
+    "file": "publications/active/journal-1/submissions/v1-initial-submission/manuscript.md",
+    "before": "*Go* advises that departure is permissible under current conditions;",
+    "after": "*Go* recommends departure within the configured advisory scope without authorising or legally permitting it;",
+    "canonical_source": "docs/canonical/appendix-c-formalisation.md",
+    "occurrences": 1
+  },
+  {
+    "file": "publications/active/journal-1/submissions/v1-initial-submission/manuscript.md",
+    "before": "*Duration* specifies a recommended safe trip duration.",
+    "after": "*Duration* specifies a recommended trip duration, not a guarantee of physical safety.",
+    "canonical_source": "docs/canonical/appendix-c-formalisation.md",
+    "occurrences": 1
+  },
+  {
+    "file": "publications/active/journal-1/submissions/v1-initial-submission/manuscript.md",
+    "before": "The restriction of A_AI(CAUTION) to {Go, Delay} is operationally motivated. DepartureTime and Duration require temporal and operational precision that is unreliable when environmental conditions are marginal. A fisher who receives a specific optimised departure window during CAUTION conditions has received false precision \u2014 a recommendation whose implied confidence is not warranted by the underlying state. The CAUTION mode eliminates that false precision without disabling advisory participation entirely. The AI continues to inform the fisher that departure may be possible or should be delayed, without committing to timing or duration recommendations that exceed what the current information reliably supports.",
+    "after": "The restriction of A_AI(CAUTION) to {Go, Delay} is a conservative architecture policy motivated by the additional forecasting demands of DepartureTime and Duration. The classifier does not measure the accuracy of individual recommendations or prove that coarse guidance is correct. The theorem constrains recommendation types; empirical validation of advice and user reliance remains separate.",
+    "canonical_source": "docs/canonical/appendix-c-formalisation.md",
+    "occurrences": 1
+  },
+  {
+    "file": "publications/active/journal-1/submissions/v1-initial-submission/manuscript.md",
+    "before": "the advisory output presented to the fisher includes a state-dependent qualifier",
+    "after": "the specified interface may present a state-dependent qualifier",
+    "canonical_source": "docs/canonical/appendix-c-formalisation.md",
+    "occurrences": 1
+  },
+  {
+    "file": "publications/active/journal-1/submissions/v1-initial-submission/manuscript.md",
+    "before": "The four-step pipeline is implemented across four computationally distinct layers",
+    "after": "The four-step pipeline is specified across four computationally distinct layers",
+    "canonical_source": "docs/canonical/appendix-c-formalisation.md",
+    "occurrences": 1
+  },
+  {
+    "file": "publications/active/journal-1/submissions/v1-initial-submission/manuscript.md",
+    "before": "Layer 3 is implemented as a production rule engine.",
+    "after": "Layer 3 is specified as a production rule engine; runtime fidelity is not yet demonstrated.",
+    "canonical_source": "docs/canonical/appendix-c-formalisation.md",
+    "occurrences": 1
+  },
+  {
+    "file": "publications/active/journal-1/submissions/v1-initial-submission/manuscript.md",
+    "before": "The Safety Dominance Property therefore holds by implementation:",
+    "after": "Under the stated engine assumptions, the Safety Dominance Property holds by construction:",
+    "canonical_source": "docs/canonical/appendix-c-formalisation.md",
+    "occurrences": 1
+  },
+  {
+    "file": "publications/active/journal-1/submissions/v1-initial-submission/manuscript.md",
+    "before": "The actual content of RS(SAFE) and RS(CAUTION) \u2014 the individual production rules and their conditions \u2014 is specified in Section 9 (Prototype Implementation).",
+    "after": "The actual content of RS(SAFE) and RS(CAUTION) \u2014 the individual production rules and their conditions \u2014 remains to be implemented and documented in Section 9 (Prototype Implementation).",
+    "canonical_source": "docs/canonical/appendix-c-formalisation.md",
+    "occurrences": 1
+  },
+  {
+    "file": "publications/active/journal-1/submissions/v1-initial-submission/manuscript.md",
+    "before": "Layer 3 is implemented as a rule-based symbolic reasoning engine,",
+    "after": "Layer 3 is specified as a rule-based symbolic reasoning engine,",
+    "canonical_source": "docs/canonical/appendix-c-formalisation.md",
+    "occurrences": 1
+  },
+  {
+    "file": "publications/active/journal-1/submissions/v1-initial-submission/manuscript.md",
+    "before": "Second, the O(1) inference time of a deterministic rule engine satisfies the low-resource deployment constraints of the coastal fisheries domain, where inference may execute on commodity hardware without reliable network access.",
+    "after": "Second, the fixed-size classifier and governance lookups are O(1); rule-engine execution cost depends on the active rules and evaluation strategy and remains an implementation/evaluation concern in Sections 8\u20139.",
+    "canonical_source": "docs/canonical/appendix-c-formalisation.md",
+    "occurrences": 1
+  },
+  {
+    "file": "publications/active/journal-1/submissions/v1-initial-submission/manuscript.md",
+    "before": "Section 9 describes the prototype implementation, including the complete rule sets RS(SAFE) and RS(CAUTION). Section 10 presents the experimental evaluation comparing the graduated architecture against ungated and binary-gated baselines.",
+    "after": "Section 9 is reserved for the prototype and complete rule sets; Section 10 plans the comparative evaluation. These sections are not completed empirical results.",
+    "canonical_source": "docs/canonical/appendix-c-formalisation.md",
+    "occurrences": 1
+  },
+  {
+    "file": "publications/active/journal-1/submissions/v1-initial-submission/manuscript.md",
+    "before": "[0, 22], (22, 27], (27, +\u221e)",
+    "after": "[0, 21.6], (21.6, 27.0], (27.0, +\u221e)",
+    "canonical_source": "docs/canonical/appendix-c-formalisation.md",
+    "occurrences": 1
+  },
+  {
+    "file": "publications/active/journal-1/submissions/v1-initial-submission/manuscript.md",
+    "before": "- **g_r:** The five values {none, light, moderate, heavy, storm} constitute the complete domain of r. Each value is assigned to exactly one classification (SAFE, SAFE, SAFE, CAUTION, UNSAFE respectively). \u2713",
+    "after": "- **g_r:** Numeric rate intervals [0,10.0], (10.0,20.0], (20.0,+\u221e) are exhaustive and disjoint; the specified storm indication also maps to UNSAFE where available. \u2713",
+    "canonical_source": "docs/canonical/appendix-c-formalisation.md",
+    "occurrences": 1
+  },
+  {
+    "file": "publications/active/journal-1/submissions/v1-initial-submission/manuscript.md",
+    "before": "[0, 1.0), [1.0, 1.9], (1.9, +\u221e) for small",
+    "after": "[0, 1.0), [1.0, 1.25], (1.25, +\u221e) for small",
+    "canonical_source": "docs/canonical/appendix-c-formalisation.md",
+    "occurrences": 1
+  },
+  {
+    "file": "publications/active/journal-1/submissions/v1-initial-submission/manuscript.md",
+    "before": "- **g_t:** The intervals [6.0, 17.0), [17.0, 19.0), [19.0, 24.0) \u222a [0.0, 6.0) partition [0, 24) exhaustively. Every t \u2208 [0, 24) falls in exactly one interval. \u2713",
+    "after": "- **g_t:** Given valid date and solar context, [sunrise(date),sunset(date)) and its complement partition [0,24). They map to SAFE and UNSAFE respectively; the component is total without being surjective onto all three states. Required time-dependency failures map to UNSAFE in the operational extension. \u2713",
+    "canonical_source": "docs/canonical/appendix-c-formalisation.md",
+    "occurrences": 1
+  },
+  {
+    "file": "publications/active/journal-1/submissions/v1-initial-submission/manuscript.md",
+    "before": "**Fail-safe extension.** The fail-safe rule stated in Section 5.2 (if any x\u1d62 = \u22a5 then f(E) = UNSAFE) preserves totality: the pre-condition check maps every \u22a5 input to UNSAFE before any g\u1d62 is evaluated, extending the domain of f to include undefined or corrupted inputs without introducing any undefined output states. \u2713",
+    "after": "**Operational extension.** With configured v and well-formed D, resolution first discharges exclusions, then validation/freshness of required inputs. Each required \u22a5 has g_i(\u22a5) = UNSAFE, so max-severity yields UNSAFE. This establishes totality of F_{D,\u03c4} including required resolution failures. Missing v refuses startup and is not a runtime classification. This is the Appendix C C.1b extension of the ideal theorem.",
+    "canonical_source": "docs/canonical/appendix-c-formalisation.md",
+    "occurrences": 1
+  },
+  {
+    "file": "publications/active/journal-1/submissions/v1-initial-submission/manuscript.md",
+    "before": "| 6.1 (Totality) | f(E) is defined for all E, including inputs with \u22a5 |",
+    "after": "| 6.1 (Totality) | f(E) is total on ideal inputs; F_{D,\u03c4} is total after resolution under valid startup configuration |",
+    "canonical_source": "docs/canonical/appendix-c-formalisation.md",
+    "occurrences": 1
+  },
+  {
+    "file": "publications/active/journal-1/submissions/v1-initial-submission/manuscript.md",
+    "before": "These guarantees are independent \u2014 each is proved from definitions alone, without relying on the others \u2014 and they are cumulative.",
+    "after": "These guarantees are complementary. The Safety Dominance case analysis uses totality to establish that a state exists, together with the state-indexed rule-set and gate assumptions.",
+    "canonical_source": "docs/canonical/appendix-c-formalisation.md",
+    "occurrences": 1
+  },
+  {
+    "file": "publications/active/journal-1/submissions/v1-initial-submission/manuscript.md",
+    "before": "Section 10 evaluates whether these formal guarantees produce correct behavioural outcomes in empirical test scenarios,",
+    "after": "Section 10 plans to evaluate implementation fidelity and advisory behaviour in empirical test scenarios,",
+    "canonical_source": "docs/canonical/appendix-c-formalisation.md",
+    "occurrences": 1
+  },
+  {
+    "file": "publications/active/journal-1/submissions/v1-initial-submission/manuscript.md",
+    "before": "### 5.3 Safety State Classification Function",
+    "after": "**Provenance only.** The canonical contract is reasons : Q \u2192 \ud835\udcab({fault,hazard,policy}) over the evaluated resolution/classification trace. Fault requires a failed required non-excluded input; hazard denotes a valid environmental non-SAFE band; policy denotes valid nighttime. Labels overlap, SAFE has \u2205, and reasons never change S, G(S), A_AI(S), RS(S) or human authority. Runtime reason-set instrumentation is not implemented. Safety Dominance extends to operational S = F_{D,\u03c4} under the same rule-engine assumptions because its proof depends only on S.\n\n### 5.3 Safety State Classification Function",
+    "canonical_source": "docs/canonical/appendix-c-formalisation.md",
+    "occurrences": 1
+  },
+  {
+    "file": "publications/active/journal-1/submissions/v1-initial-submission/manuscript.md",
+    "before": "**External validity:**",
+    "after": "**Canonical time and data limitations:**\n- Model B raises direct SAFE\u2192UNSAFE transitions from 2 to 1,536 and removes 1,545 time-driven SAFE\u2192CAUTION transitions (now zero). This is a governance consequence, not a danger count.\n- Nighttime abstention is architecture policy; COLREGs provides a navigation-light temporal boundary, not a mandate for AI abstention.\n- The frozen solar formulation has reproducibility/validation artefacts; publication-reference closure remains outstanding.\n- Retrospective D={m} excludes unavailable warning history; a live required feed remains subject to fault handling.\n- The medium-vessel 2.8 m wave boundary is conservative interpolation.\n- Safety Dominance bounds recommendation types, not physical safety or operator behaviour.\n\n**External validity:**",
+    "canonical_source": "docs/canonical/appendix-c-formalisation.md C.9; docs/canonical/report-c8-migration-2026-09-08.md",
+    "occurrences": 1
+  },
+  {
+    "file": "publications/active/ipsci-2026/submissions/v3-revision/manuscript-v3.md",
+    "before": "The architecture is situated within established governance standards. The NIST AI Risk Management Framework [35] defines risk tiers for AI systems in safety-critical applications; the SAFE/CAUTION/UNSAFE classification operationalises that tiered approach at runtime, with UNSAFE mapping to the highest risk tier where AI participation is suspended and CAUTION to an intermediate tier where advisory scope is formally bounded. Graduated safety constraints are a precedent in safety engineering: IEC 61508 Safety Integrity Levels and ISO 26262 Automotive Safety Integrity Levels both impose progressively stricter design and verification requirements as risk increases, and the A_AI(S) contraction from SAFE to CAUTION mirrors this principle at the advisory scope level. Taken together, the architecture realises the deterministic guard principle of Bloomfield and Rushby [20] \u2014 surrounding the AI component with a formally specified, state-conditioned constraint \u2014 at the level of advisory scope rather than execution.",
+    "after": "The NIST AI Risk Management Framework [35] [[notes]](../../../../../notes/Artificial%20Intelligence%20Risk%20Management%20Framework%20%28AI%20RMF%201.0%29.md) provides voluntary, use-case-agnostic guidance for managing AI risk. The SAFE/CAUTION/UNSAFE states and their advisory restrictions are this architecture\u2019s policy choices, not NIST-defined risk tiers or a NIST requirement for AI abstention. The connection is an interpretive alignment with risk management, not a claim of standards compliance. The proposed governance pair provides a specific state-conditioned constraint on advisory scope.",
+    "canonical_source": "NIST AI 100-1 (2023), Executive Summary pp.2\u20133, \u00a71.2.2; https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.100-1.pdf",
+    "occurrences": 1
+  },
+  {
+    "file": "publications/active/ipsci-2026/submissions/v3-revision/manuscript-v3.md",
+    "before": "The system withholds precise tactical outputs (departure time, trip duration) since the environmental data can no longer reliably support them. The human operator receives an implicit signal about the restrictions and a participation signal from the AI, enabling calibrated reliance rather than over-reliance.",
+    "after": "The architecture withholds tactical output types (departure time, trip duration) as a conservative advisory-scope policy. The restrictions may signal a change in governance mode; whether this calibrates reliance requires the planned user evaluation.",
+    "canonical_source": "docs/canonical/appendix-c-formalisation.md",
+    "occurrences": 1
+  },
+  {
+    "file": "publications/active/ipsci-2026/submissions/v3-revision/manuscript-v3.md",
+    "before": "Only recommendations that are epistemically supportable under marginal environmental conditions are included in the *CAUTION* admissible set. *Go* and *Delay* require only a general assessment of whether current conditions are acceptable for departure. *DepartureTime* and *Duration*, on the other hand, assume future stable and predictable conditions: a departure window requires accurate short-term forecasting, whereas a trip duration estimate assumes stable sea state for the entire planning horizon. Once the system is in *CAUTION*, that predictive confidence is no longer available. The governance layer therefore withdraws tactical optimisation and preserves only coarse operational guidance: the conservative middle position between full advisory capability and complete AI disengagement.",
+    "after": "The CAUTION admissible set retains Go and Delay as a conservative policy motivated by the greater forecasting demands of DepartureTime and Duration. State classification does not itself measure predictive confidence or demonstrate that individual coarse recommendations are correct. The governance theorem bounds output types; it does not establish their empirical accuracy or prevent physical harm.",
+    "canonical_source": "docs/canonical/appendix-c-formalisation.md",
+    "occurrences": 1
+  },
+  {
+    "file": "publications/active/ipsci-2026/submissions/v3-revision/manuscript-v3.md",
+    "before": "All-or-nothing gating enforces safety but destroys utility precisely where bounded operation could preserve it",
+    "after": "The cited runtime-gating systems motivate examining the trade-off between restricting operation and retaining utility",
+    "canonical_source": "Existing cited sources [24][31]; bounded motivation, not fisheries outcome evidence",
+    "occurrences": 1
+  },
+  {
+    "file": "publications/active/ipsci-2026/submissions/v3-revision/manuscript-v3.md",
+    "before": "when bounded advice could still be safely rendered",
+    "after": "when a restricted advisory vocabulary could remain available",
+    "canonical_source": "docs/canonical/appendix-c-formalisation.md",
+    "occurrences": 1
+  },
+  {
+    "file": "publications/active/ipsci-2026/submissions/v3-revision/manuscript-v3.md",
+    "before": "The mechanistic evidence below applies more broadly and it establishes that no AI component, irrespective of the technique used, can reliably self-restrict as conditions deteriorate.",
+    "after": "The mechanistic evidence below concerns LLM systems and motivates explicit external governance; it does not establish a universal impossibility of self-restriction for every AI technique.",
+    "canonical_source": "Existing mechanistic sources [25]\u2013[27]; scope correction",
+    "occurrences": 1
+  },
+  {
+    "file": "publications/active/ipsci-2026/submissions/v3-revision/manuscript-v3.md",
+    "before": "As the Mechanistic Basis section establishes, internal self-restraint cannot be relied upon; the solution must be external.",
+    "after": "The architecture makes admissibility independent of internal self-restraint through an external governance layer.",
+    "canonical_source": "docs/canonical/appendix-c-formalisation.md",
+    "occurrences": 1
+  },
+  {
+    "file": "publications/active/ipsci-2026/submissions/v3-revision/manuscript-v3.md",
+    "before": "continuing to supply *Go* and *Delay*",
+    "after": "continuing to permit *Go* and *Delay*",
+    "canonical_source": "docs/canonical/appendix-c-formalisation.md",
+    "occurrences": 1
+  },
+  {
+    "file": "publications/active/ipsci-2026/submissions/v3-revision/manuscript-v3.md",
+    "before": "a binary architecture supplies its full recommendation set",
+    "after": "the instantiated binary baseline permits its full recommendation set",
+    "canonical_source": "docs/canonical/appendix-c-formalisation.md",
+    "occurrences": 1
+  },
+  {
+    "file": "publications/active/ipsci-2026/submissions/v3-revision/manuscript-v3.md",
+    "before": "The *CAUTION* mode binds in 5.8% of departure-window hours for the operative vessel class \u2014 approximately one departure morning in seventeen on which a binary architecture supplies tactical recommendations that this architecture withholds \u2014 falling to 4.5% when a higher-resolution wave model is substituted over a shorter period",
+    "after": "The *CAUTION* mode binds in 5.81% of PRIMARY departure-window hours for the operative vessel class, during which the binary baseline permits tactical recommendation types that this architecture withholds, and in 4.48% of RESOLUTION departure-window hours with the higher-resolution wave model over its shorter period",
+    "canonical_source": "data/c8/canonical-results-post-migration.txt",
+    "occurrences": 1
+  },
+  {
+    "file": "publications/active/ipsci-2026/submissions/v3-revision/manuscript-v3.md",
+    "before": "changes the classification for 9.1% of departure hours relative to vessel-blind thresholds",
+    "after": "produces different small- versus big-vessel classifications in 9.11% of PRIMARY departure-window hours (5.86% in RESOLUTION)",
+    "canonical_source": "data/c8/canonical-results-post-migration.txt",
+    "occurrences": 1
+  },
+  {
+    "file": "publications/active/ipsci-2026/submissions/v3-revision/manuscript-v3.md",
+    "before": "Theorem 1 (Totality) establishes that *f*(*E*) is defined for all inputs, including corrupted sensor data, so the governance layer is never without a classification basis.",
+    "after": "Theorem 1 establishes totality on ideal valid inputs, with operational totality after resolution under valid startup configuration covering required-input failures.",
+    "canonical_source": "docs/canonical/appendix-c-formalisation.md",
+    "occurrences": 1
+  },
+  {
+    "file": "publications/active/ipsci-2026/submissions/v3-revision/manuscript-v3.md",
+    "before": "Two thresholds were found to have been silently rounded from their institutional sources:",
+    "after": "Two provenance defects were found:",
+    "canonical_source": "docs/canonical/appendix-c-formalisation.md",
+    "occurrences": 1
+  },
+  {
+    "file": "publications/active/ipsci-2026/submissions/v3-revision/manuscript-v3.md",
+    "before": "Both have been corrected to their source values",
+    "after": "Both have been corrected using the documented source boundaries",
+    "canonical_source": "docs/canonical/appendix-c-formalisation.md",
+    "occurrences": 1
+  },
+  {
+    "file": "publications/active/ipsci-2026/submissions/v3-revision/manuscript-v3.md",
+    "before": "the remainder is the time-of-day component *g*_t.",
+    "after": "the remainder has no weather component at UNSAFE. Weather and nighttime triggers can coincide, so this is not a mutually exclusive partition of provenance reasons.",
+    "canonical_source": "docs/canonical/appendix-c-formalisation.md",
+    "occurrences": 1
+  },
+  {
+    "file": "publications/active/ipsci-2026/submissions/v3-revision/manuscript-v3.md",
+    "before": "**What these results do not establish.**",
+    "after": "**Prediction provenance.** The SDR-001-attributable flips are P20, P23 and P24; P04, P09, P18 and P19 were already refuted after earlier corrections. P09 follows 5,416 \u2192 5,220 (threshold) \u2192 5,201 (data) \u2192 3,661 (g_t), not a single Model B effect. P20 retains 1,529 under its registered 06:00\u201317:00 scope; the analogous RESOLUTION count under current astronomical daylight is 455. These are different scopes, not interchangeable metrics.\n\n**What these results do not establish.**",
+    "canonical_source": "docs/canonical/report-c8-migration-2026-09-08.md \u00a7\u00a711\u201314",
+    "occurrences": 1
+  },
+  {
+    "file": "publications/active/journal-1/submissions/v1-initial-submission/manuscript.md",
+    "before": "the deployment population operates vessels of 5\u20137 m",
+    "after": "the Malaysian hulls studied in the cited seakeeping analysis measure 5.03 and 6.54 m",
+    "canonical_source": "docs/canonical/appendix-c-formalisation.md C.1: studied hulls, not a measured deployment-population LOA distribution",
+    "occurrences": 1
+  },
+  {
+    "file": "publications/active/ipsci-2026/submissions/v3-revision/manuscript-v3.md",
+    "before": "Thresholds are anchored to MET Malaysia criteria; the environmental series",
+    "after": "Thresholds use the component-specific sources and policy choices described above; the environmental series",
+    "canonical_source": "docs/canonical/appendix-c-formalisation.md C.2",
+    "occurrences": 1
+  },
+  {
+    "file": "publications/active/ipsci-2026/submissions/v3-revision/manuscript-v3.md",
+    "before": "This is partially mitigated by the fail-safe rule \u2014 any undefined or corrupted input returns UNSAFE \u2014 but cannot be fully eliminated without exhaustive domain testing.",
+    "after": "The fail-safe handles required non-excluded input resolution failures; it does not establish rule-set completeness or correct advice for every valid input.",
+    "canonical_source": "docs/canonical/appendix-c-formalisation.md C.2/C.7",
+    "occurrences": 1
+  },
+  {
+    "file": "publications/active/journal-1/section-5-plan.md",
+    "before": "# Section 5 Plan: Formal Architecture",
+    "after": "# Section 5 Plan: Formal Architecture\n\n> **Publication consistency audit, 2026-09-09 \u2014 historical drafting plan, superseded for implementation and publication reuse.** Section 5 has since been drafted and aligned with Appendix C in [the active working manuscript](submissions/v1-initial-submission/manuscript.md). The planning text below records its earlier specification; do not copy its thresholds, fixed-clock intervals, vessel-term formulation or fail-safe wording as current. Use the working manuscript and Appendix C.",
+    "canonical_source": "Completed working draft supersedes planning instructions; historical plan preserved",
+    "occurrences": 1
+  },
+  {
+    "file": "publications/active/journal-1/section-6-plan.md",
+    "before": "# Section 6 Plan: Theoretical Analysis",
+    "after": "# Section 6 Plan: Theoretical Analysis\n\n> **Publication consistency audit, 2026-09-09 \u2014 historical drafting plan, superseded for implementation and publication reuse.** Section 6 has since been drafted and aligned with Appendix C in [the active working manuscript](submissions/v1-initial-submission/manuscript.md). The planning text below records its earlier specification; do not copy its thresholds, fixed-clock intervals, vessel-term formulation or fail-safe wording as current. Use the working manuscript and Appendix C.",
+    "canonical_source": "Completed working draft supersedes planning instructions; historical plan preserved",
+    "occurrences": 1
+  },
+  {
+    "file": "publications/active/ipsci-2026/supervisor-feedback-response.md",
+    "before": "# Supervisor Feedback Response \u2014 IPSci 2026 Conference Paper",
+    "after": "# Supervisor Feedback Response \u2014 IPSci 2026 Conference Paper\n\n> **Reuse note, 2026-09-09:** This document records earlier supervisor responses and proposed insertions. Its dated examples and draft passages are historical, not the current architecture specification. For publication reuse, use [the active v3 manuscript](submissions/v3-revision/manuscript-v3.md) and Appendix C, including 5.81% / 4.48%, 15 CONFIRMED / 9 REFUTED, binary solar-event time and overlapping provenance reasons. The hardware-cost parenthetical was removed separately under Outcome C; that resolution remains in force.",
+    "canonical_source": "Preserve supervisor response history while preventing reuse of superseded draft text",
+    "occurrences": 1
+  },
+  {
+    "file": "publications/active/ipsci-2026/README.md",
+    "before": "# IPSci 2026 Submission Tracking",
+    "after": "# IPSci 2026 Submission Tracking\n\n**Current working revision:** [manuscript-v3.md](submissions/v3-revision/manuscript-v3.md). v2.5 remains the historical submitted version; the response notes below track that earlier submission. Current canonical figures are 5.81% / 4.48% with 15 CONFIRMED / 9 REFUTED.",
+    "canonical_source": "C-8 and publication working-copy status",
+    "occurrences": 1
+  },
+  {
+    "file": "publications/active/journal-1/README.md",
+    "before": "# Journal 1 Submission Tracking",
+    "after": "# Journal 1 Submission Tracking\n\n**Current working manuscript:** [v1 draft](submissions/v1-initial-submission/manuscript.md), aligned to Appendix C. Sections 5\u20136 are drafted; later empirical sections remain plans. The earlier section plans are retained as drafting history.",
+    "canonical_source": "Working manuscript status; no new experiment result",
+    "occurrences": 1
+  },
+  {
+    "file": "publications/active/ipsci-2026/submissions/v3-revision/manuscript-v3.md",
+    "before": "wind, weather, and visibility account for 26.7% of maritime accident causes",
+    "after": "external environmental factors including visibility account for 26.7% of the coded text segments in the reviewed maritime accident reports",
+    "canonical_source": "docs/canonical/appendix-c-formalisation.md C.1 source scope",
+    "occurrences": 1
+  },
+  {
+    "file": "publications/active/ipsci-2026/submissions/v3-revision/manuscript-v3.md",
+    "before": "The architecture runs on commodity smartphones or low-cost single-board computers with no modification to the computational requirements of the governance components.",
+    "after": "Commodity smartphones or low-cost single-board computers are intended deployment options; hardware performance and engine fidelity remain to be evaluated.",
+    "canonical_source": "Working manuscript prototype-fidelity limitation; hardware-cost resolution",
+    "occurrences": 1
+  },
+  {
+    "file": "publications/active/ipsci-2026/submissions/v3-revision/manuscript-v3.md",
+    "before": "Third, end-to-end decision latency is dominated by external data acquisition (obtaining w, r, m, o from meteorological feeds), not by governance computation; the pipeline itself adds negligible overhead.",
+    "after": "Third, acquisition and rule-engine execution must be distinguished from the fixed-size governance computations when latency is evaluated; no measured end-to-end latency is reported here.",
+    "canonical_source": "Journal research-design H3 remains planned; no measured latency claim",
+    "occurrences": 1
+  },
+  {
+    "file": "publications/active/journal-1/submissions/v1-initial-submission/manuscript.md",
+    "before": "| 1 | Environment Input | Produces E = (w, r, m, o, v, t) from sensors and data feeds |",
+    "after": "| 1 | Environment Input | Supplies observations for {w,r,m,o,t} with clock/date/solar context; v is configured separately |",
+    "canonical_source": "docs/canonical/appendix-c-formalisation.md C.2.0",
+    "occurrences": 1
+  },
+  {
+    "file": "publications/active/journal-1/submissions/v1-initial-submission/manuscript.md",
+    "before": "**Purpose:** Describe the software prototype built to demonstrate the architecture. Reference RQ3 from thesis.",
+    "after": "**Purpose:** Describe the planned software prototype and, once implemented, its fidelity evaluation. Reference RQ3 from thesis.",
+    "canonical_source": "Research phase; engine unimplemented",
+    "occurrences": 1
+  },
+  {
+    "file": "publications/active/journal-1/submissions/v1-initial-submission/manuscript.md",
+    "before": "This is enforced by Definition 5.7: A_AI(UNSAFE) = \u2205",
+    "after": "This follows from Definitions 5.7\u20135.8: A_AI(UNSAFE) = \u2205",
+    "canonical_source": "Internal cross-reference to unchanged gate and admissible-set definitions",
+    "occurrences": 1
+  },
+  {
+    "file": "publications/active/journal-1/submissions/v1-initial-submission/manuscript.md",
+    "before": "From Definitions 5.5 and 5.7: A_AI(SAFE)",
+    "after": "From Definition 5.8: A_AI(SAFE)",
+    "canonical_source": "Internal cross-reference",
+    "occurrences": 1
+  },
+  {
+    "file": "publications/active/journal-1/submissions/v1-initial-submission/manuscript.md",
+    "before": "Proof deferred to Section 6.3. The proof is constructive",
+    "after": "Proof deferred to Section 6.4. The proof is constructive",
+    "canonical_source": "Internal cross-reference",
+    "occurrences": 1
+  },
+  {
+    "file": "publications/active/journal-1/submissions/v1-initial-submission/manuscript.md",
+    "before": "This is the formal basis for the proof by construction in Section 6.3.",
+    "after": "This is the formal basis for the proof by construction in Section 6.4.",
+    "canonical_source": "Internal cross-reference",
+    "occurrences": 1
+  },
+  {
+    "file": "docs/canonical/architecture-illustration.md",
+    "before": "| **w** \u2014 Wind speed | < 22 knots (< 40 km/h) | 22\u201327 knots (40\u201350 km/h) | > 27 knots (> 50 km/h) |",
+    "after": "| **w** \u2014 Wind speed | w \u2264 21.6 knots | 21.6 < w \u2264 27.0 knots | w > 27.0 knots |",
+    "canonical_source": "docs/canonical/appendix-c-formalisation.md C.2; illustrative values",
+    "occurrences": 1
+  },
+  {
+    "file": "docs/canonical/architecture-illustration.md",
+    "before": "| **r** \u2014 Rainfall | None / light / moderate | Heavy | Storm (Ribut Petir) |",
+    "after": "| **r** \u2014 Rainfall (mm/hr) | r \u2264 10.0 | 10.0 < r \u2264 20.0 | r > 20.0; specified storm indication where available |",
+    "canonical_source": "docs/canonical/appendix-c-formalisation.md C.2; illustrative values",
+    "occurrences": 1
+  },
+  {
+    "file": "docs/canonical/architecture-illustration.md",
+    "before": "All six parameters are measurable by non-AI sensors.",
+    "after": "The five condition components are resolved independently of AI; vessel category is supplied at configuration time.",
+    "canonical_source": "docs/canonical/appendix-c-formalisation.md C.2; illustrative values",
+    "occurrences": 1
+  },
+  {
+    "file": "docs/canonical/architecture-illustration.md",
+    "before": "Whether wind is 26 knots (just over the UNSAFE threshold) or 50 knots (extreme storm),",
+    "after": "Whether wind is 28 knots (above the 27.0-kn UNSAFE threshold) or 50 knots,",
+    "canonical_source": "docs/canonical/appendix-c-formalisation.md C.2; illustrative values",
+    "occurrences": 1
+  }
+]

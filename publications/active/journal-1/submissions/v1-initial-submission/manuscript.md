@@ -116,13 +116,13 @@ Human authority is unconditional and final. The architecture provides decision s
 
 The architectural contribution resides in the governance pair (G(S), A_AI(S)). Prior governance architectures implement only a participation gate G(S): the AI is either enabled (G = 1) or disabled (G = 0). The proposed architecture adds a second governance level A_AI(S) that constrains the AI's advisory scope independently of whether it participates. Under the CAUTION state — the novel intermediate mode that binary architectures cannot express — the AI remains active (G(S) = 1) but operates within a formally restricted recommendation space. Binary architectures have no mechanism to distinguish CAUTION from SAFE: their G(S) returns 1 for both states, leaving scope entirely unconstrained in marginal conditions. The governance pair makes a formally distinct third governance position possible.
 
-The four-step pipeline is implemented across four computationally distinct layers, described in Section 5.6. Sections 5.2–5.5 define each component of the pipeline formally. Section 6 proves the formal properties the architecture satisfies.
+The four-step pipeline is specified across four computationally distinct layers, described in Section 5.6. Sections 5.2–5.5 define each component of the pipeline formally. Section 6 proves the formal properties the architecture satisfies.
 
 ---
 
 ### 5.2 Environmental State Representation
 
-The governance layer's input is a tuple of six observable parameters that together characterise the environmental and operational conditions relevant to departure safety.
+The ideal-input shorthand E combines five condition components with configured vessel category v. Operational observations are resolved before classification; v is not a sampled observation.
 
 **Definition 5.1 (Environmental State Vector).** The environmental–operational state vector is:
 
@@ -133,10 +133,10 @@ where:
 | Symbol | Type | Domain | Meaning |
 |--------|------|--------|---------|
 | w | ℝ≥0 | [0, ∞) | Wind speed (sustained, knots) |
-| r | Ordinal categorical | {none, light, moderate, heavy, storm} | Rainfall intensity |
+| r | ℝ≥0 | [0, ∞) | Rainfall intensity (mm/hr) |
 | m | Ordinal categorical | {none, advisory, warning, alert} | Marine warning level |
-| o | ℝ≥0 | [0, ∞) | Significant wave height (metres) |
-| v | Ordinal categorical | {small, medium, big} | Vessel category, by gross registered tonnage |
+| o | ℝ≥0 × ℝ≥0 | Wave height and swell-period tuple | g_o reads only significant wave height (metres) |
+| v | Configuration | {small, medium, big} | Vessel category by GRT; required before startup |
 | t | ℝ | [0, 24) | Time of day (hour, 24-hour clock) |
 
 Vessel category is defined by gross registered tonnage following the Malaysian small boat classification of Yunus (2007), reproduced by Yaakob et al. (2015): small < 10 GRT, medium 10–25 GRT, big > 25 GRT. Tonnage rather than length overall is the discriminating variable because the length bands in that classification overlap — a 12 m vessel falls within both the medium and large length ranges — whereas the tonnage bands are disjoint and exhaustive.
@@ -149,13 +149,15 @@ The parameter v differs in kind from the other five. It is not a time-varying co
 
 This is a stronger requirement than simply noting that the inputs are sensor-derived. It is a formal constraint on the causal structure of the architecture: Layer 3 must not influence its own governance configuration, directly or indirectly. A governance layer whose classification could be affected by Layer 3's predictions, outputs, or learned representations would not constitute a formal safety constraint — f(E) would then be defined partly in terms of the system it is intended to govern, creating a feedback path that could undermine the Safety Dominance Property (Property 5.3). In the current architecture, all six components of E are sourced from external meteorological feeds, vessel registry records, and the system clock — none require Layer 3 participation.
 
-*Note on the representation of t.* Time of day is encoded as a real number in [0, 24), but clock time is cyclically structured: 23:59 and 00:01 are numerically far apart while operationally adjacent. In the current architecture, Layer 2 applies only explicit interval rules to t (e.g., t ≥ 19 ∨ t < 6 for the UNSAFE partition), so the numeric discontinuity at midnight does not affect classification correctness — the partition [6, 17), [17, 19), [19, 24) ∪ [0, 6) handles the wrap-around explicitly. However, if E is used downstream in any computation involving distances, scores, or similarity measures — for example, nearest-neighbour retrieval of historical decision scenarios — t must be re-encoded as a pair of cyclic coordinates: t_sin = sin(2πt/24), t_cos = cos(2πt/24). The linear representation in Definition 5.1 is appropriate for Layer 2's threshold-based classification and must not be carried forward to any distance-based computation without this transformation.
+*Time and observation context.* For C = {w,r,m,o,t}, Obs_i = (X_i × 𝕋) ∪ {⊥}; y = ρ_{D,τ}(obs) is the resolved input and S = F_{D,τ}(obs,v) = f(y,v). Time retains its clock value in [0,24) and is evaluated with a valid date and canonical solar lookup. g_t is SAFE iff sunrise(date) ≤ t < sunset(date), and UNSAFE otherwise. It emits no CAUTION; exact sunrise is SAFE and exact sunset UNSAFE. Daylight means this astronomical interval. E and f(E) elsewhere abbreviate the valid-input case, with this time context understood.
 
-*Fail-safe rule for missing or corrupted inputs.* Definition 5.1 assumes all six components of E are available. In low-resource coastal deployments, API calls may time out or sensor feeds may drop. To satisfy the conservative bias required of safety-critical governance, the following rule applies: if any component xᵢ ∈ E is undefined or corrupted (denoted xᵢ = ⊥), then f(E) = UNSAFE. This ensures the architecture fails toward maximum restriction rather than toward permissiveness when the information basis for classification is incomplete. The fail-safe rule is a precondition check applied before any gᵢ evaluation; it takes priority over all threshold comparisons.
+*Operational exclusion and fail-safe.* v must be configured and D well-formed before startup; t ∉ D. Exclusions are resolved before faults and contribute SAFE. For each remaining component, missing, invalid or stale required observations resolve to ⊥; g_i(⊥) = UNSAFE, so maximum severity gives operational UNSAFE as a corollary, not a separate override preceding all classification. Required clock/date/solar failures use the same fail-safe. Missing swell period does not fault o because g_o consumes wave height only. Historical replay declares D = {m} because no warning archive exists; this is not an instruction to ignore a required live warning feed. Under valid startup configuration, the operational classifier is total.
 
-The inclusion of each parameter in E is empirically grounded: w and o are the primary meteorological departure risk factors identified across three independent fisher studies in the Malaysian coastal context (Rahim et al., 2024; Gao, 2024; Yamin et al., 2025); r and m encode MET Malaysia's structured warning system; v captures the well-documented vessel-size fatality gradient across 504 IMO maritime accident reports (Dominguez-Péry et al., 2023); and t reflects empirical findings that night navigation significantly elevates both accident probability and consequence severity for small-vessel operations (Atacan & Düzbastılar, 2023).
+The inclusion of each parameter in E is empirically grounded: w and o are the primary meteorological departure risk factors identified across three independent fisher studies in the Malaysian coastal context (Rahim et al., 2024; Gao, 2024; Yamin et al., 2025); r uses numeric JPS/DID and MET rainfall bands and m encodes marine-warning level; v captures the well-documented vessel-size fatality gradient across 504 IMO maritime accident reports (Dominguez-Péry et al., 2023); and t reflects empirical findings that night navigation significantly elevates both accident probability and consequence severity for small-vessel operations (Atacan & Düzbastılar, 2023).
 
 ---
+
+**Provenance only.** The canonical contract is reasons : Q → 𝒫({fault,hazard,policy}) over the evaluated resolution/classification trace. Fault requires a failed required non-excluded input; hazard denotes a valid environmental non-SAFE band; policy denotes valid nighttime. Labels overlap, SAFE has ∅, and reasons never change S, G(S), A_AI(S), RS(S) or human authority. Runtime reason-set instrumentation is not implemented. Safety Dominance extends to operational S = F_{D,τ} under the same rule-engine assumptions because its proof depends only on S.
 
 ### 5.3 Safety State Classification Function
 
@@ -165,13 +167,13 @@ The inclusion of each parameter in E is empirically grounded: w and o are the pr
 
 **UNSAFE ≻ CAUTION ≻ SAFE**
 
-The order is transitive (UNSAFE ≻ SAFE follows by transitivity from UNSAFE ≻ CAUTION and CAUTION ≻ SAFE) and total (every pair of distinct states is ordered). It reflects increasing operational risk: UNSAFE denotes conditions in which departure is not permissible for the given vessel category and no AI advisory output is generated; CAUTION denotes marginal conditions in which AI advisory output is restricted to coarse operational guidance; SAFE denotes conditions in which all environmental parameters are within acceptable bounds and full AI advisory scope is available.
+The order is transitive and total. Its state meanings are governance consequences: UNSAFE means AI advisory participation is unavailable, CAUTION permits restricted advisory scope, and SAFE permits full scope. UNSAFE can arise from environmental bands, required-input faults or valid nighttime policy; it does not establish that departure is prohibited or that physical harm is certain. Human authority remains unconditional.
 
 This ordering is the formal basis for the worst-case aggregation rule applied across the five condition classification functions (Section 5.3.3) and for the Monotonicity Theorem proved in Section 6.
 
 #### 5.3.2 Per-Component Classification Functions
 
-For each condition component xᵢ ∈ {w, r, m, o, t}, define a classification function gᵢ that maps xᵢ to a safety state in {SAFE, CAUTION, UNSAFE}. Four of these take a single argument. The fifth, g_o, takes two: significant wave height and vessel category.
+For each condition component xᵢ ∈ {w, r, m, o, t}, define a classification function gᵢ that maps xᵢ to a safety state in {SAFE, CAUTION, UNSAFE}. g_o is conditioned on configured vessel category; g_t uses date and solar context as well as clock time.
 
 **Definition 5.4 (Classification Functions).** The five condition classification functions and their threshold values are:
 
@@ -179,11 +181,11 @@ For each condition component xᵢ ∈ {w, r, m, o, t}, define a classification f
 
 | Function | SAFE | CAUTION | UNSAFE | Basis |
 |----------|------|---------|--------|-------|
-| g_w(w) | w ≤ 22 kn | 22 < w ≤ 27 kn | w > 27 kn | MET Malaysia Category 1 onset 40 km/h (≈22 kn); Category 2 onset 50 km/h (≈27 kn) |
-| g_r(r) | {none, light, moderate} | {heavy} | {storm} | MET Malaysia Ribut Petir (thunderstorm/cyclone) = unconditional halt |
+| g_w(w) | w ≤ 21.6 kn | 21.6 < w ≤ 27.0 kn | w > 27.0 kn | MET Category 1 onset 40 km/h (21.598 kn, represented as 21.6); Category 2 onset 50 km/h (26.998 kn, represented as 27.0) |
+| g_r(r) | r ≤ 10.0 mm/hr | 10.0 < r ≤ 20.0 mm/hr | r > 20.0 mm/hr; specified storm indication where available | JPS/DID lower boundary; MET hourly-rate trigger; advisory governance policy, not a departure prohibition |
 | g_m(m) | {none} | {advisory} | {warning, alert} | MET Malaysia three-tier marine warning system |
 | g_o(o, v) | *vessel-conditional* | | | See Table 1b |
-| g_t(t, date) | sunrise(date) ≤ t < sunset(date) | *(none — g_t emits no CAUTION)* | otherwise; UNSAFE if t = ⊥ | **Boundary: COLREGs Rule 20(b), "from sunset to sunrise" (SDR-001, applied 2026-09-08).** Atacan & Düzbastılar (2023) establish elevated night risk, not the boundary |
+| g_t(t, date) | sunrise(date) ≤ t < sunset(date) | *(none — g_t emits no CAUTION)* | otherwise; UNSAFE on required clock/date/solar resolution failure | **Boundary: COLREGs Rule 20(b), "from sunset to sunrise" (SDR-001, applied 2026-09-08).** Atacan & Düzbastılar (2023) establish elevated night risk, not the boundary |
 
 **Table 1b. Vessel-conditional wave height thresholds, g_o(o, v).**
 
@@ -199,11 +201,11 @@ The vessel-conditional thresholds for g_o are supported by a Three-Tier Triangul
 
 *Tier 1 — Hydrodynamics.* Yaakob et al. (2015), applying naval architecture methods (Maxsurf, JONSWAP spectrum, NORDFORSK 1987 criteria) to two traditional Malaysian small fishing boats from the Johor coast (LOA 5.03 and 6.54 m, both < 10 GRT), established vessel-specific operability limits: the 6.54 m hull remained within NORDFORSK limits to Sea State 3 (operational ceiling Hs ≈ 1.25 m) and exceeded them at Sea State 4 (Hs ≈ 1.875 m), while the 5.03 m hull remained within limits only to Sea State 2 (ceiling Hs ≈ 0.5 m). Both passed IMO static stability criteria at every loading condition, establishing that dynamic seakeeping rather than static stability is the binding constraint — and, critically, that the binding wave height differs by vessel. This grounds the small-vessel row.
 
-*Tier 2 — Empirical Risk.* Jeong & Im (2023), analysing 66 Korean small fishing vessel capsizing incidents over 23 years, show that 38% occurred at wave heights at or below 3 m, including incidents at Hs as low as 1.0 m. They derive a length-dependent departure restriction formula from the Wolfson Unit critical wave height framework — Hs_KIMO = √(1 + 0.4 × (0.88 × LOA)) − 1 — producing thresholds from 1.13 m at 10 m LOA to 2.07 m at 24 m LOA, and propose a graduated management scheme restricting vessels ≤ 10 m at Hs ≥ 1.0 m. Their central finding is that 82% of capsizing accidents between 2017 and 2022 occurred on days with no active weather warning, establishing that vessel-independent institutional thresholds systematically fail to capture small-vessel risk. This grounds the medium row and corroborates the small row.
+*Tier 2 — Empirical Risk.* Jeong & Im (2023), analysing 66 Korean small fishing vessel capsizing incidents over 23 years, show that 38% occurred at wave heights at or below 3 m, including incidents at Hs as low as 1.0 m. They derive a length-dependent departure restriction formula from the Wolfson Unit critical wave height framework — Hs_KIMO = √(1 + 0.4 × (0.88 × LOA)) − 1 — producing thresholds from 1.13 m at 10 m LOA to 2.07 m at 24 m LOA, and propose a graduated management scheme restricting vessels ≤ 10 m at Hs ≥ 1.0 m. Their central finding is that 82% of capsizing accidents between 2017 and 2022 occurred on days with no active weather warning, establishing that vessel-independent institutional thresholds systematically fail to capture small-vessel risk. This informs the medium row and corroborates the small row; the medium 2.8 m upper boundary remains conservative interpolation, not a directly measured operating limit.
 
 *Tier 3 — State Policy.* MET Malaysia's Category 1 maximum wave height of 3.5 m anchors the big-vessel CAUTION/UNSAFE boundary, and Hs_KIMO independently returns 1.58 m at 16 m LOA — bracketing the 1.5 m SAFE/CAUTION boundary for that row.
 
-The three tiers converge on a single conclusion: the wave height at which conditions become dangerous is a function of the vessel, not a constant. A 1.5 m threshold corresponds under Hs_KIMO to a vessel of roughly 15 m LOA; the deployment population operates vessels of 5–7 m. Applying a single institutional threshold across all vessel classes would classify a 6 m traditional hull as merely marginal in conditions well beyond its documented operability envelope.
+The three tiers converge on a single conclusion: the wave height at which conditions become dangerous is a function of the vessel, not a constant. A 1.5 m threshold corresponds under Hs_KIMO to a vessel of roughly 15 m LOA; the Malaysian hulls studied in the cited seakeeping analysis measure 5.03 and 6.54 m. Applying a single institutional threshold across all vessel classes would classify a 6 m traditional hull as merely marginal in conditions well beyond its documented operability envelope.
 
 **Why vessel category conditions a threshold rather than contributing a term.** An alternative formulation would treat vessel category as a sixth classification function g_v, assigning CAUTION to small and medium vessels and SAFE to big ones, with the result entering the worst-case aggregation alongside the five condition classifications. That formulation is rejected here, and the reason is structural rather than empirical.
 
@@ -219,17 +221,17 @@ Two consequences follow. First, a small vessel in genuinely benign conditions �
 
 **Definition 5.5 (Safety State Classification Function).** The overall classification function is:
 
-**f(E) = max_≻ {g_w(w), g_r(r), g_m(m), g_o(o, v), g_t(t)}**
+**f(E) = max_≻ {g_w(w), g_r(r), g_m(m), g_o(o, v), g_t(t, date)}**
 
 where max_≻ denotes the maximum under the severity order ≻ from Definition 5.3, returning the greatest element of the set under that order. The output S = f(E) ∈ {SAFE, CAUTION, UNSAFE}.
 
 The aggregation is over five terms. Vessel category v appears within g_o rather than as an independent argument to max_≻, for the reasons given in Section 5.3.2.
 
-The worst-case aggregation rule implements three strict operational principles: (i) UNSAFE dominance — if any condition classifies as UNSAFE, f(E) = UNSAFE, regardless of all others; (ii) CAUTION priority — if no condition is UNSAFE but at least one is CAUTION, f(E) = CAUTION; (iii) SAFE unanimity — f(E) = SAFE only if every condition classifies as SAFE. This reflects the non-compensatory nature of maritime safety risk: calm seas cannot compensate for extreme wind, and safe wave heights cannot compensate for a vessel operating after dark without navigation lights.
+The worst-case aggregation rule implements three strict operational principles: (i) UNSAFE dominance — if any condition classifies as UNSAFE, f(E) = UNSAFE, regardless of all others; (ii) CAUTION priority — if no condition is UNSAFE but at least one is CAUTION, f(E) = CAUTION; (iii) SAFE unanimity — f(E) = SAFE only if every condition classifies as SAFE. This reflects the non-compensatory nature of maritime safety risk: calm seas cannot compensate for extreme wind, and a valid nighttime advisory-policy trigger is not cancelled by lower environmental component states. Navigation-light equipment is not a classifier input.
 
 **Theorem 5.1 (Totality of f).** For all E in its domain, f(E) is defined and returns exactly one element of {SAFE, CAUTION, UNSAFE}.
 
-Proof deferred to Section 6.1. Totality follows from exhaustive domain coverage of each gᵢ (the domain partition for each component is complete and non-overlapping) and from the fact that max_≻ over a finite totally ordered set is always defined and unique.
+Proof deferred to Section 6.2. Totality follows from exhaustive domain coverage of each gᵢ (the domain partition for each component is complete and non-overlapping) and from the fact that max_≻ over a finite totally ordered set is always defined and unique.
 
 Totality is a necessary operational property: a classifier that could fail to return a safety state would leave the governance layer without a basis for enforcing the governance pair (G(S), A_AI(S)) at runtime.
 
@@ -239,7 +241,7 @@ Totality is a necessary operational property: a classifier that could fail to re
 
 #### 5.4.1 Recommendation Type Space
 
-**Definition 5.6 (Recommendation Type Space).** Let R = {Go, Delay, DepartureTime, Duration} be the set of AI recommendation types available to the advisory system. *Go* advises that departure is permissible under current conditions; *Delay* advises postponement without specifying an alternative time; *DepartureTime* specifies an optimised departure window; and *Duration* specifies a recommended safe trip duration. The four types correspond to the full structure of the small-scale fisher departure decision — whether to go, when to go, and for how long.
+**Definition 5.6 (Recommendation Type Space).** Let R = {Go, Delay, DepartureTime, Duration} be the set of AI recommendation types available to the advisory system. *Go* recommends departure within the configured advisory scope without authorising or legally permitting it; *Delay* advises postponement without specifying an alternative time; *DepartureTime* specifies an optimised departure window; and *Duration* specifies a recommended trip duration, not a guarantee of physical safety. The four types correspond to the full structure of the small-scale fisher departure decision — whether to go, when to go, and for how long.
 
 #### 5.4.2 Level 1: AI Participation Gate G(S)
 
@@ -275,9 +277,9 @@ The containment chain A_AI(SAFE) ⊃ A_AI(CAUTION) ⊃ A_AI(UNSAFE) = ∅ follow
 
 The CAUTION state is the architectural contribution. Under SAFE and CAUTION, G(S) = 1 in both — the participation gate is identical. The governance distinction between SAFE and CAUTION lies entirely in A_AI(S): under CAUTION, the admissible recommendation space contracts to {Go, Delay}, excluding DepartureTime and Duration. A binary governance architecture, having no Level 2 mechanism, cannot express this: it must either permit the full recommendation space or produce no advisory output at all.
 
-The restriction of A_AI(CAUTION) to {Go, Delay} is operationally motivated. DepartureTime and Duration require temporal and operational precision that is unreliable when environmental conditions are marginal. A fisher who receives a specific optimised departure window during CAUTION conditions has received false precision — a recommendation whose implied confidence is not warranted by the underlying state. The CAUTION mode eliminates that false precision without disabling advisory participation entirely. The AI continues to inform the fisher that departure may be possible or should be delayed, without committing to timing or duration recommendations that exceed what the current information reliably supports.
+The restriction of A_AI(CAUTION) to {Go, Delay} is a conservative architecture policy motivated by the additional forecasting demands of DepartureTime and Duration. The classifier does not measure the accuracy of individual recommendations or prove that coarse guidance is correct. The theorem constrains recommendation types; empirical validation of advice and user reliance remains separate.
 
-When f(E) = CAUTION and Go ∈ A_AI(CAUTION), the advisory output presented to the fisher includes a state-dependent qualifier (e.g., "Departure is possible — exercise caution"). To be precise: Layer 3 returns the recommendation type Go ∈ R, unchanged. The qualifier string is a pure rendering operation applied at Layer 4 (the Human Decision interface), not a modification of the type. This distinction is important for formal correctness: Go under CAUTION is the same element of R as Go under SAFE — the set A_AI(CAUTION) = {Go, Delay} contains exactly those two types, with no sub-typed variants. Set containment is preserved; the qualifier is presentation logic external to the formal model.
+When f(E) = CAUTION and Go ∈ A_AI(CAUTION), the specified interface may present a state-dependent qualifier (e.g., "Departure is possible — exercise caution"). To be precise: Layer 3 returns the recommendation type Go ∈ R, unchanged. The qualifier string is a pure rendering operation applied at Layer 4 (the Human Decision interface), not a modification of the type. This distinction is important for formal correctness: Go under CAUTION is the same element of R as Go under SAFE — the set A_AI(CAUTION) = {Go, Delay} contains exactly those two types, with no sub-typed variants. Set containment is preserved; the qualifier is presentation logic external to the formal model.
 
 ---
 
@@ -287,11 +289,11 @@ The architecture must satisfy three formal properties. All three are proved in S
 
 **Property 5.1 (Participation Constraint).** G(S) = 0 ⟹ A_AI(S) = ∅.
 
-When the participation gate is closed (S = UNSAFE), the admissible recommendation space must be empty. Deterministic safety classification overrides AI advisory reasoning unconditionally. This is enforced by Definition 5.7: A_AI(UNSAFE) = ∅ is a direct definition, not a runtime check. A system in which G(S) = 0 but A_AI(S) ≠ ∅ could admit advisory output despite a closed participation gate — a governance failure.
+When the participation gate is closed (S = UNSAFE), the admissible recommendation space must be empty. Deterministic safety classification overrides AI advisory reasoning unconditionally. This follows from Definitions 5.7–5.8: A_AI(UNSAFE) = ∅ is a direct definition, not a runtime check. A system in which G(S) = 0 but A_AI(S) ≠ ∅ could admit advisory output despite a closed participation gate — a governance failure.
 
 **Property 5.2 (Advisory Restriction Constraint).** S = CAUTION ⟹ A_AI(CAUTION) ⊊ A_AI(SAFE).
 
-The CAUTION state produces a strictly smaller admissible recommendation space than SAFE. This property formally distinguishes CAUTION from SAFE: CAUTION is not SAFE with a warning label but a governance state with a reduced advisory scope. The strict subset relationship (⊊ rather than ⊆) confirms that the restriction is non-trivial — at least one recommendation type is excluded under CAUTION that is permitted under SAFE. From Definitions 5.5 and 5.7: A_AI(SAFE) \ A_AI(CAUTION) = {DepartureTime, Duration} ≠ ∅. ∎
+The CAUTION state produces a strictly smaller admissible recommendation space than SAFE. This property formally distinguishes CAUTION from SAFE: CAUTION is not SAFE with a warning label but a governance state with a reduced advisory scope. The strict subset relationship (⊊ rather than ⊆) confirms that the restriction is non-trivial — at least one recommendation type is excluded under CAUTION that is permitted under SAFE. From Definition 5.8: A_AI(SAFE) \ A_AI(CAUTION) = {DepartureTime, Duration} ≠ ∅. ∎
 
 **Definition 5.11 (AI Output Mapping).** Let AI(E) denote the set of recommendation types generated by the advisory engine for environmental state E. The mapping is defined as:
 
@@ -304,7 +306,7 @@ where S = f(E). When G(S) = 0 (S = UNSAFE), the advisory engine receives no inpu
 
 The AI can only generate recommendations within the admissible space defined by the current safety state. This is the load-bearing safety property of the architecture. It guarantees that no environmental state can elicit an AI recommendation that exceeds the admissible scope for that state. The UNSAFE case follows directly from Definition 5.11: when f(E) = UNSAFE, G(S) = 0, so AI(E) = ∅ = A_AI(UNSAFE), and ∅ ⊆ ∅ holds trivially.
 
-Proof deferred to Section 6.3. The proof is constructive and depends only on the RS(S) rule set supply mechanism described in Section 5.6.
+Proof deferred to Section 6.4. The proof is constructive and depends only on the RS(S) rule set supply mechanism described in Section 5.6.
 
 ---
 
@@ -318,7 +320,7 @@ The formal pipeline is implemented as four computationally distinct layers:
 
 | Layer | Name | Function | Computational character |
 |-------|------|----------|------------------------|
-| 1 | Environment Input | Produces E = (w, r, m, o, v, t) from sensors and data feeds | Observable, non-AI |
+| 1 | Environment Input | Supplies observations for {w,r,m,o,t} with clock/date/solar context; v is configured separately | Observable, non-AI |
 | 2 | Deterministic Governance | Computes S = f(E); derives G(S) and A_AI(S); selects RS(S) | Deterministic, O(1), threshold comparisons |
 | 3 | AI Advisory Reasoning | Generates AI(E) within RS(S) | Rule-based, configured per safety state by Layer 2 |
 | 4 | Human Decision | Fisher receives advisory; makes final go/no-go | Human authority, always final |
@@ -339,15 +341,15 @@ The Safety Dominance Property (Property 5.3) holds by construction rather than b
 - RS(CAUTION) = rules producing recommendations in {Go, Delay} only
 - RS(UNSAFE) = ∅ — never supplied; G(UNSAFE) = 0 disables Layer 3 entirely
 
-Layer 3 is implemented as a production rule engine. The engine fires only rules present in the currently active RS(S). Crucially, no rule in RS(CAUTION) has a conclusion that produces DepartureTime or Duration — those recommendation types are structurally absent from the CAUTION rule set. The engine has no mechanism to generate a type for which no active rule exists. The Safety Dominance Property therefore holds by implementation: it is a structural consequence of how RS(CAUTION) is constructed, not an assertion that must be checked at runtime.
+Layer 3 is specified as a production rule engine; runtime fidelity is not yet demonstrated. The engine fires only rules present in the currently active RS(S). Crucially, no rule in RS(CAUTION) has a conclusion that produces DepartureTime or Duration — those recommendation types are structurally absent from the CAUTION rule set. The engine has no mechanism to generate a type for which no active rule exists. Under the stated engine assumptions, the Safety Dominance Property holds by construction: it is a structural consequence of how RS(CAUTION) is constructed, not an assertion that must be checked at runtime.
 
-This is the formal basis for the proof by construction in Section 6.3. The distinction between construction-time enforcement and runtime filtering is material. A runtime filter applied to Layer 3 outputs — one that inspects the generated recommendation and discards it if the type is not in A_AI(S) — could fail, be bypassed, or have edge cases in which the filter condition is evaluated incorrectly. RS(S) supply eliminates these failure modes: the constraint is in place before generation begins. A correct rule engine with a correctly constructed RS(CAUTION) cannot produce DepartureTime or Duration under any input E.
+This is the formal basis for the proof by construction in Section 6.4. The distinction between construction-time enforcement and runtime filtering is material. A runtime filter applied to Layer 3 outputs — one that inspects the generated recommendation and discards it if the type is not in A_AI(S) — could fail, be bypassed, or have edge cases in which the filter condition is evaluated incorrectly. RS(S) supply eliminates these failure modes: the constraint is in place before generation begins. A correct rule engine with a correctly constructed RS(CAUTION) cannot produce DepartureTime or Duration under any input E.
 
-The actual content of RS(SAFE) and RS(CAUTION) — the individual production rules and their conditions — is specified in Section 9 (Prototype Implementation). Section 5 only defines the supply mechanism and its governance role.
+The actual content of RS(SAFE) and RS(CAUTION) — the individual production rules and their conditions — remains to be implemented and documented in Section 9 (Prototype Implementation). Section 5 only defines the supply mechanism and its governance role.
 
 #### 5.6.3 Rule-Based Implementation at Layer 3
 
-Layer 3 is implemented as a rule-based symbolic reasoning engine, rather than a machine learning model or large language model, for three reasons. First, the Safety Dominance Property must be provable, not merely tested: a rule-based engine with finite, explicitly defined rule sets RS(S) admits exhaustive static verification — every rule's conclusion type can be inspected against A_AI(S) at design time. A learned model does not admit this: its output space is not enumerable from its parameters. Second, the O(1) inference time of a deterministic rule engine satisfies the low-resource deployment constraints of the coastal fisheries domain, where inference may execute on commodity hardware without reliable network access. Third, governance independence is structurally maintained when Layer 3 is a deterministic rule engine: there is no learned representation that could drift, be fine-tuned, or adapt in a way that affects governance behaviour. A machine learning model at Layer 3 could, in principle, learn to produce recommendation types outside its training distribution — the rule-based engine cannot.
+Layer 3 is specified as a rule-based symbolic reasoning engine, rather than a machine learning model or large language model, for three reasons. First, the Safety Dominance Property must be provable, not merely tested: a rule-based engine with finite, explicitly defined rule sets RS(S) admits exhaustive static verification — every rule's conclusion type can be inspected against A_AI(S) at design time. A learned model does not admit this: its output space is not enumerable from its parameters. Second, the fixed-size classifier and governance lookups are O(1); rule-engine execution cost depends on the active rules and evaluation strategy and remains an implementation/evaluation concern in Sections 8–9. Third, governance independence is structurally maintained when Layer 3 is a deterministic rule engine: there is no learned representation that could drift, be fine-tuned, or adapt in a way that affects governance behaviour. A machine learning model at Layer 3 could, in principle, learn to produce recommendation types outside its training distribution — the rule-based engine cannot.
 
 Full justification for the Layer 3 design decision, including formal arguments against alternative implementations, is provided in the supplementary design rationale (available from the authors).
 
@@ -377,7 +379,7 @@ The formal pipeline:
 
 **E → S = f(E) → (G(S), A_AI(S)) → AI(E) → Human Decision**
 
-Section 6 proves Theorems 5.1–5.3 (Totality, Monotonicity, Safety Dominance Property) with full case analysis. Section 7 specifies the algorithms implementing f(E) and the RS(S) supply mechanism. Section 9 describes the prototype implementation, including the complete rule sets RS(SAFE) and RS(CAUTION). Section 10 presents the experimental evaluation comparing the graduated architecture against ungated and binary-gated baselines.
+Section 6 proves Theorems 5.1–5.3 (Totality, Monotonicity, Safety Dominance Property) with full case analysis. Section 7 specifies the algorithms implementing f(E) and the RS(S) supply mechanism. Section 9 is reserved for the prototype and complete rule sets; Section 10 plans the comparative evaluation. These sections are not completed empirical results.
 
 ---
 
@@ -405,11 +407,11 @@ Together, the three theorems characterise the full safety behaviour of the gover
 
 *(i) Totality of each classification function.*
 
-- **g_w:** The three intervals [0, 22], (22, 27], (27, +∞) partition ℝ≥0 exhaustively with no gaps and no overlaps. Every w ∈ ℝ≥0 falls in exactly one interval. ✓
-- **g_r:** The five values {none, light, moderate, heavy, storm} constitute the complete domain of r. Each value is assigned to exactly one classification (SAFE, SAFE, SAFE, CAUTION, UNSAFE respectively). ✓
+- **g_w:** The three intervals [0, 21.6], (21.6, 27.0], (27.0, +∞) partition ℝ≥0 exhaustively with no gaps and no overlaps. Every w ∈ ℝ≥0 falls in exactly one interval. ✓
+- **g_r:** Numeric rate intervals [0,10.0], (10.0,20.0], (20.0,+∞) are exhaustive and disjoint; the specified storm indication also maps to UNSAFE where available. ✓
 - **g_m:** The four values {none, advisory, warning, alert} constitute the complete domain of m. Each is assigned to exactly one classification (SAFE, CAUTION, UNSAFE, UNSAFE respectively). ✓
-- **g_o:** Two-argument, with domain ℝ≥0 × {small, medium, big}. Totality follows in two steps. First, for each fixed v, the corresponding row of Table 1b induces three intervals partitioning ℝ≥0 exhaustively with no overlap — [0, 1.0), [1.0, 1.9], (1.9, +∞) for small; [0, 1.4), [1.4, 2.8], (2.8, +∞) for medium; [0, 1.5), [1.5, 3.5], (3.5, +∞) for big. Second, {small, medium, big} is finite and exhausts the domain of v. Every pair (o, v) therefore selects exactly one row and falls within exactly one interval of that row. ✓
-- **g_t:** The intervals [6.0, 17.0), [17.0, 19.0), [19.0, 24.0) ∪ [0.0, 6.0) partition [0, 24) exhaustively. Every t ∈ [0, 24) falls in exactly one interval. ✓
+- **g_o:** Two-argument, with domain ℝ≥0 × {small, medium, big}. Totality follows in two steps. First, for each fixed v, the corresponding row of Table 1b induces three intervals partitioning ℝ≥0 exhaustively with no overlap — [0, 1.0), [1.0, 1.25], (1.25, +∞) for small; [0, 1.4), [1.4, 2.8], (2.8, +∞) for medium; [0, 1.5), [1.5, 3.5], (3.5, +∞) for big. Second, {small, medium, big} is finite and exhausts the domain of v. Every pair (o, v) therefore selects exactly one row and falls within exactly one interval of that row. ✓
+- **g_t:** Given valid date and solar context, [sunrise(date),sunset(date)) and its complement partition [0,24). They map to SAFE and UNSAFE respectively; the component is total without being surjective onto all three states. Required time-dependency failures map to UNSAFE in the operational extension. ✓
 
 In each case the domain is partitioned into exhaustive, mutually exclusive subsets, each mapped to exactly one element of {SAFE, CAUTION, UNSAFE}. Each function is therefore total.
 
@@ -417,11 +419,11 @@ Note that the two-argument form of g_o does not weaken the argument. Parameteris
 
 *(ii) Totality of max_≻.*
 
-max_≻ takes the set {g_w(w), g_r(r), g_m(m), g_o(o, v), g_t(t)} ⊆ {SAFE, CAUTION, UNSAFE} and returns the greatest element under ≻ (Definition 5.3). Since ≻ is a total strict order on a finite non-empty set, the maximum always exists and is unique. ✓
+max_≻ takes the set {g_w(w), g_r(r), g_m(m), g_o(o, v), g_t(t, date)} ⊆ {SAFE, CAUTION, UNSAFE} and returns the greatest element under ≻ (Definition 5.3). Since ≻ is a total strict order on a finite non-empty set, the maximum always exists and is unique. ✓
 
-Therefore f(E) = max_≻ {g_w(w), g_r(r), g_m(m), g_o(o, v), g_t(t)} is defined and returns exactly one element of {SAFE, CAUTION, UNSAFE} for all E. ∎
+Therefore f(E) = max_≻ {g_w(w), g_r(r), g_m(m), g_o(o, v), g_t(t, date)} is defined and returns exactly one element of {SAFE, CAUTION, UNSAFE} for all E. ∎
 
-**Fail-safe extension.** The fail-safe rule stated in Section 5.2 (if any xᵢ = ⊥ then f(E) = UNSAFE) preserves totality: the pre-condition check maps every ⊥ input to UNSAFE before any gᵢ is evaluated, extending the domain of f to include undefined or corrupted inputs without introducing any undefined output states. ✓
+**Operational extension.** With configured v and well-formed D, resolution first discharges exclusions, then validation/freshness of required inputs. Each required ⊥ has g_i(⊥) = UNSAFE, so max-severity yields UNSAFE. This establishes totality of F_{D,τ} including required resolution failures. Missing v refuses startup and is not a runtime classification. This is the Appendix C C.1b extension of the ideal theorem.
 
 **Significance.** Theorem 6.1 establishes **completeness**: the safety classifier has no undefined states — every combination of observable environmental conditions, including incomplete inputs, maps to exactly one safety state. This is a necessary operational property: a classifier that could fail to return a state would leave Layer 2 without a basis for deriving G(S) and A_AI(S) at runtime, making the governance pair unenforceable. Totality is therefore the precondition that enables the remaining two theorems.
 
@@ -520,13 +522,13 @@ The three theorems together characterise the full formal safety behaviour of the
 
 | Theorem | Guarantee | Implication |
 |---------|-----------|-------------|
-| 6.1 (Totality) | f(E) is defined for all E, including inputs with ⊥ | No environmental state can leave the governance layer without a safety classification |
+| 6.1 (Totality) | f(E) is total on ideal inputs; F_{D,τ} is total after resolution under valid startup configuration | No environmental state can leave the governance layer without a safety classification |
 | 6.2 (Monotonicity) | A_AI(S₁) ⊆ A_AI(S₂) whenever S₁ ≻ S₂ | Advisory scope never expands as conditions worsen; CAUTION is provably stricter than SAFE |
 | 6.3 (Safety Dominance) | AI(E) ⊆ A_AI(f(E)) for all E | AI output is bounded within the admissible scope at every state, by construction |
 
-These guarantees are independent — each is proved from definitions alone, without relying on the others — and they are cumulative. Totality ensures the governance layer always has a state to enforce. Monotonicity ensures that state appropriately restricts scope as risk increases. Safety Dominance ensures that the AI advisory engine actually respects that restriction. An architecture satisfying all three has no formally identifiable path by which an AI recommendation can exceed the scope warranted by the current environmental conditions.
+These guarantees are complementary. The Safety Dominance case analysis uses totality to establish that a state exists, together with the state-indexed rule-set and gate assumptions. Totality ensures the governance layer always has a state to enforce. Monotonicity ensures that state appropriately restricts scope as risk increases. Safety Dominance ensures that the AI advisory engine actually respects that restriction. An architecture satisfying all three has no formally identifiable path by which an AI recommendation can exceed the scope warranted by the current environmental conditions.
 
-Section 10 evaluates whether these formal guarantees produce correct behavioural outcomes in empirical test scenarios, comparing the graduated architecture against ungated and binary-gated baselines across the three safety states.
+Section 10 plans to evaluate implementation fidelity and advisory behaviour in empirical test scenarios, comparing the graduated architecture against ungated and binary-gated baselines across the three safety states.
 
 ---
 
@@ -567,7 +569,7 @@ Section 10 evaluates whether these formal guarantees produce correct behavioural
 
 ## 9. Prototype Implementation
 
-**Purpose:** Describe the software prototype built to demonstrate the architecture. Reference RQ3 from thesis.
+**Purpose:** Describe the planned software prototype and, once implemented, its fidelity evaluation. Reference RQ3 from thesis.
 
 **Key content to include:**
 - Implementation stack (low-resource constraints: offline-first, lightweight)
@@ -659,6 +661,14 @@ Section 10 evaluates whether these formal guarantees produce correct behavioural
 - Classification threshold selection — are the SAFE/CAUTION/UNSAFE boundaries principled?
 - Rule set completeness — are RS(S) sets exhaustive for the fisheries domain?
 - Prototype fidelity — does the implementation faithfully realise the formal specification?
+
+**Canonical time and data limitations:**
+- Model B raises direct SAFE→UNSAFE transitions from 2 to 1,536 and removes 1,545 time-driven SAFE→CAUTION transitions (now zero). This is a governance consequence, not a danger count.
+- Nighttime abstention is architecture policy; COLREGs provides a navigation-light temporal boundary, not a mandate for AI abstention.
+- The frozen solar formulation has reproducibility/validation artefacts; publication-reference closure remains outstanding.
+- Retrospective D={m} excludes unavailable warning history; a live required feed remains subject to fault handling.
+- The medium-vessel 2.8 m wave boundary is conservative interpolation.
+- Safety Dominance bounds recommendation types, not physical safety or operator behaviour.
 
 **External validity:**
 - Generalisability beyond Malaysian coastal fisheries

@@ -1,0 +1,17 @@
+{
+  "original_queue_rows": 1227,
+  "mapped_rows": 1227,
+  "categories": {
+    "historical/provenance value": 97,
+    "result": 119,
+    "sample size": 9,
+    "citation/year": 320,
+    "figure/table value": 45,
+    "identifier": 207,
+    "equation constant": 244,
+    "threshold": 153,
+    "hypothetical example": 18,
+    "prediction value": 15
+  },
+  "scope": "Both working manuscripts; numeric tokens include non-results. Final newly added numbers checked separately against edit-log sources. Bibliography metadata is classified, not independently revalidated as a citation audit."
+}
