@@ -1,0 +1,28 @@
+{
+  "active_fixed_clock_definitions": [],
+  "active_time_caution_definitions": [],
+  "active_superseded_gt_metric": [],
+  "active_chronology_residue": [],
+  "model_b": {
+    "exact_sunrise": "SAFE",
+    "exact_sunset": "UNSAFE",
+    "just_before_sunrise": "UNSAFE",
+    "just_after_sunset": "UNSAFE",
+    "failed_clock": "UNSAFE",
+    "failed_date": "UNSAFE",
+    "caution_all_1827_dates": 0
+  },
+  "half_open_correct": true,
+  "fault_route_correct": true,
+  "im_gt_binary": true,
+  "gt_type_declared": true,
+  "policy_route_retained": true,
+  "fault_not_night_retained": true,
+  "reasons_contract_unchanged": true,
+  "colreg_lighting_scope": true,
+  "no_ai_abstention_claim": true,
+  "human_authority_unconditional": true,
+  "d1_structural_not_empirical": true,
+  "d1_no_active_8763": true,
+  "all_pass": true
+}

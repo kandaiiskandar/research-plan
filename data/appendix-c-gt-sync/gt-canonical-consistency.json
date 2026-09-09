@@ -1,0 +1,21 @@
+{
+  "active_fixed_clock_hits": [],
+  "active_time_caution_hits": [],
+  "scalar_X_r_active_declarations_remaining": [],
+  "scalar_X_r_historical_quotations": [
+    384
+  ],
+  "scalar_X_r_note": "L384 quotes the superseded declaration inside a dated correction note; historical, not active",
+  "g_t_type_declared": true,
+  "half_open_stated": true,
+  "image_binary_stated": true,
+  "totality_not_surjectivity_retained": true,
+  "colreg_lighting_scope_retained": true,
+  "abstention_is_policy_retained": true,
+  "appendix_c_contains_solar_provenance_wording": false,
+  "solar_provenance_note": "Appendix C carries no NOAA/USNO wording; solar provenance lives in the manuscript and the Solar Citation Closure report. Nothing to preserve here and nothing changed.",
+  "solar_artefact_dependency_stated": true,
+  "sdr001_applied_stated": true,
+  "fault_not_night_stated": true,
+  "all_consistent": true
+}

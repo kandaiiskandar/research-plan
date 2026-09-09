@@ -1,0 +1,9 @@
+section,before,after,semantic_change
+C.2 g_t domain line,three fixed-clock intervals asserted exhaustive,"two half-open astronomical intervals, disjoint and exhaustive, with a correction note",NONE - classifier unchanged
+Theorem C.1(i) g_t case,"[6,17), [17,19), [19,24) u [0,6)","[s_r, s_s) and its complement, quantified over valid (t,d), ordering assumption cited",NONE - proof now matches the classifier
+C.2 f(E) form,g_t(t),"g_t(t, d) with d as required context",NONE - notation
+Theorem C.1 conclusion,g_t(t),"g_t(t, d)",NONE - notation
+Per-component preamble,X_r = R>=0; four single-argument functions,X_r = R>=0 x K; per-classifier arity stated; g_t date context noted,NONE - restores agreement with C.2.0.1
+C.2 open-provenance blockquote,"SDR-001 DRAFT, not approved, not applied; 87.63% unqualified",HISTORICAL marker; item 1 closed; 87.63% marked provenance-only; item 2 retained open,NONE - status correction only
+C.2 column-revision note,thresholds unchanged,"thresholds unchanged by that cleanup, replaced same day by SDR-001",NONE - chronology only
+C.2.0.7 evaluation order,no explicit time-dependency resolution step,steps 2a and 2b; fault-not-night stated; g_r and g_t arities corrected in step 3,NONE - records canonical_gt.py behaviour

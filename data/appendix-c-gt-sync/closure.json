@@ -1,0 +1,46 @@
+{
+  "task": "Appendix C g_t totality synchronisation",
+  "date": "2026-09-09",
+  "outcome": "CLOSED - Model B formal proof aligned",
+  "appendix_c_before": "1ce268154807bd70",
+  "appendix_c_after": "e5c3bb8f2effc5d4",
+  "manuscript_unchanged": true,
+  "stop_conditions": {
+    "GT-1_model_b_conflict": false,
+    "GT-2_boundary_conflict": false,
+    "GT-3_solar_dependency_conflict": false,
+    "GT-4_empirical_drift": false,
+    "GT-5_prediction_drift": false,
+    "GT-6_manuscript_contradiction": false,
+    "GT-7_active_fixed_clock_residue": false,
+    "GT-8_active_time_caution_residue": false
+  },
+  "active_fixed_clock_hits": [],
+  "active_time_caution_hits": [],
+  "boundary_checks_all_pass": true,
+  "caution_emissions_all_dates": 0,
+  "solar_ordering_holds_all_dates": true,
+  "empirical": {
+    "level2": "5.81% / 4.48%",
+    "g_t_all_hours_non_safe": "86.82% / 90.19%",
+    "g_o_daylight_caution": "98.71% / 97.66%",
+    "g_r_daylight_caution": "1.48% / 2.70%",
+    "transitions": "3661 / 3439 / 222 / 26 / 10.36%",
+    "register": "24 / 15 / 9",
+    "P09": 3661,
+    "P20": 1529
+  },
+  "csv_parser_test_all_pass": true,
+  "files_changed": [
+    "docs/canonical/appendix-c-formalisation.md"
+  ],
+  "unexpected_changes": [],
+  "deferred_drift": [
+    "CLAUDE.md 98.66/97.41",
+    "canonical_figures.py trailer 22 kn",
+    "docs/justification/formal-model.md scalar g_r",
+    "explainer scalar g_r",
+    "docs/canonical/data-provenance.md scalar g_r",
+    "Journal 1 scalar/categorical g_r and fixed-clock g_t"
+  ]
+}

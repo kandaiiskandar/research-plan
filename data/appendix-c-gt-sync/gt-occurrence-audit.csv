@@ -1,0 +1,19 @@
+locus,content,classification,action
+C.2 g_t domain line,"Three intervals [6,17), [17,19), [19,24) u [0,6) partition [0,24) exhaustively",ACTIVE-CANONICAL - incorrect,"REPAIRED - two astronomical intervals; sat outside the superseded blockquote, unmarked"
+Theorem C.1(i) g_t case,Same three fixed-clock intervals used to prove totality,ACTIVE-CANONICAL - incorrect,REPAIRED - half-open astronomical partition with disjointness and exhaustiveness argued
+C.2 g_t open-provenance blockquote,"Described SDR-001 as DRAFT - not approved, not applied; quoted 87.63% as current",ACTIVE-CANONICAL - contradicts canonical state,REPAIRED - marked HISTORICAL; item 1 closed by SDR-001; 87.63% marked provenance-only against canonical 86.82/90.19; item 2 correctly retained as open
+C.2 g_t column-revision note,Column revised 2026-09-08; thresholds unchanged,ACTIVE-CANONICAL - misleading chronology,"REPAIRED - scoped to the wording cleanup, with the same-day SDR-001 replacement stated"
+Per-Component Classification Functions preamble,X_r = R>=0 and four single-argument functions,ACTIVE-CANONICAL - contradicts C.2.0.1 type table,"REPAIRED - second type declaration missed by the rainfall sync; now product X_r, correct argument counts, g_t date context"
+C.2 f(E) form and Theorem C.1 conclusion,g_t(t),ACTIVE-CANONICAL - notation incomplete,"REPAIRED - g_t(t, d) with d identified as required context, not a sixth component"
+C.2.0.7 evaluation order,Generic resolution step only; no explicit time-dependency step,ACTIVE-CANONICAL - permitted a missing-solar-implies-night reading,REPAIRED - steps 2a and 2b added; fault-not-night stated explicitly
+C.1 Time of Day note,SAFE sunrise<=t<sunset; UNSAFE otherwise; emits no CAUTION; fixed clock marked superseded,ACTIVE-CANONICAL - already correct,NO EDIT
+C.2 g_t threshold table and Type line,"Astronomical rows; g_t : (X_t x Date) u {bottom} -> {SAFE, UNSAFE}; half-open stated",ACTIVE-CANONICAL - already correct,NO EDIT
+C.2 g_t SUPERSEDED blockquote,Fixed clock 06:00/17:00/19:00 and the withdrawn 17:00-19:00 CAUTION band,HISTORICAL-SUPERSEDED - explicitly marked,RETAINED as provenance
+C.2 Evidence and policy blockquote,COLREG lighting relevance; AI abstention is architecture policy,EXPLANATORY-HISTORY - correct and load-bearing,NO EDIT
+C.9 migration comparison table,Superseded fixed clock column beside Canonical (Model B),HISTORICAL-SUPERSEDED - column-labelled,RETAINED
+C.9 evidence-limitation paragraph,No evidence identified supporting a twilight CAUTION band,"ACTIVE-CANONICAL - asserts the absence, correct",NO EDIT
+Theorem C.1b / Corollary C.1b.1,Fail-safe via g_i(bottom)=UNSAFE,ACTIVE-CANONICAL - unaffected,NO EDIT - no time-specific wording present
+Lemma C.1c and Observation C.1c.1,Exclusion-set monotonicity; kappa escalation-only,ACTIVE-CANONICAL - unaffected,NO EDIT
+Theorem C.2 / Theorem C.3,Operate on S and the A_AI sets,ACTIVE-CANONICAL - unaffected,NO EDIT
+C.2.0.8 cause taxonomy,valid night -> policy; failed time dependency -> fault,ACTIVE-CANONICAL - already correct,NO EDIT
+SC-10 / SC-15 scenarios,Not present in Appendix C,IRRELEVANT,NO EDIT - scenarios live outside this document
