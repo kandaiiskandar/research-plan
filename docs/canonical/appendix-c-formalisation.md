@@ -179,7 +179,7 @@ Four spaces are distinguished:
 
 | Space | Definition | Meaning |
 |---|---|---|
-| **Xᵢ** | X_w = ℝ≥0, X_r = ℝ≥0, X_m = {none, advisory, warning, alert}, X_o = ℝ≥0 × ℝ≥0, X_t = [0, 24) | Value domain of component i ∈ C |
+| **Xᵢ** | X_w = ℝ≥0, X_r = ℝ≥0 × K with K = {0, 1}, X_m = {none, advisory, warning, alert}, X_o = ℝ≥0 × ℝ≥0, X_t = [0, 24) | Value domain of component i ∈ C |
 | **Obsᵢ** | (Xᵢ × 𝕋) ∪ {⊥} | **Observation** — a value with the instant it was taken, or a fault |
 | **Y** | ∏_{i∈C} (Xᵢ ∪ {⊥}) | **Resolved input** — what the classifier actually consumes |
 | **V** | {small, medium, big} | Configuration |
@@ -207,6 +207,13 @@ For each condition component xᵢ ∈ {w, r, m, o, t} with domain Xᵢ, define t
 where 𝕋 is the time domain, an observation (x, τ) pairs a value with the instant it was taken, and **⊥ denotes a runtime fault** — the value is absent or known invalid.
 
 *What ⊥ attaches to.* ⊥ attaches to **the quantity the classification function reads**, not to the declared variable. This matters for o = (wave height, swell period): g_o reads the wave height component only (C.9.3), so an absent swell period does not make o faulted. Without this stipulation the swell period — which no available data source provides — would render o permanently ⊥ and produce the same degenerate result as m.
+
+*The rainfall pair is a second, and different, structured case.* r = (rate, κ) has **both** coordinates read by g_r, so the o rule does not transfer to it and a separate stipulation is required (C.2.0.4a, added 2026-09-09):
+
+- **rate is the required coordinate.** ⊥ attaches to it under conditions A, B and C exactly as for a scalar component, and g_r(⊥) = UNSAFE follows from Corollary C.1b.1 unchanged.
+- **κ is a derived supplementary indicator, not an independent observation.** It is computed from the provider's weather code by the total map χ of C.2.0.4a. Where no code accompanies the rate, κ resolves to 0 and classification proceeds on the rate alone; an unavailable code is therefore **not** a fault of r.
+
+This asymmetry is the executable behaviour of every canonical script and is stated here rather than inferred. Its safety direction is recorded in C.2.0.4a: because κ can only escalate, defaulting it to 0 is non-escalating, and the consequence — that all g_r figures are lower bounds — is carried explicitly rather than treated as a fail-safe guarantee.
 
 *v is not in this space.* Vessel category is supplied by the operator at configuration time, not sampled at runtime. Its failure mode is *unconfigured*, handled in C.2.0.6.
 
@@ -236,6 +243,32 @@ so that **freshᵢ : Obsᵢ × 𝕋 → Xᵢ ∪ {⊥}**. This keeps gᵢ a func
 
 ---
 
+#### C.2.0.4a The thunderstorm indicator κ — derivation and resolution
+
+*Added 2026-09-09 (Appendix C rainfall signature synchronisation). This subsection records semantics that the canonical implementation has always executed; no classifier behaviour changes and no empirical figure moves. Prior to this subsection C.2 declared `g_r : ℝ≥0 → S` while every canonical script evaluated a two-input rainfall classifier, and the adjacent prose asserted the storm route was "formally part of the specification" without typing it.*
+
+**Raw code versus derived indicator.** The provider supplies, alongside the precipitation rate, a **raw weather code c** drawn from the WMO present-weather code set. c is *not* the classifier input. The classifier consumes a derived binary indicator κ obtained by the total map
+
+```
+χ : C_WMO ∪ {absent} → K = {0, 1}
+
+χ(c) = 1   if c ∈ {95, 96, 99}
+     = 0   otherwise, including c absent or unrecognised
+```
+
+**{95, 96, 99} is the complete set of codes that activate the route**, taken from the canonical implementation and from no other source. No further code is included, and the meteorological content of these codes beyond "thunderstorm present" is not relied upon.
+
+**χ is total and never returns ⊥.** This is the point on which the rainfall pair differs from every other component. An absent or unrecognised code does not produce a fault; it produces κ = 0, and the rainfall classification is then determined by the rate alone. Consequently:
+
+- **κ is category C in the observation taxonomy of C.2.0** — a *derived feature whose absence deterministically defaults to 0* — and is not one of conditions A–D applied to an independent observation.
+- **κ is not, and must not become, a member of the declared exclusion set D.** D records components for which no data source exists in a deployment (C.2.0.5). The unexercised storm route is a different phenomenon from the g_m archive gap, and conflating them would misstate both. **D = {m} for the retrospective replay, unchanged.**
+
+**Safety direction, stated without overclaim.** Because κ can only escalate (C.2, and Observation C.1c.1), defaulting an unavailable code to 0 is the *non-escalating* default. This is fail-**open** for that disjunct, not fail-safe, and it is the opposite of the rule applied to a required coordinate. It is recorded here because it is what the implementation does, and it carries one consequence that must travel with every rainfall figure: **where the code feed is absent or incomplete, g_r results are lower bounds.** No source is claimed to justify the default, and a deployment whose code feed is unreliable should treat this as an open specification item rather than an inherited guarantee.
+
+**Empirical status at the study site.** Over the canonical five-year record (43,848 hours) the raw code is present and recognised in every hour, and κ = 0 in every hour: no code in {95, 96, 99} occurs, because the provider documents thunderstorm estimation as unavailable for this region (F-11). **The route is typed and evaluated but empirically unexercised, and the default branch of χ was itself never taken.**
+
+---
+
 #### C.2.0.5 Declared exclusions — condition D
 
 A deployment declares a set **D ⊆ {w, r, m, o}** of components for which **no data source exists**. For i ∈ D the component is **pinned at SAFE** — the least element of ≻, the value that cannot raise the classification:
@@ -249,6 +282,10 @@ A deployment declares a set **D ⊆ {w, r, m, o}** of components for which **no 
 **Lemma C.1c (Monotone degradation of informativeness).** For exclusion sets D ⊆ D′ satisfying (D1)–(D2), and for every resolved input, **f_{D′} ⪯ f_D** — enlarging the exclusion set can only lower or preserve the classification, never raise it.
 
 *Proof.* Excluded components are pinned at SAFE, the least element of ≻. Enlarging D replaces one or more arguments of max-severity with SAFE, and replacing an argument of a maximum by the least element cannot increase the maximum. ∎
+
+**Observation C.1c.1 (κ is escalation-only).** *Added 2026-09-09.* For every r ∈ ℝ≥0, **g_r(r, 0) ⪯ g_r(r, 1)**. *Proof.* g_r(r, 1) = UNSAFE, which is the greatest element of ≻, so no value of g_r(r, 0) can exceed it. ∎ Since g_r enters f only as an argument of max-severity, and a maximum is monotone in each argument, raising κ from 0 to 1 can only raise or preserve f. **An active thunderstorm indication can therefore never reduce severity**, and the default κ = 0 of C.2.0.4a is the non-escalating choice.
+
+This is a governance-classifier property, not a physical claim: it states that the specification treats an indicated thunderstorm as maximally severe, **not** that a thunderstorm is proven physically unsafe for any particular vessel. It also supplies the direction of the bound recorded in C.2.0.4a — because κ can only escalate, any hour in which a genuine thunderstorm went unindicated is classified no higher than it should be, so g_r figures are lower bounds.
 
 **Why this lemma matters more than it looks.** Theorem C.1b holds for *any* well-formed D, and that generality could be mistaken for strength. It is not: totality is preserved as D grows, but **informativeness degrades monotonically**. At the maximal well-formed exclusion set D = {w, r, m, o}, f reduces to g_t alone — a pure night curfew, total and near-useless. **Totality is a floor, not a virtue.** A deployment must report D alongside its figures precisely so that a reader can judge where on that spectrum it sits.
 
@@ -298,7 +335,7 @@ The four conditions are resolved in a fixed order, and the order is load-bearing
 Each trace retains:
 
 - The configured vessel category v, declared exclusion set D, and applicable resolution/freshness context τ.
-- For each i ∈ {w,r,m,o,t}: component identity, exclusion status, resolution status (excluded, valid, or fault with the failed required input identified), and resulting component severity sᵢ. Excluded components have sᵢ = SAFE; required faults have sᵢ = UNSAFE. A valid environmental component retains its resolved reading and the applicable classifier band, including v for g_o.
+- For each i ∈ {w,r,m,o,t}: component identity, exclusion status, resolution status (excluded, valid, or fault with the failed required input identified), and resulting component severity sᵢ. Excluded components have sᵢ = SAFE; required faults have sᵢ = UNSAFE. A valid environmental component retains its resolved reading and the applicable classifier band, including v for g_o. For r the resolved reading is the pair (rate, κ) and the retained detail identifies which route applied — a rate band, or the κ = 1 storm route of C.2.0.4a. *(Clarified 2026-09-09; the reason-set contract below is unchanged. An active κ satisfies the existing **hazard** condition, since r is then a valid non-excluded environmental component at UNSAFE. No new reason label is introduced, and hazard retains its bounded meaning — a configured non-SAFE band or trigger, not proven physical danger.)*
 - For time: clock value and validity, date and validity, required solar-lookup validity, the sunrise/sunset values actually used and artefact identity, and resulting g_t. A failed required time dependency resolves to the existing fail-safe UNSAFE; it does not establish nighttime. If a dependency was not evaluated after an earlier failure, that status is retained rather than asserted valid.
 - The existing aggregate S = max-severity(sᵢ). Trace consistency means these entries agree with the existing evaluation; an arbitrary or contradictory record is not in Q.
 
@@ -393,7 +430,7 @@ and because CAUTION is reachable in 𝒮 — at this site principally through `g
 
 The overall classification function is:
 
-**f(E) = max-severity(g_w(w), g_r(r), g_m(m), g_o(o, v), g_t(t))**   *(ideal form; operationally f(y, v) over resolved inputs — C.2.0.1)*
+**f(E) = max-severity(g_w(w), g_r(r, κ), g_m(m), g_o(o, v), g_t(t))**   *(ideal form; operationally f(y, v) over resolved inputs — C.2.0.1)*
 
 where max-severity applies the severity order ≻ from Definition C.1 and returns the most severe classification across the five condition classifications.
 
@@ -440,15 +477,22 @@ Note also that MET Malaysia's published criteria state "wind speeds from 40–50
 
 ---
 
-**g_r(r) — Rainfall Intensity (mm/hr)**
+**g_r(r, κ) — Rainfall: intensity (mm/hr) with thunderstorm indicator**
 
-g_r : ℝ≥0 → {SAFE, CAUTION, UNSAFE}
+g_r : ℝ≥0 × K → {SAFE, CAUTION, UNSAFE},  K = {0, 1}
 
 ```
-             ⎧ SAFE     if  0 ≤ r ≤ 10.0
-    g_r(r) = ⎨ CAUTION  if  10.0 < r ≤ 20.0
-             ⎩ UNSAFE   if  r > 20.0
+                ⎧ UNSAFE   if  κ = 1                          (storm route)
+                ⎪ SAFE     if  κ = 0  ∧  0 ≤ r ≤ 10.0
+    g_r(r, κ) = ⎨ CAUTION  if  κ = 0  ∧  10.0 < r ≤ 20.0
+                ⎩ UNSAFE   if  κ = 0  ∧  r > 20.0
 ```
+
+where **r** is the precipitation rate in mm/hr and **κ = χ(c)** is the derived thunderstorm indicator of C.2.0.4a, obtained from the provider's raw weather code c. **κ is an escalation-only trigger:** g_r(r, 1) = UNSAFE for every valid r, so κ can raise the rainfall classification and can never lower the classification obtained from the rate.
+
+> **Retyped 2026-09-09.** This block previously declared `g_r : ℝ≥0 → S` and described the storm route only in the prose below, while all eight canonical scripts evaluated `(rate > 20.0) ∨ (c ∈ {95, 96, 99})`. The signature is corrected to the classifier that generated every canonical figure; **thresholds, classifications and empirical outputs are unchanged.** The two boundaries remain **R_CAUTION = 10.0** and **R_UNSAFE = 20.0**. This is a type-level repair under the standing rule that evidence follows implementation, and it is *not* a change of scientific behaviour.
+>
+> Note that the implementation's local variable named `storm` denotes the **disjunction** `(r > 20.0) ∨ (κ = 1)`, not κ alone. κ as defined here is strictly the code-derived coordinate; the rate-driven UNSAFE band is a separate route to the same classification.
 
 | Classification | Threshold | Source | Status |
 |---|---|---|---|
@@ -456,7 +500,7 @@ g_r : ℝ≥0 → {SAFE, CAUTION, UNSAFE}
 | CAUTION | 10.0 < r ≤ 20.0 mm/hr | Interval between the two published boundaries. Yamin et al.: erratic/heavy rainfall rated a primary hazard by 91% of fishers | Official at both endpoints |
 | UNSAFE | r > 20.0 mm/hr | **MET Malaysia — *Kriteria Amaran Ribut Petir*.** Thunderstorm warning issued at rain intensity exceeding 20 mm/hr expected to persist beyond one hour | **Official — MET** |
 
-*Domain:* r ∈ ℝ≥0. The three intervals [0, 10.0], (10.0, 20.0], (20.0, +∞) partition ℝ≥0 exhaustively with no overlap.
+*Domain:* (r, κ) ∈ ℝ≥0 × {0, 1}. At κ = 0 the three intervals [0, 10.0], (10.0, 20.0], (20.0, +∞) partition ℝ≥0 exhaustively with no overlap; at κ = 1 the classification is UNSAFE for every r. The product domain is therefore covered exhaustively with no overlap. **The rate partition alone is no longer the whole domain of g_r** — see Theorem C.1(i).
 
 > **Amended 2026-09-08 (second pass): `r` redefined as numeric, ℝ≥0 in mm/hr.**
 >
@@ -468,7 +512,7 @@ g_r : ℝ≥0 → {SAFE, CAUTION, UNSAFE}
 >
 > **No threshold values changed and no empirical figure moves.** This amendment is a change of representation only.
 
-**Secondary route to UNSAFE.** WMO weather codes 95/96/99 (thunderstorm) also yield UNSAFE where present. This route is formally part of the specification but **inert in the present dataset** — zero thunderstorm codes appear in five years, because Open-Meteo documents thunderstorm estimation as not possible outside Central Europe. See C.9 and finding F-11. In consequence, `r = UNSAFE` is reached only through the rainfall-rate component of a criterion that is fundamentally about a *phenomenon*, and is **under-detected by an unknown margin**.
+**Secondary route to UNSAFE — now formally typed (2026-09-09).** WMO weather codes 95/96/99 (thunderstorm) yield UNSAFE where present. This route is carried by the κ coordinate of the classifier signature above and by the map χ of C.2.0.4a; it is no longer described in prose alone. It remains **inert in the present dataset** — zero thunderstorm codes appear in five years, because Open-Meteo documents thunderstorm estimation as not possible outside Central Europe. See C.9 and finding F-11. In consequence, `r = UNSAFE` is reached only through the rainfall-rate coordinate of a criterion that is fundamentally about a *phenomenon*, and is **under-detected by an unknown margin**. Typing κ changes what the specification *says*, not what the classifier *does*: the route was always evaluated, and it never fired.
 
 > **Amended 2026-09-08: rainfall thresholds anchored to MET, SAFE/CAUTION 7.5 → 10.0 mm/hr.**
 >
@@ -624,7 +668,7 @@ Vessel category now enters through g_o(o, v) as documented above. The empirical 
 *(i) Totality of each classification function.*
 
 - **g_w:** The thresholds [0, 21.6], (21.6, 27.0], (27.0, +∞) partition ℝ≥0 exhaustively. Every w ∈ ℝ≥0 falls in exactly one interval. ✓
-- **g_r:** The thresholds [0, 10.0], (10.0, 20.0], (20.0, +∞) partition ℝ≥0 exhaustively. Every r ∈ ℝ≥0 falls in exactly one interval. ✓ *(Amended 2026-09-08: `r` is now numeric; the prior case argued over five categorical values.)*
+- **g_r:** g_r is two-argument, with domain ℝ≥0 × K, K = {0, 1}. Totality is established in two cases over κ, which is exhaustive because K is finite with exactly two members. **Case κ = 1:** g_r(r, 1) = UNSAFE for every r ∈ ℝ≥0, by the first line of the definition; the case is total and does not depend on r. **Case κ = 0:** the thresholds [0, 10.0], (10.0, 20.0], (20.0, +∞) partition ℝ≥0 exhaustively, so every r falls in exactly one interval. The two cases are disjoint and cover K, so every pair (r, κ) ∈ ℝ≥0 × K receives exactly one classification. ✓ *(Amended 2026-09-08: `r` became numeric, the prior case arguing over five categorical values. Amended 2026-09-09: the domain is a product and the rate partition alone no longer exhausts it — see C.2.0.4a.)*
 - **g_m:** The four values {none, advisory, warning, alert} are the complete domain of m. Each value is assigned to exactly one classification. ✓
 - **g_o:** g_o is two-argument, with domain (ℝ≥0 × ℝ≥0) × {small, medium, big}. Totality is established in two steps. First, for each fixed v ∈ {small, medium, big}, the corresponding row of the threshold table induces three intervals that partition ℝ≥0 exhaustively with no overlap — [0, 1.0), [1.0, 1.25], (1.25, +∞) for small; [0, 1.4), [1.4, 2.8], (2.8, +∞) for medium; [0, 1.5), [1.5, 3.5], (3.5, +∞) for big. Second, {small, medium, big} is finite and exhausts the domain of v, and classification does not depend on the swell period component of o, so every (o, v) pair falls under exactly one row and within exactly one interval of that row. ✓
 - **g_t:** The intervals [6, 17), [17, 19), [19, 24) ∪ [0, 6) partition [0, 24) exhaustively. Every t ∈ [0, 24) falls in exactly one interval. ✓
@@ -633,7 +677,7 @@ Vessel category now enters through g_o(o, v) as documented above. The empirical 
 
 max-severity takes a tuple (S_w, S_r, S_m, S_o, S_t) ∈ {SAFE, CAUTION, UNSAFE}⁵ and returns the element that is greatest under ≻ (Definition C.1). Since ≻ is a total strict order on a finite set, the maximum always exists and is unique. ✓
 
-Therefore f(E) = max-severity(g_w(w), g_r(r), g_m(m), g_o(o, v), g_t(t)) is defined and returns exactly one element of {SAFE, CAUTION, UNSAFE} for all E. ∎
+Therefore f(E) = max-severity(g_w(w), g_r(r, κ), g_m(m), g_o(o, v), g_t(t)) is defined and returns exactly one element of {SAFE, CAUTION, UNSAFE} for all E. ∎
 
 **Significance.** Theorem C.1 establishes that the safety classifier has no undefined states — every combination of environmental conditions maps to exactly one safety state. This is a necessary condition for runtime governance: a classifier that could fail to return a state would leave the governance layer without a basis for enforcing (G(S), A_AI(S)).
 
@@ -664,6 +708,8 @@ is total: for **every** observation tuple — including those in which any subse
 - **yᵢ = ⊥** — gᵢ(⊥) = UNSAFE by definition, exactly one element. ✓
 
 The union Xᵢ ∪ {⊥} is therefore exhausted, and gᵢ is total on it. Note that ⊥ arises from validation (invalid value), from absence, or from freshness (stale value); all three converge on the same symbol before gᵢ is reached, so no further case analysis is required. ✓
+
+*Note on the structured components (2026-09-09).* Y = ∏_{i∈C}(Xᵢ ∪ {⊥}) is defined generically over the Xᵢ, so it absorbs the product-valued X_r = ℝ≥0 × K of C.2.0.1 without amendment: y_r ∈ (ℝ≥0 × K) ∪ {⊥}. **y_r = ⊥ denotes failure of the rate coordinate only.** κ cannot produce ⊥ — χ is total into K by C.2.0.4a — so the fail-safe of Corollary C.1b.1 is triggered by an absent, invalid or stale *rate*, never by an absent weather code. This preserves the corollary's scope exactly; it does not widen or narrow it.
 
 *(iii) Aggregation.* max-severity is total over {SAFE, CAUTION, UNSAFE}⁵ by Theorem C.1(ii) — ≻ is a total strict order on a finite set, so the maximum exists and is unique. ✓
 

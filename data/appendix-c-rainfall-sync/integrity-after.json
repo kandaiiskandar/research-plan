@@ -1,0 +1,39 @@
+{
+  "phase": "appendix-c-rainfall-sync-after",
+  "count": 23,
+  "changed": [
+    "docs/canonical/appendix-c-formalisation.md"
+  ],
+  "expected_change": [
+    "docs/canonical/appendix-c-formalisation.md"
+  ],
+  "unexpected_change": [],
+  "appendix_c_sha16_before": "03e80802a46404df",
+  "appendix_c_sha16_after": "1ce268154807bd70",
+  "manuscript_sha16": "27b33b846ae327cb",
+  "hashes": {
+    "docs/canonical/appendix-c-formalisation.md": "1ce268154807bd7065fd8f39c95b3430b3a90a36ccc653ccd7e6bfd42a8cd899",
+    "publications/active/ipsci-2026/submissions/v3-revision/manuscript-v3.md": "27b33b846ae327cb3401bc4e6e9cb387c651fc7f3bb2b69cbaf3c5aa5e6e1bd8",
+    "data/prediction-register.csv": "5574b88ea65168b6ef5e308629f3eb14fb70f8688a592fde279103ea4b37eae6",
+    "scripts/canonical_gt.py": "b330bf9f94e848aad282a71d226c85c7e73f4ec8c0f2f8c88bfd7112b6e9a577",
+    "scripts/canonical_figures.py": "cb4f1ee26ab36f85b661fed58dfc9f9fd0b97a7a19f51714e6dd82055cc6b271",
+    "scripts/condition_comparison.py": "3c32913a2a9cc85ff237c927d6f2be7a57fe0a87a08de5e254dbf98150282d48",
+    "scripts/diagnostic_binding.py": "113b5b92e81535a97a8967aa2658e3c1da5ef2f32cf04dae0e18ccd5c57ecb61",
+    "scripts/hysteresis_analysis.py": "a58af0133acdf4f8cb1fc6945439c2bd3505082038307f8272256a1efe37096c",
+    "scripts/historical_replay.py": "3b1105b7cc03839b3d162f4c6ecef60dd439102ea5a9d4c139c4cc19c043d806",
+    "scripts/compare_v1_v2.py": "5d69dfa951fe455a52e3906e5d11ed1d038d37e102d9d08c457820c9cf285e16",
+    "scripts/threshold_decision.py": "ef30ad3f8df7eba932006c6a553c7907ef89bd949a497e608692eb86a67a046b",
+    "scripts/threshold_comparison.py": "daed570596df1dbf4e7f331ed4d57576467cf9307ca66caa1a0b844c0b67f8ec",
+    "scripts/sensitivity/solar.py": "3b7dc371ebe5931b3336f9982c5806a06a515dc2032569f5da7720470c1ec36c",
+    "data/solar/solar-events-daily.csv": "057c46a19d0e8ea7956cdc38ae3d7615cf43cf800e7bc33ab286dfdc20ce1894",
+    "data/solar/usno-validation-2026-09-08.csv": "da14a8dca224ae1869466c0ee03d58e5fc908fcee9ac3ac89172a8bf4a159c81",
+    "data/c8/canonical-results-post-migration.txt": "0bca160f69f68663d1f11672c0295cf9234624379a67e164fe50c5f2dde301a9",
+    "data/c7/baseline-provenance.csv": "d5db567c50a2927ab8b94f52753210b2b0aea702a16bfc359a19290396780b30",
+    "data/c6/prediction-reresolution.csv": "46474a320e11502c0b62d383d13d8df1db7a14c9132702db8b5fcd294d604a64",
+    "data/c5/c5-three-stage-metrics.csv": "3566cd6b1aab6cd362180bb7034e97b6497c259ffd7414061d33c53b4a76feb7",
+    "data/raw_weather_sea.csv": "96850d7547189ffa5ccc02a36cf69987bfae742e54b61597c2ca7d251e84c424",
+    "data/raw_marine_era5_sea.csv": "6754e2c2ee5586ee864e590f1ccf363bbd8840b364763e01e8c9eb05e5d63888",
+    "data/raw_marine_mfwam.csv": "e9f323e086a3e9dddd29129bda6dbbea7590bbdcc9a1500c0460ca18233bf60f",
+    "docs/canonical/empirical-findings-2026-09-06.md": "667161e288d5e403ac068edab31b21c86c8694ca6fa6b35288ae2096f685b556"
+  }
+}

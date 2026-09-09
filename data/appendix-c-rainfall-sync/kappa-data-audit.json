@@ -1,0 +1,31 @@
+{
+  "dataset": "data/raw_weather_sea.csv (v2 sea cell, canonical)",
+  "total_evaluated_hours": 43848,
+  "count_kappa_0": 43848,
+  "count_kappa_1": 0,
+  "count_missing_raw_code": 0,
+  "count_invalid_raw_code": 0,
+  "distinct_relevant_raw_codes": [
+    0,
+    1,
+    2,
+    3,
+    51,
+    53,
+    55,
+    61,
+    63,
+    65
+  ],
+  "storm_codes_sought": [
+    95,
+    96,
+    99
+  ],
+  "storm_codes_present": [],
+  "count_missing_precip": 0,
+  "count_negative_precip": 0,
+  "precip_max_mm_hr": 45.8,
+  "count_precip_gt_20": 21,
+  "count_precip_gt_10": 113
+}
