@@ -1,0 +1,20 @@
+{
+  "gt-formal-change-map.csv": {
+    "fields": 4,
+    "dictreader_rows": 8,
+    "pandas_rows": 8,
+    "pandas_cols": 4,
+    "malformed": [],
+    "sha256_16": "85bf282063e48fd4",
+    "parse": "PASS"
+  },
+  "gt-occurrence-audit.csv": {
+    "fields": 4,
+    "dictreader_rows": 18,
+    "pandas_rows": 18,
+    "pandas_cols": 4,
+    "malformed": [],
+    "sha256_16": "f9b9d1484943672c",
+    "parse": "PASS"
+  }
+}

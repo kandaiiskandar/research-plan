@@ -1,0 +1,11 @@
+{
+  "residue-occurrence-audit.csv": {
+    "fields": 6,
+    "dictreader_rows": 7,
+    "pandas_rows": 7,
+    "pandas_cols": 6,
+    "malformed": [],
+    "sha256_16": "a3b6db94c9fe7bf7",
+    "parse": "PASS"
+  }
+}

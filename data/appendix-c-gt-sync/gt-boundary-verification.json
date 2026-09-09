@@ -1,0 +1,92 @@
+{
+  "date": "2024-03-20",
+  "sunrise_hours": 6.341591,
+  "sunset_hours": 18.452345,
+  "probe_step": 1e-06,
+  "note": "probe step below the artefact's 6-dp stored precision",
+  "boundary_cases": [
+    {
+      "case": "just before sunrise",
+      "hour": 6.34159,
+      "impl": "UNSAFE",
+      "appendix_c": "UNSAFE",
+      "match": true
+    },
+    {
+      "case": "exact sunrise",
+      "hour": 6.341591,
+      "impl": "SAFE",
+      "appendix_c": "SAFE",
+      "match": true
+    },
+    {
+      "case": "just after sunrise",
+      "hour": 6.341592,
+      "impl": "SAFE",
+      "appendix_c": "SAFE",
+      "match": true
+    },
+    {
+      "case": "midday",
+      "hour": 12.0,
+      "impl": "SAFE",
+      "appendix_c": "SAFE",
+      "match": true
+    },
+    {
+      "case": "just before sunset",
+      "hour": 18.452344,
+      "impl": "SAFE",
+      "appendix_c": "SAFE",
+      "match": true
+    },
+    {
+      "case": "exact sunset",
+      "hour": 18.452345,
+      "impl": "UNSAFE",
+      "appendix_c": "UNSAFE",
+      "match": true
+    },
+    {
+      "case": "just after sunset",
+      "hour": 18.452346000000002,
+      "impl": "UNSAFE",
+      "appendix_c": "UNSAFE",
+      "match": true
+    },
+    {
+      "case": "midnight",
+      "hour": 0.0,
+      "impl": "UNSAFE",
+      "appendix_c": "UNSAFE",
+      "match": true
+    },
+    {
+      "case": "23:59",
+      "hour": 23.9833,
+      "impl": "UNSAFE",
+      "appendix_c": "UNSAFE",
+      "match": true
+    }
+  ],
+  "operational_fault_cases": [
+    {
+      "case": "failed clock (non-finite)",
+      "result": "UNSAFE",
+      "expected": "UNSAFE",
+      "route": "fault via Corollary C.1b.1, NOT valid-night policy",
+      "match": true
+    },
+    {
+      "case": "failed date (absent from artefact)",
+      "result": "UNSAFE",
+      "expected": "UNSAFE",
+      "route": "fault via Corollary C.1b.1, NOT valid-night policy",
+      "match": true
+    }
+  ],
+  "caution_emissions_all_dates": 0,
+  "solar_ordering_holds_all_dates": true,
+  "dates_checked": 1827,
+  "all_pass": true
+}

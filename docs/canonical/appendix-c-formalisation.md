@@ -39,9 +39,9 @@ t is classified by `g_t(t, date)` into **two** governance zones *(SDR-001 applie
 
 **`g_t` is deliberately binary and emits no CAUTION** (C.2). The architecture remains three-state: `𝒮 = {SAFE, CAUTION, UNSAFE}`, with CAUTION reached through `g_o` and `g_r`. **Superseded 2026-09-08:** the fixed clock 06:00 / 17:00 / 19:00, whose boundaries had no located source and whose 17:00–19:00 CAUTION band no source supported.
 
-*Wording revised 2026-09-08 (pre-adoption semantic cleanup).* These rows previously read "sufficient daylight for safe operation and return" and "night — **insufficient daylight for safe small-vessel operation**". The second was an unsupported physical-safety claim: Atacan & Düzbastılar establish that night navigation carries *elevated* accident probability and consequence, not that it is unsafe or infeasible, and small-scale fishers demonstrably operate at night. Per Definition C.1, the rows now name the **operating condition** and the **governance response**, which is what the classifier actually determines. **The thresholds 06:00 / 17:00 / 19:00 are unchanged.**
+*Wording revised 2026-09-08 (pre-adoption semantic cleanup).* These rows previously read "sufficient daylight for safe operation and return" and "night — **insufficient daylight for safe small-vessel operation**". The second was an unsupported physical-safety claim: Atacan & Düzbastılar establish that night navigation carries *elevated* accident probability and consequence, not that it is unsafe or infeasible, and small-scale fishers demonstrably operate at night. Per Definition C.1, the rows now name the **operating condition** and the **governance response**, which is what the classifier actually determines. **That cleanup was wording-only and left the incumbent 06:00 / 17:00 / 19:00 thresholds in place; later the same day SDR-001 superseded them with the astronomical sunrise/sunset boundaries stated above. The fixed-clock thresholds are not canonical.** *(Chronology corrected 2026-09-09: this sentence previously ended "The thresholds 06:00 / 17:00 / 19:00 are unchanged", which was true of the cleanup at the moment it was written and became misleading once SDR-001 was applied.)*
 
-**The governance response here is policy, not a finding.** The evidence establishes elevated night-time risk; it does not establish that AI advisory participation must be withdrawn at any particular hour. That withdrawal is an architectural governance choice, and the boundaries themselves have no located source — see `finding-gt-provenance-audit.md`, and C.9.1.
+**The governance response here is policy, not a finding.** The evidence establishes elevated night-time risk; it does not establish that AI advisory participation must be withdrawn at any particular hour. That withdrawal is an architectural governance choice and remains one under SDR-001: COLREGs Rule 20(b) supplies the sunset-to-sunrise boundary **for navigation lights**, and **no source establishes that AI advisory participation must be withdrawn there**. *(Corrected 2026-09-09: this sentence previously read "the boundaries themselves have no located source", which described the superseded 06:00 / 17:00 / 19:00 values. That defect is what SDR-001 resolved; read against the canonical astronomical boundaries the claim was false. What has no source is the **policy**, not the boundary.)* See `finding-gt-provenance-audit.md` and C.9.1.
 
 The overall safety state **S = max‑severity(S_w, S_r, S_m, S_o, S_t)** applies the conservative worst‑case rule across all five condition classifications, including t. *(max‑severity is formally defined via the severity order in Definition C.1, Section C.2.)* Time of day is therefore a direct input to the governance classification, not a post‑hoc filter on recommendation types.
 
@@ -275,7 +275,9 @@ A deployment declares a set **D ⊆ {w, r, m, o}** of components for which **no 
 
 **Well-formedness of D.** Three conditions; an exclusion set violating any of them is not well-formed.
 
-- **(D1) t ∉ D.** Time of day is read from the device clock, not from an external data source. There is no deployment in which "no time source exists" — a clock failure is a *fault* (t = ⊥ → UNSAFE), never an exclusion. This constraint is load-bearing: `g_t` determines 87.63% of all non-SAFE classifications at the study site (F-7), so permitting t ∈ D would allow a well-formed deployment in which the dominant component is silently disabled.
+- **(D1) t ∉ D.** The constraint is **structural, and does not rest on any empirical frequency.** Declared exclusion is condition D of C.2.0 — *no data source exists in this deployment* — and t cannot satisfy it: time of day is read from the device clock rather than from an external feed, so there is no deployment in which "no time source exists". A clock, date or solar-lookup failure is therefore a *fault* (t = ⊥ → UNSAFE via Corollary C.1b.1), never an exclusion, and the two must not be conflated: an exclusion pins a component at SAFE, whereas a fault drives it to UNSAFE. Admitting t ∈ D would let a well-formed deployment pin a required governance component at SAFE on the strength of a failure mode that is definitionally a fault.
+
+  > *Corrected 2026-09-09 (closure residue repair).* This clause previously justified the constraint empirically — *"`g_t` determines 87.63% of all non-SAFE classifications at the study site"* — which was wrong twice over. **The figure is superseded**, computed under the fixed-clock classifier that SDR-001 replaced; the canonical `g_t` share of all-hours non-SAFE is **86.82% (PRIMARY) / 90.19% (RESOLUTION)**, and neither value belongs in this argument. **And the reasoning was inverted:** resting a structural constraint on a site-specific binding share would imply the constraint weakens wherever `g_t` happens to bind less often, when in fact it holds at every site regardless of the binding profile. The figures above are context only and carry no part of the argument.
 - **(D2) D ⊊ C.** At least one component must be observed. This follows from (D1), since t ∈ C \ D.
 - **(D3) D is declared, and every severity figure produced under D ≠ ∅ is reported as a lower bound.**
 
@@ -321,8 +323,13 @@ The four conditions are resolved in a fixed order, and the order is load-bearing
 0.  v configured?  and  D well-formed (t ∉ D)?   no → refuse to start   (C.2.0.5–6)
 1.  for i ∈ D:        gᵢ ≜ SAFE                                          (C.2.0.4)
 2.  for i ∉ D:        yᵢ ← freshᵢ(valᵢ(obsᵢ), τ_now)                     (C.2.0.3–4)
-3.  F ← f(y, v) = max-severity( g_w(y_w), g_r(y_r), g_m(y_m), g_o(y_o, v), g_t(y_t) )
+2a. for r:            κ ← χ(c), total into K; never ⊥                    (C.2.0.4a)
+2b. for t:            resolve clock, date and canonical solar lookup.
+                      any required one failing → y_t ← ⊥      (C.2 g_t row)
+3.  F ← f(y, v) = max-severity( g_w(y_w), g_r(y_r, κ), g_m(y_m), g_o(y_o, v), g_t(y_t, d) )
 ```
+
+**Step 2b is load-bearing and must not be short-circuited.** A failed clock, date or solar lookup resolves to ⊥ and reaches UNSAFE through Corollary C.1b.1 — as a **fault**. It does **not** establish that it is night, and the implementation must never infer nighttime from a missing dependency. The two routes to `g_t = UNSAFE` are distinct in provenance even though they agree in value: *valid* night is **policy**, failed resolution is **fault** (C.2.0.8). Steps 2a and 2b were made explicit on 2026-09-09; both record existing behaviour in `canonical_gt.py`, which defaults every row to UNSAFE and overwrites it only when the clock is finite *and* the date is present in the frozen artefact.
 
 ---
 
@@ -373,7 +380,9 @@ For each condition component xᵢ ∈ {w, r, m, o, t} with domain Xᵢ, define a
 
 **gᵢ : Xᵢ ∪ {⊥} → {SAFE, CAUTION, UNSAFE}**, with **gᵢ(⊥) = UNSAFE**
 
-where X_w = ℝ≥0, X_r = ℝ≥0, X_m = {none, advisory, warning, alert}, X_o = ℝ≥0 × ℝ≥0 and X_t = [0, 24). Four of these are single-argument functions of their condition variable; g_o is additionally parameterised by vessel category v. The per-row threshold tables below define gᵢ on Xᵢ; the ⊥ case is uniform across all five and is not repeated in each table.
+where X_w = ℝ≥0, **X_r = ℝ≥0 × K with K = {0, 1}** (rate paired with the thunderstorm indicator κ — C.2.0.4a), X_m = {none, advisory, warning, alert}, X_o = ℝ≥0 × ℝ≥0 and X_t = [0, 24). **Two of these read a single value** — g_w and g_m. **g_r reads the pair (r, κ)**; **g_o is additionally parameterised by vessel category v** and reads the wave-height coordinate only; and **g_t is evaluated against a valid date and its canonical solar lookup** alongside the clock value, which the resolution layer supplies as required context rather than as a widened X_t. The per-row threshold tables below define gᵢ on Xᵢ; the ⊥ case is uniform across all five and is not repeated in each table.
+
+> *Corrected 2026-09-09.* This sentence previously declared `X_r = ℝ≥0` and described "four single-argument functions", contradicting the type table in C.2.0.1 and the g_r and g_t definitions below. It is a second type declaration that the rainfall synchronisation of the same day did not reach.
 
 #### Component classifiers are not required to be surjective
 
@@ -430,7 +439,7 @@ and because CAUTION is reachable in 𝒮 — at this site principally through `g
 
 The overall classification function is:
 
-**f(E) = max-severity(g_w(w), g_r(r, κ), g_m(m), g_o(o, v), g_t(t))**   *(ideal form; operationally f(y, v) over resolved inputs — C.2.0.1)*
+**f(E) = max-severity(g_w(w), g_r(r, κ), g_m(m), g_o(o, v), g_t(t, d))**   *(ideal form; operationally f(y, v) over resolved inputs — C.2.0.1. `d` is the valid date whose canonical solar lookup accompanies the clock value; it is required context resolved upstream, not a sixth condition component.)*
 
 where max-severity applies the severity order ≻ from Definition C.1 and returns the most severe classification across the five condition classifications.
 
@@ -647,13 +656,19 @@ Vessel category now enters through g_o(o, v) as documented above. The empirical 
 >
 > **Architecture policy decides:** **night ⇒ `g_t` = UNSAFE ⇒ AI advisory unavailable.** **No source establishes this implication.** COLREGs regulates lights, not decision support, and **does not require AI abstention**. Nothing here asserts that night operation is prohibited or physically unsafe — fishers demonstrably operate at night. `S = UNSAFE` sets `G(S) = 0` and `A_AI(S) = ∅`; **human decision authority remains unconditional** (C.8.2 step 6).
 
-*Column revised 2026-09-08 (pre-adoption semantic cleanup); **thresholds unchanged**. The SAFE row previously claimed "sufficient daylight for safe operation and return to port" — an unsupported physical-safety claim, matching the one corrected in C.1. The UNSAFE row's figures are now given explicitly so that what the source establishes — **elevated risk relative to a baseline** — is visible rather than compressed into "highest scores".*
+*Column revised 2026-09-08 (pre-adoption semantic cleanup); **thresholds unchanged by that cleanup — and subsequently replaced the same day by SDR-001**, which substituted the astronomical boundaries above for the fixed clock. The "unchanged" clause describes the wording cleanup only and must not be read as a statement about the current thresholds (chronology clarified 2026-09-09). The SAFE row previously claimed "sufficient daylight for safe operation and return to port" — an unsupported physical-safety claim, matching the one corrected in C.1. The UNSAFE row's figures are now given explicitly so that what the source establishes — **elevated risk relative to a baseline** — is visible rather than compressed into "highest scores".*
 
-> ⚠️ **Two open provenance items on this row, both recorded elsewhere and neither resolved here.**
-> 1. **The boundaries have no located source.** 06:00, 17:00 and 19:00 are undefended; `g_t` nonetheless carries 87.63% of all non-SAFE classifications. See `finding-gt-provenance-audit.md` and the draft **SDR-001** in `finding-gt-evidence-closure.md` (**DRAFT — not approved, not applied**).
-> 2. **The prior "restricted visibility" attribution is contested.** The 7.90 score cited elsewhere for `t` is the score for Atacan & Düzbastılar's *restricted visibility* scenario, not their *night* scenario; both that study and COLREGs treat darkness and restricted visibility as separate hazards. The phrase has been dropped from this column pending that correction — see `finding-gt-operational-semantics.md` §3.2.
+> 📌 **HISTORICAL — the state of this row before SDR-001 was applied on 2026-09-08.** Retained as provenance; **neither item describes the canonical classifier.** *(Status corrected 2026-09-09: this block previously stood unmarked and described SDR-001 as "**DRAFT — not approved, not applied**", which has been false since the C-8 migration.)*
+> 1. **Item 1 is CLOSED by SDR-001.** The unsourced boundaries 06:00, 17:00 and 19:00 were the defect; the canonical classifier no longer uses them. The 87.63% figure quoted here was computed under the superseded fixed clock and is **provenance only** — the canonical `g_t` share of all-hours non-SAFE is **86.82% PRIMARY / 90.19% RESOLUTION**. See `finding-gt-provenance-audit.md` and **SDR-001 (APPROVED and APPLIED)** in `finding-gt-evidence-closure.md`, `report-c8-migration-2026-09-08.md`.
+> 2. **Item 2 remains open and is unaffected by SDR-001.** The 7.90 score cited elsewhere for `t` is the score for Atacan & Düzbastılar's *restricted visibility* scenario, not their *night* scenario; both that study and COLREGs treat darkness and restricted visibility as separate hazards. The phrase remains dropped from this column pending that correction — see `finding-gt-operational-semantics.md` §3.2.
 
-*Domain:* t ∈ [0, 24). The three intervals [6, 17), [17, 19), [19, 24) ∪ [0, 6) partition [0, 24) exhaustively.
+*Domain:* t ∈ [0, 24), evaluated against a valid date d and its canonical solar lookup. For each such d the stored events satisfy 0 ≤ sunrise(d) < sunset(d) < 24, and the **two** intervals
+
+**[sunrise(d), sunset(d))**  and  **[0, sunrise(d)) ∪ [sunset(d), 24)**
+
+are disjoint and together exhaust [0, 24). Every valid (t, d) therefore receives exactly one classification.
+
+> *Corrected 2026-09-09 (g_t totality synchronisation).* This line previously read *"The three intervals [6, 17), [17, 19), [19, 24) ∪ [0, 6) partition [0, 24) exhaustively"* — the **superseded fixed-clock** partition, including its withdrawn 17:00–19:00 CAUTION band. It survived the SDR-001 migration unmarked and sat outside the superseded blockquote above, where a reader could take it for current semantics. **There are two intervals, not three, and `g_t` emits no CAUTION.**
 
 ---
 
@@ -671,13 +686,13 @@ Vessel category now enters through g_o(o, v) as documented above. The empirical 
 - **g_r:** g_r is two-argument, with domain ℝ≥0 × K, K = {0, 1}. Totality is established in two cases over κ, which is exhaustive because K is finite with exactly two members. **Case κ = 1:** g_r(r, 1) = UNSAFE for every r ∈ ℝ≥0, by the first line of the definition; the case is total and does not depend on r. **Case κ = 0:** the thresholds [0, 10.0], (10.0, 20.0], (20.0, +∞) partition ℝ≥0 exhaustively, so every r falls in exactly one interval. The two cases are disjoint and cover K, so every pair (r, κ) ∈ ℝ≥0 × K receives exactly one classification. ✓ *(Amended 2026-09-08: `r` became numeric, the prior case arguing over five categorical values. Amended 2026-09-09: the domain is a product and the rate partition alone no longer exhausts it — see C.2.0.4a.)*
 - **g_m:** The four values {none, advisory, warning, alert} are the complete domain of m. Each value is assigned to exactly one classification. ✓
 - **g_o:** g_o is two-argument, with domain (ℝ≥0 × ℝ≥0) × {small, medium, big}. Totality is established in two steps. First, for each fixed v ∈ {small, medium, big}, the corresponding row of the threshold table induces three intervals that partition ℝ≥0 exhaustively with no overlap — [0, 1.0), [1.0, 1.25], (1.25, +∞) for small; [0, 1.4), [1.4, 2.8], (2.8, +∞) for medium; [0, 1.5), [1.5, 3.5], (3.5, +∞) for big. Second, {small, medium, big} is finite and exhausts the domain of v, and classification does not depend on the swell period component of o, so every (o, v) pair falls under exactly one row and within exactly one interval of that row. ✓
-- **g_t:** The intervals [6, 17), [17, 19), [19, 24) ∪ [0, 6) partition [0, 24) exhaustively. Every t ∈ [0, 24) falls in exactly one interval. ✓
+- **g_t:** g_t is evaluated on a clock value together with a valid date and its canonical solar lookup, so the valid-input branch is quantified over pairs (t, d) with t ∈ [0, 24). Fix any such d and write s_r = sunrise(d), s_s = sunset(d); the frozen artefact `data/solar/solar-events-daily.csv` supplies values satisfying **0 ≤ s_r < s_s < 24** (verified over all 1,827 replay dates; this is a property of the low-latitude study site, not a general astronomical claim — no polar-day or polar-night case is asserted or required). The half-open interval **[s_r, s_s)** and its complement in [0, 24), **[0, s_r) ∪ [s_s, 24)**, are disjoint — a point cannot be both inside and outside a set — and exhaustive, since every t ∈ [0, 24) satisfies exactly one of t < s_r, s_r ≤ t < s_s, or t ≥ s_s. g_t returns SAFE on the first interval and UNSAFE on the second, so every valid (t, d) receives exactly one classification. ✓ **Two intervals, not three: g_t emits no CAUTION** (Im(g_t) = {SAFE, UNSAFE}), and totality does not require surjectivity. *(Amended 2026-09-09: this case previously used the superseded fixed clock [6, 17), [17, 19), [19, 24) ∪ [0, 6), which had survived the SDR-001 migration of 2026-09-08.)*
 
 *(ii) Totality of max-severity.*
 
 max-severity takes a tuple (S_w, S_r, S_m, S_o, S_t) ∈ {SAFE, CAUTION, UNSAFE}⁵ and returns the element that is greatest under ≻ (Definition C.1). Since ≻ is a total strict order on a finite set, the maximum always exists and is unique. ✓
 
-Therefore f(E) = max-severity(g_w(w), g_r(r, κ), g_m(m), g_o(o, v), g_t(t)) is defined and returns exactly one element of {SAFE, CAUTION, UNSAFE} for all E. ∎
+Therefore f(E) = max-severity(g_w(w), g_r(r, κ), g_m(m), g_o(o, v), g_t(t, d)) is defined and returns exactly one element of {SAFE, CAUTION, UNSAFE} for all E. ∎
 
 **Significance.** Theorem C.1 establishes that the safety classifier has no undefined states — every combination of environmental conditions maps to exactly one safety state. This is a necessary condition for runtime governance: a classifier that could fail to return a state would leave the governance layer without a basis for enforcing (G(S), A_AI(S)).
 
