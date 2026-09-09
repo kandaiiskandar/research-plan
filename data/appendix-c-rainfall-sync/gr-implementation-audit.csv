@@ -1,0 +1,10 @@
+file,line,form,reads_rate,reads_wmo,storm_codes,rate_in_dropna,wmo_in_dropna,kappa_on_missing_code
+scripts/canonical_figures.py,127-128,"(precip > R_UNSAFE) | wmo.isin([95,96,99])",YES,YES,95;96;99,YES,NO,0 (pandas isin on NaN is False)
+scripts/condition_comparison.py,161-162,"(precip > R_UNSAFE) | wmo.isin([95,96,99])",YES,YES,95;96;99,YES,NO,0 (pandas isin on NaN is False)
+scripts/diagnostic_binding.py,101-102,"(precip > R_UNSAFE) | wmo.isin([95,96,99])",YES,YES,95;96;99,YES,NO,0 (pandas isin on NaN is False)
+scripts/hysteresis_analysis.py,"111-112, 122, 148-149","(precip > R_UNSAFE) | wmo.isin([95,96,99]); storm checked before hysteresis",YES,YES,95;96;99,YES,NO,0 (pandas isin on NaN is False)
+scripts/historical_replay.py,79-94,"def g_r(precip_mm_hr, wmo_code); precip > R_UNSAFE or wmo_code in (95,96,99)",YES,YES,95;96;99,YES,NO,0 (Python in on NaN is False)
+scripts/compare_v1_v2.py,44,"def g_r(p, c); (p > R_UNSAFE) | np.isin(c, [95,96,99])",YES,YES,95;96;99,NO (v1/v2 compare path),NO,0 (numpy isin on NaN is False)
+scripts/threshold_decision.py,63-64,"(precip > R_UNSAFE) | wmo.isin([95,96,99])",YES,YES,95;96;99,NO (wave only),NO,0 (pandas isin on NaN is False)
+scripts/c5/three_stage_hysteresis.py,"146-147, 156, 262-263","(precip > R_UNSAFE) | wmo.isin([95,96,99]); storm overrides hysteresis",YES,YES,95;96;99,YES,NO,0 (pandas isin on NaN is False)
+scripts/c6/reresolve_predictions.py,124-125,"(precip > R_UNSAFE) | wmo.isin([95,96,99])",YES,YES,95;96;99,YES,NO,0 (pandas isin on NaN is False)

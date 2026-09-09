@@ -1,0 +1,29 @@
+{
+  "formal-change-map.csv": {
+    "fields": 4,
+    "dictreader_rows": 11,
+    "pandas_rows": 11,
+    "pandas_cols": 4,
+    "malformed": [],
+    "sha256_16": "bf9d20b59aee18e3",
+    "parse": "PASS"
+  },
+  "gr-implementation-audit.csv": {
+    "fields": 9,
+    "dictreader_rows": 9,
+    "pandas_rows": 9,
+    "pandas_cols": 9,
+    "malformed": [],
+    "sha256_16": "b572f0a111504a1b",
+    "parse": "PASS"
+  },
+  "gr-occurrence-audit.csv": {
+    "fields": 4,
+    "dictreader_rows": 16,
+    "pandas_rows": 16,
+    "pandas_cols": 4,
+    "malformed": [],
+    "sha256_16": "f0789076a7d6b2ff",
+    "parse": "PASS"
+  }
+}

@@ -1,0 +1,55 @@
+{
+  "task": "Appendix C rainfall signature synchronisation",
+  "date": "2026-09-09",
+  "outcome": "A - clean formal synchronisation",
+  "appendix_c_before": "03e80802a46404df",
+  "appendix_c_after": "1ce268154807bd70",
+  "manuscript_sha16_unchanged": "27b33b846ae327cb",
+  "kappa_classification": "C - derived feature whose absence deterministically defaults to 0",
+  "chi_storm_codes": [
+    95,
+    96,
+    99
+  ],
+  "thresholds": {
+    "R_CAUTION": 10.0,
+    "R_UNSAFE": 20.0
+  },
+  "stop_conditions": {
+    "B_resolution_semantics": false,
+    "C_empirical_refuted": false,
+    "D_impl_spec_conflict": false
+  },
+  "empirical_invariance": {
+    "level2_primary": "5.81%",
+    "level2_resolution": "4.48%",
+    "g_o_daylight_caution": "98.71% / 97.66%",
+    "g_t_all_hours_non_safe": "86.82% / 90.19%",
+    "g_r_daylight_caution": "1.48% / 2.70%",
+    "g_r_all_hours_non_safe": "0.20% / 0.26%",
+    "register": "24 / 15 CONFIRMED / 9 REFUTED",
+    "P09": 3661,
+    "P20": 1529
+  },
+  "kappa_audit": {
+    "hours": 43848,
+    "kappa_1": 0,
+    "missing_code": 0,
+    "invalid_code": 0
+  },
+  "boundary_checks_all_pass": true,
+  "csv_parser_test_all_pass": true,
+  "files_changed": [
+    "docs/canonical/appendix-c-formalisation.md"
+  ],
+  "unexpected_changes": [],
+  "deferred_drift": [
+    "CLAUDE.md 98.66/97.41",
+    "canonical_figures.py trailer 22 kn",
+    "justification/formal-model.md scalar g_r",
+    "explainer scalar g_r",
+    "data-provenance.md scalar g_r",
+    "Journal 1 scalar and categorical g_r",
+    "Appendix C Theorem C.1 g_t superseded fixed-clock intervals"
+  ]
+}

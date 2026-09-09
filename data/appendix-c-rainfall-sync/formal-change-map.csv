@@ -1,0 +1,12 @@
+section,before,after,semantic_change
+C.2.0.1 type table,X_r = R>=0,"X_r = R>=0 x K with K = {0,1}",NONE - type declaration only
+C.2.0.2 what bottom attaches to,o tuple rule only,"adds the rainfall pair rule: rate required, kappa derived and non-faulting",NONE - documents existing behaviour
+C.2.0.4a (NEW),did not exist,chi mapping from raw WMO code to kappa; kappa classified as category C derived feature; D unchanged; fail-open recorded without overclaim,NONE - new documentation of existing behaviour
+C.2 g_r block,"g_r : R>=0 -> S, three rate cases","g_r : R>=0 x K -> S, four cases with kappa=1 first; thresholds unchanged",NONE - thresholds and outputs identical
+C.2 g_r domain line,three intervals partition R>=0 exhaustively,product domain covered; rate partition alone is no longer the whole domain,NONE - corrects a false exhaustiveness claim
+C.2 secondary-route prose,route described in prose as formally part of the specification,route carried by kappa and chi; prose retained and cross-referenced,NONE
+Theorem C.1(i) g_r case,rate partition asserted exhaustive over the g_r domain,"two-case proof over kappa in {0,1}, each total",NONE - proof now covers the true domain
+Theorem C.1 conclusion + C.2 f(E) form,g_r(r),"g_r(r, kappa)",NONE - notation
+Theorem C.1b proof,no note on structured components,note that Y absorbs the product; y_r = bottom denotes rate failure only; chi never yields bottom,NONE - preserves Corollary C.1b.1 scope exactly
+Observation C.1c.1 (NEW),did not exist,"g_r(r,0) precedes-or-equals g_r(r,1); kappa escalation-only; bound direction stated; explicitly not a physical claim",NONE - derived from the definition
+C.2.0.8 trace clause,resolved reading and applicable band,adds which route applied for r; states kappa satisfies existing hazard label; no new reason category,NONE - reasons() contract untouched

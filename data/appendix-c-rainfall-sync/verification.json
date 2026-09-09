@@ -1,0 +1,190 @@
+{
+  "boundary_cases": [
+    {
+      "case": "kappa0 r=0",
+      "rate_mm_hr": 0.0,
+      "kappa": 0,
+      "raw_code": 61,
+      "impl": 0,
+      "appendix_c": 0,
+      "match": true
+    },
+    {
+      "case": "kappa0 r=10.0 boundary",
+      "rate_mm_hr": 10.0,
+      "kappa": 0,
+      "raw_code": 61,
+      "impl": 0,
+      "appendix_c": 0,
+      "match": true
+    },
+    {
+      "case": "kappa0 r just above 10",
+      "rate_mm_hr": 10.000000001,
+      "kappa": 0,
+      "raw_code": 61,
+      "impl": 1,
+      "appendix_c": 1,
+      "match": true
+    },
+    {
+      "case": "kappa0 r=20.0 boundary",
+      "rate_mm_hr": 20.0,
+      "kappa": 0,
+      "raw_code": 61,
+      "impl": 1,
+      "appendix_c": 1,
+      "match": true
+    },
+    {
+      "case": "kappa0 r just above 20",
+      "rate_mm_hr": 20.000000001,
+      "kappa": 0,
+      "raw_code": 61,
+      "impl": 2,
+      "appendix_c": 2,
+      "match": true
+    },
+    {
+      "case": "kappa0 r=45.8 record max",
+      "rate_mm_hr": 45.8,
+      "kappa": 0,
+      "raw_code": 61,
+      "impl": 2,
+      "appendix_c": 2,
+      "match": true
+    },
+    {
+      "case": "kappa1 SAFE-band rate",
+      "rate_mm_hr": 0.0,
+      "kappa": 1,
+      "raw_code": 95,
+      "impl": 2,
+      "appendix_c": 2,
+      "match": true
+    },
+    {
+      "case": "kappa1 CAUTION-band rate",
+      "rate_mm_hr": 15.0,
+      "kappa": 1,
+      "raw_code": 95,
+      "impl": 2,
+      "appendix_c": 2,
+      "match": true
+    },
+    {
+      "case": "kappa1 UNSAFE-band rate",
+      "rate_mm_hr": 25.0,
+      "kappa": 1,
+      "raw_code": 95,
+      "impl": 2,
+      "appendix_c": 2,
+      "match": true
+    },
+    {
+      "case": "kappa1 at 10.0 boundary",
+      "rate_mm_hr": 10.0,
+      "kappa": 1,
+      "raw_code": 95,
+      "impl": 2,
+      "appendix_c": 2,
+      "match": true
+    }
+  ],
+  "chi_mapping": [
+    {
+      "raw_code": 0,
+      "kappa": 0,
+      "in_storm_set": false
+    },
+    {
+      "raw_code": 1,
+      "kappa": 0,
+      "in_storm_set": false
+    },
+    {
+      "raw_code": 2,
+      "kappa": 0,
+      "in_storm_set": false
+    },
+    {
+      "raw_code": 3,
+      "kappa": 0,
+      "in_storm_set": false
+    },
+    {
+      "raw_code": 51,
+      "kappa": 0,
+      "in_storm_set": false
+    },
+    {
+      "raw_code": 53,
+      "kappa": 0,
+      "in_storm_set": false
+    },
+    {
+      "raw_code": 55,
+      "kappa": 0,
+      "in_storm_set": false
+    },
+    {
+      "raw_code": 61,
+      "kappa": 0,
+      "in_storm_set": false
+    },
+    {
+      "raw_code": 63,
+      "kappa": 0,
+      "in_storm_set": false
+    },
+    {
+      "raw_code": 65,
+      "kappa": 0,
+      "in_storm_set": false
+    },
+    {
+      "raw_code": 95,
+      "kappa": 1,
+      "in_storm_set": true
+    },
+    {
+      "raw_code": 96,
+      "kappa": 1,
+      "in_storm_set": true
+    },
+    {
+      "raw_code": 99,
+      "kappa": 1,
+      "in_storm_set": true
+    },
+    {
+      "raw_code": -1,
+      "kappa": 0,
+      "in_storm_set": false
+    },
+    {
+      "raw_code": 7777,
+      "kappa": 0,
+      "in_storm_set": false
+    }
+  ],
+  "absent_code": {
+    "raw_code": "absent (NaN)",
+    "kappa_impl_python": 0,
+    "kappa_impl_pandas": 0,
+    "kappa_impl_numpy": 0,
+    "appendix_c_chi": 0,
+    "match": true
+  },
+  "required_rate_failure": {
+    "case": "rate = bottom (absent/invalid/stale)",
+    "expected": "UNSAFE",
+    "appendix_c": "Corollary C.1b.1 via g_i(bottom)=UNSAFE",
+    "kappa_role": "kappa cannot produce bottom; chi total into K"
+  },
+  "thresholds": {
+    "R_CAUTION": 10.0,
+    "R_UNSAFE": 20.0
+  },
+  "all_pass": true
+}

@@ -1,0 +1,17 @@
+path,locus,classification,action
+docs/canonical/appendix-c-formalisation.md,C.2.0.1 type table; C.2.0.2; new C.2.0.4a; C.2 g_r block; C.2 domain line; secondary-route prose; Theorem C.1(i); C.1 conclusion; C.1b note; Observation C.1c.1; C.2.0.8 trace clause,CANONICAL - requires synchronisation,SYNCHRONISED in this task
+publications/active/ipsci-2026/submissions/v3-revision/manuscript-v3.md,classifier signature; Theorem 1; Algorithm 1; domain declaration; resolution wording; Result 4,ACTIVE PUBLICATION - already correct,NO EDIT - verified to agree with implementation
+scripts/canonical_figures.py + 8 further canonical scripts,g_r evaluation sites,IMPLEMENTATION - canonical executable semantics,NO EDIT - authoritative source of the semantics
+data/c8/pre-migration-scripts/*.py,frozen pre-migration copies,HISTORICAL - preserve,NO EDIT
+publications/active/ipsci-2026/submissions/v2-post-review/manuscript-v2.5-submitted.md,categorical g_r(r) over none/light/moderate/heavy/storm,HISTORICAL - submitted record,NO EDIT
+publications/active/ipsci-2026/supervisor-feedback-response.md,categorical S_r <- g_r(r),HISTORICAL - preserve,NO EDIT
+docs/canonical/session-log-2026-09-06.md,f(E) five-term line with scalar g_r(r),HISTORICAL - dated session record,NO EDIT
+docs/superpowers/plans/2026-09-06-formal-model-and-evaluation-realignment.md,scalar g_r references,HISTORICAL - plan record,NO EDIT
+docs/canonical/report-conference-reviewer-audit-2026-09-09.md,records the scalar-vs-implementation defect,HISTORICAL - must NOT be rewritten to imply kappa was always typed,NO EDIT
+publications/active/journal-1/submissions/v1-initial-submission/manuscript.md,"lines 187, 226, 424, 426 scalar g_r(r)",STALE DOCUMENTATION - repair separately,DEFERRED - Journal 1 work is out of scope
+publications/active/journal-1/section-5-plan.md,superseded categorical g_r bands,STALE DOCUMENTATION - repair separately,DEFERRED - Journal 1 out of scope
+docs/justification/formal-model.md,line 41 S_r = g_r(r),STALE DOCUMENTATION - repair separately,DEFERRED - recorded as drift
+docs/reference/explainer-per-component-classification-functions.md,scalar rainfall classifier description,STALE DOCUMENTATION - repair separately,DEFERRED - recorded as drift
+docs/canonical/data-provenance.md,rainfall/WMO provenance wording,STALE DOCUMENTATION - repair separately,DEFERRED - recorded as drift
+docs/implementation/dataset-label-derivation.md,rainfall label derivation,"IRRELEVANT - derives Layer 3 training labels, not classifier thresholds",NO EDIT
+docs/canonical/appendix-c-formalisation.md,"Theorem C.1 g_t case still lists the superseded fixed-clock intervals [6,17),[17,19),[19,24)u[0,6)",CANONICAL - unrelated drift found in passing,NOT FIXED - out of scope for a rainfall repair; recorded for a bounded g_t follow-up
