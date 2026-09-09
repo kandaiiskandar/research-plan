@@ -1,0 +1,15 @@
+id,classification,finding,location,action
+F-R1-01,R1,"Threshold sources Yaakob et al. and Jeong and Im named in prose, uncited, absent from reference list",Classification and role of vessel category; Domain Instantiation; Threats internal validity,Added [39] [40]; cited at four sites
+F-R1-02,R1,Indykov safety-score claim generalises an insufficient-evidence code across sixteen tactics,Abstract; Synthesis,Narrowed to the source's supported reading
+F-R1-03,R1,"Conclusion asserts universal AI self-restriction impossibility, contradicting the paper's own scoped mechanistic section",Conclusion,Rescoped to LLM systems
+F-R1-04,R1,"A_AI(CAUTION) stipulated, not derived; Design Principle promises a mapping never performed",Design Principle; Deployment Challenges and Limitations,Recorded as limitation - no evidence exists to answer it
+F-R2-01,R2,Abstract silent on the reasoning engine being unimplemented,Abstract,Disclosure clause added
+F-R2-02,R2,E typed inconsistently as an observation vector containing v across three locations,Fig. 3; Domain Instantiation,Aligned to C plus configured v
+F-R2-03,R2,g_r inert thunderstorm route and its lower-bound consequence undisclosed in the manuscript,Result 4,Disclosed
+F-R2-04,R2,Wave-maximum comparison open to a false period-mismatch objection,Result 5,Period-matching verified and stated
+F-R2-05,R2,Two orphan references,Reference list,Both cited appropriately
+F-R3-01,R3,Algorithm 1 storm-indication branch is an input outside the declared domain of r; totality proof partitions only the numeric domain,Theorem 1 proof sketch; Algorithm 1,"Open formal item - recorded, not silently patched"
+F-R3-02,R3,Fig. 1 and Fig. 2 are external image placeholders in this working file,Introduction; Literature Review,"Submission-packaging item, outside edit scope"
+F-R3-03,R3,532 primary references sums heterogeneous units,Introduction,"Flagged; arithmetic correct, constituents itemised"
+F-R4-01,R4,CLAUDE.md quotes g_o daylight CAUTION as 98.66/97.41; canonical_figures.py and the manuscript both give 98.71/97.66,Project instruction file,"Project-file drift, not a manuscript defect - manuscript is correct"
+F-R4-02,R4,canonical_figures.py reporting text still says 'against a 22 kn threshold',scripts/canonical_figures.py trailer,Stale script prose; canonical threshold is 21.6 and the manuscript states it correctly

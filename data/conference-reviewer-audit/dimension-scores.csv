@@ -1,0 +1,25 @@
+dimension,pre_edit,post_edit,basis
+Problem significance,STRONG,STRONG,Documented fatality and accident statistics for the target population; gap is consequential not decorative
+Gap establishment,STRONG,STRONG,Four independent literature streams plus a measured baseline (C3 vs C1 = 0.00%)
+Novelty of the governance pair,STRONG,STRONG,No reviewed architecture conditions advisory scope on classified environmental state; TABLE II codes the comparison
+Positioning against related work,ADEQUATE,ADEQUATE,Closest precedents named and compared; C3 port is disclosed as a structural not a system comparison
+Formal specification clarity,WEAK,ADEQUATE,"E/C/v conflation between Fig. 3, Domain Instantiation and Formal Structure corrected"
+Proof correctness,STRONG,STRONG,Three proofs verified by exhaustive case analysis over a three-element set; no error found
+Proof assumption disclosure,STRONG,STRONG,A1-A4 stated explicitly; external validity notes that ML/LLM engines would need a different argument
+Architecture description,ADEQUATE,ADEQUATE,Layers and enforcement point are clear; Fig. 1 and Fig. 2 remain external image placeholders
+Algorithm specification,ADEQUATE,ADEQUATE,Three algorithms given; Algorithm 1 storm-indication branch remains a typed input not in the declared domain of r
+Evaluation design,ADEQUATE,ADEQUATE,"Four conditions over a common record; admissible-set level only, disclosed"
+Baseline adequacy,STRONG,STRONG,"C0/C1/C3 span ungated, binary and the closest structural precedent"
+Ablation and level isolation,STRONG,STRONG,C0-C1 and C0-C2 isolate Level 1 from Level 2; difference reproduces exactly
+Statistical treatment,ADEQUATE,ADEQUATE,"Descriptive rates over a full population census; no inferential claim is made, correctly"
+Data provenance,STRONG,STRONG,Two configurations reported; land/sea cell error corrected and documented; solar artefact frozen and hash-pinned
+Reproducibility,STRONG,STRONG,Every published figure regenerated live from canonical scripts during this audit
+Result interpretation restraint,STRONG,STRONG,"Characterisation-not-validation stated in abstract, results and conclusion"
+Threats to validity,STRONG,STRONG,"Unusually candid; includes the architecture's own principal cost (2 to 1,536 step)"
+Generalisation claims,ADEQUATE,ADEQUATE,Structural transfer argued; TABLE V instantiations are illustrative and labelled as such
+Internal consistency,WEAK,STRONG,Conclusion universal-impossibility claim contradicted the scoped mechanistic section; corrected
+Citation integrity,CRITICAL,STRONG,Two threshold sources named but uncited and absent from the reference list; two orphan references; all resolved
+Evidence-class discipline,ADEQUATE,STRONG,Solar bounds already separated model-vs-model from USNO comparison; g_r inert storm route now disclosed
+Figures and tables,ADEQUATE,ADEQUATE,TABLE VI and VII reproduce exactly; Fig. 4 values verified against TABLE IIIb; Fig. 1-2 not embedded in this file
+Contribution-evidence alignment,WEAK,ADEQUATE,Third contribution is measured; abstract now discloses the engine is unimplemented
+Limitations honesty,ADEQUATE,STRONG,Stipulated A_AI(CAUTION) added as a first-class limitation rather than left implicit

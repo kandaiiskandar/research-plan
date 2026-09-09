@@ -1,0 +1,10 @@
+id,edit,rationale,invents_evidence
+E1,Added references [39] Yaakob et al. 2015 and [40] Jeong and Im 2023; cited at four use sites,Recovers bibliographic records already held in the project corpus for sources the manuscript already relies on,"NO - existing corpus records, claims verified against extraction notes"
+E2,Narrowed the Indykov claim in abstract and body,Restates what the source's coding scheme supports,NO - weakens a claim
+E3,Rescoped the Conclusion's mechanistic claim to LLM systems,Removes an internal contradiction with the body,NO - weakens a claim
+E4,Aligned E/C/v typing in Fig. 3 and Domain Instantiation,Makes the paper consistent with its own Formal Structure,NO - notation only
+E5,Disclosed the inert thunderstorm route for g_r,Surfaces canonical finding F-11 into the manuscript,NO - adds a lower-bound caveat
+E6,"Stated that both wave maxima fall inside the 28,501-hour overlap",Verified directly from the two archived series,NO - reports an existing property of existing data
+E7,Abstract now discloses the unimplemented reasoning engine,Aligns the abstract with the Threats section,NO - weakens a claim
+E8,Cited orphan references [18] and [20] at substantively appropriate points,Removes uncited list entries,NO - placement only
+E9,Added stipulated-A_AI(CAUTION) as the first of four limitations,Records a reviewer objection that existing evidence cannot answer,NO - adds a limitation

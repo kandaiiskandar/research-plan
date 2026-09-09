@@ -1,0 +1,30 @@
+{
+  "dimension-scores.csv": {
+    "fields": 4,
+    "rows": 24,
+    "malformed": [],
+    "sha256_16": "f7a06ad007a3fb0e",
+    "parse": "PASS"
+  },
+  "edits-applied.csv": {
+    "fields": 4,
+    "rows": 9,
+    "malformed": [],
+    "sha256_16": "f24dad8d96ef1d70",
+    "parse": "PASS"
+  },
+  "findings.csv": {
+    "fields": 5,
+    "rows": 14,
+    "malformed": [],
+    "sha256_16": "0b77c650ee796943",
+    "parse": "PASS"
+  },
+  "reviewer-attacks.csv": {
+    "fields": 6,
+    "rows": 20,
+    "malformed": [],
+    "sha256_16": "83e0b9abea8ce918",
+    "parse": "PASS"
+  }
+}
