@@ -1,0 +1,33 @@
+{
+  "status": "PASS",
+  "changed_existing_files": [
+    "docs/canonical/architecture-illustration.md",
+    "publications/active/ipsci-2026/README.md",
+    "publications/active/ipsci-2026/submissions/v3-revision/manuscript-v3.md",
+    "publications/active/ipsci-2026/supervisor-feedback-response.md",
+    "publications/active/journal-1/README.md",
+    "publications/active/journal-1/section-5-plan.md",
+    "publications/active/journal-1/section-6-plan.md",
+    "publications/active/journal-1/submissions/v1-initial-submission/manuscript.md"
+  ],
+  "unchanged_existing_files": 481,
+  "register": {
+    "entries": 24,
+    "CONFIRMED": 15,
+    "REFUTED": 9
+  },
+  "queue_rows_mapped": 1227,
+  "checks": [
+    "Frozen hashes",
+    "Headline and outcomes in abstract/conclusion",
+    "Table VII symmetry and C-8 values",
+    "TABLE VI rainfall metrics",
+    "95.8 historical / 93.9 current provenance",
+    "Proof intervals",
+    "Fig.4 stored solar-date check",
+    "P09 chain",
+    "P20 scopes",
+    "Reason-set and human authority statements"
+  ],
+  "limits": "No replay, runtime engine test or solar citation closure. Numeric coverage categorisation and prose review complement these targeted checks."
+}

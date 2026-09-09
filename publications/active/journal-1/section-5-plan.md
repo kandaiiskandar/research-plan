@@ -1,5 +1,7 @@
 # Section 5 Plan: Formal Architecture
 
+> **Publication consistency audit, 2026-09-09 — historical drafting plan, superseded for implementation and publication reuse.** Section 5 has since been drafted and aligned with Appendix C in [the active working manuscript](submissions/v1-initial-submission/manuscript.md). The planning text below records its earlier specification; do not copy its thresholds, fixed-clock intervals, vessel-term formulation or fail-safe wording as current. Use the working manuscript and Appendix C.
+
 > **⚠️ SDR-001 APPLIED 2026-09-08 — `g_t` is now the canonical solar-event classifier: SAFE sunrise ≤ t < sunset, UNSAFE otherwise, `g_t(⊥) = UNSAFE`. It emits **no CAUTION**. The fixed clock 06:00 / 17:00 / 19:00 and its 17:00–19:00 CAUTION band are **superseded** — retained below only as the historical specification. **"Daylight" now means sunrise ≤ t < sunset.** Canonical figures: Level 2 binds **5.81% / 4.48%** (7.72% / 5.98% were computed under the superseded classifier). See `report-c8-migration-2026-09-08.md`.**
 
 

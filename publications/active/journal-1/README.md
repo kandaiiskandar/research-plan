@@ -1,5 +1,7 @@
 # Journal 1 Submission Tracking
 
+**Current working manuscript:** [v1 draft](submissions/v1-initial-submission/manuscript.md), aligned to Appendix C. Sections 5–6 are drafted; later empirical sections remain plans. The earlier section plans are retained as drafting history.
+
 ## Venue Details
 - **Journal:** Safety Science (Elsevier)
 - **Fallback 1:** Artificial Intelligence Review (Springer)

@@ -1,5 +1,7 @@
 # Supervisor Feedback Response — IPSci 2026 Conference Paper
 
+> **Reuse note, 2026-09-09:** This document records earlier supervisor responses and proposed insertions. Its dated examples and draft passages are historical, not the current architecture specification. For publication reuse, use [the active v3 manuscript](submissions/v3-revision/manuscript-v3.md) and Appendix C, including 5.81% / 4.48%, 15 CONFIRMED / 9 REFUTED, binary solar-event time and overlapping provenance reasons. The hardware-cost parenthetical was removed separately under Outcome C; that resolution remains in force.
+
 **Date:** 2026-08-12  
 **Status:** Paper under review. This document tracks the response to each supervisor comment for use when revisions are requested.  
 **Key source:** Much of the content needed for points 2–9 is already drafted in the journal paper at `publications/active/journal-1/submissions/v1-initial-submission/manuscript.md`. Adapt from there rather than rewriting from scratch.

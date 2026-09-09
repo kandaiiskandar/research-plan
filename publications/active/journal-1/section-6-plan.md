@@ -1,5 +1,7 @@
 # Section 6 Plan: Theoretical Analysis
 
+> **Publication consistency audit, 2026-09-09 — historical drafting plan, superseded for implementation and publication reuse.** Section 6 has since been drafted and aligned with Appendix C in [the active working manuscript](submissions/v1-initial-submission/manuscript.md). The planning text below records its earlier specification; do not copy its thresholds, fixed-clock intervals, vessel-term formulation or fail-safe wording as current. Use the working manuscript and Appendix C.
+
 **Document type:** Writing plan  
 **For:** Journal 1 — Safety Science submission  
 **Date:** 2026-08-09  

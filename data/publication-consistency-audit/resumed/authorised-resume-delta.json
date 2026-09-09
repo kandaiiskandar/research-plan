@@ -1,0 +1,13 @@
+{
+  "hardware_resolution_commit": "8c2e836",
+  "authorised_scientific_delta": [
+    "publications/active/ipsci-2026/submissions/v3-revision/manuscript-v3.md",
+    "publications/active/ipsci-2026/supervisor-feedback-response.md"
+  ],
+  "preexisting_user_metadata_delta": [
+    "data/.DS_Store",
+    "docs/.DS_Store"
+  ],
+  "SC-3": "cleared; not reopened",
+  "branch": "chore/publication-consistency-audit"
+}
