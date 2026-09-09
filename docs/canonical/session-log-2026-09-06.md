@@ -103,6 +103,8 @@ Jeong & Im's Korean finding — 82% of capsizings with no warning issued — rep
 
 **22 confirmed, 2 refuted** (24 predictions). *P22 refuted 2026-09-08 by the MET rainfall amendment — see F-16.*
 
+> 📌 **HISTORICAL — the count as it stood at the close of this session. Not the current prediction state.** *(Annotated 2026-09-09.)* C-6 and C-8 subsequently re-resolved the register to **15 CONFIRMED / 9 REFUTED**, and **P16 was re-resolved REFUTED → CONFIRMED** (F-17): at the canonical 21.6 kn boundary sea-cell wind *does* cross the threshold, twice. The paragraph below therefore names the wrong prediction, and there is no longer a single refutation. Retained unrewritten because it records what was concluded on the day. Authority for prediction state is `data/prediction-register.csv`.
+
 The refutation (P16 — I predicted sea-cell wind would cross 22 kn) is the most useful result of the day: it converted F-1 from *suspected artefact* to *established property of the site*.
 
 Two predictions were deliberately uncomfortable and both held: **P13** (mode-chattering is not a real problem — contradicting both papers) and **P14** (the classifier reduces to a wave gate plus night curfew).

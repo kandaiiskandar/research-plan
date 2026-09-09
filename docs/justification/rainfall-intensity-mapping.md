@@ -76,6 +76,8 @@ This limitation does not affect the architecture's formal properties. The Safety
 
 The `precipitation` column (total precipitation including all forms) is used for `r` mapping. The `rain` column (liquid rain only, excluding snow) is equivalent at tropical sea-level coordinates.
 
+> 📌 **Provenance update, 2026-09-09 — the mapping is unaffected; the file is no longer the canonical source.** This section records the file produced by, and used for, the mapping derivation. Canonical analyses now read precipitation from the `precipitation` column of **`raw_weather_sea.csv`** (sea cell, 5.940246 / 116.025), which arrived with the v2 wind re-collection; `raw_rainfall.csv` sits on the superseded land cell (5.940246 / 116.100006) and is reachable only behind `--v1-historical`. Both are ERA5 hourly precipitation in mm from the same API, so the *mapping* derived here carries over unchanged — only the grid cell differs.
+
 Script: `scripts/openmeteo_raw_rainfall.py`
 
 ---

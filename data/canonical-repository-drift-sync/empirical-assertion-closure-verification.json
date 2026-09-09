@@ -1,0 +1,68 @@
+{
+  "rainfall_counts": {
+    "canonical_sea_gt20": 21,
+    "canonical_sea_gt10": 113,
+    "canonical_sea_max": 45.8,
+    "v1_land_gt20": 14,
+    "v1_land_gt10": 131,
+    "v1_land_max": 39.2,
+    "reconciliation": "F-11's 14 is the v1 land-cell count; canonical sea cell gives 21. No conflict - EA-R2 not triggered"
+  },
+  "kappa": {
+    "kappa_1_hours": 0,
+    "missing_raw_code": 0,
+    "invalid_raw_code": 0,
+    "evaluated_hours": 43848,
+    "both_cells": "kappa=1 is 0 on BOTH land and sea cells, so the code absence is not a cell artefact"
+  },
+  "wind": {
+    "W_CAUTION": 21.6,
+    "W_UNSAFE": 27.0,
+    "max_sea": 21.8,
+    "max_land": 17.8,
+    "activations_sea_at_21_6": 2,
+    "activations_sea_at_22_0": 0,
+    "activations_land": 0,
+    "bindings": 0,
+    "governing_components": [
+      "g_o on 2021-01-17 06:00",
+      "g_t on 2024-04-30 23:00"
+    ]
+  },
+  "authority_chain": "F-1 (historical, 22 kn) -> F-13 (sea recollection) -> F-17 (canonical restatement, 21.6 kn). F-17 is later and governs.",
+  "active_residues": {
+    "A_thunderstorm_occurrence": 0,
+    "B_wind_never_reaches": 0
+  },
+  "empirical": {
+    "level2": "5.81% / 4.48%",
+    "g_o": "98.71% / 97.66%",
+    "g_t": "86.82% / 90.19%",
+    "g_r_daylight": "1.48% / 2.70%",
+    "g_r_all_hours": "0.20% / 0.26%",
+    "daylight_unsafe": "1262 / 455",
+    "transitions": "3661 / 3439 / 222 / 26 / 10.36%"
+  },
+  "register": {
+    "total": 24,
+    "CONFIRMED": 15,
+    "REFUTED": 9,
+    "P01": "REFUTED",
+    "P16": "CONFIRMED",
+    "P09": 3661,
+    "P20": 1529
+  },
+  "data_flow_unchanged": "raw_weather_sea.csv supplies wind, precipitation and raw code c; land files historical only",
+  "stop_conditions": {
+    "EA-R1": false,
+    "EA-R2": false,
+    "EA-R3": false,
+    "EA-R4": false,
+    "EA-R5": false,
+    "EA-R6": false
+  },
+  "files_changed": [
+    "docs/canonical/empirical-findings-2026-09-06.md"
+  ],
+  "all_clear": true
+}

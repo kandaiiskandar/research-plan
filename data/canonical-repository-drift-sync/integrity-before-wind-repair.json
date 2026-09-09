@@ -1,0 +1,27 @@
+{
+  "phase": "wind-assertion-closure-before",
+  "count": 21,
+  "hashes": {
+    "docs/canonical/appendix-c-formalisation.md": "abee8715e842e0d9ad49edc6a2093672dd1d5dabb3d393ead1aee4e4a76e0f8c",
+    "publications/active/ipsci-2026/submissions/v3-revision/manuscript-v3.md": "27b33b846ae327cb3401bc4e6e9cb387c651fc7f3bb2b69cbaf3c5aa5e6e1bd8",
+    "data/prediction-register.csv": "5574b88ea65168b6ef5e308629f3eb14fb70f8688a592fde279103ea4b37eae6",
+    "scripts/canonical_gt.py": "b330bf9f94e848aad282a71d226c85c7e73f4ec8c0f2f8c88bfd7112b6e9a577",
+    "scripts/canonical_figures.py": "cec23acf68e5be2ca6cb1d10cf8f7f3b52dfb0fa0090dbc39ce533a4c7eef9cc",
+    "scripts/condition_comparison.py": "3c32913a2a9cc85ff237c927d6f2be7a57fe0a87a08de5e254dbf98150282d48",
+    "scripts/diagnostic_binding.py": "113b5b92e81535a97a8967aa2658e3c1da5ef2f32cf04dae0e18ccd5c57ecb61",
+    "scripts/hysteresis_analysis.py": "a58af0133acdf4f8cb1fc6945439c2bd3505082038307f8272256a1efe37096c",
+    "scripts/historical_replay.py": "3b1105b7cc03839b3d162f4c6ecef60dd439102ea5a9d4c139c4cc19c043d806",
+    "scripts/compare_v1_v2.py": "5d69dfa951fe455a52e3906e5d11ed1d038d37e102d9d08c457820c9cf285e16",
+    "scripts/threshold_decision.py": "ef30ad3f8df7eba932006c6a553c7907ef89bd949a497e608692eb86a67a046b",
+    "scripts/sensitivity/solar.py": "3b7dc371ebe5931b3336f9982c5806a06a515dc2032569f5da7720470c1ec36c",
+    "data/solar/solar-events-daily.csv": "057c46a19d0e8ea7956cdc38ae3d7615cf43cf800e7bc33ab286dfdc20ce1894",
+    "data/raw_weather_sea.csv": "96850d7547189ffa5ccc02a36cf69987bfae742e54b61597c2ca7d251e84c424",
+    "data/raw_marine_era5_sea.csv": "6754e2c2ee5586ee864e590f1ccf363bbd8840b364763e01e8c9eb05e5d63888",
+    "data/raw_marine_mfwam.csv": "e9f323e086a3e9dddd29129bda6dbbea7590bbdcc9a1500c0460ca18233bf60f",
+    "publications/active/journal-1/submissions/v1-initial-submission/manuscript.md": "f101ed6f1adce397dab773821469106b5c6025e72ed410a6e3576f0fd9283ed6",
+    "publications/active/journal-1/section-5-plan.md": "7d9c58e9f3e96547008b075d665a115b72dfc1eedb070671256c4550fbb74f15",
+    "docs/canonical/data-provenance.md": "20085e19153381f2b562b5805ec66ab95a3ee5ad15160652ba21a06dfdf9d56d",
+    "docs/canonical/empirical-findings-2026-09-06.md": "d09ec240d9ce007247d45c0f0e829dc1f7ed4cda0748cd8c7c5038ec51e9cbc6",
+    "CLAUDE.md": "49b859309cacfdf7f894a24a9fdf7f6c616ddc9da6505b8fceace1ca34923872"
+  }
+}

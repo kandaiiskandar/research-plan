@@ -1,0 +1,9 @@
+file,loci_changed,nature,empirical_effect
+CLAUDE.md,3,g_o shares + semantic label; f(E) form; r type row,NONE
+scripts/canonical_figures.py,1,reporting trailer prose only; executable constant untouched,NONE - outputs re-run identical
+docs/justification/formal-model.md,3,r type; classification step; worked example,NONE
+docs/reference/explainer-per-component-classification-functions.md,12,"g_r retyping (6), g_t definition block (1), g_w threshold (5)",NONE - worked-example classifications unchanged
+docs/canonical/data-provenance.md,5,wind claim; g_o shares and wave threshold; raw c vs kappa; rainfall share; evidence boundary,NONE
+docs/canonical/architecture-illustration.md,2,wind threshold annotations,NONE - classifications unchanged
+docs/canonical/empirical-findings-2026-09-06.md,1,3.4 reporting directive figures,NONE - 0a untouched
+docs/canonical/decision-record-empirical-first.md,1,"historical annotation added, text preserved",NONE

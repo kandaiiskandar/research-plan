@@ -13,6 +13,8 @@
 
 **Finding: `g_w` never fires.** Sustained wind at the site ranges 0–17.8 kn over five years. The `g_w` thresholds are 22 kn (CAUTION) and 27 kn (UNSAFE). Zero activations in either band.
 
+> 📌 **HISTORICAL — this is what was believed on 2026-09-06, and it is what prompted the decision recorded here. It is not the current finding.** The 22 kn boundary was an undocumented rounding of MET Category 1 onset (40 km/h = 21.598 kn), and the v1 land cell understated wind. Under the canonical **21.6 kn** boundary on v2 sea-cell data, `g_w` **activates twice** in 43,848 hours (21.7 and 21.8 kn) and **binds in neither**. The zero was an artefact of the rounding, not a property of the site. Retained unrewritten because the decision below was taken on this basis. See F-17 and `report-c7-closure-2026-09-08.md`. *(Annotated 2026-09-09.)*
+
 Before this run, `g_w` had: threshold values in Table 1, an empirical justification paragraph, a totality case in Theorem 6.1, a row in Algorithm 1, a complexity entry, and answers in the viva preparation document. None of that was wrong in itself. It was simply never checked against the environment it describes.
 
 **Secondary findings from the same run:**
@@ -121,7 +123,9 @@ Four are regression locks on figures already measured (P01–P04). **P01 is the 
 5. ~~**Add the C3 Flehmig-style baseline**~~ — ✅ **DONE 2026-09-06.** `scripts/condition_comparison.py`. C3 diverges from C1 in **0.00%** of hours: the closest structural precedent is output-equivalent to a plain binary gate. Level 2 isolated at 6.15%. See F-15.
 6. ~~**Decide the F-1/F-7 framing**~~ — ✅ **RESOLVED 2026-09-06.** **Report the binding profile as a finding AND retain all five functions with explicit scope statements** (options 1 + 3). The classifier is **not** reduced: doing so would fit the specification to one site's weather, cost the transferability claim both papers make, and bake a temporary data gap (`g_m`) into a formal specification. `g_w` and `g_m` are to be presented **separately** — `g_w` is measured-and-never-reached (a site property, results section, quote the 0.2 kn margin); `g_m` is never-measured (threats to validity, all severity figures are lower bounds). Full reasoning in `empirical-findings-2026-09-06.md` §3.
 
-**All 24 pre-registered predictions resolved: 22 confirmed, 2 refuted** (P16 — see F-13; the refutation is what converts F-1 from suspected artefact to established site property).
+**All 24 pre-registered predictions are resolved: 15 CONFIRMED / 9 REFUTED** — canonical per `data/prediction-register.csv`. Refuted: P01, P04, P09, P18, P19, P20, P22, P23, P24; only P20, P23 and P24 are attributable to SDR-001.
+
+> *(Synchronised 2026-09-09.)* This line read **"22 confirmed, 2 refuted (P16 — see F-13; the refutation is what converts F-1 from suspected artefact to established site property)"**. Both halves are superseded: C-6 and C-8 re-resolved the register away from 22/2, and **P16 is CONFIRMED, not refuted** (F-17) — at the corrected 21.6 kn boundary the sea-cell series does cross the threshold. What converts F-1 from suspected artefact to established site property is now the corrected threshold itself: `g_w` **activates twice and binds in neither**.
 
 ---
 

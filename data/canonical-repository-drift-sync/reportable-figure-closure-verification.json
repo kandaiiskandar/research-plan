@@ -1,0 +1,67 @@
+{
+  "section_0a_vs_executable": {
+    "level2_PRIMARY": "5.81%",
+    "level2_RESOLUTION": "4.48%",
+    "daylight_unsafe": "1262 / 455",
+    "g_o": "98.71% / 97.66%",
+    "g_t": "86.82% / 90.19%",
+    "g_r_daylight": "1.48% / 2.70%",
+    "g_r_all_hours": "0.20% / 0.26%",
+    "C1_C3": "0.00% / 0.00%",
+    "C0_C1": "42.88%",
+    "C0_C2": "48.69%",
+    "agreement": "section 0a matches canonical_figures.py and condition_comparison.py exactly"
+  },
+  "reporting_contract": {
+    "PRIMARY": "5.81% - 5.00 yr ERA5-Ocean ~50 km - HEADLINE",
+    "RESOLUTION": "4.48% - 3.25 yr MFWAM ~8 km - SENSITIVITY CHECK",
+    "note": "F-14 proposed the inverse assignment (MFWAM primary on siting); option C chose ERA5 on record length"
+  },
+  "figure_evolution": "12.4 -> 8.3 -> 6.1 -> 5.81 (PRIMARY) / 4.48 (RESOLUTION)",
+  "wave_unsafe_check": {
+    "canonical_small_UNSAFE_boundary_m": 1.25,
+    "MFWAM_hours_above_1_25": 937,
+    "ERA5_hours_above_1_25": 2516,
+    "MFWAM_hours_above_1_9": 0,
+    "ERA5_hours_above_1_9": 43,
+    "note": "F-14's 'never occurs' is a property of the superseded 1.9 m boundary only"
+  },
+  "structural_invariant": "C3 = C1 at exactly 0.00% in both configurations, before and after migration",
+  "active_stale_reportable_instructions": 0,
+  "empirical": {
+    "level2": "5.81% / 4.48%",
+    "g_o": "98.71% / 97.66%",
+    "g_t": "86.82% / 90.19%",
+    "g_r_daylight": "1.48% / 2.70%",
+    "g_r_all_hours": "0.20% / 0.26%",
+    "daylight_unsafe": "1262 / 455",
+    "transitions": "3661 / 3439 / 222 / 26 / 10.36%"
+  },
+  "register": {
+    "total": 24,
+    "CONFIRMED": 15,
+    "REFUTED": 9,
+    "P09": 3661,
+    "P20": 1529
+  },
+  "wind": {
+    "W_CAUTION": 21.6,
+    "activations": 2,
+    "bindings": 0
+  },
+  "rainfall": {
+    "sea_gt20": 21,
+    "sea_gt10": 113,
+    "kappa_1": 0
+  },
+  "stop_conditions": {
+    "canonical_output_conflict": false,
+    "new_empirical_decision_required": false,
+    "unexpected_empirical_drift": false,
+    "protected_authority_change": false
+  },
+  "files_changed": [
+    "docs/canonical/empirical-findings-2026-09-06.md"
+  ],
+  "all_clear": true
+}

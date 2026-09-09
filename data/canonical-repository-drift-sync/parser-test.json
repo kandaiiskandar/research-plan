@@ -1,0 +1,51 @@
+{
+  "canonical-change-map.csv": {
+    "fields": 4,
+    "dictreader_rows": 8,
+    "pandas_rows": 8,
+    "malformed": [],
+    "parse": "PASS"
+  },
+  "data-configuration-residue-audit.csv": {
+    "fields": 9,
+    "dictreader_rows": 15,
+    "pandas_rows": 15,
+    "malformed": [],
+    "parse": "PASS"
+  },
+  "empirical-assertion-residue-audit.csv": {
+    "fields": 10,
+    "dictreader_rows": 17,
+    "pandas_rows": 17,
+    "malformed": [],
+    "parse": "PASS"
+  },
+  "prediction-state-residue-audit.csv": {
+    "fields": 8,
+    "dictreader_rows": 14,
+    "pandas_rows": 14,
+    "malformed": [],
+    "parse": "PASS"
+  },
+  "reportable-figure-residue-audit.csv": {
+    "fields": 10,
+    "dictreader_rows": 16,
+    "pandas_rows": 16,
+    "malformed": [],
+    "parse": "PASS"
+  },
+  "repository-drift-audit.csv": {
+    "fields": 9,
+    "dictreader_rows": 23,
+    "pandas_rows": 23,
+    "malformed": [],
+    "parse": "PASS"
+  },
+  "wind-assertion-residue-audit.csv": {
+    "fields": 8,
+    "dictreader_rows": 17,
+    "pandas_rows": 17,
+    "malformed": [],
+    "parse": "PASS"
+  }
+}

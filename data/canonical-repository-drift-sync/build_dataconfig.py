@@ -1,0 +1,38 @@
+#!/usr/bin/env python3
+import csv, json, hashlib, pathlib, io, collections
+import pandas as pd
+HERE=pathlib.Path(__file__).resolve().parent
+F=["id","file","locator","claim","classification","canonical_authority","action","status","notes"]
+rows=[
+ ("DC-01","docs/canonical/empirical-findings-2026-09-06.md","0. Standing caveats - grid-cell row","Weather data comes from a LAND grid cell; marine data from a SEA cell. See F-10. Likely the principal cause of F-1","ACTIVE-CANONICAL-DRIFT","executable data flow in 7 canonical scripts","Rewritten to the verified current matrix, with a note distinguishing current configuration from F-10 history","REPAIRED","THE KNOWN RESIDUE. Sat under 'Applies to every figure below', so the superseded v1 configuration was framed as a current global caveat. The consequence column was independently stale: F-17 established the 22 kn rounding, not the land cell, as the cause of F-1"),
+ ("DC-02","scripts/canonical_figures.py","Module docstring","Three scripts (historical_replay, diagnostic_binding, hysteresis_analysis) STILL READ raw_weather.csv (the LAND cell...)","ACTIVE-CANONICAL-DRIFT","C-8 migration 2026-09-08; CLAUDE.md recomputation rule","Scoped to when the script was written; UPDATED note added recording the C-8 migration and the canonical source","REPAIRED","Present-tense falsehood inside the docstring of the script that IS the figure authority. Docstring only - no executable line changed"),
+ ("DC-03","docs/canonical/data-provenance.md","r - rainfall intensity, Source row","Same as `w` (land cell)","ACTIVE-CANONICAL-DRIFT","raw_weather_sea.csv header 5.940246/116.025","Corrected to the v2 sea cell","REPAIRED","'Same as w' stayed true; '(land cell)' did not - wind moved to the sea cell at v2 and precipitation moved with it as a column of the same file"),
+ ("DC-04","docs/canonical/data-provenance.md","Section 3 file table, raw_rainfall.csv row","still in use - see caveat","ACTIVE-CANONICAL-DRIFT","executable data flow","Status corrected to 'not in use'","REPAIRED","No canonical analysis reads it; reachable only behind --v1-historical"),
+ ("DC-05","docs/canonical/data-provenance.md","raw_rainfall caveat paragraph","has not been re-collected ... it is an outstanding inconsistency","ACTIVE-CANONICAL-DRIFT","executable data flow + numeric comparison","Rewritten: resolved by substitution rather than re-collection, with the numeric difference stated","REPAIRED","The two series genuinely differ - 14,019.4 mm vs 14,970.2 mm, 113 vs 131 hours above 10 mm/hr - so this was a real provenance difference, not a nominal one"),
+ ("DC-06","docs/canonical/data-provenance.md","Checklist item for r","check whether the rainfall column came from the land-cell raw_rainfall.csv","ACTIVE-CANONICAL-DRIFT","executable data flow","Replaced with the settled answer","REPAIRED","A live instruction to check a question that is now definitively answered"),
+ ("DC-07","docs/justification/rainfall-intensity-mapping.md","5. File produced","data/raw_rainfall.csv ... the precipitation column is used for r mapping","AMBIGUOUS -> ACTIVE-CANONICAL-DRIFT","executable data flow","Annotated: the mapping is unaffected, the file is no longer the canonical source","REPAIRED","Correct as a record of the derivation; misleading as a present-tense source claim. Both series are ERA5 hourly precipitation in mm, so the mapping carries over unchanged - only the grid cell differs"),
+ ("DC-08","docs/canonical/data-provenance.md","Section 3 pairwise separation table","12.9 / 7.2 / 2.7 km","ACTIVE-CORRECT","independent haversine computation","NO EDIT","VERIFIED - reproduced exactly from the file headers during this audit"),
+ ("DC-09","docs/canonical/empirical-findings-2026-09-06.md","F-10, F-13","wind sampled over LAND, waves over SEA, 12.9 km apart; re-collection with cell_selection=sea","HISTORICAL-SUPERSEDED","-","NO EDIT","Retained in full as the record of the v1 configuration and its correction, per the instruction not to rewrite F-10/F-13"),
+ ("DC-10","docs/canonical/empirical-findings-2026-09-06.md","0b method note; superseded figure banners","v1 land-cell data at the pre-amendment threshold","HISTORICAL-SUPERSEDED","-","NO EDIT","Explicitly marked superseded"),
+ ("DC-11","docs/canonical/data-provenance.md","Section 3 narrative","The v1 classifier combined wind measured over land with waves measured over water 12.9 km away","ACTIVE-CORRECT","-","NO EDIT","Self-marked as v1"),
+ ("DC-12","docs/canonical/finding-gt-sensitivity-analysis.md; report-c*/cleanup-report*/approval-report*","Configuration caveats and integrity anchors","P09-P13 registered against v1 land-cell data; this analysis runs on sea-cell data","HISTORICAL-SUPERSEDED","-","NO EDIT","Dated audit artefacts, correctly scoped to their moment"),
+ ("DC-13","CLAUDE.md","Recomputation rule; mode-chattering block","v2 sea-cell is the canonical default; land files behind --v1-historical","ACTIVE-CORRECT","-","NO EDIT","Already accurate, including the C-8 migration note"),
+ ("DC-14","publications/active/ipsci-2026/submissions/v3-revision/manuscript-v3.md","Header comment; Method","LAND-cell data ... regenerated on sea-cell data","ACTIVE-CORRECT","-","NO EDIT","Correctly historical; manuscript is protected regardless"),
+ ("DC-15","publications/active/journal-1/*","various","data-provenance references","DEFERRED - Journal 1","-","RECORDED, NOT FIXED","Out of scope for this branch"),
+]
+with open(HERE/"data-configuration-residue-audit.csv","w",newline="",encoding="utf-8") as fh:
+    w=csv.DictWriter(fh,fieldnames=F,quoting=csv.QUOTE_MINIMAL); w.writeheader()
+    for r in rows: w.writerow(dict(zip(F,r)))
+rep={}
+for p in sorted(HERE.glob("*.csv")):
+    raw=p.read_text(encoding="utf-8"); rdr=csv.reader(io.StringIO(raw)); hdr=next(rdr); n=len(hdr)
+    bad=[(i+2,len(r)) for i,r in enumerate(rdr) if len(r)!=n]
+    dr=len(list(csv.DictReader(io.StringIO(raw)))); df=pd.read_csv(io.StringIO(raw))
+    rep[p.name]={"fields":n,"dictreader_rows":dr,"pandas_rows":int(df.shape[0]),"malformed":bad,
+      "sha256_16":hashlib.sha256(p.read_bytes()).hexdigest()[:16],
+      "parse":"PASS" if not bad and dr==df.shape[0] and n==df.shape[1] else "FAIL"}
+(HERE/"parser-test.json").write_text(json.dumps(rep,indent=2)+"\n")
+for k,v in rep.items():
+    print("%-5s %-40s fields=%d DictReader=%d pandas=%d"%(v["parse"],k,v["fields"],v["dictreader_rows"],v["pandas_rows"]))
+print("ALL PASS:",all(v["parse"]=="PASS" for v in rep.values()))
+print("classification:",dict(collections.Counter(r[4].split(" -> ")[-1].split(" - ")[0] for r in rows)))

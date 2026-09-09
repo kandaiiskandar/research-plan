@@ -1,7 +1,7 @@
 # Empirical Findings — Historical Replay, Diagnostic and Hysteresis Analysis
 
 **Date:** 2026-09-06
-**Status:** Complete. All 24 pre-registered predictions resolved — **22 confirmed, 2 refuted** (P22, refuted 2026-09-08 by the rainfall amendment, F-16; P01, refuted the same day by the wind amendment, F-17). *P16 was re-resolved REFUTED → CONFIRMED on 2026-09-08; see F-17.*
+**Status:** Complete. **All 24 pre-registered predictions are resolved: 15 CONFIRMED / 9 REFUTED** — the canonical count, per `data/prediction-register.csv`, which is the authority for prediction state. Refuted: P01, P04, P09, P18, P19, P20, P22, P23, P24. **Only P20, P23 and P24 are attributable to SDR-001**; P04, P09, P18 and P19 were already refuted under the incumbent classifier by earlier threshold and data corrections, and P01 and P22 by the wind (F-17) and rainfall (F-16) amendments. *(Synchronised 2026-09-09: this line read "22 confirmed, 2 refuted", the pre-C-6/C-8 count. P16 was re-resolved REFUTED → CONFIRMED on 2026-09-08; see F-17.)*
 **Data:** Open-Meteo archive, Kota Kinabalu (5.98 N, 116.01 E), 2020-01-01 to 2024-12-31, 43,848 hourly records.
 **Scripts:** `scripts/historical_replay.py`, `scripts/diagnostic_binding.py`, `scripts/hysteresis_analysis.py`, `scripts/condition_comparison.py`
 **Register:** `data/prediction-register.csv` — every prediction registered *before* the analysis that resolves it.
@@ -83,10 +83,18 @@ Applies to every figure below.
 | `m` (marine warning) has no historical archive; held at `none` throughout | `g_m` can only *raise* severity, so **all severity figures are lower bounds** |
 | Data is ERA5 reanalysis, not MET Malaysia observations | Different source from the one the thresholds are anchored to |
 | ~~`wind_speed_10m` is an hourly mean~~ — **CORRECTED, see F-9** | Open-Meteo documents it as **"Instant"**. The hourly-mean claim was wrong |
-| **Weather data comes from a LAND grid cell; marine data from a SEA cell** | See F-10. Likely the principal cause of F-1 |
+| **Weather and marine data come from different grid cells** *(rewritten 2026-09-09 — see the note below the table)* | **Current canonical configuration: wind, precipitation *and* the raw weather code `c` all come from `raw_weather_sea.csv` (5.940246 N, 116.025 E), joined to a separate marine cell for waves** — ERA5-Ocean (6.0, 116.0) at **7.2 km** under PRIMARY, MFWAM (5.958336, 116.04167) at **2.7 km** under RESOLUTION. A weather/marine cell separation therefore remains, but it is **not** the land/sea mismatch F-10 condemned |
 | **Zero thunderstorm codes in five years** | See F-11. `g_r`'s storm branch is effectively unexercised |
 | Swell period is not provided by any source | The second component of the `o` tuple is unusable. **Per appendix-c C.2.0.1 this does not fault `o`** — ⊥ attaches to what `g_o` reads. *Note `wave_period` IS fully populated (43,848/43,848 ERA5-sea) and is a different quantity — see F-12* |
 | Hourly resolution | Sub-hourly oscillation is invisible — bounds F-6 to hourly resolution only |
+
+> **Note on the grid-cell caveat (added 2026-09-09).** This row previously read *"**Weather data comes from a LAND grid cell; marine data from a SEA cell** — see F-10. Likely the principal cause of F-1."* Sitting under *"Applies to every figure below"*, it presented the **superseded v1 configuration as a current global caveat**. Two things were wrong with it.
+>
+> **The configuration.** Verified against executable data flow in `canonical_figures.py`, `condition_comparison.py`, `diagnostic_binding.py`, `hysteresis_analysis.py`, `historical_replay.py`, `c5/three_stage_hysteresis.py` and `c6/reresolve_predictions.py`: every current canonical analysis loads `raw_weather_sea.csv`. **Wind, precipitation and the weather code all follow the same path** — precipitation is *not* taken from `raw_rainfall.csv`, which remains sited on the condemned land cell (5.940246, 116.100006) and is **no longer consumed by any canonical analysis**. Confirmed numerically: the canonical precipitation series sums to 14,019.4 mm and matches `raw_weather_sea.csv` exactly, against 14,970.2 mm for `raw_rainfall.csv`. The land files (`raw_weather.csv`, `raw_rainfall.csv`, `raw_marine.csv`) are reachable only behind `--v1-historical`.
+>
+> **The consequence.** "Likely the principal cause of F-1" is also superseded. F-17 established that the zero-activation reading was an artefact of the **undocumented 22 kn rounding**: at the canonical 21.6 kn boundary `g_w` activates twice on the sea-cell series and binds in neither. The land cell was a genuine flaw, but it was not what produced F-1.
+>
+> **F-10 and F-13 are unaffected and retained in full** as the record of the v1 configuration and its correction. The 12.9 km land-weather-to-marine separation they describe is a property of v1, not of the current figures.
 
 ---
 
@@ -141,6 +149,8 @@ Over five years of real site conditions, for a small vessel in the 05:00–09:00
 Approximately **one departure hour in eight**.
 
 ### F-6 — Mode-chattering is NOT a demonstrated deployment problem *(negative result)*
+
+> 📌 **The table below is PRE-MIGRATION, retained as provenance — annotated 2026-09-09.** It was computed on v1 land-cell data at the pre-amendment thresholds and under the **superseded fixed-clock `g_t`**, which is why its "scheduled" row is labelled with 06:00 / 17:00 / 19:00. **Canonical figures under Model B:** 3,661 total transitions · 3,439 scheduled (93.9%) · 222 non-scheduled · 26 genuine oscillations (5.2/yr) · hysteresis reduces non-scheduled transitions by 10.36%. **"Scheduled" now means an hourly step at which `g_t` changes — i.e. sunrise or sunset — not a fixed clock event.** The finding itself is unchanged and holds more strongly: mode-chattering remains unsupported at hourly resolution. Retained unrewritten because it is the record of what was measured then; see `report-c7-closure-2026-09-08.md` and CLAUDE.md § mode-chattering.
 
 | Measure | Value |
 |---|---|
@@ -208,11 +218,13 @@ Until that test runs, **F-1 should not be reported in either paper as a property
 
 ### F-11 — Thunderstorms are undetectable in this dataset
 
-`weather_code` never takes values 95, 96 or 99 across all 43,848 records. **Zero thunderstorms in five years**, in equatorial Borneo.
+`weather_code` never takes values 95, 96 or 99 across all 43,848 records, in either the v1 land cell or the canonical v2 sea cell. **No activating provider code occurs, so κ = 1 in zero hours and the provider-code storm route is empirically unexercised.**
 
-This is not climatology. Open-Meteo documents the limitation directly: *"As barely no information about atmospheric stability is available, estimation about thunderstorms is not possible"*, and thunderstorm-with-hail codes are *"only available in Central Europe."*
+> **Epistemic boundary — corrected 2026-09-09.** This paragraph previously read *"**Zero thunderstorms in five years**, in equatorial Borneo."* That is not what the evidence supports. The absence of an activating provider code is evidence **about the provider code**, not about the weather: it establishes that the route was never exercised in the replay, and **not** that no thunderstorms occurred, that thunderstorms are absent from Sabah, or that the storm route is unnecessary. No thunderstorm occurrence count is available from this dataset and none is asserted. The sentence that followed — "This is not climatology" — was making exactly this point, but the claim above it stated the opposite.
 
-Consequence for `g_r`: the storm branch is reached **only** via precipitation > 20 mm/hr, which occurs 14 times in five years. Since **Ribut Petir (thunderstorm) is MET Malaysia's stated trigger** for the rainfall UNSAFE classification, the mechanism the threshold is anchored to cannot be observed in this data at all.
+Open-Meteo documents the limitation directly: *"As barely no information about atmospheric stability is available, estimation about thunderstorms is not possible"*, and thunderstorm-with-hail codes are *"only available in Central Europe."*
+
+Consequence for `g_r`: the storm branch is reached **only** via the rainfall rate, and precipitation exceeds 20 mm/hr in **21 hours** over the five years on the canonical v2 sea-cell series (`raw_weather_sea.csv`). *(Count corrected 2026-09-09: this read "14 times in five years", which is the **v1 land-cell** figure — `raw_weather.csv` and `raw_rainfall.csv` both give 14, against 21 on the sea cell now used. Historically accurate when written; superseded by the data-source migration. The land cell also gives 131 hours above 10 mm/hr against 113 on the sea cell.)* Since **Ribut Petir (thunderstorm) is MET Malaysia's stated trigger** for the rainfall UNSAFE classification, the mechanism the threshold is anchored to cannot be observed in this data at all.
 
 `g_r = UNSAFE` is therefore under-detected by an unknown margin, and F-6's chattering counts and F-7's binding shares for `g_r` are both lower bounds.
 
@@ -234,7 +246,9 @@ Direction of error is not determined. Open-water waves generally exceed sheltere
 
 **Newly available:** `wave_period` is fully populated and unused. `o` is defined as *(wave height, swell period)*; mean wave period is not swell period, but it is more than nothing — partially reopening Q5.
 
-### F-13 — Q1a RESOLVED: F-1 is real. Wind genuinely never reaches the threshold
+### F-13 — Q1a RESOLVED: sea-cell recollection materially raises measured wind
+
+> *(Heading repaired 2026-09-09.)* It read **"Q1a RESOLVED: F-1 is real. Wind genuinely never reaches the threshold"**. That asserts zero canonical crossings, which is false under the canonical **21.6 kn** boundary — `g_w` activates **twice** and binds in neither (F-17). A heading governs how every sentence beneath it is read, so it could not remain. The finding ID **F-13** and its subject — the land-to-sea recollection and its effect — are unchanged.
 
 Re-collected with `cell_selection=sea`. The land-cell error was real and substantial:
 
@@ -243,7 +257,9 @@ Re-collected with `cell_selection=sea`. The land-cell error was real and substan
 | Mean sustained wind | 3.13 kn | **4.92 kn** | **+57.3%** |
 | p99 | 9.1 kn | 13.7 kn | +51% |
 | **Max over 5 years** | 17.8 kn | **21.8 kn** | +4.0 kn |
-| **`g_w` activations** | **0** | **0** | **unchanged** |
+| **`g_w` activations — at the then-specified 22.0 kn boundary** | **0** | **0** | **unchanged** |
+
+*(Row scope stated 2026-09-09: the zero-activation result is a property of the **22.0 kn** boundary in force when this table was built. At the canonical **21.6 kn** boundary the v2 sea-cell column becomes **2 activations, 0 bindings**; the v1 land column remains 0, its maximum being 17.8 kn. See F-17.)*
 
 The uplift exceeded my prediction of 20–40%. At the then-specified 22 kn boundary **`g_w` still never fired** — the five-year maximum reaches **21.8 kn against a 22.0 kn threshold**, missing by 0.2 knots.
 
@@ -251,13 +267,19 @@ The uplift exceeded my prediction of 20–40%. At the then-specified 22 kn bound
 
 ⚠️ **Partly restated 2026-09-08 (F-17).** The "zero activations" result held at the 22 kn boundary. At the corrected 21.6 kn boundary the sea-cell series activates **twice**, and **P16 is re-resolved CONFIRMED** — the prediction was right, the threshold was wrong. What survives unchanged is the substantive point below: the *land/sea correction itself* changed nothing, because both configurations sit far below the threshold for all but two hours.
 
-**Consequence: F-1 stands as a genuine property of the site, not a collection artefact.** Sustained wind at Kota Kinabalu does not reach MET Malaysia's Category 1 criterion in five years of data, at either grid cell. Q1 is answered — but not in the direction that rescues `g_w`.
+**Consequence (as concluded here, 2026-09-06): F-1 stands as a genuine property of the site, not a collection artefact.** *(Superseded in part — see the restatement below.)*
 
-**Caveat on the margin.** 21.8 against 22.0 is thin. A different reanalysis, a 10-minute mean instead of an instantaneous value, or a slightly different grid point could plausibly cross it. The honest statement is *"sustained wind essentially never reaches the threshold"*, not *"wind is far from mattering."*
+> 📌 **Restated 2026-09-09 to match F-17, which is the later canonical authority.** The three paragraphs that stood here concluded that *"sustained wind does not reach MET Malaysia's Category 1 criterion in five years of data, at either grid cell"*, that *"sustained wind essentially never reaches the threshold"*, and that *"because `g_w` never fires either way, the wind data never influenced any classification"*. **All three are false under the canonical specification.** MET Category 1 onset is 40 km/h = 21.598 kn, carried as **21.6 kn**; the 22.0 kn value they were measured against was an undocumented rounding. On the canonical sea-cell series the criterion **is** reached — twice, at 21.7 and 21.8 kn.
+>
+> **The canonical statement, replacing all three:** the land/sea correction substantially raised measured wind (mean +57.3%, max 17.8 → 21.8 kn) but did **not** make wind a binding component. Under the corrected **21.6 kn** boundary, **`g_w` activates twice in 43,848 hours and binds in neither** — on both occasions a more severe component was already governing (`g_o` on 2021-01-17 06:00, `g_t` on 2024-04-30 23:00). It is correct to say wind never *governed* a classification; it is not correct to say it never *activated*.
+>
+> **What survives from the original conclusion**, and is worth keeping: the land/sea recollection changed no downstream figure at the configuration then in force — the departure-window result was 12.4% on both cells *(itself now superseded as a reportable figure; canonical is 5.81% / 4.48%)*. A real data-collection error with no material consequence at that configuration. What the original conclusion could not know is that a **second** defect, the threshold rounding, was masking the crossings — which is why F-1 was only half an artefact, and why the margin caveat below turned out to be the important sentence in this finding.
 
-**A methodological note worth recording:** the land/sea error was a genuine flaw, and correcting it changed **nothing** in the results — the departure-window figures are identical to one decimal place (12.4% under both). Because `g_w` never fires either way, the wind data never influenced any classification. A real error with no material consequence.
+**Caveat on the margin — this was the prescient part.** 21.8 against 22.0 is thin. A different reanalysis, a 10-minute mean instead of an instantaneous value, or a slightly different grid point could plausibly cross it. *(2026-09-09: it did not take any of those. The margin was closed from the other side — by correcting the threshold to its source value, 21.598 → 21.6 kn. The caveat correctly identified that the result hung on 0.2 kn; it simply anticipated the wrong side of the comparison moving.)*
 
-### F-14 — Q6 RESOLVED: wave resolution matters. The headline drops to 8.3%
+### F-14 — Q6 RESOLVED: wave-model resolution materially changes the measured Level 2 rate
+
+> *(Heading repaired 2026-09-09.)* It read **"Q6 RESOLVED: wave resolution matters. The headline drops to 8.3%"**. The 8.3% was superseded twice over — first by the 1.9 → 1.25 m wave amendment, then by the SDR-001 migration. **Canonical reportable rates are 5.81% (PRIMARY) / 4.48% (RESOLUTION); see §0a, which is the authority.** The finding's subject — that wave-model resolution materially changes the measured rate — is unchanged and survives.
 
 MFWAM at ~8 km compared against ERA5-Ocean at ~50 km, over their 28,512-hour overlap (Oct 2021 – Dec 2024):
 
@@ -283,11 +305,18 @@ The two models **correlate at r = 0.953** across 28,501 valid pairs, so they agr
 
 **A 33% relative reduction.** One departure hour in twelve, not one in eight.
 
-**Which figure to report.** MFWAM is the better-sited measurement — 8 km resolution, and its grid cell sits 2.7 km from the weather cell versus 12.9 km in v1. But it covers only 3.25 years against ERA5's 5. The defensible presentation is **both**: the MFWAM figure as primary, ERA5 alongside it for the full five years, with the difference presented as a grid-resolution sensitivity check. That converts a vulnerability into a demonstrated robustness result.
+**Which figure to report — SUPERSEDED INSTRUCTION, retained as the reasoning of 2026-09-06.** This finding argued: *"MFWAM is the better-sited measurement … The defensible presentation is **both**: the MFWAM figure as primary, ERA5 alongside it for the full five years, with the difference presented as a grid-resolution sensitivity check."*
 
-⚠️ **The 8.3% named in this finding was superseded later the same day** by the 1.9 → 1.25 m threshold amendment. The primary figure is now **6.1%** — see §0a. The resolution comparison in this finding is unaffected: it is a like-for-like ERA5-vs-MFWAM contrast at the then-current 1.9 m threshold, and remains valid as such.
+> 📌 **The canonical reporting contract assigns the opposite roles — corrected 2026-09-09.** Per §0a, which is the authority and is generated by `scripts/canonical_figures.py`:
+>
+> - **PRIMARY = 5.81%** — five-year record, sea-cell weather, ERA5-Ocean ~50 km waves. **This is the headline.**
+> - **RESOLUTION = 4.48%** — 3.25-year record, MFWAM ~8 km waves. **This is the sensitivity check.**
+>
+> The "option C" decision of 2026-09-06 kept the dual-configuration presentation this finding proposed, but made **ERA5 the headline on record length** rather than MFWAM on siting. **Do not report MFWAM as the primary figure, and do not cite 6.1% or 8.3% as a current headline.** The surviving scientific conclusion is the one this finding established: *wave-model resolution materially changes the measured Level 2 binding rate; report the canonical PRIMARY result with the RESOLUTION configuration as the sensitivity check.*
 
-Note also that under MFWAM, **small-vessel UNSAFE via wave height never occurs** (max 1.84 m against a 1.9 m threshold) — a second near-miss margin, mirroring F-13.
+⚠️ **The 8.3% named in this finding was superseded later the same day** by the 1.9 → 1.25 m threshold amendment, which gave 6.1%; that in turn was superseded by the SDR-001 migration of 2026-09-08. **Canonical is 5.81% / 4.48% — see §0a.** The resolution *comparison* in this finding is unaffected: it is a like-for-like ERA5-vs-MFWAM contrast at the then-current 1.9 m threshold, and remains valid as such. The full evolution is **12.4 → 8.3 → 6.1 → 5.81 (PRIMARY) / 4.48 (RESOLUTION)**.
+
+Note also that **at the then-current 1.9 m threshold**, small-vessel UNSAFE via wave height never occurred under MFWAM (max 1.84 m against 1.9 m) — a second near-miss margin, mirroring F-13. *(Scope stated 2026-09-09: this is a property of the superseded 1.9 m boundary, not of the canonical one. At the canonical small-vessel UNSAFE boundary of **1.25 m**, MFWAM exceeds it in **937 hours** and ERA5-Ocean in 2,516 — wave-driven UNSAFE is reachable under both. Like F-13's margin, this near-miss was closed by moving the threshold to its sourced value, not by the data changing.)*
 
 ### F-15 — The closest structural precedent is output-equivalent to a binary gate
 
@@ -311,11 +340,15 @@ Departure window 05:00–09:00, PRIMARY configuration, 9,133 hours:
 | **C3** | 24.64% | 0.00% | — | 7.72% |
 | **C2** | 32.36% | 7.72% | 7.72% | — |
 
-*PRIMARY configuration, 9,133 departure-window hours. RESOLUTION gives the same structure with Level 2 at 5.98%. Updated 2026-09-08 for the MET rainfall amendment (F-16); C3↔C1 remains exactly 0.00% in both.*
+> ⚠️ **PRE-SDR-001 — the divergence percentages in the table above are superseded for current reportable rates.** *(Marked 2026-09-09.)* They were measured under the **superseded fixed-clock `g_t`**, before the C-8 migration of 2026-09-08. **Canonical values, per §0a and `scripts/condition_comparison.py`: C0↔C1 = 42.88%, C0↔C2 = 48.69%, Level 2 isolated = 5.81% (PRIMARY) / 4.48% (RESOLUTION), over 9,135 departure-window hours.** Do not cite 24.64%, 32.36%, 7.72% or 5.98% as current.
+>
+> **What does not move is the finding itself: C3 ↔ C1 = 0.00%**, in every configuration measured before and after migration. That is a structural property of the mapping from classification to admissible set, not of the data, so no threshold, wave model or `g_t` change can shift it — which is exactly why it answers the novelty objection.
+
+*Original note, retained: PRIMARY configuration, 9,133 departure-window hours. RESOLUTION gives the same structure with Level 2 at 5.98%. Updated 2026-09-08 for the MET rainfall amendment (F-16); C3↔C1 remains exactly 0.00% in both.*
 
 **C3 ≡ C1. Zero divergence across the entire record — all hours and departure window alike.** Flehmig's intermediate level (orange) keeps the AI as the safety function with unchanged scope and alters only supervisory intensity, so at the AI output it is indistinguishable from a two-level gate. The third level is not observable in what the system may recommend.
 
-**Level decomposition:** C0↔C1 = 24.64% (participation gate alone); C0↔C2 = 32.36% (both levels); **difference = 7.72% attributable to Level 2 alone.**
+**Level decomposition** *(pre-SDR-001 values — canonical is C0↔C1 = 42.88%, C0↔C2 = 48.69%, Level 2 = 5.81% / 4.48%; see §0a)*: C0↔C1 = 24.64% (participation gate alone); C0↔C2 = 32.36% (both levels); **difference = 7.72% attributable to Level 2 alone**. The *method* — isolating Level 2 as the difference of the two divergences — is canonical and unchanged; only the numbers moved.
 
 **Fairness qualification — must travel with every citation of this finding.** Flehmig et al. condition their index on **AI degradation** (drift, outliers, performance decay), not on environmental state. C3 ports their *governance topology* onto our conditioning variable so the two structures compare on one axis. This is not a reproduction of their system on their problem and not a deficiency in their framework, which is correct for the question it addresses. Without this qualification the comparison is a strawman.
 
@@ -342,7 +375,9 @@ The MET gap documented for wave height in `finding-met-hydrodynamic-gap.md` recu
 
 **Superseded:** `> 7.5` mm/hr for CAUTION, used in all scripts until 2026-09-08 and **matching no published source**. The `> 20` was correct by coincidence but undocumented. MET's *Hujan Berterusan* tiers (cumulative > 60 mm/period, > 150 mm/24 hr) were considered and rejected: they are cumulative totals, unusable on hourly data without an unsourced disaggregation assumption.
 
-**Effect:** Level 2 binding 7.84% → **7.72%** (primary), 6.15% → **5.98%** (resolution). `g_r`'s share of daylight CAUTION falls 3.21% → 1.55%. **UNSAFE is untouched** — the 20 mm/hr trigger did not move, so daylight UNSAFE (1,170 hrs) and the weather-driven share (11.8%) are unchanged. The entire effect is in CAUTION.
+**Effect — intermediate state, PRE-SDR-001** *(scope stated 2026-09-09)*: Level 2 binding 7.84% → **7.72%** (primary), 6.15% → **5.98%** (resolution). `g_r`'s share of daylight CAUTION falls 3.21% → 1.55%. **UNSAFE is untouched** — the 20 mm/hr trigger did not move, so daylight UNSAFE (1,170 hrs) and the weather-driven share (11.8%) are unchanged. The entire effect is in CAUTION.
+
+> 📌 **These are the figures immediately after the rainfall amendment and before the SDR-001 migration later the same day. None is a current reportable value.** Canonical, per §0a: Level 2 **5.81% / 4.48%**, daylight UNSAFE **1,262 / 455**, weather-driven share **10.9% / 6.4%**, `g_r` share of daylight CAUTION **1.48% / 2.70%**. The *conclusion* of this finding — that the amendment moved only CAUTION and left UNSAFE untouched — holds unchanged.
 
 **Prediction P22 was REFUTED by this amendment** — registered band 6.0–6.2%, actual 5.98%. The *structural* claim it encoded held exactly (C1↔C2 divergence still equals the CAUTION rate to 2 d.p.); the numeric band was tied to the 7.5 threshold. Recorded as refuted rather than superseded, because the register exists to show when a stated expectation stopped holding.
 
@@ -445,14 +480,14 @@ They have been discussed together throughout this document. They should be separ
 | Where it belongs in the papers | Results — site characterisation | Threats to validity |
 | Open question | Q1 (answered: not by redefining `w`) | Q2 (candidate source: myMETdata RM20, station WMKK) |
 
-Conflating the two would be the weak version of this argument: it invites the reading that four-fifths of the classifier is decorative, when in fact one component was tested and found inactive at this site and another was never observable.
+Conflating the two would be the weak version of this argument: it invites the reading that four-fifths of the classifier is decorative, when in fact one component was tested and found **non-binding** at this site — it activates twice in five years and governs no classification — and another was never observable. *(Wording corrected 2026-09-09: read "found inactive", which is false at the canonical 21.6 kn boundary. See F-17.)*
 
 ### 3.2 Why `g_w`'s null result is a finding rather than an embarrassment
 
-Kota Kinabalu sits in the lee of the Crocker Range on a coast sheltered by the Tunku Abdul Rahman island group. Sustained wind does not reach MET Malaysia's Category 1 criterion in five years of hourly data. That is a statement about the site, and it is a stronger statement than "no wind events were observed" for two reasons:
+Kota Kinabalu sits in the lee of the Crocker Range on a coast sheltered by the Tunku Abdul Rahman island group. Sustained wind reaches MET Malaysia's Category 1 criterion **just twice in five years of hourly data — at 21.7 and 21.8 kn against the 21.6 kn onset — and governs no classification on either occasion**. That is a statement about the site, and it is a stronger statement than "no wind events were observed" for two reasons:
 
 1. **It was pre-registered, and the audit trail is stronger than a simple confirmation.** P16 predicted that correcting the land-cell error would push sea-cell wind across the threshold. Scored against the then-specified 22 kn boundary it appeared refuted; when that boundary was found to be an undocumented rounding of MET's 21.598 kn and corrected, **P16 resolved to CONFIRMED** (F-17). The sequence matters: a prediction recorded in advance was initially scored against a threshold that was itself wrong, and correcting the threshold on provenance grounds vindicated the prediction. Neither the finding nor the prediction was adjusted to fit the other.
-2. **It survived a genuine data-collection error.** F-10 found wind sampled over land and waves over sea, 12.9 km apart. Correcting it raised mean wind 57.3% and changed the classification results by **nothing**, because `g_w` never fires either way (F-13).
+2. **It survived a genuine data-collection error.** F-10 found wind sampled over land and waves over sea, 12.9 km apart. Correcting it raised mean wind 57.3% and changed the classification results by **nothing** at the configuration then in force, because at the 22.0 kn boundary `g_w` activated on neither cell (F-13). *(Corrected 2026-09-09: read "because `g_w` never fires either way". At the canonical 21.6 kn boundary it activates twice on the sea cell and binds in neither — F-17.)*
 
 **The margin was the whole story, and it has now been paid.** The earlier version of this section warned that 21.8 against 22.0 was 0.2 kn and that a different convention could cross it. That warning proved exactly right — the convention in question was our own rounding. At the corrected 21.6 kn boundary the series crosses twice. The defensible claim is *"sustained wind reaches the Category 1 criterion roughly once every two and a half years at this site, and has never been the governing component"* — not *"never fires"*, and not *"wind does not matter here."*
 
@@ -469,7 +504,7 @@ The architecture-level point stands independently: `f(E)` is an *input* to the g
 ### 3.4 What this means in the papers
 
 - Present `f(E)` with all five terms, as specified.
-- Report the binding profile (F-7) in the results as a site characterisation, with `g_o` at **98.66% / 97.41%** of daylight CAUTION and `g_t` at **87.63% / 91.10%** of all-hours non-SAFE (primary / resolution — see §0a).
+- Report the binding profile (F-7) in the results as a site characterisation, with `g_o` at **98.71% / 97.66%** of daylight CAUTION and `g_t` at **86.82% / 90.19%** of all-hours non-SAFE (primary / resolution — see §0a). *(Figures synchronised 2026-09-09: this bullet still directed the papers to report 98.66% / 97.41% and 87.63% / 91.10%, the pre-SDR-001 values that §0a and the banner at the head of this document already mark superseded. The finding F-7 itself is unchanged; only the numbers this bullet told the papers to quote were stale.)*
 - State `g_w`'s near-null as a finding about the site: **2 activations in 43,848 hours, 0 bindings**. Do not write "never fires".
 - State `g_m`'s absence in threats to validity, **with the lower-bound consequence** — this is a standing caveat on every severity figure in this document, not a footnote.
 - Add a scope statement: the components retained-but-inactive are retained for transferability, and the instantiation's thresholds are site-specific while the architecture is not.
@@ -484,7 +519,9 @@ All twenty-four predictions were registered in `data/prediction-register.csv` wi
 
 Two predictions were deliberately uncomfortable: **P13** predicted a negative result that undermines a claim in both papers, and **P14** predicted the reductive framing in §3. Both confirmed.
 
-This was adopted specifically to guard against the failure mode identified in the decision record — a model elaborated ahead of validation, with the corresponding risk of rationalising results once seen. **22 confirmed, 2 refuted.**
+This was adopted specifically to guard against the failure mode identified in the decision record — a model elaborated ahead of validation, with the corresponding risk of rationalising results once seen. **22 confirmed, 2 refuted** *(the count as it stood on 2026-09-06; canonical is now **15 CONFIRMED / 9 REFUTED** — see the banner below).*
+
+> 📌 **Superseded — corrected 2026-09-09.** Two things changed after this paragraph was written. **(1)** P16 is now **CONFIRMED**, not refuted: the 22 kn boundary was an undocumented rounding, and at the canonical **21.6 kn** the sea-cell series does cross it, twice (F-17). **(2)** The register is no longer 22/2 at all — C-6 and C-8 re-resolved it to **15 CONFIRMED / 9 REFUTED**, so the paragraph below is wrong in its premise as well as its example: **there is no "single refutation".** The nine refuted predictions are P01, P04, P09, P18, P19, P20, P22, P23 and P24, of which only P20, P23 and P24 are attributable to SDR-001. *An earlier version of this banner, added 2026-09-09, said "the register's refutation is now P01" — itself a 22/2-era reading, corrected here. The paragraph below is retained as the reasoning recorded on 2026-09-06; `data/prediction-register.csv` is the authority for prediction state, not this section.*tivation regression lock. The paragraph below is retained as the reasoning recorded on 2026-09-06 — *(annotated 2026-09-09)*.
 
 **The single refutation is the most useful result in the register.** P16 predicted that sea-cell wind would cross the 22 kn threshold once the land/sea error was corrected. It did not (21.8 kn). Because the prediction was on record beforehand, F-1 converts from *suspected collection artefact* to *established property of the site* — which is what makes the §3 framing decision defensible rather than convenient.
 

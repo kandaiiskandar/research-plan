@@ -81,6 +81,17 @@ def main():
     # "cell_selection": "sea" and compare. If sea-cell wind is materially
     # higher, finding F-1 (g_w never fires) is a collection artefact.
     #
+    # RESOLVED — the paragraph above is the pre-collection plan, kept as the
+    # record of why v2 was collected. Q1a was answered on 2026-09-06 (F-13) and
+    # the wind state was corrected again on 2026-09-08 (F-17). Canonical state:
+    #   CAUTION boundary 21.6 kn (MET Cat 1 onset 40 km/h = 21.598), not 22;
+    #   max sustained wind 21.8 kn on sea-cell data;
+    #   g_w ACTIVATES twice in 43,848 hours and BINDS in neither.
+    # So F-1's "never fires" was an artefact of BOTH the land cell and the
+    # undocumented 22 kn rounding. Do not quote "never fires" from this comment;
+    # quote both counts — 2 activations, 0 bindings. A 0.00% binding share does
+    # not mean zero activations. (Annotated 2026-09-09.)
+    #
     # Note also: weather_code returns ZERO thunderstorm codes (95/96/99) over
     # five years here. Open-Meteo documents that thunderstorm estimation is not
     # possible outside Central Europe, so g_r's storm branch is reachable only

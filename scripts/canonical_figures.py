@@ -13,10 +13,19 @@ analysis scripts were updated, but the findings were never recomputed. The
 paper was printing them alongside 6.1%, which came from different data at a
 different threshold, as though one analysis had produced all of them.
 
-Three scripts (historical_replay, diagnostic_binding, hysteresis_analysis)
-still read `raw_weather.csv` (the LAND cell that F-10 identified as wrong) and
-`raw_marine.csv` (ERA5-Ocean 50 km). This script supersedes their figure
-reporting. It reads sea-cell data only.
+When this script was written, three others (historical_replay,
+diagnostic_binding, hysteresis_analysis) still read `raw_weather.csv` (the
+LAND cell that F-10 identified as wrong) and `raw_marine.csv` (ERA5-Ocean
+50 km), which is why this script was made the figure authority. It reads
+sea-cell data only.
+
+UPDATED 2026-09-09: those three were migrated at C-8 (2026-09-08) and now
+default to the v2 sea-cell configuration like every other canonical script;
+the land files are reachable only behind `--v1-historical`. The paragraph
+above is retained as the reason this script exists. Canonical weather source
+for ALL of them is `raw_weather_sea.csv` (5.940246, 116.025) — wind,
+precipitation AND the raw weather code `c` are columns of that one file.
+`raw_rainfall.csv` (land cell) is not read by any canonical analysis.
 
 THE TWO CONFIGURATIONS (decision of 2026-09-06, "option C")
 -----------------------------------------------------------
@@ -221,7 +230,10 @@ HOW TO REPORT THESE
   Report both. Neither alone is the result.
 
   g_w never binds in either configuration. Max sustained wind {p['max_wind']:.1f} kn
-  against a 22 kn threshold — a property of the site (F-13), not an artefact.
+  against the 21.6 kn CAUTION boundary, which it crosses twice in five years —
+  activated twice, decisive never (F-17). Do not report this as "never fires":
+  the earlier zero-activation reading was an artefact of the superseded 22 kn
+  rounding, not a property of the site.
   g_m never binds because it was never measured. All figures are LOWER BOUNDS.
 """)
 
