@@ -1,0 +1,70 @@
+{
+  "canonical_register": {
+    "total": 24,
+    "CONFIRMED": 15,
+    "REFUTED": 9,
+    "refuted_ids": [
+      "P01",
+      "P04",
+      "P09",
+      "P18",
+      "P19",
+      "P20",
+      "P22",
+      "P23",
+      "P24"
+    ],
+    "P01": "REFUTED",
+    "P16": "CONFIRMED",
+    "P09_actual": "3661",
+    "P20_actual": "1529",
+    "authority": "data/prediction-register.csv"
+  },
+  "sdr001_attributable_flips": [
+    "P20",
+    "P23",
+    "P24"
+  ],
+  "P09_provenance_chain": "5416 -> 5220 -> 5201 -> 3661 (not a pure g_t effect)",
+  "P20_scope_distinction": "P20 registered scope 06:00-17:00 actual 1529; astronomical-daylight RESOLUTION count 455 - different scopes, not interchangeable",
+  "active_prediction_state_assertions": [],
+  "wind_state_invariant": {
+    "W_CAUTION": 21.6,
+    "W_UNSAFE": 27.0,
+    "activations": 2,
+    "bindings": 0,
+    "never_fires_reintroduced": false
+  },
+  "empirical": {
+    "level2": "5.81% / 4.48%",
+    "g_o": "98.71% / 97.66%",
+    "g_t": "86.82% / 90.19%",
+    "g_r_daylight": "1.48% / 2.70%",
+    "g_r_all_hours": "0.20% / 0.26%",
+    "daylight_unsafe": "1262 / 455",
+    "transitions": "3661 / 3439 / 222 / 26 / 10.36%"
+  },
+  "files_changed": [
+    "docs/canonical/empirical-findings-2026-09-06.md",
+    "docs/canonical/decision-record-empirical-first.md",
+    "docs/canonical/session-log-2026-09-06.md"
+  ],
+  "protected_unchanged": [
+    "appendix-c-formalisation.md",
+    "manuscript-v3.md",
+    "prediction-register.csv",
+    "solar-events-daily.csv",
+    "all canonical scripts",
+    "journal-1 manuscript and section-5-plan"
+  ],
+  "stop_conditions": {
+    "PS-R1": false,
+    "PS-R2": false,
+    "PS-R3": false,
+    "PS-R4": false,
+    "PS-R6": false,
+    "PS-R5": "Journal 1 recorded, not edited"
+  },
+  "register_matches_expected": true,
+  "all_clear": true
+}

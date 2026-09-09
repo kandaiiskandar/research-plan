@@ -14,7 +14,7 @@
 
 **Definition.** E = {w, r, m, o, v, t} is a vector of observable environmental parameters, where:
 - w ∈ ℝ≥0 — wind speed (knots, sustained)
-- r ∈ {none, light, moderate, heavy, storm} — rainfall intensity (ordinal categorical)
+- **r ∈ ℝ≥0 × K, K = {0, 1} — rainfall: precipitation rate (mm/hr) paired with a derived thunderstorm indicator κ.** κ = χ(c), where c is the raw provider weather code and χ(c) = 1 iff c ∈ {95, 96, 99}, else 0. The **rate is the required coordinate**; **κ is a derived supplementary indicator** that is never ⊥ — an absent or unrecognised code gives κ = 0 and the rate-only classification stands *(non-escalating, i.e. fail-open for the storm disjunct — not fail-safe)*. Canonical definition: `appendix-c-formalisation.md` C.2 and C.2.0.4a. *(Corrected 2026-09-09: this line previously read `r ∈ {none, light, moderate, heavy, storm}` — the ordinal categorical representation retired on 2026-09-08 when `r` became numeric, and superseded again the same day when the storm route was formally typed.)*
 - **m ∈ {none, advisory, warning, alert} — marine warning level (ordinal categorical)**
 - **o ∈ ℝ≥0 × ℝ≥0 — ocean state (wave height in metres, swell period in seconds)**
 - v ∈ {small, medium, big} — vessel category by GRT: small < 10, medium 10–25, big > 25
@@ -38,7 +38,7 @@ f: D_E → {SAFE, CAUTION, UNSAFE}
 
 where D_E is the domain of E. The function is implemented as a threshold-based classifier with worst-case aggregation:
 
-1. Each *condition* component of E is classified: S_w = g_w(w), S_r = g_r(r), S_m = g_m(m), S_o = g_o(o, v), S_t = g_t(t), where each maps to {SAFE, CAUTION, UNSAFE} via domain-specific thresholds. Note that g_o takes two arguments — wave height and vessel category.
+1. Each *condition* component of E is classified: S_w = g_w(w), S_r = g_r(r, κ), S_m = g_m(m), S_o = g_o(o, v), S_t = g_t(t, date), where each maps to {SAFE, CAUTION, UNSAFE} via domain-specific thresholds. Three take more than a bare value: **g_r** reads the rate together with the derived indicator κ; **g_o** reads wave height together with vessel category v; and **g_t** is evaluated against a valid date and its canonical solar lookup. `g_r(r, 1) = UNSAFE` for every rate, so κ can only escalate.
 
 2. The overall state is the maximum severity across the five condition classifications:
 
@@ -298,7 +298,7 @@ The classification function f: D_E → {SAFE, CAUTION, UNSAFE} is **many-to-one*
 
 **Examples within CAUTION** *(corrected 2026-09-06 — `m`/`o` swap and trigger attributions)*:
 - E₁ = {w=20 kn, r=none, m=none, o=1.5 m, v=big, t=10.0} → CAUTION, triggered by **ocean state** — g_o(1.5, big) = CAUTION. *Note: w = 20 kn is SAFE, not CAUTION; the threshold is 22 kn. This example was previously annotated "triggered by wind."*
-- E₂ = {w=10 kn, r=heavy, m=none, o=0.5 m, v=big, t=10.0} → CAUTION, triggered by **rainfall** — g_r(heavy) = CAUTION.
+- E₂ = {w=10 kn, r=(15.0 mm/hr, κ=0), m=none, o=0.5 m, v=big, t=10.0} → CAUTION, triggered by **rainfall** — g_r(15.0, 0) = CAUTION, since 10.0 < 15.0 ≤ 20.0.
 - E₃ = {w=10 kn, r=none, m=advisory, o=0.8 m, v=medium, t=6.0} → CAUTION, triggered by **marine warning alone** — g_m(advisory) = CAUTION. *Note: t = 6.0 is SAFE (the SAFE band is 6.0 ≤ t < 17.0), and g_o(0.8, medium) = SAFE. This example was previously annotated "marine warning + vessel category + time"; neither of those contributes.*
 
 A fourth example shows the vessel parameterisation, which none of the above exercises:

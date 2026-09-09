@@ -25,7 +25,7 @@ Think of each environmental condition as **voting** on how dangerous things are 
 | Function | What it measures | What it says |
 |-----------|------------------|--------------|
 | **g_w(w)** | Wind speed | "The wind is calm" (SAFE) / "The wind is strong" (CAUTION) / "The wind is extreme" (UNSAFE) |
-| **g_r(r)** | Rain intensity | "It's drizzling" (SAFE) / "It's heavy rain" (CAUTION) / "It's a storm" (UNSAFE) |
+| **g_r(r, κ)** | Rain rate + storm indicator | "It's drizzling" (SAFE) / "It's raining hard" (CAUTION) / "It's over 20 mm/hr, or a thunderstorm is indicated" (UNSAFE) |
 | **g_m(m)** | Marine warning level | "No warnings" (SAFE) / "Be careful" (CAUTION) / "Serious warnings" (UNSAFE) |
 | **g_o(o, v)** | Wave height, **for this boat** | "The sea is fine for this vessel" (SAFE) / "Getting marginal for this vessel" (CAUTION) / "Beyond this vessel" (UNSAFE) |
 | **g_t(t, date)** | Time of day | "Daytime" (SAFE, sunrise≤t<sunset) / "Nighttime" (UNSAFE). **No CAUTION** |
@@ -42,7 +42,7 @@ Think of each environmental condition as **voting** on how dangerous things are 
 
 ```
 g_w : ℝ≥0                                        → {SAFE, CAUTION, UNSAFE}
-g_r : {none, light, moderate, heavy, storm}      → {SAFE, CAUTION, UNSAFE}
+g_r : ℝ≥0 × K → {SAFE, CAUTION, UNSAFE},  K = {0, 1}   (rate in mm/hr, κ)
 g_m : {none, advisory, warning, alert}           → {SAFE, CAUTION, UNSAFE}
 g_o : (ℝ≥0 × ℝ≥0) × {small, medium, big}         → {SAFE, CAUTION, UNSAFE}
 g_t : ([0, 24) × Date) ∪ {⊥}                     → {SAFE, UNSAFE}
@@ -51,7 +51,7 @@ g_t : ([0, 24) × Date) ∪ {⊥}                     → {SAFE, UNSAFE}
 Aggregation:
 
 ```
-f(E) = max_≻ {g_w(w), g_r(r), g_m(m), g_o(o, v), g_t(t)}
+f(E) = max_≻ {g_w(w), g_r(r, κ), g_m(m), g_o(o, v), g_t(t, date)}
 ```
 
 Five terms. `v` appears inside `g_o`, not as a separate argument to the maximum.
@@ -64,26 +64,60 @@ Threshold intervals for the continuous variables:
 
 **g_w(w)**
 ```
-g_w(w) = SAFE    if w ≤ 22
-g_w(w) = CAUTION if 22 < w ≤ 27
-g_w(w) = UNSAFE  if w > 27
+g_w(w) = SAFE    if w ≤ 21.6
+g_w(w) = CAUTION if 21.6 < w ≤ 27.0
+g_w(w) = UNSAFE  if w > 27.0
 ```
 
-**g_t(t)** — note the wrap-around for UNSAFE
+*(Corrected 2026-09-09: the CAUTION boundary previously read 22, an undocumented
+rounding of MET Category 1 onset 40 km/h = 21.598 kn. The rounding suppressed both
+of the component's activations over five years — it changed an empirical result,
+not merely a displayed digit.)*
+
+**g_t(t, date)** — half-open, and binary by design
 ```
-g_t(t) = SAFE    if 6.0 ≤ t < 17.0
-g_t(t, date) = SAFE if sunrise(date) ≤ t < sunset(date), else UNSAFE   [superseded: CAUTION if 17.0 ≤ t < 19.0]
-g_t(t) = UNSAFE  if t ∈ [19.0, 24.0) ∪ [0.0, 6.0)
+g_t(t, date) = SAFE    if sunrise(date) ≤ t < sunset(date)
+g_t(t, date) = UNSAFE  otherwise
+g_t(⊥)       = UNSAFE  failed clock, date or solar lookup — a fault, not night
 ```
+
+Exact sunrise is SAFE; exact sunset is UNSAFE. **`g_t` emits no CAUTION** —
+`Im(g_t) = {SAFE, UNSAFE}`. The architecture stays three-state because CAUTION is
+reached through `g_o` and `g_r`.
+
+> **Superseded 2026-09-08 by SDR-001, retained here only as history:** the fixed
+> clock `SAFE 6.0 ≤ t < 17.0 · CAUTION 17.0 ≤ t < 19.0 · UNSAFE [19.0, 24.0) ∪
+> [0.0, 6.0)`. None of the three boundaries had a located source, and no source
+> supported a twilight CAUTION band. **Not canonical — do not use.**
+
+*(Corrected 2026-09-09: this block previously presented the fixed-clock lines as
+the live definition with the canonical form spliced in between them, so a reader
+could not tell which was current.)*
 
 Lookup tables for the categorical variables:
 
-**g_r(r)**
+**g_r(r, κ)**
 ```
-g_r(none) = g_r(light) = g_r(moderate) = SAFE
-g_r(heavy)                             = CAUTION
-g_r(storm)                             = UNSAFE
+g_r(r, 1)                    = UNSAFE     storm route — any rate
+g_r(r, 0),  r ≤ 10.0         = SAFE
+g_r(r, 0),  10.0 < r ≤ 20.0  = CAUTION
+g_r(r, 0),  r > 20.0         = UNSAFE
 ```
+
+`r` is the precipitation rate in mm/hr. **κ is a *derived* indicator, not a raw
+reading:** κ = χ(c), where `c` is the raw provider weather code and χ(c) = 1 iff
+c ∈ {95, 96, 99}, else 0. Do not treat `c` as the classifier input.
+
+**κ is never ⊥.** An absent or unrecognised code gives κ = 0 and the rate-only
+classification stands. That default is *non-escalating* — fail-open for the storm
+disjunct — and is **not** fail-safe. A missing or invalid **rate** is the opposite
+case: the rate is required, resolves to ⊥, and yields UNSAFE as a *fault*.
+
+*(Corrected 2026-09-09: this block previously gave a categorical lookup over
+{none, light, moderate, heavy, storm}. That representation was retired on
+2026-09-08 when `r` became numeric, and the storm route was formally typed the
+same day. The old notation also implied `g_r` had no storm route beyond a rate
+band, which is not what the classifier does.)*
 
 **g_m(m)**
 ```
@@ -122,7 +156,7 @@ Parameterising `g_o` by `v` shifts the boundary, which is what the physics requi
 
 | Function | Threshold basis |
 |-----------|-----------------|
-| g_w | MET Malaysia warning criteria: Category 1 onset = 40 km/h (≈22 kn); Category 2 onset = 50 km/h (≈27 kn) |
+| g_w | MET Malaysia warning criteria: Category 1 onset = 40 km/h = 21.598 kn, carried as **21.6 kn**; Category 2 onset = 50 km/h = 26.998 kn, carried as **27.0 kn**. Source values are preserved rather than rounded |
 | g_r | MET Malaysia operational definition: Ribut Petir (thunderstorm) = unconditional halt |
 | g_m | MET Malaysia three-tier warning system: none → advisory → warning → alert |
 | g_o (big) | MET Malaysia Category 1 max (3.5 m); Jeong & Im (2023) [[notes]](../../notes/Proposal%20of%20Restrictions%20on%20the%20Departure%20of%20Korea%20Small%20Fishing%20Vessel%20according%20to%20Wave%20Height.md) Hs_KIMO = 1.58 m at 16 m LOA |
@@ -153,8 +187,8 @@ A calm morning. Fisher with a 6 m boat (< 10 GRT) requests a departure advisory.
 
 | Function | Input | Output | Reason |
 |----------|-------|--------|--------|
-| g_w(8) | 8 kn | **SAFE** | 8 ≤ 22 |
-| g_r(none) | none | **SAFE** | none ∈ {none, light, moderate} |
+| g_w(8) | 8 kn | **SAFE** | 8 ≤ 21.6 |
+| g_r(0.0, 0) | 0.0 mm/hr, no storm code | **SAFE** | rate ≤ 10.0, κ = 0 |
 | g_m(none) | none | **SAFE** | no active warning |
 | g_o(0.5, small) | 0.5 m, small | **SAFE** | 0.5 < 1.0 (small row) |
 | g_t(8.0) | 8.0 | **SAFE** | 6.0 ≤ 8.0 < 17.0 |
@@ -182,8 +216,8 @@ Same boat, same day, larger swell.
 
 | Function | Output | Reason |
 |----------|--------|--------|
-| g_w(10) | SAFE | 10 ≤ 22 |
-| g_r(none) | SAFE | — |
+| g_w(10) | SAFE | 10 ≤ 21.6 |
+| g_r(0.0, 0) | SAFE | — |
 | g_m(none) | SAFE | — |
 | g_o(1.5, small) | **CAUTION** | 1.0 ≤ 1.5 ≤ 1.9 (small row) |
 | g_t(8.0) | SAFE | — |
@@ -261,8 +295,8 @@ f(E) = **UNSAFE**. One UNSAFE condition dominates everything else — extreme wi
 
 | Function | Domain | SAFE | CAUTION | UNSAFE | Key citation |
 |----------|--------|------|---------|--------|--------------|
-| g_w | ℝ≥0 | ≤ 22 kn | 22–27 kn | > 27 kn | MET Malaysia |
-| g_r | {none…storm} | none, light, moderate | heavy | storm | MET Malaysia |
+| g_w | ℝ≥0 | ≤ 21.6 kn | 21.6–27.0 kn | > 27.0 kn | MET Malaysia |
+| g_r | ℝ≥0 × {0,1} | r ≤ 10.0, κ=0 | 10.0 < r ≤ 20.0, κ=0 | r > 20.0, or κ=1 | JPS/DID lower bound; MET Ribut Petir |
 | g_m | {none…alert} | none | advisory | warning, alert | MET Malaysia |
 | g_o (small) | ℝ≥0 × {v} | < 1.0 m | 1.0–1.25 m | > 1.25 m | Jeong & Im; Yaakob et al. |
 | g_o (medium) | ℝ≥0 × {v} | < 1.4 m | 1.4–2.8 m | > 2.8 m | Jeong & Im (Hs_KIMO) |

@@ -402,7 +402,9 @@ S = max-severity(SAFE, SAFE, SAFE, SAFE, UNSAFE) = UNSAFE
 G(S) = 0    |    A_AI(S) = {}
 ```
 
-**System display:** "UNSAFE — AI advisory unavailable. Darkness: insufficient visibility for safe small-vessel operation. Environmental conditions are otherwise favourable. Advisory will activate after 06:00."
+**System display:** "UNSAFE — AI advisory unavailable: nighttime policy applies. Environmental conditions are otherwise favourable. Advisory will activate at sunrise."
+
+> *Corrected 2026-09-09.* This string previously read *"Darkness: insufficient visibility for safe small-vessel operation … Advisory will activate after 06:00."* Two defects, both already resolved in the canonical specification and missed here. **(1)** "insufficient visibility for safe small-vessel operation" is the **unsupported physical-safety claim** retired from Appendix C C.1 on 2026-09-08: the evidence establishes *elevated* night risk, not that night operation is unsafe or infeasible, and fishers demonstrably operate at night. The withdrawal is an **architectural policy choice**, and the wording now says so (cf. the canonical operator wording in appendix-c C.2.0.8). **(2)** "after 06:00" is the superseded fixed clock; under SDR-001 the boundary is the date's sunrise. Human decision authority remains unconditional.
 
 The fisher sees conditions are good apart from darkness. The system is transparent about *why* AI is unavailable and *when* it will become available.
 
@@ -435,7 +437,7 @@ The fisher reviews the full advisory set and decides to depart at 07:00.
 
 ```
 Environmental State:
-  w = 18 knots      → S_w = SAFE       ← rising, but still ≤ 22 kn
+  w = 18 knots      → S_w = SAFE       ← rising, but still ≤ 21.6 kn
   r = moderate      → S_r = SAFE       ← rain beginning; moderate is SAFE
   m = advisory      → S_m = CAUTION    ← advisory issued
   o = 1.3m, small   → S_o = CAUTION    ← 1.0 ≤ 1.3 ≤ 1.9 (small-vessel row)
@@ -481,7 +483,7 @@ The AI is completely silent. The safety alert is a deterministic system message 
 
 ```
 Environmental State:
-  w = 12 knots      → S_w = SAFE       ← below 22 kn threshold
+  w = 12 knots      → S_w = SAFE       ← below the 21.6 kn threshold
   r = light         → S_r = SAFE
   m = none          → S_m = SAFE       ← advisory lifted
   o = 0.8m, small   → S_o = SAFE       ← 0.8 < 1.0 (small-vessel row)

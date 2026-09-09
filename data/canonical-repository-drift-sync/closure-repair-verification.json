@@ -1,0 +1,20 @@
+{
+  "method": "block-aware, bidirectional, file-type-sensitive: markdown headers bound sections only in .md; in .py the comment block bounds it. An earlier pass mis-classified a Python comment line as a section header.",
+  "active_wind_assertions": [],
+  "count": 0,
+  "binding_activation_collapse": [],
+  "verified_canonical": {
+    "W_CAUTION": 21.6,
+    "W_UNSAFE": 27.0,
+    "max_wind_kn": 21.8,
+    "activations": 2,
+    "bindings": 0,
+    "binding_share": "0.00%",
+    "activation_hours": [
+      "2021-01-17 06:00 (21.8 kn, governed by g_o)",
+      "2024-04-30 23:00 (21.7 kn, governed by g_t)"
+    ],
+    "recomputed_from": "data/raw_weather_sea.csv + raw_marine_era5_sea.csv, independent of any document"
+  },
+  "all_clear": true
+}

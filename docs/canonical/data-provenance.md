@@ -30,7 +30,7 @@ Consequence: every threshold comparison in the empirical work checks **ECMWF mod
 | **Valid time** | **Instant** — a snapshot at the indicated hour, not an hourly mean |
 | **Grid cell — v1** | **LAND — 5.940246, 116.100006** (`cell_selection` unset, defaults to `land`) |
 | **Grid cell — v2** | **SEA — 5.940246, 116.025** (`cell_selection=sea`), file `raw_weather_sea.csv` |
-| **Fit for threshold?** | ✅ **RESOLVED — see F-13.** v2 collected with a sea cell: mean wind **+57.3%** (3.13 → 4.92 kn), max 17.8 → **21.8 kn**. But `g_w` activations remain **0** — the threshold is 22.0 kn, missed by 0.2. The land-cell error was real and substantial, yet **changed no classification**, because `g_w` never fires either way. **Use `raw_weather_sea.csv` going forward.** |
+| **Fit for threshold?** | ✅ **RESOLVED — see F-13.** v2 collected with a sea cell: mean wind **+57.3%** (3.13 → 4.92 kn), max 17.8 → **21.8 kn**. Against the canonical **21.6 kn** CAUTION boundary (MET Cat 1 onset 40 km/h = 21.598 kn), `g_w` **activates twice** in 43,848 hours — readings of 21.7 and 21.8 kn — and **binds in neither**, a more severe component already governing on both occasions. **Use `raw_weather_sea.csv` going forward.** *(Corrected 2026-09-09: this cell previously read "activations remain 0 — the threshold is 22.0 kn, missed by 0.2 … `g_w` never fires either way". The 22.0 was an undocumented rounding; at the source value the activations exist. See F-17.)* |
 
 Also available and unused: `wind_gusts_10m` (max 36.9 kn, would fire 205 CAUTION / 24 UNSAFE).
 
@@ -38,10 +38,11 @@ Also available and unused: `wind_gusts_10m` (max 36.9 kn, would fire 205 CAUTION
 
 | | |
 |---|---|
-| **Source** | Same as `w` (land cell) |
-| **Variables** | `precipitation` (mm, preceding-hour **sum**), `weather_code` (WMO) |
+| **Source** | Same as `w` — `raw_weather_sea.csv`, the v2 **sea** cell (5.940246, 116.025). *(Corrected 2026-09-09: read "Same as `w` (land cell)". Wind moved to the sea cell at v2 and precipitation moved with it, since both are columns of the same file.)* |
+| **Variables** | `precipitation` (mm, preceding-hour **sum**) — the **required** rate coordinate; `weather_code` (WMO) — the **raw provider code `c`**, which is *not* the classifier input |
+| **Derived κ** | The classifier consumes **κ = χ(c)**, a *derived* binary indicator: χ(c) = 1 iff c ∈ {95, 96, 99}, else 0. **κ is not measured** — no provider reports κ, and no instrument observes it; it is computed from `c`. An absent or unrecognised `c` yields κ = 0 (non-escalating, fail-open for the storm disjunct — **not** fail-safe, and **not** a fault of the rate). A missing or invalid *rate* is the separate, required-input case: ⊥ → UNSAFE as a fault. See `appendix-c-formalisation.md` C.2.0.4a |
 | **Valid time** | Precipitation is a preceding-hour sum — **unlike every other variable here, which is instantaneous** |
-| **Fit for threshold?** | ⚠️ **PARTIAL — see F-11.** MET anchors the UNSAFE tier to *Ribut Petir* (thunderstorm). `weather_code` returns **zero** thunderstorm codes (95/96/99) in five years — Open-Meteo states thunderstorm estimation "is not possible" outside Central Europe. UNSAFE reachable only via precipitation > 20 mm/hr, 14 hours in five years |
+| **Fit for threshold?** | ⚠️ **PARTIAL — see F-11.** MET anchors the UNSAFE tier to *Ribut Petir* (thunderstorm). `weather_code` returns **zero** activating codes (95/96/99) in five years — Open-Meteo states thunderstorm estimation "is not possible" outside Central Europe — so κ = 0 in all 43,848 hours and the storm route, though typed, implemented and evaluated, is **empirically unexercised**. This establishes only that the *activating provider codes did not occur in the replay*; it is **not** evidence that no thunderstorms occurred, that thunderstorms do not occur in Sabah, or that the route is unnecessary. UNSAFE is therefore reachable only via precipitation > 20 mm/hr, and every `g_r` figure is a lower bound |
 
 ### m — marine warning level
 
@@ -98,7 +99,7 @@ Both near 1.0 — **no linear-interpolation signature.** Intermediate hours carr
 | **Variable** | `wave_height` = **significant wave height (Hs)** — semantically correct for thresholds derived from Yaakob and Jeong & Im |
 | **Valid time** | Instant |
 | **Grid cell** | **SEA — 6.0, 116.0** (marine API defaults to `cell_selection=sea`; correct) |
-| **Fit for threshold?** | ⚠️ **COARSE — see F-12.** Carries ~97–99% of daylight CAUTION decisions (98.66% primary / 97.41% resolution — see empirical-findings §0a). A ~50 km open-water average, compared against 1.0 m / 1.9 m thresholds, governing boats operating within ~9 km of an island-sheltered coast |
+| **Fit for threshold?** | ⚠️ **COARSE — see F-12.** Carries ~97–99% of daylight CAUTION decisions (**98.71% primary / 97.66% resolution** — `g_o`'s share as the deciding component; see empirical-findings §0a). A ~50 km open-water average, compared against the small-vessel **1.0 m / 1.25 m** thresholds, governing boats operating within ~9 km of an island-sheltered coast *(Corrected 2026-09-09: previously 98.66% / 97.41%, superseded by the SDR-001 migration, and "1.9 m", superseded by the 2026-09-06 operational-ceiling amendment)* |
 
 **The model choice was effectively forced and is defensible.** Every finer model begins in 2021 or later:
 
@@ -145,7 +146,7 @@ All requested at **5.98, 116.01**.
 | File | Returned cell | Surface | km from request | Status |
 |---|---|---|---|---|
 | `raw_weather.csv` (v1) | 5.940246, 116.100006 | **land** | 10.9 | superseded |
-| `raw_rainfall.csv` (v1) | 5.940246, 116.100006 | **land** | 10.9 | still in use — see caveat |
+| `raw_rainfall.csv` (v1) | 5.940246, 116.100006 | **land** | 10.9 | **not in use** — superseded by the `precipitation` column of `raw_weather_sea.csv` *(status corrected 2026-09-09; it read "still in use")* |
 | `raw_marine.csv` (v1) | 6.0, 116.0 | sea | 2.5 | superseded |
 | **`raw_weather_sea.csv` (v2)** | 5.940246, **116.025** | **sea** | 4.7 | **current** |
 | `raw_marine_era5_sea.csv` (v2) | 6.0, 116.0 | sea | 2.5 | comparison |
@@ -161,15 +162,15 @@ All requested at **5.98, 116.01**.
 
 The v1 classifier combined wind measured over **land** with waves measured over **water 12.9 km away**, as though they described one place. The v2 pairing (`raw_weather_sea.csv` + `raw_marine_mfwam.csv`) reduces that to **2.7 km**.
 
-⚠️ **`raw_rainfall.csv` has not been re-collected** and still comes from the v1 land cell. Rainfall is less roughness-sensitive than wind, and `g_r` contributes only 3.7% of non-SAFE hours, so the impact is small — but it is an outstanding inconsistency. Precipitation is also available in `raw_weather_sea.csv`, which is sea-sited; prefer that column.
+✅ **`raw_rainfall.csv` was never re-collected — and no longer needs to be, because no canonical analysis reads it.** Canonical precipitation is the `precipitation` column of **`raw_weather_sea.csv`** (sea cell, 5.940246 / 116.025), which arrived with the v2 wind re-collection; the land-sited `raw_rainfall.csv` is reachable only behind `--v1-historical`. The two are genuinely different series — 14,019.4 mm against 14,970.2 mm over five years, 113 hours above 10 mm/hr against 131 — so this was a real provenance difference, not a nominal one, and it is resolved by substitution rather than by re-collection. `g_r` decides only **0.20% / 0.26%** of all-hours non-SAFE classifications (PRIMARY / RESOLUTION). *(Status corrected 2026-09-09: this paragraph read "⚠️ has not been re-collected … but it is an outstanding inconsistency", which was written before the canonical scripts moved to the sea-cell precipitation column.)* *(Corrected 2026-09-09: previously "3.7% of non-SAFE hours", computed before the rainfall-threshold anchoring and the SDR-001 migration.)* Precipitation is also available in `raw_weather_sea.csv`, which is sea-sited; prefer that column.
 
 ---
 
 ## 4. Checklist before citing any empirical figure
 
 - [ ] **Which files?** Use `raw_weather_sea.csv` + `raw_marine_mfwam.csv` (2.7 km apart) unless you need the full five years, in which case say so
-- [ ] Does it depend on `w`? → resolved (F-13). `g_w` never fires at either cell; state that rather than implying wind is modelled
-- [ ] Does it depend on `r`? → thunderstorms undetectable (F-11), figure is a lower bound; and check whether the rainfall column came from the **land**-cell `raw_rainfall.csv`
+- [ ] Does it depend on `w`? → resolved (F-13). At the canonical **21.6 kn** boundary `g_w` **activates twice** in 43,848 hours and **binds in neither**. **Quote both counts — 2 activations, 0 bindings — and never write "never fires".** A binding share of 0.00% does *not* mean zero activations: *activation* is `g_w` reaching a non-SAFE component state; *binding* is `g_w` being the deciding component under max-severity. *(Corrected 2026-09-09: this item read "`g_w` never fires at either cell", which was true only under the superseded 22 kn rounding. See F-17.)*
+- [ ] Does it depend on `r`? → thunderstorms undetectable (F-11), so the figure is a lower bound. **Provenance is settled: canonical precipitation comes from the `precipitation` column of `raw_weather_sea.csv` (sea cell), not from the land-cell `raw_rainfall.csv`, which no canonical analysis reads.** *(Corrected 2026-09-09: this item asked the reader to check which file the rainfall column came from; the answer is now fixed and verified against executable data flow.)*
 - [ ] Does it depend on `m`? → no data; the figure is a lower bound
 - [ ] Does it depend on `o`? → **state which model.** ERA5-Ocean 50 km or MFWAM 8 km — they differ by 33% on the headline figure (F-14)
 - [ ] Is it compared against a MET Malaysia threshold? → §1 provenance mismatch applies, and see `finding-met-hydrodynamic-gap.md`

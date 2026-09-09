@@ -1,0 +1,12 @@
+{
+  "active_98_66_or_97_41": [],
+  "active_22kn_boundary_claims": [],
+  "active_scalar_only_g_r": [],
+  "raw_c_confused_with_kappa": [],
+  "active_fixed_clock_g_t": [],
+  "active_time_derived_CAUTION": [],
+  "active_87_63": [],
+  "active_night_physical_danger_claims": [],
+  "method": "block-aware, bidirectional: a hit is HISTORICAL if a supersession marker appears on the line or elsewhere in the same section, before or after it. Line-level matching produced false positives on block-marked provenance; backward-only matching missed markers placed beneath the content they govern.",
+  "all_zero": true
+}

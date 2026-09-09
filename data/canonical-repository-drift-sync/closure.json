@@ -1,0 +1,482 @@
+{
+  "task": "Canonical repository drift synchronisation",
+  "date": "2026-09-09",
+  "branch": "chore/canonical-repository-drift-sync",
+  "outcome": "CLOSED - supporting repository aligned",
+  "files_changed": 8,
+  "changed": [
+    "CLAUDE.md",
+    "scripts/canonical_figures.py",
+    "docs/justification/formal-model.md",
+    "docs/reference/explainer-per-component-classification-functions.md",
+    "docs/canonical/data-provenance.md",
+    "docs/canonical/architecture-illustration.md",
+    "docs/canonical/empirical-findings-2026-09-06.md",
+    "docs/canonical/decision-record-empirical-first.md"
+  ],
+  "drift_findings_total": 23,
+  "active_canonical_drift_repaired": 17,
+  "historical_superseded_retained": 4,
+  "active_correct": 1,
+  "irrelevant": 1,
+  "journal1_deferred": true,
+  "appendix_c_unchanged": true,
+  "manuscript_unchanged": true,
+  "prediction_register_unchanged": true,
+  "solar_artefact_unchanged": true,
+  "unexpected_changes": [],
+  "drift2_classification": "B - reporting/display prose only; W_CAUTION=21.6 executable at line 69, used line 126; 22 appeared solely inside a print string",
+  "operator_inclusivity_oracle": "implementation: strict > at both rainfall boundaries (10.0 SAFE, 20.0 CAUTION); matches Appendix C; the task prompt's >= pseudocode was the outlier and was not followed",
+  "residue_scan": {
+    "active_98_66_or_97_41": [],
+    "active_22kn_boundary_claims": [],
+    "active_scalar_only_g_r": [],
+    "raw_c_confused_with_kappa": [],
+    "active_fixed_clock_g_t": [],
+    "active_time_derived_CAUTION": [],
+    "active_87_63": [],
+    "active_night_physical_danger_claims": []
+  },
+  "residue_all_zero": true,
+  "empirical": {
+    "level2": "5.81% / 4.48%",
+    "g_o_daylight_caution": "98.71% / 97.66%",
+    "g_t_all_hours_non_safe": "86.82% / 90.19%",
+    "g_r_daylight_caution": "1.48% / 2.70%",
+    "g_r_all_hours_non_safe": "0.20% / 0.26%",
+    "daylight_unsafe": "1262 / 455",
+    "C0_C1": "42.88%",
+    "C0_C2": "48.69%",
+    "level2_isolated": "5.81%",
+    "register": "24 / 15 CONFIRMED / 9 REFUTED",
+    "P09": 3661,
+    "P20": 1529
+  },
+  "csv_parser_all_pass": true,
+  "stop_conditions": {
+    "CRD-1_executable_semantic": false,
+    "CRD-2_authority_conflict": false,
+    "CRD-3_empirical_drift": false,
+    "CRD-4_prediction_drift": false,
+    "CRD-5_manuscript_change_required": false,
+    "CRD-6_appendix_c_change_required": false,
+    "CRD-7_journal1_contamination": "recorded, not fixed",
+    "CRD-8_unsupported_claim": false
+  },
+  "deferred": [
+    "Journal 1 manuscript and section-5 plan: scalar/categorical g_r, g_w 22 kn, fixed-clock g_t"
+  ],
+  "wind_assertion_closure_repair": {
+    "date": "2026-09-09",
+    "outcome": "CLOSED - independent wind-assertion repair verified",
+    "candidates": 17,
+    "classification": {
+      "ACTIVE-CANONICAL-DRIFT": 2,
+      "ACTIVE-CORRECT": 6,
+      "HISTORICAL-SUPERSEDED": 5,
+      "IRRELEVANT": 3,
+      "UNRELATED-FINDING": 1
+    },
+    "files_changed": [
+      "docs/canonical/data-provenance.md",
+      "scripts/openmeteo_raw_download.py"
+    ],
+    "canonical_wind": {
+      "W_CAUTION": 21.6,
+      "W_UNSAFE": 27.0,
+      "max_wind_kn": 21.8,
+      "activations": 2,
+      "bindings": 0,
+      "binding_share": "0.00%",
+      "activation_hours": [
+        "2021-01-17 06:00 (21.8 kn, governed by g_o)",
+        "2024-04-30 23:00 (21.7 kn, governed by g_t)"
+      ],
+      "recomputed_from": "data/raw_weather_sea.csv + raw_marine_era5_sea.csv, independent of any document"
+    },
+    "active_residues_remaining": 0,
+    "appendix_c_unchanged": true,
+    "manuscript_unchanged": true,
+    "canonical_figures_unchanged": true,
+    "register_unchanged": true,
+    "solar_unchanged": true,
+    "journal1_unchanged": true,
+    "unexpected_changes": [],
+    "P16": "CONFIRMED",
+    "P01": "REFUTED",
+    "stop_conditions": {
+      "WIND-R1": false,
+      "WIND-R2": false,
+      "WIND-R3": false,
+      "WIND-R4": false,
+      "WIND-R5": false,
+      "WIND-R6": "unrelated register-status drift recorded, not fixed"
+    },
+    "csv_parser_all_pass": true,
+    "unrelated_finding": "empirical-findings-2026-09-06.md line 4 states 22 confirmed / 2 refuted; canonical is 15/9. Deferred."
+  },
+  "prediction_state_closure_repair": {
+    "date": "2026-09-09",
+    "outcome": "CLOSED - prediction-state residue repair verified",
+    "candidates": 14,
+    "classification": {
+      "ACTIVE-CANONICAL-DRIFT": 5,
+      "ACTIVE-CORRECT": 3,
+      "HISTORICAL-SUPERSEDED": 4,
+      "DEFERRED-JOURNAL1": 1,
+      "IRRELEVANT": 1
+    },
+    "self_inflicted_residue": "PS-03 - the banner added in the preceding wind repair said 'the register's refutation is now P01' (singular); canonical has nine refutations. Corrected.",
+    "canonical_register": {
+      "total": 24,
+      "CONFIRMED": 15,
+      "REFUTED": 9,
+      "refuted_ids": [
+        "P01",
+        "P04",
+        "P09",
+        "P18",
+        "P19",
+        "P20",
+        "P22",
+        "P23",
+        "P24"
+      ],
+      "P01": "REFUTED",
+      "P16": "CONFIRMED",
+      "P09_actual": "3661",
+      "P20_actual": "1529",
+      "authority": "data/prediction-register.csv"
+    },
+    "register_matches_expected": true,
+    "files_changed": [
+      "docs/canonical/empirical-findings-2026-09-06.md",
+      "docs/canonical/decision-record-empirical-first.md",
+      "docs/canonical/session-log-2026-09-06.md"
+    ],
+    "register_unchanged": true,
+    "appendix_c_unchanged": true,
+    "manuscript_unchanged": true,
+    "solar_unchanged": true,
+    "scripts_unchanged": true,
+    "journal1_unchanged": true,
+    "unexpected_changes": [],
+    "wind_state_invariant": {
+      "W_CAUTION": 21.6,
+      "W_UNSAFE": 27.0,
+      "activations": 2,
+      "bindings": 0,
+      "never_fires_reintroduced": false
+    },
+    "empirical": {
+      "level2": "5.81% / 4.48%",
+      "g_o": "98.71% / 97.66%",
+      "g_t": "86.82% / 90.19%",
+      "g_r_daylight": "1.48% / 2.70%",
+      "g_r_all_hours": "0.20% / 0.26%",
+      "daylight_unsafe": "1262 / 455",
+      "transitions": "3661 / 3439 / 222 / 26 / 10.36%"
+    },
+    "sdr001_attribution": [
+      "P20",
+      "P23",
+      "P24"
+    ],
+    "stop_conditions": {
+      "PS-R1": false,
+      "PS-R2": false,
+      "PS-R3": false,
+      "PS-R4": false,
+      "PS-R6": false,
+      "PS-R5": "Journal 1 recorded, not edited"
+    },
+    "csv_parser_all_pass": true
+  },
+  "data_configuration_closure_repair": {
+    "date": "2026-09-09",
+    "outcome": "CLOSED - data-configuration caveat repair verified",
+    "candidates": 15,
+    "classification": {
+      "ACTIVE-CANONICAL-DRIFT": 7,
+      "ACTIVE-CORRECT": 4,
+      "HISTORICAL-SUPERSEDED": 3,
+      "DEFERRED-JOURNAL1": 1
+    },
+    "source_matrix": {
+      "wind": {
+        "PRIMARY": "raw_weather_sea.csv",
+        "RESOLUTION": "raw_weather_sea.csv",
+        "cell": "5.940246, 116.025",
+        "surface": "sea",
+        "status": "current"
+      },
+      "precipitation_rate": {
+        "PRIMARY": "raw_weather_sea.csv",
+        "RESOLUTION": "raw_weather_sea.csv",
+        "cell": "5.940246, 116.025",
+        "surface": "sea",
+        "status": "current"
+      },
+      "raw_weather_code_c": {
+        "PRIMARY": "raw_weather_sea.csv",
+        "RESOLUTION": "raw_weather_sea.csv",
+        "cell": "5.940246, 116.025",
+        "surface": "sea",
+        "status": "current"
+      },
+      "wave_height": {
+        "PRIMARY": "raw_marine_era5_sea.csv",
+        "RESOLUTION": "raw_marine_mfwam.csv",
+        "cell": "6.0, 116.0 (ERA5) | 5.958336, 116.04167 (MFWAM)",
+        "surface": "sea",
+        "status": "current"
+      },
+      "time": {
+        "PRIMARY": "time column of raw_weather_sea.csv; solar events from data/solar/solar-events-daily.csv",
+        "RESOLUTION": "same",
+        "cell": "5.98, 116.01 (solar spec)",
+        "surface": "n/a",
+        "status": "current"
+      },
+      "marine_warning_m": {
+        "PRIMARY": "none - declared exclusion D={m}",
+        "RESOLUTION": "none",
+        "cell": "n/a",
+        "surface": "n/a",
+        "status": "unmeasured"
+      },
+      "SUPERSEDED_raw_weather.csv": {
+        "cell": "5.940246, 116.100006",
+        "surface": "land",
+        "status": "superseded - --v1-historical only"
+      },
+      "SUPERSEDED_raw_rainfall.csv": {
+        "cell": "5.940246, 116.100006",
+        "surface": "land",
+        "status": "superseded - not read by any canonical analysis"
+      },
+      "SUPERSEDED_raw_marine.csv": {
+        "cell": "6.0, 116.0",
+        "surface": "sea",
+        "status": "superseded - --v1-historical only"
+      }
+    },
+    "separations_km": {
+      "v1_land_weather_to_ERA5": 12.9,
+      "v2_sea_weather_to_ERA5": 7.2,
+      "v2_sea_weather_to_MFWAM": 2.7,
+      "land_to_sea_weather_shift": 8.3
+    },
+    "rainfall_source_resolved": "raw_weather_sea.csv (sea) - NOT raw_rainfall.csv (land)",
+    "rainfall_numeric_proof": {
+      "canonical_precip_sum_mm": 14019.4,
+      "raw_weather_sea_sum_mm": 14019.4,
+      "raw_rainfall_sum_mm": 14970.2,
+      "hours_gt_10mm_sea": 113,
+      "hours_gt_10mm_land": 131
+    },
+    "scripts_agree": true,
+    "active_residues_remaining": 0,
+    "files_changed": [
+      "docs/canonical/empirical-findings-2026-09-06.md",
+      "docs/canonical/data-provenance.md",
+      "scripts/canonical_figures.py (docstring only)",
+      "docs/justification/rainfall-intensity-mapping.md"
+    ],
+    "appendix_c_unchanged": true,
+    "manuscript_unchanged": true,
+    "datasets_unchanged": true,
+    "protected_all_unchanged": true,
+    "unexpected_changes": [],
+    "empirical": {
+      "level2": "5.81% / 4.48%",
+      "g_o": "98.71% / 97.66%",
+      "g_t": "86.82% / 90.19%",
+      "g_r_daylight": "1.48% / 2.70%",
+      "g_r_all_hours": "0.20% / 0.26%",
+      "daylight_unsafe": "1262 / 455"
+    },
+    "wind_state": {
+      "W_CAUTION": 21.6,
+      "activations": 2,
+      "bindings": 0
+    },
+    "register": {
+      "total": 24,
+      "CONFIRMED": 15,
+      "REFUTED": 9,
+      "P09": 3661,
+      "P20": 1529
+    },
+    "stop_conditions": {
+      "DATA-R1_executable_conflict": false,
+      "DATA-R2_provenance_conflict": false,
+      "DATA-R3_dataset_change": false,
+      "DATA-R4_empirical_drift": false,
+      "DATA-R5_protected_authority": false
+    },
+    "csv_parser_all_pass": true
+  },
+  "empirical_assertion_closure_repair": {
+    "date": "2026-09-09",
+    "outcome": "CLOSED - empirical assertion residues verified",
+    "candidates": 17,
+    "classification": {
+      "ACTIVE-CANONICAL-DRIFT": 10,
+      "ACTIVE-CORRECT": 4,
+      "HISTORICAL-SUPERSEDED": 1,
+      "IRRELEVANT": 1,
+      "DEFERRED-JOURNAL1": 1
+    },
+    "rainfall_counts": {
+      "canonical_sea_gt20": 21,
+      "canonical_sea_gt10": 113,
+      "canonical_sea_max": 45.8,
+      "v1_land_gt20": 14,
+      "v1_land_gt10": 131,
+      "v1_land_max": 39.2,
+      "reconciliation": "F-11's 14 is the v1 land-cell count; canonical sea cell gives 21. No conflict - EA-R2 not triggered"
+    },
+    "kappa": {
+      "kappa_1_hours": 0,
+      "missing_raw_code": 0,
+      "invalid_raw_code": 0,
+      "evaluated_hours": 43848,
+      "both_cells": "kappa=1 is 0 on BOTH land and sea cells, so the code absence is not a cell artefact"
+    },
+    "wind": {
+      "W_CAUTION": 21.6,
+      "W_UNSAFE": 27.0,
+      "max_sea": 21.8,
+      "max_land": 17.8,
+      "activations_sea_at_21_6": 2,
+      "activations_sea_at_22_0": 0,
+      "activations_land": 0,
+      "bindings": 0,
+      "governing_components": [
+        "g_o on 2021-01-17 06:00",
+        "g_t on 2024-04-30 23:00"
+      ]
+    },
+    "authority_chain": "F-1 (historical, 22 kn) -> F-13 (sea recollection) -> F-17 (canonical restatement, 21.6 kn). F-17 is later and governs.",
+    "active_residues": {
+      "A_thunderstorm_occurrence": 0,
+      "B_wind_never_reaches": 0
+    },
+    "files_changed": [
+      "docs/canonical/empirical-findings-2026-09-06.md"
+    ],
+    "appendix_c_unchanged": true,
+    "manuscript_unchanged": true,
+    "protected_all_unchanged": true,
+    "unexpected_changes": [],
+    "empirical": {
+      "level2": "5.81% / 4.48%",
+      "g_o": "98.71% / 97.66%",
+      "g_t": "86.82% / 90.19%",
+      "g_r_daylight": "1.48% / 2.70%",
+      "g_r_all_hours": "0.20% / 0.26%",
+      "daylight_unsafe": "1262 / 455",
+      "transitions": "3661 / 3439 / 222 / 26 / 10.36%"
+    },
+    "register": {
+      "total": 24,
+      "CONFIRMED": 15,
+      "REFUTED": 9,
+      "P01": "REFUTED",
+      "P16": "CONFIRMED",
+      "P09": 3661,
+      "P20": 1529
+    },
+    "data_flow_unchanged": "raw_weather_sea.csv supplies wind, precipitation and raw code c; land files historical only",
+    "stop_conditions": {
+      "EA-R1": false,
+      "EA-R2": false,
+      "EA-R3": false,
+      "EA-R4": false,
+      "EA-R5": false,
+      "EA-R6": false
+    },
+    "csv_parser_all_pass": true
+  },
+  "reportable_figure_closure_repair": {
+    "date": "2026-09-09",
+    "outcome": "CLOSED - reportable-figure guidance verified",
+    "candidates": 16,
+    "classification": {
+      "ACTIVE-CANONICAL-DRIFT": 7,
+      "ACTIVE-CORRECT": 5,
+      "HISTORICAL-SUPERSEDED": 3,
+      "DEFERRED-JOURNAL1": 1
+    },
+    "section_0a_vs_executable": {
+      "level2_PRIMARY": "5.81%",
+      "level2_RESOLUTION": "4.48%",
+      "daylight_unsafe": "1262 / 455",
+      "g_o": "98.71% / 97.66%",
+      "g_t": "86.82% / 90.19%",
+      "g_r_daylight": "1.48% / 2.70%",
+      "g_r_all_hours": "0.20% / 0.26%",
+      "C1_C3": "0.00% / 0.00%",
+      "C0_C1": "42.88%",
+      "C0_C2": "48.69%",
+      "agreement": "section 0a matches canonical_figures.py and condition_comparison.py exactly"
+    },
+    "reporting_contract": {
+      "PRIMARY": "5.81% - 5.00 yr ERA5-Ocean ~50 km - HEADLINE",
+      "RESOLUTION": "4.48% - 3.25 yr MFWAM ~8 km - SENSITIVITY CHECK",
+      "note": "F-14 proposed the inverse assignment (MFWAM primary on siting); option C chose ERA5 on record length"
+    },
+    "figure_evolution": "12.4 -> 8.3 -> 6.1 -> 5.81 (PRIMARY) / 4.48 (RESOLUTION)",
+    "wave_unsafe_check": {
+      "canonical_small_UNSAFE_boundary_m": 1.25,
+      "MFWAM_hours_above_1_25": 937,
+      "ERA5_hours_above_1_25": 2516,
+      "MFWAM_hours_above_1_9": 0,
+      "ERA5_hours_above_1_9": 43,
+      "note": "F-14's 'never occurs' is a property of the superseded 1.9 m boundary only"
+    },
+    "structural_invariant": "C3 = C1 at exactly 0.00% in both configurations, before and after migration",
+    "active_stale_reportable_instructions": 0,
+    "files_changed": [
+      "docs/canonical/empirical-findings-2026-09-06.md"
+    ],
+    "appendix_c_unchanged": true,
+    "manuscript_unchanged": true,
+    "protected_all_unchanged": true,
+    "unexpected_changes": [],
+    "empirical": {
+      "level2": "5.81% / 4.48%",
+      "g_o": "98.71% / 97.66%",
+      "g_t": "86.82% / 90.19%",
+      "g_r_daylight": "1.48% / 2.70%",
+      "g_r_all_hours": "0.20% / 0.26%",
+      "daylight_unsafe": "1262 / 455",
+      "transitions": "3661 / 3439 / 222 / 26 / 10.36%"
+    },
+    "register": {
+      "total": 24,
+      "CONFIRMED": 15,
+      "REFUTED": 9,
+      "P09": 3661,
+      "P20": 1529
+    },
+    "wind": {
+      "W_CAUTION": 21.6,
+      "activations": 2,
+      "bindings": 0
+    },
+    "rainfall": {
+      "sea_gt20": 21,
+      "sea_gt10": 113,
+      "kappa_1": 0
+    },
+    "stop_conditions": {
+      "canonical_output_conflict": false,
+      "new_empirical_decision_required": false,
+      "unexpected_empirical_drift": false,
+      "protected_authority_change": false
+    },
+    "csv_parser_all_pass": true
+  }
+}

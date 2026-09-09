@@ -170,7 +170,7 @@ This file contains ready-to-paste `[[notes]](path)` quick links for all 111 pape
 | Symbol | Value domain `Xᵢ` | Definition |
 |---|---|---|
 | w | ℝ≥0 | Wind speed (knots, sustained) |
-| r | ℝ≥0 | Rainfall intensity (mm/hr). **Numeric, not categorical** — redefined 2026-09-08. `g_r` performs the classification; JPS/DID intensity categories are provenance for the 10.0 boundary, not the domain of `r` |
+| r | ℝ≥0 × K, K = {0,1} | Rainfall: precipitation rate (mm/hr) paired with derived thunderstorm indicator **κ = χ(c)**, χ(c)=1 iff raw provider code c ∈ {95,96,99} (appendix-c C.2.0.4a, typed 2026-09-09). **Numeric, not categorical** — redefined 2026-09-08. Rate is required; **κ is derived and never ⊥** — an absent code gives κ=0 and the rate-only classification stands (non-escalating, *not* fail-safe). `g_r` performs the classification; JPS/DID intensity categories are provenance for the 10.0 boundary, not the domain of `r` |
 | m | {none, advisory, warning, alert} | Marine warning level (ordinal). **No data source exists for the study site** — the replays run with `m ∈ D`; see the ⊥ block below |
 | o | ℝ≥0 × ℝ≥0 | Ocean state (wave height m, swell period s). `g_o` reads **the wave height component only**; ⊥ attaches to what is read, so an unavailable swell period does **not** fault `o` (appendix-c C.2.0.2) |
 | t | [0, 24) | Time of day (hour, 24-hour clock). **Read from the device clock, not an external source** — hence `t ∉ D` always (appendix-c C.2.0.5 D1) |
@@ -211,7 +211,7 @@ This file contains ready-to-paste `[[notes]](path)` quick links for all 111 pape
 
 **Q1 is answered (2026-09-06): `g_w` is retained, reading sustained wind, unchanged.** Redefining `w` over gusts is **rejected** — that would be choosing whichever definition makes the component fire. Do not repair `g_w` to preserve the model.
 
-**F-7 framing decision (2026-09-06):** only **three** functions ever bind at this site — `g_o` (98.66% / 97.41% of daylight CAUTION), `g_t`, `g_r`. **The classifier is NOT reduced.** All five functions are retained with explicit scope statements, and the binding profile is reported as a site characterisation. Reducing it would fit the specification to one site's weather and cost the transferability claim both papers make.
+**F-7 framing decision (2026-09-06):** only **three** functions ever bind at this site — `g_o` (**98.71% / 97.66%** — its share, as the deciding component, of daylight CAUTION classifications, PRIMARY / RESOLUTION; *not* a Go-recommendation share, an AI recommendation frequency, an overall CAUTION rate or the Level 2 binding rate), `g_t`, `g_r`. **The classifier is NOT reduced.** All five functions are retained with explicit scope statements, and the binding profile is reported as a site characterisation. Reducing it would fit the specification to one site's weather and cost the transferability claim both papers make.
 
 **Present `g_w` and `g_m` separately — they are not the same case:**
 
@@ -236,7 +236,7 @@ Do not restate the original unqualified claim. See `empirical-findings-2026-09-0
 
 ### Classification structure (amended 2026-09-06)
 
-**f(E) = max-severity(g_w(w), g_r(r), g_m(m), g_o(o, v), g_t(t))** — five terms, not six.
+**f(E) = max-severity(g_w(w), g_r(r, κ), g_m(m), g_o(o, v), g_t(t, date))** — five terms, not six.
 
 **Current thresholds (all anchored to a named source):**
 
