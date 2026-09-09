@@ -96,3 +96,25 @@ No unresolved quantitative blocker remains. Publication readiness still requires
 Recommended next task: **Solar Citation Closure**, followed by the separately scoped full conference reviewer audit. Neither task was begun here.
 
 # `PUBLICATION CONSISTENCY AUDIT CLOSED — ACTIVE PUBLICATIONS ALIGNED TO CANONICAL STATE`
+
+---
+
+## Addendum — independent re-verification, 2026-09-09
+
+A later session re-verified this closure without repeating the audit. Read-only; no file was edited by the verification itself.
+
+**Frozen state reproduces exactly.** Prediction register `5574b88e…`, 24 entries, **15 CONFIRMED / 9 REFUTED**, P09 = 3661, P20 = 1529. `canonical_gt.py` `b330bf9f…`, `canonical_figures.py` `cb4f1ee2…`, `hysteresis_analysis.py` `a58af013…`, solar artefacts `057c46a1…` / `da14a8dc…` — all unchanged. This report's own `integrity-after.json` matches the current state for every frozen artefact checked, so nothing has drifted since closure.
+
+**Canonical figures recomputed live from the migrated pipeline:** Level 2 binds **5.81% / 4.48%**; daylight UNSAFE **1,262 / 455**; `g_t` all-hours non-SAFE **86.82% / 90.19%**; `g_r` daylight CAUTION **1.48% / 2.70%**. Hysteresis: **3,661** total transitions, **3,439 scheduled (93.9%)**, **222** non-scheduled, **222 → 199 = 10.4%** reduction, **26** oscillations (**5.2/yr**). The 93.9% replacement for the retired 95.8% is confirmed as live canonical output, not a derived figure.
+
+**Stale-value sweep of both active manuscripts.** Absent as required: 7.7% / 6.0%, 22-confirmed / 2-refuted, 23-confirmed / 1-refuted, "fourteen" per year, 227, 1.55% / 2.99%, 9,133, 24.64%, 32.36%, 95.8%, USD 50. Four residual matches were inspected in context and are all legitimate:
+
+| Match | Location | Disposition |
+|---|---|---|
+| `5,416` | conference L488 | **Required** — P09 provenance chain, preserved as mandated |
+| `22 kn` ×2 | conference L465, L517 | **Correct** — both describe 22 kn as the superseded defect being corrected |
+| `6.2%`, `5,416`, `17:00–19:00` | Journal 1 L3 | **Correct** — inside the SDR-001 supersession banner, explicitly labelled provenance |
+
+**Targeted checks.** Totality proof carries 21.6 kn, numeric rainfall 10/20, and solar `g_t` — no 22 kn, no categorical rainfall, no fixed-clock twilight. TABLE VII: 9,135 records, symmetric 42.88%, C0↔C2 48.69%, C1↔C3 **0.00%**. TABLE VI rainfall row 1.48% / 2.70%. Fig. 4 dated 2024-03-20 with frozen sunrise 6.341591 h / sunset 18.452345 h. Attribution intact — P20/P23/P24 to SDR-001, P04/P09/P18/P19 to earlier corrections. Human authority unconditional (3 statements). No unbounded physical-danger language; both `prohibit` occurrences are explicitly governance-bounded, one stating "advisory governance policy, not a departure prohibition". Scalar `cause : Y → {fault, hazard}` is not resurrected in either manuscript. Historical v2.5 unchanged (`dbc3c4e3…`) and retains its original USD 50 text.
+
+**Verdict unchanged.** No stop condition is live; no correction was required. Remaining work is as this report already records: Solar Citation Closure, then the separately scoped conference reviewer audit.

@@ -1,0 +1,90 @@
+{
+  "evidence_class": "deterministic implementation-sensitivity verification",
+  "not": [
+    "USNO validation",
+    "empirical astronomical validation"
+  ],
+  "configuration": {
+    "latitude_deg_north": 5.98,
+    "longitude_deg_east": 116.01,
+    "timezone": "UTC+8",
+    "daylight_saving": "none",
+    "zenith_deg": 90.833,
+    "spec_version": "solar-spec-v1",
+    "impl_version": "solar-v1",
+    "impl_sha256": "3b7dc371ebe5931b3336f9982c5806a06a515dc2032569f5da7720470c1ec36c"
+  },
+  "date_ranges": {
+    "A_intraday_omission": "day-of-year 1..365 (one common year)",
+    "B_leap_denominator": "day-of-year 1..366 (one full leap year)"
+  },
+  "noaa_source": {
+    "publisher": "NOAA Global Monitoring Laboratory",
+    "title": "General Solar Position Calculations",
+    "url": "https://gml.noaa.gov/grad/solcalc/solareqns.PDF"
+  },
+  "canonical_simplified_gamma": "2*pi/365*(doy-1)",
+  "noaa_gamma": "2*pi/D*(doy-1+(hour-12)/24), D=365 or 366 in leap years",
+  "shared_between_both_sides": [
+    "equation of time series",
+    "declination series",
+    "hour angle",
+    "zenith 90.833",
+    "sunrise/sunset expressions",
+    "timezone conversion"
+  ],
+  "event_time_evaluation_method": "single-pass substitution of the canonical event time into NOAA gamma; no iteration to convergence (iterated variant reported as robustness check)",
+  "max_definition": "max over evaluated days of |canonical - noaa| in minutes",
+  "mean_definition": "arithmetic mean over evaluated days of the same quantity",
+  "rounding": "3 decimal places",
+  "results": [
+    {
+      "experiment": "A_intraday_omission",
+      "days_evaluated": 365,
+      "noaa_denominator": 365,
+      "noaa_intraday_term_included": true,
+      "iterated_to_convergence": false,
+      "sunrise_max_min": 0.116,
+      "sunrise_mean_min": 0.057,
+      "sunset_max_min": 0.141,
+      "sunset_mean_min": 0.064
+    },
+    {
+      "experiment": "B_leap_denominator",
+      "days_evaluated": 366,
+      "noaa_denominator": 366,
+      "noaa_intraday_term_included": false,
+      "iterated_to_convergence": false,
+      "sunrise_max_min": 0.457,
+      "sunrise_mean_min": 0.118,
+      "sunset_max_min": 0.483,
+      "sunset_mean_min": 0.137
+    }
+  ],
+  "robustness_check": [
+    {
+      "experiment": "A_intraday_omission_iterated_robustness",
+      "days_evaluated": 365,
+      "noaa_denominator": 365,
+      "noaa_intraday_term_included": true,
+      "iterated_to_convergence": true,
+      "sunrise_max_min": 0.115,
+      "sunrise_mean_min": 0.057,
+      "sunset_max_min": 0.141,
+      "sunset_mean_min": 0.064
+    }
+  ],
+  "expected_published_values": {
+    "A_sunrise": 0.116,
+    "A_sunset": 0.141,
+    "B_sunrise": 0.457,
+    "B_sunset": 0.483
+  },
+  "observed_values": {
+    "A_sunrise": 0.116,
+    "A_sunset": 0.141,
+    "B_sunrise": 0.457,
+    "B_sunset": 0.483
+  },
+  "reproduces_published_values": true
+}

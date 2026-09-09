@@ -1,0 +1,15 @@
+element,code_location,implemented_equation,noaa_source_equation,constants,match
+day_of_year,solar.py:36,d.timetuple().tm_yday,day_of_year,integer 1..365/366,exact
+fractional_year_gamma,solar.py:19,g = 2*pi/365*(doy-1),gamma = 2*pi/365*(doy-1+(hour-12)/24),2*pi/365,structural - intra-day term omitted (<=0.14 min at site)
+leap_year_denominator,solar.py:19,fixed 365,NOAA: use 366 in leap years,365,documented simplification (<=0.48 min at site)
+equation_of_time,solar.py:20-21,229.18*(0.000075+0.001868cos g-0.032077sin g-0.014615cos 2g-0.040849sin 2g),identical,229.18; 0.000075; 0.001868; 0.032077; 0.014615; 0.040849,exact
+solar_declination,solar.py:22-24,0.006918-0.399912cos g+0.070257sin g-0.006758cos 2g+0.000907sin 2g-0.002697cos 3g+0.00148sin 3g,identical,7 coefficients,exact
+latitude_conversion,solar.py:25,np.radians(lat),degrees to radians,-,exact
+hour_angle,solar.py:26-28,ha = degrees(arccos(cos(zenith)/(cos lat cos decl) - tan lat tan decl)),ha = +/-arccos{cos(90.833)/(cos lat cos decl) - tan lat tan decl},-,exact
+zenith_constant,solar.py:14,ZENITH_SUNRISE = 90.833,"zenith is set to 90.833 (the approximate correction for atmospheric refraction at sunrise and sunset, and the size of the solar disk)",90.833,exact incl. stated decomposition
+sunrise,solar.py:29,720 + 4*(-lon - ha) - eq,sunrise = 720 - 4*(longitude + ha) - eqtime,-,exact (algebraically identical)
+sunset,solar.py:30,720 + 4*(-lon + ha) - eq,"same with ha negated (positive = sunrise, negative = sunset)",-,exact
+solar_noon,not implemented,n/a,snoon = 720 - 4*longitude - eqtime,-,not implemented (not required by g_t)
+timezone_conversion,solar.py:31,utc_min/60 + tz,local = UTC + tz (east-positive),tz=+8,exact
+invalid_polar_handling,solar.py:27,"np.clip(c,-1,1)",NOAA does not specify,-,differs - guard added in builder/canonical layer instead
+output_precision,artefact,6 decimal hours stored,n/a,-,storage precision only

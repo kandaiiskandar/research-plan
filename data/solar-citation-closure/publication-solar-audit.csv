@@ -1,0 +1,10 @@
+location,claim,classification,action
+conf Methods (new),NOAA equations + zenith + simplifications + USNO bounded agreement,SUPPORTED,added with refs [36][37]
+conf ToV boundary provenance,solar publication-reference closure outstanding,AMBIGUOUS -> SUPPORTED,replaced with closed provenance + bounded limits
+conf ToV policy sentence,COLREGs defines sunset-to-sunrise boundary,SUPPORTED (was unreferenced),cited [38]; lighting obligation not operating prohibition
+conf Algorithm 1 g_t line,SAFE iff sunrise<=t<sunset,SUPPORTED,unchanged
+conf Fig 4,dated example with frozen solar values,SUPPORTED,unchanged
+conf references,no solar sources present,UNSOURCED,added [36][37][38]
+journal time/observation context,no solar provenance,UNSOURCED,added bounded provenance paragraph
+journal SDR-001 banner,supersession record,SUPPORTED,unchanged
+all active,Meeus attribution,n/a,zero occurrences — no correction needed

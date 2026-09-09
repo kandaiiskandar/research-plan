@@ -1,0 +1,13 @@
+claim_id,claim,source,source_type,exact_support,strength,publication_use
+SOL-C1,Formulation implements NOAA published solar-position equations,"NOAA GML, General Solar Position Calculations",primary technical,"EoT, declination, hour angle, sunrise/sunset match coefficient-for-coefficient",DIRECT,Methods provenance sentence
+SOL-C2,Fractional-year/day-angle term,NOAA GML same document,primary technical,gamma = 2pi/365*(doy-1+(hour-12)/24); code omits intra-day term,STRUCTURAL,Disclosed simplification
+SOL-C3,Equation of time series,NOAA GML same document,primary technical,identical coefficients,DIRECT,Methods
+SOL-C4,Solar declination series,NOAA GML same document,primary technical,identical coefficients,DIRECT,Methods
+SOL-C5,Zenith 90.833 deg,NOAA GML same document,primary technical,stated as approximate correction for atmospheric refraction and size of solar disk,DIRECT,Methods
+SOL-C6,Sunrise/sunset event convention,NOAA GML same document,primary technical,hour-angle sign convention; half-open classifier interval is a study choice,DIRECT (event) / DESIGN (interval),Methods
+SOL-C7,USNO independent validation authority,"USNO AA API v4.0.1, rstt/oneday",government service,page states v4.0.1; apiversion returned in JSON; coords east/north-positive; tz east-positive,DIRECT,Methods + references
+SOL-C8,Reconstructed validation agreement,data/solar/usno-validation-2026-09-08.csv,frozen artefact,28 rows; max 0.92 min; mean 0.3786; sunrise/sunset max 0.75 mean 0.3321; all <1 min,EMPIRICAL,Methods (bounded wording)
+SOL-C9,Leap-year approximation limitation,solar.py + direct comparison,implementation + computation,fixed 365 denominator; max 0.457 sunrise / 0.483 sunset min,LIMITATION,Threats to Validity
+SOL-C10,Decimal-hour classification semantics,canonical_gt.py:34/72-73,implementation,reads sunrise_hours/sunset_hours never *_local,DESIGN,Threats to Validity
+SOL-C11,COLREG temporal relevance,"IMO COLREG 1972 as amended, Rule 20(b)",international convention,lights shall be complied with from sunset to sunrise,DIRECT,Threats to Validity (bounded)
+SOL-C12,AI abstention is architecture policy,SDR-001,design decision,no source establishes night => AI abstention,DESIGN,Threats to Validity
