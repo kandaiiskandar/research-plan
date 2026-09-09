@@ -1,0 +1,15 @@
+{
+  "artefact": "data/solar/usno-validation-2026-09-08.csv",
+  "sha256": "da14a8dca224ae1869466c0ee03d58e5fc908fcee9ac3ac89172a8bf4a159c81",
+  "rows": 28,
+  "all28": {
+    "max": 0.92,
+    "mean": 0.37857142857142856
+  },
+  "sunrise_sunset": {
+    "max": 0.75,
+    "mean": 0.33214285714285713
+  },
+  "all_within_one_minute": true,
+  "SOL_3": "NOT TRIGGERED"
+}

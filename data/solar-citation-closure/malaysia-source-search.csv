@@ -1,0 +1,5 @@
+institution,source_examined,provides,method_reproducible,suitable,note
+MET Malaysia,https://www.met.gov.my/en/,fetch returned empty body,unknown,no,not assessable in this task; no ephemeris located via this route
+JUPEM / national survey,targeted web search for official ephemeris,no official sunrise/sunset ephemeris surfaced,no,no,search returned only commercial third-party calculators
+Falak observatory network,prior finding-gt-evidence-closure Part 1,prayer-time determination,no,no,remit is Islamic prayer times not general ephemeris
+Commercial calculators,"timeanddate, gaisma, suncalc, theskylive",sunrise/sunset tables,no published method,no,excluded as authority; not government sources

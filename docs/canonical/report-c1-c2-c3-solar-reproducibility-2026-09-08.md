@@ -136,6 +136,8 @@ Recorded **in every row** of both artefacts (`impl_version`, `impl_sha256`, `spe
 
 > **Worst sampled post-Feb-29 offset: 0.47 min (28 s).**
 
+> **Scope clarified 2026-09-09 (Solar Citation Closure).** This figure compares the canonical implementation **against itself** at the same *calendar date* across a common year and a leap year — the effect of `doy` shifting by one after 29 February. It is **sunrise only** and **five sampled dates**. It is **not** a comparison against NOAA's 366 denominator and **not** a combined maximum. The full canonical-365 vs NOAA-366 sweep over all 366 days gives **0.457 min (sunrise)** and **0.483 min (sunset)** — see `verify_noaa_simplifications.py` / `noaa-simplification-check.json`. Both figures are correct for their own definitions; they are different quantities.
+
 **This is documented, not silently absorbed.** It is the same order as the implementation's own 0.9-min agreement with USNO, so it is within the method's established accuracy rather than a defect — but it is a real systematic effect, it is largest near the equinox and solstice, and **it interacts with the hour-boundary sensitivity in §14**.
 
 **The validated formulation was not altered.** Changing the denominator to 366 in leap years would invalidate the existing USNO agreement and is out of scope; it is recorded as a candidate refinement for a future specification version, to be adopted only with fresh validation.
@@ -203,7 +205,11 @@ Half-open, matching the incumbent's convention and preserving the exhaustive-par
 | Is there a stable published reference in the project? | ❌ **No.** The docstring names two distinct sources (NOAA GML calculator equations *and* Astronomical Almanac low-precision formulae); neither is verified, and the project holds no citation for either |
 | Was one established during this task? | ❌ **No.** Establishing it requires locating the specific published rendering and matching its coefficients — external bibliographic work not performed here |
 
-> ### ⚠️ **PUBLICATION-REFERENCE GAP — recorded, open**
+> ### ✅ **PUBLICATION-REFERENCE GAP — CLOSED 2026-09-09** *(Solar Citation Closure)*
+>
+> The gap recorded below is now closed. The implementation was matched equation-by-equation to **NOAA GML, *General Solar Position Calculations*** (https://gml.noaa.gov/grad/solcalc/solareqns.PDF): the equation of time, solar declination, sunrise/sunset hour angle and the 90.833° zenith are that document's published equations, coefficient for coefficient. Two simplifications are documented and bounded (intra-day term ≤ 0.14 min; leap-year denominator ≤ 0.48 min). See `report-solar-citation-closure-2026-09-09.md`. **Original gap statement retained below.**
+>
+> ### ⚠️ **PUBLICATION-REFERENCE GAP — as recorded 2026-09-08**
 >
 > The formulation is **pinned by hash and fully reproducible**, but **not yet citable to a specific publication**. This does not block C-1: the condition requires an honest pinned specification, and a hash pin plus an explicit gap statement is honest. It **does** need resolving before the method is described in a thesis or paper, and it is recorded as a **documentation item for C-8**, not manufactured here.
 
