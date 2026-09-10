@@ -1,0 +1,246 @@
+{
+  "task": "Journal 1 Algorithm Specification — Batch 4: Complexity Analysis & Manuscript Integration",
+  "task_file": "docs/tasks/Journal 1 Algorithm Specification batch 4.md",
+  "generated_on": "2026-09-10",
+  "branch": "design/journal1-algorithm-specification",
+  "check_scale": ["PASS", "FAIL", "OPEN"],
+  "authorities": [
+    "publications/active/journal-1/algorithm-specification.md (Batches 1–3 §§1–24; Batch 4 §§25–33)",
+    "publications/active/journal-1/submissions/v1-initial-submission/manuscript.md (§§7–9 integrated)",
+    "docs/canonical/appendix-c-formalisation.md",
+    "docs/canonical/architecture-illustration.md",
+    "docs/canonical/justification-layer3-enforcement.md",
+    "publications/active/journal-1/evaluation-specification.md"
+  ],
+  "checks": {
+    "algorithm1_fixed_vs_generalized_complexity_distinguished": {
+      "verdict": "PASS",
+      "evidence_authority": "algorithm-specification.md §26; complexity-analysis-batch4.csv (A1 rows)",
+      "evidence": "§26 tabulates fixed (n=5) vs generalized bounds per stage; A1 total: fixed O(1) + T_solar_lookup, generalized O(n) + T_solar_lookup. Manuscript §8.1 table restates the split."
+    },
+    "solar_lookup_complexity_not_invented": {
+      "verdict": "OPEN",
+      "evidence_authority": "algorithm-specification.md §26 last paragraph; §32 OPEN-B4-1",
+      "evidence": "T_solar_lookup is left symbolic. §26 explicitly rejects collapsing to O(1) unless the deployment fixes a data structure. Dict / binary search / linear scan are all admissible. Bounded OPEN-B4-1 records the dependency."
+    },
+    "algorithm1_space_bounded": {
+      "verdict": "PASS",
+      "evidence_authority": "algorithm-specification.md §26 (auxiliary space rows); §31 space complexity table",
+      "evidence": "A1 working memory: O(1) fixed; O(n) generalized. §31 explicitly excludes raw external datasets and the 43,848-record replay from per-decision working memory."
+    },
+    "algorithm2_time_constant_for_fixed_mapping": {
+      "verdict": "PASS",
+      "evidence_authority": "algorithm-specification.md §27; complexity-analysis-batch4.csv A2 rows",
+      "evidence": "A2 switch on three constant cases is O(1) time, O(1) working memory. Manuscript §8.1 restates."
+    },
+    "algorithm2_storage_generalization_bounded": {
+      "verdict": "PASS",
+      "evidence_authority": "algorithm-specification.md §27",
+      "evidence": "Generalized static mapping storage is O(|S| · |R|) with an explicit note that this is configuration storage, not per-decision cost. Manuscript §8.1 preserves the distinction."
+    },
+    "algorithm3_selection_vs_materialization_distinguished": {
+      "verdict": "PASS",
+      "evidence_authority": "algorithm-specification.md §28 (selection cost / compliance-check / materialisation cost paragraphs); complexity-analysis-batch4.csv A3 rows",
+      "evidence": "§28 separates T_select(S), compliance-check O(k_S), and materialisation vs reference (space O(1) vs O(k_S)). Both prevalidated and per-supply implementations are recorded without choosing one."
+    },
+    "algorithm3_kS_dependency_explicit": {
+      "verdict": "PASS",
+      "evidence_authority": "algorithm-specification.md §28; complexity-analysis-batch4.csv (A3 rows)",
+      "evidence": "T_A3 = T_select(S) + O(k_S) is explicit; k_S is defined in §25 as 'number of rules in the active RS(S)' and used consistently across §28 and manuscript §8.1."
+    },
+    "algorithm4_wrapper_vs_engine_cost_separated": {
+      "verdict": "PASS",
+      "evidence_authority": "algorithm-specification.md §29; complexity-analysis-batch4.csv A4 rows",
+      "evidence": "Wrapper cost O(1) is separated from engine cost T_engine(k_S, q, c). Total: O(1) + T_engine(...). Manuscript §8.1 A4 row preserves the split."
+    },
+    "rule_engine_complexity_parameterized": {
+      "verdict": "PASS",
+      "evidence_authority": "algorithm-specification.md §29; §30 T_episode; OPEN-B3-2",
+      "evidence": "T_engine(k_S, q, c) is used symbolically throughout §§29–30 and manuscript §8. No specific expression is committed to."
+    },
+    "rule_engine_strategy_not_invented": {
+      "verdict": "PASS",
+      "evidence_authority": "algorithm-specification.md §29 (illustrative example labelled 'not canonical'); §32 OPEN-B3-2 preserved",
+      "evidence": "The naïve linear-scan example is labelled 'ILLUSTRATIVE ONLY' in complexity-analysis-batch4.csv and 'example only; not canonical' in §29. Forward/backward/RETE/salience/first-match/all-match are not selected."
+    },
+    "end_to_end_complexity_retains_engine_term": {
+      "verdict": "PASS",
+      "evidence_authority": "algorithm-specification.md §30 T_episode; manuscript §8.2",
+      "evidence": "T_episode = O(n) + T_solar_lookup + T_select(S) + O(k_S) + T_engine(k_S, q, c) retains T_engine explicitly in both spec and manuscript. §30 states 'The rule-engine term is retained' and 'T_episode is not O(1) merely because n=5, |S|=3, |R|=4.'"
+    },
+    "space_complexity_separates_static_and_working_memory": {
+      "verdict": "PASS",
+      "evidence_authority": "algorithm-specification.md §31 space complexity table",
+      "evidence": "§31 tabulates static configuration storage (threshold constants, G(S) table, A_AI(S) mapping, rule repository, frozen solar artefact) separately from per-decision working memory (A1–A4 rows)."
+    },
+    "replay_N_not_confused_with_per_decision_complexity": {
+      "verdict": "PASS",
+      "evidence_authority": "algorithm-specification.md §30 (per-decision vs replay); manuscript §8.3",
+      "evidence": "N is defined in §25 as 'used only in the replay-vs-per-decision distinction of §30'. T_replay(N) = O(N · T_episode) is stated separately; historical 43,848-record replay is explicitly not O(1). §8.3 in manuscript restates."
+    },
+    "low_resource_claim_not_inferred_from_big_O": {
+      "verdict": "PASS",
+      "evidence_authority": "algorithm-specification.md §32 (forbidden list); manuscript §8.4; §9 bullet repair",
+      "evidence": "§32 explicitly lists the six forbidden claims ('lightweight', 'efficient on low-end phones', 'deployable in low-resource settings', 'latency is negligible', 'memory use is minimal', 'energy use is low') and states none are supported by complexity results. Manuscript §9 bullet repaired to remove 'lightweight'."
+    },
+    "E5_not_substituted_by_complexity": {
+      "verdict": "PASS",
+      "evidence_authority": "algorithm-specification.md §25 opening; §32 last paragraph; manuscript §8 opening and §8.4",
+      "evidence": "§25 states 'Complexity analysis is not E5 evidence.' §32 preserves OPEN-B1-6 (H3 threshold). No latency / CPU / memory / energy measurement appears in Batch 4 artefacts. Manuscript §8 opening carries the same distinction."
+    },
+    "F1_F3_not_reported_as_results": {
+      "verdict": "PASS",
+      "evidence_authority": "algorithm-specification.md §32; manuscript §8.4 last paragraph",
+      "evidence": "§32 states 'F1–F3 in evaluation-specification.md §7 remain future implementation-fidelity evidence'; no PASS is claimed for F1, F2 or F3. Manuscript §8.4 repeats: 'Complexity analysis does not test whether a built Layer 3 prototype honours the engine-fidelity assumption.'"
+    },
+    "H3_threshold_remains_open": {
+      "verdict": "PASS",
+      "evidence_authority": "algorithm-specification.md §32; manuscript §8 opening; evaluation-specification.md §11 and OPEN-1 unchanged",
+      "evidence": "Manuscript §8 opening states 'H3 = X ms remains OPEN'. §32 preserves OPEN-B1-6. No acceptance threshold is fabricated."
+    },
+    "all_prior_open_items_preserved": {
+      "verdict": "PASS",
+      "evidence_authority": "algorithm-specification.md §32 (last sentence: 'All prior OPEN items ... are preserved unchanged'); open-decisions.csv unchanged for OPEN-B1-1..8; open-decisions-batch3.csv unchanged for OPEN-B3-1..3",
+      "evidence": "OPEN-B1-1..8 and OPEN-B3-1..3 are preserved. Only new addition: OPEN-B4-1 (solar-lookup data structure). No prior item is silently closed."
+    },
+    "manuscript_algorithms_consistent": {
+      "verdict": "PASS",
+      "evidence_authority": "manuscript.md §§7.1–7.4; manuscript-integration-batch4.csv naming audit row",
+      "evidence": "All four algorithm names in manuscript §§7.1–7.4 match Algorithm 1 — Operational Safety Classification / Algorithm 2 — Governance Configuration / Algorithm 3 — Rule-Set Supply / Algorithm 4 — Governed Advisory Generation. No alternate formal names ('Safety Algorithm', 'Gating Algorithm', 'AI Safety Filter', 'Decision Algorithm') introduced."
+    },
+    "manuscript_formal_notation_consistent": {
+      "verdict": "PASS",
+      "evidence_authority": "manuscript.md §7.1 (Algorithm 1); §7.2 (Algorithm 2); §7.3 (Algorithm 3); §7.4 (Algorithm 4)",
+      "evidence": "F_{D,τ} = f ∘ ρ_{D,τ} used as operational form (§7.1); S = f(E) not regressed to as the operational algorithm. No g_v introduced. Rainfall two-input g_r(y_r) where y_r = (y_rate, κ) preserved. g_t emits SAFE / UNSAFE only, half-open [sunrise, sunset). G(S) exact; A_AI(S) exact; RS(S) pre-reasoning; no post-hoc filter."
+    },
+    "safety_dominance_wording_bounded": {
+      "verdict": "PASS",
+      "evidence_authority": "manuscript.md §7.4 Invariants paragraph; §7.5 dependency chain",
+      "evidence": "Manuscript §7.4 uses 'the governed advisory output is constrained to the configured admissible recommendation types for the current safety state, subject to the stated rule-engine fidelity assumptions.' §7.5 traces L1–L4 and attributes L4 (Safety Dominance) to Theorem 5.3, not to Algorithm 4. Forbidden phrasings ('algorithm guarantees safe decisions', 'AI cannot produce unsafe advice') do not appear."
+    },
+    "human_authority_preserved": {
+      "verdict": "PASS",
+      "evidence_authority": "manuscript.md §7.4 Invariants paragraph (last two sentences)",
+      "evidence": "Manuscript §7.4: 'Human decision authority is unconditional across all three states: AI(E) = ∅ does not forbid human action; Go ∈ AI(E) does not automatically approve departure.' No 'UNSAFE prohibits departure' / 'SAFE approves departure' / 'CAUTION requires delay' phrasing about human action."
+    },
+    "no_new_scientific_decision": {
+      "verdict": "PASS",
+      "evidence_authority": "algorithm-specification.md §§25–33; manuscript §§7–9",
+      "evidence": "No new threshold, classifier, recommendation type, governance state or governance policy is added. R = {Go, Delay, DepartureTime, Duration} preserved. Aggregation, exclusion, rainfall two-input, solar half-open all preserved verbatim from Batches 1–3."
+    },
+    "protected_state_unchanged": {
+      "verdict": "PASS",
+      "evidence_authority": "data/journal1-algorithm-specification/integrity-after.json regenerated by build.py; 16 unchanged, 0 changed",
+      "evidence": "All 16 protected canonical files remain byte-identical to the Batch 1 pin. build.py verdict: integrity PASS."
+    }
+  },
+  "stop_conditions": {
+    "RULE_ENGINE_COMPLEXITY_REQUIRES_IMPLEMENTATION_DECISION": "NOT RAISED — T_engine(k_S, q, c) is parameterised throughout; OPEN-B3-2 preserved; no engine strategy chosen.",
+    "MANUSCRIPT_ALGORITHM_CONTRACT_CONFLICT": "NOT RAISED — manuscript §§7.1–7.4 match algorithm-specification.md §§11, 13, 17, 19 exactly; naming and notation audits PASS.",
+    "LOW_RESOURCE_PERFORMANCE_CLAIM_REQUIRES_E5": "NOT RAISED — one bullet in §9 repaired to remove 'lightweight'; no other unsupported low-resource claim was found in the manuscript.",
+    "NEW_SCIENTIFIC_DECISION_REQUIRED": "NOT RAISED — Batch 4 introduces no threshold, classifier, recommendation type or governance policy.",
+    "PROTECTED_CANONICAL_STATE_DRIFT": "NOT RAISED — 16 protected files unchanged."
+  },
+  "prior_open_items_status": {
+    "OPEN-B1-1_freshness_parameters": "OPEN — unchanged",
+    "OPEN-B1-2_runtime_provenance_capture": "OPEN — unchanged",
+    "OPEN-B1-3_medium_vessel_evidence_limitation": "OPEN — unchanged",
+    "OPEN-B1-4_layer3_prototype": "OPEN — unchanged; Batch 4 does not build the prototype",
+    "OPEN-B1-5_live_g_m_configuration": "OPEN — unchanged",
+    "OPEN-B1-6_latency_threshold": "OPEN — unchanged; H3 = X ms remains OPEN",
+    "OPEN-B1-7_utility_construct": "OPEN — unchanged",
+    "OPEN-B1-8_state_ruleset_consistency_mechanism": "OPEN — unchanged; §28 explicitly preserves",
+    "OPEN-B3-1_invalid_RS_runtime_handling": "OPEN — unchanged; §28 explicitly preserves",
+    "OPEN-B3-2_rule_engine_evaluation_strategy": "OPEN — unchanged; §29 explicitly preserves",
+    "OPEN-B3-3_decision_episode_implementation_boundary": "OPEN — unchanged"
+  },
+  "batch4_open_items_added": [
+    "OPEN-B4-1 — Solar-lookup data structure and its cost T_solar_lookup (bounded; dict / binary search / linear scan are all admissible; deployment decision)"
+  ],
+  "post_repair_checks": {
+    "added_by": "Batch 4 Final Complexity and Authority Residue Repair (2026-09-10)",
+    "check_scale": ["PASS", "FAIL", "OPEN"],
+    "checks": {
+      "algorithm3_current_complexity_includes_kS": {
+        "verdict": "PASS",
+        "evidence_authority": "algorithm-specification.md §28 (Complexity of the currently specified Algorithm 3 pseudocode); manuscript §8.1 A3 row; complexity-analysis-batch4.csv A3 TOTAL row",
+        "evidence": "The currently specified A3 pseudocode always executes lines 5–9 (compliance scan) when G(S)=1. T_A3_current = T_select(S) + O(k_S) is stated verbatim in §28 and reflected in the manuscript table and the analysis CSV. k_S = |RS_candidate| is variable and is not made constant by n=5, |S|=3, |R|=4."
+      },
+      "prevalidated_A3_variant_not_misreported_as_current_algorithm": {
+        "verdict": "PASS",
+        "evidence_authority": "algorithm-specification.md §28 (Implementation variant / future optimisation paragraph); complexity-analysis-batch4.csv new IMPLEMENTATION VARIANT row; complexity-traceability-batch4.csv variant row",
+        "evidence": "The prevalidated-state-indexed-reference implementation is labelled 'IMPLEMENTATION VARIANT / FUTURE OPTIMISATION' in the maintained authority and in both evidence CSVs. It is not stated as the complexity of the current Algorithm 3."
+      },
+      "end_to_end_engine_and_kS_terms_retained": {
+        "verdict": "PASS",
+        "evidence_authority": "algorithm-specification.md §30 T_episode; complexity-analysis-batch4.csv PIPELINE row (post-repair); manuscript §8.2",
+        "evidence": "T_episode retains T_select(S), O(k_S) and T_engine(k_S, q, c) explicitly. The PIPELINE row in the analysis CSV was rewritten to remove any suggestion of collapsing to O(1)."
+      },
+      "full_pipeline_not_claimed_O1": {
+        "verdict": "PASS",
+        "evidence_authority": "algorithm-specification.md §30 (paragraph after T_episode_fixed); manuscript §8.2",
+        "evidence": "§30 explicitly states 'T_episode is not O(1) merely because n = 5, |S| = 3, |R| = 4'. The manuscript restates this in §8.2. No evidence artefact or narrative claims O(1) for the pipeline."
+      },
+      "authority_header_current": {
+        "verdict": "PASS",
+        "evidence_authority": "algorithm-specification.md top-of-file Status line",
+        "evidence": "Header now reads 'Batches 1–4 completed (workstream closure per the Batch 4 Final Complexity and Authority Residue Repair, 2026-09-10) — Algorithms 1–4 specified, bounded complexity analysis integrated.' The historical Batch 1 body (§§1–10) is preserved."
+      },
+      "batch1_open_item_count_correct": {
+        "verdict": "PASS",
+        "evidence_authority": "algorithm-specification.md §10 leading sentence; §10 table listing OPEN-B1-1..8",
+        "evidence": "The leading sentence now reads 'eight bounded OPEN items' and matches the eight-row OPEN-B1-1..8 table below it. Repair note in the sentence records the correction and its cause (OPEN-B1-8 added by the Transition Consistency Repair)."
+      },
+      "solar_lookup_remains_parameterised": {
+        "verdict": "OPEN",
+        "evidence_authority": "algorithm-specification.md §26 last paragraph; §32 OPEN-B4-1 (unchanged)",
+        "evidence": "T_solar_lookup remains symbolic across every affected artefact; OPEN-B4-1 remains OPEN. Not touched by this repair."
+      },
+      "rule_engine_strategy_remains_OPEN_B3_2": {
+        "verdict": "PASS",
+        "evidence_authority": "algorithm-specification.md §29 (Illustrative example note); §32 OPEN-B3-2 (unchanged); open-decisions-batch3.csv OPEN-B3-2 (unchanged)",
+        "evidence": "T_engine(k_S, q, c) remains parameterised. OPEN-B3-2 unchanged. Not touched by this repair."
+      },
+      "low_resource_claim_not_inferred_from_complexity": {
+        "verdict": "PASS",
+        "evidence_authority": "algorithm-specification.md §32 forbidden list; manuscript §8.4; §9 bullet (repaired earlier in Batch 4)",
+        "evidence": "The forbidden-claim list and the repaired §9 bullet remain in place. This repair added no new low-resource claim."
+      },
+      "E5_not_run": {
+        "verdict": "PASS",
+        "evidence_authority": "algorithm-specification.md §25 opening; manuscript §8 opening; H3 = X ms remains OPEN in evaluation-specification.md OPEN-1 (unchanged)",
+        "evidence": "No latency / CPU / memory / energy / throughput measurement introduced by this repair. OPEN-B1-6 unchanged."
+      },
+      "F1_F3_not_reported": {
+        "verdict": "PASS",
+        "evidence_authority": "algorithm-specification.md §32; manuscript §8.4",
+        "evidence": "F1–F3 remain future implementation-fidelity evidence; this repair introduces no F1/F2/F3 result claim."
+      },
+      "all_prior_OPEN_items_preserved": {
+        "verdict": "PASS",
+        "evidence_authority": "open-decisions.csv (OPEN-B1-1..8 unchanged); open-decisions-batch3.csv (OPEN-B3-1..3 unchanged); §32 OPEN-B4-1 (unchanged)",
+        "evidence": "OPEN-B1-1..8, OPEN-B3-1..3 and OPEN-B4-1 are unchanged by this repair. Only the count-wording residue was corrected; no OPEN item's meaning or status changed."
+      },
+      "protected_canonical_state_unchanged": {
+        "verdict": "PASS",
+        "evidence_authority": "data/journal1-algorithm-specification/integrity-after.json regenerated by build.py; 16 unchanged, 0 changed",
+        "evidence": "All 16 protected canonical files remain byte-identical to the Batch 1 pin after the repair."
+      }
+    },
+    "post_repair_summary": {
+      "PASS_count": 12,
+      "FAIL_count": 0,
+      "OPEN_count": 1,
+      "OPEN_ids": ["solar_lookup_remains_parameterised — OPEN-B4-1 (unchanged from Batch 4 opening)"]
+    }
+  },
+  "summary": {
+    "PASS_count": 23,
+    "FAIL_count": 0,
+    "OPEN_count": 1,
+    "OPEN_ids": [
+      "solar_lookup_complexity_not_invented — OPEN-B4-1"
+    ],
+    "post_repair_note": "Batch 4 Final Complexity and Authority Residue Repair (2026-09-10). See post_repair_checks. Combined pre+post: 35 PASS / 0 FAIL / 2 OPEN (both OPEN entries reference the same underlying item OPEN-B4-1)."
+  }
+}

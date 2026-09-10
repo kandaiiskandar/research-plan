@@ -1,0 +1,46 @@
+{
+  "overall": "PASS",
+  "count": 4,
+  "files": [
+    {
+      "file": "change-map-batch4.csv",
+      "csv_reader_strict": "PASS",
+      "header_field_count": 5,
+      "data_row_count": 18,
+      "csv_dictreader": "PASS",
+      "pandas_read_csv": "PASS",
+      "pandas_row_count": 18,
+      "overall": "PASS"
+    },
+    {
+      "file": "complexity-analysis-batch4.csv",
+      "csv_reader_strict": "PASS",
+      "header_field_count": 8,
+      "data_row_count": 23,
+      "csv_dictreader": "PASS",
+      "pandas_read_csv": "PASS",
+      "pandas_row_count": 23,
+      "overall": "PASS"
+    },
+    {
+      "file": "complexity-traceability-batch4.csv",
+      "csv_reader_strict": "PASS",
+      "header_field_count": 9,
+      "data_row_count": 13,
+      "csv_dictreader": "PASS",
+      "pandas_read_csv": "PASS",
+      "pandas_row_count": 13,
+      "overall": "PASS"
+    },
+    {
+      "file": "manuscript-integration-batch4.csv",
+      "csv_reader_strict": "PASS",
+      "header_field_count": 6,
+      "data_row_count": 9,
+      "csv_dictreader": "PASS",
+      "pandas_read_csv": "PASS",
+      "pandas_row_count": 9,
+      "overall": "PASS"
+    }
+  ]
+}

@@ -1,6 +1,6 @@
 # Journal 1 — Algorithm Specification
 
-**Status:** Batch 1 CLOSED — this document is the single maintained authority for the operational contract that Algorithms 1–4 must preserve. Batches 2 and 3 will populate the pseudocode and complexity analysis in a later revision of this file.
+**Status:** Batches 1–4 completed (workstream closure per the Batch 4 Final Complexity and Authority Residue Repair, 2026-09-10) — Algorithms 1–4 specified, bounded complexity analysis integrated. This document is the single maintained authority for the operational contract that Algorithms 1–4 preserve, their four-algorithm pseudocode, and the accompanying complexity bounds. The historical Batch 1 body (§§1–10) is retained as originally written and describes the pre-reasoning contract that Batches 2–4 later populated with pseudocode (Algorithms 1–2 in §§11–16, Algorithms 3–4 in §§17–24) and complexity (§§25–33).
 **Batch 1 closed on:** 2026-09-10
 **Branch:** `design/journal1-algorithm-specification`
 **Task:** [`docs/tasks/Journal 1 Algorithm Specification batch 1.md`](../../../docs/tasks/Journal%201%20Algorithm%20Specification%20batch%201.md)
@@ -291,7 +291,7 @@ Algorithm-level consequences:
 
 ## 10. Open implementation decisions
 
-Batch 1 closes carrying seven **bounded** OPEN items, each scoped so it does not create a contradiction elsewhere. Full audit at [`open-decisions.csv`](../../../data/journal1-algorithm-specification/open-decisions.csv).
+Batch 1 closes carrying eight **bounded** OPEN items, each scoped so it does not create a contradiction elsewhere. Full audit at [`open-decisions.csv`](../../../data/journal1-algorithm-specification/open-decisions.csv). *(Count corrected 2026-09-10 by the Batch 4 Final Complexity and Authority Residue Repair. OPEN-B1-8 was added by the Batch 1 Transition Consistency Repair; this leading sentence had not been updated to match.)*
 
 | ID | Item | Reason it is open | Blocks |
 |---|---|---|---|
@@ -824,13 +824,246 @@ Three new bounded OPEN items originate in Batch 3. Full audit at [`open-decision
 
 ---
 
+## 25. Complexity Analysis — Notation and Scope
+
+Batch 4 derives **bounded asymptotic complexity** for Algorithms 1–4. It distinguishes:
+
+- **Fixed current architecture** — the specification with `n = 5`, `|S| = 3`, `|R| = 4` as literal constants.
+- **Generalized architecture** — the same algorithms parameterised by `n`, `|S|`, `|R|`, `k_S`, so that adding a component or a state is a specification-level change with a stated cost.
+- **Concrete implementation performance** — wall-clock latency, memory footprint, CPU and energy on target hardware.
+
+**Batch 4 addresses only the first two.** Asymptotic complexity is not runtime performance. The pattern *"algorithm is O(1), therefore suitable for low-resource environments"* is **not admissible**; deployment-level performance claims require E5 evidence (OPEN-B1-6). Complexity analysis is not E5 evidence.
+
+**Notation.**
+
+| Symbol | Meaning |
+|---|---|
+| `n` | number of condition components in `C` (fixed value: 5) |
+| `\|S\|` | number of governance states (fixed value: 3) |
+| `\|R\|` | number of recommendation types (fixed value: 4) |
+| `k_S` | number of rules in the active `RS(S)` |
+| `k` | size of the configured rule repository |
+| `q` | number of rule evaluations / firings the engine performs in one episode |
+| `c` | cost of one rule-condition evaluation |
+| `T_solar_lookup` | cost of one solar-event lookup for a given date (unspecified representation — OPEN-B4-1) |
+| `T_select(S)` | cost of `candidate(repository, S)` selection (representation-dependent — see §28) |
+| `T_engine(k_S, q, c)` | rule-engine cost per episode (strategy unspecified — OPEN-B3-2) |
+| `M_engine` | rule-engine working memory (parameterised) |
+| `N` | number of records in a retrospective replay (used **only** in the replay-vs-per-decision distinction of §30) |
+
+No new variable is introduced unless a bound cannot be expressed without it.
+
+---
+
+## 26. Algorithm 1 Complexity
+
+**Per-decision time.** The seven stages of Algorithm 1 (§11 lines 1–37) contribute:
+
+| Stage | Fixed-model cost | Generalized cost |
+|---|---|---|
+| Startup validation (lines 1–3) | `O(1)` | `O(1)` |
+| `D` well-formedness (lines 5–8) | `O(1)` | `O(\|D\|) ≤ O(n)` |
+| Exclusion pin (lines 9–11) | `O(1)` | `O(\|D\|) ≤ O(n)` |
+| Validation + freshness on `{w, m, o}` (lines 12–14) | `O(1)` | `O(n − \|D\|) ≤ O(n)` |
+| Rainfall two-input (lines 15–24) | `O(1)` | `O(1)` |
+| κ derivation via χ (line 18) | `O(1)` | `O(1)` (membership test in `{95, 96, 99}`) |
+| Solar/clock/date resolution (lines 25–31) | `T_solar_lookup` | `T_solar_lookup` |
+| Component classifiers (lines 32–36) | `O(1)` (five classifiers, each threshold comparison) | `O(n)` |
+| Max-severity aggregation (line 37) | `O(1)` (constant tuple of size 5) | `O(n)` |
+
+**Fixed-model total.** `T_A1_fixed = O(1) + T_solar_lookup`.
+
+**Generalized total.** `T_A1 = O(n) + T_solar_lookup`.
+
+**`T_solar_lookup` is left symbolic.** The specification requires that runtime consumes the frozen artefact `data/solar/solar-events-daily.csv` via `scripts/canonical_gt.py` — it does **not** fix the data structure. A pre-loaded dictionary keyed by date supports `O(1)` average lookup; a sequential CSV scan is `O(d)` in the number of dates; a sorted-array binary search is `O(log d)`. **Do not collapse `T_solar_lookup` to `O(1)` in this specification** — that is a deployment choice recorded as OPEN-B4-1.
+
+**Fail-safe cost.** `gᵢ(⊥) = UNSAFE` (Corollary C.1b.1) does not add a stage — it is the value of `gᵢ` at ⊥ and is delivered inside the per-component classifier evaluation.
+
+---
+
+## 27. Algorithm 2 Complexity
+
+**Per-decision time.** A single switch over `S` (§13 lines 1–11) returns `(G(S), A_AI(S))` in constant time:
+
+- **Fixed-model:** `T_A2_fixed = O(1)`.
+- **Generalized (lookup):** `O(1)` for hash / direct addressing on `S`; `O(\|S\|)` for a linear scan over the state list. The specification does not fix the lookup mechanism.
+
+**Static mapping storage — separated from lookup.** If `A_AI` is materialised as a `S → 2^R` table, its storage is `O(\|S\| · \|R\|)`. In the fixed architecture this is `3 × 4 = 12` set-membership bits (or twelve boolean entries), i.e. a constant. **Storage cost is a configuration property, not a per-decision cost** — the switch does not scan `\|R\|` on every decision.
+
+**Space (working memory).** `O(1)` — a pair `(G, A_AI)` where `A_AI ⊆ R`.
+
+---
+
+## 28. Algorithm 3 Complexity
+
+Algorithm 3 (§17) has two conceptually distinct costs, and the specification does not force one implementation over the other. Both are recorded.
+
+**Selection cost `T_select(S)`.**
+
+- If the deployment holds a *prevalidated state-indexed rule set* (RS(S) precomputed at configuration time), `T_select(S) = O(1)` — a reference is looked up.
+- If Algorithm 3 selects candidates from a general repository at supply time, `T_select(S)` depends on the selector — for example, `O(k)` in a linear scan over the repository.
+
+**Compliance-check / materialisation cost.** Lines 5–9 test `ConclusionTypes(RS_candidate) ⊆ A_AI(S)`. This scans the candidate set at cost `O(k_S)`.
+
+- If compliance is prevalidated at configuration time, this per-supply cost can be avoided — but only under that implementation choice, which is not required by the specification.
+
+**Complexity of the currently specified Algorithm 3 pseudocode.** Lines 5–9 always run when `G(S) = 1` and perform a candidate-set compliance scan of size `k_S = |RS_candidate|`:
+
+```
+T_A3_current = T_select(S) + O(k_S)
+```
+
+Under an `O(1)` selector this reduces to `O(1) + O(k_S)` — **not simply `O(1)`**. The fixed architecture constants `n = 5`, `|S| = 3`, `|R| = 4` do **not** make `k_S` constant; `k_S` is variable and set by the deployment's rule repository. *(Corrected 2026-09-10 by the Batch 4 Final Complexity and Authority Residue Repair.)*
+
+Selection cost `T_select(S)` remains parameterised:
+
+- **State-indexed selector** (repository holds precomputed candidate sets keyed by `S`): `T_select(S) = O(1)`.
+- **Repository scan**: `T_select(S) = O(k)`.
+
+**Implementation variant / future optimisation — not the current algorithm.** A deployment that **prevalidates** the conclusion-type constraint at configuration time and holds a state-indexed rule set as an immutable reference could remove lines 5–9 from runtime execution, reducing `T_A3` to `T_select(S)` alone. **That is a different implementation realisation** of the algorithm; it is not a bound on the currently specified pseudocode, and it must remain labelled as an *implementation variant* / *future optimisation* in every table and traceability row.
+
+**Space.**
+
+- **Reference-only:** `O(1)` — `RS` is a pointer into repository.
+- **Materialised copy:** `O(k_S)` — `RS_candidate` is a new set constructed for this episode.
+
+**Do not silently close OPEN-B3-1 (invalid RS runtime handling) or OPEN-B1-8 (state/rule-set consistency mechanism) by fixing an implementation choice here.** Both remain OPEN; the complexity table records the choice as a dependency, not as a design decision.
+
+---
+
+## 29. Algorithm 4 Complexity
+
+The governance wrapper (§19 lines 1–5) has:
+
+- **Gate-off short-circuit:** `O(1)`.
+- **Participating-path dispatch to the engine:** `O(1)` overhead.
+
+Total wrapper cost: `T_A4_wrapper = O(1)`. Total Algorithm 4 cost:
+
+**`T_A4 = O(1) + T_engine(k_S, q, c)`.**
+
+**The rule-engine term `T_engine(k_S, q, c)` is parameterised and remains unspecified.** OPEN-B3-2 (rule-engine evaluation strategy) blocks selection of forward chaining, backward chaining, RETE, agenda priority, first-match, all-match, conflict resolution or rule salience. **Do not collapse `T_engine` to a specific expression in this specification.**
+
+**Illustrative example (not canonical).** A naïve linear scan of the active `RS(S)` in a forward-chaining loop would give `O(k_S · c)`. **This is an example only; it is not the architecture's official complexity.** Traceability rows label such examples as `ILLUSTRATIVE ONLY`, never as `DERIVED`.
+
+**Space.** `M_A4 = O(1) + M_engine(...)`. Do not invent agenda size, RETE network size or caching behaviour.
+
+---
+
+## 30. End-to-End Decision-Episode Complexity
+
+A single decision episode invokes A1 → A2 → A3 → A4. The end-to-end time is the sum of the per-algorithm bounds:
+
+```
+T_episode = T_A1 + T_A2 + T_A3 + T_A4
+          = [O(n) + T_solar_lookup]
+          + O(1)
+          + [T_select(S) + O(k_S)]
+          + [O(1) + T_engine(k_S, q, c)]
+          = O(n) + T_solar_lookup + T_select(S) + O(k_S) + T_engine(k_S, q, c)
+```
+
+**Fixed architecture (n = 5, |S| = 3, |R| = 4):**
+
+```
+T_episode_fixed = O(1) + T_solar_lookup + T_select(S) + O(k_S) + T_engine(k_S, q, c)
+```
+
+**The rule-engine term is retained.** `T_episode` is **not** `O(1)` merely because `n = 5`, `|S| = 3`, `|R| = 4`. Layer 3 reasoning cost dominates any classification/governance constant.
+
+**Replay complexity is separate from per-decision complexity.** For a retrospective replay of `N` records:
+
+```
+T_replay(N) = O(N · T_episode)
+```
+
+For a classification-and-governance-only replay (no engine invocation, applicable when Layer 3 is not yet built):
+
+```
+T_replay_no_engine(N) = O(N · (n + T_solar_lookup))
+```
+
+**The historical replay over 43,848 records is not `O(1)`.** Do not mix `N` into any per-decision bound. Do not treat the raw dataset load as Algorithm 1's memory complexity.
+
+---
+
+## 31. Space Complexity
+
+Separate **static configuration storage** from **per-decision working memory**.
+
+| Store | Cost | Notes |
+|---|---|---|
+| Threshold constants (per component) | `O(n)` | Loaded once |
+| `G(S)` table | `O(\|S\|)` | Loaded once |
+| `A_AI(S)` mapping | `O(\|S\| · \|R\|)` | Loaded once |
+| Rule repository | `O(k)` | Loaded once (deployment configuration) |
+| Frozen solar artefact | `O(d)` where `d` = configured date range | Loaded once |
+| A1 working memory | `O(1)` fixed / `O(n)` generalized | Resolved observation vector + component states |
+| A2 working memory | `O(1)` | Returned pair |
+| A3 working memory | `O(1)` reference **or** `O(k_S)` materialised | Representation-dependent (§28) |
+| A4 working memory | `O(1) + M_engine` | Engine memory parameterised |
+
+**Do not count** raw external datasets, the historical replay dataset or per-episode logging as per-decision working memory.
+
+---
+
+## 32. Complexity Claim Boundaries
+
+The complexity results in §§26–31 support these bounded statements:
+
+- The classifier and governance mappings operate over small fixed state spaces.
+- The per-decision architecture avoids model-size growth in the number of replay records `N`; replay over `N` records requires `N` decision evaluations.
+- The rule-engine cost is retained as a parameter and is not collapsed to a fixed complexity.
+
+They do **not** support any of the following without independent E5 evidence:
+
+- The architecture is lightweight.
+- The architecture is efficient on low-end phones.
+- The architecture is deployable in low-resource settings.
+- The latency is negligible.
+- Memory use is minimal.
+- Energy use is low.
+
+**Complexity is not evidence for any of the six forbidden claims above.** OPEN-B1-6 (latency threshold `H3 = X ms`) remains OPEN; E5 remains the empirical performance workstream.
+
+**F1–F3 are separate.** Complexity analysis does not test whether a built Layer 3 prototype honours L3 (engine fidelity). F1–F3 in `evaluation-specification.md` §7 remain future implementation-fidelity evidence.
+
+**New bounded OPEN item introduced by Batch 4:**
+
+| ID | Item | Reason it is open |
+|---|---|---|
+| **OPEN-B4-1** | Solar-lookup data structure and its cost `T_solar_lookup` | The specification requires runtime to consume the frozen artefact `data/solar/solar-events-daily.csv` via `scripts/canonical_gt.py` but does not fix the data structure. Dict-by-date gives `O(1)` average; binary search gives `O(log d)`; linear scan gives `O(d)`. The choice is a deployment decision recorded as a bounded OPEN. |
+
+All prior OPEN items (OPEN-B1-1..8, OPEN-B3-1..3) are preserved unchanged.
+
+---
+
+## 33. Manuscript Integration Trace
+
+The active Journal 1 manuscript is [`submissions/v1-initial-submission/manuscript.md`](submissions/v1-initial-submission/manuscript.md) (path name is a working-draft label, not evidence of submission). Batch 4 integrates the four algorithms and their bounded complexity into publication-ready form. `algorithm-specification.md` remains the detailed internal authority; the manuscript carries only what is needed for reviewer understanding.
+
+Per-section trace at [`manuscript-integration-batch4.csv`](../../../data/journal1-algorithm-specification/manuscript-integration-batch4.csv). Summary:
+
+| Manuscript section | Change | Scientific effect |
+|---|---|---|
+| §7 Algorithms | Replaced placeholder with publication-ready pseudocode summaries for Algorithms 1–4 using canonical names and notation | Adds pseudocode; no scientific state change; formal notation preserved (`F_{D,τ}`, `ρ_{D,τ}`, `RS(S)`, `AI(E)`) |
+| §8 Complexity Analysis | Replaced placeholder with fixed-model and generalized complexity table plus bounded narrative | Adds bounded complexity claims; no low-resource deployability claim inferred from asymptotics |
+| §9 Prototype Implementation | One-line repair of the low-resource bullet: "lightweight" removed and replaced with "per-decision working memory bounded (see §8)" | Repairs an unsupported claim without altering §9's status as an unbuilt prototype description |
+
+**No unrelated manuscript edits.** All algorithm names, formal notation, `g_v` absence, rainfall two-input signature, `g_t` no-CAUTION property, exact `G(S)` / `A_AI(S)`, RS(S) pre-reasoning contract, no post-hoc filter substitution, bounded Safety Dominance wording, unconditional human authority, and F1–F3 / E5 boundaries are audited in [`manuscript-integration-batch4.csv`](../../../data/journal1-algorithm-specification/manuscript-integration-batch4.csv).
+
+---
+
 ## Guiding rule
 
 > "*What exactly must the algorithms preserve?*" — Batch 1 answers this and only this.
 > "*How should all four algorithms be written?*" — Batch 2 (Algorithms 1 & 2) and Batch 3 (Algorithms 3 & 4).
+> "*What are their bounded complexity properties, and how do they enter the manuscript?*" — Batch 4.
 
 > **Batch 3 guiding principle.** Make the governance enforcement contract precise enough that the next implementation agent has no freedom to silently change the scientific architecture. Batch 3 defines *what implementation fidelity must satisfy*; it supplies no fidelity evidence.
 
+> **Batch 4 guiding principle.** *formal definition ≠ algorithm specification ≠ asymptotic complexity ≠ implementation ≠ implementation-fidelity evidence ≠ performance evidence ≠ human/outcome validation.* Batch 4 closes only the first three layers.
+
 ---
 
-*Author: iskandar · Batch 1 closed: 2026-09-10 · Batch 2 closed: 2026-09-10 · Batch 3 closed: 2026-09-10 · Branch: `design/journal1-algorithm-specification`*
+*Author: iskandar · Batch 1 closed: 2026-09-10 · Batch 2 closed: 2026-09-10 · Batch 3 closed: 2026-09-10 · Batch 4 closed: 2026-09-10 · Branch: `design/journal1-algorithm-specification`*

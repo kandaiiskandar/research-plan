@@ -548,36 +548,188 @@ Section 10 plans to evaluate implementation fidelity and advisory behaviour in e
 
 ## 7. Algorithms
 
-**Purpose:** Pseudocode for each computational component. This section does not exist in the conference paper.
+The governance pipeline `obs → S → (G(S), A_AI(S)) → RS(S) → AI(E)` is realised by four algorithms. Each has a bounded contract and each is deliberately scoped to a single responsibility. The detailed specification (full pseudocode, preconditions, postconditions and traceability) is maintained in [`algorithm-specification.md`](../../algorithm-specification.md); this section provides the publication summary reviewers need.
 
-**Algorithms to specify:**
-- Algorithm 1: Safety classification S = f(E) — threshold evaluation with worst-case aggregation
-- Algorithm 2: Governance gate evaluation — G(S) and A_AI(S) selection
-- Algorithm 3: Rule set supply to reasoning engine — RS(S) construction and injection
-- Algorithm 4: Runtime advisory generation — symbolic reasoning within RS(S)
+### 7.1 Algorithm 1 — Operational Safety Classification
 
-**For each algorithm:**
-- Inputs, outputs, preconditions, postconditions
-- Pseudocode
-- Invariant maintained
+Realises `S = F_{D,τ}(obs, v) = f(ρ_{D,τ}(obs), v)`. This is the operational classifier — not the ideal shorthand `S = f(E)` — because a deployed system consumes observations, not values. The ten-step ordering below is fixed by Appendix C C.2.0.7.
 
-*(Draft here)*
+```text
+Algorithm 1: Operational Safety Classification
+Input:  obs = (obs_i){i∈C};  v ∈ V ∪ {⊥_cfg};  D ⊆ C (well-formed: t ∉ D, D ⊊ C);
+        τ_now ∈ 𝕋;  age = (age_i){i∈C∖D} (symbolic);  date ∈ Date;
+        solar : Date → (sunrise, sunset)   ; frozen canonical artefact
+Output: S ∈ {SAFE, CAUTION, UNSAFE}  or startup refusal (no S)
+
+ 1: if v ∉ V then refuse startup                                       ; C.2.0.6
+ 2: if t ∈ D or D ⊄ C then refuse startup                              ; C.2.0.5 (D1), (D2)
+ 3: for i ∈ D:  s_i ← SAFE                                             ; exclusion before fault
+ 4: for i ∈ (C∖D) ∩ {w, m, o}:  y_i ← fresh_i(val_i(obs_i), τ_now, age_i)
+ 5: if r ∉ D: y_rate ← fresh_r(val_r(obs_r.rate), τ_now, age_r);
+              κ ← χ(obs_r.code)                                        ; χ total; χ(absent)=0
+              y_r ← ⊥ if y_rate = ⊥ else (y_rate, κ)
+ 6: if valid_clock ∧ valid_date ∧ available(solar(date)):
+        y_t ← time_of(obs_t);  (sunrise_d, sunset_d) ← solar(date)
+    else y_t ← ⊥
+ 7: s_w ← g_w(y_w);  s_r ← g_r(y_r);  s_m ← g_m(y_m);  s_o ← g_o(y_o, v);  s_t ← g_t(y_t, date)
+ 8: S ← max-severity(s_w, s_r, s_m, s_o, s_t)                          ; UNSAFE ≻ CAUTION ≻ SAFE
+ 9: return S
+```
+
+**Invariants.** For every well-formed startup, exactly one `S` is returned (Theorem 5.1 / operational totality, Appendix C Theorem C.1b). Any required non-excluded observation resolving to `⊥` yields `gᵢ(⊥) = UNSAFE` and — by max-severity — `S = UNSAFE` (Corollary C.1b.1). Startup failure returns no `S`; the two modes are disjoint. Excluded components contribute `SAFE`; every severity figure produced under `D ≠ ∅` is reported as a lower bound.
+
+### 7.2 Algorithm 2 — Governance Configuration
+
+Realises the finite mapping `S → (G(S), A_AI(S))` from Definitions 5.5 and 5.6. Performs no reasoning, no rule selection and no advisory generation.
+
+```text
+Algorithm 2: Governance Configuration
+Input:  S ∈ {SAFE, CAUTION, UNSAFE}                    ; valid output of Algorithm 1
+Output: (G(S), A_AI(S))
+        G(S)    ∈ {0, 1};  A_AI(S) ⊆ R = {Go, Delay, DepartureTime, Duration}
+
+ 1: switch S:
+ 2:     SAFE    → G ← 1;  A_AI ← {Go, Delay, DepartureTime, Duration}
+ 3:     CAUTION → G ← 1;  A_AI ← {Go, Delay}
+ 4:     UNSAFE  → G ← 0;  A_AI ← ∅
+ 5: return (G, A_AI)
+```
+
+**Invariants.** The strict containment `A_AI(SAFE) ⊃ A_AI(CAUTION) ⊃ A_AI(UNSAFE) = ∅` (Theorem 5.2 / Monotonicity) holds by inspection of lines 2–4. `G(S) = 0 ⇒ A_AI(S) = ∅` (Participation Constraint) is discharged by line 4. Algorithm 2 *implements* the finite mapping on which Theorem 5.2 is established; it does not experimentally validate it.
+
+### 7.3 Algorithm 3 — Rule-Set Supply
+
+Supplies the rule set `RS(S)` that Layer 3 is permitted to use for the current decision episode, **before any Layer 3 rule firing begins**. Rule contents remain a Layer 3 build decision (see §9 and OPEN-B1-4); Algorithm 3 defines the shape and admissibility contract only.
+
+```text
+Algorithm 3: Rule-Set Supply
+Input:  S; G(S); A_AI(S); rule repository; candidate selector
+Output: RS(S) with ConclusionTypes(RS(S)) ⊆ A_AI(S) and RS(UNSAFE) = ∅
+        or a bounded CONFIGURATION_FIDELITY_FAILURE (no reasoning begins)
+
+ 1: if G(S) = 0 then RS ← ∅; return RS                             ; short-circuit; RS(UNSAFE) = ∅
+ 2: RS_candidate ← candidate(repository, S)
+ 3: if ∃ρ ∈ RS_candidate : type(ρ) ∉ A_AI(S) then
+ 4:     refuse supply and return CONFIGURATION_FIDELITY_FAILURE   ; no silent filtering; S unchanged
+ 5: RS ← RS_candidate;  return RS                                  ; ConclusionTypes(RS) ⊆ A_AI(S)
+```
+
+**Invariants.** `ConclusionTypes(RS(S)) ⊆ A_AI(S)` is enforced by *choosing* the rules Layer 3 is permitted to fire (line 5 gates on the compliance check at line 3), not by filtering outputs after generation. When `S` changes across episodes (`S_old → S_new`), Algorithm 3 is re-invoked and the `RS(S_new)` it returns is what the next reasoning episode uses. The concurrency primitive that enforces this consistency at runtime — atomic swap, immutable snapshot, locking, transactional update, serialized execution or equivalent — is not prescribed here (OPEN-B1-8).
+
+### 7.4 Algorithm 4 — Governed Advisory Generation
+
+Invokes Layer 3 only when participation is permitted, using only the active `RS(S)`. `AI(E) ⊆ A_AI(S)` holds by construction from Algorithm 3's postcondition combined with the rule-engine fidelity assumption.
+
+```text
+Algorithm 4: Governed Advisory Generation
+Input:  E; S; G(S); A_AI(S); RS(S) from Algorithm 3; production rule engine
+        (engine fires only rules present in the active RS(S); no active rule
+         produces a conclusion type outside its own conclusion — Theorem 5.3 A4)
+Output: AI(E) ⊆ A_AI(S)                                            ; holds by construction
+
+ 1: if G(S) = 0 then AI ← ∅; return AI                              ; no rule firing, no advisory
+ 2: AI ← engine.reason(E, RS)                                        ; engine has RS(S) in scope,
+                                                                    ; no other rule sets accessible
+ 3: return AI                                                        ; AI ⊆ A_AI(S) by A3 + engine fidelity
+```
+
+**Invariants.** The governed advisory output is constrained to the configured admissible recommendation types for the current safety state, subject to the stated rule-engine fidelity assumptions (Theorem 5.3, Safety Dominance). Algorithm 4 *implements* the enforcement contract on which Theorem 5.3 depends — it does not independently prove Safety Dominance. **Human decision authority is unconditional across all three states**: `AI(E) = ∅` does not forbid human action; `Go ∈ AI(E)` does not automatically approve departure.
+
+### 7.5 Safety-Dominance Dependency
+
+Safety Dominance is delivered by a four-link chain that must be read together:
+
+```
+A_AI(S)  →  ConclusionTypes(RS(S)) ⊆ A_AI(S)  →  engine fires only rules in RS(S)  →  AI(E) ⊆ A_AI(S)
+   L1                    L2                                 L3                              L4
+definition       algorithmic contract              implementation assumption         formal theorem
+(Def 5.6)           (Algorithm 3)                   (Theorem 5.3 A4; A4 pre)         (Theorem 5.3)
+```
+
+L2 is the algorithmic enforcement contract Batch 3 makes explicit; L3 is the runtime assumption a future implementation-fidelity test (F1, F2 — see §10 and `evaluation-specification.md` §7) validates.
 
 ---
 
 ## 8. Complexity Analysis
 
-**Purpose:** Characterise the computational cost of the governance mechanism. This section does not exist in the conference paper.
+This section derives **bounded asymptotic complexity** for Algorithms 1–4. It distinguishes three levels that must not be conflated:
 
-**Key questions to answer:**
-- Time complexity of S = f(E) classification
-- Time complexity of A_AI(S) enforcement
-- Space complexity of RS(S) rule sets
-- Worst-case decision latency
-- How complexity scales with |E| and |A_AI|
-- Is the governance overhead acceptable for low-resource deployment?
+- **Fixed current architecture** — the specification with `n = 5` condition components, `|S| = 3` governance states, `|R| = 4` recommendation types as literal constants.
+- **Generalized architecture** — the same algorithms parameterised by `n`, `|S|`, `|R|`, `k_S`.
+- **Concrete implementation performance** — wall-clock latency, memory footprint, CPU and energy on target hardware.
 
-*(Draft here)*
+**This section addresses only the first two.** Asymptotic complexity is not runtime performance; the pattern *"O(1), therefore suitable for low-resource environments"* is not admissible here. Device-level performance evidence is the E5 workstream (§11 / evaluation-specification.md §11), which sets no acceptance threshold in this manuscript (`H3 = X ms` remains OPEN).
+
+**Notation.**
+
+| Symbol | Meaning |
+|---|---|
+| `n` | number of condition components in `C` (fixed value: 5) |
+| `|S|`, `|R|` | governance states (3) and recommendation types (4), both fixed by the current architecture |
+| `k_S`, `k` | rules in active `RS(S)`; size of the full rule repository |
+| `T_solar_lookup` | cost of one solar-event lookup for a given date; representation-dependent (OPEN-B4-1) |
+| `T_select(S)` | cost of `candidate(repository, S)` selection in Algorithm 3; representation-dependent |
+| `T_engine(k_S, q, c)` | rule-engine cost per episode; strategy unspecified (OPEN-B3-2) |
+| `M_engine` | rule-engine working memory (parameterised) |
+| `N` | number of records in a retrospective replay (per-decision vs. replay distinction only) |
+
+### 8.1 Per-algorithm complexity
+
+**Table 3. Per-algorithm complexity for one decision episode.** *Fixed* columns use the current architecture (`n = 5`, `|S| = 3`, `|R| = 4`); *generalized* columns retain the parameters. `T_solar_lookup`, `T_select(S)` and `T_engine(k_S, q, c)` are left symbolic because their representations are deployment / implementation decisions (OPEN-B4-1, OPEN-B3-2).
+
+| Algorithm | Fixed time | Generalized time | Auxiliary space | Primary dependency |
+|---|---|---|---|---|
+| **A1** — Operational Safety Classification | `O(1) + T_solar_lookup` | `O(n) + T_solar_lookup` | `O(1)` fixed / `O(n)` generalized | Frozen solar artefact representation |
+| **A2** — Governance Configuration | `O(1)` | `O(1)` lookup; `O(|S| · |R|)` static mapping storage | `O(1)` | Independent of any dynamic input |
+| **A3** — Rule-Set Supply | `T_select(S) + O(k_S)` — the specified pseudocode always scans `RS_candidate` for compliance | `T_select(S) + O(k_S)` | `O(1)` reference *or* `O(k_S)` materialised | Rule-repository representation; `k_S = \|RS_candidate\|` is variable |
+| **A4** — Governed Advisory Generation | `O(1) + T_engine(k_S, q, c)` | `O(1) + T_engine(k_S, q, c)` | `O(1) + M_engine` | Rule-engine evaluation strategy |
+
+Notes on individual algorithms:
+
+- **A1.** The five component classifiers are threshold comparisons; the max-severity aggregation is over a fixed-size tuple. Exclusion pin, validation and freshness stages are linear in `|D|` and in `n − |D|`, respectively, and collapse to `O(1)` at `n = 5`.
+- **A2.** Static mapping storage `O(|S| · |R|)` is a configuration property, not a per-decision cost — the switch does not scan `|R|` on every decision.
+- **A3.** The two conceptual costs must be kept separate. The **currently specified pseudocode** always runs the compliance scan on lines 5–9, so `T_A3_current = T_select(S) + O(k_S)`; under an `O(1)` state-indexed selector this reduces to `O(1) + O(k_S)`, **not** `O(1)`. The fixed architecture constants `n = 5`, `|S| = 3`, `|R| = 4` do not make `k_S` constant. An **implementation variant** that prevalidates the conclusion-type constraint at configuration time and holds `RS(S)` as an immutable reference could remove the runtime scan, reducing `T_A3` to `T_select(S)` alone; that variant is a future optimisation, not the currently specified algorithm.
+- **A4.** The governance wrapper (`if G(S) = 0 then return ∅ else invoke engine`) is `O(1)`. **The total is not `O(1)` for the reasoning path.** An illustrative naïve linear scan of `RS(S)` would give `O(k_S · c)`, but that is an example, not the architecture's official complexity. `T_engine(k_S, q, c)` is retained as an explicit dependency and its concrete form is OPEN-B3-2.
+
+### 8.2 End-to-end decision-episode complexity
+
+Summing across A1–A4 for one decision episode:
+
+```
+T_episode = O(n) + T_solar_lookup + T_select(S) + O(k_S) + T_engine(k_S, q, c)
+```
+
+Under the fixed architecture (`n = 5`, `|S| = 3`, `|R| = 4`):
+
+```
+T_episode_fixed = O(1) + T_solar_lookup + T_select(S) + O(k_S) + T_engine(k_S, q, c)
+```
+
+**The rule-engine term is retained.** `T_episode` is not `O(1)` merely because the classifier's parameter space is small — Layer 3 reasoning dominates any classification / governance constant.
+
+### 8.3 Per-decision versus replay complexity
+
+Per-decision complexity is independent of replay length. A retrospective replay of `N` records requires `N` decision evaluations:
+
+```
+T_replay(N) = O(N · T_episode)
+```
+
+For the classification-and-governance-only pipeline (no engine invocation, as when Layer 3 is not yet built):
+
+```
+T_replay_no_engine(N) = O(N · (n + T_solar_lookup))
+```
+
+**The historical replay over 43,848 hourly records is not `O(1)`.** It scales linearly in `N`, excluding external data-loading cost, and it does not enter Algorithm 1's single-decision complexity.
+
+### 8.4 What the complexity results establish, and what they do not
+
+The results above support these bounded statements: the classifier and governance mappings operate over small fixed state spaces; per-decision cost does not grow with the number of replay records `N`; and the rule-engine cost is retained as a parameter rather than collapsed to a fixed complexity.
+
+They do **not** support the following without independent E5 evidence: that the architecture is lightweight, efficient on low-end phones, or deployable in low-resource settings; that latency is negligible; that memory or energy use is minimal. Any such statement requires the empirical performance measurement scheduled for §11 (E5), for which no acceptance threshold has been set (`H3 = X ms` remains OPEN).
+
+**Implementation-fidelity is a separate workstream.** Complexity analysis does not test whether a built Layer 3 prototype honours the engine-fidelity assumption. The fidelity criteria F1–F3 in `evaluation-specification.md` §7 remain future implementation-fidelity evidence.
 
 ---
 
@@ -586,7 +738,7 @@ Section 10 plans to evaluate implementation fidelity and advisory behaviour in e
 **Purpose:** Describe the planned software prototype and, once implemented, its fidelity evaluation. Reference RQ3 from thesis.
 
 **Key content to include:**
-- Implementation stack (low-resource constraints: offline-first, lightweight)
+- Planned implementation stack targets: offline-first operation; per-decision working memory bounded (see §8). Device-level performance suitability requires E5 evidence and is not claimed here
 - How the three layers are implemented in software
 - How RS(S) is encoded and supplied to the reasoning engine
 - Hysteresis smoothing at state transition boundaries. ⚠️ **Present as a retained precaution, not a necessity.** Measured on five years of site data under the canonical specification: 26 oscillation events (5.2/yr), hysteresis reduces non-scheduled transitions by 10.36%. State the hourly-resolution bound. See `empirical-findings-2026-09-06.md` F-6
