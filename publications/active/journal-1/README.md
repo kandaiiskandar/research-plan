@@ -22,7 +22,7 @@ This is **not** an extension of the IPSci 2026 / AMICT conference paper. It is a
 ## Deadlines
 | Milestone | Date | Status |
 |-----------|------|--------|
-| Research design confirmed (RQs, hypotheses, metrics) | 2026-08-31 | ⏳ |
+| Research design confirmed (RQs, claims and metrics per `evaluation-specification.md`) | 2026-08-31 | ⏳ |
 | Module 1: Formal theory complete | 2026-09-30 | ⏳ |
 | Module 2: Architecture specification + diagrams | 2026-09-30 | ⏳ |
 | Module 3: Algorithms + complexity analysis | 2026-10-31 | ⏳ |
@@ -72,7 +72,7 @@ This is **not** an extension of the IPSci 2026 / AMICT conference paper. It is a
 | Weather/marine data | `data/` |
 
 ## Next Actions (research design phase)
-- [ ] Confirm RQs and hypotheses (see `research-design.md`)
+- [ ] Confirm RQs and the closed claim structure (P1–P4 formal / F1–F3 fidelity pending Layer 3 / E1–E4, E6 empirical trace / E5 performance) — see `evaluation-specification.md`
 - [ ] Confirm metrics are operationalised
 - [ ] Confirm data in `data/` is sufficient for experiments
 - [ ] Start Module 1: Formal theory (proofs)

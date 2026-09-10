@@ -1,0 +1,46 @@
+{
+  "purpose": "Verify that the Journal 1 condition labels used in maintained artefacts exactly match the canonical harness mapping in scripts/condition_comparison.py, and that Proposition J1-P1 (C1 ≡ C3) follows from that mapping without requiring the harness to run.",
+  "captured_on": "2026-09-10",
+  "canonical_source": "scripts/condition_comparison.py lines 90-105",
+  "canonical_mapping": {
+    "C0": {"SAFE": "FULL", "CAUTION": "FULL", "UNSAFE": "FULL"},
+    "C1": {"SAFE": "FULL", "CAUTION": "FULL", "UNSAFE": "EMPTY"},
+    "C2": {"SAFE": "FULL", "CAUTION": "RESTRICTED", "UNSAFE": "EMPTY"},
+    "C3": {"SAFE": "FULL", "CAUTION": "FULL", "UNSAFE": "EMPTY"}
+  },
+  "specification_mapping": {
+    "C0": {"SAFE": "FULL", "CAUTION": "FULL", "UNSAFE": "FULL"},
+    "C1": {"SAFE": "FULL", "CAUTION": "FULL", "UNSAFE": "EMPTY"},
+    "C2": {"SAFE": "FULL", "CAUTION": "RESTRICTED", "UNSAFE": "EMPTY"},
+    "C3": {"SAFE": "FULL", "CAUTION": "FULL", "UNSAFE": "EMPTY"}
+  },
+  "constants": {
+    "FULL": ["Go", "Delay", "DepartureTime", "Duration"],
+    "RESTRICTED": ["Go", "Delay"],
+    "EMPTY": []
+  },
+  "checks": [
+    {
+      "check": "specification_mapping is entry-wise identical to canonical_mapping",
+      "result": "PASS",
+      "evidence": "All 12 cells (4 conditions × 3 states) match. Verified against scripts/condition_comparison.py A_AI dict (lines 90-105) and evaluation-specification.md Sections 3 and 4 tables."
+    },
+    {
+      "check": "Proposition J1-P1 (C1 ≡ C3) holds at the admissible-set level",
+      "proof": "A_C1(SAFE)=FULL=A_C3(SAFE); A_C1(CAUTION)=FULL=A_C3(CAUTION); A_C1(UNSAFE)=EMPTY=A_C3(UNSAFE). Therefore for all S ∈ {SAFE,CAUTION,UNSAFE}, A_C1(S)=A_C3(S).",
+      "result": "PASS",
+      "evidence": "Finite-mapping comparison over three states; no data required. Trace confirmation C1↔C3=0.00% (over 43,848 hours in both PRIMARY and RESOLUTION configurations) is a harness-consistency check, not a rediscovery."
+    },
+    {
+      "check": "The old Journal-local label mapping (Journal C1/C2/C3 = Ungated/Binary/Proposed) has been retired in maintained artefacts",
+      "result": "PASS",
+      "evidence": "condition-label-audit.csv records all 18 audited occurrences with their classification (OLD-J1-LABEL / CANONICAL-LABEL / HISTORICAL / IRRELEVANT) and the action taken. All OLD-J1-LABEL occurrences in maintained files (research-design.md, manuscript.md §10) were migrated to canonical labels. HISTORICAL occurrences (section-5-plan.md, section-6-plan.md) remain scoped by their existing superseded-audit banners."
+    },
+    {
+      "check": "The most inversion-prone label (C2) is unambiguous: canonical C2 = Proposed, retired Journal-local C2 = Binary-gated",
+      "result": "PASS",
+      "evidence": "All maintained artefacts now use canonical semantics: C2 = Proposed graduated architecture. No active result requires manual label translation."
+    }
+  ],
+  "overall_verdict": "PASS"
+}

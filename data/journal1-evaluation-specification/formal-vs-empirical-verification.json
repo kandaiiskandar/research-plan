@@ -1,0 +1,58 @@
+{
+  "purpose": "Verify that every claim in evaluation-specification.md is tagged with exactly one evidence type and is not double-classified (theorem posing as hypothesis; invariant posing as behavioural outcome; census posing as population estimate).",
+  "captured_on": "2026-09-10",
+  "source_table": "data/journal1-evaluation-specification/evaluation-specification.csv",
+  "evidence_types": ["FORMAL", "IMPLEMENTATION-FIDELITY", "EMPIRICAL-TRACE", "PERFORMANCE", "HUMAN-EVALUATION"],
+  "checks": [
+    {
+      "check": "P1..P4 are tagged FORMAL and require no dataset, no ± spread, no significance test",
+      "rows": ["P1", "P2", "P3", "J1-P1 (P4)"],
+      "result": "PASS",
+      "evidence": "evaluation-specification.csv rows carry evidence_type=FORMAL or 'FORMAL (proposition)'; reporting_boundary explicitly excludes ± and significance testing."
+    },
+    {
+      "check": "F1..F3 are tagged IMPLEMENTATION-FIDELITY and are not described as re-proofs of Safety Dominance or as behavioural hypotheses",
+      "rows": ["F1", "F2", "F3"],
+      "result": "PASS",
+      "evidence": "reporting_boundary states 'Test of specification conformance — does not empirically rediscover Theorem 6.3'. Section 7 of evaluation-specification.md restates this explicitly."
+    },
+    {
+      "check": "E1..E4, E6 are tagged EMPIRICAL-TRACE and reported as exact descriptive census values, not as estimates",
+      "rows": ["E1", "E2", "E3", "E4", "E6"],
+      "result": "PASS",
+      "evidence": "reporting_boundary carries 'Exact descriptive values for the analysed trace / configuration — not estimates of future Sabah conditions; no p-values, no CIs' or equivalent."
+    },
+    {
+      "check": "E5 / RQ-J2 is the only row that admits inferential statistical treatment (timing carries variance)",
+      "rows": ["E5 / RQ-J2"],
+      "result": "PASS",
+      "evidence": "evaluation-specification.md §11 states inferential treatment is legitimate here; §12 preserves the census framing for all other empirical rows."
+    },
+    {
+      "check": "No row silently mixes evidence types",
+      "result": "PASS",
+      "evidence": "rq-audit.csv and hypothesis-audit.csv record the reclassifications that untangled the earlier mixed cases (H1/H2 fidelity, H3 performance, H4 empirical-trace, RQ-J3 empirical-trace)."
+    },
+    {
+      "check": "H1 and H2 are no longer circular behavioural hypotheses",
+      "result": "PASS",
+      "evidence": "hypothesis-audit.csv records H1→F1 and H2→F2 reclassification with rationale citing Theorem 6.3 predetermination. evaluation-specification.md §7 documents the change."
+    },
+    {
+      "check": "H3 acceptance threshold is not fabricated",
+      "result": "PASS",
+      "evidence": "evaluation-specification.md §11 states H3 = X ms is OPEN; §17 lists it as OPEN-1; no numerical value invented."
+    },
+    {
+      "check": "H4 restated as an uncertain/dataset-dependent quantity (Δ_L2) rather than a definition",
+      "result": "PASS",
+      "evidence": "evaluation-specification.md §10 and §18 present Δ_L2 as the load-bearing empirical result; hypothesis-audit.csv row H4 documents the reformulation."
+    },
+    {
+      "check": "Decision-support utility metric is resolved OR explicitly OPEN",
+      "result": "PASS (OPEN)",
+      "evidence": "metric-audit.csv marks utility 'OPEN — CONSTRUCT DEFINITION REQUIRED'; evaluation-specification.md §9 and §17 (OPEN-2) preserve this; no utility formula invented."
+    }
+  ],
+  "overall_verdict": "PASS"
+}

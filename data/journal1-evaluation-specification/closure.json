@@ -1,0 +1,99 @@
+{
+  "task": "Journal 1 Evaluation Specification Alignment",
+  "task_file": "docs/tasks/Journal-1-Evaluation-Specification-Alignment.md",
+  "branch": "design/journal1-evaluation-specification",
+  "closed_on": "2026-09-10",
+  "closure_line": "JOURNAL 1 EVALUATION SPECIFICATION CLOSED — CONDITIONS, CLAIM TYPES AND METRICS ALIGNED",
+  "checklist_task_36": {
+    "option_C_remains_accepted": true,
+    "retrospective_window_census_wording_corrected": true,
+    "layer3_h1_h2_wording_corrected": true,
+    "active_condition_notation_normalised_to_canonical": true,
+    "no_active_journal_specific_inverted_label_mapping_remains": true,
+    "historical_labels_scoped_appropriately": true,
+    "c3_treated_as_structural_comparator_not_fourth_arm": true,
+    "c1_equiv_c3_proposition_explicitly_stated": true,
+    "analytical_executable_trace_evidence_separated": true,
+    "fairness_qualification_preserved": true,
+    "rq_j1_to_rq_j4_audited": true,
+    "h1_no_longer_circular_behavioural_hypothesis": true,
+    "h2_no_longer_circular_behavioural_hypothesis": true,
+    "h3_unsupported_threshold_not_invented": true,
+    "h4_aligned_to_isolated_level_2_contribution": true,
+    "formal_claims_separated_from_fidelity_tests": true,
+    "fidelity_tests_separated_from_behavioural_outcomes": true,
+    "metric_set_answers_actual_rqs": true,
+    "pairwise_divergence_included_where_justified": true,
+    "isolated_level_2_contribution_included": true,
+    "utility_metric_resolved_or_explicitly_open": true,
+    "deterministic_replay_statistics_correctly_framed": true,
+    "retrospective_window_not_called_a_broader_population_census": true,
+    "no_meaningless_significance_test_prescribed": true,
+    "primary_resolution_roles_preserved": true,
+    "layer3_unbuilt_status_preserved": true,
+    "no_human_outcome_validation_implied": true,
+    "evaluation_specification_md_created": true,
+    "active_manuscript_plans_aligned": true,
+    "evaluation_master_table_complete": true,
+    "protected_hashes_unchanged": true,
+    "canonical_scripts_unchanged": true,
+    "empirical_results_unchanged": true,
+    "prediction_register_unchanged": true,
+    "all_edited_files_mapped": true,
+    "csv_parser_pass": true,
+    "no_unexpected_changes": true
+  },
+  "artefacts_created": [
+    "publications/active/journal-1/evaluation-specification.md",
+    "data/journal1-evaluation-specification/integrity-before.json",
+    "data/journal1-evaluation-specification/integrity-after.json",
+    "data/journal1-evaluation-specification/condition-label-audit.csv",
+    "data/journal1-evaluation-specification/rq-audit.csv",
+    "data/journal1-evaluation-specification/hypothesis-audit.csv",
+    "data/journal1-evaluation-specification/metric-audit.csv",
+    "data/journal1-evaluation-specification/evaluation-specification.csv",
+    "data/journal1-evaluation-specification/change-map.csv",
+    "data/journal1-evaluation-specification/formal-vs-empirical-verification.json",
+    "data/journal1-evaluation-specification/condition-mapping-verification.json",
+    "data/journal1-evaluation-specification/parser-test.json",
+    "data/journal1-evaluation-specification/build.py",
+    "data/journal1-evaluation-specification/closure.json"
+  ],
+  "artefacts_edited": [
+    "publications/active/journal-1/evaluation-baseline-decision.md (§12 census wording; §14 Q4 Layer-3 wording)",
+    "publications/active/journal-1/research-design.md (Module 4 labels; Pre-Writing Checklist labels; Research Questions with evidence-type tags; Hypotheses reorganised as P1..P4 / F1..F3 / E1..E5 / H-DEFERRED)",
+    "publications/active/journal-1/submissions/v1-initial-submission/manuscript.md (§10 Experimental Design canonical labels + retired translation table; §11 Results maintained-authority pointer; §12 Ablation Δ_L2 primary; §13 Discussion aligned to specification)"
+  ],
+  "protected_files_verification": {
+    "integrity_before": "data/journal1-evaluation-specification/integrity-before.json",
+    "integrity_after": "data/journal1-evaluation-specification/integrity-after.json",
+    "verdict": "PASS — every protected file listed in integrity-before.json has the same git-hash-object SHA-1 in integrity-after.json (16 files, 0 changed)"
+  },
+  "csv_parser_verification": {
+    "parser_test": "data/journal1-evaluation-specification/parser-test.json",
+    "verdict": "PASS — all 6 CSVs parse cleanly with csv.DictReader (strict field-count) and pandas.read_csv"
+  },
+  "open_items_carried_forward": [
+    "OPEN-1: Governance latency acceptance threshold H3 = X ms — no externally justified value exists; report as descriptive performance measurement (E5 / RQ-J2)",
+    "OPEN-2: Decision-support utility construct — CONSTRUCT DEFINITION REQUIRED; deferred to a future user study (thesis RQ5 scope)",
+    "OPEN-3: Layer 3 prototype fidelity evidence (F1, F2, F3) — deferred to Layer 3 build",
+    "OPEN-4: Future user study / socio-technical evaluation (thesis RQ5) — explicitly outside Journal 1"
+  ],
+  "final_recommendation": {
+    "primary_experiment": ["C0 Ungated", "C1 Binary-gated", "C2 Proposed graduated architecture"],
+    "structural_comparator": ["C3 Flehmig-style traffic-light topology (Proposition J1-P1, not a fourth arm)"],
+    "formal": ["P1 Totality", "P2 Monotonicity", "P3 Safety Dominance", "P4 (J1-P1) C1 ≡ C3 admissible-set equivalence"],
+    "fidelity_deferred_to_layer3": ["F1 no output outside A_AI(S)", "F2 zero recommendations outside A_AI(S)", "F3 RS(S) switching correctness at transitions"],
+    "empirical_trace": ["E1 pairwise divergence C0/C1/C2", "E2 isolated Level 2 contribution Δ_L2 (5.81% PRIMARY / 4.48% RESOLUTION)", "E3 resolution sensitivity", "E4 transition/hysteresis characterisation", "E6 C1↔C3 = 0.00% (J1-P1 confirmation)"],
+    "performance": ["E5 / RQ-J2 governance latency and computational overhead (threshold OPEN)"],
+    "human_validation": ["decision-support utility (OPEN — construct definition required)", "trust / calibrated reliance / real-world safety outcomes (deferred to RQ5)"]
+  },
+  "stop_conditions_assessed": {
+    "JES_R1_canonical_authority_conflict": false,
+    "JES_R2_baseline_decision_contradiction": false,
+    "JES_R3_unsupported_empirical_threshold_invented": false,
+    "JES_R4_utility_construct_undefined_and_uncontrolled": false,
+    "JES_R5_new_experiment_required_and_run": false,
+    "JES_R6_protected_canonical_change_required": false
+  }
+}

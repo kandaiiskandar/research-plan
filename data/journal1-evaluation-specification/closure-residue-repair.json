@@ -1,0 +1,100 @@
+{
+  "task": "Journal 1 Evaluation Specification — Downstream Instruction Residue Repair",
+  "task_file": "docs/tasks/JOURNAL 1 EVALUATION SPECIFICATION — DOWNSTREAM INSTRUCTION RESIDUE REPAIR.md",
+  "branch": "design/journal1-evaluation-specification",
+  "closed_on": "2026-09-10",
+  "closure_line": "JOURNAL 1 EVALUATION SPECIFICATION CLOSED — DOWNSTREAM INSTRUCTIONS VERIFIED",
+  "authority": "publications/active/journal-1/evaluation-specification.md",
+  "authority_hash_git_object": "84649cf0bf2a7b11dc42c261d9f816531876f3ed",
+  "authority_touched_by_this_repair": false,
+  "repairs_applied": [
+    {
+      "step": 1,
+      "file": "publications/active/journal-1/research-design.md",
+      "location": "Module 4",
+      "before": "Define metrics formally: advisory scope compliance rate, false positive rate, utility, latency",
+      "after": "Operationalise the closed metric set: F1–F3 fidelity criteria (deferred to Layer 3 build); E1–E4 and E6 empirical-trace metrics (pairwise divergence, Δ_L2, resolution sensitivity, transition/hysteresis, C1↔C3 confirmation); E5 descriptive performance measurement; decision-support utility remains OPEN and outside Journal 1 replay evidence."
+    },
+    {
+      "step": 2,
+      "file": "publications/active/journal-1/research-design.md",
+      "location": "Module 4",
+      "before": "Specify statistical tests (significance threshold, test type)",
+      "after": "Reporting protocol requiring exact descriptive census values under PRIMARY and RESOLUTION; no p-values, no significance tests, no CIs on replay metrics; latency is the only measurement admitting inferential treatment; H3 acceptance threshold remains OPEN — do not invent a value."
+    },
+    {
+      "step": 3,
+      "file": "publications/active/journal-1/research-design.md",
+      "location": "Pre-Writing Checklist",
+      "before": "H1–H4 hypothesis testability check; H1/H2-style metric operationalisation check",
+      "after": "Checklist rewritten around the closed evidence categories: P1–P4 formal claims proved; F1–F3 fidelity criteria scoped pending Layer 3; E1–E4, E6 trace evidence available on classifier alone; E5 performance evidence with threshold OPEN; utility construct OPEN and deferred to future human study."
+    },
+    {
+      "step": 4,
+      "file": "publications/active/journal-1/research-design.md",
+      "location": "Target Journal — Safety Science / Why this fits",
+      "before": "The experimental comparison against baselines demonstrates measurable safety improvement",
+      "after": "The comparative evaluation characterises measurable differences in governance behaviour on a deterministic retrospective census and isolates the contribution of graduated advisory-scope restriction (E2, Δ_L2). Journal 1 does not measure safety outcomes and does not claim measurable safety improvement — no incident data exists at the study site, Layer 3 is not yet implemented, and human-outcome constructs are out of scope."
+    },
+    {
+      "step": 5,
+      "file": "publications/active/journal-1/README.md",
+      "location": "Deadlines line 25 and Next Actions line 75",
+      "before": "'RQs, hypotheses, metrics' and 'Confirm RQs and hypotheses'",
+      "after": "'RQs, claims and metrics per evaluation-specification.md' and 'Confirm RQs and the closed claim structure (P1–P4 / F1–F3 / E1–E4, E6 / E5)'"
+    },
+    {
+      "step": 6,
+      "file": "publications/active/journal-1/submissions/v1-initial-submission/manuscript.md",
+      "location": "§14 Threats to Validity — Construct validity",
+      "before": "'Does advisory scope compliance rate measure what it claims?'",
+      "after": "Construct-validity question redirected to Δ_L2 (E2, the actual empirical construct) with an explicit note that compliance rate is now the fidelity criterion F1 and is not a construct-validity metric; the historical-replay validity question is preserved with an explicit deterministic-census framing pointer."
+    },
+    {
+      "step": 7,
+      "file": "publications/active/journal-1/evaluation-baseline-decision.md",
+      "location": "Top status banner and §8 recommended shape (line 92)",
+      "before": "Document read as an active decision proposal; §8 stated 'Primary experiment ... Carries H1–H4'.",
+      "after": "Added HISTORICAL DECISION RECORD banner pointing at evaluation-specification.md as the maintained authority. §8 reworded to reference the closed claim structure while preserving the historical H1–H4 identifier for traceability."
+    }
+  ],
+  "vocabulary_sweep": {
+    "csv": "data/journal1-evaluation-specification/downstream-residue-sweep.csv",
+    "terms_searched": [
+      "H1", "H2", "H3", "H4", "hypothesis", "hypotheses",
+      "advisory scope compliance", "false positive", "utility",
+      "significance", "p-value", "confidence interval",
+      "outperform", "performance gain", "safety improvement", "validation"
+    ],
+    "hits_classified": 39,
+    "classification_summary": {
+      "ACTIVE-CORRECT": 15,
+      "ACTIVE-DRIFT": 5,
+      "HISTORICAL-SUPERSEDED": 17,
+      "IRRELEVANT": 2
+    },
+    "active_drift_hits_all_repaired": true,
+    "note_on_active_drift": "All 5 ACTIVE-DRIFT hits were repaired (README.md line 25, README.md line 75, evaluation-baseline-decision.md line 92, manuscript.md line 716, and evaluation-baseline-decision.md top status). The manuscript's line-19 'experimental validation' framing was retained as ACTIVE-CORRECT because it describes the paper's scope broadly and does not claim any specific validated hypothesis."
+  },
+  "manuscript_validation_recheck": {
+    "checked_terms": ["experimental validation", "experimentally validat", "validation study", "validated"],
+    "occurrences": 6,
+    "verdicts": [
+      {"line": 19, "context": "broad-scope framing", "verdict": "ACTIVE-CORRECT — describes paper scope, no specific claim exceeded"},
+      {"line": 164, "context": "solar-geometry disclaimer 'not an astronomical validation'", "verdict": "ACTIVE-CORRECT — explicit disclaimer"},
+      {"line": 292, "context": "'empirical validation of advice and user reliance remains separate'", "verdict": "ACTIVE-CORRECT — correctly bounded"},
+      {"line": 438, "context": "input 'validation/freshness'", "verdict": "IRRELEVANT — technical input-validation"},
+      {"line": 687, "context": "'without claiming empirical validation of the transfer'", "verdict": "ACTIVE-CORRECT — correctly bounded"},
+      {"line": 705, "context": "solar 'reproducibility/validation artefacts'", "verdict": "IRRELEVANT — solar reference, not hypothesis validation"}
+    ]
+  },
+  "protected_hashes_verification": {
+    "integrity_after": "data/journal1-evaluation-specification/integrity-after.json",
+    "verdict": "PASS — 16 canonical files unchanged, 0 changed",
+    "evaluation_specification_md_hash": "84649cf0bf2a7b11dc42c261d9f816531876f3ed (not modified by this repair task)"
+  },
+  "csv_parser_verification": {
+    "parser_test": "data/journal1-evaluation-specification/parser-test.json",
+    "verdict": "PASS — all 7 CSVs in the evidence directory parse cleanly with csv.DictReader (strict field-count) and pandas.read_csv (includes the new downstream-residue-sweep.csv)"
+  }
+}
