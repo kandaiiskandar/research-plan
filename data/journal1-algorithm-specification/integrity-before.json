@@ -1,0 +1,42 @@
+{
+  "purpose": "Freeze protected canonical state before Journal 1 Algorithm Specification Batch 1 edits.",
+  "task": "Journal 1 Algorithm Specification — Batch 1: Authority & Operational Contract",
+  "task_file": "docs/tasks/Journal 1 Algorithm Specification batch 1.md",
+  "captured_on": "2026-09-10",
+  "branch": "design/journal1-algorithm-specification",
+  "hash_algorithm": "git-hash-object (SHA-1 with blob header)",
+  "protected_file_set": "The same 16 protected canonical files pinned in the closed Journal 1 evaluation-specification workstream (data/journal1-evaluation-specification/integrity-before.json). Batch 1 rehashes them and verifies each is byte-identical to the prior pin.",
+  "protected_files": {
+    "docs/canonical/appendix-c-formalisation.md": "17ebfaba0dc0c8f5758e84a791d6b41b820ebd09",
+    "docs/canonical/evaluation-design-rq4.md": "85a7cc5505efd819ce515ec7f889374691e5929d",
+    "docs/canonical/empirical-findings-2026-09-06.md": "403b7aaf7d2d4d7b08667d73ab59e6c698d325cc",
+    "scripts/condition_comparison.py": "935f1a1164eff89cd8c84d8a32cb39963d1b2428",
+    "scripts/canonical_gt.py": "6cdea503156bbed51add8bd557598a488da134a4",
+    "scripts/canonical_figures.py": "e9cd766ce8223de2e7e16f56ae0f349c168ec841",
+    "scripts/historical_replay.py": "c002befa80f0e1a5def3fa711aaff8419cc49a2a",
+    "scripts/hysteresis_analysis.py": "3466f34b260eb74e12181949fee3786141f0da48",
+    "scripts/diagnostic_binding.py": "7373e91e280a9b623d250eec9750dde07336fe5a",
+    "data/prediction-register.csv": "46486e2d1ac9e03a104d7b04f5851df5d2b10b5c",
+    "data/solar/solar-events-daily.csv": "d2d05382d7989f283d28088f0b7a54cf7b1653d1",
+    "data/raw_weather_sea.csv": "12812051be824c36d2db644f0b118f31d94c8e55",
+    "data/raw_marine_era5_sea.csv": "380a4044f7e6c4567f773fe10635005848a43552",
+    "data/raw_marine_mfwam.csv": "933dccb05e706c2c75229b3441bacfda69bab773",
+    "publications/active/ipsci-2026/submissions/v3-revision/manuscript-v3.md": "dfd25f0ae6beee62499132cbfae7edc75ccf1937",
+    "publications/active/ipsci-2026/submissions/v2-post-review/manuscript-v2.5-submitted.md": "315fd89e26e56574ab4e74c0faeb485f3dda32e4"
+  },
+  "prior_pin_match": "VERIFIED — all 16 files re-hashed on 2026-09-10 match data/journal1-evaluation-specification/integrity-before.json byte-for-byte. No protected file has drifted between the closed evaluation-specification workstream and the start of this batch.",
+  "additional_authorities_read_read_only_not_hashed": [
+    "docs/canonical/architecture-illustration.md",
+    "docs/canonical/justification-layer3-enforcement.md",
+    "publications/active/journal-1/research-design.md",
+    "publications/active/journal-1/evaluation-specification.md",
+    "publications/active/journal-1/submissions/v1-initial-submission/manuscript.md"
+  ],
+  "verification_rule": "Batch 1 must not modify any of the 16 protected files. build.py rehashes them and reports PASS iff every entry above is byte-identical after edits.",
+  "stop_conditions_this_task": {
+    "PROTECTED_STATE_MISMATCH": "any protected file differs from the pinned hash before edits begin — none observed on 2026-09-10",
+    "FORMAL_AUTHORITY_CONFLICT": "canonical sources disagree materially on operational semantics — none observed",
+    "RAINFALL_SEMANTIC_CONFLICT": "rainfall code/formal semantics disagree — none observed",
+    "SOLAR_SEMANTIC_CONFLICT": "solar semantics disagree — none observed"
+  }
+}
