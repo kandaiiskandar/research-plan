@@ -1,0 +1,160 @@
+{
+  "task": "Journal 1 Algorithm Specification — Batch 2: Algorithms 1 & 2",
+  "task_file": "docs/tasks/Journal 1 Algorithm Specification batch 2.md",
+  "generated_on": "2026-09-10",
+  "branch": "design/journal1-algorithm-specification",
+  "check_scale": ["PASS", "FAIL", "OPEN"],
+  "authorities": [
+    "publications/active/journal-1/algorithm-specification.md (Batch 1 §§1–10 and Batch 2 §§11–16)",
+    "docs/canonical/appendix-c-formalisation.md",
+    "docs/canonical/architecture-illustration.md",
+    "docs/canonical/justification-layer3-enforcement.md",
+    "publications/active/journal-1/evaluation-specification.md"
+  ],
+  "checks": {
+    "algorithm1_implements_F_D_tau": {
+      "verdict": "PASS",
+      "evidence_authority": "algorithm-specification.md §11 Algorithm 1 procedure; appendix-c C.2.0.1 and C.8.1",
+      "evidence": "Algorithm 1 explicitly composes resolution (lines 9–31) with classification (lines 32–36) and aggregation (line 37). The header declares the output signature F_{D,tau} in bold; no line reduces the procedure to a call on the ideal E."
+    },
+    "algorithm1_not_reduced_to_ideal_f": {
+      "verdict": "PASS",
+      "evidence_authority": "algorithm-specification.md §11 procedure",
+      "evidence": "The procedure never invokes f(E). It resolves observations through validation, freshness, exclusion, kappa derivation and solar lookup, then evaluates five component classifiers and aggregates. f(E) shorthand is never used in the pseudocode."
+    },
+    "startup_v_semantics_preserved": {
+      "verdict": "PASS",
+      "evidence_authority": "algorithm-specification.md §11 lines 1–3; §12 Q2; appendix-c C.2.0.6",
+      "evidence": "Lines 1–3 refuse startup when v not in V and return a STARTUP_CONFIGURATION_ERROR. Postcondition Q2 states 'This is not a runtime observation fault.' No line ever returns UNSAFE for missing v."
+    },
+    "D_wellformedness_preserved": {
+      "verdict": "PASS",
+      "evidence_authority": "algorithm-specification.md §11 lines 4–8; §12 P4; appendix-c C.2.0.5 (D1)–(D2)",
+      "evidence": "Repaired 2026-09-10 by the Exclusion-Set Domain Repair. Line 5 now tests 't in D' or 'D not subset of C = {w,r,m,o,t}' and refuses startup on either; (D2) D strict subset of C follows automatically from (D1) since t in C \\ D. The check is expressed against C rather than against a narrowed universe. The maximal well-formed exclusion set D = {w,r,m,o} is admitted (appendix-c C.2.0.5, 'Why this lemma matters more than it looks'). The earlier wording additionally rejected D = {w,r,m,o}, which was stronger than canonical and has been removed."
+    },
+    "exclusion_maximal_wellformed_D_admitted": {
+      "verdict": "PASS",
+      "added_by": "Batch 2 Exclusion-Set Domain Repair (2026-09-10)",
+      "evidence_authority": "algorithm-specification.md §11 lines 4–8; §12 P4 (final sentence); §15 boundary case B25; appendix-c C.2.0.5",
+      "evidence": "D = {w,r,m,o} satisfies (D1) t not in D and (D2) D strict subset of C = {w,r,m,o,t} since t in C \\ D. Under this D, Algorithm 1 lines 9–11 pin s_w = s_r = s_m = s_o = SAFE; line 36 evaluates g_t on t; line 37 aggregates. S = g_t(y_t, date) — the pure-night-curfew reduction named in appendix-c C.2.0.5 'Why this lemma matters more than it looks'. Boundary case B25 confirms."
+    },
+    "exclusion_before_fault_preserved": {
+      "verdict": "PASS",
+      "evidence_authority": "algorithm-specification.md §11 lines 9–11 (before lines 12–24); appendix-c C.2.0.7 evaluation order",
+      "evidence": "Exclusion pin (lines 9–11) precedes validation and freshness (lines 12–24). No line inspects an excluded component and converts a missing value to bottom; excluded s_i are set to SAFE outright."
+    },
+    "tau_not_invented": {
+      "verdict": "OPEN",
+      "evidence_authority": "algorithm-specification.md §11 header (age symbolic) and P3; §12 P3; appendix-c C.2.0.4",
+      "evidence": "Header lists age = (age_i){i in C\\D} as symbolic and P3 records the parameters as 'symbolic in this specification; OPEN-B1-1'. No numeric value is asserted. Matches the specification's own parameterisation; OPEN-B1-1 remains OPEN."
+    },
+    "rainfall_two_input_preserved": {
+      "verdict": "PASS",
+      "evidence_authority": "algorithm-specification.md §11 lines 15–24; appendix-c C.2.0.4a and C.2 g_r row",
+      "evidence": "Rainfall block reads obs_r as the pair (rate_obs, c_obs), resolves y_rate through validation and freshness, derives kappa through chi, and forms y_r = (y_rate, kappa) unless y_rate = bottom. g_r is invoked at line 33 and reads (y_rate, kappa) per the signature restated in the comment."
+    },
+    "kappa_total_mapping_preserved": {
+      "verdict": "PASS",
+      "evidence_authority": "algorithm-specification.md §11 line 18; appendix-c C.2.0.4a",
+      "evidence": "Line 18 sets kappa = chi(c_obs) with an explicit comment 'chi total into K = {0, 1}; chi(absent) = 0'. chi never returns bottom, matching C.2.0.4a."
+    },
+    "missing_rate_semantics_preserved": {
+      "verdict": "PASS",
+      "evidence_authority": "algorithm-specification.md §11 lines 19–23; §12 Q3; appendix-c Corollary C.1b.1 and C.2.0.2",
+      "evidence": "Lines 19–20 set y_r = bottom when y_rate = bottom (fail-safe on the required coordinate). Q3 confirms 'Rainfall is UNSAFE whenever y_rate = bottom, irrespective of c_obs.' g_r(bottom) = UNSAFE by Corollary C.1b.1 delivers the UNSAFE contribution at line 33."
+    },
+    "missing_code_semantics_preserved": {
+      "verdict": "PASS",
+      "evidence_authority": "algorithm-specification.md §11 line 18; appendix-c C.2.0.4a",
+      "evidence": "chi(absent) = 0 is stated in line 18's comment. An absent or unrecognised raw code produces kappa = 0 (not bottom) and classification proceeds on the rate alone at line 33. Boundary case B17 confirms."
+    },
+    "exactly_five_component_classifiers": {
+      "verdict": "PASS",
+      "evidence_authority": "algorithm-specification.md §11 lines 32–36; appendix-c C.2 Aggregation",
+      "evidence": "Lines 32–36 call exactly g_w, g_r, g_m, g_o, g_t — five classifiers. No sixth call exists. Line 37 aggregates exactly these five terms."
+    },
+    "no_g_v": {
+      "verdict": "PASS",
+      "evidence_authority": "algorithm-specification.md §11 line 35 comment; appendix-c 'Note: there is no g_v'",
+      "evidence": "v appears only as the second argument to g_o (line 35). Line 35 carries the comment 'v conditions g_o only; there is no g_v'. No g_v is defined or called anywhere in Algorithm 1 or Algorithm 2."
+    },
+    "solar_half_open_boundary_preserved": {
+      "verdict": "PASS",
+      "evidence_authority": "algorithm-specification.md §11 line 36 (invokes canonical g_t); appendix-c C.2 g_t row and Theorem C.1(i) g_t case",
+      "evidence": "Algorithm 1 does not itself impose the boundary; it invokes the canonical g_t (line 36), whose specification is half-open [sunrise(date), sunset(date)) with exact sunrise SAFE and exact sunset UNSAFE. Boundary cases B13 and B14 confirm."
+    },
+    "gt_no_caution": {
+      "verdict": "PASS",
+      "evidence_authority": "algorithm-specification.md §16 traceability row 'g_t emits no CAUTION'; appendix-c C.2 g_t row (Im(g_t) = {SAFE, UNSAFE})",
+      "evidence": "g_t emits only SAFE or UNSAFE. Algorithm 1 line 36 receives s_t in {SAFE, UNSAFE}. No line in Algorithm 1 or Algorithm 2 introduces a CAUTION contribution from g_t. Nighttime resolves to UNSAFE per B15."
+    },
+    "frozen_solar_dependency_preserved": {
+      "verdict": "PASS",
+      "evidence_authority": "algorithm-specification.md §11 lines 25–28 with explicit 'consumed from frozen artefact, not recomputed inside this algorithm'; §16 traceability row",
+      "evidence": "solar : Date -> (sunrise, sunset) is declared in the input list as the canonical frozen lookup. Lines 27–28 read solar(date) as data, and the comment forbids astronomical computation inside Algorithm 1."
+    },
+    "worst_case_aggregation_preserved": {
+      "verdict": "PASS",
+      "evidence_authority": "algorithm-specification.md §11 line 37; appendix-c C.2 Aggregation and Definition C.1",
+      "evidence": "Line 37 aggregates via max-severity over exactly (s_w, s_r, s_m, s_o, s_t) under the severity order UNSAFE > CAUTION > SAFE. v is not a max-severity argument."
+    },
+    "algorithm1_returns_exactly_one_state": {
+      "verdict": "PASS",
+      "evidence_authority": "algorithm-specification.md §11 line 38; §12 Q1; appendix-c Theorem C.1b (Operational Totality)",
+      "evidence": "Line 38 returns S. Q1 records the operational-totality postcondition: for valid startup, exactly one S in {SAFE, CAUTION, UNSAFE} is returned. Startup failure returns no S (Q2) — the two branches are disjoint."
+    },
+    "algorithm2_G_mapping_exact": {
+      "verdict": "PASS",
+      "evidence_authority": "algorithm-specification.md §13 lines 3, 6, 9; §14 Q2; appendix-c C.3",
+      "evidence": "Case SAFE sets G = 1 (line 3); case CAUTION sets G = 1 (line 6); case UNSAFE sets G = 0 (line 9). This is exactly C.3."
+    },
+    "algorithm2_AAI_mapping_exact": {
+      "verdict": "PASS",
+      "evidence_authority": "algorithm-specification.md §13 lines 4, 7, 10; §14 Q3; appendix-c C.4",
+      "evidence": "Case SAFE sets A_AI = {Go, Delay, DepartureTime, Duration} (line 4); case CAUTION sets A_AI = {Go, Delay} (line 7); case UNSAFE sets A_AI = empty (line 10). This is exactly C.4."
+    },
+    "monotone_scope_containment_preserved": {
+      "verdict": "PASS",
+      "evidence_authority": "algorithm-specification.md §14 Q6; appendix-c Theorem C.2 and Corollary C.2",
+      "evidence": "Q6 states A_AI(SAFE) superset A_AI(CAUTION) superset A_AI(UNSAFE) = empty and boundary case B24 verifies containment by set inspection: {Go, Delay, DepartureTime, Duration} superset {Go, Delay} superset empty. Theorem C.2 covers the formal proof."
+    },
+    "algorithm2_no_advisory_generation": {
+      "verdict": "PASS",
+      "evidence_authority": "algorithm-specification.md §13 procedure and 'Handoff, not implementation' note",
+      "evidence": "Algorithm 2 returns only (G, A_AI). No rule firing, no recommendation output, no RS(S) selection. The 'Handoff, not implementation' note explicitly defers rule-set supply to Algorithm 3 (Batch 3)."
+    },
+    "RS_selection_deferred_to_batch3": {
+      "verdict": "PASS",
+      "evidence_authority": "algorithm-specification.md §13 note; §16 traceability row 'RS(S) supply handoff'; open-decisions.csv OPEN-B1-8",
+      "evidence": "Algorithm 2 references RS(S) only as the input Algorithm 3 (Batch 3) will require; no rule-set selection is performed in Batch 2. OPEN-B1-8 (state/rule-set consistency enforcement mechanism) remains OPEN, unchanged from the Batch 1 Transition Consistency Repair."
+    },
+    "human_authority_not_modified": {
+      "verdict": "PASS",
+      "evidence_authority": "algorithm-specification.md §16 traceability row 'Human authority'; appendix-c C.8.2 step 6; architecture-illustration.md §§3–4",
+      "evidence": "Neither Algorithm 1 nor Algorithm 2 modifies human decision authority. Both produce machine-side outputs (S; and (G(S), A_AI(S))) that are consumed by the human decision layer downstream. The unconditional human authority stated in C.8.2 step 6 is preserved."
+    }
+  },
+  "stop_conditions": {
+    "ALGORITHM_1_SEMANTIC_CONFLICT": "NOT RAISED — Algorithm 1 implements F_{D,tau} without contradicting any Batch 1 contract.",
+    "ALGORITHM_2_GOVERNANCE_CONFLICT": "NOT RAISED — Algorithm 2 reproduces C.3 and C.4 exactly.",
+    "NEW_SCIENTIFIC_DECISION_REQUIRED": "NOT RAISED — no new threshold, classifier, recommendation type or scientific policy introduced.",
+    "PROTECTED_CANONICAL_STATE_DRIFT": "NOT RAISED — build.py integrity check: 16 unchanged, 0 changed."
+  },
+  "batch1_open_items_preserved": [
+    "OPEN-B1-1 — freshness parameters age_i (unchanged; matched by tau_not_invented check verdict OPEN)",
+    "OPEN-B1-2 — runtime provenance capture (unchanged; not touched by Batch 2)",
+    "OPEN-B1-3 — medium-vessel evidence limitation (unchanged; not touched by Batch 2)",
+    "OPEN-B1-4 — Layer 3 prototype (unchanged; deferred by RS_selection_deferred_to_batch3)",
+    "OPEN-B1-5 — live g_m configuration (unchanged; Algorithm 1 remains general over deployment-specific D)",
+    "OPEN-B1-6 — latency threshold (unchanged; not touched by Batch 2)",
+    "OPEN-B1-7 — utility construct (unchanged; not touched by Batch 2)",
+    "OPEN-B1-8 — state/rule-set consistency enforcement mechanism (unchanged; RS(S) selection deferred to Algorithm 3)"
+  ],
+  "summary": {
+    "PASS_count": 23,
+    "FAIL_count": 0,
+    "OPEN_count": 1,
+    "OPEN_ids": ["tau_not_invented — OPEN-B1-1 (unchanged from Batch 1; the algorithms carry age_i symbolically per authority)"],
+    "post_repair_note": "Exclusion-Set Domain Repair applied 2026-09-10. D_wellformedness_preserved evidence rewritten to describe the canonical C-based check; added exclusion_maximal_wellformed_D_admitted (PASS) to confirm the maximal well-formed set D = {w,r,m,o} is accepted. No canonical file modified; no threshold, classifier semantics, governance mapping, rainfall or solar semantics changed."
+  }
+}

@@ -1,0 +1,86 @@
+{
+  "task": "Journal 1 Algorithm Specification — Batch 2: Algorithms 1 & 2",
+  "task_file": "docs/tasks/Journal 1 Algorithm Specification batch 2.md",
+  "branch": "design/journal1-algorithm-specification",
+  "closed_on": "2026-09-10",
+  "closure_line": "JOURNAL 1 ALGORITHM SPECIFICATION BATCH 2 CLOSED — ALGORITHMS 1 AND 2 VERIFIED AGAINST OPERATIONAL CONTRACT",
+  "post_repair_closure_line": "JOURNAL 1 ALGORITHM SPECIFICATION BATCH 2 CLOSED — EXCLUSION-SET DOMAIN CONTRACT REPAIRED",
+  "post_repair_note": "Exclusion-Set Domain Repair applied 2026-09-10 (docs/tasks/JOURNAL 1 ALGORITHM SPECIFICATION BATCH 2 exclusion-set repair). One bounded formal-domain mismatch fixed: Algorithm 1's D-set well-formedness check now expresses D against C = {w,r,m,o,t} (not against a narrowed universe) and no longer rejects the maximal well-formed exclusion set D = {w,r,m,o}. Boundary case B25 added to cover D = {w,r,m,o} (well-formed; w,r,m,o pinned SAFE; t classified normally; S = g_t(y_t, date)). No canonical file modified; no threshold, classifier semantics, governance mapping, rainfall or solar semantics changed; Algorithm 2 untouched. Closure condition met: Algorithm 1 now reproduces the canonical C-based exclusion domain exactly.",
+  "note_on_workstream_scope": "Per Batch 2 §Branch, no workstream-closing commit is required yet — that is deferred to the end of Batch 3.",
+  "authority": "publications/active/journal-1/algorithm-specification.md (updated with §§11–16)",
+  "predecessors": [
+    "Batch 1 CLOSED — 'JOURNAL 1 ALGORITHM SPECIFICATION BATCH 1 CLOSED — OPERATIONAL CONTRACT VERIFIED'",
+    "Batch 1 Transition Consistency Repair CLOSED — 'JOURNAL 1 ALGORITHM SPECIFICATION BATCH 1 CLOSED — TRANSITION CONSISTENCY CONTRACT REPAIRED'"
+  ],
+  "checklist_task_§25": {
+    "algorithm1_implements_F_D_tau": "MET — §11 procedure composes ρ_{D,τ} with f (validation, freshness, exclusion, κ derivation, solar lookup, five classifiers, aggregation); output signature declared as F_{D,τ}",
+    "startup_v_semantics_preserved": "MET — §11 lines 1–3 refuse startup on missing/invalid v; §12 Q2 clarifies this is not a runtime observation fault",
+    "D_wellformedness_preserved": "MET (post-repair) — §11 lines 4–8 test t ∈ D or D ⊄ C = {w,r,m,o,t} and refuse startup on either; (D2) D ⊊ C follows automatically from (D1) since t ∈ C ∖ D. Maximal well-formed D = {w,r,m,o} is admitted (boundary case B25). Exclusion-Set Domain Repair 2026-09-10.",
+    "exclusion_before_fault_preserved": "MET — §11 lines 9–11 pin excluded components at SAFE before lines 12–24 evaluate faults",
+    "τ_remains_parameterised": "MET — §11 header lists age = (age_i){i in C\\D} as symbolic; §12 P3 flags OPEN-B1-1",
+    "rainfall_rate_kappa_distinction_preserved": "MET — §11 lines 15–24: rate is required coordinate (fail-safe via ⊥); κ derived via χ (total, χ(absent)=0); no widening of rainfall fault semantics",
+    "five_classifiers_only": "MET — §11 lines 32–36 call exactly g_w, g_r, g_m, g_o, g_t; line 37 aggregates five terms",
+    "no_g_v": "MET — v appears only as second argument of g_o (line 35 with explicit comment 'there is no g_v')",
+    "solar_half_open_boundary_preserved": "MET — Algorithm 1 delegates to canonical g_t; boundary cases B13 (exact sunrise SAFE) and B14 (exact sunset UNSAFE) verify",
+    "exact_sunrise_SAFE": "MET — boundary case B13 PASS",
+    "exact_sunset_UNSAFE": "MET — boundary case B14 PASS",
+    "worst_case_aggregation_preserved": "MET — §11 line 37 uses max-severity over five terms under UNSAFE > CAUTION > SAFE; boundary cases align",
+    "algorithm1_returns_exactly_one_valid_state": "MET — §12 Q1 (Theorem C.1b operational totality); startup failure returns no S (Q2), the two branches disjoint",
+    "algorithm2_exactly_implements_G": "MET — §13 lines 3, 6, 9 realise G(SAFE)=G(CAUTION)=1, G(UNSAFE)=0 verbatim",
+    "algorithm2_exactly_implements_AAI": "MET — §13 lines 4, 7, 10 realise A_AI mappings verbatim",
+    "containment_preserved": "MET — §14 Q6 and boundary case B24 verify A_AI(SAFE) ⊃ A_AI(CAUTION) ⊃ A_AI(UNSAFE) = ∅",
+    "no_recommendation_generated": "MET — §13 returns only (G, A_AI); 'Handoff, not implementation' note prevents advisory generation",
+    "no_RS_S_implementation_pulled_forward_from_batch3": "MET — RS(S) referenced only as handoff; OPEN-B1-8 preserved; §16 traceability row confirms deferral",
+    "boundary_cases_PASS": "MET — 25 / 25 boundary cases resolve PASS (B25 added by the Exclusion-Set Domain Repair); see boundary-cases-batch2.csv",
+    "correctness_traceability_complete": "MET — see algorithm-traceability-batch2.csv (21 constructs mapped across definition / algorithm implementation / formal theorem / future fidelity)",
+    "all_CSV_parser_checks_PASS": "MET — parser-test-batch1.json PASS (4/4); parser-test-batch2.json PASS (4/4)",
+    "protected_canonical_state_unchanged": "MET — integrity-after.json 16 unchanged, 0 changed",
+    "no_new_scientific_decision_introduced": "MET — no threshold, classifier, recommendation type or scientific policy added; every construct traces to appendix-c or Batch 1 authority"
+  },
+  "semantic_checks_task_§22": {
+    "source": "data/journal1-algorithm-specification/semantic-verification-batch2.json",
+    "PASS_count": 23,
+    "FAIL_count": 0,
+    "OPEN_count": 1,
+    "OPEN_ids": ["tau_not_invented — OPEN-B1-1 (unchanged from Batch 1)"],
+    "added_by_repair": ["exclusion_maximal_wellformed_D_admitted — PASS (Exclusion-Set Domain Repair, 2026-09-10)"]
+  },
+  "stop_conditions_task_§24": {
+    "ALGORITHM_1_SEMANTIC_CONFLICT": "NOT RAISED",
+    "ALGORITHM_2_GOVERNANCE_CONFLICT": "NOT RAISED",
+    "NEW_SCIENTIFIC_DECISION_REQUIRED": "NOT RAISED",
+    "PROTECTED_CANONICAL_STATE_DRIFT": "NOT RAISED"
+  },
+  "batch1_open_items_status": {
+    "OPEN-B1-1_freshness_parameters": "OPEN — unchanged; matched by semantic check tau_not_invented",
+    "OPEN-B1-2_runtime_provenance_capture": "OPEN — unchanged; not touched by Batch 2",
+    "OPEN-B1-3_medium_vessel_evidence_limitation": "OPEN — unchanged; Algorithm 1 uses g_o with vessel-conditional thresholds unchanged",
+    "OPEN-B1-4_layer3_prototype": "OPEN — unchanged; deferred by RS_selection_deferred_to_batch3",
+    "OPEN-B1-5_live_g_m_configuration": "OPEN — unchanged; Algorithm 1 remains general over deployment-specific D",
+    "OPEN-B1-6_latency_threshold": "OPEN — unchanged; not touched by Batch 2",
+    "OPEN-B1-7_utility_construct": "OPEN — unchanged; not touched by Batch 2",
+    "OPEN-B1-8_state_ruleset_consistency_mechanism": "OPEN — unchanged; RS(S) selection deferred to Algorithm 3"
+  },
+  "protected_integrity": {
+    "before": "data/journal1-algorithm-specification/integrity-before.json",
+    "after": "data/journal1-algorithm-specification/integrity-after.json",
+    "verdict": "PASS — 16 unchanged, 0 changed"
+  },
+  "csv_parser_verification": {
+    "batch1": "data/journal1-algorithm-specification/parser-test-batch1.json — PASS across 4 CSVs (authority-map, operational-contract, open-decisions, change-map-batch1)",
+    "batch2": "data/journal1-algorithm-specification/parser-test-batch2.json — PASS across 4 CSVs (algorithm-contracts-batch2, boundary-cases-batch2, algorithm-traceability-batch2, change-map-batch2)"
+  },
+  "files_created_or_edited": [
+    "publications/active/journal-1/algorithm-specification.md — edited (added §§11–16)",
+    "data/journal1-algorithm-specification/algorithm-contracts-batch2.csv — created",
+    "data/journal1-algorithm-specification/boundary-cases-batch2.csv — created",
+    "data/journal1-algorithm-specification/algorithm-traceability-batch2.csv — created",
+    "data/journal1-algorithm-specification/change-map-batch2.csv — created",
+    "data/journal1-algorithm-specification/semantic-verification-batch2.json — created",
+    "data/journal1-algorithm-specification/parser-test-batch2.json — created (by build.py)",
+    "data/journal1-algorithm-specification/build.py — edited (partitions CSVs by suffix; emits parser-test-batch1 and parser-test-batch2)",
+    "data/journal1-algorithm-specification/closure-batch2.json — created",
+    "data/journal1-algorithm-specification/report-batch2.md — created"
+  ],
+  "canonical_files_touched": []
+}

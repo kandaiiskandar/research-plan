@@ -1,0 +1,46 @@
+{
+  "overall": "PASS",
+  "count": 4,
+  "files": [
+    {
+      "file": "algorithm-contracts-batch2.csv",
+      "csv_reader_strict": "PASS",
+      "header_field_count": 4,
+      "data_row_count": 22,
+      "csv_dictreader": "PASS",
+      "pandas_read_csv": "PASS",
+      "pandas_row_count": 22,
+      "overall": "PASS"
+    },
+    {
+      "file": "algorithm-traceability-batch2.csv",
+      "csv_reader_strict": "PASS",
+      "header_field_count": 5,
+      "data_row_count": 21,
+      "csv_dictreader": "PASS",
+      "pandas_read_csv": "PASS",
+      "pandas_row_count": 21,
+      "overall": "PASS"
+    },
+    {
+      "file": "boundary-cases-batch2.csv",
+      "csv_reader_strict": "PASS",
+      "header_field_count": 7,
+      "data_row_count": 25,
+      "csv_dictreader": "PASS",
+      "pandas_read_csv": "PASS",
+      "pandas_row_count": 25,
+      "overall": "PASS"
+    },
+    {
+      "file": "change-map-batch2.csv",
+      "csv_reader_strict": "PASS",
+      "header_field_count": 5,
+      "data_row_count": 15,
+      "csv_dictreader": "PASS",
+      "pandas_read_csv": "PASS",
+      "pandas_row_count": 15,
+      "overall": "PASS"
+    }
+  ]
+}

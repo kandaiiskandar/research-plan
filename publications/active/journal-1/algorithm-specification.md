@@ -308,11 +308,272 @@ No numerical threshold, utility formula, `ageᵢ` value or human-outcome value i
 
 ---
 
-## Guiding rule
+## 11. Algorithm 1 — Operational Safety Classification
 
-> "*What exactly must the algorithms preserve?*" — Batch 1 answers this and only this.
-> "*How should all four algorithms be written?*" — Batch 2 and Batch 3.
+Algorithm 1 realises `S = F_{D,τ}(obs, v) = f(ρ_{D,τ}(obs), v)`. It is the operational classifier — not the ideal shorthand `S = f(E)`. The 10-step ordering below is fixed and load-bearing (appendix-c C.2.0.7).
+
+```text
+Algorithm 1 — Operational Safety Classification  (F_{D,τ})
+──────────────────────────────────────────────────────────
+Input:
+  obs      = (obs_i)_{i∈C}          ; observation tuple, obs_i ∈ Obs_i = (X_i × 𝕋) ∪ {⊥}
+  v        ∈ V ∪ {⊥_cfg}            ; vessel configuration; ⊥_cfg denotes unconfigured
+  D        ⊆ C                      ; declared exclusion set, expressed against C = {w, r, m, o, t}
+                                    ; well-formedness at lines 5–8: (D1) t ∉ D, (D2) D ⊊ C
+                                    ; the maximal well-formed D is {w, r, m, o} (appendix-c C.2.0.5)
+  τ_now    ∈ 𝕋                      ; current instant, for freshness
+  age      = (age_i)_{i∈C∖D}        ; per-component permitted staleness  (symbolic; OPEN-B1-1)
+  date     ∈ Date                   ; valid date accompanying obs_t
+  solar    : Date → (sunrise,       ; canonical frozen solar-event lookup
+                    sunset)          ; data/solar/solar-events-daily.csv (scripts/canonical_gt.py)
+
+Output:
+  S ∈ {SAFE, CAUTION, UNSAFE}       ; or a startup refusal (no S returned)
+
+Procedure:
+  ▸ Startup precondition — v  (C.2.0.6)
+  1: if v ∉ V then
+  2:     refuse startup
+  3:     return  "STARTUP_CONFIGURATION_ERROR: v unconfigured or invalid"
+  4: end if
+
+  ▸ Well-formedness of D  (C.2.0.5, D1–D2)
+      D is declared against the full condition set C = {w, r, m, o, t}, not
+      against a narrower universe. Combined with (D1), the constraint (D2)
+      D ⊊ C follows automatically from t ∈ C ∖ D — no additional check is
+      required. The maximal well-formed exclusion set is D = {w, r, m, o},
+      under which g_t alone drives S (appendix-c C.2.0.5, "Why this lemma
+      matters more than it looks").
+  5: if t ∈ D  or  D ⊄ C then                    ; (D1) t ∉ D
+  6:     refuse startup                            ; (D2) D ⊊ C follows since t ∈ C ∖ D
+  7:     return  "STARTUP_CONFIGURATION_ERROR: D ill-formed"
+  8: end if
+
+  ▸ Declared exclusions — pinned SAFE before fault evaluation  (C.2.0.5, C.2.0.7 step 1)
+  9: for each i ∈ D do
+ 10:     s_i ← SAFE
+ 11: end for
+
+  ▸ Required non-excluded observation resolution — validation and freshness  (C.2.0.3–4)
+      (r and t receive per-component treatment below.)
+ 12: for each i ∈ (C ∖ D) ∩ {w, m, o} do
+ 13:     y_i ← fresh_i( val_i(obs_i), τ_now, age_i )     ; ⊥ if invalid, absent, or stale
+ 14: end for
+
+  ▸ Rainfall — two-input classifier  (C.2.0.4a, C.2.0.2)
+ 15: if r ∉ D then
+ 16:     (rate_obs, c_obs) ← obs_r                       ; rate = required coordinate; c = derived
+ 17:     y_rate ← fresh_r( val_r(rate_obs), τ_now, age_r )
+ 18:     κ      ← χ(c_obs)                               ; χ total into K = {0, 1}; χ(absent) = 0
+ 19:     if y_rate = ⊥ then
+ 20:         y_r ← ⊥                                     ; fail-safe on the required coordinate
+ 21:     else
+ 22:         y_r ← (y_rate, κ)
+ 23:     end if
+ 24: end if
+
+  ▸ Time — clock, date and canonical solar dependency  (C.2.0.7 step 2b, t ∉ D by D1)
+ 25: if valid_clock(obs_t) ∧ valid_date(date) ∧ available(solar(date)) then
+ 26:     y_t                 ← time_of(obs_t)
+ 27:     (sunrise_d, sunset_d) ← solar(date)              ; consumed from frozen artefact,
+ 28:                                                      ; not recomputed inside this algorithm
+ 29: else
+ 30:     y_t ← ⊥                                          ; clock/date/solar fault
+ 31: end if
+
+  ▸ Component classifiers — exactly five contributions  (C.2 Aggregation)
+ 32: if w ∉ D then  s_w ← g_w(y_w)                    end if
+ 33: if r ∉ D then  s_r ← g_r(y_r)                    end if    ; g_r reads (y_rate, κ) when y_r ≠ ⊥
+ 34: if m ∉ D then  s_m ← g_m(y_m)                    end if
+ 35: if o ∉ D then  s_o ← g_o(y_o, v)                 end if    ; v conditions g_o only; there is no g_v
+ 36:                s_t ← g_t(y_t, date)                          ; always evaluated (t ∉ D)
+
+  ▸ Aggregation under total strict order  UNSAFE ≻ CAUTION ≻ SAFE  (Def C.1, C.2)
+ 37: S ← max-severity( s_w, s_r, s_m, s_o, s_t )
+
+ 38: return S
+```
+
+**No emergency shortcut.** The fail-safe `gᵢ(⊥) = UNSAFE → S = UNSAFE` is delivered by lines 32–36 composed with line 37; it is Corollary C.1b.1, not a separate pre-check.
+
+**No astronomy in Algorithm 1.** Lines 27–28 read the frozen solar artefact; no algorithm in this specification computes sunrise or sunset.
+
+**No `g_v`.** Line 35 is the only occurrence of `v`; there is no independent vessel classifier.
 
 ---
 
-*Author: iskandar · Batch 1 closed: 2026-09-10 · Branch: `design/journal1-algorithm-specification`*
+## 12. Algorithm 1 — Preconditions and Postconditions
+
+**Preconditions.**
+
+- **P1.** `obs` is total over `C` — one observation per component, each element of `Obsᵢ = (Xᵢ × 𝕋) ∪ {⊥}`.
+- **P2.** `date` is valid and `solar(date)` is available from the canonical frozen artefact.
+- **P3.** For every `i ∈ C ∖ D`, `ageᵢ` is specified (values symbolic in this specification; OPEN-B1-1).
+- **P4.** `D` is well-formed against the full condition set `C = {w, r, m, o, t}`: **(D1)** `t ∉ D` and **(D2)** `D ⊊ C` (appendix-c C.2.0.5). Given (D1) and `D ⊆ C`, (D2) follows automatically from `t ∈ C ∖ D`; the enforcement at lines 5–8 tests `t ∈ D` and `D ⊄ C` and refuses startup on either. Ill-formed `D` refuses startup — it is not classified UNSAFE. **`D = {w, r, m, o}` is well-formed** (the maximal exclusion set named in appendix-c C.2.0.5); under it, `w, r, m, o` contribute SAFE by pin and `S = g_t(y_t, date)`.
+
+**Postconditions.**
+
+- **Q1.** If `v ∈ V` and `D` is well-formed, exactly one `S ∈ {SAFE, CAUTION, UNSAFE}` is returned (operational totality — Theorem C.1b).
+- **Q2.** If `v ∉ V`, startup is refused and no `S` is returned. This is not a runtime observation fault (C.2.0.6).
+- **Q3.** If any required non-excluded observation fails validation or freshness, its component classification is UNSAFE via `gᵢ(⊥) = UNSAFE` and Corollary C.1b.1. Rainfall is UNSAFE whenever `y_rate = ⊥`, irrespective of `c_obs`.
+- **Q4.** `S = max-severity(s_w, s_r, s_m, s_o, s_t)` under `UNSAFE ≻ CAUTION ≻ SAFE`. Any UNSAFE component gives global UNSAFE; otherwise any CAUTION gives global CAUTION; otherwise SAFE.
+- **Q5.** Excluded components (`i ∈ D`) contribute `sᵢ = SAFE`, never `⊥`. `S` computed under `D ≠ ∅` is reported as a lower bound (obligation D3).
+
+**Failure behaviour — two disjoint modes:**
+
+- **Startup / configuration failure** (Q2, and D ill-formed at lines 5–8) — refuses to start; **no `S` is returned**. Handled outside the classification pipeline.
+- **Runtime observation fault** on a required non-excluded component (Q3) — the algorithm returns a valid `S`, and that `S` is UNSAFE by Corollary C.1b.1.
+
+Distinguishing these two is required by C.2.0.5–6 and preserved by the ordering at lines 1–8.
+
+---
+
+## 13. Algorithm 2 — Governance Configuration
+
+Algorithm 2 realises the finite mapping `S → (G(S), A_AI(S))`. It performs no reasoning, no rule selection and no advisory generation. RS(S) supply is Algorithm 3 (Batch 3).
+
+```text
+Algorithm 2 — Governance Configuration
+──────────────────────────────────────
+Input:
+  S ∈ {SAFE, CAUTION, UNSAFE}       ; must be a valid output of Algorithm 1 / F_{D,τ}
+
+Output:
+  (G(S), A_AI(S))  with
+    G(S)    ∈ {0, 1}                ; participation gate value
+    A_AI(S) ⊆ R = {Go, Delay, DepartureTime, Duration}
+
+Procedure:
+  1: switch S
+  2:     case SAFE:
+  3:         G     ← 1
+  4:         A_AI  ← {Go, Delay, DepartureTime, Duration}
+  5:     case CAUTION:
+  6:         G     ← 1
+  7:         A_AI  ← {Go, Delay}
+  8:     case UNSAFE:
+  9:         G     ← 0
+ 10:         A_AI  ← ∅
+ 11: end switch
+ 12: return (G, A_AI)
+```
+
+**Handoff, not implementation.** The tuple `(G(S), A_AI(S))` is the input Algorithm 3 (Batch 3) requires to supply `RS(S)` before Layer 3 reasoning begins (algorithm-specification.md §8; appendix-c C.7.1; Theorem C.3 A2). Algorithm 2 does not select rules and does not generate recommendations. The concurrency/atomicity primitive that enforces state/rule-set consistency (§8) is not chosen here — **OPEN-B1-8 remains OPEN**.
+
+---
+
+## 14. Algorithm 2 — Preconditions and Postconditions
+
+**Preconditions.**
+
+- **P1.** `S` is a valid output of Algorithm 1 — `S ∈ {SAFE, CAUTION, UNSAFE}` by Theorem C.1b operational totality.
+
+**Postconditions.**
+
+- **Q1.** Exactly one pair `(G, A_AI)` is returned for every valid `S`.
+- **Q2.** `G(S)` matches the mapping in appendix-c C.3 exactly: `G(SAFE) = G(CAUTION) = 1`, `G(UNSAFE) = 0`.
+- **Q3.** `A_AI(S)` matches the mapping in appendix-c C.4 exactly: `A_AI(SAFE) = FULL`, `A_AI(CAUTION) = {Go, Delay}`, `A_AI(UNSAFE) = ∅`.
+- **Q4. Participation constraint.** `G(S) = 0 ⇒ A_AI(S) = ∅` (case UNSAFE; appendix-c C.6).
+- **Q5. Advisory restriction.** `A_AI(CAUTION) ⊊ A_AI(SAFE)` (cases CAUTION and SAFE; appendix-c C.6).
+- **Q6. Containment.** `A_AI(SAFE) ⊃ A_AI(CAUTION) ⊃ A_AI(UNSAFE) = ∅`.
+
+**Bounded correctness language.** Algorithm 2 *implements* the finite mapping on which Theorem C.2 (Monotonicity) is established. It does **not** experimentally validate Theorem C.2 — Theorem C.2 is proved (appendix-c C.6); Algorithm 2 realises the mapping the proof quantifies over. Similarly, Algorithm 2 does not "prove" the participation and advisory-restriction constraints; those are proved by Theorem C.3 (Safety Dominance) and by direct inspection of the mapping in C.4. See §16.
+
+---
+
+## 15. Batch 2 Boundary Verification
+
+Twenty-five specification-level checks — twenty on Algorithm 1's component and semantic contract (B1–B20), one on the maximal exclusion set (B25, added by the Exclusion-Set Domain Repair), and four on Algorithm 2's exhaustive input space (B21–B24). **These are specification checks, not empirical experiments**; each is a direct arithmetic or set-inclusion comparison against the maintained mappings.
+
+Full per-case table with expected verdicts, authority sections and PASS/FAIL results at [`boundary-cases-batch2.csv`](../../../data/journal1-algorithm-specification/boundary-cases-batch2.csv).
+
+**Algorithm 1 — component boundary checks (12):**
+
+| # | Case | Component | Expected |
+|---|---|---|---|
+| B1 | `w = 21.6` | `g_w` | SAFE (`≤ 21.6`) |
+| B2 | `w = 27.0` | `g_w` | CAUTION (`≤ 27.0`) |
+| B3 | `w > 27.0` (e.g. 27.1) | `g_w` | UNSAFE |
+| B4 | `r = 10`, `κ = 0` | `g_r` | SAFE (`≤ 10.0`) |
+| B5 | `r = 20`, `κ = 0` | `g_r` | CAUTION (`≤ 20.0`) |
+| B6 | `κ = 1` (any `r`) | `g_r` | UNSAFE (storm route) |
+| B7 | small, `o = 1.0` | `g_o` | CAUTION (`1.0 ≤ o`) |
+| B8 | small, `o = 1.25` | `g_o` | CAUTION (`o ≤ 1.25`) |
+| B9 | medium, `o = 1.4` | `g_o` | CAUTION |
+| B10 | medium, `o = 2.8` | `g_o` | CAUTION |
+| B11 | big, `o = 1.5` | `g_o` | CAUTION |
+| B12 | big, `o = 3.5` | `g_o` | CAUTION |
+
+**Algorithm 1 — solar and semantic checks (8):**
+
+| # | Case | Expected |
+|---|---|---|
+| B13 | `t = sunrise(date)` exactly | `g_t = SAFE` (half-open) |
+| B14 | `t = sunset(date)` exactly | `g_t = UNSAFE` (half-open) |
+| B15 | nighttime (`t < sunrise` or `t ≥ sunset`) | `g_t = UNSAFE` |
+| B16 | missing rainfall rate (`y_rate = ⊥`) | rainfall component UNSAFE (`y_r = ⊥ → g_r(⊥) = UNSAFE`) |
+| B17 | missing raw weather code + valid rate | `κ = 0`, classify from rate alone (not `⊥`) |
+| B18 | `m ∈ D` (excluded) | `s_m = SAFE` (pin) |
+| B19 | `m ∉ D`, `obs_m` missing/invalid | `s_m = UNSAFE` via `g_m(⊥)` |
+| B20 | `v` missing/invalid | startup refusal (no `S` returned) |
+
+**Algorithm 2 — exhaustive verification (4):**
+
+| # | Case | Expected |
+|---|---|---|
+| B21 | `S = SAFE` | `(G, A_AI) = (1, {Go, Delay, DepartureTime, Duration})` |
+| B22 | `S = CAUTION` | `(G, A_AI) = (1, {Go, Delay})` |
+| B23 | `S = UNSAFE` | `(G, A_AI) = (0, ∅)` |
+| B24 | Containment | `A_AI(SAFE) ⊃ A_AI(CAUTION) ⊃ A_AI(UNSAFE) = ∅` (set inclusion) |
+
+**Algorithm 1 — maximal exclusion set (1, added by Exclusion-Set Domain Repair):**
+
+| # | Case | Expected |
+|---|---|---|
+| B25 | `D = {w, r, m, o}` (t ∉ D; D ⊊ C) | well-formed startup; `s_w = s_r = s_m = s_o = SAFE` by pin; `t` remains required and is classified normally; `S = g_t(y_t, date)` |
+
+**All 25 boundary cases resolve PASS by inspection against the maintained thresholds and mappings.** No statistical test is required or appropriate — these are deterministic set/arithmetic checks against the specification.
+
+---
+
+## 16. Batch 2 Correctness Traceability
+
+Every claim carried by Algorithms 1 and 2 is placed in exactly one of four categories.
+
+- **Definition** — a canonical definition in appendix-c; the algorithm cannot itself prove it.
+- **Algorithm implementation of a definition** — the algorithm realises a definition faithfully; correctness is *implementation of a mapping*, not proof.
+- **Formal theorem or property** — proved elsewhere (appendix-c C.1b, C.2, C.3, C.6); Batch 2 does not re-prove it.
+- **Future implementation-fidelity test** — deferred to Layer 3 build (F1–F3 in evaluation-specification.md §7).
+
+Full per-construct table at [`algorithm-traceability-batch2.csv`](../../../data/journal1-algorithm-specification/algorithm-traceability-batch2.csv). Summary:
+
+| Construct | Definition | Algorithm impl. | Formal property | Future fidelity |
+|---|---|---|---|---|
+| Operational classifier `F_{D,τ}` | C.2.0.1, C.8.1 | A1 lines 1–38 | Theorem C.1b (Operational Totality) | F1 (replay conformance) |
+| Fail-safe `gᵢ(⊥) = UNSAFE` | C.2 (per-component) | A1 lines 19–23, 29–30 delivered to lines 32–36 | Corollary C.1b.1 | F1 |
+| Startup precondition (v) | C.2.0.6 | A1 lines 1–3 | not a theorem — an axiomatic precondition | startup-refusal check outside F1 |
+| Exclusion-before-fault | C.2.0.5, C.2.0.7 | A1 lines 9–11 | Lemma C.1c (Monotone Degradation) | F1 under `D ≠ ∅` |
+| Rainfall two-input | C.2.0.4a, C.2 g_r row | A1 lines 15–24 | Theorem C.1(i) g_r case | F1 |
+| Solar half-open boundary | C.2 g_t row | A1 line 36 (via canonical `g_t`) | Theorem C.1(i) g_t case | F1 |
+| Frozen solar dependency | C.2 g_t canonical implementation | A1 lines 27–28 | implementation invariant; not a theorem | deployment fidelity |
+| Max-severity aggregation (5 terms) | C.2 Aggregation, Def C.1 | A1 line 37 | Theorem C.1(ii) | F1 |
+| `G(S)` mapping | C.3 | A2 lines 3, 6, 9 | Participation constraint (C.6) | F1 |
+| `A_AI(S)` mapping | C.4 | A2 lines 4, 7, 10 | Advisory restriction (C.6); Theorem C.2 (Monotonicity); Corollary C.2 | F1, F2 |
+| RS(S) handoff | C.7.1, Theorem C.3 A2 | A2 §13 note (handoff only) | Theorem C.3 (Safety Dominance) | Batch 3; F3 |
+| Human authority | C.8.2 step 6 | neither A1 nor A2 modifies it | unconditional | not applicable to Batch 2 |
+
+**Bounded language reminders (§19 of the task).**
+
+- Do not write "Algorithm 1 proves safety." Algorithm 1 *implements* `F_{D,τ}` whose totality is established by Theorem C.1b and whose fail-safe behaviour is Corollary C.1b.1. The proof is in appendix-c, not in Algorithm 1.
+- Do not write "Algorithm 2 validates monotonicity experimentally." Algorithm 2 *implements* the finite mapping on which Theorem C.2 is established. Monotonicity is proved in C.6; Algorithm 2 realises the mapping the proof quantifies over.
+
+---
+
+## Guiding rule
+
+> "*What exactly must the algorithms preserve?*" — Batch 1 answers this and only this.
+> "*How should all four algorithms be written?*" — Batch 2 (Algorithms 1 & 2) and Batch 3 (Algorithms 3 & 4).
+
+---
+
+*Author: iskandar · Batch 1 closed: 2026-09-10 · Batch 2 closed: 2026-09-10 · Branch: `design/journal1-algorithm-specification`*
