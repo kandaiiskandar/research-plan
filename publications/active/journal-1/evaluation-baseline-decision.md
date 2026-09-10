@@ -1,9 +1,11 @@
 # Journal 1 — Evaluation Baseline Design Decision
 
+> **Status update 2026-09-10 — HISTORICAL DECISION RECORD.** Option C was accepted and executed by the Journal 1 Evaluation Specification Alignment. **The maintained design authority is now [`evaluation-specification.md`](evaluation-specification.md).** This document is retained as the historical record of how Option C was reached, including its §10 hypothesis assessment and §11 metric recommendations. All references below to H1–H4, "advisory scope compliance rate", "false positive rate", the retain/reconsider metric verdicts and the open items in §14 describe the state at decision time — they are historical assessments, not active instructions. The redesign they recommended (H1→F1, H2→F2, H3→E5/RQ-J2 with threshold OPEN, H4→E2 Δ_L2, utility OPEN, deterministic-census framing) has been applied to `research-design.md`, `manuscript.md` and `evaluation-specification.md`.
+
 **Date:** 2026-09-10
 **Branch:** `design/journal1-evaluation-baselines`
 **Type:** experimental-design decision — **decision only, no implementation**
-**Status:** proposed, awaiting review
+**Status:** ACCEPTED and EXECUTED (Option C). See `evaluation-specification.md` for the closed specification.
 
 *Located here rather than `docs/journal1/` because Journal 1 design documents already live alongside the manuscript (`research-design.md`, `section-*-plan.md`).*
 
@@ -89,7 +91,7 @@ The test for hiding is whether the claim becomes less visible or less falsifiabl
 
 Recommended shape:
 
-- **Primary experiment (three arms):** Ungated / Binary-gated / Proposed. Carries H1–H4.
+- **Primary experiment (three arms):** Ungated / Binary-gated / Proposed. Carries the empirical / performance evidence for the closed claim structure (see the executed `evaluation-specification.md` — historically H1–H4, reclassified as F1–F3 fidelity / E1–E4, E6 trace / E5 performance / H3 threshold OPEN / utility OPEN).
 - **Structural proposition, in Related Work or the novelty section:** the Flehmig topology maps to `{FULL, FULL, EMPTY}`; therefore its admissible-set output is identical to a binary gate; confirmed across the full canonical record at 0.00% in both reportable configurations. Cited as **reuse of existing canonical characterisation evidence**, explicitly not a new Journal 1 experiment.
 - **Fairness qualification travels with it**, in the canonical wording.
 
@@ -133,13 +135,15 @@ The two canonical metrics are added because they answer H4 and RQ-J3, not becaus
 
 ## 12. Statistical treatment
 
-The replay is a **complete enumeration over the full population** of hourly records, with a deterministic classifier. There is no sampling and no stochastic component.
+The replay is a **deterministic census of all hourly records in the predefined retrospective study window**, not a random sample from a broader climatological population. The classifier is deterministic and no stochastic component is involved.
 
-- `0.00%`, `5.81%`, `4.48%` are **descriptive census values**, not estimates.
+- `0.00%`, `5.81%`, `4.48%` are **exact descriptive values for the analysed trace/configuration** — not estimates of all future Sabah operating conditions.
 - `C1 ↔ C3 = 0.00%` is **analytical**, not even descriptive.
 - Only latency (H3) admits inferential treatment, and only because timing measurement carries genuine variance.
 
-**Significance testing over a deterministic enumeration of the entire record is not meaningful** and should not be applied. Confidence intervals on a census are similarly ill-defined. The appropriate treatment is exact reporting with the configuration stated, which is what the canonical dual-configuration contract already does — and the PRIMARY/RESOLUTION spread is the honest sensitivity statement in place of an error bar.
+**Significance testing over a deterministic enumeration of the entire retrospective window is not meaningful** and should not be applied. Confidence intervals on a census are similarly ill-defined. The appropriate treatment is exact reporting with the configuration stated, which is what the canonical dual-configuration contract already does — and the PRIMARY/RESOLUTION spread is a **resolution-sensitivity** result, not an error bar.
+
+*(Wording repaired 2026-09-10, Journal 1 Evaluation Specification Alignment §5.1. The previous formulation "complete enumeration over the full population" invited generalisation to future weather; the census framing is scoped to the study window.)*
 
 ## 13. Recommendation
 
@@ -163,7 +167,7 @@ OPTION C
 1. Should H1/H2 be reformulated as implementation-fidelity checks, or replaced by behavioural hypotheses that are not analytically determined? *(Recommended; out of scope here.)*
 2. What value should `[X ms]` take, and on what hardware basis?
 3. Does decision-support utility require the RQ5-style user study to be meaningful, or can it be operationalised on the replay alone?
-4. If Layer 3 is built before submission, do H1/H2 become genuinely empirical? *(Likely yes — the circularity is a consequence of the engine being unimplemented.)*
+4. If Layer 3 is built before submission, how are H1/H2 reclassified? *(Layer 3 implementation makes compliance and violation rates **implementation-fidelity measurements** — they test whether the engine conforms to the RS(S) specification. It does not convert a formal governance invariant into a behavioural hypothesis: Safety Dominance remains `AI(E) ⊆ A_AI(f(E))` under the stated engine assumptions, and an implementation test checks conformance to that specification, not empirical rediscovery of the theorem. Wording repaired 2026-09-10, Journal 1 Evaluation Specification Alignment §5.2.)*
 
 ## 15. Stop-condition assessment
 

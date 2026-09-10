@@ -1,0 +1,98 @@
+{
+  "purpose": "Verify every CSV in this directory parses cleanly with csv.DictReader and pandas.read_csv (strict field-count checking).",
+  "captured_on": "2026-09-10",
+  "overall_verdict": "PASS",
+  "files": [
+    {
+      "file": "change-map.csv",
+      "csv_DictReader": {
+        "status": "PASS",
+        "columns": 6,
+        "data_rows": 12
+      },
+      "pandas_read_csv": {
+        "status": "PASS",
+        "columns": 6,
+        "data_rows": 12
+      }
+    },
+    {
+      "file": "condition-label-audit.csv",
+      "csv_DictReader": {
+        "status": "PASS",
+        "columns": 7,
+        "data_rows": 18
+      },
+      "pandas_read_csv": {
+        "status": "PASS",
+        "columns": 7,
+        "data_rows": 18
+      }
+    },
+    {
+      "file": "downstream-residue-sweep.csv",
+      "csv_DictReader": {
+        "status": "PASS",
+        "columns": 6,
+        "data_rows": 39
+      },
+      "pandas_read_csv": {
+        "status": "PASS",
+        "columns": 6,
+        "data_rows": 39
+      }
+    },
+    {
+      "file": "evaluation-specification.csv",
+      "csv_DictReader": {
+        "status": "PASS",
+        "columns": 11,
+        "data_rows": 15
+      },
+      "pandas_read_csv": {
+        "status": "PASS",
+        "columns": 11,
+        "data_rows": 15
+      }
+    },
+    {
+      "file": "hypothesis-audit.csv",
+      "csv_DictReader": {
+        "status": "PASS",
+        "columns": 9,
+        "data_rows": 4
+      },
+      "pandas_read_csv": {
+        "status": "PASS",
+        "columns": 9,
+        "data_rows": 4
+      }
+    },
+    {
+      "file": "metric-audit.csv",
+      "csv_DictReader": {
+        "status": "PASS",
+        "columns": 11,
+        "data_rows": 10
+      },
+      "pandas_read_csv": {
+        "status": "PASS",
+        "columns": 11,
+        "data_rows": 10
+      }
+    },
+    {
+      "file": "rq-audit.csv",
+      "csv_DictReader": {
+        "status": "PASS",
+        "columns": 8,
+        "data_rows": 4
+      },
+      "pandas_read_csv": {
+        "status": "PASS",
+        "columns": 8,
+        "data_rows": 4
+      }
+    }
+  ]
+}

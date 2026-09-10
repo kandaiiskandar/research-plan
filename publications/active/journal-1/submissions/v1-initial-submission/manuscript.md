@@ -603,40 +603,38 @@ Section 10 plans to evaluate implementation fidelity and advisory behaviour in e
 
 **Purpose:** Define the evaluation methodology rigorously. Reference RQ4 from thesis.
 
-**Three-condition comparison (from `docs/canonical/evaluation-design-rq4.md`):**
+> **Maintained authority.** The Journal 1 evaluation design is specified in [`evaluation-specification.md`](../../evaluation-specification.md). Draft this section against that document; do not restate its content here beyond the summary below.
 
-| Condition | Label | Description |
-|-----------|-------|-------------|
-| C1 | Ungated | AI generates full-scope output regardless of S |
-| C2 | Binary-gated | AI enabled/disabled, no advisory scope restriction |
-| C3 | Graduated (proposed) | Full (G(S), A_AI(S)) governance pair |
+**Primary experimental comparison (three arms):**
 
-> ⚠️ **Condition labels differ from the canonical scheme — mapping required when citing canonical results** *(added 2026-09-10)*. The canonical harness (`scripts/condition_comparison.py`, and TABLE VII of the conference paper) uses a **four**-condition scheme in which the same letters carry different meanings:
->
-> | Canonical | Meaning | Journal 1 equivalent |
-> |---|---|---|
-> | **C0** | Ungated | **C1** |
-> | **C1** | Binary-gated | **C2** |
-> | **C2** | **Proposed** graduated architecture | **C3** |
-> | **C3** | Flehmig-style three-level traffic light | *(no equivalent — see below)* |
->
-> **Every label collides, and the most important one inverts: canonical C2 is the proposed architecture, whereas Journal 1's C2 is the binary-gated baseline.** Any figure quoted from a canonical artefact must be translated through this table before it is placed against a Journal 1 condition label. Canonical values for reference: C0↔C1 = 42.88%, C0↔C2 = 48.69%, Level 2 isolated = **5.81% (PRIMARY) / 4.48% (RESOLUTION)**, C1↔C3 = **0.00%**.
->
-> **Open item:** Journal 1's design has no counterpart to the canonical **C3 Flehmig-style traffic-light baseline**, which is what establishes the graduated-advisory-scope gap as a measurement (0.00% divergence from a plain binary gate). Adding it is an evaluation-design decision, not a synchronisation, and is recorded here rather than made.
+| Condition | Label | Description | Governance active |
+|-----------|-------|-------------|-------------------|
+| **C0** | Ungated | AI generates full-scope output regardless of S | None |
+| **C1** | Binary-gated | G(S) gates participation only; A_AI = full set when G = 1, else ∅ | Level 1 (G) only |
+| **C2** | Proposed graduated architecture | Full (G(S), A_AI(S)) governance pair | Level 1 + Level 2 |
 
-**Scenarios:** Historical weather replay across SAFE, CAUTION, and UNSAFE conditions
+**Structural comparator (not a fourth experimental arm):**
 
-**Metrics:**
-- Advisory scope compliance rate: P(AI(E) ⊆ A_AI(S))
-- False positive rate: recommendations issued outside A_AI(S)
-- Decision support utility: coverage of actionable recommendations within admissible set
-- Governance overhead: latency added by governance layer
+| Condition | Label | Role |
+|-----------|-------|------|
+| **C3** | Flehmig-style traffic-light topology | Structural proposition J1-P1: at the admissible-set level, `A_C3(S) = A_C1(S)` for all S — proved by finite-mapping comparison and confirmed against the retrospective record at 0.00% divergence. Not run as an experimental arm |
 
-**Baselines:** C1 and C2 as per evaluation design
+*Labels normalised 2026-09-10.* Earlier drafts of this manuscript used Journal-local `C1/C2/C3 = Ungated/Binary/Proposed`, which inverted `C2` relative to the canonical harness. The design was normalised to the canonical `C0/C1/C2/C3` scheme before any Journal 1 experiment, result table, figure or script was produced under the old labels. No active result requires manual label translation. See `evaluation-baseline-decision.md` §9 and `evaluation-specification.md` §3.
 
-**Statistical analysis:** [TBD — specify tests]
+**Scenarios:** Retrospective replay over 43,848 hourly records (Kota Kinabalu, 2020–2024), reported in two configurations per canonical practice: **PRIMARY** (5.00 yr, ERA5-Ocean ~50 km) and **RESOLUTION** (3.25 yr, MFWAM ~8 km). See §11 for canonical values.
 
-> **Source:** `docs/canonical/evaluation-design-rq4.md` (full design)
+**Metrics** *(final list in `evaluation-specification.md` §9)*:
+- **Pairwise admissible-set divergence** — canonical: `C0↔C1`, `C0↔C2`, `C1↔C2`, and `C1↔C3` (confirmation).
+- **Isolated Level 2 contribution** — `Δ_L2 = div(C0,C2) − div(C0,C1)` (canonical departure-window values 5.81% PRIMARY / 4.48% RESOLUTION).
+- **Governance latency and computational overhead** — descriptive performance measurement (see §11 / §8).
+- **Implementation-fidelity criteria** (F1–F3) — deferred to Layer 3 build; see `evaluation-specification.md` §7.
+- **Decision-support utility** — construct not operationally defined for replay alone; marked OPEN, deferred to a future user study (RQ5 scope). See `evaluation-specification.md` §15 and §17.
+
+**Baselines:** C0 and C1 as comparators for C2 (proposed).
+
+**Statistical treatment:** The replay is a **deterministic census of all hourly records in the retrospective study window**, not a random sample from a broader climatological population. Report exact descriptive values for the analysed trace/configuration; do not apply significance tests or confidence intervals to a full-window enumeration. The PRIMARY / RESOLUTION spread is a **resolution-sensitivity** result, not an error bar. Latency (governance overhead) is the one measurement admitting inferential treatment because timing carries genuine variance.
+
+> **Source:** `evaluation-specification.md` §12; `evaluation-baseline-decision.md` §12; `docs/canonical/evaluation-design-rq4.md` (RQ4 scenario set — 20 scenarios retained as boundary/fail-safe cases within the empirical frame).
 
 *(Draft here)*
 
@@ -644,23 +642,35 @@ Section 10 plans to evaluate implementation fidelity and advisory behaviour in e
 
 ## 11. Results
 
-**Purpose:** Present experimental results against the three conditions and across all metrics.
+**Purpose:** Present experimental results against the three primary-experiment conditions (C0 / C1 / C2) and the structural comparator (C3). Maintained design authority: [`evaluation-specification.md`](../../evaluation-specification.md) §18.
 
-*(To be written after experiments are run)*
+**Structure the section around the evaluation matrix** (rows E1, E2, E3, E4, E6 from the master table); do not report a metric that is not present in that table. Report every empirical figure under both **PRIMARY** and **RESOLUTION** configurations per §13 of the specification. State the deterministic-census framing at the head of the section: values are exact descriptive values for the analysed trace/configuration, not estimates.
+
+Do NOT report fidelity metrics (F1–F3) here — they are deferred to the Layer 3 build (see §9) and belong in a subsequent implementation-fidelity report, not in the trace-results section.
+
+*(To be written when the results tables are produced from the canonical harness. Nothing new is to be measured beyond the canonical figures cited in the specification.)*
 
 ---
 
 ## 12. Ablation Study
 
-**Purpose:** Isolate the contribution of each architectural component.
+**Purpose:** Isolate the contribution of each architectural component. Maintained design authority: [`evaluation-specification.md`](../../evaluation-specification.md) §10.
 
-**Ablation conditions to test:**
-- Remove advisory scope restriction (A_AI(S) = full set at all states) — reduces to binary gate
-- Remove participation gate (G(S) = 1 always) — removes safety disengagement
-- Remove hysteresis smoothing — measures mode-chattering frequency. ⚠️ **Already run on historical replay (F-6), canonical specification: 3,661 transitions, the large majority scheduled solar events, 26 genuine oscillations in five years, 10.36% reduction from hysteresis.** This ablation reports a near-null result; write it up as such rather than re-running it as an open question
-- Remove worst-case aggregation — measures misclassification rate at E boundary conditions
+**Primary ablation — Isolated Level 2 contribution (Δ_L2).**
 
-*(To be written after experiments are run)*
+Removing the advisory-scope restriction reduces C2 to C1 behaviour by construction (A_AI(S) becomes the full set at every state, so C2's mapping collapses onto C1's). The load-bearing ablation metric is therefore the **isolated Level 2 contribution** measured on the retrospective replay:
+
+**Δ_L2 = divergence(C0, C2) − divergence(C0, C1)**
+
+Canonical departure-window values from `condition_comparison.py`: **PRIMARY 48.69 − 42.88 = 5.81% · RESOLUTION 4.48%**. These are exact descriptive values for the analysed trace/configuration, not estimates. The comparison isolates Level 2 because C0 and C1 differ only in Level 1 (participation gate), while C0 and C2 differ in Levels 1 + 2 combined — the subtraction removes the Level 1 term.
+
+**Secondary ablations:**
+
+- **Remove participation gate** (`G(S) = 1` always) — the C0 arm already realises this configuration for AI participation; report as an interpretive comparison against C1 rather than as a separately implemented ablation.
+- **Remove hysteresis smoothing** — measured on historical replay under the canonical specification: **3,661 state transitions in five years; 26 genuine oscillations (5.2/yr); hysteresis reduces non-scheduled transitions by 10.36%** (F-6). This is a near-null result at hourly resolution. Report the measured figures with the hourly-resolution qualifier and frame hysteresis as a retained low-cost precaution, not as a mitigation for an observed instability. Do not re-run.
+- **Remove worst-case aggregation** — boundary-scenario evaluation (scenarios SC-16–SC-20 from `docs/canonical/evaluation-design-rq4.md`, retained as boundary/fail-safe cases within the larger empirical frame).
+
+*(To be written once the replay results tables in §11 are produced. All ablation targets are already defined; nothing new is being measured beyond the canonical figures cited.)*
 
 ---
 
@@ -669,14 +679,14 @@ Section 10 plans to evaluate implementation fidelity and advisory behaviour in e
 **Purpose:** Interpret results, generalise beyond the fisheries domain, address deployment challenges.
 
 **Key content to include:**
-- What the results mean for the binary governance gap
-- Generalisation: which architectural structures are re-instantiable across domains, and which thresholds, inputs, evidence and empirical findings remain domain-specific. *(Wording corrected 2026-09-10: this read "which aspects of the architecture are domain-independent", which invites the retired overclaim. The governance pair, the containment property and the three theorems transfer by construction to any correct instantiation; the Sabah coastal-fisheries thresholds, data sources, binding profile and measured rates do not, and this study establishes no empirical portability beyond its site.)*
-- Deployment challenges in low-resource environments: connectivity, hardware, maintenance
-- Relationship to governance standards (IEC 61508, ISO 26262, SOLAS)
-- Limitations of the current prototype
-- How the architecture could be extended to other safety-critical domains
+- What the results mean for the binary governance gap — specifically that the isolated Level 2 contribution `Δ_L2` (E2) is the load-bearing empirical evidence for the graduated-advisory-scope architecture, and that Proposition J1-P1 (P4) is what answers the novelty objection at the admissible-set level.
+- Generalisation: which architectural structures are re-instantiable across domains, and which thresholds, inputs, evidence and empirical findings remain domain-specific. *(Wording corrected 2026-09-10: this read "which aspects of the architecture are domain-independent", which invites the retired overclaim. The governance pair, the containment property and the three theorems transfer by construction to any correct instantiation; the Sabah coastal-fisheries thresholds, data sources, binding profile and measured rates do not, and this study establishes no empirical portability beyond its site.)* Preserve the distinction: structural re-instantiability ≠ empirical portability.
+- Deployment challenges in low-resource environments: connectivity, hardware, maintenance.
+- Relationship to governance standards (IEC 61508, ISO 26262, SOLAS).
+- Limitations of the current prototype.
+- How the architecture could be extended to other safety-critical domains (structurally, without claiming empirical validation of the transfer).
 
-*(Draft after results)*
+*(Draft after results. Do not claim that the experiment independently validates the entire literature-derived novelty statement — Option C supports novelty through literature comparison + structural proposition + primary C0/C1/C2 evaluation, in combination.)*
 
 ---
 
@@ -703,8 +713,8 @@ Section 10 plans to evaluate implementation fidelity and advisory behaviour in e
 - Scalability to larger E vectors
 
 **Construct validity:**
-- Does advisory scope compliance rate measure what it claims?
-- Is historical weather replay a valid proxy for real deployment?
+- Does the isolated Level 2 contribution `Δ_L2 = div(C0,C2) − div(C0,C1)` (E2) measure what it claims — the incremental governance behaviour attributable to A_AI(S) restriction beyond the participation gate G(S)? *(Advisory scope compliance rate is now the fidelity criterion F1 and is not a construct-validity metric — see `evaluation-specification.md` §7, §9.)*
+- Is the retrospective hourly-resolution census over Kota Kinabalu 2020–2024 a valid proxy for the operating conditions the deployed system will encounter? The census is deterministic and exact for the analysed trace, but its values are not estimates of future conditions — see `evaluation-specification.md` §12 and §16.
 
 *(Draft after results)*
 
