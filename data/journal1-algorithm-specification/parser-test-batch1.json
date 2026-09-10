@@ -1,0 +1,46 @@
+{
+  "overall": "PASS",
+  "count": 4,
+  "files": [
+    {
+      "file": "authority-map.csv",
+      "csv_reader_strict": "PASS",
+      "header_field_count": 4,
+      "data_row_count": 28,
+      "csv_dictreader": "PASS",
+      "pandas_read_csv": "PASS",
+      "pandas_row_count": 28,
+      "overall": "PASS"
+    },
+    {
+      "file": "change-map-batch1.csv",
+      "csv_reader_strict": "PASS",
+      "header_field_count": 5,
+      "data_row_count": 13,
+      "csv_dictreader": "PASS",
+      "pandas_read_csv": "PASS",
+      "pandas_row_count": 13,
+      "overall": "PASS"
+    },
+    {
+      "file": "open-decisions.csv",
+      "csv_reader_strict": "PASS",
+      "header_field_count": 7,
+      "data_row_count": 8,
+      "csv_dictreader": "PASS",
+      "pandas_read_csv": "PASS",
+      "pandas_row_count": 8,
+      "overall": "PASS"
+    },
+    {
+      "file": "operational-contract.csv",
+      "csv_reader_strict": "PASS",
+      "header_field_count": 6,
+      "data_row_count": 14,
+      "csv_dictreader": "PASS",
+      "pandas_read_csv": "PASS",
+      "pandas_row_count": 14,
+      "overall": "PASS"
+    }
+  ]
+}

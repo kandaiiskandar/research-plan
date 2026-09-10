@@ -1,0 +1,129 @@
+{
+  "task": "Journal 1 Algorithm Specification — Batch 1: Authority & Operational Contract",
+  "task_file": "docs/tasks/Journal 1 Algorithm Specification batch 1.md",
+  "generated_on": "2026-09-10",
+  "branch": "design/journal1-algorithm-specification",
+  "check_scale": ["PASS", "FAIL", "OPEN"],
+  "authorities": [
+    "docs/canonical/appendix-c-formalisation.md",
+    "docs/canonical/architecture-illustration.md",
+    "docs/canonical/justification-layer3-enforcement.md",
+    "publications/active/journal-1/research-design.md",
+    "publications/active/journal-1/evaluation-specification.md"
+  ],
+  "checks": {
+    "operational_F_D_tau_preserved": {
+      "verdict": "PASS",
+      "evidence_authority": "docs/canonical/appendix-c-formalisation.md C.2.0.1 and C.8.1",
+      "evidence": "F_{D,tau} = f o rho_{D,tau} : prod_{i in C} Obs_i x V -> S. Ideal notation f(E) is retained explicitly as an abbreviation for the case every component holds a valid value (C.2.0.1, second-to-last paragraph). C.8 is declared the canonical statement of the pipeline; other sections cross-reference rather than restate."
+    },
+    "v_is_startup_configuration": {
+      "verdict": "PASS",
+      "evidence_authority": "docs/canonical/appendix-c-formalisation.md C.1 (Vessel Category Classification Note), C.2.0.2 (v is not in this space), C.2.0.6",
+      "evidence": "'v is not in this space. Vessel category is supplied by the operator at configuration time, not sampled at runtime. Its failure mode is unconfigured, handled in C.2.0.6.' C.2.0.6: 'The system does not start without a vessel category. v unconfigured is a startup precondition failure, not a classification outcome.'"
+    },
+    "D_replay_scope_preserved": {
+      "verdict": "PASS",
+      "evidence_authority": "docs/canonical/appendix-c-formalisation.md C.2.0.5 (This is the retrospective case)",
+      "evidence": "'Every historical replay in this project runs with D = {m} — no marine warning archive exists for the site (Q2). D is a property of a deployment, not of the architecture. A deployment with a live MET broadcast has D = empty, and m unavailable at a moment is then a fault (condition B), not an exclusion.' evaluation-specification.md section 16 restates the replay contract."
+    },
+    "exclusion_before_fault_preserved": {
+      "verdict": "PASS",
+      "evidence_authority": "docs/canonical/appendix-c-formalisation.md C.2.0 (four-conditions table) and C.2.0.7 evaluation order",
+      "evidence": "'A, B and C are runtime faults and resolve to bottom. D is not a fault — it is a permanent reduction of the specification's scope, and treating it as a fault is what produces the degenerate all-UNSAFE result.' C.2.0.7 step 1 pins excluded components at SAFE before step 2 validates and freshens the rest. An excluded component contributes SAFE, never bottom."
+    },
+    "tau_not_invented": {
+      "verdict": "OPEN",
+      "evidence_authority": "docs/canonical/appendix-c-formalisation.md C.2.0.4",
+      "evidence": "'age_i is a specified parameter per component, and no value is proposed here. Wave height at hourly model resolution and a marine warning broadcast have different natural staleness budgets. Each requires its own justification; asserting an unsourced number would repeat the error corrected for the rainfall threshold on this date.' Batch 1 preserves tau as symbolic. Recorded as OPEN-B1-1 in open-decisions.csv."
+    },
+    "rainfall_two_input_preserved": {
+      "verdict": "PASS",
+      "evidence_authority": "docs/canonical/appendix-c-formalisation.md C.2 g_r row (Retyped 2026-09-09) and C.2.0.4a",
+      "evidence": "'g_r : R>=0 x K -> {SAFE, CAUTION, UNSAFE}, K = {0, 1}'. The typed signature is asserted at C.2.0.1 (X_r = R>=0 x K), at the g_r block header, and at the Aggregation line (f(E) = max-severity(g_w(w), g_r(r, kappa), g_m(m), g_o(o, v), g_t(t, d)))."
+    },
+    "kappa_mapping_preserved": {
+      "verdict": "PASS",
+      "evidence_authority": "docs/canonical/appendix-c-formalisation.md C.2.0.4a",
+      "evidence": "'chi : C_WMO union {absent} -> K = {0, 1}. chi(c) = 1 if c in {95, 96, 99}; chi(c) = 0 otherwise, including c absent or unrecognised.' '{95, 96, 99} is the complete set of codes that activate the route.'"
+    },
+    "missing_raw_code_semantics_preserved": {
+      "verdict": "PASS",
+      "evidence_authority": "docs/canonical/appendix-c-formalisation.md C.2.0.4a (chi is total and never returns bottom) and C.2.0.2 (The rainfall pair is a second, and different, structured case)",
+      "evidence": "'chi is total and never returns bottom. This is the point on which the rainfall pair differs from every other component. An absent or unrecognised code does not produce a fault; it produces kappa = 0, and the rainfall classification is then determined by the rate alone.' Recorded as fail-open for the storm disjunct, not fail-safe, with the lower-bound consequence."
+    },
+    "missing_rate_fault_semantics_preserved": {
+      "verdict": "PASS",
+      "evidence_authority": "docs/canonical/appendix-c-formalisation.md C.2.0.2 (rate is the required coordinate) and Theorem C.1b Note on the structured components",
+      "evidence": "'rate is the required coordinate. bottom attaches to it under conditions A, B and C exactly as for a scalar component, and g_r(bottom) = UNSAFE follows from Corollary C.1b.1 unchanged.' Theorem C.1b Note: 'y_r = bottom denotes failure of the rate coordinate only. kappa cannot produce bottom.'"
+    },
+    "wind_boundaries_preserved": {
+      "verdict": "PASS",
+      "evidence_authority": "docs/canonical/appendix-c-formalisation.md C.2 g_w row",
+      "evidence": "SAFE w<=21.6; CAUTION 21.6<w<=27.0; UNSAFE w>27.0. Boundaries anchored to MET Malaysia Category 1 onset (40 km/h = 21.598 kn, expressed at one-decimal resolution) and Category 2 onset (50 km/h = 26.998 kn = 27.0 at one-decimal resolution). Amendment banner: '22 kn was an undocumented rounding of 21.598. Do not reintroduce.'"
+    },
+    "wave_vessel_conditioning_preserved": {
+      "verdict": "PASS",
+      "evidence_authority": "docs/canonical/appendix-c-formalisation.md C.2 g_o row and C.1 Vessel Category Classification Note",
+      "evidence": "'g_o is a two-argument function: the wave height component of o, and the vessel category v. Thresholds shift by vessel category.' Rows: small o<1.0/1.0<=o<=1.25/o>1.25; medium 1.4/2.8; big 1.5/3.5. architecture-illustration.md section 5.2 restates the same rows."
+    },
+    "no_g_v": {
+      "verdict": "PASS",
+      "evidence_authority": "docs/canonical/appendix-c-formalisation.md 'Note: there is no g_v' (after g_o row)",
+      "evidence": "'Earlier versions of this formalisation defined a per-component classification function g_v(v) with codomain {SAFE, CAUTION} contributing an independent severity term ... That formulation is superseded. ... Vessel category now enters through g_o(o, v) as documented above.' Aggregation explicitly enumerates five terms (g_w, g_r, g_m, g_o, g_t) with v as a conditioning parameter, not an independent classifier."
+    },
+    "solar_boundary_preserved": {
+      "verdict": "PASS",
+      "evidence_authority": "docs/canonical/appendix-c-formalisation.md C.2 g_t row and Theorem C.1(i) g_t case",
+      "evidence": "SAFE iff sunrise(date) <= t < sunset(date); UNSAFE otherwise and for t = bottom. Half-open by construction (exact sunrise SAFE; exact sunset UNSAFE). Two intervals [s_r, s_s) and [0, s_r) union [s_s, 24) partition [0, 24) exhaustively for every replay date. Boundary from COLREGs Rule 20(b) 'from sunset to sunrise' for navigation lights; withdrawal of AI advisory is architectural policy, not a source requirement."
+    },
+    "gt_no_caution": {
+      "verdict": "PASS",
+      "evidence_authority": "docs/canonical/appendix-c-formalisation.md C.2 g_t row and 'Component classifiers are not required to be surjective' block",
+      "evidence": "'g_t emits no CAUTION. Im(g_t) = {SAFE, UNSAFE} and CAUTION not in Im(g_t), by deliberate design.' Theorem C.1 g_t case: 'Two intervals, not three: g_t emits no CAUTION.' The architecture remains three-state at the aggregate level; CAUTION is reached through g_o and g_r."
+    },
+    "marine_replay_exclusion_not_live_policy": {
+      "verdict": "PASS",
+      "evidence_authority": "docs/canonical/appendix-c-formalisation.md C.2.0.5 (This is the retrospective case; D is a property of a deployment)",
+      "evidence": "The retrospective replay exclusion D = {m} is distinguished explicitly from live deployment requirements: 'A deployment with a live MET broadcast has D = empty, and m unavailable at a moment is then a fault (condition B), not an exclusion.' Batch 1 records this distinction; deployment-time choice of D is deferred as OPEN-B1-5."
+    },
+    "worst_case_aggregation_preserved": {
+      "verdict": "PASS",
+      "evidence_authority": "docs/canonical/appendix-c-formalisation.md C.2 Aggregation, Worst-Case Aggregation Justification Note (C.1), Definition C.1",
+      "evidence": "f(E) = max-severity(g_w(w), g_r(r, kappa), g_m(m), g_o(o, v), g_t(t, d)). Five terms. Severity order UNSAFE > CAUTION > SAFE is a total strict order (Definition C.1). Any UNSAFE component gives global UNSAFE; otherwise any CAUTION gives global CAUTION; otherwise SAFE. UNSAFE is not asserted as legal prohibition or certain physical danger (C.2 'How UNSAFE is reached'; 'What UNSAFE does not assert')."
+    },
+    "governance_mapping_preserved": {
+      "verdict": "PASS",
+      "evidence_authority": "docs/canonical/appendix-c-formalisation.md C.3 and C.4",
+      "evidence": "G(SAFE) = 1; G(CAUTION) = 1; G(UNSAFE) = 0 (C.3). A_AI(SAFE) = {Go, Delay, DepartureTime, Duration}; A_AI(CAUTION) = {Go, Delay}; A_AI(UNSAFE) = empty (C.4). Containment A_AI(SAFE) superset A_AI(CAUTION) superset A_AI(UNSAFE) = empty proved in Theorem C.2 and Corollary C.2. R = {Go, Delay, DepartureTime, Duration} is fixed at design time; Go carries a caution qualifier under CAUTION but the type is unchanged."
+    },
+    "RS_supply_before_reasoning_preserved": {
+      "verdict": "PASS",
+      "evidence_authority": "docs/canonical/appendix-c-formalisation.md C.7.1 and Theorem C.3 assumptions A1-A4; docs/canonical/justification-layer3-enforcement.md sections 2-4",
+      "evidence": "'The governance layer (Layer 2) supplies a rule set RS(S) to Layer 3 before any reasoning begins.' A2: 'RS(SAFE) contains only rules producing recommendations in {Go, Delay, DepartureTime, Duration}; RS(CAUTION) contains only rules producing recommendations in {Go, Delay}; RS(UNSAFE) = empty — never supplied, since G(UNSAFE) = 0 gates off Layer 3 entirely.' A3: G(S) = 0 implies AI = empty. A4: engine fires only rules present in the active RS(S)."
+    },
+    "human_authority_preserved": {
+      "verdict": "PASS",
+      "evidence_authority": "docs/canonical/appendix-c-formalisation.md C.8.2 step 6; architecture-illustration.md sections 3 and 4",
+      "evidence": "'Human decision. Unconditional; the operator may act contrary to any recommendation.' architecture-illustration.md section 3: 'The human operator retains final decision authority in all three states — including SAFE, where full AI advice is available. The AI is advisory in every state; it never acts autonomously.' The governance layer constrains the AI, not the human — the operator wording in C.2.0.8 also reflects this."
+    },
+    "transition_consistency_requirement_bounded": {
+      "verdict": "PASS",
+      "added_by": "Batch 1 Transition Consistency Repair (2026-09-10)",
+      "evidence_authority": "publications/active/journal-1/algorithm-specification.md §8 (State/rule-set consistency) and §10 (OPEN-B1-8); docs/canonical/appendix-c-formalisation.md C.7.1 and Theorem C.3 A2; publications/active/journal-1/evaluation-specification.md §7 (F3)",
+      "evidence": "The algorithm specification requires state/rule-set consistency for each reasoning episode — the rule set used for the next episode must be RS(S_new), and no episode may execute with a rule set inconsistent with the state governing it — while leaving the enforcement mechanism (atomic swap, immutable snapshot, locking, transactional update, serialized execution, or an equivalent) unspecified. This preserves the C.7.1 / Theorem C.3 A2 obligation that RS(S) is the rule set actually supplied before reasoning begins, and preserves F3's scope in evaluation-specification.md §7 (test that no stale or inconsistent rule set is used across a state transition). The prior wording ('swapped atomically') over-specified an implementation primitive; the repair removes that over-specification without weakening the requirement. Recorded as OPEN-B1-8 in open-decisions.csv."
+    }
+  },
+  "stop_conditions": {
+    "FORMAL_AUTHORITY_CONFLICT": "None observed. All primary authorities (appendix-c, architecture-illustration, justification-layer3-enforcement, research-design, evaluation-specification) are internally consistent on operational semantics.",
+    "RAINFALL_SEMANTIC_CONFLICT": "None observed. C.2.0.1 (X_r = R>=0 x K), C.2 g_r row (retyped 2026-09-09) and C.2.0.4a all agree on the two-input signature; canonical scripts execute the same behaviour.",
+    "SOLAR_SEMANTIC_CONFLICT": "None observed. C.2 g_t row, Theorem C.1(i) g_t case, and canonical_gt.py agree: half-open interval [sunrise(date), sunset(date)), g_t emits only SAFE and UNSAFE, no computation of solar geometry outside the frozen solar artefact."
+  },
+  "summary": {
+    "PASS_count": 19,
+    "FAIL_count": 0,
+    "OPEN_count": 1,
+    "OPEN_ids": ["tau_not_invented — OPEN-B1-1 (age_i parameter not specified in the specification; parameterised as symbolic tau, per authority)"],
+    "post_repair_note": "Transition Consistency Repair (2026-09-10) added the transition_consistency_requirement_bounded check (PASS) and OPEN-B1-8 (state/rule-set consistency enforcement mechanism, IMPLEMENTATION DECISION). The consistency requirement itself is mandatory; the enforcement primitive is bounded OPEN in open-decisions.csv."
+  }
+}

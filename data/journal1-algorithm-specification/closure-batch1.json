@@ -1,0 +1,66 @@
+{
+  "task": "Journal 1 Algorithm Specification — Batch 1: Authority & Operational Contract",
+  "task_file": "docs/tasks/Journal 1 Algorithm Specification batch 1.md",
+  "branch": "design/journal1-algorithm-specification",
+  "closed_on": "2026-09-10",
+  "closure_line": "JOURNAL 1 ALGORITHM SPECIFICATION BATCH 1 CLOSED — OPERATIONAL CONTRACT VERIFIED",
+  "post_repair_closure_line": "JOURNAL 1 ALGORITHM SPECIFICATION BATCH 1 CLOSED — TRANSITION CONSISTENCY CONTRACT REPAIRED",
+  "post_repair_note": "Transition Consistency Repair applied 2026-09-10 (docs/tasks/JOURNAL 1 ALGORITHM SPECIFICATION BATCH 1 repair.md). One bounded implementation over-specification in algorithm-specification.md §8 removed: the atomic-swap sentence was replaced with a state/rule-set consistency requirement per reasoning episode, leaving the enforcement mechanism unspecified. F3 scope preserved; RS(S) semantics unchanged; no canonical file modified. New OPEN-B1-8 records the implementation-decision boundary; the consistency requirement itself remains mandatory. Closure condition met: mechanism OPEN and consistency requirement mandatory.",
+  "note_on_workstream_scope": "Per task §Branch, no final closure commit is required until the whole algorithm-specification workstream (Batches 1, 2 and 3) is closed. This JSON records Batch 1 closure inside the workstream; a workstream-closing commit is deferred to the end of Batch 3.",
+  "authority": "publications/active/journal-1/algorithm-specification.md",
+  "authority_hash_git_object": "capture-on-commit",
+  "checklist_task_§17": {
+    "operational_F_D_tau_contract_is_explicit": "MET — §3 Notation and interfaces; §4 Operational observation-resolution contract",
+    "observation_vs_configuration_boundary_is_explicit": "MET — §3 (v not in Obsᵢ; v ∈ V configuration domain); §4 (D1 t ∉ D; v refuses startup)",
+    "exclusion_before_fault_is_explicit": "MET — §4 evaluation order steps 1–2; §6 Failure and exclusion semantics",
+    "tau_remains_parameterised_unless_justified": "MET — §4 (τ symbolic, OPEN-B1-1); §10 OPEN-B1-1",
+    "rainfall_kappa_semantics_are_explicit": "MET — §5 g_r definition with χ map; missing rate → ⊥; missing code → κ=0 fail-open on the storm disjunct",
+    "solar_boundaries_are_explicit": "MET — §5 g_t definition (half-open [sunrise(date), sunset(date))); frozen artefact consumption; no CAUTION",
+    "wind_and_wave_boundaries_verified": "MET — §5 g_w and g_o tables; anchored to MET Cat 1/Cat 2 and vessel-conditional",
+    "g_o_remains_vessel_conditioned": "MET — §5 g_o table; §5 explicit 'v parameterises g_o'",
+    "no_g_v_introduced": "MET — §5 explicit 'there is no g_v'",
+    "governance_mappings_are_explicit": "MET — §7 Governance mappings (G(S) and A_AI(S))",
+    "RS_pre_reasoning_contract_is_explicit": "MET — §8 RS(S) pre-reasoning contract",
+    "human_authority_is_preserved": "MET — §9 Human-decision boundary",
+    "all_open_implementation_decisions_are_listed": "MET — §10 with eight OPEN items (OPEN-B1-1 through OPEN-B1-8; OPEN-B1-8 added by the Transition Consistency Repair)",
+    "no_canonical_protected_state_changed": "MET — integrity-after.json 16 unchanged, 0 changed",
+    "parser_checks_PASS": "MET — parser-test-batch1.json overall PASS across 4 CSVs"
+  },
+  "semantic_checks_task_§15": {
+    "source": "data/journal1-algorithm-specification/semantic-verification-batch1.json",
+    "PASS_count": 19,
+    "FAIL_count": 0,
+    "OPEN_count": 1,
+    "OPEN_ids": ["tau_not_invented — matches specification's own parameterisation, OPEN-B1-1"],
+    "added_by_repair": ["transition_consistency_requirement_bounded — PASS (Transition Consistency Repair, 2026-09-10)"]
+  },
+  "stop_conditions_task_§16": {
+    "FORMAL_AUTHORITY_CONFLICT": "NOT RAISED — none observed",
+    "RAINFALL_SEMANTIC_CONFLICT": "NOT RAISED — none observed",
+    "SOLAR_SEMANTIC_CONFLICT": "NOT RAISED — none observed",
+    "PROTECTED_STATE_MISMATCH": "NOT RAISED — 16 protected files byte-identical to prior workstream pin"
+  },
+  "protected_integrity": {
+    "before": "data/journal1-algorithm-specification/integrity-before.json",
+    "after": "data/journal1-algorithm-specification/integrity-after.json",
+    "verdict": "PASS — 16 unchanged, 0 changed"
+  },
+  "csv_parser_verification": {
+    "parser_test": "data/journal1-algorithm-specification/parser-test-batch1.json",
+    "verdict": "PASS — 4 CSVs parse cleanly with csv.reader (strict field-count), csv.DictReader, and pandas.read_csv"
+  },
+  "files_created": [
+    "publications/active/journal-1/algorithm-specification.md",
+    "data/journal1-algorithm-specification/integrity-before.json",
+    "data/journal1-algorithm-specification/integrity-after.json",
+    "data/journal1-algorithm-specification/authority-map.csv",
+    "data/journal1-algorithm-specification/operational-contract.csv",
+    "data/journal1-algorithm-specification/open-decisions.csv",
+    "data/journal1-algorithm-specification/semantic-verification-batch1.json",
+    "data/journal1-algorithm-specification/parser-test-batch1.json",
+    "data/journal1-algorithm-specification/change-map-batch1.csv",
+    "data/journal1-algorithm-specification/build.py",
+    "data/journal1-algorithm-specification/closure-batch1.json"
+  ],
+  "canonical_files_touched": []
+}
