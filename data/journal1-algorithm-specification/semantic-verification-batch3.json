@@ -1,0 +1,177 @@
+{
+  "task": "Journal 1 Algorithm Specification — Batch 3: Algorithms 3 & 4 (Rule-Set Supply and Governed Advisory Generation)",
+  "task_file": "docs/tasks/Journal 1 Algorithm Specification batch 3.md",
+  "generated_on": "2026-09-10",
+  "branch": "design/journal1-algorithm-specification",
+  "check_scale": ["PASS", "FAIL", "OPEN"],
+  "authorities": [
+    "publications/active/journal-1/algorithm-specification.md (Batch 1 §§1–10, Batch 2 §§11–16, Batch 3 §§17–24)",
+    "docs/canonical/appendix-c-formalisation.md (C.3, C.4, C.6, C.7.1, C.7.2 Theorem C.3, C.8.2)",
+    "docs/canonical/architecture-illustration.md (§§2, 3, 4, 8)",
+    "docs/canonical/justification-layer3-enforcement.md",
+    "publications/active/journal-1/evaluation-specification.md (§7 F1–F3)"
+  ],
+  "checks": {
+    "algorithm3_consumes_algorithm2_governance": {
+      "verdict": "PASS",
+      "evidence_authority": "algorithm-specification.md §17 input list; §18 P1–P2",
+      "evidence": "Algorithm 3 input list declares (S, G(S), A_AI(S), repository, candidate). P1 requires S be a valid Algorithm 1 output; P2 requires (G(S), A_AI(S)) be the corresponding Algorithm 2 output. Algorithm 3 does not recompute governance."
+    },
+    "algorithm3_supplies_RS_before_reasoning": {
+      "verdict": "PASS",
+      "evidence_authority": "algorithm-specification.md §17 procedure (lines 5–10 precede any A4 reasoning); §18 P4; appendix-c C.7.1",
+      "evidence": "Algorithm 3 completes RS(S) supply at line 10 or 3; Algorithm 4 only begins reasoning at §19 line 5, after A3 has returned. P4 explicitly requires that reasoning has not yet begun when A3 runs. Matches appendix-c C.7.1 'the governance layer supplies a rule set RS(S) to Layer 3 before any reasoning begins'."
+    },
+    "RS_safe_conclusion_types_bounded": {
+      "verdict": "PASS",
+      "evidence_authority": "algorithm-specification.md §17 lines 5–9; state-case SC1",
+      "evidence": "For S = SAFE, A3 lines 5–9 refuse supply unless every rule ρ in candidate has type(ρ) ∈ A_AI(SAFE) = {Go, Delay, DepartureTime, Duration}. SC1 confirms. ConclusionTypes(RS(SAFE)) ⊆ A_AI(SAFE) is delivered by line 10."
+    },
+    "RS_caution_conclusion_types_bounded": {
+      "verdict": "PASS",
+      "evidence_authority": "algorithm-specification.md §17 lines 5–9; state-case SC2",
+      "evidence": "For S = CAUTION, A3 lines 5–9 refuse supply unless every rule ρ in candidate has type(ρ) ∈ A_AI(CAUTION) = {Go, Delay}. SC2 confirms. DepartureTime and Duration types cannot enter RS(CAUTION)."
+    },
+    "RS_unsafe_empty": {
+      "verdict": "PASS",
+      "evidence_authority": "algorithm-specification.md §17 lines 1–3; §18 Q2–Q3; state-case SC3",
+      "evidence": "G(UNSAFE) = 0 triggers the gate-off short-circuit at A3 lines 1–3; RS ← ∅ and return. Q3 records RS(UNSAFE) = ∅ as a postcondition. SC3 confirms."
+    },
+    "conclusion_types_subset_AAI": {
+      "verdict": "PASS",
+      "evidence_authority": "algorithm-specification.md §18 Q1; §22 Link L2; safety-dominance-trace-batch3.csv",
+      "evidence": "A3 Q1 is exactly ConclusionTypes(RS(S)) ⊆ A_AI(S). The Safety-Dominance Dependency Trace §22 records this as Link L2 — an algorithmic enforcement contract, not a filter."
+    },
+    "invalid_RS_not_silently_filtered": {
+      "verdict": "PASS",
+      "evidence_authority": "algorithm-specification.md §17 lines 6–8; §18 Q5; state-case SC7",
+      "evidence": "When ∃ ρ ∈ RS_candidate with type(ρ) ∉ A_AI(S), A3 lines 6–8 refuse supply and return CONFIGURATION_FIDELITY_FAILURE. There is no branch that filters disallowed rules from RS_candidate and continues. Q5 preserves this and records that S is not modified and no new safety state is invented."
+    },
+    "invalid_RS_handling_bounded_if_unspecified": {
+      "verdict": "OPEN",
+      "evidence_authority": "algorithm-specification.md §17 lines 6–8; §24 OPEN-B3-1; open-decisions-batch3.csv OPEN-B3-1",
+      "evidence": "Refusal of supply is mandatory (A3 lines 6–8) and specification-complete. Runtime handling beyond refusal (whether to halt, alert, log-and-continue-without-Layer-3, require a config reload) is not authoritative and is recorded as OPEN-B3-1."
+    },
+    "transition_consistency_requirement_preserved": {
+      "verdict": "PASS",
+      "evidence_authority": "algorithm-specification.md §17 (state/rule-set consistency note); §19 A4 P5; transition-cases-batch3.csv TC1–TC6",
+      "evidence": "On S_old → S_new, A3 is re-invoked on S_new and the RS(S_new) it returns is what the next reasoning episode uses. A4 P5 requires the supplied RS(S) to be RS(S_current), not RS(S_prior). All six pairwise transitions TC1–TC6 pass by inspection. The invariant is preserved as specified in Batch 1 §8 (Transition Consistency Repair)."
+    },
+    "atomicity_mechanism_not_invented": {
+      "verdict": "PASS",
+      "evidence_authority": "algorithm-specification.md §17 note; §24 OPEN-B1-8 preserved; open-decisions.csv OPEN-B1-8",
+      "evidence": "The state/rule-set consistency note explicitly states 'The mechanism enforcing this consistency at runtime is not prescribed here — atomic swap, immutable snapshot, locking, transactional update, serialized execution and equivalents are all admissible; the choice is bounded OPEN-B1-8 (unchanged from Batch 1). Algorithm 3 specifies the invariant, not the concurrency primitive.' No primitive is chosen anywhere in §§17–24."
+    },
+    "algorithm3_generates_no_advisory": {
+      "verdict": "PASS",
+      "evidence_authority": "algorithm-specification.md §17 procedure; §18 Q4",
+      "evidence": "A3 returns only a rule set (line 2, line 10) or a CONFIGURATION_FIDELITY_FAILURE (line 8). No line invokes an inference engine or emits an AI(E) element. Q4 records this."
+    },
+    "algorithm4_respects_participation_gate": {
+      "verdict": "PASS",
+      "evidence_authority": "algorithm-specification.md §19 lines 1–4; §20 Q2",
+      "evidence": "A4 lines 1–3 short-circuit on G(S) = 0 and return AI ← ∅ without invoking the engine. Q2 records G(S) = 0 ⇒ AI(E) = ∅."
+    },
+    "unsafe_path_skips_reasoning": {
+      "verdict": "PASS",
+      "evidence_authority": "algorithm-specification.md §19 lines 1–4; state-case SC6",
+      "evidence": "For S = UNSAFE, G(S) = 0, so lines 1–3 execute; line 5 (engine.reason) is not reached. SC6 confirms: no rule firing, no advisory output."
+    },
+    "unsafe_output_empty": {
+      "verdict": "PASS",
+      "evidence_authority": "algorithm-specification.md §19 line 2; §20 Q2; state-case SC6",
+      "evidence": "A4 line 2 sets AI ← ∅ for the UNSAFE / G(S) = 0 branch. No 'Do Not Go', 'Cancel Trip' or 'Return Home' string is emitted — those would themselves be AI outputs and are not members of A_AI(UNSAFE) = ∅. State-reporting UI is outside AI(E)."
+    },
+    "participating_path_uses_only_RS_S": {
+      "verdict": "PASS",
+      "evidence_authority": "algorithm-specification.md §19 line 5 with 'engine has RS(S) in scope and no other rule sets'; §20 P4",
+      "evidence": "A4 line 5 passes RS to engine.reason; the inline comment forbids any other rule sets. P4 (engine fidelity) restates the assumption: fires only rules present in the active RS(S)."
+    },
+    "engine_fidelity_assumption_explicit": {
+      "verdict": "PASS",
+      "evidence_authority": "algorithm-specification.md §19 input list (engine description); §20 P4; §22 Link L3",
+      "evidence": "A4 input list describes the engine as 'production rule symbolic reasoner satisfying the fidelity assumption (Theorem C.3 A4): fires only rules present in the active RS(S); no active rule produces a conclusion type outside RS(S)'. P4 restates it as a precondition. L3 in the Safety-Dominance Dependency Trace catalogues it as an implementation assumption."
+    },
+    "no_posthoc_filter_substitution": {
+      "verdict": "PASS",
+      "evidence_authority": "algorithm-specification.md §19 procedure and 'No post-hoc filter substitution' note; §17 lines 5–9 (no silent filtering)",
+      "evidence": "A4 line 6 returns AI without a runtime re-filter against A_AI(S). The 'No post-hoc filter substitution' note explicitly rejects the pattern 'reason freely → filter output' as the primary contract. Enforcement lives at Algorithm 3 (rule-set restriction), not at Algorithm 4's output."
+    },
+    "AI_subset_AAI_dependency_preserved": {
+      "verdict": "PASS",
+      "evidence_authority": "algorithm-specification.md §22 Safety-Dominance Dependency Trace; §20 Q1",
+      "evidence": "The four-link chain L1 (A_AI definition) → L2 (A3 Q1) → L3 (engine fidelity, A4 P4) → L4 (Theorem C.3) is explicit. Q1 of §20 records that AI(E) ⊆ A_AI(S) holds by construction from P3 + P4, not by runtime filter."
+    },
+    "safety_dominance_not_reclaimed_as_new_proof": {
+      "verdict": "PASS",
+      "evidence_authority": "algorithm-specification.md §19 'Bounded correctness language' note; §20 'Bounded correctness language' note; §22 L4",
+      "evidence": "Both Algorithm 4 sections state 'Algorithm 4 implements the enforcement contract on which Theorem C.3 depends (A1–A4). It does not independently prove Safety Dominance — the theorem exists.' L4 in §22 attributes the theorem to appendix-c C.7.2 (proved), not to Batch 3."
+    },
+    "human_authority_preserved": {
+      "verdict": "PASS",
+      "evidence_authority": "algorithm-specification.md §19 'No Do Not Go / Cancel Trip / Return Home' note; §20 Q4; appendix-c C.8.2 step 6",
+      "evidence": "A4 Q4: 'AI(E) = ∅ does not forbid human action; Go ∈ AI(E) does not automatically approve departure.' The pseudocode introduces no approval, prohibition, override or enforcement semantics. Preserves appendix-c C.8.2 step 6."
+    },
+    "concrete_rules_not_invented": {
+      "verdict": "PASS",
+      "evidence_authority": "algorithm-specification.md §17 opening paragraph; §24 OPEN-B1-4 preserved",
+      "evidence": "§17 opening: 'Concrete Layer 3 rules remain OPEN-B1-4; this section defines the shape and admissibility contract only.' No IF-THEN rule with concrete antecedents, thresholds, scoring or priorities appears anywhere in §§17–24."
+    },
+    "rule_engine_strategy_not_invented": {
+      "verdict": "OPEN",
+      "evidence_authority": "algorithm-specification.md §19 'Rule-engine evaluation strategy is unspecified' note; §24 OPEN-B3-2; open-decisions-batch3.csv OPEN-B3-2",
+      "evidence": "A4 explicitly declines to fix forward/backward chaining, RETE, agenda priority, first-match, all-match, conflict resolution or salience. The governance contract is engine-agnostic; the strategy is bounded OPEN-B3-2 and will matter for complexity analysis in a later batch."
+    },
+    "F1_F3_not_reported_as_results": {
+      "verdict": "PASS",
+      "evidence_authority": "algorithm-specification.md §21 closing paragraph ('Do not read this as F3 PASS'); §22 L3 (F1/F2 as future obligation); §24 traceability rows",
+      "evidence": "§21 explicitly states 'These are specification checks, not F3 fidelity results.' §22 catalogues L3 as an implementation assumption whose future validation is F1/F2. Traceability rows mark F1/F2/F3 as future_fidelity_test, never as PASS results. F1–F3 remain deferred to Layer 3 build per evaluation-specification.md §7."
+    },
+    "E5_not_run": {
+      "verdict": "PASS",
+      "evidence_authority": "Batch 3 scope (task §Goal); algorithm-specification.md §§17–24 carry no latency measurement, no memory reading, no CPU reading, no hardware description; evaluation-specification.md §11 OPEN-1 (H3 threshold) unchanged",
+      "evidence": "No benchmark is run. No latency, memory, CPU or hardware-specific measurement appears in Batch 3. Governance latency remains a future descriptive measurement (E5) with an OPEN acceptance threshold (OPEN-B1-6)."
+    },
+    "complexity_not_finalised": {
+      "verdict": "PASS",
+      "evidence_authority": "Batch 3 scope (task §Goal 'Do not perform the final complexity analysis'); algorithm-specification.md §§17–24 carry no Big-O bounds, no worst-case runtime, no space-complexity table",
+      "evidence": "§§17–24 contain no complexity claims. Rule-engine evaluation strategy is bounded OPEN (OPEN-B3-2) and the note in §24 records that complexity analysis is deferred."
+    },
+    "protected_state_unchanged": {
+      "verdict": "PASS",
+      "evidence_authority": "data/journal1-algorithm-specification/integrity-after.json regenerated by build.py; 16 unchanged, 0 changed",
+      "evidence": "All 16 protected canonical files (docs/canonical/*, scripts/canonical_*, replay datasets, prediction register, solar artefact, submitted conference manuscripts) are byte-identical to the Batch 1 pin. build.py verdict: PASS."
+    }
+  },
+  "stop_conditions": {
+    "RS_ENFORCEMENT_AUTHORITY_CONFLICT": "NOT RAISED — appendix-c C.7.1 and Theorem C.3 A2 both require RS(S) to be supplied before reasoning; algorithm-specification.md §8 restates the requirement without prescribing a mechanism; no source contradicts.",
+    "PRE_REASONING_ENFORCEMENT_CONTRACT_INCOMPLETE": "NOT RAISED — Algorithm 3 supplies RS(S) at line 10 (or ∅ at line 3) strictly before Algorithm 4 line 5 begins reasoning; enforcement is by rule-set restriction, not by post-hoc filter.",
+    "SAFETY_DOMINANCE_DEPENDENCY_GAP": "NOT RAISED — the four-link chain L1 → L2 → L3 → L4 is explicit in §22 and safety-dominance-trace-batch3.csv; L4 (Theorem C.3) is delivered by construction without introducing new scientific assumptions.",
+    "NEW_SCIENTIFIC_DECISION_REQUIRED": "NOT RAISED — no new threshold, classifier, recommendation type, or governance policy is required; R = {Go, Delay, DepartureTime, Duration} preserved unchanged.",
+    "PROTECTED_CANONICAL_STATE_DRIFT": "NOT RAISED — 16 protected files unchanged."
+  },
+  "batch1_open_items_preserved": [
+    "OPEN-B1-1 — freshness parameters age_i (unchanged; not touched by Batch 3)",
+    "OPEN-B1-2 — runtime provenance capture (unchanged; not touched by Batch 3)",
+    "OPEN-B1-3 — medium-vessel evidence limitation (unchanged; not touched by Batch 3)",
+    "OPEN-B1-4 — Layer 3 prototype (unchanged; concrete rules not invented — §24 preserves OPEN-B1-4)",
+    "OPEN-B1-5 — live g_m configuration (unchanged; not touched by Batch 3)",
+    "OPEN-B1-6 — latency threshold (unchanged; E5 not run — check E5_not_run)",
+    "OPEN-B1-7 — utility construct (unchanged; not touched by Batch 3)",
+    "OPEN-B1-8 — state/rule-set consistency enforcement mechanism (unchanged; explicitly preserved in §17 note and check atomicity_mechanism_not_invented)"
+  ],
+  "batch3_open_items_added": [
+    "OPEN-B3-1 — invalid rule-repository runtime handling (bounded; refusal is mandatory, wider fault-response wiring is deployment decision)",
+    "OPEN-B3-2 — rule-engine evaluation strategy (bounded; engine-agnostic governance contract holds regardless)",
+    "OPEN-B3-3 — decision-episode implementation boundary (bounded; consistency invariant holds regardless)"
+  ],
+  "summary": {
+    "PASS_count": 23,
+    "FAIL_count": 0,
+    "OPEN_count": 2,
+    "OPEN_ids": [
+      "invalid_RS_handling_bounded_if_unspecified — OPEN-B3-1 (mandatory refusal specified; wider fault handling not authoritative)",
+      "rule_engine_strategy_not_invented — OPEN-B3-2 (bounded OPEN; will matter for complexity analysis)"
+    ]
+  }
+}

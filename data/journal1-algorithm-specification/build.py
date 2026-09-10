@@ -111,27 +111,56 @@ def strict_csv_check(path: Path) -> dict:
     return result
 
 
-def parser_check() -> dict:
-    csv_paths = sorted(HERE.glob("*.csv"))
-    files = [strict_csv_check(p) for p in csv_paths]
+def parser_check(paths: list[Path]) -> dict:
+    files = [strict_csv_check(p) for p in paths]
     overall = "PASS" if all(f["overall"] == "PASS" for f in files) else "FAIL"
     return {"overall": overall, "count": len(files), "files": files}
+
+
+def partition_csvs() -> tuple[list[Path], list[Path], list[Path], list[Path]]:
+    """Split CSVs into Batch 4, Batch 3, Batch 2, and Batch 1 by filename suffix."""
+    all_csvs = sorted(HERE.glob("*.csv"))
+    batch4 = [p for p in all_csvs if p.stem.endswith("-batch4")]
+    batch3 = [p for p in all_csvs if p.stem.endswith("-batch3")]
+    batch2 = [p for p in all_csvs if p.stem.endswith("-batch2")]
+    batch1 = [
+        p for p in all_csvs
+        if not any(
+            p.stem.endswith(suffix) for suffix in ("-batch2", "-batch3", "-batch4")
+        )
+    ]
+    return batch1, batch2, batch3, batch4
 
 
 def main() -> int:
     integrity = integrity_check()
     (HERE / "integrity-after.json").write_text(json.dumps(integrity, indent=2) + "\n")
 
-    parser = parser_check()
-    (HERE / "parser-test-batch1.json").write_text(json.dumps(parser, indent=2) + "\n")
+    batch1_csvs, batch2_csvs, batch3_csvs, batch4_csvs = partition_csvs()
+    parser_b1 = parser_check(batch1_csvs)
+    (HERE / "parser-test-batch1.json").write_text(json.dumps(parser_b1, indent=2) + "\n")
+    parser_b2 = parser_check(batch2_csvs)
+    (HERE / "parser-test-batch2.json").write_text(json.dumps(parser_b2, indent=2) + "\n")
+    parser_b3 = parser_check(batch3_csvs)
+    (HERE / "parser-test-batch3.json").write_text(json.dumps(parser_b3, indent=2) + "\n")
+    parser_b4 = parser_check(batch4_csvs)
+    (HERE / "parser-test-batch4.json").write_text(json.dumps(parser_b4, indent=2) + "\n")
 
-    print(f"integrity: {integrity['verdict']} — {integrity['unchanged']} unchanged, "
+    print(f"integrity:      {integrity['verdict']} — {integrity['unchanged']} unchanged, "
           f"{integrity['changed']} changed")
-    print(f"parser:    {parser['overall']} — {parser['count']} CSVs checked")
+    print(f"parser batch1:  {parser_b1['overall']} — {parser_b1['count']} CSVs checked")
+    print(f"parser batch2:  {parser_b2['overall']} — {parser_b2['count']} CSVs checked")
+    print(f"parser batch3:  {parser_b3['overall']} — {parser_b3['count']} CSVs checked")
+    print(f"parser batch4:  {parser_b4['overall']} — {parser_b4['count']} CSVs checked")
 
-    if integrity["verdict"] != "PASS" or parser["overall"] != "PASS":
-        return 1
-    return 0
+    ok = (
+        integrity["verdict"] == "PASS"
+        and parser_b1["overall"] == "PASS"
+        and parser_b2["overall"] == "PASS"
+        and parser_b3["overall"] == "PASS"
+        and parser_b4["overall"] == "PASS"
+    )
+    return 0 if ok else 1
 
 
 if __name__ == "__main__":

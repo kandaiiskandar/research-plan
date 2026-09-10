@@ -1,0 +1,5 @@
+"link","statement","category","source","batch3_role"
+"L1","A_AI : S -> 2^R — admissible recommendation space per state","Definition","appendix-c C.4","Consumed as fixed set-valued mapping"
+"L2","ConclusionTypes(RS(S)) subset of A_AI(S)","Algorithmic enforcement contract","Algorithm 3 postcondition Q1; enforced at lines 5–9 (no silent filtering)","Batch 3 makes L2 explicit as an algorithmic contract"
+"L3","engine fires only rules present in active RS(S); no active rule produces a conclusion type outside its own conclusion","Implementation assumption","Theorem C.3 assumption A4; Algorithm 4 precondition P4","Batch 3 states L3 as an assumption; F1 and F2 test it in future"
+"L4","AI(E) subset of A_AI(S)","Formal theorem","Theorem C.3 (Safety Dominance) — proved in appendix-c C.7.2","Batch 3 does not re-prove L4; the chain L1 -> L2 -> L3 -> L4 delivers L4 by construction"
