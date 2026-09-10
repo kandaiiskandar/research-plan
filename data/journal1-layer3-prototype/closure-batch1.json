@@ -1,0 +1,96 @@
+{
+  "task": "Journal 1 Layer 3 Prototype Implementation — Batch 1: Prototype Contract, Rule Representation, and Fidelity Testability",
+  "task_file": "docs/tasks/Journal 1 Layer 3 Prototype Implementation batch 1.md",
+  "branch": "feat/journal1-layer3-prototype",
+  "closed_on": "2026-09-11",
+  "closure_line": "JOURNAL 1 LAYER 3 PROTOTYPE BATCH 1 CLOSED — FIDELITY TRACE AND FAILURE-SEMANTICS CONTRACT REPAIRED",
+  "initial_closure_line": "JOURNAL 1 LAYER 3 PROTOTYPE BATCH 1 OPEN — CONCRETE RULE CONTENT REQUIRES SCIENTIFIC SPECIFICATION",
+  "closure_rationale": "Engine contract, interface, rule schema, fidelity instrumentation, and test plan are complete. OPEN-L3-1 (concrete rule content) and OPEN-L3-2 (predicate evaluation failure policy) remain OPEN but do not block the Batch 1 contract-design closure — they block full prototype completion (Batch 2+) and engine implementation respectively. Four bounded repairs applied (see repair_record).",
+  "repair_record": {
+    "repair_task": "docs/tasks/Journal 1 Layer 3 Prototype — Batch 1 repair.md",
+    "repaired_on": "2026-09-11",
+    "repairs": [
+      "Repair 1 — Closure-status contradiction resolved: report-batch1.md was OPEN while specification was CLOSED. Both now CLOSED. Boundary: Batch 1 = contract design; OPEN-L3-1 blocks full prototype completion, not contract-design closure.",
+      "Repair 2 — F3 assertion corrected: removed rule_set_id identifier-change requirement. Replaced with state-correspondence semantics: rule_set_bound_for_state == S_new; ConclusionTypes(RS_used) ⊆ A_AI(S_new). Two empty RS states sharing rule objects do not false-fail F3.",
+      "Repair 3 — Predicate evaluation failure: removed the 'exception → rule does not fire → continue' policy as an established fact. OPEN-L3-2 introduced. Permitted behaviour until resolved: episode reports failure; no unsupported advisory emitted.",
+      "Repair 4 — ConfigurationError / FidelityTrace contract: resolved contradiction between 'propagates to caller' and 'trace always emitted'. Introduced EpisodeResult{advisories, trace, error} as the return type. All three guarantees (failure observable, trace obtainable, no advisory emitted) now coherent."
+    ]
+  },
+  "authority": "publications/active/journal-1/layer3-prototype-specification.md",
+  "predecessors": [
+    "JOURNAL 1 ALGORITHM SPECIFICATION AND COMPLEXITY ANALYSIS CLOSED — ALGORITHM 3 COMPLEXITY AND AUTHORITY RESIDUE REPAIRED (design/journal1-algorithm-specification)"
+  ],
+  "closure_checklist": {
+    "prototype_authority_document_created": "MET — publications/active/journal-1/layer3-prototype-specification.md (15 sections)",
+    "upstream_algorithm_contract_preserved": "MET — algorithm-specification.md not modified; Algorithms 1–4 semantics unchanged; module contracts implement A3+A4 without reinterpretation",
+    "module_boundaries_defined": "MET — governance/ package with 7 modules; see module-map-batch1.csv",
+    "rule_representation_defined": "MET — Rule dataclass + ConditionPredicate schema; rule-schema-batch1.json; conclusion_type ∈ R enforced",
+    "rule_set_representation_defined": "MET — RS(UNSAFE)=∅; RS(SAFE)/RS(CAUTION) as state-indexed Rule lists; Algorithm 3 contract preserved",
+    "recommendation_representation_defined": "MET — Advisory{type, payload, rule_id, explanation}; type ∈ A_AI(S) by construction",
+    "decision_episode_interface_defined": "MET — ReasoningEpisode{state, governance, rule_set, context}; execute_episode() contract defined",
+    "algorithm3_implementation_contract_defined": "MET — select_rule_set() + validate_rule_set() contracts; pre/postconditions; failure behaviour; OPEN-B3-1 handling",
+    "invalid_rule_set_behaviour_bounded": "MET — OPEN-B3-1 partially closed: ConfigurationError; disable episode; surface to caller; S unchanged",
+    "state_ruleset_consistency_invariant_preserved": "MET — one execute_episode() call = one S = one RS(S); OPEN-B1-8 interface-level only",
+    "human_authority_preserved": "MET — no automated approval/prohibition/override; Go advisory ≠ departure approval; empty advisory ≠ prohibition",
+    "concrete_rules_reused_only_if_authoritative": "MET — no concrete rules invented; OPEN-L3-1 recorded",
+    "concrete_rule_requirement_explicit_open": "MET — OPEN-L3-1 documented in open-decisions-batch1.csv and layer3-prototype-specification.md §14",
+    "engine_strategy_bounded": "MET — linear scan for prototype (OPEN-B3-2 partially closed); production strategy OPEN",
+    "no_scientific_thresholds_invented": "MET — no threshold, recommendation type, state, or policy added",
+    "F1_F3_instrumentation_defined": "MET — FidelityTrace schema; fidelity-instrumentation-batch1.csv; all DESIGNED — NOT YET TESTED",
+    "F1_F3_not_reported_as_results": "MET — all fidelity statuses are DESIGNED — NOT YET TESTED",
+    "E5_not_run": "MET",
+    "H3_threshold_remains_open": "MET — OPEN-B1-6 preserved",
+    "evidence_artefacts_complete": "MET — 10 artefact files in data/journal1-layer3-prototype/; build.py emits integrity-after.json and parser-test-batch1.json",
+    "protected_canonical_state_unchanged": "MET — integrity-after.json: 16 unchanged, 0 changed"
+  },
+  "semantic_checks": {
+    "source": "data/journal1-layer3-prototype/semantic-verification-batch1.json",
+    "PASS_count": 19,
+    "FAIL_count": 0,
+    "OPEN_count": 1,
+    "OPEN_ids": ["concrete_rules_not_invented_without_authority — OPEN-L3-1"]
+  },
+  "protected_integrity": {
+    "before": "data/journal1-layer3-prototype/integrity-before.json",
+    "after": "data/journal1-layer3-prototype/integrity-after.json",
+    "verdict": "PASS — 16 unchanged, 0 changed"
+  },
+  "csv_parser_verification": {
+    "batch1": "parser-test-batch1.json — PASS across 6 CSVs"
+  },
+  "open_items_status": {
+    "OPEN-B1-1_freshness_parameters": "OPEN — unchanged",
+    "OPEN-B1-2_runtime_provenance_capture": "OPEN — unchanged",
+    "OPEN-B1-3_medium_vessel_evidence_limitation": "OPEN — unchanged",
+    "OPEN-B1-4_layer3_concrete_rule_contents": "OPEN — superseded by OPEN-L3-1",
+    "OPEN-B1-5_live_gm_configuration": "OPEN — unchanged",
+    "OPEN-B1-6_latency_threshold": "OPEN — unchanged",
+    "OPEN-B1-7_utility_construct": "OPEN — unchanged",
+    "OPEN-B1-8_state_ruleset_consistency_mechanism": "OPEN — interface defined, primitive not chosen",
+    "OPEN-B3-1_invalid_RS_runtime_handling": "PARTIALLY CLOSED — ConfigurationError; disable episode; surface to caller; implementation handling only",
+    "OPEN-B3-2_rule_engine_evaluation_strategy": "PARTIALLY CLOSED — linear scan for prototype; production strategy OPEN",
+    "OPEN-B3-3_decision_episode_implementation_boundary": "PARTIALLY CLOSED — ReasoningEpisode defined; duration/polling OPEN",
+    "OPEN-B4-1_solar_lookup_data_structure": "OPEN — unchanged",
+    "OPEN-L3-1_concrete_rule_content": "NEW — OPEN — requires scientific specification — does not block Batch 1 closure",
+    "OPEN-L3-2_predicate_evaluation_failure_policy": "NEW — OPEN — failure must not be silently treated as FALSE; policy not yet chosen — does not block Batch 1 closure"
+  },
+  "files_created_or_edited": [
+    "publications/active/journal-1/layer3-prototype-specification.md — CREATED (implementation authority document)",
+    "data/journal1-layer3-prototype/integrity-before.json — CREATED",
+    "data/journal1-layer3-prototype/prototype-contract-batch1.csv — CREATED",
+    "data/journal1-layer3-prototype/rule-schema-batch1.json — CREATED",
+    "data/journal1-layer3-prototype/module-map-batch1.csv — CREATED",
+    "data/journal1-layer3-prototype/fidelity-instrumentation-batch1.csv — CREATED",
+    "data/journal1-layer3-prototype/test-plan-batch1.csv — CREATED",
+    "data/journal1-layer3-prototype/open-decisions-batch1.csv — CREATED",
+    "data/journal1-layer3-prototype/semantic-verification-batch1.json — CREATED",
+    "data/journal1-layer3-prototype/change-map-batch1.csv — CREATED",
+    "data/journal1-layer3-prototype/build.py — CREATED",
+    "data/journal1-layer3-prototype/closure-batch1.json — CREATED",
+    "data/journal1-layer3-prototype/report-batch1.md — CREATED",
+    "data/journal1-layer3-prototype/integrity-after.json — CREATED by build.py",
+    "data/journal1-layer3-prototype/parser-test-batch1.json — CREATED by build.py"
+  ],
+  "canonical_files_touched": [],
+  "workstream_status": "Batch 1 of the Layer 3 Prototype Implementation workstream is CLOSED. Engine contract, interface, fidelity instrumentation, and failure-semantics contract are complete. OPEN-L3-1 (concrete rule content) and OPEN-L3-2 (predicate evaluation failure policy) remain open and block full prototype completion; they do not block the Batch 1 contract-design closure."
+}
