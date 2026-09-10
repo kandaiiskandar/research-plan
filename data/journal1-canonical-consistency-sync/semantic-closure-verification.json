@@ -1,0 +1,43 @@
+{
+  "epistemic": [],
+  "domain_transfer": [],
+  "non_maintained_hits": [],
+  "all_clear": true,
+  "trigger": "independent review after the prior Journal 1 closure",
+  "prior_audit_false_negative": {
+    "claim_made": "the phrase 'warranted scope' does not occur",
+    "reality": "it occurred in the Composite Guarantee sentence of the maintained manuscript",
+    "cause": "the regex DID match the line; the audit command piped results through sed 's/\\(.\\{170\\}\\).*/\\1\u2026/' and the matching word sat beyond character 170, so the displayed evidence was truncated before the match. Classification was made on the visible fragment.",
+    "lesson": "a search that truncates its own output can report a hit and hide the reason it hit. Match context must be shown, not the head of the line."
+  },
+  "repairs": [
+    "S1-01 warranted -> configured admissible scope",
+    "S1-02 appropriately restricts -> contract, never expand",
+    "S1-03 new does-not-establish paragraph",
+    "S1-04 domain-independent -> re-instantiable vs domain-specific"
+  ],
+  "preserved": {
+    "condition_mapping": "unchanged",
+    "flehmig_baseline": "still deferred, open item intact",
+    "theorems": "statements and proofs untouched"
+  },
+  "canonical_state": {
+    "g_r": "g_r(r, kappa)",
+    "kappa": "chi(c)=1 iff c in {95,96,99}",
+    "D": "{m}",
+    "g_w": "21.6 / 27.0",
+    "wave_small_UNSAFE": ">1.25 m",
+    "g_t": "Model B, exact sunrise SAFE, exact sunset UNSAFE",
+    "level2": "5.81% / 4.48%",
+    "register": "24 = 15 CONFIRMED / 9 REFUTED"
+  },
+  "authorities_unchanged": true,
+  "empirical_unchanged": true,
+  "prediction_unchanged": true,
+  "stop_conditions": {
+    "J1-SR1": false,
+    "J1-SR2": false,
+    "J1-SR3": false,
+    "J1-SR4": false
+  }
+}

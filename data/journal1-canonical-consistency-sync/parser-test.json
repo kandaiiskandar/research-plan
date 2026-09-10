@@ -4,7 +4,6 @@
     "dictreader_rows": 23,
     "pandas_rows": 23,
     "malformed": [],
-    "sha256_16": "889d6bbfc509f30e",
     "parse": "PASS"
   },
   "journal1-change-map.csv": {
@@ -12,7 +11,6 @@
     "dictreader_rows": 2,
     "pandas_rows": 2,
     "malformed": [],
-    "sha256_16": "6d8c4e55a956c9cb",
     "parse": "PASS"
   },
   "journal1-file-classification.csv": {
@@ -20,7 +18,13 @@
     "dictreader_rows": 8,
     "pandas_rows": 8,
     "malformed": [],
-    "sha256_16": "300254dd7e3ae75d",
+    "parse": "PASS"
+  },
+  "semantic-closure-audit.csv": {
+    "fields": 10,
+    "dictreader_rows": 11,
+    "pandas_rows": 11,
+    "malformed": [],
     "parse": "PASS"
   }
 }

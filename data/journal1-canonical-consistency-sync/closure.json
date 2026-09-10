@@ -2,7 +2,7 @@
   "task": "Journal 1 canonical consistency synchronisation",
   "date": "2026-09-10",
   "branch": "chore/journal1-canonical-consistency-sync",
-  "outcome": "CLOSED - maintained publication aligned",
+  "outcome": "CLOSED - maintained publication aligned; semantic repair verified",
   "maintained_target": "publications/active/journal-1/submissions/v1-initial-submission/manuscript.md",
   "j1_r6_resolution": "Not a submission snapshot: README names it the current working manuscript, its header says active working manuscript, status is research-design phase, nothing submitted",
   "files_audited": 8,
@@ -56,5 +56,52 @@
     "J1-R5": false,
     "J1-R6": false
   },
-  "csv_parser_all_pass": true
+  "csv_parser_all_pass": true,
+  "semantic_closure_repair": {
+    "date": "2026-09-10",
+    "outcome": "CLOSED - independent semantic repair verified",
+    "findings": 11,
+    "classification": {
+      "ACTIVE-CANONICAL-DRIFT": 4,
+      "ACTIVE-CORRECT": 5,
+      "OPEN-evaluation-design": 1,
+      "IRRELEVANT": 1
+    },
+    "prior_audit_false_negative": {
+      "claim_made": "the phrase 'warranted scope' does not occur",
+      "reality": "it occurred in the Composite Guarantee sentence of the maintained manuscript",
+      "cause": "the regex DID match the line; the audit command piped results through sed 's/\\(.\\{170\\}\\).*/\\1\u2026/' and the matching word sat beyond character 170, so the displayed evidence was truncated before the match. Classification was made on the visible fragment.",
+      "lesson": "a search that truncates its own output can report a hit and hide the reason it hit. Match context must be shown, not the head of the line."
+    },
+    "repairs": [
+      "S1-01 warranted -> configured admissible scope",
+      "S1-02 appropriately restricts -> contract, never expand",
+      "S1-03 new does-not-establish paragraph",
+      "S1-04 domain-independent -> re-instantiable vs domain-specific"
+    ],
+    "preserved": {
+      "condition_mapping": "unchanged",
+      "flehmig_baseline": "still deferred, open item intact",
+      "theorems": "statements and proofs untouched"
+    },
+    "active_epistemic_residues": 0,
+    "active_domain_transfer_residues": 0,
+    "theorems_untouched": true,
+    "condition_labels_renamed": false,
+    "flehmig_baseline_added": false,
+    "flehmig_status": "OPEN - future evaluation-design work; not canonical drift because Journal 1 experiments are unexecuted",
+    "authorities_unchanged": true,
+    "empirical_unchanged": true,
+    "prediction_unchanged": true,
+    "files_changed": [
+      "publications/active/journal-1/submissions/v1-initial-submission/manuscript.md"
+    ],
+    "stop_conditions": {
+      "J1-SR1": false,
+      "J1-SR2": false,
+      "J1-SR3": false,
+      "J1-SR4": false
+    },
+    "csv_parser_all_pass": true
+  }
 }

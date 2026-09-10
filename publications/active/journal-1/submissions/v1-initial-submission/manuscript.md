@@ -538,7 +538,9 @@ The three theorems together characterise the full formal safety behaviour of the
 | 6.2 (Monotonicity) | A_AI(S₁) ⊆ A_AI(S₂) whenever S₁ ≻ S₂ | Advisory scope never expands as conditions worsen; CAUTION is provably stricter than SAFE |
 | 6.3 (Safety Dominance) | AI(E) ⊆ A_AI(f(E)) for all E | AI output is bounded within the admissible scope at every state, by construction |
 
-These guarantees are complementary. The Safety Dominance case analysis uses totality to establish that a state exists, together with the state-indexed rule-set and gate assumptions. Totality ensures the governance layer always has a state to enforce. Monotonicity ensures that state appropriately restricts scope as risk increases. Safety Dominance ensures that the AI advisory engine actually respects that restriction. An architecture satisfying all three has no formally identifiable path by which an AI recommendation can exceed the scope warranted by the current environmental conditions.
+These guarantees are complementary. The Safety Dominance case analysis uses totality to establish that a state exists, together with the state-indexed rule-set and gate assumptions. Totality ensures the governance layer always has a state to enforce. Monotonicity ensures that the configured admissible sets contract, never expand, as the classified state worsens. Safety Dominance ensures that the AI advisory engine actually respects that restriction. An architecture satisfying all three has no formally identifiable path by which an AI recommendation can exceed the **configured admissible scope associated with the current governance state**.
+
+**What the composite guarantee does not establish.** The three theorems verify *enforcement* of the configured governance mapping. They say nothing about whether that configuration is the right one. In particular, none of them establishes that `A_AI(CAUTION) = {Go, Delay}` is epistemically warranted, scientifically optimal, or derivable from the environmental evidence: that partition is a conservative architecture policy (Section 5), and deriving admissible sets from stated evidential requirements rather than stipulating them remains outstanding work. Soundness of the *configuration* is a separate question from soundness of the *enforcement*, and only the second is proved here.
 
 Section 10 plans to evaluate implementation fidelity and advisory behaviour in empirical test scenarios, comparing the graduated architecture against ungated and binary-gated baselines across the three safety states.
 
@@ -668,7 +670,7 @@ Section 10 plans to evaluate implementation fidelity and advisory behaviour in e
 
 **Key content to include:**
 - What the results mean for the binary governance gap
-- Generalisation: which aspects of the architecture are domain-independent
+- Generalisation: which architectural structures are re-instantiable across domains, and which thresholds, inputs, evidence and empirical findings remain domain-specific. *(Wording corrected 2026-09-10: this read "which aspects of the architecture are domain-independent", which invites the retired overclaim. The governance pair, the containment property and the three theorems transfer by construction to any correct instantiation; the Sabah coastal-fisheries thresholds, data sources, binding profile and measured rates do not, and this study establishes no empirical portability beyond its site.)*
 - Deployment challenges in low-resource environments: connectivity, hardware, maintenance
 - Relationship to governance standards (IEC 61508, ISO 26262, SOLAS)
 - Limitations of the current prototype

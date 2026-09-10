@@ -1,5 +1,5 @@
 {
-  "phase": "journal1-sync-after",
+  "phase": "journal1-semantic-closure-after",
   "changed": [
     "publications/active/journal-1/research-design.md",
     "publications/active/journal-1/submissions/v1-initial-submission/manuscript.md"
@@ -41,6 +41,6 @@
     "publications/active/journal-1/section-6-plan.md": "16c4c4059fcf4d8c27535038c5497e2fe318aa0941f8a593054677ca51b94673",
     "publications/active/journal-1/session-log.md": "d0680bc38f1986e6b01d781af7bd53c49c2b9106e3bf2a65efaf05d701f3dc92",
     "publications/active/journal-1/submissions/.DS_Store": "79a66b8f059eb5a6b49dd891cf0ef69d4eb690bd51d705147b53fdf011270987",
-    "publications/active/journal-1/submissions/v1-initial-submission/manuscript.md": "10015aa9fb00b25fd012de2319157db7216aed07f4e807d29047215ce8adf930"
+    "publications/active/journal-1/submissions/v1-initial-submission/manuscript.md": "5f8a8d7d996d6a48908078613f941f89316debaf6f90013512f8704652e6323a"
   }
 }
