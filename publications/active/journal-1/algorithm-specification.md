@@ -569,11 +569,268 @@ Full per-construct table at [`algorithm-traceability-batch2.csv`](../../../data/
 
 ---
 
+## 17. Algorithm 3 — Rule-Set Supply
+
+Algorithm 3 supplies the rule set `RS(S)` that Layer 3 is permitted to use for the current decision episode. It runs **before any Layer 3 rule firing begins** and it generates no advisory itself. Concrete Layer 3 rules remain OPEN-B1-4; this section defines the *shape and admissibility contract* only.
+
+```text
+Algorithm 3 — Rule-Set Supply
+─────────────────────────────
+Input:
+  S            ∈ {SAFE, CAUTION, UNSAFE}                  ; from Algorithm 1 (F_{D,τ})
+  G(S)         ∈ {0, 1}                                   ; from Algorithm 2
+  A_AI(S)      ⊆ R = {Go, Delay, DepartureTime, Duration} ; from Algorithm 2
+  repository   ; the configured rule repository — a set of production rules
+               ; each rule ρ has a conclusion type  type(ρ) ∈ R
+  candidate    ; the deployment-defined selector  candidate : repository × 𝒮 → 2^repository
+               ; returning the rules the deployment designates as active under state S
+
+Output:
+  RS(S) — the rule set supplied to Layer 3 for the current episode, satisfying
+           ConclusionTypes(RS(S)) ⊆ A_AI(S) and RS(UNSAFE) = ∅
+  OR a bounded CONFIGURATION_FIDELITY_FAILURE — in which case no reasoning begins
+
+Procedure:
+  ▸ Gate-off short-circuit (participation)  (appendix-c C.3, C.6)
+  1: if G(S) = 0 then
+  2:     RS ← ∅                                            ; G(S)=0 ⇒ A_AI(S)=∅ ⇒ RS(S)=∅
+  3:     return RS
+  4: end if
+
+  ▸ Compliance check on the candidate rule set (no silent filtering)
+  5: RS_candidate ← candidate(repository, S)
+  6: if ∃ ρ ∈ RS_candidate : type(ρ) ∉ A_AI(S) then
+  7:     refuse supply
+  8:     return "CONFIGURATION_FIDELITY_FAILURE:
+                ConclusionTypes(candidate(repository, S)) ⊄ A_AI(S)"
+              ; do not silently filter disallowed rules; do not modify S;
+              ; do not invent a new safety state; runtime handling: OPEN-B3-1
+  9: end if
+
+  ▸ Supply RS(S) BEFORE Layer 3 begins reasoning for this episode
+ 10: RS ← RS_candidate
+ 11: return RS                                             ; ConclusionTypes(RS) ⊆ A_AI(S) by lines 5–9
+                                                          ; consistent with the S governing this episode
+```
+
+**State/rule-set consistency across episodes.** When `S` changes between episodes (`S_old → S_new`), Algorithm 3 is re-invoked on the new state and the `RS(S_new)` it returns is what the next reasoning episode uses. The reasoning engine must not reuse `RS(S_old)` when it is inconsistent with `S_new` (§8 of this specification, and appendix-c C.7.1). **The mechanism enforcing this consistency at runtime is not prescribed here** — atomic swap, immutable snapshot, locking, transactional update, serialized execution and equivalents are all admissible; the choice is bounded OPEN-B1-8 (unchanged from Batch 1). Algorithm 3 specifies the invariant, not the concurrency primitive.
+
+**No advisory generation in Algorithm 3.** Line 2 and line 11 return only a rule set (or `∅`); no rule firing occurs and no `AI(E)` element is produced.
+
+---
+
+## 18. Algorithm 3 — Preconditions and Postconditions
+
+**Preconditions.**
+
+- **P1.** `S ∈ {SAFE, CAUTION, UNSAFE}` — a valid output of Algorithm 1 (Theorem C.1b operational totality).
+- **P2.** `(G(S), A_AI(S))` is the corresponding Algorithm 2 output (Q2 and Q3 of §14).
+- **P3.** The rule repository is configured — the deployment supplies a rule set with a well-defined `candidate` selector and, for each rule `ρ`, a conclusion type `type(ρ) ∈ R`.
+- **P4.** Reasoning has not yet begun for this decision episode. Algorithm 3 runs strictly before Layer 3 rule firing.
+
+**Postconditions.**
+
+- **Q1.** `ConclusionTypes(RS(S)) ⊆ A_AI(S)` — the conclusion-type inclusion required by appendix-c C.7.1 and Theorem C.3 A2. Enforced by lines 5–9 (no silent filtering) and delivered by line 10.
+- **Q2.** `G(S) = 0 ⇒ RS(S) = ∅`. Enforced by lines 1–3.
+- **Q3.** `RS(UNSAFE) = ∅`. Follows from Q2 since `G(UNSAFE) = 0`.
+- **Q4.** No `AI(E)` element is produced — Algorithm 3 emits only a rule set (or a bounded configuration/fidelity failure).
+- **Q5.** If the candidate rule set violates the conclusion-type constraint, Algorithm 3 refuses supply. The failure is treated as configuration/fidelity: **`S` is not modified**, **no new safety state is invented**, and the failure is not remapped to environmental UNSAFE. Runtime handling beyond refusal of supply is bounded OPEN — see OPEN-B3-1 in §24.
+
+**No post-hoc filter substituted for governance.** Q1 is preserved by *choosing* the rules Layer 3 is permitted to fire, not by discarding non-compliant outputs after generation. See §16 of the Batch 3 task and appendix-c C.7 (enforcement mechanism).
+
+---
+
+## 19. Algorithm 4 — Governed Advisory Generation
+
+Algorithm 4 consumes the governance configuration produced by Algorithms 1–3 and invokes Layer 3 only when participation is permitted. The recommendation-space guarantee `AI(E) ⊆ A_AI(S)` holds **by construction**, from Algorithm 3's postcondition combined with the rule-engine fidelity assumption — not by a runtime filter on outputs.
+
+```text
+Algorithm 4 — Governed Advisory Generation
+──────────────────────────────────────────
+Input:
+  E            ; resolved decision context (appendix-c C.1 / C.8.2). This is the same E
+               ; that fed Algorithm 1; do not silently redefine it.
+  S            ∈ {SAFE, CAUTION, UNSAFE}                  ; from Algorithm 1
+  G(S)         ∈ {0, 1}                                   ; from Algorithm 2
+  A_AI(S)      ⊆ R                                        ; from Algorithm 2
+  RS(S)        ; from Algorithm 3 — the rule set for this episode
+               ; ConclusionTypes(RS(S)) ⊆ A_AI(S) by A3 Q1
+  engine       ; production rule symbolic reasoner satisfying the fidelity assumption
+               ; (Theorem C.3 A4): fires only rules present in the active RS(S);
+               ; no active rule produces a conclusion type outside RS(S)
+
+Output:
+  AI(E) ⊆ A_AI(S)                                          ; holds by construction
+
+Procedure:
+  ▸ Gate-off path: participation withdrawn (S = UNSAFE ⇒ G(S) = 0)
+  1: if G(S) = 0 then
+  2:     AI ← ∅                                            ; no rule firing; no advisory
+  3:     return AI                                         ; state-reporting UI, if any, is outside AI(E)
+  4: end if
+
+  ▸ Participating path (G(S) = 1): reason using only RS(S)
+  5: AI ← engine.reason(E, RS)                            ; engine has RS(S) in scope and no other rule sets
+  6: return AI                                             ; AI ⊆ A_AI(S) by A3 Q1 + engine fidelity (Theorem C.3 A4)
+```
+
+**No post-hoc filter substitution.** The required chain is:
+
+```text
+A_AI(S)  →  ConclusionTypes(RS(S)) ⊆ A_AI(S)  →  engine fires only rules in RS(S)  →  AI(E) ⊆ A_AI(S)
+```
+
+Line 6 does **not** re-filter `AI` against `A_AI(S)` at runtime. Correctness is delivered by rule-set restriction (Algorithm 3), not by output inspection. A defensive assertion could exist in a future implementation, but it is not authoritative and does not appear here.
+
+**Rule-engine evaluation strategy is unspecified.** Forward chaining, backward chaining, RETE, agenda priority, first-match, all-match, conflict resolution, rule salience — none of these are fixed by Algorithm 4. The governance contract is engine-agnostic; the strategy is bounded OPEN — see OPEN-B3-2 in §24.
+
+**No `Do Not Go` / `Cancel Trip` / `Return Home` under UNSAFE.** Those would themselves be AI outputs and are not members of `A_AI(UNSAFE) = ∅`. State-reporting UI ("UNSAFE — AI advisory unavailable. Triggered by: …") is not an `AI(E)` element and belongs outside this algorithm.
+
+---
+
+## 20. Algorithm 4 — Preconditions and Postconditions
+
+**Preconditions.**
+
+- **P1.** `S ∈ {SAFE, CAUTION, UNSAFE}` (Theorem C.1b).
+- **P2.** `(G(S), A_AI(S))` produced by Algorithm 2.
+- **P3.** `RS(S)` produced by Algorithm 3, satisfying `ConclusionTypes(RS(S)) ⊆ A_AI(S)` and `RS(UNSAFE) = ∅` (A3 Q1–Q3).
+- **P4. Engine fidelity (Theorem C.3 A4).** The rule engine fires only rules present in the active `RS(S)`, and no active rule produces a conclusion type outside its own conclusion. **This is an implementation assumption**, not a fact Algorithm 4 re-proves.
+- **P5. Consistency with `S`.** The `RS(S)` supplied to the engine is `RS(S_current)`, not a stale `RS(S_prior)` from a preceding episode (state/rule-set consistency invariant; OPEN-B1-8).
+
+**Postconditions.**
+
+- **Q1.** `AI(E) ⊆ A_AI(S)` — Safety Dominance (Theorem C.3). Holds by construction from P3 + P4; Algorithm 4 does not re-prove it.
+- **Q2.** `G(S) = 0 ⇒ AI(E) = ∅` — participation withdrawn. Delivered by lines 1–3; corresponds to Case 1 of Theorem C.3.
+- **Q3.** No advisory type outside `A_AI(S)` appears in `AI(E)` — by P3 and P4, not by a post-hoc filter.
+- **Q4. Human authority unconditional.** `AI(E) = ∅` does **not** forbid human action; `Go ∈ AI(E)` does **not** automatically approve departure. Algorithm 4 introduces no automated approval, prohibition, override or enforcement semantics (appendix-c C.8.2 step 6).
+
+**Bounded correctness language.** Algorithm 4 *implements* the enforcement contract on which Theorem C.3 depends (assumptions A1–A4 in appendix-c C.7.2). It **does not** independently prove Safety Dominance — the theorem exists and covers the deployed classifier `F_{D,τ}` and the ideal `f(E)`.
+
+---
+
+## 21. Batch 3 State and Transition Verification
+
+Seven state-space specification checks (three for Algorithm 3, three for Algorithm 4, one for an invalid rule repository) and six transition specification checks. Full detail at [`state-cases-batch3.csv`](../../../data/journal1-algorithm-specification/state-cases-batch3.csv) and [`transition-cases-batch3.csv`](../../../data/journal1-algorithm-specification/transition-cases-batch3.csv). **All resolve PASS by inspection against the maintained mappings and the pseudocode above.** These are specification checks, not F3 fidelity results.
+
+**Algorithm 3 by state (SC1–SC3):**
+
+| # | State | Expected `RS(S)` |
+|---|---|---|
+| SC1 | `S = SAFE` | rules with conclusion types in `{Go, Delay, DepartureTime, Duration}` |
+| SC2 | `S = CAUTION` | rules with conclusion types in `{Go, Delay}` |
+| SC3 | `S = UNSAFE` | `RS = ∅` (short-circuit at A3 lines 1–3) |
+
+**Algorithm 4 by state (SC4–SC6):**
+
+| # | State | Expected `AI(E)` |
+|---|---|---|
+| SC4 | `S = SAFE`, compliant `RS(SAFE)` | `AI ⊆ {Go, Delay, DepartureTime, Duration}` — engine reasons using only `RS(SAFE)` |
+| SC5 | `S = CAUTION`, compliant `RS(CAUTION)` | `AI ⊆ {Go, Delay}` — engine reasons using only `RS(CAUTION)` |
+| SC6 | `S = UNSAFE` | `AI = ∅` — gate-off at A4 lines 1–3; **no rule firing** |
+
+**Invalid rule repository (SC7):**
+
+| # | Case | Expected |
+|---|---|---|
+| SC7 | some `ρ ∈ candidate(repository, S)` has `type(ρ) ∉ A_AI(S)` | Algorithm 3 refuses supply (`CONFIGURATION_FIDELITY_FAILURE`); `RS(S)` is not passed to Layer 3; `S` is not modified; no new safety state introduced; runtime handling beyond refusal is bounded OPEN-B3-1 |
+
+**Transition checks (TC1–TC6).** For each transition `S_old → S_new`, the next decision episode must use the governance configuration and `RS(S_new)` corresponding to the new state; the algorithm chain (A1 → A2 → A3 → A4) is re-invoked on the new state.
+
+| # | `S_old → S_new` | Expected on the next episode |
+|---|---|---|
+| TC1 | SAFE → CAUTION | `A_AI` shrinks to `{Go, Delay}`; `RS(CAUTION)` supplied; `DepartureTime` and `Duration` conclusion types no longer available |
+| TC2 | CAUTION → SAFE | `A_AI` expands to `{Go, Delay, DepartureTime, Duration}`; `RS(SAFE)` supplied; timing and duration types available again |
+| TC3 | CAUTION → UNSAFE | `G = 0`; `A_AI = ∅`; `RS = ∅`; `AI(E) = ∅`; Layer 3 not invoked |
+| TC4 | UNSAFE → CAUTION | `G = 1`; `A_AI = {Go, Delay}`; `RS(CAUTION)` supplied; Layer 3 re-enabled with restricted scope |
+| TC5 | SAFE → UNSAFE | `G = 0`; `A_AI = ∅`; `RS = ∅`; `AI(E) = ∅`; Layer 3 not invoked |
+| TC6 | UNSAFE → SAFE | `G = 1`; `A_AI = {Go, Delay, DepartureTime, Duration}`; `RS(SAFE)` supplied; full scope |
+
+Each transition case verifies **the specification invariant that state/rule-set consistency is preserved by re-invocation of A3 on `S_new`**. **Do not read this as F3 PASS** — F3 is a future implementation-fidelity test on a built Layer 3 (evaluation-specification.md §7). Batch 3 supplies no runtime fidelity evidence.
+
+---
+
+## 22. Safety-Dominance Dependency Trace
+
+The runtime guarantee `AI(E) ⊆ A_AI(S)` (Theorem C.3, Safety Dominance) is delivered by a four-link chain. Each link has a distinct status, and the chain must not be collapsed into "Algorithm 4 proves safety". Full table at [`safety-dominance-trace-batch3.csv`](../../../data/journal1-algorithm-specification/safety-dominance-trace-batch3.csv).
+
+```
+┌────────────────────────────────────────────────────────────┐
+│  A_AI(S)                                                   │  Link L1 — definition
+│    │                                                        │
+│    ▼                                                        │
+│  ConclusionTypes(RS(S)) ⊆ A_AI(S)                          │  Link L2 — algorithmic contract (A3 Q1)
+│    │                                                        │
+│    ▼                                                        │
+│  engine fires only rules present in active RS(S)            │  Link L3 — engine-fidelity assumption
+│  and produces no output beyond fired-rule conclusion types  │             (Theorem C.3 A4; A4 P4)
+│    │                                                        │
+│    ▼                                                        │
+│  AI(E) ⊆ A_AI(S)                                            │  Link L4 — formal theorem (Theorem C.3)
+└────────────────────────────────────────────────────────────┘
+```
+
+**Classification of each link:**
+
+| Link | Statement | Category |
+|---|---|---|
+| L1 | `A_AI : S → 2^R` — the admissible recommendation space per state | **Definition** (appendix-c C.4) |
+| L2 | `ConclusionTypes(RS(S)) ⊆ A_AI(S)` | **Algorithmic enforcement contract** — Algorithm 3 postcondition Q1, enforced by A3 lines 5–9 (no silent filtering) |
+| L3 | Engine fires only rules in active `RS(S)`; no rule produces a type outside its own conclusion | **Implementation assumption** — Theorem C.3 assumption A4; Algorithm 4 precondition P4. A **future implementation-fidelity obligation** (F1, F2) validates it, but Batch 3 does not test it |
+| L4 | `AI(E) ⊆ A_AI(S)` | **Formal theorem** — Theorem C.3 (Safety Dominance), proved in appendix-c C.7.2 |
+
+**Consequence.** Batch 3 does **not** re-prove Safety Dominance. It makes L2 an explicit algorithmic contract (Algorithm 3) and L3 an explicit engine-fidelity assumption (Algorithm 4 P4), so that Theorem C.3's antecedents (A1–A4) are visibly discharged by the algorithm pipeline. If a future Layer 3 implementation violates L3, Theorem C.3 ceases to hold operationally — the fidelity criteria F1–F3 in [`evaluation-specification.md`](evaluation-specification.md) §7 test for exactly that failure mode.
+
+---
+
+## 23. Batch 3 Correctness Traceability
+
+Every construct carried by Algorithms 3 and 4 is placed in exactly one category. Full table at [`algorithm-traceability-batch3.csv`](../../../data/journal1-algorithm-specification/algorithm-traceability-batch3.csv).
+
+| Construct | Definition | Algorithmic implementation | Formal theorem / property | Implementation assumption | Future fidelity test | OPEN implementation decision |
+|---|---|---|---|---|---|---|
+| `G(S)` mapping | appendix-c C.3 | consumed by A3 lines 1–4 and A4 lines 1–4 | Participation constraint (C.6) | — | F1 | — |
+| `A_AI(S)` mapping | appendix-c C.4 | consumed by A3 lines 5–9 | Advisory restriction; Corollary C.2; Theorem C.2 | — | F1 | — |
+| `RS(S)` shape and admissibility | appendix-c C.7.1 | A3 lines 5–10 | Theorem C.3 A2 | — | F1 | OPEN-B1-4 (concrete rule contents) |
+| `ConclusionTypes(RS(S)) ⊆ A_AI(S)` | — | **A3 Q1** — enforced at lines 5–9 | Theorem C.3 A2 | — | F1 | — |
+| Pre-reasoning supply | appendix-c C.7.1 | A3 line 10 runs before A4 line 5 | Theorem C.3 A2 | — | F1, F3 | — |
+| State/rule-set consistency across episodes | algorithm-specification.md §8 | A3 re-invoked on `S_new`; A4 P5 | invariant | consistency enforcement | F3 | **OPEN-B1-8** (concurrency primitive) |
+| Engine-fidelity assumption (A4) | — | A4 line 5 uses only `RS(S)`; A4 P4 states the assumption | Theorem C.3 A4 | **assumption** — Batch 3 does not test it | F1, F2 | — |
+| `AI(E) ⊆ A_AI(S)` | — | delivered by A3 Q1 + engine fidelity | **Theorem C.3** (proved) | — | F1 | — |
+| `AI(E) = ∅` under UNSAFE | appendix-c C.6 | A4 lines 1–3 (gate-off) | Theorem C.3 case 1 | — | F1 | — |
+| Human authority unconditional | appendix-c C.8.2 step 6 | neither A3 nor A4 alters it; A4 Q4 records it | unconditional | — | not applicable | — |
+| Concrete Layer 3 rules | — | — | — | — | — | **OPEN-B1-4** |
+| Rule-engine evaluation strategy | — | — | — | — | — | **OPEN-B3-2** |
+| Invalid RS runtime handling | — | A3 refuses supply (lines 6–8); runtime handling beyond refusal is not fixed | — | — | — | **OPEN-B3-1** |
+| Decision-episode implementation boundary | — | — | — | — | — | **OPEN-B3-3** |
+
+**Bounded language reminder.** No sentence in Batch 3 writes "Algorithm 4 proves safety" or "the transition checks demonstrate F3." Correctness statements everywhere use *contract-derived* / *by construction* / *enforcement assumption* / *future fidelity obligation*.
+
+---
+
+## 24. Batch 3 Open Implementation Decisions
+
+Three new bounded OPEN items originate in Batch 3. Full audit at [`open-decisions-batch3.csv`](../../../data/journal1-algorithm-specification/open-decisions-batch3.csv).
+
+| ID | Item | Reason it is open | Blocks |
+|---|---|---|---|
+| OPEN-B3-1 | Invalid rule-repository runtime handling | Algorithm 3 refuses supply on `ConclusionTypes(candidate) ⊄ A_AI(S)` (A3 lines 6–8), but no canonical authority prescribes the runtime response beyond refusal — for example, whether the deployment logs and continues without Layer 3, halts, alerts the operator, or requires a config reload. | Fault-response wiring only. Governance contract is unaffected — the invalid `RS(S)` is not supplied to reasoning either way. |
+| OPEN-B3-2 | Rule-engine evaluation strategy | Forward chaining, backward chaining, RETE, agenda priority, first-match, all-match, conflict resolution, rule salience — no canonical authority fixes one. Algorithm 4's governance contract is engine-agnostic. | Complexity analysis (deferred to a later batch); does not block Batches 1–3. |
+| OPEN-B3-3 | Decision-episode implementation boundary | The specification is clear that *one governing `S` → one governance configuration → one `RS(S)`* per reasoning episode; the exact episode duration, polling interval, refresh frequency, thread model, concurrency model and transaction boundary are not authoritative. | Runtime implementation and OPEN-B1-8 mechanism selection; specification-level checks in §21 hold regardless. |
+
+**Batch 1 OPEN items (OPEN-B1-1..8) preserved unchanged.** In particular OPEN-B1-8 remains OPEN — Algorithm 3's state/rule-set consistency invariant is specification-level; no concurrency primitive is chosen.
+
+**Also preserved:** OPEN-B1-4 (concrete Layer 3 rules) — Algorithm 3 defines the *shape and admissibility contract* for `RS(S)`, not its contents.
+
+---
+
 ## Guiding rule
 
 > "*What exactly must the algorithms preserve?*" — Batch 1 answers this and only this.
 > "*How should all four algorithms be written?*" — Batch 2 (Algorithms 1 & 2) and Batch 3 (Algorithms 3 & 4).
 
+> **Batch 3 guiding principle.** Make the governance enforcement contract precise enough that the next implementation agent has no freedom to silently change the scientific architecture. Batch 3 defines *what implementation fidelity must satisfy*; it supplies no fidelity evidence.
+
 ---
 
-*Author: iskandar · Batch 1 closed: 2026-09-10 · Batch 2 closed: 2026-09-10 · Branch: `design/journal1-algorithm-specification`*
+*Author: iskandar · Batch 1 closed: 2026-09-10 · Batch 2 closed: 2026-09-10 · Batch 3 closed: 2026-09-10 · Branch: `design/journal1-algorithm-specification`*

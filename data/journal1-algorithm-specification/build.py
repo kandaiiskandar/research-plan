@@ -117,33 +117,41 @@ def parser_check(paths: list[Path]) -> dict:
     return {"overall": overall, "count": len(files), "files": files}
 
 
-def partition_csvs() -> tuple[list[Path], list[Path]]:
-    """Split CSVs into Batch 2 (name ends in ``-batch2.csv``) and Batch 1 (rest)."""
+def partition_csvs() -> tuple[list[Path], list[Path], list[Path]]:
+    """Split CSVs into Batch 3, Batch 2, and Batch 1 by filename suffix."""
     all_csvs = sorted(HERE.glob("*.csv"))
+    batch3 = [p for p in all_csvs if p.stem.endswith("-batch3")]
     batch2 = [p for p in all_csvs if p.stem.endswith("-batch2")]
-    batch1 = [p for p in all_csvs if not p.stem.endswith("-batch2")]
-    return batch1, batch2
+    batch1 = [
+        p for p in all_csvs
+        if not p.stem.endswith("-batch2") and not p.stem.endswith("-batch3")
+    ]
+    return batch1, batch2, batch3
 
 
 def main() -> int:
     integrity = integrity_check()
     (HERE / "integrity-after.json").write_text(json.dumps(integrity, indent=2) + "\n")
 
-    batch1_csvs, batch2_csvs = partition_csvs()
+    batch1_csvs, batch2_csvs, batch3_csvs = partition_csvs()
     parser_b1 = parser_check(batch1_csvs)
     (HERE / "parser-test-batch1.json").write_text(json.dumps(parser_b1, indent=2) + "\n")
     parser_b2 = parser_check(batch2_csvs)
     (HERE / "parser-test-batch2.json").write_text(json.dumps(parser_b2, indent=2) + "\n")
+    parser_b3 = parser_check(batch3_csvs)
+    (HERE / "parser-test-batch3.json").write_text(json.dumps(parser_b3, indent=2) + "\n")
 
     print(f"integrity:      {integrity['verdict']} — {integrity['unchanged']} unchanged, "
           f"{integrity['changed']} changed")
     print(f"parser batch1:  {parser_b1['overall']} — {parser_b1['count']} CSVs checked")
     print(f"parser batch2:  {parser_b2['overall']} — {parser_b2['count']} CSVs checked")
+    print(f"parser batch3:  {parser_b3['overall']} — {parser_b3['count']} CSVs checked")
 
     ok = (
         integrity["verdict"] == "PASS"
         and parser_b1["overall"] == "PASS"
         and parser_b2["overall"] == "PASS"
+        and parser_b3["overall"] == "PASS"
     )
     return 0 if ok else 1
 

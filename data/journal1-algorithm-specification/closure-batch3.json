@@ -1,0 +1,104 @@
+{
+  "task": "Journal 1 Algorithm Specification — Batch 3: Algorithms 3 & 4 (Rule-Set Supply and Governed Advisory Generation)",
+  "task_file": "docs/tasks/Journal 1 Algorithm Specification batch 3.md",
+  "branch": "design/journal1-algorithm-specification",
+  "closed_on": "2026-09-10",
+  "closure_line": "JOURNAL 1 ALGORITHM SPECIFICATION BATCH 3 CLOSED — RULE-SET ENFORCEMENT AND GOVERNED ADVISORY CONTRACT VERIFIED",
+  "authority": "publications/active/journal-1/algorithm-specification.md (updated with §§17–24)",
+  "predecessors": [
+    "Batch 1 CLOSED — 'JOURNAL 1 ALGORITHM SPECIFICATION BATCH 1 CLOSED — OPERATIONAL CONTRACT VERIFIED'",
+    "Batch 1 Transition Consistency Repair CLOSED — 'JOURNAL 1 ALGORITHM SPECIFICATION BATCH 1 CLOSED — TRANSITION CONSISTENCY CONTRACT REPAIRED'",
+    "Batch 2 CLOSED — 'JOURNAL 1 ALGORITHM SPECIFICATION BATCH 2 CLOSED — ALGORITHMS 1 AND 2 VERIFIED AGAINST OPERATIONAL CONTRACT'",
+    "Batch 2 Exclusion-Set Domain Repair CLOSED — 'JOURNAL 1 ALGORITHM SPECIFICATION BATCH 2 CLOSED — EXCLUSION-SET DOMAIN CONTRACT REPAIRED'"
+  ],
+  "checklist_task_§30": {
+    "algorithm3_supplies_RS_before_reasoning": "MET — §17 procedure runs before any A4 line-5 reasoning; §18 P4",
+    "conclusion_types_subset_AAI": "MET — §17 lines 5–9 enforce; §18 Q1",
+    "RS_unsafe_empty": "MET — §17 lines 1–3 short-circuit; §18 Q3; state-case SC3",
+    "algorithm3_generates_no_advisory": "MET — §17 returns only rule set or failure; §18 Q4",
+    "invalid_RS_cannot_silently_enter_reasoning": "MET — §17 lines 6–8 refuse supply; §18 Q5; state-case SC7",
+    "invalid_RS_runtime_handling_bounded_if_unspecified": "MET — §17 refusal mandatory; wider handling recorded as OPEN-B3-1",
+    "algorithm4_returns_empty_when_G_zero": "MET — §19 lines 1–3; §20 Q2; state-case SC6",
+    "unsafe_path_does_not_invoke_layer3": "MET — §19 line 5 unreachable when G(S)=0; SC6",
+    "participating_path_uses_only_RS_S": "MET — §19 line 5 with 'engine has RS(S) in scope and no other rule sets'; §20 P4",
+    "engine_fidelity_assumption_explicit": "MET — §19 input list; §20 P4; §22 L3",
+    "AI_subset_AAI_dependency_preserved": "MET — §22 four-link chain; §20 Q1",
+    "no_post_hoc_filter_substitution": "MET — §19 'No post-hoc filter substitution' note; §17 lines 5–9 (no silent filtering)",
+    "SAFE_CAUTION_UNSAFE_state_checks_PASS": "MET — 7/7 state cases PASS (state-cases-batch3.csv)",
+    "all_required_transition_specification_checks_PASS": "MET — 6/6 transition cases PASS (transition-cases-batch3.csv)",
+    "state_ruleset_consistency_invariant_preserved": "MET — §17 note (state/rule-set consistency); §19 P5; transition checks TC1–TC6",
+    "OPEN_B1_8_remains_OPEN": "MET — §17 explicitly preserves; open-decisions.csv OPEN-B1-8 unchanged",
+    "no_concurrency_primitive_invented": "MET — §17 lists five admissible primitives without choosing one; check atomicity_mechanism_not_invented PASS",
+    "no_concrete_layer3_rules_invented": "MET — §17 opening paragraph; OPEN-B1-4 preserved; check concrete_rules_not_invented PASS",
+    "no_rule_engine_strategy_invented": "MET — §19 'Rule-engine evaluation strategy is unspecified' note; OPEN-B3-2 records it",
+    "human_authority_preserved": "MET — §19 note; §20 Q4; check human_authority_preserved PASS",
+    "F1_F3_remain_future_fidelity_evidence": "MET — §21 closing paragraph ('Do not read this as F3 PASS'); §22 L3; check F1_F3_not_reported_as_results PASS",
+    "E5_not_run": "MET — no latency, memory, CPU or hardware measurement anywhere in §§17–24; check E5_not_run PASS",
+    "complexity_analysis_not_finalised": "MET — no Big-O bound, no worst-case runtime, no space-complexity table; OPEN-B3-2 records the strategy dependency",
+    "traceability_complete": "MET — 15 constructs in algorithm-traceability-batch3.csv, mapped across six categories; §23 in algorithm-specification.md",
+    "CSV_parser_checks_PASS": "MET — parser-test-batch1.json (4/4), parser-test-batch2.json (4/4), parser-test-batch3.json (7/7)",
+    "protected_canonical_state_unchanged": "MET — integrity-after.json 16 unchanged, 0 changed",
+    "no_new_scientific_decision_introduced": "MET — no new threshold, classifier, recommendation type or governance policy added; R and A_AI mappings preserved verbatim"
+  },
+  "semantic_checks_task_§27": {
+    "source": "data/journal1-algorithm-specification/semantic-verification-batch3.json",
+    "PASS_count": 23,
+    "FAIL_count": 0,
+    "OPEN_count": 2,
+    "OPEN_ids": [
+      "invalid_RS_handling_bounded_if_unspecified — OPEN-B3-1",
+      "rule_engine_strategy_not_invented — OPEN-B3-2"
+    ]
+  },
+  "stop_conditions_task_§29": {
+    "RS_ENFORCEMENT_AUTHORITY_CONFLICT": "NOT RAISED",
+    "PRE_REASONING_ENFORCEMENT_CONTRACT_INCOMPLETE": "NOT RAISED",
+    "SAFETY_DOMINANCE_DEPENDENCY_GAP": "NOT RAISED",
+    "NEW_SCIENTIFIC_DECISION_REQUIRED": "NOT RAISED",
+    "PROTECTED_CANONICAL_STATE_DRIFT": "NOT RAISED"
+  },
+  "open_items_status": {
+    "batch1": {
+      "OPEN-B1-1_freshness_parameters": "OPEN — unchanged; not touched by Batch 3",
+      "OPEN-B1-2_runtime_provenance_capture": "OPEN — unchanged; not touched by Batch 3",
+      "OPEN-B1-3_medium_vessel_evidence_limitation": "OPEN — unchanged; not touched by Batch 3",
+      "OPEN-B1-4_layer3_prototype": "OPEN — unchanged; Batch 3 defines shape and admissibility contract for RS(S), not its contents",
+      "OPEN-B1-5_live_g_m_configuration": "OPEN — unchanged; not touched by Batch 3",
+      "OPEN-B1-6_latency_threshold": "OPEN — unchanged; E5 not run",
+      "OPEN-B1-7_utility_construct": "OPEN — unchanged; not touched by Batch 3",
+      "OPEN-B1-8_state_ruleset_consistency_mechanism": "OPEN — unchanged; concurrency primitive not chosen; §17 preserves"
+    },
+    "batch3_added": {
+      "OPEN-B3-1_invalid_RS_runtime_handling": "OPEN — bounded; refusal of supply is mandatory (A3 lines 6–8); wider fault-response wiring not authoritative",
+      "OPEN-B3-2_rule_engine_evaluation_strategy": "OPEN — bounded; forward/backward chaining, RETE, salience, first-match, all-match, conflict resolution unspecified; will matter for complexity analysis",
+      "OPEN-B3-3_decision_episode_implementation_boundary": "OPEN — bounded; consistency invariant holds regardless"
+    }
+  },
+  "protected_integrity": {
+    "before": "data/journal1-algorithm-specification/integrity-before.json",
+    "after": "data/journal1-algorithm-specification/integrity-after.json",
+    "verdict": "PASS — 16 unchanged, 0 changed"
+  },
+  "csv_parser_verification": {
+    "batch1": "data/journal1-algorithm-specification/parser-test-batch1.json — PASS across 4 CSVs",
+    "batch2": "data/journal1-algorithm-specification/parser-test-batch2.json — PASS across 4 CSVs",
+    "batch3": "data/journal1-algorithm-specification/parser-test-batch3.json — PASS across 7 CSVs"
+  },
+  "files_created_or_edited": [
+    "publications/active/journal-1/algorithm-specification.md — edited (added §§17–24; Batches 1 & 2 sections unchanged)",
+    "data/journal1-algorithm-specification/algorithm-contracts-batch3.csv — created",
+    "data/journal1-algorithm-specification/state-cases-batch3.csv — created",
+    "data/journal1-algorithm-specification/transition-cases-batch3.csv — created",
+    "data/journal1-algorithm-specification/safety-dominance-trace-batch3.csv — created",
+    "data/journal1-algorithm-specification/algorithm-traceability-batch3.csv — created",
+    "data/journal1-algorithm-specification/open-decisions-batch3.csv — created",
+    "data/journal1-algorithm-specification/change-map-batch3.csv — created",
+    "data/journal1-algorithm-specification/semantic-verification-batch3.json — created",
+    "data/journal1-algorithm-specification/parser-test-batch3.json — created (by build.py)",
+    "data/journal1-algorithm-specification/build.py — edited (partition_csvs() extended for Batch 3)",
+    "data/journal1-algorithm-specification/closure-batch3.json — created",
+    "data/journal1-algorithm-specification/report-batch3.md — created"
+  ],
+  "canonical_files_touched": [],
+  "workstream_status": "The full four-algorithm specification workstream (Batches 1–3, plus two closed repairs) is now CLOSED at the specification level. Layer 3 prototype build, F1–F3 fidelity runs, E5 benchmarking and final complexity analysis remain deferred as bounded OPEN items."
+}

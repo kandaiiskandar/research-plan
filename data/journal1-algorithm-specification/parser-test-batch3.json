@@ -1,0 +1,76 @@
+{
+  "overall": "PASS",
+  "count": 7,
+  "files": [
+    {
+      "file": "algorithm-contracts-batch3.csv",
+      "csv_reader_strict": "PASS",
+      "header_field_count": 4,
+      "data_row_count": 24,
+      "csv_dictreader": "PASS",
+      "pandas_read_csv": "PASS",
+      "pandas_row_count": 24,
+      "overall": "PASS"
+    },
+    {
+      "file": "algorithm-traceability-batch3.csv",
+      "csv_reader_strict": "PASS",
+      "header_field_count": 7,
+      "data_row_count": 15,
+      "csv_dictreader": "PASS",
+      "pandas_read_csv": "PASS",
+      "pandas_row_count": 15,
+      "overall": "PASS"
+    },
+    {
+      "file": "change-map-batch3.csv",
+      "csv_reader_strict": "PASS",
+      "header_field_count": 5,
+      "data_row_count": 12,
+      "csv_dictreader": "PASS",
+      "pandas_read_csv": "PASS",
+      "pandas_row_count": 12,
+      "overall": "PASS"
+    },
+    {
+      "file": "open-decisions-batch3.csv",
+      "csv_reader_strict": "PASS",
+      "header_field_count": 7,
+      "data_row_count": 3,
+      "csv_dictreader": "PASS",
+      "pandas_read_csv": "PASS",
+      "pandas_row_count": 3,
+      "overall": "PASS"
+    },
+    {
+      "file": "safety-dominance-trace-batch3.csv",
+      "csv_reader_strict": "PASS",
+      "header_field_count": 5,
+      "data_row_count": 4,
+      "csv_dictreader": "PASS",
+      "pandas_read_csv": "PASS",
+      "pandas_row_count": 4,
+      "overall": "PASS"
+    },
+    {
+      "file": "state-cases-batch3.csv",
+      "csv_reader_strict": "PASS",
+      "header_field_count": 6,
+      "data_row_count": 7,
+      "csv_dictreader": "PASS",
+      "pandas_read_csv": "PASS",
+      "pandas_row_count": 7,
+      "overall": "PASS"
+    },
+    {
+      "file": "transition-cases-batch3.csv",
+      "csv_reader_strict": "PASS",
+      "header_field_count": 5,
+      "data_row_count": 6,
+      "csv_dictreader": "PASS",
+      "pandas_read_csv": "PASS",
+      "pandas_row_count": 6,
+      "overall": "PASS"
+    }
+  ]
+}
