@@ -1,0 +1,60 @@
+{
+  "task": "Journal 1 canonical consistency synchronisation",
+  "date": "2026-09-10",
+  "branch": "chore/journal1-canonical-consistency-sync",
+  "outcome": "CLOSED - maintained publication aligned",
+  "maintained_target": "publications/active/journal-1/submissions/v1-initial-submission/manuscript.md",
+  "j1_r6_resolution": "Not a submission snapshot: README names it the current working manuscript, its header says active working manuscript, status is research-design phase, nothing submitted",
+  "files_audited": 8,
+  "findings": 23,
+  "classification": {
+    "ACTIVE-CANONICAL-DRIFT": 8,
+    "ACTIVE-CORRECT": 10,
+    "HISTORICAL": 3,
+    "OPEN-evaluation-design": 1,
+    "IRRELEVANT": 1
+  },
+  "files_changed": [
+    "publications/active/journal-1/submissions/v1-initial-submission/manuscript.md",
+    "publications/active/journal-1/research-design.md"
+  ],
+  "residue_scan_all_clear": true,
+  "authorities_unchanged": true,
+  "appendix_c": "abee8715e842e0d9",
+  "conference_manuscript": "27b33b846ae327cb",
+  "solar_artefact": "057c46a19d0e8ea7",
+  "register_unchanged": true,
+  "unexpected_changes": [],
+  "headline_finding": "Condition-label collision: canonical C2 = Proposed, Journal 1 C2 = Binary-gated. All three labels differ. Repaired by explicit mapping, not renaming.",
+  "empirical": {
+    "level2": "5.81% / 4.48%",
+    "g_o": "98.71% / 97.66%",
+    "g_t": "86.82% / 90.19%",
+    "g_r_daylight": "1.48% / 2.70%",
+    "g_r_all_hours": "0.20% / 0.26%",
+    "daylight_unsafe": "1262 / 455"
+  },
+  "register": {
+    "total": 24,
+    "CONFIRMED": 15,
+    "REFUTED": 9,
+    "P01": "REFUTED",
+    "P16": "CONFIRMED",
+    "P09": 3661,
+    "P20": 1529
+  },
+  "open_items": [
+    "No Flehmig-style C3 baseline in Journal 1 evaluation design (J1-R2, recorded not made)",
+    "Threats-to-validity section unwritten - belongs to planned empirical chapters",
+    "Condition labels remain non-canonical, now mapped"
+  ],
+  "stop_conditions": {
+    "J1-R1": false,
+    "J1-R2": "recorded",
+    "J1-R3": false,
+    "J1-R4": false,
+    "J1-R5": false,
+    "J1-R6": false
+  },
+  "csv_parser_all_pass": true
+}

@@ -1,0 +1,22 @@
+{
+  "scalar_g_r": [],
+  "categorical_rainfall": [],
+  "storm_where_available": [],
+  "wind_22kn": [],
+  "wave_1_9": [],
+  "fixed_clock_g_t": [],
+  "time_caution": [],
+  "never_fires": [],
+  "universal_binary": [],
+  "domain_independent_case": [],
+  "warranted_scope": [],
+  "g_v": [],
+  "MFWAM_primary": [],
+  "stale_figures_with_reporting": [],
+  "_historical_files_not_audited_for_active_drift": [
+    "section-5-plan.md",
+    "section-6-plan.md",
+    "session-log.md"
+  ],
+  "all_clear": true
+}

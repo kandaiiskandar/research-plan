@@ -1,0 +1,19 @@
+{
+  "g_r_signature": "g_r : R>=0 x K -> {SAFE, CAUTION, UNSAFE}, K={0,1}",
+  "kappa": "chi(c)=1 iff c in {95,96,99}",
+  "kappa_never_bottom": true,
+  "kappa_default_non_escalating_not_failsafe": true,
+  "kappa_in_D": false,
+  "rate_required_bottom_to_UNSAFE": true,
+  "totality_two_cases_over_kappa": true,
+  "g_w": "21.6 / 27.0",
+  "g_o_small": "1.0 / 1.25",
+  "g_o_medium": "1.4 / 2.8",
+  "g_o_big": "1.5 / 3.5",
+  "g_t": "SAFE iff sunrise(date) <= t < sunset(date); no CAUTION; bottom -> UNSAFE",
+  "D": "{m} retrospective",
+  "t_in_D": false,
+  "observation_model": "Obs_i = (X_i x T) u {bottom}; rho_{D,tau}; F_{D,tau} = f o rho",
+  "reasons_contract": "Q -> P({fault,hazard,policy})",
+  "safety_dominance_wording": "admissible scope; no 'warranted scope' present"
+}
