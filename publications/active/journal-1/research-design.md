@@ -108,7 +108,7 @@ Each module can be developed, reviewed, and refined independently before integra
 *Target: Sections 10–12*
 
 **Tasks:**
-- [ ] Finalise three-condition comparison design (C1 Ungated, C2 Binary-gated, C3 Graduated)
+- [ ] Finalise three-condition comparison design (C1 Ungated, C2 Binary-gated, C3 Graduated) — ⚠️ **these labels collide with the canonical four-condition scheme and C2 inverts**: canonical C0 = Ungated, C1 = Binary-gated, **C2 = Proposed**, C3 = Flehmig traffic-light. Translate before citing any canonical figure. Mapping table and the missing-C3-baseline open item are in [the active working manuscript](submissions/v1-initial-submission/manuscript.md) §Evaluation conditions *(noted 2026-09-10)*
 - [ ] Select/compile historical weather scenarios covering SAFE, CAUTION, and UNSAFE conditions
 - [ ] Define metrics formally: advisory scope compliance rate, false positive rate, utility, latency
 - [ ] Select baselines and confirm they are comparable

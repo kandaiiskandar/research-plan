@@ -1,0 +1,46 @@
+{
+  "phase": "journal1-semantic-closure-after",
+  "changed": [
+    "publications/active/journal-1/research-design.md",
+    "publications/active/journal-1/submissions/v1-initial-submission/manuscript.md"
+  ],
+  "expected": [
+    "publications/active/journal-1/research-design.md",
+    "publications/active/journal-1/submissions/v1-initial-submission/manuscript.md"
+  ],
+  "unexpected": [],
+  "authorities_changed": [],
+  "appendix_c": "abee8715e842e0d9",
+  "conference_manuscript": "27b33b846ae327cb",
+  "solar_artefact": "057c46a19d0e8ea7",
+  "register_unchanged": true,
+  "hashes": {
+    "docs/canonical/appendix-c-formalisation.md": "abee8715e842e0d9ad49edc6a2093672dd1d5dabb3d393ead1aee4e4a76e0f8c",
+    "publications/active/ipsci-2026/submissions/v3-revision/manuscript-v3.md": "27b33b846ae327cb3401bc4e6e9cb387c651fc7f3bb2b69cbaf3c5aa5e6e1bd8",
+    "data/prediction-register.csv": "5574b88ea65168b6ef5e308629f3eb14fb70f8688a592fde279103ea4b37eae6",
+    "data/solar/solar-events-daily.csv": "057c46a19d0e8ea7956cdc38ae3d7615cf43cf800e7bc33ab286dfdc20ce1894",
+    "scripts/canonical_figures.py": "56c8d4c295b0df7d904728cdeaaa30063d83d8d71f99db4f6f47d76b3c03eb8b",
+    "scripts/condition_comparison.py": "3c32913a2a9cc85ff237c927d6f2be7a57fe0a87a08de5e254dbf98150282d48",
+    "scripts/hysteresis_analysis.py": "a58af0133acdf4f8cb1fc6945439c2bd3505082038307f8272256a1efe37096c",
+    "scripts/historical_replay.py": "3b1105b7cc03839b3d162f4c6ecef60dd439102ea5a9d4c139c4cc19c043d806",
+    "scripts/diagnostic_binding.py": "113b5b92e81535a97a8967aa2658e3c1da5ef2f32cf04dae0e18ccd5c57ecb61",
+    "scripts/canonical_gt.py": "b330bf9f94e848aad282a71d226c85c7e73f4ec8c0f2f8c88bfd7112b6e9a577",
+    "scripts/sensitivity/solar.py": "3b7dc371ebe5931b3336f9982c5806a06a515dc2032569f5da7720470c1ec36c",
+    "data/raw_weather_sea.csv": "96850d7547189ffa5ccc02a36cf69987bfae742e54b61597c2ca7d251e84c424",
+    "data/raw_weather.csv": "1ee535cd12e6b339f2daabde7add4069a039fc14b3cbaad4593565dc348c8503",
+    "data/raw_rainfall.csv": "faeededdaa3ff799cb198f14a5d3d8b5a84e0c74c247af969ca2baacd9ffcff5",
+    "data/raw_marine_era5_sea.csv": "6754e2c2ee5586ee864e590f1ccf363bbd8840b364763e01e8c9eb05e5d63888",
+    "data/raw_marine_mfwam.csv": "e9f323e086a3e9dddd29129bda6dbbea7590bbdcc9a1500c0460ca18233bf60f",
+    "docs/canonical/empirical-findings-2026-09-06.md": "53dcaf0f5aa5f0b9414160b6c1e9d5b9b61ea7c6961beb79fff6472208bfaddc",
+    "docs/canonical/data-provenance.md": "59714f6f3b3a686f07a253ad0cf8f80a9f7d92c9a2426439610e999c04d225f9",
+    "CLAUDE.md": "49b859309cacfdf7f894a24a9fdf7f6c616ddc9da6505b8fceace1ca34923872",
+    "publications/active/journal-1/README.md": "da3ca9a1d47cc4b90d5e0b9fef3ca4b054471e7120d49b24f439fba09739854c",
+    "publications/active/journal-1/correspondence/notes.md": "d859d3142d03ea0a22e66461fa68791199acab82fcb265fc413528b5354123e4",
+    "publications/active/journal-1/research-design.md": "0290a9c5eb7f7fb50a6971df3c34eb9e9f901b1421567f18a1bf0f1fa401be8d",
+    "publications/active/journal-1/section-5-plan.md": "7d9c58e9f3e96547008b075d665a115b72dfc1eedb070671256c4550fbb74f15",
+    "publications/active/journal-1/section-6-plan.md": "16c4c4059fcf4d8c27535038c5497e2fe318aa0941f8a593054677ca51b94673",
+    "publications/active/journal-1/session-log.md": "d0680bc38f1986e6b01d781af7bd53c49c2b9106e3bf2a65efaf05d701f3dc92",
+    "publications/active/journal-1/submissions/.DS_Store": "79a66b8f059eb5a6b49dd891cf0ef69d4eb690bd51d705147b53fdf011270987",
+    "publications/active/journal-1/submissions/v1-initial-submission/manuscript.md": "5f8a8d7d996d6a48908078613f941f89316debaf6f90013512f8704652e6323a"
+  }
+}

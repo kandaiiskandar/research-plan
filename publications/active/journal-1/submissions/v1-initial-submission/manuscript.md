@@ -114,7 +114,7 @@ Each step is formally specified. The environmental–operational state vector **
 
 Human authority is unconditional and final. The architecture provides decision support; it does not automate the departure decision.
 
-The architectural contribution resides in the governance pair (G(S), A_AI(S)). Prior governance architectures implement only a participation gate G(S): the AI is either enabled (G = 1) or disabled (G = 0). The proposed architecture adds a second governance level A_AI(S) that constrains the AI's advisory scope independently of whether it participates. Under the CAUTION state — the novel intermediate mode that binary architectures cannot express — the AI remains active (G(S) = 1) but operates within a formally restricted recommendation space. Binary architectures have no mechanism to distinguish CAUTION from SAFE: their G(S) returns 1 for both states, leaving scope entirely unconstrained in marginal conditions. The governance pair makes a formally distinct third governance position possible.
+The architectural contribution resides in the governance pair (G(S), A_AI(S)). **Graduated governance is not itself novel** — several reviewed architectures interpose intermediate levels between normal operation and shutdown. What they graduate is supervisory intensity, execution deferral, or the action space of an acting agent. **On the axis that matters here — the set of recommendation types presented to a human decision-maker — the control they provide reduces to a participation gate G(S)**: the AI is either enabled (G = 1) or disabled (G = 0). The proposed architecture adds a second governance level A_AI(S) that constrains the AI's advisory scope independently of whether it participates. Under the CAUTION state — the novel intermediate mode that binary architectures cannot express — the AI remains active (G(S) = 1) but operates within a formally restricted recommendation space. Binary architectures have no mechanism to distinguish CAUTION from SAFE: their G(S) returns 1 for both states, leaving scope entirely unconstrained in marginal conditions. The governance pair makes a formally distinct third governance position possible.
 
 The four-step pipeline is specified across four computationally distinct layers, described in Section 5.6. Sections 5.2–5.5 define each component of the pipeline formally. Section 6 proves the formal properties the architecture satisfies.
 
@@ -151,6 +151,16 @@ This is a stronger requirement than simply noting that the inputs are sensor-der
 
 *Time and observation context.* For C = {w,r,m,o,t}, Obs_i = (X_i × 𝕋) ∪ {⊥}; y = ρ_{D,τ}(obs) is the resolved input and S = F_{D,τ}(obs,v) = f(y,v). Time retains its clock value in [0,24) and is evaluated with a valid date and canonical solar lookup. g_t is SAFE iff sunrise(date) ≤ t < sunset(date), and UNSAFE otherwise. It emits no CAUTION; exact sunrise is SAFE and exact sunset UNSAFE. Daylight means this astronomical interval. E and f(E) elsewhere abbreviate the valid-input case, with this time context understood.
 
+**Definition 5.2a (Rainfall input and the thunderstorm indicator κ).** The rainfall classifier consumes a structured input, **X_r = ℝ≥0 × K with K = {0, 1}**, so that
+
+**g_r : ℝ≥0 × K → {SAFE, CAUTION, UNSAFE}**,  g_r(r, 1) = UNSAFE for every r.
+
+Here *r* is the precipitation rate in mm/hr and **κ = χ(c)** is a **derived** thunderstorm indicator obtained from the provider's raw present-weather code *c* by the total map
+
+**χ(c) = 1 iff c ∈ {95, 96, 99}, and χ(c) = 0 otherwise, including when c is absent or unrecognised.**
+
+Three properties matter for the formal treatment. First, **c is not the classifier input** — κ is, and κ is computed rather than measured; no instrument observes it. Second, **χ is total into K and never returns ⊥**, so an unavailable weather code does not fault the rainfall component: it yields κ = 0 and the rate-only classification stands. That default is **non-escalating — fail-open for the storm disjunct — and is not a fail-safe**; the required coordinate is the rate, and a missing, invalid or stale *rate* resolves to ⊥ and yields UNSAFE as a fault in the usual way. Third, **κ is escalation-only**: since g_r(r, 1) = UNSAFE and max_≻ is monotone in each argument, an active indication can only raise or preserve f(E), never lower it. Consequently, where the code feed is absent or incomplete, reported g_r figures are lower bounds. κ is **not** a member of the declared exclusion set D; the unexercised storm route and the marine-warning archive gap are distinct phenomena.
+
 *Solar-event provenance.* Sunrise and sunset are read from a frozen daily table computed once for the study site (5.98° N, 116.01° E, UTC+8, no daylight saving); no analysis script recomputes solar geometry. The formulation implements NOAA's published general solar-position equations — the fractional-year equation-of-time and declination series, and the sunrise/sunset hour angle evaluated at the 90.833° zenith NOAA specifies as the approximate combined correction for atmospheric refraction and solar-disc size. Two simplifications are adopted and disclosed: the fractional-year term omits NOAA's intra-day refinement, and the day-angle denominator is held at 365 in leap years; measured against the unsimplified equations at this site these contribute at most 0.116/0.141 min (sunrise/sunset) and 0.457/0.483 min respectively. These are deterministic implementation-sensitivity bounds comparing two models, not an astronomical validation. Classification consumes stored decimal-hour values, not minute-rounded display times. Across 28 sampled comparisons at the study coordinate the implementation differed from the U.S. Naval Observatory Astronomical Applications reference by under one minute in every case (maximum 0.92 min; 0.75 min across the sunrise and sunset events used by *g*_t). This is a bounded agreement check, not a general accuracy claim. COLREG Rule 20(b) requires navigation lights from sunset to sunrise, which establishes the maritime relevance of that boundary; it does not require AI advisory abstention, and the abstention rule is an architecture policy choice.
 
 *Operational exclusion and fail-safe.* v must be configured and D well-formed before startup; t ∉ D. Exclusions are resolved before faults and contribute SAFE. For each remaining component, missing, invalid or stale required observations resolve to ⊥; g_i(⊥) = UNSAFE, so maximum severity gives operational UNSAFE as a corollary, not a separate override preceding all classification. Required clock/date/solar failures use the same fail-safe. Missing swell period does not fault o because g_o consumes wave height only. Historical replay declares D = {m} because no warning archive exists; this is not an instruction to ignore a required live warning feed. Under valid startup configuration, the operational classifier is total.
@@ -184,7 +194,7 @@ For each condition component xᵢ ∈ {w, r, m, o, t}, define a classification f
 | Function | SAFE | CAUTION | UNSAFE | Basis |
 |----------|------|---------|--------|-------|
 | g_w(w) | w ≤ 21.6 kn | 21.6 < w ≤ 27.0 kn | w > 27.0 kn | MET Category 1 onset 40 km/h (21.598 kn, represented as 21.6); Category 2 onset 50 km/h (26.998 kn, represented as 27.0) |
-| g_r(r) | r ≤ 10.0 mm/hr | 10.0 < r ≤ 20.0 mm/hr | r > 20.0 mm/hr; specified storm indication where available | JPS/DID lower boundary; MET hourly-rate trigger; advisory governance policy, not a departure prohibition |
+| g_r(r, κ) | κ = 0 and r ≤ 10.0 mm/hr | κ = 0 and 10.0 < r ≤ 20.0 mm/hr | κ = 0 and r > 20.0 mm/hr, **or κ = 1** | JPS/DID lower boundary; MET hourly-rate trigger; advisory governance policy, not a departure prohibition |
 | g_m(m) | {none} | {advisory} | {warning, alert} | MET Malaysia three-tier marine warning system |
 | g_o(o, v) | *vessel-conditional* | | | See Table 1b |
 | g_t(t, date) | sunrise(date) ≤ t < sunset(date) | *(none — g_t emits no CAUTION)* | otherwise; UNSAFE on required clock/date/solar resolution failure | **Boundary: COLREGs Rule 20(b), "from sunset to sunrise" (SDR-001, applied 2026-09-08).** Atacan & Düzbastılar (2023) establish elevated night risk, not the boundary |
@@ -223,7 +233,7 @@ Two consequences follow. First, a small vessel in genuinely benign conditions �
 
 **Definition 5.5 (Safety State Classification Function).** The overall classification function is:
 
-**f(E) = max_≻ {g_w(w), g_r(r), g_m(m), g_o(o, v), g_t(t, date)}**
+**f(E) = max_≻ {g_w(w), g_r(r, κ), g_m(m), g_o(o, v), g_t(t, date)}**
 
 where max_≻ denotes the maximum under the severity order ≻ from Definition 5.3, returning the greatest element of the set under that order. The output S = f(E) ∈ {SAFE, CAUTION, UNSAFE}.
 
@@ -410,7 +420,7 @@ Together, the three theorems characterise the full safety behaviour of the gover
 *(i) Totality of each classification function.*
 
 - **g_w:** The three intervals [0, 21.6], (21.6, 27.0], (27.0, +∞) partition ℝ≥0 exhaustively with no gaps and no overlaps. Every w ∈ ℝ≥0 falls in exactly one interval. ✓
-- **g_r:** Numeric rate intervals [0,10.0], (10.0,20.0], (20.0,+∞) are exhaustive and disjoint; the specified storm indication also maps to UNSAFE where available. ✓
+- **g_r:** Two-argument, with domain ℝ≥0 × K where K = {0, 1}. Totality follows in two exhaustive cases over κ. At **κ = 1**, g_r(r, 1) = UNSAFE for every r, independently of the rate. At **κ = 0**, the rate intervals [0, 10.0], (10.0, 20.0], (20.0, +∞) partition ℝ≥0 exhaustively with no gaps and no overlaps. The two cases are disjoint and cover K, so every pair (r, κ) receives exactly one classification. ✓ *(The rate partition alone does not exhaust the domain of g_r — see Definition 5.2a.)*
 - **g_m:** The four values {none, advisory, warning, alert} constitute the complete domain of m. Each is assigned to exactly one classification (SAFE, CAUTION, UNSAFE, UNSAFE respectively). ✓
 - **g_o:** Two-argument, with domain ℝ≥0 × {small, medium, big}. Totality follows in two steps. First, for each fixed v, the corresponding row of Table 1b induces three intervals partitioning ℝ≥0 exhaustively with no overlap — [0, 1.0), [1.0, 1.25], (1.25, +∞) for small; [0, 1.4), [1.4, 2.8], (2.8, +∞) for medium; [0, 1.5), [1.5, 3.5], (3.5, +∞) for big. Second, {small, medium, big} is finite and exhausts the domain of v. Every pair (o, v) therefore selects exactly one row and falls within exactly one interval of that row. ✓
 - **g_t:** Given valid date and solar context, [sunrise(date),sunset(date)) and its complement partition [0,24). They map to SAFE and UNSAFE respectively; the component is total without being surjective onto all three states. Required time-dependency failures map to UNSAFE in the operational extension. ✓
@@ -421,9 +431,9 @@ Note that the two-argument form of g_o does not weaken the argument. Parameteris
 
 *(ii) Totality of max_≻.*
 
-max_≻ takes the set {g_w(w), g_r(r), g_m(m), g_o(o, v), g_t(t, date)} ⊆ {SAFE, CAUTION, UNSAFE} and returns the greatest element under ≻ (Definition 5.3). Since ≻ is a total strict order on a finite non-empty set, the maximum always exists and is unique. ✓
+max_≻ takes the set {g_w(w), g_r(r, κ), g_m(m), g_o(o, v), g_t(t, date)} ⊆ {SAFE, CAUTION, UNSAFE} and returns the greatest element under ≻ (Definition 5.3). Since ≻ is a total strict order on a finite non-empty set, the maximum always exists and is unique. ✓
 
-Therefore f(E) = max_≻ {g_w(w), g_r(r), g_m(m), g_o(o, v), g_t(t, date)} is defined and returns exactly one element of {SAFE, CAUTION, UNSAFE} for all E. ∎
+Therefore f(E) = max_≻ {g_w(w), g_r(r, κ), g_m(m), g_o(o, v), g_t(t, date)} is defined and returns exactly one element of {SAFE, CAUTION, UNSAFE} for all E. ∎
 
 **Operational extension.** With configured v and well-formed D, resolution first discharges exclusions, then validation/freshness of required inputs. Each required ⊥ has g_i(⊥) = UNSAFE, so max-severity yields UNSAFE. This establishes totality of F_{D,τ} including required resolution failures. Missing v refuses startup and is not a runtime classification. This is the Appendix C C.1b extension of the ideal theorem.
 
@@ -528,7 +538,9 @@ The three theorems together characterise the full formal safety behaviour of the
 | 6.2 (Monotonicity) | A_AI(S₁) ⊆ A_AI(S₂) whenever S₁ ≻ S₂ | Advisory scope never expands as conditions worsen; CAUTION is provably stricter than SAFE |
 | 6.3 (Safety Dominance) | AI(E) ⊆ A_AI(f(E)) for all E | AI output is bounded within the admissible scope at every state, by construction |
 
-These guarantees are complementary. The Safety Dominance case analysis uses totality to establish that a state exists, together with the state-indexed rule-set and gate assumptions. Totality ensures the governance layer always has a state to enforce. Monotonicity ensures that state appropriately restricts scope as risk increases. Safety Dominance ensures that the AI advisory engine actually respects that restriction. An architecture satisfying all three has no formally identifiable path by which an AI recommendation can exceed the scope warranted by the current environmental conditions.
+These guarantees are complementary. The Safety Dominance case analysis uses totality to establish that a state exists, together with the state-indexed rule-set and gate assumptions. Totality ensures the governance layer always has a state to enforce. Monotonicity ensures that the configured admissible sets contract, never expand, as the classified state worsens. Safety Dominance ensures that the AI advisory engine actually respects that restriction. An architecture satisfying all three has no formally identifiable path by which an AI recommendation can exceed the **configured admissible scope associated with the current governance state**.
+
+**What the composite guarantee does not establish.** The three theorems verify *enforcement* of the configured governance mapping. They say nothing about whether that configuration is the right one. In particular, none of them establishes that `A_AI(CAUTION) = {Go, Delay}` is epistemically warranted, scientifically optimal, or derivable from the environmental evidence: that partition is a conservative architecture policy (Section 5), and deriving admissible sets from stated evidential requirements rather than stipulating them remains outstanding work. Soundness of the *configuration* is a separate question from soundness of the *enforcement*, and only the second is proved here.
 
 Section 10 plans to evaluate implementation fidelity and advisory behaviour in empirical test scenarios, comparing the graduated architecture against ungated and binary-gated baselines across the three safety states.
 
@@ -599,6 +611,19 @@ Section 10 plans to evaluate implementation fidelity and advisory behaviour in e
 | C2 | Binary-gated | AI enabled/disabled, no advisory scope restriction |
 | C3 | Graduated (proposed) | Full (G(S), A_AI(S)) governance pair |
 
+> ⚠️ **Condition labels differ from the canonical scheme — mapping required when citing canonical results** *(added 2026-09-10)*. The canonical harness (`scripts/condition_comparison.py`, and TABLE VII of the conference paper) uses a **four**-condition scheme in which the same letters carry different meanings:
+>
+> | Canonical | Meaning | Journal 1 equivalent |
+> |---|---|---|
+> | **C0** | Ungated | **C1** |
+> | **C1** | Binary-gated | **C2** |
+> | **C2** | **Proposed** graduated architecture | **C3** |
+> | **C3** | Flehmig-style three-level traffic light | *(no equivalent — see below)* |
+>
+> **Every label collides, and the most important one inverts: canonical C2 is the proposed architecture, whereas Journal 1's C2 is the binary-gated baseline.** Any figure quoted from a canonical artefact must be translated through this table before it is placed against a Journal 1 condition label. Canonical values for reference: C0↔C1 = 42.88%, C0↔C2 = 48.69%, Level 2 isolated = **5.81% (PRIMARY) / 4.48% (RESOLUTION)**, C1↔C3 = **0.00%**.
+>
+> **Open item:** Journal 1's design has no counterpart to the canonical **C3 Flehmig-style traffic-light baseline**, which is what establishes the graduated-advisory-scope gap as a measurement (0.00% divergence from a plain binary gate). Adding it is an evaluation-design decision, not a synchronisation, and is recorded here rather than made.
+
 **Scenarios:** Historical weather replay across SAFE, CAUTION, and UNSAFE conditions
 
 **Metrics:**
@@ -645,7 +670,7 @@ Section 10 plans to evaluate implementation fidelity and advisory behaviour in e
 
 **Key content to include:**
 - What the results mean for the binary governance gap
-- Generalisation: which aspects of the architecture are domain-independent
+- Generalisation: which architectural structures are re-instantiable across domains, and which thresholds, inputs, evidence and empirical findings remain domain-specific. *(Wording corrected 2026-09-10: this read "which aspects of the architecture are domain-independent", which invites the retired overclaim. The governance pair, the containment property and the three theorems transfer by construction to any correct instantiation; the Sabah coastal-fisheries thresholds, data sources, binding profile and measured rates do not, and this study establishes no empirical portability beyond its site.)*
 - Deployment challenges in low-resource environments: connectivity, hardware, maintenance
 - Relationship to governance standards (IEC 61508, ISO 26262, SOLAS)
 - Limitations of the current prototype

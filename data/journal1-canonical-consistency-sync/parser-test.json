@@ -1,0 +1,30 @@
+{
+  "journal1-canonical-audit.csv": {
+    "fields": 11,
+    "dictreader_rows": 23,
+    "pandas_rows": 23,
+    "malformed": [],
+    "parse": "PASS"
+  },
+  "journal1-change-map.csv": {
+    "fields": 4,
+    "dictreader_rows": 2,
+    "pandas_rows": 2,
+    "malformed": [],
+    "parse": "PASS"
+  },
+  "journal1-file-classification.csv": {
+    "fields": 4,
+    "dictreader_rows": 8,
+    "pandas_rows": 8,
+    "malformed": [],
+    "parse": "PASS"
+  },
+  "semantic-closure-audit.csv": {
+    "fields": 10,
+    "dictreader_rows": 11,
+    "pandas_rows": 11,
+    "malformed": [],
+    "parse": "PASS"
+  }
+}

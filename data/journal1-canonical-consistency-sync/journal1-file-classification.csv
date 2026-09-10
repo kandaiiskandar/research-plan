@@ -1,0 +1,9 @@
+file,classification,maintained_target,rationale
+publications/active/journal-1/submissions/v1-initial-submission/manuscript.md,ACTIVE-MAINTAINED,YES,"README names it 'Current working manuscript ... aligned to Appendix C'; its own header says 'active working manuscript'; project status is research-design phase with target submission early 2027. The directory name v1-initial-submission is misleading - nothing has been submitted, so J1-R6 does not apply"
+publications/active/journal-1/research-design.md,ACTIVE-MAINTAINED,NO,"RQs, hypotheses, metrics and open checklist for work not yet done"
+publications/active/journal-1/README.md,ACTIVE-MAINTAINED,NO,"Submission tracking, venue, deadlines; names the maintained target"
+publications/active/journal-1/correspondence/notes.md,SUPPORTING,NO,Correspondence notes; no canonical claims
+publications/active/journal-1/section-5-plan.md,HISTORICAL,NO,"Carries a document-level 2026-09-09 banner: 'historical drafting plan, superseded for implementation and publication reuse', pointing to the maintained manuscript"
+publications/active/journal-1/section-6-plan.md,HISTORICAL,NO,Same document-level supersession banner
+publications/active/journal-1/session-log.md,HISTORICAL,NO,Dated session records (## Session: 2026-08-09 etc). Contains g_v and 1.5 m references that record what was believed on those dates
+publications/active/journal-1/submissions/.DS_Store,IRRELEVANT,NO,macOS filesystem artefact

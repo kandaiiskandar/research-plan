@@ -1,0 +1,18 @@
+{
+  "canonical_weather": "raw_weather_sea.csv supplies wind, precipitation and raw weather code c",
+  "PRIMARY_waves": "raw_marine_era5_sea.csv",
+  "RESOLUTION_waves": "raw_marine_mfwam.csv",
+  "historical_land": [
+    "raw_weather.csv",
+    "raw_rainfall.csv",
+    "raw_marine.csv"
+  ],
+  "separations_km": {
+    "PRIMARY": 7.2,
+    "RESOLUTION": 2.7,
+    "v1_historical": 12.9
+  },
+  "journal1_states_data_sources": false,
+  "note": "Journal 1's drafted sections do not yet state data sources; empirical sections remain plans. No land-cell configuration is presented as current.",
+  "datasets_unchanged": true
+}
