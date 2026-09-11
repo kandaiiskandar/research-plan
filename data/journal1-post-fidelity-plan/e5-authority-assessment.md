@@ -64,15 +64,15 @@ Every mention of a threshold in the journal-1 tree uses the placeholder form `H3
 
 | Location | Text | Classification |
 |---|---|---|
-| `evaluation-specification.md` §8 | "Its acceptance threshold `H3 = X ms` is **OPEN** — no externally justified value exists, and none is invented." | PLACEHOLDER — not a threshold value |
-| `evaluation-specification.md` §11 | "`H3 = X ms` is **OPEN**. No externally justified acceptance criterion exists. **Do not invent one.**" | EXPLICIT PROHIBITION against inventing |
-| `evaluation-specification.md` §17 (OPEN-1) | "Governance latency acceptance threshold `H3 = X ms` … No externally justified value exists … Only H3 in acceptance-hypothesis form; RQ-J2 is closed as a descriptive question" | OPEN item, descriptive path unblocked |
-| `evaluation-baseline-decision.md` §10 | "Note `[X ms]` is an unfilled placeholder and needs a justified value before it is testable" | PLACEHOLDER |
-| `evaluation-baseline-decision.md` §14 | "Supply a justified value for H3's `[X ms]`" | Historical recommendation (not fulfilled) |
-| `algorithm-specification.md` (OPEN-B1-6) | "Latency acceptance threshold `H3 = X ms` … No externally justified acceptance criterion exists" | OPEN — unchanged from evaluation-spec |
-| `layer3-prototype-specification.md` (OPEN-B1-6) | "Latency acceptance threshold H3 … OPEN — unchanged" | OPEN — unchanged |
-| `research-design.md` | "`H3 threshold = OPEN`" | OPEN |
-| `manuscript.md` §8 | "`H3 = X ms` remains OPEN" | OPEN |
+| `evaluation-specification.md` §8 | "Its acceptance threshold `H3 = X ms` is **OPEN** — no externally justified value exists, and none is invented." | UNSUPPORTED (intentional placeholder — no externally sourced value or citation) |
+| `evaluation-specification.md` §11 | "`H3 = X ms` is **OPEN**. No externally justified acceptance criterion exists. **Do not invent one.**" | UNSUPPORTED (intentional placeholder — no externally sourced value or citation) |
+| `evaluation-specification.md` §17 (OPEN-1) | "Governance latency acceptance threshold `H3 = X ms` … No externally justified value exists … Only H3 in acceptance-hypothesis form; RQ-J2 is closed as a descriptive question" | UNSUPPORTED (intentional placeholder — no externally sourced value or citation) |
+| `evaluation-baseline-decision.md` §10 | "Note `[X ms]` is an unfilled placeholder and needs a justified value before it is testable" | UNSUPPORTED (intentional placeholder — no externally sourced value or citation) |
+| `evaluation-baseline-decision.md` §14 | "Supply a justified value for H3's `[X ms]`" | UNSUPPORTED (intentional placeholder — no externally sourced value or citation) |
+| `algorithm-specification.md` (OPEN-B1-6) | "Latency acceptance threshold `H3 = X ms` … No externally justified acceptance criterion exists" | UNSUPPORTED (intentional placeholder — no externally sourced value or citation) |
+| `layer3-prototype-specification.md` (OPEN-B1-6) | "Latency acceptance threshold H3 … OPEN — unchanged" | UNSUPPORTED (intentional placeholder — no externally sourced value or citation) |
+| `research-design.md` | "`H3 threshold = OPEN`" | UNSUPPORTED (intentional placeholder — no externally sourced value or citation) |
+| `manuscript.md` §8 | "`H3 = X ms` remains OPEN" | UNSUPPORTED (intentional placeholder — no externally sourced value or citation) |
 
 ### Search in `docs/canonical/` for latency/performance thresholds
 
@@ -80,7 +80,7 @@ Files returned: `appendix-c-formalisation.md`, `rq5-study-design.md`, `research-
 
 ### Classification of all threshold candidates
 
-**Result: there are no threshold candidates to classify.** The repository contains one threshold placeholder (`H3 = X ms`) that explicitly marks itself as OPEN and unresolved. No numerical value — not even an "industry expectation" or "typical target" — appears anywhere in the corpus in connection with E5. There is no AUTHORITATIVE, CONTEXTUAL, or UNSUPPORTED threshold number to assess; the threshold space is empty.
+**Result: all nine occurrences classify as UNSUPPORTED.** The repository contains one threshold placeholder (`H3 = X ms`) repeated across nine locations, uniformly marked as OPEN and unresolved. Every occurrence is UNSUPPORTED — an intentional empty placeholder with no externally sourced numerical value and no citation. No occurrence qualifies as AUTHORITATIVE (no numerical bound adopted as a pass/fail criterion) or CONTEXTUAL (no "industry expectation" or "typical target" numerical value appears). The threshold space contains no candidate that could be elevated to AUTHORITATIVE or CONTEXTUAL status.
 
 ---
 
