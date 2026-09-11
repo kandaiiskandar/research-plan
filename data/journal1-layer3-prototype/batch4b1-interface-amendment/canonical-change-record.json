@@ -1,0 +1,35 @@
+{
+  "task": "Journal 1 Layer 3 Prototype — Batch 4B-1 Canonical Layer 2 → Layer 3 Interface Amendment",
+  "branch": "design/journal1-layer3-component-state-interface",
+  "HEAD_before": "1863d03eaf10576b5ac0b054b51a76099795d2d2",
+  "date": "2026-09-11",
+
+  "files_modified": [
+    "docs/canonical/architecture-illustration.md",
+    "publications/active/journal-1/layer3-prototype-specification.md"
+  ],
+
+  "canonical_file_modified": "docs/canonical/architecture-illustration.md",
+  "canonical_change_scope": "Section 2 (Architectural Layers) — Layer 3 box and Layer 2→Layer 3 arrow updated to document that Layer 2 provides S + ComponentStateTrace alongside G(S) and A_AI(S). Added ComponentStateTrace explanatory paragraph immediately after the diagram. No other section modified.",
+  "canonical_change_reason": "Batch 4A (resolution.json, 2026-09-11) classified this as required canonical change Option A — architecture-illustration.md must be factually accurate about what Layer 2 exposes to Layer 3. The amendment makes explicit the interface that Batch 4A selected (Model B) without changing any formal variable, governance mapping, or scientific semantics.",
+
+  "appendix_c_modified": false,
+  "appendix_c_change_required": false,
+  "appendix_c_rationale": "Safety Dominance proof (Theorem C.3) depends only on the value of S. ComponentStateTrace does not affect E, ρ_{D,τ}, f, F_{D,τ}, G(S), A_AI(S), or RS(S). No formal variable is added or changed.",
+
+  "scientific_architecture_changed": false,
+  "governance_semantics_changed": false,
+  "safety_dominance_changed": false,
+
+  "component_state_interface_added": true,
+  "component_state_interface_scope": "Documented in architecture-illustration.md §2 and layer3-prototype-specification.md §7.1. Implementation deferred to Batch 4B-2.",
+
+  "R_SAFE_001_status": "DEFERRED — STATE_RESTATEMENT (Batch 4A). Batch 4B-1 does not change this.",
+  "R_CAUTION_002_status": "AUTHORISED_IN_PRINCIPLE (Batch 4A). Future predicate: component_o_state == 'CAUTION'. Not implemented in Batch 4B-1.",
+  "R_CAUTION_003_status": "AUTHORISED_IN_PRINCIPLE (Batch 4A). Future predicate: component_r_state == 'CAUTION'. Not implemented in Batch 4B-1.",
+  "R_CAUTION_004_status": "AUTHORISED_IN_PRINCIPLE (Batch 4A). Future predicate: component_w_state == 'CAUTION'. Not implemented in Batch 4B-1.",
+
+  "implementation_performed": false,
+  "F1_F3_run": false,
+  "E5_run": false
+}

@@ -208,6 +208,112 @@ class DecisionContext:
 
 If Layer 3 implementation in later batches identifies a need for additional advisory inputs not derivable from canonical `E`, those inputs must be documented explicitly here as implementation-level additions — they must not silently extend the formal definition of `E` in `appendix-c-formalisation.md`.
 
+### 7.1 ComponentStateTrace — Layer 2 component-state interface
+
+*(Added Batch 4B-1, 2026-09-11. Implementation deferred to Batch 4B-2.)*
+
+**Purpose.** `ComponentStateTrace` is an implementation-level interface object produced by Layer 2 and passed to Layer 3 alongside `S`. It carries the already-computed component classification results — the outputs of `g_w`, `g_r`, `g_m`, `g_o`, and `g_t` that Layer 2 produced during the same evaluation episode that determined `S`. Layer 3 rule predicates may inspect these values without reimplementing any Layer 2 classifier.
+
+**Authority.** This interface is authorised by the Batch 4A resolution (2026-09-11, Model B accepted). The provision that implementation-level additions to `DecisionContext` must be documented explicitly here (§7 above) is the canonical gate for this entry. `appendix-c-formalisation.md` is unchanged — no formal variable is added to `E`, `ρ_{D,τ}`, `f`, or `F_{D,τ}`.
+
+**Producer and consumer:**
+
+```
+Layer 2 computes g_i(·) as part of determining S.
+Layer 2 produces ComponentStateTrace from the same resolved component results.
+Layer 3 receives ComponentStateTrace as a read-only input.
+Layer 3 does NOT recompute g_w, g_r, g_m, g_o, or g_t.
+```
+
+**Proposed fields and domains.**
+
+```python
+# ComponentStateTrace fields — to be added to DecisionContext in Batch 4B-2
+component_w_state: str   # ∈ {"SAFE", "CAUTION", "EXCLUDED"}
+component_r_state: str   # ∈ {"SAFE", "CAUTION", "EXCLUDED"}
+component_m_state: str   # ∈ {"SAFE", "CAUTION", "EXCLUDED"}
+component_o_state: str   # ∈ {"SAFE", "CAUTION", "EXCLUDED"}
+component_t_state: str   # ∈ {"SAFE", "EXCLUDED"}   — g_t emits no CAUTION
+```
+
+The domain `{SAFE, CAUTION, EXCLUDED}` is the Layer 3-visible interface type domain. Valid runtime values are constrained further by canonical semantics:
+
+- **`UNSAFE` is unreachable at the Layer 3 interface.** If any component produces UNSAFE, then `S = UNSAFE`, `G(UNSAFE) = 0`, and Layer 3 is never invoked. UNSAFE is an internal Layer 2 state; it does not appear in ComponentStateTrace at the Layer 3 reasoning boundary. This is an execution-boundary consequence, not a redefinition of `g_i` — the classifiers can and do return UNSAFE, but Layer 3 never sees it.
+- **`EXCLUDED` is distinct from observed `SAFE`.** A component in the declared exclusion set `D` is pinned SAFE for aggregation purposes (appendix-c C.2.0.5), but the interface exposes its true status as `EXCLUDED`. `EXCLUDED ≠ observed SAFE`.
+- **`component_t_state` domain is `{SAFE, "EXCLUDED"}` in the type.** However, `t ∉ D` always (appendix-c C.2.0.5 D1), so `EXCLUDED` is unreachable for `t` at runtime under the current canonical configuration. If `g_t` produces UNSAFE, gate-off applies before Layer 3 executes.
+- **`component_m_state = EXCLUDED` in retrospective replay.** The replay runs with `D = {m}` because no historical marine warning archive exists for the study site. `component_m_state = EXCLUDED` means only that `m` is excluded under the declared replay configuration — it does not assert `m = none` or absence of marine hazard. All figures under `D = {m}` are lower bounds on hazard exposure.
+
+**Fault semantics.** Faulted components (`obs_i = ⊥` → `g_i(⊥) = UNSAFE`) cause `S = UNSAFE` and Layer 3 gate-off. The fault resolves through existing Layer 2 fail-safe semantics (Corollary C.1b.1). Faulted states are not visible to Layer 3. `FAULTED` is not a new component governance state — it is absorbed by the UNSAFE gate-off path.
+
+**Read-only requirement.** Layer 3 must not modify, cache, or feed back any component state value. The component states are facts about the current episode's Layer 2 classification; they must not carry over to the next episode.
+
+**No Layer 2 recomputation.** Layer 3 rule predicates must not reproduce threshold comparisons — not `resolved_w >= 21.6`, not vessel-category wave bands, not rainfall rate ranges, not solar event lookups. A predicate such as `component_o_state == "CAUTION"` is permissible because it consumes an already-computed Layer 2 result. A predicate that re-derives the same result from raw values is a Layer 2 classifier duplication and is prohibited.
+
+**Execution ordering contract.** The execution order is fixed:
+
+```
+1.  Layer 2 resolves observations via ρ_{D,τ}.
+2.  Layer 2 evaluates component gates g_w, g_r, g_m, g_o, g_t.
+3.  Layer 2 determines S = max-severity(g_i(·)).
+4.  Layer 2 produces ComponentStateTrace from the same resolved component results.
+5.  Governance configuration G(S), A_AI(S) is established.
+6.  If G(S) = 0: no Layer 3 reasoning. Episode ends.
+7.  Otherwise: Layer 3 receives S + ComponentStateTrace + other DecisionContext inputs.
+8.  RS(S) is selected and validated (Algorithm 3).
+9.  Structural validation occurs.
+10. Rule predicates may inspect ComponentStateTrace fields.
+11. Reasoning produces AI(E) (Algorithm 4).
+12. Safety Dominance AI(E) ⊆ A_AI(S) remains enforced by construction.
+```
+
+ComponentStateTrace is produced in step 4. It cannot independently select a different RS than S or modify governance configuration.
+
+**Episode consistency invariant.** ComponentStateTrace must correspond to the same Layer 2 evaluation episode that produced S. Layer 3 must never receive:
+
+```
+S from episode A  +  ComponentStateTrace from episode B
+```
+
+Implementation contract: `episode_id(S) = episode_id(ComponentStateTrace)`. The `episode_id` field in `DecisionContext` serves as the episode identifier.
+
+**S / component-state consistency invariant.** ComponentStateTrace and S must be semantically consistent:
+
+```
+S = SAFE    → all active (non-excluded) components are SAFE
+S = CAUTION → at least one active component is CAUTION; none is UNSAFE
+S = UNSAFE  → Layer 3 is gated off; ComponentStateTrace not visible to Layer 3
+```
+
+`EXCLUDED` is not active for aggregation and does not contradict S. If an inconsistency is detected at an implementation boundary, it must be classified as a configuration/interface fidelity failure unless existing authority establishes another category. Handling is not specified here; it is Batch 4B-2 engineering work.
+
+**Safety Dominance.** ComponentStateTrace does not modify `A_AI(S)`, `G(S)`, or `RS(S)`. `AI(E) ⊆ A_AI(S)` continues to hold by construction from the rule set (Theorem C.3, appendix-c §C.7.2). The proof depends only on the value of S; it is independent of interface content beyond S.
+
+**Human authority.** ComponentStateTrace does not introduce automatic prohibition, automatic approval, or restriction of human override. No advisory generated by a rule whose predicate inspects a component state becomes mandatory. The human operator retains unconditional authority over the departure decision in all states.
+
+**Future rule representations (informative, not yet implemented).** Based on Batch 4A dispositions, the three authorised-in-principle rules have the following candidate predicate representations when ComponentStateTrace is available:
+
+```
+R-CAUTION-002:  component_o_state == "CAUTION"
+R-CAUTION-003:  component_r_state == "CAUTION"
+R-CAUTION-004:  component_w_state == "CAUTION"
+```
+
+These representations are documented here for specification completeness. They must not be added to `governance/canonical_rules.py` until Batch 4B-2 is authorised and executed.
+
+**R-SAFE-001** remains DEFERRED (STATE_RESTATEMENT, Batch 4A). No `component_*_state == "SAFE"` conjunction may be used to implement it without a bounded scientific decision resolving the state-restatement finding.
+
+**R-CAUTION-001** future migration consideration: `resolved_m == "advisory"` is equivalent to `component_m_state == "CAUTION"` under the current `g_m` definition. Migration to the component-state form is a future consistency consideration; it is not authorised in Batch 4B-1 or Batch 4B-2 without separate review.
+
+**Non-goals.** ComponentStateTrace is not:
+- A new governance layer
+- A replacement or extension of canonical E, ρ_{D,τ}, f, or F_{D,τ}
+- A second classifier
+- A source of reasons (fault/hazard/policy)
+- A mechanism for S to be re-determined inside Layer 3
+- A basis for automatic departure approval or prohibition
+
+**OPEN-L3-3 protection.** ComponentStateTrace must not create a CAUTION→Go rule. The preserved resolution is: `S = CAUTION ∧ Go ∈ AI(E) → Present(Go, caution_qualifier)`. NOT: `S = CAUTION → Go ∈ AI(E)`.
+
 ---
 
 ## 8. Rule-set selection and validation (Algorithm 3 implementation)

@@ -1,0 +1,189 @@
+{
+  "batch": "4B-1",
+  "date": "2026-09-11",
+  "branch": "design/journal1-layer3-component-state-interface",
+  "HEAD_before": "1863d03eaf10576b5ac0b054b51a76099795d2d2",
+  "totals": {
+    "PASS": 43,
+    "FAIL": 0,
+    "OPEN": 0
+  },
+  "checks": {
+    "Batch4A_authority_preserved": {
+      "result": "PASS",
+      "note": "resolution.json from Batch 4A read and carried forward. No Batch 4A decision reopened."
+    },
+    "ModelB_preserved": {
+      "result": "PASS",
+      "note": "Model B (Layer 2 component-state interface) selected in Batch 4A is the basis for this amendment."
+    },
+    "architecture_illustration_interface_updated": {
+      "result": "PASS",
+      "note": "Layer 3 box updated: 'Receives: E and rule set RS(S)' → 'Receives: S, ComponentStateTrace, and RS(S)'. Arrow updated to include ComponentStateTrace. ComponentStateTrace paragraph added. Hash changed intentionally."
+    },
+    "appendix_c_unchanged": {
+      "result": "PASS",
+      "note": "Hash before = after = c4867f48003fec806189905499bbc8d55993f3e0d312a998f552e20028499f4e. No modification."
+    },
+    "formal_E_unchanged": {
+      "result": "PASS",
+      "note": "E = {w, r, m, o, v, t} is defined in appendix-c-formalisation.md which is unchanged. ComponentStateTrace is not a new component of E."
+    },
+    "rho_unchanged": {
+      "result": "PASS",
+      "note": "ρ_{D,τ} definition unchanged. ComponentStateTrace is produced after ρ_{D,τ} completes — it does not alter the resolution map."
+    },
+    "f_unchanged": {
+      "result": "PASS",
+      "note": "f : Y × V → S is unchanged. ComponentStateTrace does not modify the classifier."
+    },
+    "F_unchanged": {
+      "result": "PASS",
+      "note": "F_{D,τ} = f ∘ ρ_{D,τ} is unchanged. ComponentStateTrace is produced from F_{D,τ}'s intermediate results, not alongside or instead of it."
+    },
+    "g_w_unchanged": {
+      "result": "PASS",
+      "note": "g_w thresholds 21.6/27.0 kn are unchanged. Not referenced in Layer 3 implementation."
+    },
+    "g_r_unchanged": {
+      "result": "PASS",
+      "note": "g_r two-input semantics (rate + κ) and thresholds 10.0/20.0 mm/hr unchanged."
+    },
+    "g_m_unchanged": {
+      "result": "PASS",
+      "note": "g_m domain {none, advisory, warning, alert} and mappings unchanged."
+    },
+    "g_o_unchanged": {
+      "result": "PASS",
+      "note": "g_o vessel-conditioned thresholds unchanged. Not duplicated in Layer 3 specification."
+    },
+    "g_t_unchanged": {
+      "result": "PASS",
+      "note": "g_t solar-event classifier unchanged. Im(g_t) = {SAFE, UNSAFE}. No CAUTION. No solar calculation in Layer 3. t ∉ D preserved."
+    },
+    "G_unchanged": {
+      "result": "PASS",
+      "note": "G(SAFE)=1, G(CAUTION)=1, G(UNSAFE)=0 unchanged."
+    },
+    "A_AI_unchanged": {
+      "result": "PASS",
+      "note": "A_AI(SAFE)={Go,Delay,DepartureTime,Duration}, A_AI(CAUTION)={Go,Delay}, A_AI(UNSAFE)=∅ unchanged."
+    },
+    "Safety_Dominance_unchanged": {
+      "result": "PASS",
+      "note": "AI(E) ⊆ A_AI(S) enforced by construction via RS(S). ComponentStateTrace does not modify A_AI or RS selection. Theorem C.3 proof depends only on S; unaffected."
+    },
+    "human_authority_unchanged": {
+      "result": "PASS",
+      "note": "ComponentStateTrace introduces no automatic prohibition, approval, or override restriction. Human authority unconditional in all states."
+    },
+    "ComponentStateTrace_defined": {
+      "result": "PASS",
+      "note": "Formally defined in layer3-prototype-specification.md §7.1 and component-state-interface-contract.md."
+    },
+    "component_states_are_layer2_outputs": {
+      "result": "PASS",
+      "note": "Specification §7.1 explicitly states all five fields originate from g_i(·) outputs computed by Layer 2 during the same episode."
+    },
+    "component_states_read_only_in_layer3": {
+      "result": "PASS",
+      "note": "Read-only requirement documented in §7.1 and interface contract."
+    },
+    "no_layer2_recomputation_in_layer3": {
+      "result": "PASS",
+      "note": "§7.1 explicitly prohibits threshold comparisons in Layer 3 predicates. No raw-value expansion permitted."
+    },
+    "EXCLUDED_distinct_from_SAFE": {
+      "result": "PASS",
+      "note": "§7.1 and interface contract: EXCLUDED ≠ observed SAFE. component_m_state=EXCLUDED does not assert m=none."
+    },
+    "fault_semantics_preserved": {
+      "result": "PASS",
+      "note": "Faulted components → g_i(⊥)=UNSAFE → S=UNSAFE → gate-off. FAULTED is not a new component governance state. Documented in §7.1."
+    },
+    "UNSAFE_gateoff_preserved": {
+      "result": "PASS",
+      "note": "UNSAFE is unreachable at Layer 3 interface. Gate-off relationship documented. Execution ordering contract explicit."
+    },
+    "episode_consistency_defined": {
+      "result": "PASS",
+      "note": "Episode consistency invariant: episode_id(S) = episode_id(ComponentStateTrace). Documented in §7.1 and interface contract."
+    },
+    "state_trace_consistency_defined": {
+      "result": "PASS",
+      "note": "S/component-state consistency invariant documented: S=SAFE → all active components SAFE; S=CAUTION → at least one CAUTION. Inconsistency classified as configuration/interface fidelity failure."
+    },
+    "R_SAFE_001_remains_deferred": {
+      "result": "PASS",
+      "note": "R-SAFE-001 status: DEFERRED (STATE_RESTATEMENT, Batch 4A). Batch 4B-1 does not implement or modify it. Documented in §7.1 and interface contract."
+    },
+    "R_CAUTION_002_not_implemented": {
+      "result": "PASS",
+      "note": "R-CAUTION-002 documented as future representation only. Not added to canonical_rules.py. Hash of canonical_rules.py unchanged."
+    },
+    "R_CAUTION_003_not_implemented": {
+      "result": "PASS",
+      "note": "R-CAUTION-003 documented as future representation only. Not added to canonical_rules.py."
+    },
+    "R_CAUTION_004_not_implemented": {
+      "result": "PASS",
+      "note": "R-CAUTION-004 documented as future representation only. Not added to canonical_rules.py."
+    },
+    "R_CAUTION_001_not_migrated": {
+      "result": "PASS",
+      "note": "R-CAUTION-001 migration to component_m_state form recorded as FUTURE_CONSISTENCY_CONSIDERATION only. Not actioned. Rule unchanged in canonical_rules.py."
+    },
+    "OPEN_L3_3_preserved": {
+      "result": "PASS",
+      "note": "Resolution B preserved: S=CAUTION ∧ Go ∈ AI(E) → Present(Go, caution_qualifier). ComponentStateTrace does not create CAUTION→Go rule. Documented as non-goal in §7.1."
+    },
+    "OPEN_L3_1C_preserved": {
+      "result": "PASS",
+      "note": "DepartureTime OPEN-L3-1C unchanged. No DepartureTime rule added."
+    },
+    "OPEN_L3_1D_preserved": {
+      "result": "PASS",
+      "note": "Duration OPEN-L3-1D unchanged. No Duration rule added."
+    },
+    "GAP_03_preserved": {
+      "result": "PASS",
+      "note": "GAP-03 (no Go evidence under CAUTION) preserved. Interface engineering does not substitute for missing scientific evidence."
+    },
+    "implementation_code_unchanged": {
+      "result": "PASS",
+      "note": "All governance/*.py files unchanged. Verified by SHA-256 hash comparison: canonical_rules.py, rule_set_provider.py, reasoning_episode.py all UNCHANGED."
+    },
+    "F1_F3_not_run": {
+      "result": "PASS",
+      "note": "F1–F3 were correctly not run in Batch 4B-1. This task is a documentation amendment only."
+    },
+    "E5_not_run": {
+      "result": "PASS",
+      "note": "E5 latency evaluation was correctly not run. No latency threshold invented."
+    },
+    "algorithm_specification_impact_classified": {
+      "result": "PASS",
+      "note": "NO_CHANGE_REQUIRED. Algorithm 3 signature is (repository, state); DecisionContext field enumeration belongs to prototype spec, not algorithm spec. Algorithm 4 contract is rule firing — adding fields to DecisionContext does not change stated algorithm contracts."
+    },
+    "evaluation_specification_impact_classified": {
+      "result": "PASS",
+      "note": "NO_CHANGE_REQUIRED. F1/F2/F3 measure advisory types vs A_AI(S). ComponentStateTrace does not change A_AI or advisory type definitions."
+    },
+    "canonical_change_record_created": {
+      "result": "PASS",
+      "note": "canonical-change-record.json created in batch4b1-interface-amendment/."
+    },
+    "interface_contract_artefact_created": {
+      "result": "PASS",
+      "note": "component-state-interface-contract.md created with all required sections."
+    },
+    "impact_matrix_created": {
+      "result": "PASS",
+      "note": "interface-impact-matrix.csv created with all nine required rows."
+    },
+    "integrity_record_created": {
+      "result": "PASS",
+      "note": "integrity.json created with before/after SHA-256 hashes for all eight required files."
+    }
+  }
+}

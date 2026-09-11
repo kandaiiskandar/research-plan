@@ -1,0 +1,50 @@
+{
+  "batch": "4B-1",
+  "task": "Canonical Layer 2 → Layer 3 Interface Amendment",
+  "date": "2026-09-11",
+  "branch": "design/journal1-layer3-component-state-interface",
+  "HEAD_before": "1863d03eaf10576b5ac0b054b51a76099795d2d2",
+  "note": "Hashes are SHA-256. CHANGED = intentional edit; UNCHANGED = integrity preserved.",
+  "files": {
+    "docs/canonical/appendix-c-formalisation.md": {
+      "before": "c4867f48003fec806189905499bbc8d55993f3e0d312a998f552e20028499f4e",
+      "after":  "c4867f48003fec806189905499bbc8d55993f3e0d312a998f552e20028499f4e",
+      "status": "UNCHANGED"
+    },
+    "docs/canonical/architecture-illustration.md": {
+      "before": "bf1e5ff8ec3621da03cfd228a9471ea8d1145861fbd34fd09a6ef70e16df81df",
+      "after":  "25b3feab2cd2389846ff8002211ff4d8944c4abdf4c377f180252464902febe9",
+      "status": "CHANGED (intentional — Batch 4B-1 Layer 2→Layer 3 interface amendment)"
+    },
+    "publications/active/journal-1/layer3-prototype-specification.md": {
+      "before": "98b9dfc38251d9306e58c4b33b6f256cf5d68116dc464f6f301aa007404ccc4c",
+      "after":  "b8155b269fc63ff191dd9ba4430ae2093c79f0ea5c28cee4f740a5de9c69d239",
+      "status": "CHANGED (intentional — Batch 4B-1 §7.1 ComponentStateTrace contract added)"
+    },
+    "publications/active/journal-1/algorithm-specification.md": {
+      "before": "469278897b47f1bd5c56e03b0f3ed57a47c73e6450b0542f7bb10d6f3f6d739e",
+      "after":  "469278897b47f1bd5c56e03b0f3ed57a47c73e6450b0542f7bb10d6f3f6d739e",
+      "status": "UNCHANGED"
+    },
+    "publications/active/journal-1/evaluation-specification.md": {
+      "before": "64c2c78604d7fabcef56c53f464a266d092b5183effea04dde21097aad41979f",
+      "after":  "64c2c78604d7fabcef56c53f464a266d092b5183effea04dde21097aad41979f",
+      "status": "UNCHANGED"
+    },
+    "governance/canonical_rules.py": {
+      "before": "a7d38e004f0e8c0457483146ed4a69f28575ceb4981beeeab9e641e3a2bd5239",
+      "after":  "a7d38e004f0e8c0457483146ed4a69f28575ceb4981beeeab9e641e3a2bd5239",
+      "status": "UNCHANGED"
+    },
+    "governance/rule_set_provider.py": {
+      "before": "d5217f1848320aeae35c724386ff7ee1367bbb3233ae741e62361f9961168d82",
+      "after":  "d5217f1848320aeae35c724386ff7ee1367bbb3233ae741e62361f9961168d82",
+      "status": "UNCHANGED"
+    },
+    "governance/reasoning_episode.py": {
+      "before": "11e7c1a77645c3e8413016884c22a476329cc8da49512bfde75874383650d3ec",
+      "after":  "11e7c1a77645c3e8413016884c22a476329cc8da49512bfde75874383650d3ec",
+      "status": "UNCHANGED"
+    }
+  }
+}
