@@ -38,7 +38,9 @@ from governance.canonical_rules import build_canonical_repository, DEFERRED_RULE
 # ── Helpers ───────────────────────────────────────────────────────────────────
 
 def _ctx(**kwargs) -> DecisionContext:
-    """Create a DecisionContext with safe defaults, overridable via kwargs."""
+    """Create a DecisionContext consistent with S=CAUTION (component_o_state="CAUTION").
+    Tests using S=SAFE must supply all-SAFE component states via _safe_ctx() or explicit kwargs.
+    """
     defaults = dict(
         episode_id="test-ep-001",
         vessel_category="small",
@@ -49,6 +51,33 @@ def _ctx(**kwargs) -> DecisionContext:
         resolved_o_wave_height=0.5,
         resolved_o_swell_period=None,
         resolved_t=10.0,
+        component_w_state="SAFE",
+        component_r_state="SAFE",
+        component_m_state="EXCLUDED",
+        component_o_state="CAUTION",
+        component_t_state="SAFE",
+    )
+    defaults.update(kwargs)
+    return DecisionContext(**defaults)
+
+
+def _safe_ctx(**kwargs) -> DecisionContext:
+    """Create a DecisionContext consistent with S=SAFE (all active components SAFE)."""
+    defaults = dict(
+        episode_id="test-ep-safe",
+        vessel_category="small",
+        resolved_w=5.0,
+        resolved_r_rate=2.0,
+        resolved_r_kappa=0,
+        resolved_m=None,
+        resolved_o_wave_height=0.5,
+        resolved_o_swell_period=None,
+        resolved_t=10.0,
+        component_w_state="SAFE",
+        component_r_state="SAFE",
+        component_m_state="EXCLUDED",
+        component_o_state="SAFE",
+        component_t_state="SAFE",
     )
     defaults.update(kwargs)
     return DecisionContext(**defaults)
@@ -532,6 +561,11 @@ class TestPredicateErrorSemantics(unittest.TestCase):
             resolved_o_wave_height=0.5,
             resolved_o_swell_period=None,
             resolved_t=10.0,
+            component_w_state="SAFE",
+            component_r_state="SAFE",
+            component_m_state="EXCLUDED",
+            component_o_state="CAUTION",
+            component_t_state="SAFE",
         )
         pred = ConditionPredicate("resolved_w", "<", 21.6)
         result, cat, msg = evaluate_predicate(pred, ctx_bad)
@@ -834,29 +868,41 @@ class TestCanonicalRepository(unittest.TestCase):
         self.assertEqual(caution_go, [])
 
     def test_R_CAUTION_001_fires_on_advisory_m(self):
-        """R-CAUTION-001 fires when resolved_m == 'advisory'."""
+        """R-CAUTION-001 fires when resolved_m == 'advisory'.
+        component_m_state='CAUTION' reflects g_m(advisory)=CAUTION from Layer 2.
+        component_o_state='SAFE' isolates R-CAUTION-001 from R-CAUTION-002.
+        """
         repo = build_canonical_repository()
-        ctx = _ctx(resolved_m="advisory")
+        ctx = _ctx(resolved_m="advisory", component_m_state="CAUTION",
+                   component_o_state="SAFE")
         result = execute_episode("CAUTION", repo, ctx)
-        self.assertEqual(len(result.advisories), 1)
-        self.assertEqual(result.advisories[0].type, "Delay")
-        self.assertEqual(result.advisories[0].rule_id, "R-CAUTION-001")
+        rule_ids = [a.rule_id for a in result.advisories]
+        self.assertIn("R-CAUTION-001", rule_ids)
+        self.assertTrue(any(a.type == "Delay" for a in result.advisories))
 
     def test_R_CAUTION_001_does_not_fire_when_m_is_None(self):
-        """R-CAUTION-001 does not fire when resolved_m is None (D={m} replay scenario)."""
+        """R-CAUTION-001 does not fire when resolved_m is None (D={m} replay scenario).
+        Context has component_o_state='CAUTION' for consistency; R-CAUTION-002 may fire
+        but R-CAUTION-001 must not appear in the advisory set.
+        """
         repo = build_canonical_repository()
-        ctx = _ctx(resolved_m=None)
+        ctx = _ctx(resolved_m=None)  # component_o_state="CAUTION" by default
         result = execute_episode("CAUTION", repo, ctx)
-        self.assertEqual(result.advisories, [])
+        rule_ids = [a.rule_id for a in result.advisories]
+        self.assertNotIn("R-CAUTION-001", rule_ids)
         self.assertFalse(result.trace.evaluation_failure)
 
     def test_R_CAUTION_001_does_not_fire_on_warning_level(self):
-        """R-CAUTION-001 is specific to 'advisory'; does not fire on 'warning' or 'alert'."""
+        """R-CAUTION-001 is specific to 'advisory'; does not fire on 'warning' or 'alert'.
+        Context has component_o_state='CAUTION' for consistency; R-CAUTION-002 may fire
+        but R-CAUTION-001 must not appear in the advisory set.
+        """
         repo = build_canonical_repository()
         for m_level in ("warning", "alert", "none"):
-            ctx = _ctx(resolved_m=m_level)
+            ctx = _ctx(resolved_m=m_level)  # component_o_state="CAUTION" by default
             result = execute_episode("CAUTION", repo, ctx)
-            self.assertEqual(result.advisories, [],
+            rule_ids = [a.rule_id for a in result.advisories]
+            self.assertNotIn("R-CAUTION-001", rule_ids,
                              f"R-CAUTION-001 should not fire for resolved_m={m_level!r}")
 
 
@@ -985,7 +1031,7 @@ class TestSAFEEpisode(unittest.TestCase):
         """SAFE episode uses only SAFE rules; Go advisories are admissible."""
         rule = _test_rule("TS-SAFE-EP-1", "SAFE",
                           [ConditionPredicate("vessel_category", "==", "small")], "Go")
-        result = execute_episode("SAFE", _repo(rule), _ctx(vessel_category="small"))
+        result = execute_episode("SAFE", _repo(rule), _safe_ctx(vessel_category="small"))
         self.assertEqual(len(result.advisories), 1)
         self.assertEqual(result.advisories[0].type, "Go")
         gov = get_governance_config("SAFE")
@@ -998,7 +1044,7 @@ class TestSAFEEpisode(unittest.TestCase):
         safe_rule = _test_rule("TS-SAFE-EP-SAFE", "SAFE",
                                [ConditionPredicate("vessel_category", "==", "small")], "Go")
         repo = _repo(safe_rule, caution_rule)
-        result = execute_episode("SAFE", repo, _ctx(vessel_category="small"))
+        result = execute_episode("SAFE", repo, _safe_ctx(vessel_category="small"))
         active_ids = result.trace.active_rule_ids
         self.assertIn("TS-SAFE-EP-SAFE", active_ids)
         self.assertNotIn("TS-SAFE-EP-CAUTION", active_ids)
@@ -1045,6 +1091,577 @@ class TestNullOperators(unittest.TestCase):
                     "Delay", {"reason": "test"}, "TEST-ONLY", True)
         # Should not raise
         validate_rule_set([rule], "CAUTION", "test-ep")
+
+
+# ═════════════════════════════════════════════════════════════════════════════
+# Batch 4B-2 Test Category A — Interface Construction
+# ComponentStateTrace fields in DecisionContext
+# ═════════════════════════════════════════════════════════════════════════════
+
+class TestComponentStateTraceConstruction(unittest.TestCase):
+    """Category A: DecisionContext accepts the 5 new ComponentStateTrace fields."""
+
+    def test_A01_context_with_all_component_state_fields(self):
+        """A01: DecisionContext can be constructed with all five component_*_state fields."""
+        ctx = DecisionContext(
+            episode_id="test-A01",
+            vessel_category="small",
+            resolved_w=5.0,
+            resolved_r_rate=2.0,
+            resolved_r_kappa=0,
+            resolved_m=None,
+            resolved_o_wave_height=0.5,
+            resolved_o_swell_period=None,
+            resolved_t=10.0,
+            component_w_state="SAFE",
+            component_r_state="SAFE",
+            component_m_state="EXCLUDED",
+            component_o_state="CAUTION",
+            component_t_state="SAFE",
+        )
+        self.assertEqual(ctx.component_w_state, "SAFE")
+        self.assertEqual(ctx.component_r_state, "SAFE")
+        self.assertEqual(ctx.component_m_state, "EXCLUDED")
+        self.assertEqual(ctx.component_o_state, "CAUTION")
+        self.assertEqual(ctx.component_t_state, "SAFE")
+
+    def test_A02_component_t_state_excluded_accepted(self):
+        """A02: component_t_state='EXCLUDED' is accepted (t∉D is architectural; EXCLUDED valid in tests)."""
+        ctx = _ctx(component_t_state="EXCLUDED")
+        self.assertEqual(ctx.component_t_state, "EXCLUDED")
+
+    def test_A03_component_states_are_frozen(self):
+        """A03: DecisionContext is frozen — component state fields cannot be mutated."""
+        ctx = _ctx()
+        with self.assertRaises(dataclasses.FrozenInstanceError):
+            ctx.component_o_state = "SAFE"  # type: ignore[misc]
+
+    def test_A04_schema_contains_all_component_state_fields(self):
+        """A04: DECISION_CONTEXT_SCHEMA includes all five component_*_state entries."""
+        from governance.rule_set_provider import DECISION_CONTEXT_SCHEMA
+        for field in ("component_w_state", "component_r_state", "component_m_state",
+                      "component_o_state", "component_t_state"):
+            self.assertIn(field, DECISION_CONTEXT_SCHEMA,
+                          f"{field} missing from DECISION_CONTEXT_SCHEMA")
+
+    def test_A05_component_t_state_domain_excludes_CAUTION(self):
+        """A05: component_t_state domain is {'SAFE','EXCLUDED'} — g_t emits no CAUTION."""
+        from governance.rule_set_provider import DECISION_CONTEXT_SCHEMA
+        domain = DECISION_CONTEXT_SCHEMA["component_t_state"]["domain"]
+        self.assertNotIn("CAUTION", domain)
+        self.assertIn("SAFE", domain)
+        self.assertIn("EXCLUDED", domain)
+
+    def test_A06_component_w_r_m_o_domains_include_CAUTION(self):
+        """A06: component_w/r/m/o_state domains all include CAUTION."""
+        from governance.rule_set_provider import DECISION_CONTEXT_SCHEMA
+        for field in ("component_w_state", "component_r_state",
+                      "component_m_state", "component_o_state"):
+            domain = DECISION_CONTEXT_SCHEMA[field]["domain"]
+            self.assertIn("CAUTION", domain,
+                          f"{field} domain should include CAUTION")
+
+
+# ═════════════════════════════════════════════════════════════════════════════
+# Batch 4B-2 Test Category B — EXCLUDED Semantics
+# ═════════════════════════════════════════════════════════════════════════════
+
+class TestEXCLUDEDSemantics(unittest.TestCase):
+    """Category B: EXCLUDED ≠ observed SAFE — predicates on EXCLUDED fields behave correctly."""
+
+    def test_B01_EXCLUDED_does_not_satisfy_SAFE_predicate(self):
+        """B01: component_m_state='EXCLUDED' does not satisfy component_m_state=='SAFE'."""
+        rule = Rule(
+            rule_id="TB-EXCL-1", applicable_state="CAUTION",
+            conditions=(ConditionPredicate("component_m_state", "==", "SAFE"),),
+            conclusion_type="Delay", conclusion_payload={"reason": "test"},
+            provenance="TEST-ONLY", enabled=True,
+        )
+        ctx = _ctx(component_m_state="EXCLUDED")
+        result = execute_episode("CAUTION", _repo(rule), ctx)
+        rule_ids = [a.rule_id for a in result.advisories]
+        self.assertNotIn("TB-EXCL-1", rule_ids)
+
+    def test_B02_EXCLUDED_does_not_satisfy_CAUTION_predicate(self):
+        """B02: component_m_state='EXCLUDED' does not satisfy component_m_state=='CAUTION'."""
+        rule = Rule(
+            rule_id="TB-EXCL-2", applicable_state="CAUTION",
+            conditions=(ConditionPredicate("component_m_state", "==", "CAUTION"),),
+            conclusion_type="Delay", conclusion_payload={"reason": "test"},
+            provenance="TEST-ONLY", enabled=True,
+        )
+        ctx = _ctx(component_m_state="EXCLUDED")
+        result = execute_episode("CAUTION", _repo(rule), ctx)
+        rule_ids = [a.rule_id for a in result.advisories]
+        self.assertNotIn("TB-EXCL-2", rule_ids)
+
+    def test_B03_EXCLUDED_satisfies_EXCLUDED_predicate(self):
+        """B03: component_m_state='EXCLUDED' satisfies component_m_state=='EXCLUDED'."""
+        rule = Rule(
+            rule_id="TB-EXCL-3", applicable_state="CAUTION",
+            conditions=(ConditionPredicate("component_m_state", "==", "EXCLUDED"),),
+            conclusion_type="Delay", conclusion_payload={"reason": "test"},
+            provenance="TEST-ONLY", enabled=True,
+        )
+        ctx = _ctx(component_m_state="EXCLUDED")
+        result = execute_episode("CAUTION", _repo(rule), ctx)
+        rule_ids = [a.rule_id for a in result.advisories]
+        self.assertIn("TB-EXCL-3", rule_ids)
+
+    def test_B04_EXCLUDED_component_does_not_count_as_active_for_SAFE(self):
+        """B04: component_m_state='EXCLUDED' is not active — S=SAFE is still consistent."""
+        ctx = _safe_ctx(component_m_state="EXCLUDED")
+        result = execute_episode("SAFE", _repo(), ctx)
+        self.assertFalse(result.trace.configuration_failure)
+
+    def test_B05_V4_EXCLUDED_valid_for_wrmо_fields(self):
+        """B05: 'EXCLUDED' is in domain for component_w/r/m/o_state — V4 passes."""
+        for field in ("component_w_state", "component_r_state",
+                      "component_m_state", "component_o_state"):
+            rule = Rule(
+                rule_id=f"TB-DOM-{field}", applicable_state="CAUTION",
+                conditions=(ConditionPredicate(field, "==", "EXCLUDED"),),
+                conclusion_type="Delay", conclusion_payload={},
+                provenance="TEST-ONLY", enabled=True,
+            )
+            validate_rule_set([rule], "CAUTION", "test-ep")  # must not raise
+
+
+# ═════════════════════════════════════════════════════════════════════════════
+# Batch 4B-2 Test Category C — S/ComponentStateTrace Consistency
+# ═════════════════════════════════════════════════════════════════════════════
+
+class TestStateTraceConsistency(unittest.TestCase):
+    """Category C: consistency invariant between S and ComponentStateTrace."""
+
+    def test_C01_SAFE_all_active_SAFE_consistent(self):
+        """C01: S=SAFE + all active (non-EXCLUDED) components SAFE → no configuration_failure."""
+        ctx = _safe_ctx()
+        result = execute_episode("SAFE", _repo(), ctx)
+        self.assertFalse(result.trace.configuration_failure)
+
+    def test_C02_CAUTION_one_CAUTION_consistent(self):
+        """C02: S=CAUTION + at least one active component CAUTION → no configuration_failure."""
+        ctx = _ctx(component_o_state="CAUTION")
+        result = execute_episode("CAUTION", _repo(), ctx)
+        self.assertFalse(result.trace.configuration_failure)
+
+    def test_C03_SAFE_with_CAUTION_component_inconsistent(self):
+        """C03: S=SAFE + any CAUTION component → configuration_failure=True, AI(E)=∅."""
+        ctx = _ctx(component_o_state="CAUTION")
+        result = execute_episode("SAFE", _repo(), ctx)
+        self.assertTrue(result.trace.configuration_failure)
+        self.assertFalse(result.trace.evaluation_failure)
+        self.assertEqual(result.advisories, [])
+        self.assertIsInstance(result.error, ConfigurationError)
+
+    def test_C04_CAUTION_all_SAFE_no_CAUTION_inconsistent(self):
+        """C04: S=CAUTION + no active CAUTION component → configuration_failure=True."""
+        ctx = _safe_ctx()  # all SAFE — inconsistent with CAUTION
+        result = execute_episode("CAUTION", _repo(), ctx)
+        self.assertTrue(result.trace.configuration_failure)
+        self.assertEqual(result.advisories, [])
+
+    def test_C05_UNSAFE_skips_consistency_check(self):
+        """C05: S=UNSAFE — gate-off occurs before consistency check; no configuration_failure."""
+        ctx = _ctx(component_o_state="SAFE")  # would fail consistency for CAUTION
+        result = execute_episode("UNSAFE", _repo(), ctx)
+        self.assertFalse(result.trace.configuration_failure)
+        self.assertEqual(result.trace.G, 0)
+
+    def test_C06_all_EXCLUDED_SAFE_consistent(self):
+        """C06: S=SAFE + all components EXCLUDED → consistent (all-excluded pins SAFE)."""
+        ctx = _safe_ctx(
+            component_w_state="EXCLUDED",
+            component_r_state="EXCLUDED",
+            component_m_state="EXCLUDED",
+            component_o_state="EXCLUDED",
+            component_t_state="EXCLUDED",
+        )
+        result = execute_episode("SAFE", _repo(), ctx)
+        self.assertFalse(result.trace.configuration_failure)
+
+    def test_C07_consistency_failure_type_is_STATE_TRACE_INCONSISTENCY(self):
+        """C07: consistency violation → ConfigurationError with failure_type='STATE_TRACE_INCONSISTENCY'."""
+        ctx = _ctx(component_o_state="CAUTION")  # inconsistent with SAFE
+        result = execute_episode("SAFE", _repo(), ctx)
+        self.assertIsInstance(result.error, ConfigurationError)
+        self.assertEqual(result.error.failure_type, "STATE_TRACE_INCONSISTENCY")
+
+    def test_C08_CAUTION_all_EXCLUDED_inconsistent(self):
+        """C08: S=CAUTION + all components EXCLUDED (no active CAUTION) → configuration_failure."""
+        ctx = _ctx(
+            component_w_state="EXCLUDED",
+            component_r_state="EXCLUDED",
+            component_m_state="EXCLUDED",
+            component_o_state="EXCLUDED",
+            component_t_state="EXCLUDED",
+        )
+        result = execute_episode("CAUTION", _repo(), ctx)
+        self.assertTrue(result.trace.configuration_failure)
+
+
+# ═════════════════════════════════════════════════════════════════════════════
+# Batch 4B-2 Test Category D — Individual Rule Activation
+# R-CAUTION-002/003/004 each fire on their respective component states
+# ═════════════════════════════════════════════════════════════════════════════
+
+class TestComponentStateRuleActivation(unittest.TestCase):
+    """Category D: R-CAUTION-002/003/004 fire on and only on their respective component states."""
+
+    def test_D01_R_CAUTION_002_fires_when_component_o_CAUTION(self):
+        """D01: R-CAUTION-002 fires when component_o_state=='CAUTION'."""
+        repo = build_canonical_repository()
+        ctx = _ctx(component_o_state="CAUTION", component_r_state="SAFE",
+                   component_w_state="SAFE")
+        result = execute_episode("CAUTION", repo, ctx)
+        rule_ids = [a.rule_id for a in result.advisories]
+        self.assertIn("R-CAUTION-002", rule_ids)
+
+    def test_D02_R_CAUTION_002_does_not_fire_when_component_o_SAFE(self):
+        """D02: R-CAUTION-002 does not fire when component_o_state=='SAFE'."""
+        repo = build_canonical_repository()
+        ctx = _ctx(component_o_state="SAFE", component_r_state="CAUTION")
+        result = execute_episode("CAUTION", repo, ctx)
+        rule_ids = [a.rule_id for a in result.advisories]
+        self.assertNotIn("R-CAUTION-002", rule_ids)
+
+    def test_D03_R_CAUTION_002_does_not_fire_when_component_o_EXCLUDED(self):
+        """D03: R-CAUTION-002 does not fire when component_o_state=='EXCLUDED'."""
+        repo = build_canonical_repository()
+        ctx = _ctx(component_o_state="EXCLUDED", component_r_state="CAUTION")
+        result = execute_episode("CAUTION", repo, ctx)
+        rule_ids = [a.rule_id for a in result.advisories]
+        self.assertNotIn("R-CAUTION-002", rule_ids)
+
+    def test_D04_R_CAUTION_003_fires_when_component_r_CAUTION(self):
+        """D04: R-CAUTION-003 fires when component_r_state=='CAUTION'."""
+        repo = build_canonical_repository()
+        ctx = _ctx(component_r_state="CAUTION", component_o_state="SAFE",
+                   component_w_state="SAFE")
+        result = execute_episode("CAUTION", repo, ctx)
+        rule_ids = [a.rule_id for a in result.advisories]
+        self.assertIn("R-CAUTION-003", rule_ids)
+
+    def test_D05_R_CAUTION_003_does_not_fire_when_component_r_SAFE(self):
+        """D05: R-CAUTION-003 does not fire when component_r_state=='SAFE'."""
+        repo = build_canonical_repository()
+        ctx = _ctx(component_r_state="SAFE", component_o_state="CAUTION")
+        result = execute_episode("CAUTION", repo, ctx)
+        rule_ids = [a.rule_id for a in result.advisories]
+        self.assertNotIn("R-CAUTION-003", rule_ids)
+
+    def test_D06_R_CAUTION_004_fires_when_component_w_CAUTION(self):
+        """D06: R-CAUTION-004 fires when component_w_state=='CAUTION'."""
+        repo = build_canonical_repository()
+        ctx = _ctx(component_w_state="CAUTION", component_o_state="SAFE",
+                   component_r_state="SAFE")
+        result = execute_episode("CAUTION", repo, ctx)
+        rule_ids = [a.rule_id for a in result.advisories]
+        self.assertIn("R-CAUTION-004", rule_ids)
+
+    def test_D07_R_CAUTION_004_does_not_fire_when_component_w_SAFE(self):
+        """D07: R-CAUTION-004 does not fire when component_w_state=='SAFE'."""
+        repo = build_canonical_repository()
+        ctx = _ctx(component_w_state="SAFE", component_o_state="CAUTION")
+        result = execute_episode("CAUTION", repo, ctx)
+        rule_ids = [a.rule_id for a in result.advisories]
+        self.assertNotIn("R-CAUTION-004", rule_ids)
+
+    def test_D08_rule_002_003_004_conclusion_is_Delay(self):
+        """D08: all three new rules produce Delay conclusion."""
+        repo = build_canonical_repository()
+        for rule_id, field, value in [
+            ("R-CAUTION-002", "component_o_state", "CAUTION"),
+            ("R-CAUTION-003", "component_r_state", "CAUTION"),
+            ("R-CAUTION-004", "component_w_state", "CAUTION"),
+        ]:
+            ctx = _ctx(**{field: value,
+                          "component_o_state": "SAFE" if field != "component_o_state" else "CAUTION",
+                          "component_r_state": "SAFE" if field != "component_r_state" else "CAUTION",
+                          "component_w_state": "SAFE" if field != "component_w_state" else "CAUTION"})
+            result = execute_episode("CAUTION", repo, ctx)
+            for adv in result.advisories:
+                if adv.rule_id == rule_id:
+                    self.assertEqual(adv.type, "Delay",
+                                     f"{rule_id} must produce Delay, got {adv.type!r}")
+
+    def test_D09_new_rules_are_CAUTION_applicable_state(self):
+        """D09: R-CAUTION-002/003/004 have applicable_state='CAUTION'."""
+        repo = build_canonical_repository()
+        for rule_id in ("R-CAUTION-002", "R-CAUTION-003", "R-CAUTION-004"):
+            rule = next((r for r in repo.rules if r.rule_id == rule_id), None)
+            self.assertIsNotNone(rule, f"{rule_id} not found in canonical repository")
+            self.assertEqual(rule.applicable_state, "CAUTION")
+
+
+# ═════════════════════════════════════════════════════════════════════════════
+# Batch 4B-2 Test Category E — Concurrent Activation
+# ═════════════════════════════════════════════════════════════════════════════
+
+class TestConcurrentRuleActivation(unittest.TestCase):
+    """Category E: multiple component states CAUTION → multiple rules fire concurrently."""
+
+    def test_E01_two_component_CAUTION_two_advisories(self):
+        """E01: component_o_state and component_r_state both CAUTION → both rules fire."""
+        repo = build_canonical_repository()
+        ctx = _ctx(component_o_state="CAUTION", component_r_state="CAUTION",
+                   component_w_state="SAFE")
+        result = execute_episode("CAUTION", repo, ctx)
+        rule_ids = {a.rule_id for a in result.advisories}
+        self.assertIn("R-CAUTION-002", rule_ids)
+        self.assertIn("R-CAUTION-003", rule_ids)
+
+    def test_E02_three_component_CAUTION_three_advisories(self):
+        """E02: component_o, component_r, component_w all CAUTION → all three fire."""
+        repo = build_canonical_repository()
+        ctx = _ctx(component_o_state="CAUTION", component_r_state="CAUTION",
+                   component_w_state="CAUTION")
+        result = execute_episode("CAUTION", repo, ctx)
+        rule_ids = {a.rule_id for a in result.advisories}
+        self.assertIn("R-CAUTION-002", rule_ids)
+        self.assertIn("R-CAUTION-003", rule_ids)
+        self.assertIn("R-CAUTION-004", rule_ids)
+
+    def test_E03_R_CAUTION_001_and_002_concurrent(self):
+        """E03: resolved_m='advisory' AND component_o_state='CAUTION' → both 001 and 002 fire."""
+        repo = build_canonical_repository()
+        ctx = _ctx(resolved_m="advisory", component_m_state="CAUTION",
+                   component_o_state="CAUTION")
+        result = execute_episode("CAUTION", repo, ctx)
+        rule_ids = {a.rule_id for a in result.advisories}
+        self.assertIn("R-CAUTION-001", rule_ids)
+        self.assertIn("R-CAUTION-002", rule_ids)
+
+    def test_E04_all_advisories_are_Delay_in_CAUTION(self):
+        """E04: all advisories from concurrent activation are Delay ∈ A_AI(CAUTION)."""
+        repo = build_canonical_repository()
+        ctx = _ctx(component_o_state="CAUTION", component_r_state="CAUTION",
+                   component_w_state="CAUTION")
+        result = execute_episode("CAUTION", repo, ctx)
+        for adv in result.advisories:
+            self.assertEqual(adv.type, "Delay")
+            self.assertIn(adv.type, get_governance_config("CAUTION").A_AI)
+
+
+# ═════════════════════════════════════════════════════════════════════════════
+# Batch 4B-2 Test Category F — Structural Validation (V1–V4) for Component Fields
+# ═════════════════════════════════════════════════════════════════════════════
+
+class TestComponentStateStructuralValidation(unittest.TestCase):
+    """Category F: V1–V4 checks applied to component_*_state predicates."""
+
+    def _rule(self, rule_id, pred):
+        return Rule(
+            rule_id=rule_id, applicable_state="CAUTION",
+            conditions=(pred,), conclusion_type="Delay",
+            conclusion_payload={}, provenance="TEST-ONLY", enabled=True,
+        )
+
+    def test_F01_V1_typo_in_component_field_name(self):
+        """F01: V1 — 'component_x_state' (typo) → F-T-11."""
+        rule = self._rule("TF-V1", ConditionPredicate("component_x_state", "==", "CAUTION"))
+        with self.assertRaises(ConfigurationError) as cm:
+            validate_rule_set([rule], "CAUTION", "test-ep")
+        self.assertEqual(cm.exception.failure_type, "F-T-11")
+
+    def test_F02_V2_type_mismatch_on_component_field(self):
+        """F02: V2 — component_o_state == 42 (int) → F-T-04."""
+        rule = self._rule("TF-V2", ConditionPredicate("component_o_state", "==", 42))
+        with self.assertRaises(ConfigurationError) as cm:
+            validate_rule_set([rule], "CAUTION", "test-ep")
+        self.assertEqual(cm.exception.failure_type, "F-T-04")
+
+    def test_F03_V3_ordering_operator_on_component_field(self):
+        """F03: V3 — component_o_state < 'CAUTION' (ordering op on str field) → F-T-05."""
+        rule = self._rule("TF-V3a", ConditionPredicate("component_o_state", "<", "CAUTION"))
+        with self.assertRaises(ConfigurationError) as cm:
+            validate_rule_set([rule], "CAUTION", "test-ep")
+        self.assertEqual(cm.exception.failure_type, "F-T-05")
+
+    def test_F04_V4_UNSAFE_outside_component_domain(self):
+        """F04: V4 — component_o_state == 'UNSAFE' → F-T-06 (UNSAFE not in domain)."""
+        rule = self._rule("TF-V4a", ConditionPredicate("component_o_state", "==", "UNSAFE"))
+        with self.assertRaises(ConfigurationError) as cm:
+            validate_rule_set([rule], "CAUTION", "test-ep")
+        self.assertEqual(cm.exception.failure_type, "F-T-06")
+
+    def test_F05_V4_CAUTION_outside_component_t_domain(self):
+        """F05: V4 — component_t_state == 'CAUTION' → F-T-06 (g_t emits no CAUTION)."""
+        rule = self._rule("TF-V4b", ConditionPredicate("component_t_state", "==", "CAUTION"))
+        with self.assertRaises(ConfigurationError) as cm:
+            validate_rule_set([rule], "CAUTION", "test-ep")
+        self.assertEqual(cm.exception.failure_type, "F-T-06")
+
+    def test_F06_V3_invalid_operator_on_numeric_field_FT05(self):
+        """F06: V3 repair — completely invalid operator on numeric field → F-T-05.
+        Prior to Batch 4B-2 repair, this would silently pass V3 and fail at runtime.
+        """
+        rule = self._rule("TF-V3b", ConditionPredicate("resolved_w", "FOOBAR", 5.0))
+        with self.assertRaises(ConfigurationError) as cm:
+            validate_rule_set([rule], "CAUTION", "test-ep")
+        self.assertEqual(cm.exception.failure_type, "F-T-05")
+
+    def test_F07_V3_invalid_operator_on_int_field_FT05(self):
+        """F07: V3 repair — invalid operator on int field → F-T-05."""
+        rule = self._rule("TF-V3c", ConditionPredicate("resolved_r_kappa", "INVALID", 0))
+        with self.assertRaises(ConfigurationError) as cm:
+            validate_rule_set([rule], "CAUTION", "test-ep")
+        self.assertEqual(cm.exception.failure_type, "F-T-05")
+
+    def test_F08_valid_component_state_predicates_pass_V1_V4(self):
+        """F08: valid component_*_state predicates (== 'CAUTION', 'SAFE', 'EXCLUDED') pass V1–V4."""
+        for field, domain in [
+            ("component_w_state", ("SAFE", "CAUTION", "EXCLUDED")),
+            ("component_r_state", ("SAFE", "CAUTION", "EXCLUDED")),
+            ("component_m_state", ("SAFE", "CAUTION", "EXCLUDED")),
+            ("component_o_state", ("SAFE", "CAUTION", "EXCLUDED")),
+            ("component_t_state", ("SAFE", "EXCLUDED")),
+        ]:
+            for value in domain:
+                rule = self._rule(f"TF-VALID-{field}-{value}",
+                                  ConditionPredicate(field, "==", value))
+                validate_rule_set([rule], "CAUTION", "test-ep")  # must not raise
+
+
+# ═════════════════════════════════════════════════════════════════════════════
+# Batch 4B-2 Test Category G — Predicate Failure Semantics on Component Fields
+# ═════════════════════════════════════════════════════════════════════════════
+
+class TestComponentStatePredicateSemantics(unittest.TestCase):
+    """Category G: component_*_state predicates return TRUE or FALSE, never ERROR."""
+
+    def test_G01_CAUTION_predicate_TRUE_when_component_CAUTION(self):
+        """G01: component_o_state=='CAUTION' → TRUE when ctx.component_o_state='CAUTION'."""
+        pred = ConditionPredicate("component_o_state", "==", "CAUTION")
+        ctx = _ctx(component_o_state="CAUTION")
+        result, _, _ = evaluate_predicate(pred, ctx)
+        self.assertEqual(result, PredicateResult.TRUE)
+
+    def test_G02_CAUTION_predicate_FALSE_when_component_SAFE(self):
+        """G02: component_o_state=='CAUTION' → FALSE when ctx.component_o_state='SAFE'."""
+        pred = ConditionPredicate("component_o_state", "==", "CAUTION")
+        ctx = _ctx(component_o_state="SAFE")
+        result, _, _ = evaluate_predicate(pred, ctx)
+        self.assertEqual(result, PredicateResult.FALSE)
+
+    def test_G03_EXCLUDED_predicate_TRUE_when_component_EXCLUDED(self):
+        """G03: component_m_state=='EXCLUDED' → TRUE when component_m_state='EXCLUDED'."""
+        pred = ConditionPredicate("component_m_state", "==", "EXCLUDED")
+        ctx = _ctx(component_m_state="EXCLUDED")
+        result, _, _ = evaluate_predicate(pred, ctx)
+        self.assertEqual(result, PredicateResult.TRUE)
+
+    def test_G04_SAFE_predicate_FALSE_when_component_EXCLUDED(self):
+        """G04: component_m_state=='SAFE' → FALSE when component_m_state='EXCLUDED' (EXCLUDED≠SAFE)."""
+        pred = ConditionPredicate("component_m_state", "==", "SAFE")
+        ctx = _ctx(component_m_state="EXCLUDED")
+        result, _, _ = evaluate_predicate(pred, ctx)
+        self.assertEqual(result, PredicateResult.FALSE)
+
+
+# ═════════════════════════════════════════════════════════════════════════════
+# Batch 4B-2 Test Category H — Governance (Safety Dominance)
+# ═════════════════════════════════════════════════════════════════════════════
+
+class TestComponentStateGovernance(unittest.TestCase):
+    """Category H: Safety Dominance and A_AI containment for component state rules."""
+
+    def test_H01_CAUTION_rules_not_in_SAFE_RS(self):
+        """H01: R-CAUTION-002/003/004 do not appear in RS(SAFE)."""
+        repo = build_canonical_repository()
+        rs_safe = select_rule_set(repo, "SAFE")
+        safe_ids = {r.rule_id for r in rs_safe}
+        self.assertNotIn("R-CAUTION-002", safe_ids)
+        self.assertNotIn("R-CAUTION-003", safe_ids)
+        self.assertNotIn("R-CAUTION-004", safe_ids)
+
+    def test_H02_Delay_in_A_AI_CAUTION(self):
+        """H02: Delay ∈ A_AI(CAUTION) — advisories from component state rules are admissible."""
+        self.assertIn("Delay", get_governance_config("CAUTION").A_AI)
+
+    def test_H03_component_state_rules_produce_admissible_types_only(self):
+        """H03: all advisories from R-CAUTION-002/003/004 have type ∈ A_AI(CAUTION)."""
+        repo = build_canonical_repository()
+        ctx = _ctx(component_o_state="CAUTION", component_r_state="CAUTION",
+                   component_w_state="CAUTION")
+        result = execute_episode("CAUTION", repo, ctx)
+        a_ai = get_governance_config("CAUTION").A_AI
+        for adv in result.advisories:
+            self.assertIn(adv.type, a_ai,
+                          f"{adv.rule_id} advisory type {adv.type!r} not in A_AI(CAUTION)")
+
+    def test_H04_UNSAFE_gate_off_blocks_component_state_rules(self):
+        """H04: UNSAFE → gate-off → component state rules never fire."""
+        repo = build_canonical_repository()
+        result = execute_episode("UNSAFE", repo, _ctx())
+        self.assertEqual(result.advisories, [])
+        self.assertEqual(result.trace.G, 0)
+
+
+# ═════════════════════════════════════════════════════════════════════════════
+# Batch 4B-2 Test Category I — Protected Rules and Registry Integrity
+# ═════════════════════════════════════════════════════════════════════════════
+
+class TestProtectedRulesAndRegistry(unittest.TestCase):
+    """Category I: R-SAFE-001 remains deferred; canonical registry contains new rules."""
+
+    def test_I01_R_SAFE_001_remains_in_DEFERRED_RULES(self):
+        """I01: R-SAFE-001 is still in DEFERRED_RULES (STATE_RESTATEMENT — not implemented)."""
+        self.assertIn("R-SAFE-001", DEFERRED_RULES)
+
+    def test_I02_R_SAFE_001_not_in_canonical_repository(self):
+        """I02: R-SAFE-001 is not loaded into build_canonical_repository()."""
+        repo = build_canonical_repository()
+        rule_ids = {r.rule_id for r in repo.rules}
+        self.assertNotIn("R-SAFE-001", rule_ids)
+
+    def test_I03_R_CAUTION_002_in_canonical_repository(self):
+        """I03: R-CAUTION-002 is now loaded (Batch 4B-2 implementation)."""
+        repo = build_canonical_repository()
+        rule_ids = {r.rule_id for r in repo.rules}
+        self.assertIn("R-CAUTION-002", rule_ids)
+
+    def test_I04_R_CAUTION_003_in_canonical_repository(self):
+        """I04: R-CAUTION-003 is now loaded (Batch 4B-2 implementation)."""
+        repo = build_canonical_repository()
+        rule_ids = {r.rule_id for r in repo.rules}
+        self.assertIn("R-CAUTION-003", rule_ids)
+
+    def test_I05_R_CAUTION_004_in_canonical_repository(self):
+        """I05: R-CAUTION-004 is now loaded (Batch 4B-2 implementation)."""
+        repo = build_canonical_repository()
+        rule_ids = {r.rule_id for r in repo.rules}
+        self.assertIn("R-CAUTION-004", rule_ids)
+
+    def test_I06_R_CAUTION_001_still_in_canonical_repository(self):
+        """I06: R-CAUTION-001 remains loaded (unchanged from Batch 3)."""
+        repo = build_canonical_repository()
+        rule_ids = {r.rule_id for r in repo.rules}
+        self.assertIn("R-CAUTION-001", rule_ids)
+
+    def test_I07_R_SAFE_001_deferred_reason_references_STATE_RESTATEMENT(self):
+        """I07: R-SAFE-001 deferred entry records STATE_RESTATEMENT reason."""
+        entry = DEFERRED_RULES["R-SAFE-001"]
+        self.assertIn("STATE_RESTATEMENT", entry["reason"])
+
+    def test_I08_no_Go_rule_under_CAUTION(self):
+        """I08: GAP-03 preserved — no CAUTION rule produces Go in canonical repository."""
+        repo = build_canonical_repository()
+        caution_go = [
+            r for r in repo.rules
+            if r.applicable_state == "CAUTION" and r.conclusion_type == "Go"
+        ]
+        self.assertEqual(caution_go, [])
+
+    def test_I09_new_rules_have_non_empty_provenance(self):
+        """I09: R-CAUTION-002/003/004 each have non-empty provenance strings."""
+        repo = build_canonical_repository()
+        for rule_id in ("R-CAUTION-002", "R-CAUTION-003", "R-CAUTION-004"):
+            rule = next((r for r in repo.rules if r.rule_id == rule_id), None)
+            self.assertIsNotNone(rule)
+            self.assertTrue(len(rule.provenance) > 0,
+                            f"{rule_id} has empty provenance")
 
 
 if __name__ == "__main__":

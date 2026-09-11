@@ -33,13 +33,14 @@ class ConfigurationError(Exception):
     S is not modified when this is raised. Layer 3 is disabled for the episode.
 
     failure_type codes:
-        "F-T-11"           — V1: predicate references a variable not in DecisionContext schema
-        "F-T-04"           — V2: predicate value type incompatible with declared variable type
-        "F-T-05"           — V3: predicate operator invalid for declared variable type
-        "F-T-06"           — V4: categorical predicate value outside declared domain
-        "A_AI_CONTAINMENT" — ConclusionTypes(RS_candidate) ⊄ A_AI(S)
-        "UNKNOWN_STATE"    — unrecognised state argument to select_rule_set / get_governance_config
-        "MISSING_VESSEL"   — vessel_category absent or unrecognised at startup
+        "F-T-11"                  — V1: predicate references a variable not in DecisionContext schema
+        "F-T-04"                  — V2: predicate value type incompatible with declared variable type
+        "F-T-05"                  — V3: predicate operator invalid for declared variable type
+        "F-T-06"                  — V4: categorical predicate value outside declared domain
+        "A_AI_CONTAINMENT"        — ConclusionTypes(RS_candidate) ⊄ A_AI(S)
+        "UNKNOWN_STATE"           — unrecognised state argument to select_rule_set / get_governance_config
+        "MISSING_VESSEL"          — vessel_category absent or unrecognised at startup
+        "STATE_TRACE_INCONSISTENCY" — S and ComponentStateTrace are mutually inconsistent
     """
 
     def __init__(

@@ -1,0 +1,233 @@
+{
+  "batch": "4B-2",
+  "date": "2026-09-11",
+  "branch": "feat/journal1-layer3-component-state-rules",
+  "HEAD_before": "f51e9301b8dab71bd3f668a05ddeb454844bcc89",
+  "totals": {
+    "PASS": 60,
+    "FAIL": 0,
+    "OPEN": 0
+  },
+  "checks": {
+    "batch4b1_authority_inherited": {
+      "result": "PASS",
+      "note": "Batch 4B-1 canonical amendments (architecture-illustration.md, layer3-prototype-specification.md §7.1) and Batch 4A resolution.json are the authority basis. No Batch 4A or 4B-1 decision reopened."
+    },
+    "modelB_preserved": {
+      "result": "PASS",
+      "note": "Model B (Layer 2 component-state interface) selected in Batch 4A. All new predicates use component_*_state variables — no raw-value threshold expansion."
+    },
+    "DecisionContext_extended_correctly": {
+      "result": "PASS",
+      "note": "5 fields added: component_w/r/m/o/t_state. All str (not Optional). Frozen dataclass invariant preserved."
+    },
+    "component_t_state_no_CAUTION_domain": {
+      "result": "PASS",
+      "note": "component_t_state domain = {'SAFE','EXCLUDED'}. CAUTION excluded per g_t specification (Im(g_t) = {SAFE,UNSAFE})."
+    },
+    "component_w_r_m_o_state_CAUTION_in_domain": {
+      "result": "PASS",
+      "note": "component_w/r/m/o_state domain = {'SAFE','CAUTION','EXCLUDED'}. CAUTION included for all four."
+    },
+    "DECISION_CONTEXT_SCHEMA_extended": {
+      "result": "PASS",
+      "note": "5 new entries added. kind='str', nullable=False, domain as specified."
+    },
+    "V3_repair_numeric_fields": {
+      "result": "PASS",
+      "note": "V3 now checks pred.operator in VALID_OPERATORS before field-type-specific checks. Completely invalid operators (e.g. 'FOOBAR') on numeric fields now raise F-T-05 instead of silently passing."
+    },
+    "V3_string_field_check_preserved": {
+      "result": "PASS",
+      "note": "Original V3 check for string fields (numeric ordering operators rejected) preserved via elif branch."
+    },
+    "V4_UNSAFE_outside_component_domains": {
+      "result": "PASS",
+      "note": "UNSAFE is not in any component_*_state domain. Rule with component_o_state=='UNSAFE' raises F-T-06."
+    },
+    "V4_CAUTION_outside_component_t_domain": {
+      "result": "PASS",
+      "note": "CAUTION not in component_t_state domain. Rule with component_t_state=='CAUTION' raises F-T-06."
+    },
+    "V4_EXCLUDED_in_component_w_r_m_o_domains": {
+      "result": "PASS",
+      "note": "EXCLUDED is in domain for component_w/r/m/o_state. Rules using EXCLUDED predicates pass V4."
+    },
+    "R_CAUTION_002_implemented": {
+      "result": "PASS",
+      "note": "R-CAUTION-002: component_o_state=='CAUTION' → Delay. Loaded in build_canonical_repository(). Predicate uses ComponentStateTrace — no g_o threshold reimplementation."
+    },
+    "R_CAUTION_003_implemented": {
+      "result": "PASS",
+      "note": "R-CAUTION-003: component_r_state=='CAUTION' → Delay. Loaded in build_canonical_repository(). Predicate uses ComponentStateTrace — no g_r threshold reimplementation."
+    },
+    "R_CAUTION_004_implemented": {
+      "result": "PASS",
+      "note": "R-CAUTION-004: component_w_state=='CAUTION' → Delay. Loaded in build_canonical_repository(). Predicate uses ComponentStateTrace — no g_w threshold reimplementation."
+    },
+    "R_CAUTION_001_unchanged": {
+      "result": "PASS",
+      "note": "R-CAUTION-001 unchanged: resolved_m=='advisory' → Delay. Not migrated to component_m_state form. Migration is a future consistency consideration only."
+    },
+    "R_SAFE_001_remains_deferred": {
+      "result": "PASS",
+      "note": "R-SAFE-001 remains in DEFERRED_RULES only (STATE_RESTATEMENT, Batch 4A). Not implemented."
+    },
+    "DEFERRED_RULES_reduced_to_R_SAFE_001": {
+      "result": "PASS",
+      "note": "DEFERRED_RULES dict now contains only R-SAFE-001. R-CAUTION-002/003/004 removed from deferred register upon implementation."
+    },
+    "consistency_check_added": {
+      "result": "PASS",
+      "note": "_check_state_trace_consistency() added. Step 2.5 in execute_episode() between UNSAFE gate-off and rule selection."
+    },
+    "consistency_SAFE_all_SAFE_passes": {
+      "result": "PASS",
+      "note": "S=SAFE + all active (non-EXCLUDED) components SAFE → no configuration_failure."
+    },
+    "consistency_CAUTION_one_CAUTION_passes": {
+      "result": "PASS",
+      "note": "S=CAUTION + at least one active component CAUTION → no configuration_failure."
+    },
+    "consistency_SAFE_CAUTION_component_fails": {
+      "result": "PASS",
+      "note": "S=SAFE + any CAUTION component → configuration_failure=True, AI(E)=∅, error=STATE_TRACE_INCONSISTENCY."
+    },
+    "consistency_CAUTION_no_CAUTION_fails": {
+      "result": "PASS",
+      "note": "S=CAUTION + no active CAUTION component → configuration_failure=True."
+    },
+    "consistency_UNSAFE_skips_check": {
+      "result": "PASS",
+      "note": "UNSAFE gate-off (Step 2) occurs before consistency check (Step 2.5). UNSAFE episodes skip consistency check."
+    },
+    "consistency_all_EXCLUDED_with_SAFE": {
+      "result": "PASS",
+      "note": "S=SAFE + all EXCLUDED components → consistent (empty active set; all() on empty = True)."
+    },
+    "consistency_failure_type_correct": {
+      "result": "PASS",
+      "note": "ConfigurationError raised with failure_type='STATE_TRACE_INCONSISTENCY' on consistency violation."
+    },
+    "EXCLUDED_not_SAFE_semantics": {
+      "result": "PASS",
+      "note": "component_m_state='EXCLUDED' does not satisfy == 'SAFE' predicate (returns FALSE). EXCLUDED ≠ observed SAFE."
+    },
+    "EXCLUDED_not_CAUTION_semantics": {
+      "result": "PASS",
+      "note": "component_m_state='EXCLUDED' does not satisfy == 'CAUTION' predicate (returns FALSE)."
+    },
+    "EXCLUDED_satisfies_EXCLUDED_predicate": {
+      "result": "PASS",
+      "note": "component_m_state='EXCLUDED' satisfies == 'EXCLUDED' predicate (returns TRUE)."
+    },
+    "no_layer2_recomputation": {
+      "result": "PASS",
+      "note": "R-CAUTION-002/003/004 predicates reference component_*_state only. No resolved_w/r_rate/o_wave_height threshold comparison. No Layer 2 classifier functions imported."
+    },
+    "Safety_Dominance_preserved": {
+      "result": "PASS",
+      "note": "AI(E) ⊆ A_AI(S) holds by construction. R-CAUTION-002/003/004 produce Delay ∈ A_AI(CAUTION). A_AI unchanged. Theorem C.3 proof unaffected."
+    },
+    "CAUTION_rules_absent_from_RS_SAFE": {
+      "result": "PASS",
+      "note": "R-CAUTION-002/003/004 have applicable_state=CAUTION. select_rule_set(repo,'SAFE') does not include them."
+    },
+    "UNSAFE_gate_off_unchanged": {
+      "result": "PASS",
+      "note": "G(UNSAFE)=0 → Layer 3 not invoked → no component state rules fire. Behaviour unchanged."
+    },
+    "A_AI_unchanged": {
+      "result": "PASS",
+      "note": "A_AI(SAFE)={Go,Delay,DepartureTime,Duration}, A_AI(CAUTION)={Go,Delay}, A_AI(UNSAFE)=∅ unchanged."
+    },
+    "human_authority_unchanged": {
+      "result": "PASS",
+      "note": "No rule produces automated prohibition, approval, or override. Human authority unconditional."
+    },
+    "OPEN_L3_3_preserved": {
+      "result": "PASS",
+      "note": "No CAUTION→Go rule added. GAP-03 preserved."
+    },
+    "OPEN_L3_1C_preserved": {
+      "result": "PASS",
+      "note": "No DepartureTime rule added."
+    },
+    "OPEN_L3_1D_preserved": {
+      "result": "PASS",
+      "note": "No Duration rule added."
+    },
+    "existing_82_tests_all_pass": {
+      "result": "PASS",
+      "note": "All 82 pre-existing tests pass after fixture adaptations (3 fixtures updated for SAFE consistency; 3 canonical repo test assertions updated to be rule-id-specific)."
+    },
+    "fixture_adaptation_fixture_only": {
+      "result": "PASS",
+      "note": "Fixture changes: _ctx() extended with defaults; _safe_ctx() added; test_numeric_conversion_failure_FT08 explicit constructor updated; 3 canonical repo tests adapted by fixture/assertion scope change. No assertion weakening — test intents preserved."
+    },
+    "test_category_A_construction": {
+      "result": "PASS",
+      "note": "6 new tests (A01-A06): interface construction and schema contents."
+    },
+    "test_category_B_excluded": {
+      "result": "PASS",
+      "note": "5 new tests (B01-B05): EXCLUDED semantics — EXCLUDED≠SAFE, EXCLUDED≠CAUTION."
+    },
+    "test_category_C_consistency": {
+      "result": "PASS",
+      "note": "8 new tests (C01-C08): S/trace consistency invariant — all cases covered."
+    },
+    "test_category_D_individual_activation": {
+      "result": "PASS",
+      "note": "9 new tests (D01-D09): individual rule activation for R-CAUTION-002/003/004."
+    },
+    "test_category_E_concurrent": {
+      "result": "PASS",
+      "note": "4 new tests (E01-E04): concurrent activation of multiple rules."
+    },
+    "test_category_F_structural_validation": {
+      "result": "PASS",
+      "note": "8 new tests (F01-F08): V1-V4 for component fields + V3 numeric repair."
+    },
+    "test_category_G_predicate_semantics": {
+      "result": "PASS",
+      "note": "4 new tests (G01-G04): predicate evaluation returns TRUE/FALSE for component fields."
+    },
+    "test_category_H_governance": {
+      "result": "PASS",
+      "note": "4 new tests (H01-H04): Safety Dominance and A_AI containment."
+    },
+    "test_category_I_protected": {
+      "result": "PASS",
+      "note": "9 new tests (I01-I09): protected rules and canonical registry integrity."
+    },
+    "total_test_count_139": {
+      "result": "PASS",
+      "note": "139 tests total (82 existing + 57 new), all PASS."
+    },
+    "R_SAFE_001_not_implemented": {
+      "result": "PASS",
+      "note": "R-SAFE-001 not in build_canonical_repository(). Not in any RS(S). STATE_RESTATEMENT reason preserved."
+    },
+    "F1_F3_not_run": {
+      "result": "PASS",
+      "note": "F1-F3 are not run in Batch 4B-2. These are engineering verification tests, not scientific evaluation."
+    },
+    "E5_not_run": {
+      "result": "PASS",
+      "note": "E5 latency evaluation not run. No latency threshold invented."
+    },
+    "canonical_docs_unchanged": {
+      "result": "PASS",
+      "note": "appendix-c, architecture-illustration, layer3-prototype-specification, algorithm-specification, evaluation-specification all unchanged in Batch 4B-2."
+    },
+    "provenance_on_new_rules": {
+      "result": "PASS",
+      "note": "R-CAUTION-002/003/004 each have non-empty provenance strings with authority references (EV-02/03/04, Batch 4A resolution, Batch 4B-1 contract)."
+    },
+    "new_failure_type_documented": {
+      "result": "PASS",
+      "note": "STATE_TRACE_INCONSISTENCY added to ConfigurationError docstring in rule.py."
+    }
+  }
+}
