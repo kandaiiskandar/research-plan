@@ -1,6 +1,6 @@
 # Journal 1 — Layer 3 Prototype Specification
 
-**Status:** Batch 1 CLOSED — fidelity trace and failure-semantics contract repaired (2026-09-11). Batch 2 CLOSED — CAUTION-Go presentation semantics resolved (2026-09-11, OPEN-L3-3 resolution B).  
+**Status:** Batch 1 CLOSED — fidelity trace and failure-semantics contract repaired (2026-09-11). Batch 2 CLOSED — CAUTION-Go presentation semantics resolved (2026-09-11, OPEN-L3-3 resolution B). OPEN-L3-2 CLOSED — predicate evaluation failure semantics explicitly governed (2026-09-11, three-valued semantics with episode-level refusal).  
 **Closed on:** Batch 1: 2026-09-11 | Batch 2: 2026-09-11  
 *(Historical — superseded: (i) Batch 2 CLOSED WITH BOUNDED OPEN ITEMS — advisory rule evidence and semantics partially specified. (ii) Batch 2 REMAINS OPEN — OPEN-L3-3 CAUTION-Go authority semantics unresolved. Current status set on OPEN-L3-3 Resolution B: appendix-c line 791 governs presentation of a rule-generated Go advisory, not automatic emission — see `data/journal1-layer3-prototype/open-l3-3-resolution/`.)*  
 **Branch:** `design/journal1-algorithm-specification`  
@@ -418,19 +418,39 @@ execute_episode(state="FOOBAR", ...)
 → EpisodeResult(advisories=[], trace=FidelityTrace(configuration_failure=True, ...), error=ConfigurationError("Unknown state: FOOBAR"))
 ```
 
-**Rule condition evaluation error (OPEN-L3-2):**
+**Rule condition evaluation error (OPEN-L3-2 — CLOSED 2026-09-11):**
 
-If a rule predicate cannot be evaluated correctly, the prototype must not silently reinterpret the failure as a false predicate. A predicate evaluation failure is not equivalent to `condition == False`.
+**Selected policy: Model C + Model D — three-valued predicate semantics with episode-level refusal.** Full evidence: `data/journal1-layer3-prototype/open-l3-2-resolution/`.
 
-Until OPEN-L3-2 is resolved, the only permitted specification behaviour is:
+**Predicate result domain:** `{TRUE, FALSE, ERROR}`
+- `TRUE` — antecedent successfully evaluated and satisfied
+- `FALSE` — antecedent successfully evaluated and not satisfied
+- `ERROR` — antecedent could not be established (evaluation failed)
+
+**Rule firing condition:** A rule fires if and only if all predicates evaluate `TRUE`. Neither `FALSE` nor `ERROR` triggers rule firing. `ERROR` is not reinterpreted as `FALSE`.
+
+**Episode-level behaviour on any predicate `ERROR`:**
 
 ```
-predicate evaluation raises an exception
-→ episode reports an evaluation failure
-→ no unsupported advisory is emitted from the failed evaluation
+any predicate evaluation ERROR in any rule
+→ AI(E) = ∅
+→ S unchanged; G unchanged; A_AI unchanged
+→ evaluation_failure = True in trace
+→ failed_rule_ids and failure_category recorded
+→ human authority preserved (∅ does not constrain human decision)
 ```
 
-Whether the engine aborts, skips the rule, continues evaluating remaining rules, returns partial advisories, or returns an error result are **implementation-policy choices** not yet resolved. See OPEN-L3-2 in §14.
+Other rules do not continue after a predicate evaluation failure. No partial advisory output is produced. The trace always emits; evaluation failure cannot suppress it.
+
+**Implementation note:** The engine may abort on first failure or complete evaluation of all rules before refusing advisory generation. Both produce `AI(E) = ∅`. If all rules are evaluated, all failed rule IDs should be recorded.
+
+**Algorithm 3 boundary (extended by design interpretation):** `validate_rule_set()` catches rule-definition failures — type mismatches, invalid operators, unsupported categorical values — before reasoning begins, producing `ConfigurationError` with `configuration_failure = True`. These are not governed by this policy.
+
+**Algorithm 4 boundary:** Failures that depend on runtime context values (runtime predicate exceptions, numeric conversion failures, malformed values, unexpected internal errors) are caught by `engine.reason()` under this policy.
+
+**Trace distinguishability requirement:** `fired_rule_ids = []` combined with `evaluation_failure = False` means normal no-fire. `fired_rule_ids = []` combined with `evaluation_failure = True` means the episode was aborted by predicate failure. These states must be distinguishable without inspecting any other field. The FidelityTrace requires three additional conceptual fields: `evaluation_failure` (bool), `failed_rule_ids` (list[str]), `failure_category` (str | None). Implementation is Batch 3 work.
+
+**S mutation policy:** S is never mutated by Layer 3. A predicate evaluation failure does not change S, G(S), or A_AI(S). The policy does not map evaluation failure to `S = UNSAFE`.
 
 **Unconfigured vessel category:**
 
@@ -474,9 +494,9 @@ The following items are carried forward from the Algorithm Specification workstr
 | OPEN-B3-3 | Decision-episode implementation boundary | **PARTIALLY CLOSED — ReasoningEpisode struct defined** | One episode = one `execute_episode()` call. Duration/polling/refresh not specified. |
 | OPEN-B4-1 | Solar lookup data structure | OPEN — unchanged | Layer 3 does not modify Algorithm 1 infrastructure |
 | OPEN-L3-1 | **Concrete Layer 3 advisory rule content** | **Batch 1 historical status: OPEN. Current status: PARTIALLY RESOLVED — see §26 (authoritative).** | No authoritative rule antecedents found in upstream authority. Engine contract and interface complete. Scientific specification of rule content required before concrete rules can be added. |
-| OPEN-L3-2 | **Rule-condition evaluation failure handling** | **NEW — OPEN** | If a predicate cannot be evaluated, the failure must not be silently treated as `False`. Implementation policy (abort / skip / continue / partial advisories / error result) is not yet resolved. Blocks concrete engine implementation but not Batch 1 contract closure. |
+| OPEN-L3-2 | **Rule-condition evaluation failure handling** | **CLOSED (2026-09-11) — Model C + Model D selected: three-valued semantics `{TRUE, FALSE, ERROR}` with episode-level refusal. Any predicate `ERROR` → `AI(E) = ∅`; `S` unchanged; `evaluation_failure = True` in trace. FidelityTrace extended with `evaluation_failure`, `failed_rule_ids`, `failure_category` (conceptual — implementation is Batch 3). Full evidence: `data/journal1-layer3-prototype/open-l3-2-resolution/`.** | See §12 resolved policy. OPEN-L3-2 no longer blocks engine implementation. |
 
-**OPEN-L3-1 and OPEN-L3-2 do not block Batch 1 closure** — the engine contract, interface, schema, and fidelity instrumentation are complete without concrete rules. It blocks full prototype completion (Batch 2 and later).
+**OPEN-L3-1 and OPEN-L3-2:** OPEN-L3-1C and OPEN-L3-1D block concrete rule content for DepartureTime and Duration. OPEN-L3-2 is now CLOSED. The engine contract, interface, schema, and fidelity instrumentation are complete. Full prototype implementation is gated by OPEN-L3-1C and OPEN-L3-1D independently.
 
 ---
 
@@ -528,7 +548,7 @@ Permission is necessary but not sufficient. A recommendation type in A_AI(S) may
 - E5 performance benchmarking
 - Invention of advisory rules to make the repository look complete
 - Conversion of Layer 2 classification thresholds to Layer 3 rules without independent justification
-- Resolution of OPEN-L3-2 (predicate evaluation failure policy)
+- ~~Resolution of OPEN-L3-2~~ (OPEN-L3-2 was resolved 2026-09-11 — see §12 and §14)
 
 **Artefacts produced:** `recommendation-semantics-batch2.csv`, `rule-evidence-matrix-batch2.csv`, `rule-candidate-register-batch2.csv`, `rule-conflict-analysis-batch2.csv`, `scientific-gap-register-batch2.csv`, `semantic-verification-batch2.json`, `change-map-batch2.csv`, `closure-batch2.json`, `report-batch2.md`.
 
@@ -750,10 +770,10 @@ Full gap register: `scientific-gap-register-batch2.csv`.
 |---|---|---|
 | OPEN-L3-1C | OPEN | DepartureTime advisory derivation — requires RQ5 fieldwork or tidal data for Kota Kinabalu |
 | OPEN-L3-1D | OPEN | Duration advisory derivation — requires RQ5 fieldwork or DoF Malaysia guidelines |
-| OPEN-L3-2 | OPEN (unchanged) | Predicate evaluation failure policy — blocks implementation, not specification |
+| OPEN-L3-2 | **CLOSED (2026-09-11) — three-valued semantics with episode-level refusal** | Full policy in §12; evidence in `data/journal1-layer3-prototype/open-l3-2-resolution/`. OPEN-L3-2 no longer gates engine implementation. |
 | OPEN-L3-3 | **CLOSED (2026-09-11) — Resolution B** | **CAUTION-Go presentation vs. rule semantics — RESOLVED.** Interpretation B (presentation qualifier only) established. Formal semantics: `S = CAUTION ∧ Go ∈ AI(E) → Present(Go, caution_qualifier)`. NOT: `S = CAUTION → Go ∈ AI(E)`. Appendix C §C.4 line 791 clarified under task §15 permission to remove the "automatically presented" surface ambiguity: the sentence now reads "any Go advisory generated by the active Layer 3 rule set is presented with a caution qualifier." No CAUTION-Go rule required or introduced; Go remains admissible in A_AI(CAUTION). Algorithm 3/4 unchanged; Safety Dominance unchanged. Full evidence: [`data/journal1-layer3-prototype/open-l3-3-resolution/`](../../../data/journal1-layer3-prototype/open-l3-3-resolution/) (authority-trace.csv, semantic-decomposition.md, decision-matrix.csv, resolution.json, verification.json, report.md). Does not authorise Batch 3 engine implementation; other Batch 3 gating conditions (OPEN-L3-1C, OPEN-L3-1D, OPEN-L3-2) remain in force. |
 
-OPEN-L3-1 is PARTIALLY RESOLVED. OPEN-L3-1C and OPEN-L3-1D carry the unresolved portions forward. **OPEN-L3-3 is now CLOSED (Resolution B, 2026-09-11).** Batch 3 engine implementation is unblocked on the OPEN-L3-3 axis; remaining gating comes from OPEN-L3-1C, OPEN-L3-1D and OPEN-L3-2 (each independently). Presentation layer must attach a caution qualifier to any Go advisory produced when S = CAUTION.
+OPEN-L3-1 is PARTIALLY RESOLVED. OPEN-L3-1C and OPEN-L3-1D carry the unresolved portions forward. **OPEN-L3-3 is CLOSED (Resolution B, 2026-09-11).** **OPEN-L3-2 is CLOSED (2026-09-11) — three-valued semantics with episode-level refusal; see §12.** Batch 3 engine implementation is unblocked on the OPEN-L3-3 and OPEN-L3-2 axes; remaining gating comes from OPEN-L3-1C and OPEN-L3-1D independently. Presentation layer must attach a caution qualifier to any Go advisory produced when S = CAUTION.
 
 ---
 
