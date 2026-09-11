@@ -1,0 +1,206 @@
+{
+  "verification_date": "2026-09-11",
+  "total_checks": 28,
+  "PASS": 26,
+  "FAIL": 0,
+  "OPEN": 2,
+  "checks": [
+    {
+      "id": "CV-01",
+      "check": "G_mapping_preserved",
+      "status": "PASS",
+      "evidence": "T01, T02, T03: G(SAFE)=1, G(CAUTION)=1, G(UNSAFE)=0 enforced in GOVERNANCE_MAP (rule_set_provider.py)",
+      "verified_by": ["test_T01_SAFE_gate_enabled", "test_T02_CAUTION_gate_enabled", "test_T03_UNSAFE_gate_disabled"]
+    },
+    {
+      "id": "CV-02",
+      "check": "A_AI_mapping_preserved",
+      "status": "PASS",
+      "evidence": "A_AI(SAFE)={Go,Delay,DepartureTime,Duration}, A_AI(CAUTION)={Go,Delay}, A_AI(UNSAFE)=∅ enforced in GOVERNANCE_MAP",
+      "verified_by": ["test_A_AI_SAFE_full", "test_A_AI_CAUTION_restricted", "test_A_AI_UNSAFE_empty"]
+    },
+    {
+      "id": "CV-03",
+      "check": "UNSAFE_short_circuit_preserved",
+      "status": "PASS",
+      "evidence": "T04: SpyEngine confirms engine.reason() is NOT called when G(S)=0; gate-off in execute_episode() step 2",
+      "verified_by": ["test_T04_UNSAFE_no_engine_invocation"]
+    },
+    {
+      "id": "CV-04",
+      "check": "RS_UNSAFE_empty",
+      "status": "PASS",
+      "evidence": "select_rule_set() returns [] immediately for UNSAFE state; no rule with applicable_state='UNSAFE' exists",
+      "verified_by": ["test_RS_UNSAFE_empty"]
+    },
+    {
+      "id": "CV-05",
+      "check": "Algorithm3_containment_enforced",
+      "status": "PASS",
+      "evidence": "T08: validate_rule_set() raises ConfigurationError(F-T-03) if any rule.conclusion_type ∉ A_AI(S)",
+      "verified_by": ["test_T08_A_AI_containment_violation_rejected", "test_T08_containment_in_execute_episode"]
+    },
+    {
+      "id": "CV-06",
+      "check": "V1_FT11_enforced",
+      "status": "PASS",
+      "evidence": "T09: validate_rule_set() raises ConfigurationError(F-T-11) if pred.variable not in DECISION_CONTEXT_SCHEMA",
+      "verified_by": ["test_T09_V1_unknown_variable_FT11", "test_T09_V1_in_execute_episode"]
+    },
+    {
+      "id": "CV-07",
+      "check": "V2_FT04_enforced",
+      "status": "PASS",
+      "evidence": "T10: V2 rejects type mismatch (str value for float field) and null operator with non-None expected value",
+      "verified_by": ["test_T10_V2_type_mismatch_FT04", "test_T10_V2_null_operator_non_none_value_FT04"]
+    },
+    {
+      "id": "CV-08",
+      "check": "V3_FT05_enforced",
+      "status": "PASS",
+      "evidence": "T11: V3 rejects operators outside VALID_OPERATORS frozenset",
+      "verified_by": ["test_T11_V3_invalid_operator_FT05"]
+    },
+    {
+      "id": "CV-09",
+      "check": "V4_FT06_enforced",
+      "status": "PASS",
+      "evidence": "T12: V4 rejects categorical values outside declared domain (e.g. 'extreme' for resolved_m, κ=2 for resolved_r_kappa)",
+      "verified_by": ["test_T12_V4_invalid_categorical_value_FT06", "test_V4_kappa_out_of_domain"]
+    },
+    {
+      "id": "CV-10",
+      "check": "V1_runs_before_V2",
+      "status": "PASS",
+      "evidence": "validate_rule_set() runs V1 (unknown variable) before V2 (type mismatch) — unknown variable has no declared type to check against",
+      "verified_by": ["test_V1_before_V2_ordering"]
+    },
+    {
+      "id": "CV-11",
+      "check": "ERROR_distinct_from_FALSE",
+      "status": "PASS",
+      "evidence": "T15: evaluate_predicate returns PredicateResult.ERROR ≠ PredicateResult.FALSE; episode_refusal on ERROR, no-fire on FALSE",
+      "verified_by": ["test_T15_ERROR_distinct_from_FALSE_via_evaluate_predicate"]
+    },
+    {
+      "id": "CV-12",
+      "check": "ERROR_distinct_from_TRUE",
+      "status": "PASS",
+      "evidence": "T15: PredicateResult.ERROR ≠ PredicateResult.TRUE; ERROR never causes rule to fire",
+      "verified_by": ["test_T15_ERROR_distinct_from_TRUE"]
+    },
+    {
+      "id": "CV-13",
+      "check": "runtime_ERROR_causes_episode_refusal",
+      "status": "PASS",
+      "evidence": "T16: any predicate ERROR → ReasonResult.evaluation_failure=True → execute_episode returns empty advisories",
+      "verified_by": ["test_T16_predicate_ERROR_causes_episode_refusal"]
+    },
+    {
+      "id": "CV-14",
+      "check": "runtime_ERROR_produces_empty_AI",
+      "status": "PASS",
+      "evidence": "T18: AI(E)=[] when evaluation_failure=True (Model C+D)",
+      "verified_by": ["test_T18_runtime_failure_AI_empty"]
+    },
+    {
+      "id": "CV-15",
+      "check": "runtime_ERROR_does_not_mutate_S",
+      "status": "PASS",
+      "evidence": "T19: trace.S_new == original state after evaluation failure — Layer 3 never modifies S",
+      "verified_by": ["test_T19_runtime_failure_does_not_mutate_S"]
+    },
+    {
+      "id": "CV-16",
+      "check": "configuration_failure_distinct_from_evaluation_failure",
+      "status": "PASS",
+      "evidence": "T21: trace.configuration_failure and trace.evaluation_failure are independent flags; both can be inspected separately",
+      "verified_by": ["test_T21_config_failure_trace", "test_T21_eval_failure_trace", "test_T21_normal_no_fire_trace", "test_T21_normal_success_trace"]
+    },
+    {
+      "id": "CV-17",
+      "check": "no_partial_advisory_on_evaluation_failure",
+      "status": "PASS",
+      "evidence": "T20: Model C+D — when any rule fails with ERROR, ALL advisories from firing rules are discarded; AI(E)=∅",
+      "verified_by": ["test_T20_no_partial_advisory_on_evaluation_failure"]
+    },
+    {
+      "id": "CV-18",
+      "check": "every_advisory_has_fired_rule",
+      "status": "PASS",
+      "evidence": "T22: every Advisory in result has a rule_id traceable to a fired rule in fired_rule_ids",
+      "verified_by": ["test_T22_advisory_attributable_to_fired_rule", "test_T22_no_advisory_without_fired_rule"]
+    },
+    {
+      "id": "CV-19",
+      "check": "every_advisory_within_A_AI",
+      "status": "PASS",
+      "evidence": "T23: Advisory.type ∈ A_AI(S) by construction (validate_rule_set enforces containment before reasoning)",
+      "verified_by": ["test_T23_advisory_type_in_A_AI"]
+    },
+    {
+      "id": "CV-20",
+      "check": "deterministic_output",
+      "status": "PASS",
+      "evidence": "T24: identical (context, rule_set) produces identical advisories and trace across repeated calls",
+      "verified_by": ["test_T24_identical_input_produces_identical_output", "test_T24_determinism_on_empty_result"]
+    },
+    {
+      "id": "CV-21",
+      "check": "OPEN_L3_3_resolution_B_preserved",
+      "status": "PASS",
+      "evidence": "Go ∈ A_AI(CAUTION) confirmed; no Batch 2 rule produces Go under CAUTION; canonical repo has no Go-under-CAUTION rule",
+      "verified_by": ["test_Go_admissible_in_CAUTION_A_AI", "test_no_CAUTION_Go_rule_in_canonical_repo", "test_no_synthetic_Go_advisory_emitted"]
+    },
+    {
+      "id": "CV-22",
+      "check": "no_CAUTION_Go_rule_invented",
+      "status": "PASS",
+      "evidence": "GAP-03 preserved — no rule with conclusion_type='Go' and applicable_state='CAUTION' exists in canonical repo",
+      "verified_by": ["test_GAP_03_preserved_no_CAUTION_Go_rule"]
+    },
+    {
+      "id": "CV-23",
+      "check": "OPEN_L3_1C_preserved",
+      "status": "PASS",
+      "evidence": "No DepartureTime rule in canonical repo — no scientific authority in Batch 2 for OPEN-L3-1C",
+      "verified_by": ["test_OPEN_L3_1C_preserved_no_DepartureTime_rule"]
+    },
+    {
+      "id": "CV-24",
+      "check": "OPEN_L3_1D_preserved",
+      "status": "PASS",
+      "evidence": "No Duration rule in canonical repo — no scientific authority in Batch 2 for OPEN-L3-1D",
+      "verified_by": ["test_OPEN_L3_1D_preserved_no_Duration_rule"]
+    },
+    {
+      "id": "CV-25",
+      "check": "canonical_files_unchanged",
+      "status": "PASS",
+      "evidence": "appendix-c-formalisation.md and architecture-illustration.md exist and were not modified by Batch 3 implementation",
+      "verified_by": ["test_appendix_c_exists", "test_architecture_illustration_exists"]
+    },
+    {
+      "id": "CV-26",
+      "check": "Layer2_not_reimplemented",
+      "status": "PASS",
+      "evidence": "No governance module imports g_w, g_r, g_m, g_o, g_t or any Layer 2 classifier; confirmed by import scan",
+      "verified_by": ["test_no_g_functions_imported_in_governance_modules"]
+    },
+    {
+      "id": "CV-27",
+      "check": "F1_F3_not_run",
+      "status": "OPEN",
+      "evidence": "Batch 3 implements the engine only. F1–F3 (scientific evaluation: retrospective replay, comparative analysis, statistical evaluation) are not implemented and were not executed. Confirmed: no evaluation script was invoked.",
+      "verified_by": []
+    },
+    {
+      "id": "CV-28",
+      "check": "E5_not_run",
+      "status": "OPEN",
+      "evidence": "E5 (empirical study) is not an engineering test and was not executed. Confirmed: no user study protocol was activated.",
+      "verified_by": []
+    }
+  ],
+  "notes": "CV-27 and CV-28 are OPEN by design — these are checks that the scientific evaluations were NOT run, which is the correct Batch 3 outcome. OPEN here means 'not run and confirmed absent' — not a failure."
+}
