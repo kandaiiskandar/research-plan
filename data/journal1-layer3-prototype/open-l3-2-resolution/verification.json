@@ -1,10 +1,12 @@
 {
   "open_item": "OPEN-L3-2",
   "verification_date": "2026-09-11",
-  "total_checks": 21,
-  "PASS_count": 21,
+  "total_checks": 25,
+  "PASS_count": 25,
   "FAIL_count": 0,
   "OPEN_count": 0,
+  "micro_repair_date": "2026-09-11",
+  "micro_repair_note": "V-22 through V-25 added by OPEN-L3-2 Algorithm-Boundary Taxonomy Micro-Repair to verify consistency of the four-check Algorithm 3 structural validation contract across all artefacts.",
   "checks": [
     {
       "id": "V-01",
@@ -131,6 +133,34 @@
       "check": "canonical_integrity_preserved",
       "verdict": "PASS",
       "evidence": "docs/canonical/appendix-c-formalisation.md — UNCHANGED (no modification proposed or made). docs/canonical/architecture-illustration.md — UNCHANGED. No canonical file is modified. layer3-prototype-specification.md §12 and §14 are updated (implementation authority document, not canonical); these changes reflect the resolved policy and replace the OPEN-L3-2 placeholder. Protected items (A_AI, G, Layer 2 thresholds, g_t, g_r, RS_candidate rule content, OPEN-L3-3 Resolution B, GAP-03) are all unchanged."
+    },
+    {
+      "id": "V-22",
+      "check": "unknown_variable_distinguished_from_type_mismatch",
+      "verdict": "PASS",
+      "evidence": "F-T-11 (unknown-predicate-variable-reference) added to failure-taxonomy.csv as a distinct failure class from F-T-04 (rule-type-mismatch-in-definition). The F-T-11 notes field states: 'Distinct from F-T-04 (type mismatch): an unknown variable has no type to check. Variable existence is the prerequisite validation (V1); type compatibility (V2) is the subsequent check.' resolution.json extended_validation_scope defines V1 (→F-T-11) and V2 (→F-T-04) as separate checks with V1 as prerequisite. algorithm-boundary-analysis.md §3.1 lists them as separate rows. report.md §9 enumerates them as separate numbered items with explicit F-T-## references.",
+      "micro_repair": true
+    },
+    {
+      "id": "V-23",
+      "check": "algorithm3_validation_scope_matches_failure_taxonomy",
+      "verdict": "PASS",
+      "evidence": "Algorithm 3 validation scope (V1–V4) maps exactly to taxonomy classes: V1 → F-T-11, V2 → F-T-04, V3 → F-T-05, V4 → F-T-06. All four checks are present in: failure-taxonomy.csv (four CONFIGURATION_FIDELITY_FAILURE rows with Algorithm 3 layer_owner), algorithm-boundary-analysis.md §3.1 table (four rows), resolution.json extended_validation_scope (four items with failure_class references), report.md §9 (four numbered checks with F-T-## mappings). No check in the validation scope lacks a taxonomy entry; no taxonomy entry for Algorithm 3 structural validation lacks a check.",
+      "micro_repair": true
+    },
+    {
+      "id": "V-24",
+      "check": "F_T_04_meaning_consistent_across_artefacts",
+      "verdict": "PASS",
+      "evidence": "F-T-04 consistently means 'rule-type-mismatch-in-definition' — predicate operand/value type incompatible with declared variable type — across all artefacts. failure-taxonomy.csv row F-T-04 states this. resolution.json V2 check maps to F-T-04 for type compatibility. algorithm-boundary-analysis.md §3.1 V2 row maps to F-T-04. report.md §9 item 2 maps to F-T-04. F-T-04 does not appear in any artefact as a catch-all for 'unknown variable' — that is F-T-11.",
+      "micro_repair": true
+    },
+    {
+      "id": "V-25",
+      "check": "all_structural_validation_classes_have_unique_taxonomy_mapping",
+      "verdict": "PASS",
+      "evidence": "Each structural validation check maps to exactly one failure taxonomy ID, and each taxonomy ID is used for exactly one check: V1 ↔ F-T-11 (unique), V2 ↔ F-T-04 (unique), V3 ↔ F-T-05 (unique), V4 ↔ F-T-06 (unique). No taxonomy ID is shared between checks. No check is left without a taxonomy ID. The four-way bijection holds across failure-taxonomy.csv, resolution.json, algorithm-boundary-analysis.md, and report.md.",
+      "micro_repair": true
     }
   ]
 }

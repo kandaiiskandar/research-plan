@@ -40,13 +40,16 @@ Algorithm 4 (`algorithm-specification.md` §19–§20) invokes `engine.reason(E,
 
 These failures are detectable from the rule definition and context schema alone, without runtime context values.
 
-| Failure class | Reason for Algorithm 3 ownership | Current handling |
-|---|---|---|
-| Rule type mismatch in predicate (F-T-04) | Variable type is fixed in the context schema; predicate type compatibility is checkable at supply time | `validate_rule_set()` rejects; `ConfigurationError`; `configuration_failure = True` |
-| Invalid operator for operand types (F-T-05) | Operator validity depends on declared types, not runtime values | `validate_rule_set()` rejects; `ConfigurationError`; `configuration_failure = True` |
-| Unsupported categorical value in predicate (F-T-06) | Value domains are defined in appendix-c; membership is checkable at supply time | `validate_rule_set()` rejects; `ConfigurationError`; `configuration_failure = True` |
+| Failure class | Validation check | Reason for Algorithm 3 ownership | Current handling |
+|---|---|---|---|
+| Unknown predicate variable reference (F-T-11) | V1 — referenced variable exists in DecisionContext schema | Variable existence is checkable from the rule definition and context schema at supply time; a missing variable has no type to check | `validate_rule_set()` rejects; `ConfigurationError`; `configuration_failure = True` |
+| Rule type mismatch in predicate (F-T-04) | V2 — predicate operand/value type is compatible with declared variable type | Variable type is fixed in the context schema; type compatibility is checkable at supply time | `validate_rule_set()` rejects; `ConfigurationError`; `configuration_failure = True` |
+| Invalid operator for operand types (F-T-05) | V3 — operator is valid for the declared operand types | Operator validity depends on declared types, not runtime values | `validate_rule_set()` rejects; `ConfigurationError`; `configuration_failure = True` |
+| Unsupported categorical value in predicate (F-T-06) | V4 — categorical value belongs to the declared variable domain | Value domains are defined in appendix-c; membership is checkable at supply time | `validate_rule_set()` rejects; `ConfigurationError`; `configuration_failure = True` |
 
-**Extended Algorithm 3 validation scope (this resolution):** `validate_rule_set()` should validate the three structural properties above in addition to the existing `ConclusionTypes` check. This does not change the Algorithm 3 contract — it extends the set of configuration-fidelity checks that produce `ConfigurationError` before reasoning begins.
+**Extended Algorithm 3 validation scope (this resolution):** `validate_rule_set()` should validate the four structural properties above (V1–V4) in addition to the existing `ConclusionTypes` check. This does not change the Algorithm 3 contract — it extends the set of configuration-fidelity checks that produce `ConfigurationError` before reasoning begins.
+
+Note: V1 (variable existence) is the prerequisite check. A rule with an unknown variable cannot be assessed for type compatibility (V2), so V1 must precede V2. Unknown variable (F-T-11) and type mismatch (F-T-04) are distinct failure classes; one does not subsume the other.
 
 **Why extend Algorithm 3 (not handle at runtime):** Catching these failures at supply time:
 1. Preserves the clean semantic boundary between configuration failure and runtime evaluation failure.
@@ -126,9 +129,10 @@ A Layer 3 evaluation failure does not produce `S = UNSAFE`. That would constitut
 │   → ConfigurationError; AI(E) = ∅; configuration_failure│
 ├─────────────────────────────────────────────────────────┤
 │ Algorithm 3 — validate_rule_set()                       │
-│   Rule type mismatch (F-T-04)                          │
-│   Invalid operator (F-T-05)                            │
-│   Unsupported categorical value (F-T-06)               │
+│   Unknown predicate variable reference (F-T-11) [V1]   │
+│   Rule type mismatch (F-T-04) [V2]                     │
+│   Invalid operator (F-T-05) [V3]                       │
+│   Unsupported categorical value (F-T-06) [V4]          │
 │   → ConfigurationError; AI(E) = ∅; configuration_failure│
 ├─────────────────────────────────────────────────────────┤
 │ Algorithm 4 / engine.reason() — OPEN-L3-2 scope        │

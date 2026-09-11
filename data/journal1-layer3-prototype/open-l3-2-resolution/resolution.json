@@ -74,9 +74,30 @@
   "algorithm3_boundary": {
     "existing_validation": "ConclusionTypes(RS_candidate) ⊆ A_AI(S)",
     "extended_validation_scope": [
-      "Predicate operator validity for declared variable types",
-      "Value domain membership for categorical predicates (per appendix-c schema)",
-      "All referenced variable names exist in the DecisionContext schema"
+      {
+        "check": "V1 — referenced variable exists in DecisionContext schema",
+        "failure_class": "F-T-11",
+        "failure_id": "unknown-predicate-variable-reference",
+        "note": "Prerequisite check: a variable with an unknown name has no type to check. Must precede V2."
+      },
+      {
+        "check": "V2 — predicate operand/value type is compatible with the declared variable type",
+        "failure_class": "F-T-04",
+        "failure_id": "rule-type-mismatch-in-definition",
+        "note": "Type compatibility is checkable from rule schema and context schema at supply time."
+      },
+      {
+        "check": "V3 — predicate operator is valid for the declared variable/value operand types",
+        "failure_class": "F-T-05",
+        "failure_id": "invalid-operator-in-rule-definition",
+        "note": "Operator validity depends on declared types, not runtime values."
+      },
+      {
+        "check": "V4 — categorical predicate value belongs to the declared variable domain",
+        "failure_class": "F-T-06",
+        "failure_id": "unsupported-categorical-value-in-rule-definition",
+        "note": "Value domains are defined in appendix-c; membership is checkable at supply time."
+      }
     ],
     "extended_validation_handling": "Violations → ConfigurationError; configuration_failure = True in trace; AI(E) = ∅; S unchanged",
     "authority_class": "DESIGN_INTERPRETATION — extension of existing Algorithm 3 structural-validation role; no external authority explicitly requires this extension, but it is the natural boundary for structure-detectable vs. runtime-only failures",

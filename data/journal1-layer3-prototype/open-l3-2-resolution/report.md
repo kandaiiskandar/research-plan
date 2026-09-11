@@ -43,10 +43,12 @@ Ten failure classes are identified and classified. Full detail in `failure-taxon
 |---|---|---|---|
 | F-T-01, F-T-02 | Layer 2 / Layer 2 configuration | Before Layer 3 invocation | 2 |
 | F-T-03 | execute_episode() startup | Pre-reasoning | 1 |
-| F-T-04, F-T-05, F-T-06 | Algorithm 3 validate_rule_set() | Rule-set supply | 3 |
+| F-T-04, F-T-05, F-T-06, F-T-11 | Algorithm 3 validate_rule_set() | Rule-set supply | 4 |
 | F-T-07, F-T-08, F-T-09, F-T-10 | Algorithm 4 / engine.reason() | Runtime predicate evaluation | 4 |
 
 OPEN-L3-2 governs only the last group (F-T-07 through F-T-10). The others are handled by existing contracts upstream.
+
+Note: F-T-11 (unknown predicate variable reference) was added by the OPEN-L3-2 Algorithm-Boundary Taxonomy Micro-Repair (2026-09-11) to make explicit the distinction between an unknown variable (no type to check) and a type mismatch (F-T-04). The total failure class count is 11.
 
 ---
 
@@ -128,17 +130,18 @@ The implementation may either abort on the first predicate failure (early termin
 
 The existing Algorithm 3 validation postcondition (`ConclusionTypes(RS_candidate) ⊆ A_AI(S)`) is unchanged.
 
-By design interpretation, `validate_rule_set()` extends its structural validation to three additional checks before reasoning begins:
+By design interpretation, `validate_rule_set()` extends its structural validation to four additional checks before reasoning begins:
 
-1. Predicate operator validity for declared variable types
-2. Value domain membership for categorical predicates (per appendix-c variable definitions)
-3. All referenced variable names exist in the DecisionContext schema
+1. V1 — Referenced variable exists in DecisionContext schema (→ F-T-11)
+2. V2 — Predicate operand/value type is compatible with the declared variable type (→ F-T-04)
+3. V3 — Predicate operator is valid for the declared operand types (→ F-T-05)
+4. V4 — Categorical predicate value belongs to the declared variable domain (→ F-T-06)
 
-Violations in any of these three checks produce `ConfigurationError` — the same outcome as the existing admissibility check — with `configuration_failure = True` in the trace and `AI(E) = ∅`. S is not modified.
+V1 is the prerequisite check: a rule predicate referencing an unknown variable name (F-T-11) has no type to assess, so V1 must precede V2. Unknown variable (F-T-11) and type mismatch (F-T-04) are distinct failure classes — a rule with an unknown variable name cannot be assessed for type compatibility.
+
+Violations in any of these four checks produce `ConfigurationError` — the same outcome as the existing admissibility check — with `configuration_failure = True` in the trace and `AI(E) = ∅`. S is not modified.
 
 This extension keeps the boundary clean: failures detectable from the rule schema and context schema at supply time are caught by Algorithm 3; failures requiring actual runtime values are handled by the OPEN-L3-2 policy.
-
-The extended validation catches F-T-04 (type mismatch), F-T-05 (invalid operator), and F-T-06 (unsupported categorical value).
 
 ---
 
@@ -243,7 +246,7 @@ Implementation of these fields is Batch 3 work; this task specifies the conceptu
 
 ## 16. Verification Results
 
-21 checks. **PASS: 21 / FAIL: 0 / OPEN: 0**
+25 checks (21 original + 4 added by micro-repair). **PASS: 25 / FAIL: 0 / OPEN: 0**
 
 Full check list in `verification.json`. Key checks:
 
@@ -286,6 +289,14 @@ Full check list in `verification.json`. Key checks:
 **Modified:**
 - `publications/active/journal-1/layer3-prototype-specification.md` — §12 OPEN-L3-2 placeholder replaced with resolved policy; §14 OPEN-L3-2 status updated to CLOSED
 
+**Modified by micro-repair (2026-09-11):**
+- `data/journal1-layer3-prototype/open-l3-2-resolution/failure-taxonomy.csv` — F-T-11 (unknown-predicate-variable-reference) added as fourth Algorithm 3 structural validation failure class
+- `data/journal1-layer3-prototype/open-l3-2-resolution/algorithm-boundary-analysis.md` — §3.1 table updated with F-T-11 as V1 row; §7 boundary diagram updated; extended validation scope updated to four checks
+- `data/journal1-layer3-prototype/open-l3-2-resolution/resolution.json` — extended_validation_scope updated from 3 items to 4 structured items (V1–V4) with explicit failure_class references
+- `data/journal1-layer3-prototype/open-l3-2-resolution/verification.json` — V-22 through V-25 added; total_checks updated to 25, PASS_count to 25
+- `data/journal1-layer3-prototype/open-l3-2-resolution/report.md` — §3 table count updated to 4 for Algorithm 3 classes; §9 rewritten to enumerate four distinct checks with F-T-## mappings; §16 count updated; §17 and §18 updated
+- `publications/active/journal-1/layer3-prototype-specification.md` — §12 Algorithm 3 boundary line updated to list four failure classes including F-T-11; branch metadata clarified
+
 **Canonical files touched:** none
 
 ---
@@ -295,4 +306,9 @@ Full check list in `verification.json`. Key checks:
 ```text
 JOURNAL 1 LAYER 3 OPEN-L3-2 CLOSED —
 PREDICATE EVALUATION FAILURE SEMANTICS EXPLICITLY GOVERNED
+```
+
+```text
+OPEN-L3-2 ALGORITHM-BOUNDARY TAXONOMY MICRO-REPAIR CLOSED —
+STRUCTURAL VALIDATION CLASSES ALIGNED
 ```

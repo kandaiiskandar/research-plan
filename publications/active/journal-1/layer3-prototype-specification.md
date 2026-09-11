@@ -3,7 +3,7 @@
 **Status:** Batch 1 CLOSED — fidelity trace and failure-semantics contract repaired (2026-09-11). Batch 2 CLOSED — CAUTION-Go presentation semantics resolved (2026-09-11, OPEN-L3-3 resolution B). OPEN-L3-2 CLOSED — predicate evaluation failure semantics explicitly governed (2026-09-11, three-valued semantics with episode-level refusal).  
 **Closed on:** Batch 1: 2026-09-11 | Batch 2: 2026-09-11  
 *(Historical — superseded: (i) Batch 2 CLOSED WITH BOUNDED OPEN ITEMS — advisory rule evidence and semantics partially specified. (ii) Batch 2 REMAINS OPEN — OPEN-L3-3 CAUTION-Go authority semantics unresolved. Current status set on OPEN-L3-3 Resolution B: appendix-c line 791 governs presentation of a rule-generated Go advisory, not automatic emission — see `data/journal1-layer3-prototype/open-l3-3-resolution/`.)*  
-**Branch:** `design/journal1-algorithm-specification`  
+**Branch (document origin):** `design/journal1-algorithm-specification` *(OPEN-L3-2 resolution authored on `design/journal1-layer3-predicate-failure-policy`; OPEN-L3-2 micro-repair performed on the same branch)*  
 **Task (Batch 1):** [`docs/tasks/Journal 1 Layer 3 Prototype Implementation batch 1.md`](../../../docs/tasks/Journal%201%20Layer%203%20Prototype%20Implementation%20batch%201.md)  
 **Task (Batch 2):** [`docs/tasks/Journal 1 Layer 3 Prototype batch 2.md`](../../../docs/tasks/Journal%201%20Layer%203%20Prototype%20batch%202.md)  
 **Repair task:** [`docs/tasks/Journal 1 Layer 3 Prototype — Batch 1 repair.md`](../../../docs/tasks/Journal%201%20Layer%203%20Prototype%20%E2%80%94%20Batch%201%20repair.md)  
@@ -444,7 +444,7 @@ Other rules do not continue after a predicate evaluation failure. No partial adv
 
 **Implementation note:** The engine may abort on first failure or complete evaluation of all rules before refusing advisory generation. Both produce `AI(E) = ∅`. If all rules are evaluated, all failed rule IDs should be recorded.
 
-**Algorithm 3 boundary (extended by design interpretation):** `validate_rule_set()` catches rule-definition failures — type mismatches, invalid operators, unsupported categorical values — before reasoning begins, producing `ConfigurationError` with `configuration_failure = True`. These are not governed by this policy.
+**Algorithm 3 boundary (extended by design interpretation):** `validate_rule_set()` catches rule-definition failures — unknown variable references (F-T-11), type mismatches (F-T-04), invalid operators (F-T-05), unsupported categorical values (F-T-06) — before reasoning begins, producing `ConfigurationError` with `configuration_failure = True`. These are not governed by this policy. Variable existence (F-T-11) is checked before type compatibility (F-T-04): an unknown variable has no declared type to check. See `data/journal1-layer3-prototype/open-l3-2-resolution/failure-taxonomy.csv` for the full four-class taxonomy.
 
 **Algorithm 4 boundary:** Failures that depend on runtime context values (runtime predicate exceptions, numeric conversion failures, malformed values, unexpected internal errors) are caught by `engine.reason()` under this policy.
 
