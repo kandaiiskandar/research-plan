@@ -38,7 +38,8 @@
       "Bash(find /Users/iskandar/Documents/my_stuff/research-test-2/docs/chapters -name *.md -print0)",
       "Bash(xargs -0 sed -i '' -e 's|\\\\.\\\\./notes/|../../../notes/|g' -e 's|\\\\.\\\\./papers/sources/|../../../papers/sources/|g')",
       "Bash(find /Users/iskandar/Documents/my_stuff/research-test-2/docs/canonical /Users/iskandar/Documents/my_stuff/research-test-2/docs/justification /Users/iskandar/Documents/my_stuff/research-test-2/docs/analysis /Users/iskandar/Documents/my_stuff/research-test-2/docs/reference /Users/iskandar/Documents/my_stuff/research-test-2/docs/implementation /Users/iskandar/Documents/my_stuff/research-test-2/docs/writing-plans /Users/iskandar/Documents/my_stuff/research-test-2/docs/obsolete /Users/iskandar/Documents/my_stuff/research-test-2/docs/admin -name *.md -print0)",
-      "Bash(xargs -0 sed -i '' -e 's|\\\\.\\\\./\\\\.\\\\./\\\\.\\\\./notes/|../../notes/|g' -e 's|\\\\.\\\\./\\\\.\\\\./\\\\.\\\\./papers/sources/|../../papers/sources/|g')"
+      "Bash(xargs -0 sed -i '' -e 's|\\\\.\\\\./\\\\.\\\\./\\\\.\\\\./notes/|../../notes/|g' -e 's|\\\\.\\\\./\\\\.\\\\./\\\\.\\\\./papers/sources/|../../papers/sources/|g')",
+      "Bash(python *)"
     ]
   }
 }
