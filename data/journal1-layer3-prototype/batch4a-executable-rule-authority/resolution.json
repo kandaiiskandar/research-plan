@@ -1,0 +1,104 @@
+{
+  "batch": "4A",
+  "title": "Executable Rule-Set Authority Resolution",
+  "date": "2026-09-11",
+  "branch": "design/journal1-layer3-executable-rule-authority",
+  "HEAD_before": "3983f9875726e0b14ab8f2fcc197004c1ae9be27",
+  "batch3_closure_commit": "3983f9875726e0b14ab8f2fcc197004c1ae9be27",
+  "status": "CLOSED",
+  "closure_line": "JOURNAL 1 LAYER 3 PROTOTYPE BATCH 4A CLOSED — EXECUTABLE RULE-SET AUTHORITY AND LAYER-BOUNDARY INTERFACE RESOLVED",
+  "selected_interface_model": "Model B (Layer 2 component-state interface)",
+  "decision_basis": [
+    "Model B preserves the Layer 2/3 architectural boundary: Layer 2 computes g_i(.) once; Layer 3 consumes results only.",
+    "Safety Dominance (Theorem C.3, Appendix C §C.7.2) depends only on the value of S, not on additional interface content. Model B does not affect the proof.",
+    "layer3-prototype-specification.md §7 explicitly permits implementation-level additions to DecisionContext in later batches.",
+    "Component state domain at Layer 3 interface is {SAFE, CAUTION, EXCLUDED} — UNSAFE is unreachable (gate-off), FAULTED is absorbed by UNSAFE gate-off.",
+    "Model A (raw-value expansion) rejected: duplicates Layer 2 classifier thresholds in Layer 3.",
+    "Model C (reasons taxonomy) rejected: architecturally prohibited by Appendix C §C.2.0.8 and §C.7.2.",
+    "Model D (full deferral) partially accepted for R-SAFE-001 (STATE_RESTATEMENT); Model B preferred for R-CAUTION-002/003/004."
+  ],
+  "rule_dispositions": {
+    "R-SAFE-001": {
+      "disposition": "DEFERRED",
+      "classification": "STATE_RESTATEMENT",
+      "reason": "Antecedent all(g_i==SAFE) is logically equivalent to S=SAFE under max-severity. When Layer 3 executes with state=SAFE, all component states are already SAFE — rule fires unconditionally, creating automatic SAFE->Go mapping. No additional environmental discriminant. Requires bounded scientific decision before implementation.",
+      "implementation_authorised": false
+    },
+    "R-CAUTION-001": {
+      "disposition": "IMPLEMENTED (no change)",
+      "classification": "DIRECTLY_EXECUTABLE",
+      "reason": "Already implemented in Batch 3. resolved_m=='advisory' is directly executable. Future migration to m_state=='CAUTION' (Model B consistency) is a consideration for Batch 4B — not actioned in Batch 4A.",
+      "implementation_authorised": true
+    },
+    "R-CAUTION-002": {
+      "disposition": "AUTHORISED_PENDING_BATCH4B",
+      "classification": "EXECUTABLE_WITH_INTERFACE_EXTENSION",
+      "candidate_predicate": "ConditionPredicate(variable='component_o_state', operator='==', value='CAUTION')",
+      "requires_layer2_reimplementation": false,
+      "requires_interface_extension": true,
+      "requires_new_scientific_authority": false,
+      "reason": "g_o(o,v)==CAUTION is an already-computed Layer 2 result. Layer 3 may consume it as component_o_state without duplicating g_o thresholds or vessel-category logic.",
+      "implementation_authorised": false,
+      "implementation_authorised_note": "Authorised in principle; requires Batch 4B canonical update (architecture-illustration.md) plus interface specification and review."
+    },
+    "R-CAUTION-003": {
+      "disposition": "AUTHORISED_PENDING_BATCH4B",
+      "classification": "EXECUTABLE_WITH_INTERFACE_EXTENSION",
+      "candidate_predicate": "ConditionPredicate(variable='component_r_state', operator='==', value='CAUTION')",
+      "requires_layer2_reimplementation": false,
+      "requires_interface_extension": true,
+      "requires_new_scientific_authority": false,
+      "reason": "g_r(r,kappa)==CAUTION is an already-computed Layer 2 result. Two-input rainfall semantics (rate+kappa) remain inside Layer 2. Layer 3 consumes r_state only.",
+      "implementation_authorised": false,
+      "implementation_authorised_note": "Authorised in principle; requires Batch 4B canonical update (architecture-illustration.md) plus interface specification and review."
+    },
+    "R-CAUTION-004": {
+      "disposition": "AUTHORISED_PENDING_BATCH4B",
+      "classification": "EXECUTABLE_WITH_INTERFACE_EXTENSION",
+      "candidate_predicate": "ConditionPredicate(variable='component_w_state', operator='==', value='CAUTION')",
+      "requires_layer2_reimplementation": false,
+      "requires_interface_extension": true,
+      "requires_new_scientific_authority": false,
+      "reason": "g_w(w)==CAUTION is an already-computed Layer 2 result. Thresholds 21.6/27.0 kn remain inside Layer 2. Layer 3 consumes w_state only.",
+      "implementation_authorised": false,
+      "implementation_authorised_note": "Authorised in principle; requires Batch 4B canonical update (architecture-illustration.md) plus interface specification and review."
+    }
+  },
+  "R_SAFE_001_state_restatement_result": {
+    "is_state_restatement": true,
+    "proof_summary": "f(E) = max-severity(...); S=SAFE iff all non-excluded g_i=SAFE. Under Layer 3 execution context (state=SAFE), all component states are already SAFE by the gate-off invariant. R-SAFE-001 antecedent is unconditionally TRUE in every S=SAFE episode. Rule adds no environmental discriminant beyond S=SAFE itself.",
+    "action": "DEFERRED — requires bounded scientific decision: (a) add additional discriminant to antecedent, or (b) explicitly document SAFE->Go as an accepted architectural design choice with scientific justification."
+  },
+  "proposed_interface": {
+    "name": "ComponentStateTrace",
+    "description": "Layer 2 exposes already-computed g_i(.) outputs alongside S in the Layer 3 interface",
+    "fields": {
+      "component_w_state": {"domain": ["SAFE", "CAUTION", "EXCLUDED"], "notes": "g_w(w) output"},
+      "component_r_state": {"domain": ["SAFE", "CAUTION", "EXCLUDED"], "notes": "g_r(r,kappa) output"},
+      "component_m_state": {"domain": ["SAFE", "CAUTION", "EXCLUDED"], "notes": "EXCLUDED when m in D (retrospective replay)"},
+      "component_o_state": {"domain": ["SAFE", "CAUTION", "EXCLUDED"], "notes": "g_o(o,v) output"},
+      "component_t_state": {"domain": ["SAFE", "EXCLUDED"], "notes": "g_t emits no CAUTION (Im(g_t)={SAFE,UNSAFE}); t not in D so not EXCLUDED in practice"}
+    },
+    "unreachable_values": ["UNSAFE", "FAULTED"],
+    "unreachable_reason": "UNSAFE component state -> S=UNSAFE -> G(UNSAFE)=0 -> Layer 3 never invoked. Faulted components (bottom) -> g_i(bottom)=UNSAFE -> same path.",
+    "integration_point": "layer3-prototype-specification.md §7 (existing provision for implementation-level additions to DecisionContext)"
+  },
+  "canonical_change_required": true,
+  "canonical_change_classification": "Option A — architecture-illustration.md is a protected canonical file and must be modified to reflect the extended Layer 2 -> Layer 3 interface",
+  "canonical_change_scope": "docs/canonical/architecture-illustration.md Layer 2/3 interface description must be updated to reflect that Layer 2 exposes ComponentStateTrace alongside S",
+  "canonical_change_not_performed_in_batch4a": true,
+  "canonical_change_note": "architecture-illustration.md is explicitly listed as a protected canonical file in task §29. The task stops at the canonical boundary — the modification is not performed here. Batch 4B must obtain review and approval for this update before implementation may proceed. Appendix C (appendix-c-formalisation.md) requires no change: Safety Dominance proof and formal variable definitions are unaffected.",
+  "implementation_authorised": false,
+  "implementation_authorised_note": "R-CAUTION-002/003/004 are authorised in principle via Model B. Implementation is blocked pending (1) canonical update to architecture-illustration.md, (2) interface specification in layer3-prototype-specification.md §7, both as Batch 4B tasks.",
+  "F1_F3_ready": false,
+  "F1_F3_ready_note": "F1-F3 readiness requires Batch 4B implementation. Running F1-F3 with current engine (R-CAUTION-001 only, m in D) would produce zero-activation results — an unnecessarily restricted lower bound.",
+  "remaining_open_items": {
+    "R_SAFE_001": "STATE_RESTATEMENT — requires bounded scientific decision (additional antecedent discriminant or explicit SAFE->Go policy justification)",
+    "canonical_change_batch4b": "architecture-illustration.md update required before Batch 4B implementation can proceed",
+    "OPEN_L3_1C": "DepartureTime — no change, remains OPEN",
+    "OPEN_L3_1D": "Duration — no change, remains OPEN",
+    "GAP_03": "No CAUTION->Go rule — no change, remains OPEN",
+    "OPEN_B3_2": "Production reasoning strategy — no change, remains OPEN",
+    "R_CAUTION_001_migration": "Future consideration: migrate R-CAUTION-001 to m_state==CAUTION for interface consistency — not actioned in Batch 4A or Batch 4B unless separately authorised"
+  }
+}

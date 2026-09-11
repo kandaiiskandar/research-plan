@@ -1,0 +1,63 @@
+{
+  "batch": "Batch 3",
+  "title": "Governed Core Engine Implementation",
+  "closure_line": "JOURNAL 1 LAYER 3 PROTOTYPE BATCH 3 CLOSED — GOVERNED CORE ENGINE AND FAILURE CONTRACT IMPLEMENTED",
+  "branch": "feat/journal1-layer3-core-engine",
+  "HEAD_before": "3983f9875726e0b14ab8f2fcc197004c1ae9be27",
+  "implementation_files": [
+    "governance/__init__.py",
+    "governance/rule.py",
+    "governance/advisory.py",
+    "governance/fidelity_trace.py",
+    "governance/rule_repository.py",
+    "governance/rule_set_provider.py",
+    "governance/reasoning_engine.py",
+    "governance/reasoning_episode.py",
+    "governance/canonical_rules.py"
+  ],
+  "test_files": [
+    "tests/__init__.py",
+    "tests/test_governance_engine.py"
+  ],
+  "scientific_authority_files": [
+    "publications/active/journal-1/layer3-prototype-specification.md",
+    "publications/active/journal-1/algorithm-specification.md",
+    "data/journal1-layer3-prototype/closure-batch2.json"
+  ],
+  "implemented_rule_ids": [
+    "R-CAUTION-001"
+  ],
+  "deferred_rule_ids": {
+    "R-SAFE-001": {
+      "reason": "Antecedent g_t(t,date)==SAFE requires solar event lookup prohibited in Layer 3 (Batch 3 task §30). Antecedent also expressed as component-classifier shorthand, not as ConditionPredicate triplets in Batch 2 artefacts.",
+      "authority_gap": "layer3-prototype-specification.md §20"
+    },
+    "R-CAUTION-002": {
+      "reason": "Antecedent g_o(o,v)==CAUTION requires vessel-category-dependent predicate decomposition not specified as ConditionPredicate triplets in Batch 2 artefacts.",
+      "authority_gap": "layer3-prototype-specification.md §21"
+    },
+    "R-CAUTION-003": {
+      "reason": "Antecedent g_r(r,κ)==CAUTION expressed as component-classifier shorthand; ConditionPredicate decomposition not in Batch 2 artefacts.",
+      "authority_gap": "layer3-prototype-specification.md §21"
+    },
+    "R-CAUTION-004": {
+      "reason": "Antecedent g_w(w)==CAUTION expressed as component-classifier shorthand; ConditionPredicate decomposition not in Batch 2 artefacts.",
+      "authority_gap": "layer3-prototype-specification.md §21"
+    }
+  },
+  "open_items_preserved": {
+    "OPEN-L3-1C": "No DepartureTime rule loaded — no scientific authority in Batch 2",
+    "OPEN-L3-1D": "No Duration rule loaded — no scientific authority in Batch 2",
+    "OPEN-L3-3": "Resolution B preserved — Go ∈ A_AI(CAUTION) but no Batch 2 rule produces Go under CAUTION; GAP-03 intact",
+    "GAP-03": "No Go-under-CAUTION rule invented — no supporting evidence in closed Batch 2 register",
+    "OPEN-B3-2": "Production reasoning strategy (RETE, agenda, first-match, all-match, backward chaining) remains open; linear scan prototype closes the implementation question for Batch 3"
+  },
+  "algorithms_implemented": [
+    "Algorithm 3 (Rule-Set Selection and Validation — rule_set_provider.py)",
+    "Algorithm 4 (Governed Advisory Generation — reasoning_engine.py)"
+  ],
+  "validation_checks_implemented": ["V1 (F-T-11)", "V2 (F-T-04)", "V3 (F-T-05)", "V4 (F-T-06)"],
+  "failure_model": "Model B (collect-all-errors across rules) + Model C+D (episode refusal on any ERROR)",
+  "f1_f3_run": false,
+  "e5_run": false
+}
