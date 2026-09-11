@@ -3,8 +3,10 @@
   "task_file": "docs/tasks/Journal 1 Layer 3 Prototype batch 2.md",
   "branch": "design/journal1-algorithm-specification",
   "closed_on": "2026-09-11",
-  "closure_line": "JOURNAL 1 LAYER 3 PROTOTYPE BATCH 2 REMAINS OPEN — CAUTION ADVISORY SEMANTICS REQUIRE AUTHORITY RESOLUTION",
-  "closure_rationale": "All evidence-mapping defects from the Final Repair have been corrected: P_ENV/P_ADV distinction is now explicit for all five accepted candidate rules; R-CAUTION-001 status downgraded from SUPPORTED to CONDITIONALLY SUPPORTED (MET establishes P_ENV at Level A but P_ADV requires inference); R-CAUTION-002/003/004 now carry explicit inference bridges connecting environmental premise to Delay advisory; EV-08 reclassified as internal synthesis of EV-02+EV-03+EV-04, not a fourth independent empirical source; both CSVs pass column-count integrity (rule-candidate-register: 23 cols, rule-evidence-matrix: 13 cols). However, the Appendix C line 791 CAUTION-Go tension ('automatically presented') cannot be definitively resolved without a separate design decision. Classification B (UI/presentation guidance) is the working interpretation but the normative reading (A) cannot be excluded. OPEN-L3-3 created as a blocking open item. Batch 2 remains open per Case B: all evidence repairs pass but Appendix C tension remains unresolved. Batch 3 must not begin until OPEN-L3-3 is resolved.",
+  "closure_line": "JOURNAL 1 LAYER 3 PROTOTYPE BATCH 2 CLOSED — CAUTION-GO PRESENTATION SEMANTICS RESOLVED",
+  "closure_rationale": "All evidence-mapping defects from the Final Repair have been corrected: P_ENV/P_ADV distinction is now explicit for all five accepted candidate rules; R-CAUTION-001 status downgraded from SUPPORTED to CONDITIONALLY SUPPORTED (MET establishes P_ENV at Level A but P_ADV requires inference); R-CAUTION-002/003/004 now carry explicit inference bridges connecting environmental premise to Delay advisory; EV-08 reclassified as internal synthesis of EV-02+EV-03+EV-04, not a fourth independent empirical source; both CSVs pass column-count integrity (rule-candidate-register: 23 cols, rule-evidence-matrix: 13 cols). OPEN-L3-3 (Appendix C line 791 CAUTION-Go tension) was resolved on 2026-09-11 under Resolution B — Interpretation B (presentation qualifier only). Formal semantics: S = CAUTION ∧ Go ∈ AI(E) → Present(Go, caution_qualifier). Appendix C line 791 clarified under task §15 to remove the 'automatically presented' surface ambiguity. No CAUTION-Go rule required; RS_candidate(CAUTION) remains Delay-only; Algorithm 3/4 and Safety Dominance unchanged. Full evidence: data/journal1-layer3-prototype/open-l3-3-resolution/. Batch 2 CLOSED; Batch 3 unblocked on the OPEN-L3-3 axis. Other Batch 3 gating conditions (OPEN-L3-1C, OPEN-L3-1D, OPEN-L3-2) remain in force independently.",
+  "OPEN_L3_3_final_status": "CLOSED (2026-09-11) — Resolution B. Interpretation B (presentation qualifier only) established. Appendix C line 791 clarified under task §15 permission. No canonical or algorithmic change beyond that clarification. See data/journal1-layer3-prototype/open-l3-3-resolution/resolution.json.",
+  "OPEN_L3_3_prior_status": "OPEN — BLOCKING (superseded by 2026-09-11 resolution)",
   "OPEN_L3_1_outcome": "PARTIALLY RESOLVED (unchanged from original Batch 2 closure)",
   "OPEN_L3_1_predecessor": "OPEN-L3-1 — concrete advisory rule content requires scientific specification (Batch 1)",
   "OPEN_L3_1_resolution": {
@@ -83,7 +85,7 @@
     "governance_admissibility_verified": "MET — STRUCTURAL CHECK PASS for all accepted candidates",
     "conflict_analysis_complete": "MET — rule-conflict-analysis-batch2.csv CONF-001 through CONF-007",
     "scientific_gaps_registered": "MET — scientific-gap-register-batch2.csv GAP-01 through GAP-05",
-    "semantic_verification_pass": "PARTIAL — 89 PASS / 0 FAIL / 1 OPEN / 90 total (OPEN reflects OPEN-L3-3 tracking — Appendix C CAUTION-Go authority unresolved)",
+    "semantic_verification_pass": "MET — 90 PASS / 0 FAIL / 0 OPEN / 90 total (OPEN-L3-3 tracking check → PASS after Resolution B, 2026-09-11)",
     "human_authority_preserved": "MET — no advisory labeled approved/prohibited/must-go/must-stay",
     "F1_F3_not_run": "MET — STRUCTURAL CHECK wording used not F1/F2/F3",
     "E5_not_run": "MET — H3 threshold OPEN-B1-6 unchanged",
@@ -96,21 +98,20 @@
     "R_CAUTION_001_evidence_bounded": "MET (Final Repair) — status CONDITIONALLY SUPPORTED; P_ENV Level A, P_ADV Level C inferred; mapping_inference_required = YES",
     "inference_bridges_explicit": "MET (Final Repair) — R-CAUTION-002/003/004 each have mapping_inference_required=YES and explicit mapping_bridge_source",
     "EV08_reclassified": "MET (Final Repair) — EV-08 classified as internal synthesis of EV-02+EV-03+EV-04; removed from primary evidence lists; not counted as 4th independent source",
-    "appendix_c_tension_classified": "PARTIAL — classified as B (UI/presentation); OPEN-L3-3 created for residual ambiguity",
-    "OPEN_L3_3_created": "YES — OPEN-L3-3 created in layer3-prototype-specification.md §26; blocks Batch 3",
-    "batch3_not_authorised": "MET — layer3-prototype-specification.md §26 explicitly states Batch 3 must not begin until OPEN-L3-3 resolved",
+    "appendix_c_tension_classified": "MET — Resolution B established 2026-09-11; line 791 clarified under task §15 to remove 'automatically presented' surface ambiguity; formal semantics S = CAUTION ∧ Go ∈ AI(E) → Present(Go, caution_qualifier)",
+    "OPEN_L3_3_created": "SUPERSEDED — OPEN-L3-3 CLOSED (Resolution B, 2026-09-11)",
+    "OPEN_L3_3_resolved": "YES — data/journal1-layer3-prototype/open-l3-3-resolution/ (6 artefacts, 23/23 verification checks PASS)",
+    "batch3_gating_on_OPEN_L3_3": "UNBLOCKED — other Batch 3 gating conditions (OPEN-L3-1C, OPEN-L3-1D, OPEN-L3-2) remain in force independently",
     "OPEN_L3_1_synchronised": "MET (Final Repair) — §14 updated to reference §26 as authoritative; two current statuses eliminated"
   },
   "semantic_checks": {
     "source": "data/journal1-layer3-prototype/semantic-verification-batch2.json",
-    "PASS_count": 89,
+    "PASS_count": 90,
     "FAIL_count": 0,
-    "OPEN_count": 1,
+    "OPEN_count": 0,
     "total_checks": 90,
-    "OPEN_checks": [
-      "appendix_c_caution_go_tension_resolved_or_OPEN_L3_3_created"
-    ],
-    "note": "90 checks total after Repair 5 (89 PASS / 0 FAIL / 1 OPEN). 17 micro-repair checks added. mapping_inference_explicit updated for R-SAFE-001."
+    "OPEN_checks": [],
+    "note": "90 checks total. OPEN-L3-3 tracking check (appendix_c_caution_go_tension_resolved_or_OPEN_L3_3_created) transitioned OPEN → PASS on 2026-09-11 after Resolution B established Interpretation B (presentation qualifier only). See data/journal1-layer3-prototype/open-l3-3-resolution/verification.json for the resolution's own 23-check verification set."
   },
   "open_items_status": {
     "OPEN-B1-1_freshness_parameters": "OPEN — unchanged",
@@ -128,7 +129,7 @@
     "OPEN-L3-1C_DepartureTime": "NEW OPEN — requires RQ5 fieldwork or domain expert elicitation for Kota Kinabalu Zone A fishers",
     "OPEN-L3-1D_Duration": "NEW OPEN — requires RQ5 fieldwork or DoF Malaysia operational guidelines",
     "OPEN-L3-2_predicate_evaluation_failure_policy": "OPEN — unchanged; not required for rule specification; blocks implementation only",
-    "OPEN-L3-3_caution_go_presentation": "NEW OPEN — BLOCKS CAUTION RULE IMPLEMENTATION IN BATCH 3. Appendix C §C.4 line 791: 'When S = CAUTION, the Go recommendation is automatically presented by the system with a caution qualifier.' Classified as B (UI/presentation guidance) — working interpretation. However 'automatically presented' wording is ambiguous with normative reading (A). Cannot be definitively resolved without a separate design decision. Appendix C not modified per §18 constraint. Batch 3 must not begin until this is resolved."
+    "OPEN-L3-3_caution_go_presentation": "CLOSED (2026-09-11) — Resolution B. Interpretation B (presentation qualifier only) established. Formal semantics: S = CAUTION ∧ Go ∈ AI(E) → Present(Go, caution_qualifier). Appendix C §C.4 line 791 clarified under task §15 permission: 'the Go recommendation is automatically presented by the system' → 'any Go advisory generated by the active Layer 3 rule set is presented'. No CAUTION-Go rule invented; RS_candidate(CAUTION) unchanged (Delay-only); Algorithm 3/4 unchanged; Safety Dominance unchanged. Batch 3 unblocked on the OPEN-L3-3 axis. Full evidence: data/journal1-layer3-prototype/open-l3-3-resolution/."
   },
   "repair_record": {
     "repair_task": "docs/tasks/Journal 1 Layer 3 Prototype — Batch 2 Repair.md",
@@ -153,8 +154,10 @@
   "files_modified": [
     "publications/active/journal-1/layer3-prototype-specification.md — §§16-27 added (§§1-15 unchanged)"
   ],
-  "canonical_files_touched": [],
-  "workstream_status": "Batch 2 REMAINS OPEN (Case B). All advisory evidence-mapping defects resolved. Appendix C CAUTION-Go tension (line 791 'automatically presented') cannot be definitively resolved without a separate design decision — OPEN-L3-3 created as blocking OPEN. Batch 3 must not begin until OPEN-L3-3 is resolved by a later task.",
+  "canonical_files_touched": [
+    "docs/canonical/appendix-c-formalisation.md — §C.4 line 791 minimal clarification under OPEN-L3-3 Resolution B (task §15 permission); see data/journal1-layer3-prototype/open-l3-3-resolution/report.md §Protected-state handling for before/after hashes and exact changed lines."
+  ],
+  "workstream_status": "Batch 2 CLOSED — CAUTION-Go presentation semantics resolved (Resolution B, 2026-09-11). All advisory evidence-mapping defects resolved. Appendix C §C.4 line 791 clarified. RS_candidate(CAUTION) remains Delay-only under current scientific evidence (Go admissible but not rule-supported). Batch 3 unblocked on the OPEN-L3-3 axis; independent gating from OPEN-L3-1C, OPEN-L3-1D, OPEN-L3-2 remains in force.",
   "repair_record_2": {
     "repair_task": "docs/tasks/Journal 1 Layer 3 Prototype — Batch 2 Repair 2.md",
     "repaired_on": "2026-09-11",

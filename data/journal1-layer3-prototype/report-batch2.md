@@ -4,7 +4,9 @@
 **Batch:** 2 — Concrete Layer 3 Advisory Rule Scientific Specification  
 **Closed:** 2026-09-11  
 **Branch:** design/journal1-algorithm-specification  
-**Outcome:** REMAINS OPEN (Case B) — advisory evidence-mapping defects resolved; OPEN-L3-3 created for unresolved Appendix C CAUTION-Go tension; Batch 3 blocked until OPEN-L3-3 resolved
+**Outcome:** CLOSED (2026-09-11) — advisory evidence-mapping defects resolved; OPEN-L3-3 resolved under Resolution B (presentation qualifier only) — see `open-l3-3-resolution/`; Batch 3 unblocked on the OPEN-L3-3 axis (other Batch 3 gating conditions remain in force independently).
+
+*(Historical — superseded: REMAINS OPEN (Case B) — OPEN-L3-3 created for unresolved Appendix C CAUTION-Go tension. Superseded by 2026-09-11 Resolution B.)*
 
 ---
 
@@ -176,21 +178,23 @@ After Batch 2, the following items remain open:
 | OPEN-L3-1C | OPEN | DepartureTime — requires RQ5 fieldwork or tidal data |
 | OPEN-L3-1D | OPEN | Duration — requires RQ5 fieldwork or DoF Malaysia guidelines |
 | OPEN-L3-2 | OPEN (unchanged) | Predicate evaluation failure policy — blocks implementation, not specification |
-| OPEN-L3-3 | **OPEN — BLOCKING** | CAUTION-Go authority semantics (Appendix C line 791 ambiguity) — blocks Batch 3 |
+| OPEN-L3-3 | **CLOSED (2026-09-11) — Resolution B** | CAUTION-Go presentation vs. rule semantics — RESOLVED (Interpretation B, presentation qualifier only). Appendix C §C.4 line 791 clarified under task §15 permission. Full evidence: `open-l3-3-resolution/`. |
 | OPEN-B1-1 | OPEN (unchanged) | Freshness parameters (age_i) |
 | OPEN-B1-6 | OPEN (unchanged) | Latency threshold H3 |
 
-Batch 3 engine implementation must not begin while OPEN-L3-3 remains unresolved.
+Batch 3 engine implementation is unblocked on the OPEN-L3-3 axis; other Batch 3 gating conditions (OPEN-L3-1C, OPEN-L3-1D, OPEN-L3-2) remain in force independently.
 
-The current Batch 2 candidate set specifies conditionally supported Go/Delay rule candidates, but executable CAUTION advisory behaviour remains blocked by the unresolved Appendix C CAUTION-Go semantics. DepartureTime and Duration remain OPEN-L3-1C and OPEN-L3-1D respectively — both require additional domain evidence.
+The current Batch 2 candidate set specifies conditionally supported Go/Delay rule candidates. RS_candidate(CAUTION) remains Delay-only under current scientific evidence — Go remains admissible in A_AI(CAUTION) but is not currently rule-supported. Presentation layer must attach a caution qualifier to any Go advisory produced when S = CAUTION. DepartureTime and Duration remain OPEN-L3-1C and OPEN-L3-1D respectively — both require additional domain evidence.
 
 ---
 
 ## 10. Closure
 
-**Closure line:** JOURNAL 1 LAYER 3 PROTOTYPE BATCH 2 REMAINS OPEN — CAUTION ADVISORY SEMANTICS REQUIRE AUTHORITY RESOLUTION
+**Closure line:** JOURNAL 1 LAYER 3 PROTOTYPE BATCH 2 CLOSED — CAUTION-GO PRESENTATION SEMANTICS RESOLVED
 
-Semantic verification: 89 PASS / 0 FAIL / 1 OPEN / 90 checks total (after Repair 5). The 1 OPEN check reflects OPEN-L3-3 (Appendix C CAUTION-Go presentation ambiguity — see §13).
+*(Historical — superseded: JOURNAL 1 LAYER 3 PROTOTYPE BATCH 2 REMAINS OPEN — CAUTION ADVISORY SEMANTICS REQUIRE AUTHORITY RESOLUTION. Superseded 2026-09-11 by OPEN-L3-3 Resolution B.)*
+
+Semantic verification: 90 PASS / 0 FAIL / 0 OPEN / 90 checks total. The OPEN-L3-3 tracking check transitioned OPEN → PASS on 2026-09-11 after Resolution B — see §13 and `open-l3-3-resolution/verification.json` (which carries the resolution's own 23-check verification set, all PASS).
 
 **RS_candidate(SAFE)** = {R-SAFE-001 (Go, CONDITIONALLY SUPPORTED, Level C)}  
 **RS_candidate(CAUTION)** = {R-CAUTION-001 (Delay, CONDITIONALLY SUPPORTED, P_ENV Level A / P_ADV Level C), R-CAUTION-002 (Delay, CONDITIONALLY SUPPORTED, Level C), R-CAUTION-003 (Delay, CONDITIONALLY SUPPORTED, Level C), R-CAUTION-004 (Delay, CONDITIONALLY SUPPORTED, Level C)}  
@@ -242,9 +246,11 @@ EV-08 is not a fourth independent empirical source. Any claim resting solely on 
 
 **Normative impact on RS(CAUTION):** Under interpretation B, there is no normative impact — the statement is a UI rendering instruction and does not populate RS(CAUTION). Under interpretation A, a Go rule would be required in RS(CAUTION), which has no empirical basis in the repository.
 
-**Resolution:** This repair does not modify Appendix C (protected per §18 constraint). The working classification is B, but resolving the ambiguity requires a separate design decision that either (a) confirms B and clarifies the Appendix C wording, or (b) reclassifies as A and requires a new Go rule specification with empirical backing.
+**Resolution (2026-09-11):** OPEN-L3-3 CLOSED under Resolution B (Interpretation B — presentation qualifier only). The separate design decision Batch 2 deferred was executed as the OPEN-L3-3 resolution task, using provenance (line 791 predates the Layer 3 rule-based enforcement mechanism by 15 days but was retained through 8 subsequent §C.4 revisions), the parallel canonical text in `architecture-illustration.md` §202–204 (which frames the qualifier unambiguously as presentation-layer messaging), Algorithm 4's absence of any post-hoc emission branch, and Batch 2's own Go semantics ("no active Delay antecedent"). The minimal Appendix C clarification permitted by task §15 was applied: line 791 now reads *"any Go advisory generated by the active Layer 3 rule set is presented with a caution qualifier"* in place of *"the Go recommendation is automatically presented by the system with a caution qualifier"*. Formal semantics: `S = CAUTION ∧ Go ∈ AI(E) → Present(Go, caution_qualifier)`. No CAUTION-Go rule invented; RS_candidate(CAUTION) remains Delay-only; A_AI(CAUTION) = {Go, Delay} unchanged; Algorithm 3/4 and Safety Dominance unchanged.
 
-**Remaining OPEN item:** OPEN-L3-3 — CAUTION Go presentation-versus-rule semantics. Recorded in `layer3-prototype-specification.md` §26.
+**Resolution evidence set:** `data/journal1-layer3-prototype/open-l3-3-resolution/` — authority-trace.csv, semantic-decomposition.md, decision-matrix.csv, resolution.json, verification.json (23 checks all PASS), report.md.
+
+**Remaining OPEN item:** none from OPEN-L3-3. OPEN-L3-1C, OPEN-L3-1D, OPEN-L3-2 remain OPEN independently as recorded in `layer3-prototype-specification.md` §26.
 
 **Batch 3 implication:** OPEN-L3-3 blocks CAUTION advisory behaviour in Batch 3. A later task must resolve OPEN-L3-3 before Batch 3 engine implementation begins. Implementing SAFE-only or Delay-only paths does not route around this block without explicit authorisation.
 
