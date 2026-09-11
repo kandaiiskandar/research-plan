@@ -90,19 +90,20 @@ The pipeline separates into four functionally distinct layers. Each layer has a 
 +=====================================================================+
 |  Layer 3: AI ADVISORY REASONING                                     |
 |  Rule-based engine, configured per safety state                     |
-|  Receives: E and rule set RS(S) from Layer 2                        |
+|  Receives: S, ComponentStateTrace, and RS(S) from Layer 2           |
 |  Generates recommendations R ∈ AI(E)                                |
 |  Constraint: AI(E) ⊆ A_AI(S) — enforced by construction via RS(S)  |
 +=====================================================================+
         ^
-        | Governance configuration: G(S) and A_AI(S)
+        | S + ComponentStateTrace + governance config: G(S), A_AI(S)
         |
 +=====================================================================+
 |  Layer 2: DETERMINISTIC GOVERNANCE                                  |
 |  Rule-based, formally verifiable, non-AI                            |
-|  Computes: S = f(E)                                                 |
+|  Computes: S = f(E); also produces ComponentStateTrace              |
 |  Outputs:  G(S) — participation gate (0 or 1)                       |
 |            A_AI(S) — admissible recommendation space                |
+|            ComponentStateTrace — already-computed g_i(·) results   |
 |  Properties: O(1) time, no GPU, threshold comparisons only          |
 +=====================================================================+
         ^
@@ -115,6 +116,10 @@ The pipeline separates into four functionally distinct layers. Each layer has a 
 |  All sources independent of the AI system                           |
 +=====================================================================+
 ```
+
+**ComponentStateTrace** is an implementation-level interface object produced by Layer 2 and passed to Layer 3 alongside S. It carries the already-computed component classification results — the outputs of g_w, g_r, g_m, g_o, and g_t that Layer 2 produced when determining S. Layer 3 consumes these as read-only facts; it does not recompute them. ComponentStateTrace does not modify S, G(S), A_AI(S), or RS(S), and does not alter the Safety Dominance Property or human authority. Its sole purpose is to allow Layer 3 rule predicates to inspect which component classifications drove the current safety state, without reimplementing Layer 2 classifier logic. Full formal contract: `publications/active/journal-1/layer3-prototype-specification.md` §7.1.
+
+*(Amendment applied 2026-09-11, Batch 4B-1 — canonical Layer 2 → Layer 3 interface extended. Formal variable definitions in `appendix-c-formalisation.md` are unchanged.)*
 
 **Why layering matters:**
 - Layer 2 is deterministic and independent of Layer 3 — governance functions even if the advisory engine is unavailable
