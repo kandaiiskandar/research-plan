@@ -1,0 +1,118 @@
+{
+  "batch": "5",
+  "task": "F1–F3 Reporting Consistency Micro-Repair",
+  "date": "2026-09-11",
+  "branch": "eval/journal1-layer3-fidelity-f1-f3",
+  "evaluation_rerun": false,
+  "implementation_modified": false,
+  "rules_modified": false,
+  "evaluation_script_modified": false,
+  "canonical_modified": false,
+  "scientific_specification_modified": false,
+  "report_sha256_before": "4f62b27665c64aef7d848db90ca4ae1c0a82945735ee195dd686e5a18f0e9be8",
+  "report_sha256_after": "f6aaaf154618b8298b8336b17cc2ec18595851a9c7640b4a02814a1effc837a6",
+  "trace_derived_authoritative_values": {
+    "primary_episodes": 292,
+    "SAFE_episodes": 32,
+    "CAUTION_episodes": 260,
+    "episodes_with_advisory": 244,
+    "total_advisory_records": 454,
+    "F1_violations": 0,
+    "F2_violations": 0,
+    "F3_mismatches": 0,
+    "rule_advisory_sum": {
+      "R-CAUTION-001": 130,
+      "R-CAUTION-002": 108,
+      "R-CAUTION-003": 108,
+      "R-CAUTION-004": 108,
+      "TOTAL": 454
+    },
+    "empty_advisory_CAUTION_episodes": 16,
+    "empty_advisory_episodes_any_violation_or_failure": false
+  },
+  "corrections_made": [
+    {
+      "location": "report.md §13 F1 results table",
+      "field": "F1_advisory_records_evaluated",
+      "before": "492",
+      "after": "454",
+      "source": "fidelity-results.json F1.advisory_records_evaluated; fidelity-traces.csv sum(advisory_record_count)"
+    },
+    {
+      "location": "report.md §13 F1 results table",
+      "field": "F1_conclusion_types_evaluated",
+      "before": "454 (unique types across records: only \"Delay\")",
+      "after": "244 (unique conclusion types aggregated per episode; all are \"Delay\")",
+      "source": "fidelity-results.json F1.conclusion_types_evaluated; script: len(unique types per episode across episodes with advisories)"
+    },
+    {
+      "location": "report.md §14 F2 results table",
+      "field": "F2_episodes_with_advisory",
+      "before": "260",
+      "after": "244",
+      "source": "fidelity-results.json F2.episodes_with_advisory; fidelity-traces.csv count(advisory_record_count > 0)"
+    },
+    {
+      "location": "report.md §14 F2 results table",
+      "field": "F2_advisory_records",
+      "before": "492",
+      "after": "454",
+      "source": "fidelity-results.json F2.advisory_records; fidelity-traces.csv sum(advisory_record_count)"
+    }
+  ],
+  "clarification_added": {
+    "location": "report.md §13 F1 results — after 'no violation' note",
+    "text": "Of the 292 primary episodes: 260 were CAUTION, 32 were SAFE. Of the 260 CAUTION episodes, 244 generated at least one advisory (AI(E)≠∅) and 16 generated AI(E)=∅ because none of the currently executable rule predicates evaluated TRUE in those episodes. This is not a fidelity failure — A_AI(S) defines admissibility, not a requirement that an advisory must exist.",
+    "reason": "Explains 244/260 distinction; preserves A_AI semantics; does not invent a rule to eliminate the 16 empty-advisory episodes"
+  },
+  "protected_files_unchanged": {
+    "fidelity-traces.csv": "8484b30d5e773a65180e64c09322b1d5be44db50b9c80c4bb504f0561577cb0f",
+    "fidelity-results.json": "f14153c1ec38920a5bba0fada5eb945ab7ac2fe9ebbf45c273256f412119c8a1",
+    "rule-activation-summary.csv": "57c1fe5395dbf14d234304806335e7807c6aa0f3051387970c1c51764cf2c89a",
+    "state-space-manifest.json": "58d108e35ef0805cdb10e3383acc9a187adddd55a007d41207c8764dbda6fe5b",
+    "scripts/journal1_layer3_fidelity_evaluation.py": "f77c36228bf5068051121da1f6bf6f7ebfd815881f4a4bb58e7cfc5904f9504f",
+    "governance/rule.py": "2678edbc60ccab5d6da7fa2ea79f7a33383a71eb7851fb4e5732d2866a42f58d",
+    "governance/advisory.py": "2f819cbe5a9387a23a68578a13b36edb1cd2c0c65421b64333f36b57577c4b84",
+    "governance/fidelity_trace.py": "66e13f36be69587f5d05e9b1825cc1aeb404068469ba96a146545f34a18aac3d",
+    "governance/rule_repository.py": "04f56dc0585663a3479f797bd23f8e16839cda683acbec390807c89983a108f7",
+    "governance/rule_set_provider.py": "e5908c4b28ba1c3890ccc84fb780d32effc8bb932f55f364d41b08ed91b02254",
+    "governance/reasoning_engine.py": "3aef5b7212461173ea4142480220398e8d160e19de40bc5befca5dd8e9c97085",
+    "governance/reasoning_episode.py": "eab9c9863cb2fcc62e80c772e413fb7fdbe74fa37eea3f49acd126065dc1e770",
+    "governance/canonical_rules.py": "63e98e75ae444ceb1df1f8fe4575f79bc4a6721e8628d2bf1542b9efb8246f4e",
+    "docs/canonical/appendix-c-formalisation.md": "c4867f48003fec806189905499bbc8d55993f3e0d312a998f552e20028499f4e",
+    "docs/canonical/architecture-illustration.md": "25b3feab2cd2389846ff8002211ff4d8944c4abdf4c377f180252464902febe9",
+    "publications/active/journal-1/layer3-prototype-specification.md": "b8155b269fc63ff191dd9ba4430ae2093c79f0ea5c28cee4f740a5de9c69d239",
+    "publications/active/journal-1/algorithm-specification.md": "469278897b47f1bd5c56e03b0f3ed57a47c73e6450b0542f7bb10d6f3f6d739e",
+    "publications/active/journal-1/evaluation-specification.md": "64c2c78604d7fabcef56c53f464a266d092b5183effea04dde21097aad41979f"
+  },
+  "verification": {
+    "report_primary_episodes_292": "PASS",
+    "report_SAFE_episodes_32": "PASS",
+    "report_CAUTION_episodes_260": "PASS",
+    "report_episodes_with_advisory_244": "PASS",
+    "report_advisory_records_454": "PASS",
+    "rule_activation_advisory_sum_454": "PASS",
+    "empty_advisory_CAUTION_episodes_16": "PASS",
+    "F1_zero_violations_preserved": "PASS",
+    "F2_zero_violations_preserved": "PASS",
+    "F3_zero_mismatches_preserved": "PASS",
+    "F1_PASS_preserved": "PASS",
+    "F2_PASS_preserved": "PASS",
+    "F3_PASS_preserved": "PASS",
+    "trace_unchanged": "PASS",
+    "results_json_unchanged": "PASS",
+    "rule_activation_summary_unchanged": "PASS",
+    "evaluation_script_unchanged": "PASS",
+    "governance_implementation_unchanged": "PASS",
+    "canonical_authority_unchanged": "PASS",
+    "evaluation_not_rerun": "PASS",
+    "E5_not_run": "PASS"
+  },
+  "totals": {
+    "PASS": 21,
+    "FAIL": 0,
+    "OPEN": 0
+  },
+  "POST_FIDELITY_READY": true,
+  "closure": "BATCH 5 F1–F3 REPORTING CONSISTENCY MICRO-REPAIR CLOSED — TRACE-DERIVED ADVISORY COUNTS SYNCHRONISED"
+}

@@ -45,7 +45,13 @@
       "Bash(pip show *)",
       "Bash(/usr/bin/python3 -m unittest tests.test_governance_engine)",
       "Bash(shasum *)",
-      "Bash(/usr/bin/python3 -m unittest tests.test_governance_engine -v)"
+      "Bash(/usr/bin/python3 -m unittest tests.test_governance_engine -v)",
+      "Bash(/opt/homebrew/bin/python3.13 -m pytest tests/test_governance_engine.py -q)",
+      "Bash(/Users/iskandar/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3.12 -m pytest tests/test_governance_engine.py -q)",
+      "Read(//opt/homebrew/**)",
+      "Bash(/opt/homebrew/bin/python3.13 -c \"import sys; sys.path.insert\\(0,'.'\\); import governance; print\\('import ok'\\)\")",
+      "Bash(/opt/homebrew/bin/python3.13 -m unittest discover -s tests -p \"*.py\" -v)",
+      "Bash(/opt/homebrew/bin/python3.13 *)"
     ]
   }
 }

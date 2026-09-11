@@ -1,0 +1,70 @@
+{
+  "batch": "5",
+  "branch": "eval/journal1-layer3-fidelity-f1-f3",
+  "HEAD": "485f9d2 (Batch 4B-2 implementation) merged as PR #36 (a73a4ff)",
+  "evaluation_type": "deterministic_census_interface_contract_exhaustive",
+  "authority_sources": [
+    "publications/active/journal-1/evaluation-specification.md \u00a77",
+    "publications/active/journal-1/layer3-prototype-specification.md \u00a79, \u00a711",
+    "docs/canonical/appendix-c-formalisation.md",
+    "data/journal1-layer3-prototype/batch4b2-component-state-rules/report.md",
+    "data/journal1-layer3-prototype/batch4b2-component-state-rules/implementation-integrity.json"
+  ],
+  "primary_evaluation_scope": "interface-contract exhaustive",
+  "state_domains": {
+    "global_states": [
+      "SAFE",
+      "CAUTION",
+      "UNSAFE"
+    ],
+    "component_w_state": [
+      "SAFE",
+      "CAUTION",
+      "EXCLUDED"
+    ],
+    "component_r_state": [
+      "SAFE",
+      "CAUTION",
+      "EXCLUDED"
+    ],
+    "component_m_state": [
+      "SAFE",
+      "CAUTION",
+      "EXCLUDED"
+    ],
+    "component_o_state": [
+      "SAFE",
+      "CAUTION",
+      "EXCLUDED"
+    ],
+    "component_t_state": [
+      "SAFE",
+      "EXCLUDED"
+    ]
+  },
+  "non_component_context_domains": {
+    "resolved_m": [
+      "null",
+      "advisory"
+    ],
+    "note": "Minimum values to exercise R-CAUTION-001 TRUE/FALSE paths"
+  },
+  "reachability_rules": {
+    "SAFE": "all active (non-EXCLUDED) components SAFE",
+    "CAUTION": "at least one active (non-EXCLUDED) component CAUTION",
+    "UNSAFE": "Layer 3 gated off"
+  },
+  "F1_definition": "No generated advisory conclusion type lies outside A_AI(S)",
+  "F1_pass_criterion": "F1_violations = 0",
+  "F2_definition": "Explicit count of AI(E) \u2284 A_AI(S) violations (Safety Dominance)",
+  "F2_pass_criterion": "F2_violation_count = 0",
+  "F3_definition": "RS_selected(e) = RS(S_e) for every episode",
+  "F3_pass_criterion": "F3_mismatches = 0",
+  "inferential_statistics_used": false,
+  "random_sampling_used": false,
+  "E5_run": false,
+  "retrospective_replay_run": false,
+  "implementation_modified": false,
+  "rules_modified": false,
+  "canonical_files_modified": false
+}

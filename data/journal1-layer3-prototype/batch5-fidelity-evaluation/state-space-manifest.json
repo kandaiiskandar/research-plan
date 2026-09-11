@@ -1,0 +1,66 @@
+{
+  "batch": "5",
+  "timestamp": "2026-09-11T13:02:51.098556+00:00",
+  "raw_combinations_generated": 486,
+  "raw_component_tuples": 162,
+  "GATED_UNSAFE_cases": 162,
+  "REACHABLE_CONSISTENT_SAFE": 32,
+  "REACHABLE_CONSISTENT_CAUTION": 130,
+  "REACHABLE_CONSISTENT_total": 162,
+  "INTERFACE_INCONSISTENT_SAFE": 130,
+  "INTERFACE_INCONSISTENT_CAUTION": 32,
+  "INTERFACE_INCONSISTENT_total": 162,
+  "primary_denominator_episodes": 292,
+  "primary_denominator_composition": {
+    "SAFE_cases": 32,
+    "SAFE_resolved_m_values": 1,
+    "CAUTION_component_cases": 130,
+    "CAUTION_resolved_m_values": 2,
+    "CAUTION_primary_episodes": 260
+  },
+  "component_domains": {
+    "component_w_state": [
+      "SAFE",
+      "CAUTION",
+      "EXCLUDED"
+    ],
+    "component_r_state": [
+      "SAFE",
+      "CAUTION",
+      "EXCLUDED"
+    ],
+    "component_m_state": [
+      "SAFE",
+      "CAUTION",
+      "EXCLUDED"
+    ],
+    "component_o_state": [
+      "SAFE",
+      "CAUTION",
+      "EXCLUDED"
+    ],
+    "component_t_state": [
+      "SAFE",
+      "EXCLUDED"
+    ]
+  },
+  "non_component_domains": {
+    "resolved_m_for_SAFE": [
+      "null"
+    ],
+    "resolved_m_for_CAUTION": [
+      "null",
+      "advisory"
+    ]
+  },
+  "reachability_rules": {
+    "SAFE": "all active (non-EXCLUDED) components SAFE",
+    "CAUTION": "at least one active (non-EXCLUDED) component CAUTION",
+    "UNSAFE": "gate-off \u2014 no Layer 3 reasoning"
+  },
+  "exclusion_handling": "EXCLUDED components are not counted as active. They do not violate SAFE consistency. They do not contribute a CAUTION for CAUTION consistency. EXCLUDED != observed SAFE.",
+  "t_exclusion_handling": "component_t_state domain = {SAFE, EXCLUDED}. g_t emits no CAUTION (Im(g_t) = {SAFE, UNSAFE}). t=EXCLUDED is structurally representable but unreachable in canonical configuration (t not in D, t always measured from device clock).",
+  "marine_replay_exclusion_handling": "In D={m} replay, component_m_state=EXCLUDED always. R-CAUTION-001 uses resolved_m (not component_m_state). resolved_m exercised with {None, 'advisory'} for CAUTION episodes.",
+  "evaluation_type": "interface-contract exhaustive",
+  "evaluation_scope_note": "Primary: interface-contract exhaustive (all interface-reachable component-state combinations across full component-domain Cartesian product). Not current-configuration exhaustive (D={m} replay configuration). The two denominators are kept separate; see task \u00a713."
+}
