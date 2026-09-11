@@ -1,0 +1,69 @@
+{
+  "batch": "5",
+  "timestamp": "2026-09-11T13:02:51.098556+00:00",
+  "note": "Supplementary boundary checks \u2014 NOT part of primary F1/F2/F3 denominator. Interface-inconsistent cases and edge cases are verified here.",
+  "interface_inconsistent_summary": {
+    "total_in_state_space": 162,
+    "sample_checked": 10,
+    "correctly_rejected": 10,
+    "incorrectly_accepted": 0
+  },
+  "checks": [
+    {
+      "check": "SAFE+CAUTION_component_rejected",
+      "episode_id": "BC-1",
+      "expected": "configuration_failure=True, failure_type=STATE_TRACE_INCONSISTENCY",
+      "observed_config_failure": true,
+      "observed_failure_type": "STATE_TRACE_INCONSISTENCY",
+      "result": "PASS"
+    },
+    {
+      "check": "CAUTION+no_active_CAUTION_rejected",
+      "episode_id": "BC-2",
+      "expected": "configuration_failure=True, failure_type=STATE_TRACE_INCONSISTENCY",
+      "observed_config_failure": true,
+      "observed_failure_type": "STATE_TRACE_INCONSISTENCY",
+      "result": "PASS"
+    },
+    {
+      "check": "UNSAFE_gate_off",
+      "episode_id": "BC-3",
+      "expected": "G=0, advisories=[], no config_failure",
+      "observed_G": 0,
+      "observed_advisories": 0,
+      "observed_config_failure": false,
+      "result": "PASS"
+    },
+    {
+      "check": "all_EXCLUDED_with_SAFE_consistent",
+      "episode_id": "BC-4",
+      "expected": "no config_failure",
+      "observed_config_failure": false,
+      "result": "PASS"
+    },
+    {
+      "check": "CAUTION+all_EXCLUDED_rejected",
+      "episode_id": "BC-5",
+      "expected": "configuration_failure=True, failure_type=STATE_TRACE_INCONSISTENCY",
+      "observed_config_failure": true,
+      "observed_failure_type": "STATE_TRACE_INCONSISTENCY",
+      "result": "PASS"
+    },
+    {
+      "check": "UNSAFE_gateoff_sample_10_cases",
+      "cases_checked": 10,
+      "correct": 10,
+      "incorrect": 0,
+      "result": "PASS"
+    },
+    {
+      "check": "interface_inconsistent_correctly_rejected_sample10",
+      "total_inconsistent_in_space": 162,
+      "sample_checked": 10,
+      "correctly_rejected": 10,
+      "incorrectly_accepted": 0,
+      "result": "PASS"
+    }
+  ],
+  "all_boundary_pass": true
+}

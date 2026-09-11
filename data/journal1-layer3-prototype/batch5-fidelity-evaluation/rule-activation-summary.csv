@@ -1,0 +1,6 @@
+rule_id,applicable_state,implementation_status,times_selected,predicate_TRUE,predicate_FALSE,predicate_ERROR,times_fired,advisories_generated,conclusion_type
+R-CAUTION-001,CAUTION,IMPLEMENTED,260,130,130,0,130,130,Delay
+R-CAUTION-002,CAUTION,IMPLEMENTED,260,108,152,0,108,108,Delay
+R-CAUTION-003,CAUTION,IMPLEMENTED,260,108,152,0,108,108,Delay
+R-CAUTION-004,CAUTION,IMPLEMENTED,260,108,152,0,108,108,Delay
+R-SAFE-001,SAFE,DEFERRED,0,0,0,0,0,0,Go
