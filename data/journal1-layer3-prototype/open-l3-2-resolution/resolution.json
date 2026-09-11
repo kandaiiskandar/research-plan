@@ -1,0 +1,196 @@
+{
+  "open_item": "OPEN-L3-2",
+  "title": "Predicate evaluation failure handling — Layer 3 rule engine",
+  "resolution_date": "2026-09-11",
+  "status": "CLOSED",
+  "closure_line": "JOURNAL 1 LAYER 3 OPEN-L3-2 CLOSED — PREDICATE EVALUATION FAILURE SEMANTICS EXPLICITLY GOVERNED",
+
+  "selected_policy": "Model C + Model D — three-valued predicate semantics with episode-level refusal",
+
+  "predicate_result_domain": ["TRUE", "FALSE", "ERROR"],
+  "predicate_domain_semantics": {
+    "TRUE": "Antecedent predicate successfully evaluated and satisfied",
+    "FALSE": "Antecedent predicate successfully evaluated and not satisfied",
+    "ERROR": "Antecedent could not be established — evaluation failed"
+  },
+
+  "rule_firing_condition": "A rule fires if and only if ALL predicates in its condition set evaluate to TRUE. Neither FALSE nor ERROR triggers rule firing.",
+
+  "error_unknown_semantics": "ERROR/UNKNOWN means the antecedent could not be established. The rule does not fire. The episode enters evaluation_failure state and returns AI(E) = ∅. ERROR is not reinterpreted as FALSE and does not trigger rule firing.",
+
+  "episode_level_behaviour": {
+    "on_evaluation_failure": "AI(E) = ∅",
+    "S_mutated": false,
+    "G_mutated": false,
+    "A_AI_mutated": false,
+    "evaluation_failure_flag": true,
+    "human_authority": "preserved — AI(E) = ∅ does not constrain human decision",
+    "trace_emission": "trace always emitted with evaluation_failure = True; failed_rule_ids; failure_category"
+  },
+
+  "other_rules_may_continue": false,
+  "other_rules_may_continue_rationale": "Episode-level refusal: once any predicate evaluation failure is detected, AI(E) = ∅ for the episode. No partial advisory output is produced. This is consistent with the existing ConfigurationError → AI(E) = ∅ pattern (OPEN-B3-1). The implementation may either abort on first failure or complete evaluation of all rules before refusing advisory generation; either implementation produces the same episode-level outcome.",
+
+  "s_mutation_policy": "S is never mutated by Layer 3. A predicate evaluation failure does not change S, G(S), or A_AI(S). Layer 3 has no mechanism to modify S; that is exclusively Layer 2 / Algorithm 1 responsibility.",
+
+  "trace_requirements": {
+    "conceptual_fields_required": [
+      {
+        "field": "evaluation_failure",
+        "type": "boolean",
+        "semantics": "True if and only if any predicate evaluation failure occurred this episode. False if all predicates evaluated without error (regardless of whether rules fired).",
+        "purpose": "Distinguishes evaluation_failure episodes from normal no-fire episodes in F1–F3 analysis."
+      },
+      {
+        "field": "failed_rule_ids",
+        "type": "list[str]",
+        "semantics": "Rule IDs of rules that experienced predicate evaluation failures. At minimum contains the first failed rule; ideally all failed rules if implementation continues evaluation after first failure.",
+        "purpose": "Enables identification of which rules had predicate failures; supports debugging without confusing with quarantine (Model E, which is not selected)."
+      },
+      {
+        "field": "failure_category",
+        "type": "str | None",
+        "semantics": "Classification of the failure from the taxonomy: PREDICATE_EXCEPTION | NUMERIC_CONVERSION_FAILURE | MALFORMED_VALUE | INTERNAL_ERROR. None if no failure occurred.",
+        "purpose": "Enables analysis of failure types without re-running episodes."
+      }
+    ],
+    "existing_fields_unchanged": [
+      "episode_id",
+      "state (S)",
+      "G",
+      "A_AI",
+      "active_rule_ids",
+      "active_rule_conclusion_types",
+      "fired_rule_ids",
+      "generated_advisory_types",
+      "configuration_failure",
+      "S_old", "S_new",
+      "rule_set_bound_for_state"
+    ],
+    "key_distinguishability_requirement": "fired_rule_ids = [] combined with evaluation_failure = False means all rules evaluated and none fired (normal no-fire). fired_rule_ids = [] combined with evaluation_failure = True means episode was aborted due to predicate evaluation failure. These MUST be distinguishable without inspection of any other field.",
+    "configuration_failure_vs_evaluation_failure": "configuration_failure (existing field) records Algorithm 3 / startup failures. evaluation_failure (new conceptual field) records runtime predicate evaluation failures. Both produce AI(E) = ∅ but at different stages for different reasons. Both must be in the trace."
+  },
+
+  "algorithm3_boundary": {
+    "existing_validation": "ConclusionTypes(RS_candidate) ⊆ A_AI(S)",
+    "extended_validation_scope": [
+      {
+        "check": "V1 — referenced variable exists in DecisionContext schema",
+        "failure_class": "F-T-11",
+        "failure_id": "unknown-predicate-variable-reference",
+        "note": "Prerequisite check: a variable with an unknown name has no type to check. Must precede V2."
+      },
+      {
+        "check": "V2 — predicate operand/value type is compatible with the declared variable type",
+        "failure_class": "F-T-04",
+        "failure_id": "rule-type-mismatch-in-definition",
+        "note": "Type compatibility is checkable from rule schema and context schema at supply time."
+      },
+      {
+        "check": "V3 — predicate operator is valid for the declared variable/value operand types",
+        "failure_class": "F-T-05",
+        "failure_id": "invalid-operator-in-rule-definition",
+        "note": "Operator validity depends on declared types, not runtime values."
+      },
+      {
+        "check": "V4 — categorical predicate value belongs to the declared variable domain",
+        "failure_class": "F-T-06",
+        "failure_id": "unsupported-categorical-value-in-rule-definition",
+        "note": "Value domains are defined in appendix-c; membership is checkable at supply time."
+      }
+    ],
+    "extended_validation_handling": "Violations → ConfigurationError; configuration_failure = True in trace; AI(E) = ∅; S unchanged",
+    "authority_class": "DESIGN_INTERPRETATION — extension of existing Algorithm 3 structural-validation role; no external authority explicitly requires this extension, but it is the natural boundary for structure-detectable vs. runtime-only failures",
+    "what_algorithm3_cannot_catch": "Failures that depend on runtime context values — the actual observations in E at the time of reasoning"
+  },
+
+  "algorithm4_boundary": {
+    "what_engine_reason_handles": [
+      "Runtime predicate exceptions (F-T-07)",
+      "Numeric conversion failures on actual context values (F-T-08)",
+      "Malformed runtime values (F-T-09)",
+      "Unexpected internal evaluation errors (F-T-10)"
+    ],
+    "engine_reason_contract_on_failure": "Returns evaluation_failure = True (via EpisodeResult or equivalent); AI(E) = ∅; S unchanged. Does not rethrow the exception to the caller without producing a trace.",
+    "authority_class": "DESIGN_INTERPRETATION — consistent with existing EpisodeResult contract and ConfigurationError → AI(E) = ∅ pattern",
+    "algorithm4_pseudocode_unchanged": true,
+    "pseudocode_note": "engine.reason(E, RS) at line 5 of Algorithm 4 now has a specified failure contract: any predicate evaluation failure → returns ∅ with evaluation_failure recorded. The gate-off at lines 1–3 is unaffected."
+  },
+
+  "unsafe_behaviour": {
+    "unchanged": true,
+    "description": "G(UNSAFE) = 0. Algorithm 4 lines 1–3 return AI = ∅ before engine.reason() is called. No rule set is selected for UNSAFE. No predicate evaluation occurs. OPEN-L3-2 policy is unreachable for UNSAFE episodes.",
+    "authority": "algorithm-specification.md §19 Algorithm 4 lines 1–3; algorithm-specification.md §17 RS(UNSAFE) = ∅"
+  },
+
+  "rejected_models": {
+    "A_fail_closed": {
+      "verdict": "REJECTED",
+      "stop_condition": "§14 — selected policy requires silently treating ERROR as FALSE",
+      "reasons": [
+        "ERROR silently collapsed to FALSE; trace cannot distinguish evaluation failure from genuine no-fire.",
+        "Batch 1 Repair 3 explicitly removed the condition-evaluates-to-false assumption.",
+        "F1–F3 analysis would miscount evaluation failures as rule no-fires."
+      ]
+    },
+    "B_fail_open": {
+      "verdict": "REJECTED",
+      "stop_condition": "§14 — selected policy can generate advisory from unestablished antecedent",
+      "reasons": [
+        "Rule fires despite unestablished antecedent predicate.",
+        "Advisory generated without scientific basis — violates engine fidelity assumption P4.",
+        "Not consistent with any existing authority."
+      ]
+    },
+    "CE_rule_quarantine": {
+      "verdict": "REJECTED — scientifically indefensible",
+      "stop_condition": "None explicitly triggered; rejected on scientific defensibility grounds",
+      "reasons": [
+        "Partial advisory (e.g. a hazard dimension not evaluated) may appear complete to the human fisher.",
+        "No existing authority in the repository supports partial advisory production on evaluation failure.",
+        "Inconsistent with ConfigurationError → AI(E) = ∅ pattern; introduces an asymmetry without justification.",
+        "With current RS_candidate structure (multiple independent CAUTION rules), a quarantined wave-assessment rule could leave the Delay recommendation appearing complete when one hazard dimension was not evaluated."
+      ]
+    }
+  },
+
+  "scientific_consequences": {
+    "F1_type_compliance": "Evaluation failure episodes return AI(E) = ∅, which trivially satisfies F1 (∅ ⊆ A_AI(S)). F1 analysis must separately count and report evaluation_failure episodes; they must not be folded into the general no-fire count.",
+    "F2_violation_count": "Same as F1: evaluation failure episodes produce zero violations trivially. F2 analysis must separately label these episodes.",
+    "F3_RS_consistency": "Unaffected. RS(S) is still selected by Algorithm 3 and corresponds to S. The failure occurs within engine.reason(), not at rule-set selection.",
+    "safety_dominance": "AI(E) = ∅ ⊆ A_AI(S) for all S. Theorem C.3 holds for failure episodes. The fail-safe orientation is consistent.",
+    "rule_firing_interpretation": "fired_rule_ids = [] must not be interpreted as all rules evaluated and none fired. In failure episodes it means rule evaluation was interrupted or aborted. The evaluation_failure field is the distinguishing marker.",
+    "advisory_completeness": "AI(E) = ∅ on evaluation failure does not mean no actionable conditions were detected. The presentation layer must clearly distinguish evaluation_failure episodes (where AI(E) = ∅ means inability to evaluate) from normal SAFE episodes with no rules firing (where AI(E) = ∅ means all conditions assessed and no advisory triggered).",
+    "e5_latency": "Failure-abort episodes have a different latency profile than successful reasoning. E5 analysis should separately identify and label evaluation_failure episodes rather than folding them into the general performance distribution."
+  },
+
+  "canonical_changes": {
+    "appendix_c_formalisation": "UNCHANGED — no modification required or proposed",
+    "architecture_illustration": "UNCHANGED — no modification required or proposed",
+    "layer3_prototype_specification": "UPDATED — §12 OPEN-L3-2 placeholder replaced with resolved policy; §14 OPEN-L3-2 status updated to CLOSED"
+  },
+
+  "remaining_open_items": [
+    {"id": "OPEN-L3-1C", "status": "OPEN (preserved)", "note": "DepartureTime — no scientific authority in repository"},
+    {"id": "OPEN-L3-1D", "status": "OPEN (preserved)", "note": "Duration — no scientific authority in repository"},
+    {"id": "GAP-03", "status": "OPEN evidence gap (preserved)", "note": "No evidence for CAUTION-Go rule; unchanged"},
+    {"id": "OPEN-B1-8", "status": "OPEN (preserved)", "note": "State/rule-set consistency concurrency mechanism"},
+    {"id": "OPEN-B3-2", "status": "PARTIALLY CLOSED (unchanged)", "note": "Production engine strategy remains OPEN"}
+  ],
+
+  "batch3_effect": {
+    "OPEN_L3_2_gating": "UNBLOCKED — OPEN-L3-2 no longer blocks engine implementation on this axis.",
+    "remaining_gating": "OPEN-L3-1C and OPEN-L3-1D each gate concrete rule content and remain OPEN independently.",
+    "engine_implementation_not_authorised_by_this_task": true,
+    "note": "This task closes the design specification gap. Batch 3 engine implementation may now proceed with the defined predicate failure policy."
+  },
+
+  "authority_hierarchy_consulted": [
+    "appendix-c-formalisation.md — canonical formal architecture",
+    "algorithm-specification.md §17–§20 — Algorithm 3 and Algorithm 4 contracts",
+    "layer3-prototype-specification.md §8, §9, §11, §12, §14 — Batch 1 contract including OPEN-L3-2 placeholder and Repair 3",
+    "closure-batch1.json repair_record.repairs[2] — Repair 3 text: 'removed the exception → rule does not fire → continue policy as established fact'",
+    "closure-batch2.json — Batch 2 closure confirming OPEN-L3-2 preserved",
+    "evaluation-specification.md §7 — fidelity criteria F1, F2, F3 scope"
+  ]
+}

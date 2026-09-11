@@ -1,0 +1,166 @@
+{
+  "open_item": "OPEN-L3-2",
+  "verification_date": "2026-09-11",
+  "total_checks": 25,
+  "PASS_count": 25,
+  "FAIL_count": 0,
+  "OPEN_count": 0,
+  "micro_repair_date": "2026-09-11",
+  "micro_repair_note": "V-22 through V-25 added by OPEN-L3-2 Algorithm-Boundary Taxonomy Micro-Repair to verify consistency of the four-check Algorithm 3 structural validation contract across all artefacts.",
+  "checks": [
+    {
+      "id": "V-01",
+      "check": "predicate_ERROR_not_silently_FALSE",
+      "verdict": "PASS",
+      "evidence": "Selected policy C+D defines predicate result domain as {TRUE, FALSE, ERROR} — three distinct values. ERROR is not mapped to FALSE. An episode with any ERROR returns AI(E) = ∅, not the behaviour of a FALSE (where other rules may continue). Batch 1 Repair 3 explicitly removed the condition-evaluates-to-false assumption; the selected policy is consistent with that repair. policy-candidate-matrix.csv: Model A (ERROR → FALSE) is REJECTED; Model C+D does not collapse ERROR."
+    },
+    {
+      "id": "V-02",
+      "check": "predicate_ERROR_not_silently_TRUE",
+      "verdict": "PASS",
+      "evidence": "Selected policy C+D: rule fires if and only if ALL predicates evaluate TRUE. ERROR does not trigger rule firing. Model B (ERROR → TRUE) is REJECTED with stop-condition §14. policy-candidate-matrix.csv records REJECTED / stop_condition_triggered = YES for Model B."
+    },
+    {
+      "id": "V-03",
+      "check": "FALSE_distinguished_from_ERROR",
+      "verdict": "PASS",
+      "evidence": "Predicate result domain is {TRUE, FALSE, ERROR}. FALSE = 'antecedent successfully evaluated and not satisfied' (rule does not fire; no trace flag). ERROR = 'antecedent could not be established' (rule does not fire; evaluation_failure = True in trace). The two outcomes produce identical advisory output (rule does not fire) but are distinguishable via the trace. resolution.json predicate_domain_semantics confirms the distinction."
+    },
+    {
+      "id": "V-04",
+      "check": "configuration_failure_distinguished_from_runtime_evaluation_failure",
+      "verdict": "PASS",
+      "evidence": "Algorithm 3 failures (type mismatch, invalid operator, unsupported categorical value) produce configuration_failure = True via ConfigurationError. Runtime predicate failures (F-T-07 through F-T-10) produce evaluation_failure = True — a distinct trace field. Both produce AI(E) = ∅ but at different stages (validate_rule_set vs engine.reason). algorithm-boundary-analysis.md §7 (boundary diagram) confirms the two-field distinction."
+    },
+    {
+      "id": "V-05",
+      "check": "Layer2_failure_distinguished_from_Layer3_failure",
+      "verdict": "PASS",
+      "evidence": "Layer 2 failure: environmental resolution → ⊥ → gᵢ(⊥) = UNSAFE → S = UNSAFE → G(S) = 0 → Algorithm 4 lines 1–3 → AI(E) = ∅; Layer 3 never invoked (failure-taxonomy.csv F-T-01). Layer 3 failure: predicate exception during engine.reason() → AI(E) = ∅; S unchanged. The two failure paths are structurally disjoint: Layer 2 failure prevents Layer 3 invocation entirely; Layer 3 evaluation failure occurs inside engine.reason() with S already resolved."
+    },
+    {
+      "id": "V-06",
+      "check": "S_not_mutated_by_Layer3_failure",
+      "verdict": "PASS",
+      "evidence": "resolution.json episode_level_behaviour.S_mutated = false. algorithm-boundary-analysis.md §6: 'Layer 3 has no mechanism to modify S.' Selected policy C+D: evaluation failure → AI(E) = ∅; S unchanged. The policy explicitly does not map evaluation failure to S = UNSAFE (which would constitute Layer 3 reclassification). Task §3 instruction preserved: 'S must not be silently mutated by Layer 3.'"
+    },
+    {
+      "id": "V-07",
+      "check": "UNSAFE_short_circuits_before_reasoning",
+      "verdict": "PASS",
+      "evidence": "G(UNSAFE) = 0. Algorithm 4 lines 1–3: if G(S) = 0 then return ∅. RS(UNSAFE) = ∅ (Algorithm 3). engine.reason() is not called for UNSAFE episodes. Predicate evaluation never occurs. OPEN-L3-2 policy applies only when G(S) = 1 (SAFE or CAUTION). algorithm-boundary-analysis.md §5 confirms structural short-circuit."
+    },
+    {
+      "id": "V-08",
+      "check": "no_advisory_generated_from_unestablished_antecedent",
+      "verdict": "PASS",
+      "evidence": "Rule fires only when ALL predicates evaluate TRUE. ERROR → AI(E) = ∅ (episode refusal). Model B (which would generate an advisory from an unestablished antecedent) is REJECTED with stop-condition §14. policy-candidate-matrix.csv advisory_from_unestablished_antecedent = NO for the selected policy C+D."
+    },
+    {
+      "id": "V-09",
+      "check": "Algorithm3_contract_preserved",
+      "verdict": "PASS",
+      "evidence": "Existing postcondition Q1 (ConclusionTypes(RS_candidate) ⊆ A_AI(S)) is unchanged. Algorithm 3 boundary is extended by design interpretation to also catch structural rule-definition failures (F-T-04, F-T-05, F-T-06) — all producing ConfigurationError before reasoning begins. No rule fires in Algorithm 3; no advisory is produced. The extension is a natural elaboration of existing validation, not a change to the contract's formal guarantee. algorithm-boundary-analysis.md §3.1 and §8 confirm the scope and authority class."
+    },
+    {
+      "id": "V-10",
+      "check": "Algorithm4_contract_preserved",
+      "verdict": "PASS",
+      "evidence": "Algorithm 4 pseudocode structure is unchanged (gate-off at lines 1–3; engine.reason() at line 5). The engine.reason() failure contract is now specified: any predicate evaluation failure → AI(E) = ∅; evaluation_failure = True in trace; S unchanged. This is an addendum to the existing unspecified behaviour (OPEN-L3-2 placeholder), not a change to the gate-off logic or the postconditions Q1–Q4. Postcondition Q1 (AI(E) ⊆ A_AI(S)) holds because ∅ ⊆ A_AI(S)."
+    },
+    {
+      "id": "V-11",
+      "check": "Safety_Dominance_preserved",
+      "verdict": "PASS",
+      "evidence": "AI(E) = ∅ on evaluation failure. ∅ ⊆ A_AI(S) for all S. Theorem C.3 (Safety Dominance) holds. For UNSAFE episodes: G(S) = 0 → AI(E) = ∅ by Algorithm 4 lines 1–3 (independently of OPEN-L3-2). For SAFE/CAUTION episodes with evaluation failure: AI(E) = ∅ by policy C+D. For SAFE/CAUTION episodes without failure: existing Theorem C.3 applies via Algorithm 3 Q1 + engine fidelity."
+    },
+    {
+      "id": "V-12",
+      "check": "human_authority_preserved",
+      "verdict": "PASS",
+      "evidence": "AI(E) = ∅ on evaluation failure does not prohibit human action. The selected policy introduces no automated prohibition, override, or enforcement semantics. resolution.json episode_level_behaviour.human_authority = 'preserved'. layer3-prototype-specification.md §13 human-authority boundary is unaffected."
+    },
+    {
+      "id": "V-13",
+      "check": "OPEN_L3_3_remains_CLOSED",
+      "verdict": "PASS",
+      "evidence": "OPEN-L3-3 was closed on 2026-09-11 under Resolution B (data/journal1-layer3-prototype/open-l3-3-resolution/). This task does not touch OPEN-L3-3. Resolution B semantics (S = CAUTION ∧ Go ∈ AI(E) → Present(Go, caution_qualifier)) are unaffected by OPEN-L3-2's policy. The OPEN-L3-2 policy governs what happens when predicates fail, not what is presented when Go is produced."
+    },
+    {
+      "id": "V-14",
+      "check": "OPEN_L3_1C_preserved",
+      "verdict": "PASS",
+      "evidence": "OPEN-L3-1C (DepartureTime advisory — no scientific authority) remains OPEN and unchanged. This task does not address it. resolution.json remaining_open_items confirms OPEN-L3-1C OPEN (preserved)."
+    },
+    {
+      "id": "V-15",
+      "check": "OPEN_L3_1D_preserved",
+      "verdict": "PASS",
+      "evidence": "OPEN-L3-1D (Duration advisory — no scientific authority) remains OPEN and unchanged. resolution.json remaining_open_items confirms OPEN-L3-1D OPEN (preserved)."
+    },
+    {
+      "id": "V-16",
+      "check": "GAP_03_preserved",
+      "verdict": "PASS",
+      "evidence": "GAP-03 (no evidence for CAUTION-Go rule) remains OPEN as an evidence gap. This task does not resolve or affect it. resolution.json remaining_open_items confirms GAP-03 OPEN evidence gap (preserved)."
+    },
+    {
+      "id": "V-17",
+      "check": "no_new_scientific_rules",
+      "verdict": "PASS",
+      "evidence": "No rule candidates added to RS_candidate(SAFE) or RS_candidate(CAUTION). This task is scientific/design resolution of a policy question; it does not add, modify, or remove advisory rules. RS_candidate state from Batch 2 is unchanged."
+    },
+    {
+      "id": "V-18",
+      "check": "engine_not_implemented",
+      "verdict": "PASS",
+      "evidence": "This task creates design specification artefacts only (failure-taxonomy.csv, policy-candidate-matrix.csv, algorithm-boundary-analysis.md, resolution.json, verification.json, report.md) and updates layer3-prototype-specification.md §12 and §14. No implementation code is written. engine.reason() contract is specified conceptually; implementation is Batch 3 work."
+    },
+    {
+      "id": "V-19",
+      "check": "F1_F3_not_run",
+      "verdict": "PASS",
+      "evidence": "No fidelity testing performed. All fidelity statuses remain DESIGNED — NOT YET TESTED. This task specifies how F1–F3 analysis must treat evaluation_failure episodes (separately from normal no-fires) but does not run F1–F3."
+    },
+    {
+      "id": "V-20",
+      "check": "E5_not_run",
+      "verdict": "PASS",
+      "evidence": "No performance measurement performed. OPEN-B1-6 (latency threshold) remains OPEN unchanged. This task notes that E5 analysis should label evaluation_failure episodes separately, but does not run E5."
+    },
+    {
+      "id": "V-21",
+      "check": "canonical_integrity_preserved",
+      "verdict": "PASS",
+      "evidence": "docs/canonical/appendix-c-formalisation.md — UNCHANGED (no modification proposed or made). docs/canonical/architecture-illustration.md — UNCHANGED. No canonical file is modified. layer3-prototype-specification.md §12 and §14 are updated (implementation authority document, not canonical); these changes reflect the resolved policy and replace the OPEN-L3-2 placeholder. Protected items (A_AI, G, Layer 2 thresholds, g_t, g_r, RS_candidate rule content, OPEN-L3-3 Resolution B, GAP-03) are all unchanged."
+    },
+    {
+      "id": "V-22",
+      "check": "unknown_variable_distinguished_from_type_mismatch",
+      "verdict": "PASS",
+      "evidence": "F-T-11 (unknown-predicate-variable-reference) added to failure-taxonomy.csv as a distinct failure class from F-T-04 (rule-type-mismatch-in-definition). The F-T-11 notes field states: 'Distinct from F-T-04 (type mismatch): an unknown variable has no type to check. Variable existence is the prerequisite validation (V1); type compatibility (V2) is the subsequent check.' resolution.json extended_validation_scope defines V1 (→F-T-11) and V2 (→F-T-04) as separate checks with V1 as prerequisite. algorithm-boundary-analysis.md §3.1 lists them as separate rows. report.md §9 enumerates them as separate numbered items with explicit F-T-## references.",
+      "micro_repair": true
+    },
+    {
+      "id": "V-23",
+      "check": "algorithm3_validation_scope_matches_failure_taxonomy",
+      "verdict": "PASS",
+      "evidence": "Algorithm 3 validation scope (V1–V4) maps exactly to taxonomy classes: V1 → F-T-11, V2 → F-T-04, V3 → F-T-05, V4 → F-T-06. All four checks are present in: failure-taxonomy.csv (four CONFIGURATION_FIDELITY_FAILURE rows with Algorithm 3 layer_owner), algorithm-boundary-analysis.md §3.1 table (four rows), resolution.json extended_validation_scope (four items with failure_class references), report.md §9 (four numbered checks with F-T-## mappings). No check in the validation scope lacks a taxonomy entry; no taxonomy entry for Algorithm 3 structural validation lacks a check.",
+      "micro_repair": true
+    },
+    {
+      "id": "V-24",
+      "check": "F_T_04_meaning_consistent_across_artefacts",
+      "verdict": "PASS",
+      "evidence": "F-T-04 consistently means 'rule-type-mismatch-in-definition' — predicate operand/value type incompatible with declared variable type — across all artefacts. failure-taxonomy.csv row F-T-04 states this. resolution.json V2 check maps to F-T-04 for type compatibility. algorithm-boundary-analysis.md §3.1 V2 row maps to F-T-04. report.md §9 item 2 maps to F-T-04. F-T-04 does not appear in any artefact as a catch-all for 'unknown variable' — that is F-T-11.",
+      "micro_repair": true
+    },
+    {
+      "id": "V-25",
+      "check": "all_structural_validation_classes_have_unique_taxonomy_mapping",
+      "verdict": "PASS",
+      "evidence": "Each structural validation check maps to exactly one failure taxonomy ID, and each taxonomy ID is used for exactly one check: V1 ↔ F-T-11 (unique), V2 ↔ F-T-04 (unique), V3 ↔ F-T-05 (unique), V4 ↔ F-T-06 (unique). No taxonomy ID is shared between checks. No check is left without a taxonomy ID. The four-way bijection holds across failure-taxonomy.csv, resolution.json, algorithm-boundary-analysis.md, and report.md.",
+      "micro_repair": true
+    }
+  ]
+}
