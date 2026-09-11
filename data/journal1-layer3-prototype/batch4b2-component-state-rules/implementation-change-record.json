@@ -1,0 +1,46 @@
+{
+  "batch": "4B-2",
+  "title": "Governed Component-State Interface & Rule Implementation",
+  "date": "2026-09-11",
+  "branch": "feat/journal1-layer3-component-state-rules",
+  "HEAD_before": "f51e9301b8dab71bd3f668a05ddeb454844bcc89",
+  "batch4b1_commit": "d9f2224",
+  "batch4b1_merge": "f51e9301b8dab71bd3f668a05ddeb454844bcc89",
+  "authority_basis": {
+    "batch4a_resolution": "data/journal1-layer3-prototype/batch4a-executable-rule-authority/resolution.json",
+    "batch4b1_interface_contract": "data/journal1-layer3-prototype/batch4b1-interface-amendment/component-state-interface-contract.md",
+    "batch4b1_report": "data/journal1-layer3-prototype/batch4b1-interface-amendment/report.md",
+    "specification": "publications/active/journal-1/layer3-prototype-specification.md §7.1"
+  },
+  "files_modified": [
+    {
+      "file": "governance/reasoning_episode.py",
+      "change": "Added 5 ComponentStateTrace fields to DecisionContext; added _check_state_trace_consistency(); added Step 2.5 in execute_episode()"
+    },
+    {
+      "file": "governance/rule_set_provider.py",
+      "change": "Added 5 component_*_state entries to DECISION_CONTEXT_SCHEMA; repaired V3 to catch invalid operators on numeric fields (§13)"
+    },
+    {
+      "file": "governance/canonical_rules.py",
+      "change": "Added R-CAUTION-002/003/004 to build_canonical_repository(); removed R-CAUTION-002/003/004 from DEFERRED_RULES; updated module docstring"
+    },
+    {
+      "file": "governance/rule.py",
+      "change": "Added STATE_TRACE_INCONSISTENCY to ConfigurationError failure_type docstring"
+    },
+    {
+      "file": "tests/test_governance_engine.py",
+      "change": "Updated _ctx() with component state defaults; added _safe_ctx(); updated 3 fixture constructions; added Categories A-I (57 new tests)"
+    }
+  ],
+  "implemented_rules": ["R-CAUTION-002", "R-CAUTION-003", "R-CAUTION-004"],
+  "deferred_rules": ["R-SAFE-001"],
+  "new_failure_type": "STATE_TRACE_INCONSISTENCY",
+  "test_counts": {
+    "existing_tests_before": 82,
+    "new_tests_added": 57,
+    "total_after": 139,
+    "all_passing": true
+  }
+}

@@ -1,0 +1,39 @@
+{
+  "batch": "4B-2",
+  "date": "2026-09-11",
+  "note": "SHA-256 hashes of all governance implementation files after Batch 4B-2",
+  "files": {
+    "governance/reasoning_episode.py": {
+      "status": "CHANGED",
+      "sha256_after": "eab9c9863cb2fcc62e80c772e413fb7fdbe74fa37eea3f49acd126065dc1e770",
+      "change_summary": "DecisionContext extended with 5 component_*_state fields; _check_state_trace_consistency() added; execute_episode() step 2.5 added"
+    },
+    "governance/rule_set_provider.py": {
+      "status": "CHANGED",
+      "sha256_after": "e5908c4b28ba1c3890ccc84fb780d32effc8bb932f55f364d41b08ed91b02254",
+      "change_summary": "DECISION_CONTEXT_SCHEMA extended with 5 entries; V3 repaired to catch unrecognised operators on all field types"
+    },
+    "governance/canonical_rules.py": {
+      "status": "CHANGED",
+      "sha256_after": "63e98e75ae444ceb1df1f8fe4575f79bc4a6721e8628d2bf1542b9efb8246f4e",
+      "change_summary": "R-CAUTION-002/003/004 implemented; DEFERRED_RULES reduced to R-SAFE-001 only"
+    },
+    "governance/rule.py": {
+      "status": "CHANGED",
+      "sha256_after": "2678edbc60ccab5d6da7fa2ea79f7a33383a71eb7851fb4e5732d2866a42f58d",
+      "change_summary": "ConfigurationError docstring updated with STATE_TRACE_INCONSISTENCY failure_type"
+    },
+    "tests/test_governance_engine.py": {
+      "status": "CHANGED",
+      "sha256_after": "461f2fa5ec7ed25226ccb177078502935116e01dbb5b6ec8812a89c52a347464",
+      "change_summary": "_ctx() updated with component state defaults; _safe_ctx() added; 3 fixtures updated; Categories A-I added (57 new tests)"
+    }
+  },
+  "canonical_files_unchanged": [
+    "docs/canonical/appendix-c-formalisation.md",
+    "docs/canonical/architecture-illustration.md",
+    "publications/active/journal-1/layer3-prototype-specification.md",
+    "publications/active/journal-1/algorithm-specification.md",
+    "publications/active/journal-1/evaluation-specification.md"
+  ]
+}

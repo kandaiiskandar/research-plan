@@ -89,6 +89,28 @@ DECISION_CONTEXT_SCHEMA: dict[str, dict[str, Any]] = {
     "resolved_t": {
         "kind": "float", "nullable": True, "domain": None,
     },
+    # ComponentStateTrace fields — Layer 2 g_i(·) outputs (Batch 4B-1/4B-2)
+    # Authority: layer3-prototype-specification.md §7.1
+    "component_w_state": {
+        "kind": "str", "nullable": False,
+        "domain": frozenset({"SAFE", "CAUTION", "EXCLUDED"}),
+    },
+    "component_r_state": {
+        "kind": "str", "nullable": False,
+        "domain": frozenset({"SAFE", "CAUTION", "EXCLUDED"}),
+    },
+    "component_m_state": {
+        "kind": "str", "nullable": False,
+        "domain": frozenset({"SAFE", "CAUTION", "EXCLUDED"}),
+    },
+    "component_o_state": {
+        "kind": "str", "nullable": False,
+        "domain": frozenset({"SAFE", "CAUTION", "EXCLUDED"}),
+    },
+    "component_t_state": {
+        "kind": "str", "nullable": False,
+        "domain": frozenset({"SAFE", "EXCLUDED"}),  # g_t emits no CAUTION
+    },
 }
 
 _NUMERIC_KINDS: frozenset[str] = frozenset({"float", "int"})
@@ -268,7 +290,17 @@ def validate_rule_set(
                     )
 
             # V3: operator valid for field type
-            if field_kind not in _NUMERIC_KINDS:
+            if pred.operator not in VALID_OPERATORS:
+                # Completely unrecognised operator — invalid for any field type (F-T-05)
+                raise ConfigurationError(
+                    f"Rule {rule.rule_id!r}: operator {pred.operator!r} is not a recognised "
+                    f"operator; allowed: {sorted(VALID_OPERATORS)!r} (V3 / F-T-05)",
+                    failure_type="F-T-05",
+                    episode_id=episode_id,
+                    state=state,
+                    offending_rules=[rule.rule_id],
+                )
+            elif field_kind not in _NUMERIC_KINDS:
                 # String fields: numeric ordering operators are not valid
                 if pred.operator not in _STRING_VALID_OPERATORS:
                     raise ConfigurationError(
@@ -280,7 +312,6 @@ def validate_rule_set(
                         state=state,
                         offending_rules=[rule.rule_id],
                     )
-            # Numeric fields accept all operators — no additional V3 check needed.
 
             # V4: categorical value in declared domain
             if field_domain is not None:

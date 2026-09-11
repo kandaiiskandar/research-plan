@@ -3,9 +3,10 @@
 Authority: layer3-prototype-specification.md §9; algorithm-specification.md §17–§20.
 Episode result structure: layer3-prototype-specification.md §9.2.
 
-execute_episode() implements the nine-step orchestration:
+execute_episode() implements the ten-step orchestration:
   1. Establish governance configuration from state
   2. If G(S) == 0 (UNSAFE): return empty set with trace — no reasoning
+  2.5. Check S/ComponentStateTrace consistency
   3. Select RS_candidate(S) from repository
   4. Validate RS_candidate (A_AI containment + V1–V4)
   5. Supply RS(S)
@@ -68,6 +69,15 @@ class DecisionContext:
     resolved_o_swell_period: Optional[float]    # swell period, seconds; may be None (not read by g_o)
     resolved_t: Optional[float]                 # time of day, hours [0,24); None only if t faulted
 
+    # ComponentStateTrace — already-computed Layer 2 g_i(·) outputs
+    # Authority: layer3-prototype-specification.md §7.1; Batch 4B-1 canonical amendment
+    # These are read-only facts from the current episode. Layer 3 must not recompute them.
+    component_w_state: str   # g_w(w) output ∈ {"SAFE","CAUTION","EXCLUDED"}
+    component_r_state: str   # g_r(r,κ) output ∈ {"SAFE","CAUTION","EXCLUDED"}
+    component_m_state: str   # g_m(m) output ∈ {"SAFE","CAUTION","EXCLUDED"}
+    component_o_state: str   # g_o(o,v) output ∈ {"SAFE","CAUTION","EXCLUDED"}
+    component_t_state: str   # g_t(t,date) output ∈ {"SAFE","EXCLUDED"} — g_t emits no CAUTION
+
 
 # ── ReasoningEpisode ──────────────────────────────────────────────────────────
 
@@ -105,6 +115,36 @@ class EpisodeResult:
     advisories: list          # list[Advisory]
     trace: FidelityTrace      # always present
     error: Optional[Exception]  # ConfigurationError or None
+
+
+# ── S/ComponentStateTrace consistency check ───────────────────────────────────
+
+def _check_state_trace_consistency(state: str, context: DecisionContext) -> bool:
+    """Return True if S and ComponentStateTrace are mutually consistent.
+
+    Consistency invariant (layer3-prototype-specification.md §7.1):
+      S=SAFE    → all active (non-EXCLUDED) components are SAFE
+      S=CAUTION → at least one active component is CAUTION
+      S=UNSAFE  → handled by gate-off before this runs; always returns True here
+
+    EXCLUDED components are pinned SAFE for aggregation only; they are not active
+    and never violate SAFE consistency.
+    """
+    active = [
+        s for s in (
+            context.component_w_state,
+            context.component_r_state,
+            context.component_m_state,
+            context.component_o_state,
+            context.component_t_state,
+        )
+        if s != "EXCLUDED"
+    ]
+    if state == "SAFE":
+        return all(s == "SAFE" for s in active)
+    if state == "CAUTION":
+        return any(s == "CAUTION" for s in active)
+    return True
 
 
 # ── execute_episode ───────────────────────────────────────────────────────────
@@ -172,6 +212,37 @@ def execute_episode(
             failure_category=None,
         )
         return EpisodeResult(advisories=[], trace=trace, error=None)
+
+    # ── Step 2.5: S/ComponentStateTrace consistency check ────────────────────
+    if not _check_state_trace_consistency(state, context):
+        exc = ConfigurationError(
+            f"S/ComponentStateTrace consistency violation: "
+            f"state={state!r} is inconsistent with component states "
+            f"(w={context.component_w_state!r}, r={context.component_r_state!r}, "
+            f"m={context.component_m_state!r}, o={context.component_o_state!r}, "
+            f"t={context.component_t_state!r})",
+            failure_type="STATE_TRACE_INCONSISTENCY",
+            episode_id=context.episode_id,
+            state=state,
+        )
+        trace = _make_trace(
+            episode_id=context.episode_id,
+            state=state,
+            G=gov_config.G,
+            A_AI=gov_config.A_AI,
+            active_rule_ids=[],
+            active_rule_conclusion_types=frozenset(),
+            fired_rule_ids=[],
+            generated_advisory_types=[],
+            configuration_failure=True,
+            S_old=s_old,
+            S_new=state,
+            rule_set_bound_for_state=None,
+            evaluation_failure=False,
+            failed_rule_ids=[],
+            failure_category=None,
+        )
+        return EpisodeResult(advisories=[], trace=trace, error=exc)
 
     # ── Step 3: select RS_candidate(S) ───────────────────────────────────────
     try:

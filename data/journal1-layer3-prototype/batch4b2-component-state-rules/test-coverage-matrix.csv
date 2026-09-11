@@ -1,0 +1,58 @@
+category,test_id,description,requirement,result
+A,A01,DecisionContext construction with all 5 fields,interface_extension,PASS
+A,A02,component_t_state EXCLUDED accepted,interface_extension,PASS
+A,A03,DecisionContext frozen — component fields not mutable,interface_extension,PASS
+A,A04,DECISION_CONTEXT_SCHEMA contains all 5 entries,V1_validation,PASS
+A,A05,component_t_state domain excludes CAUTION,type_domain,PASS
+A,A06,component_w/r/m/o domains include CAUTION,type_domain,PASS
+B,B01,EXCLUDED does not satisfy SAFE predicate,excluded_semantics,PASS
+B,B02,EXCLUDED does not satisfy CAUTION predicate,excluded_semantics,PASS
+B,B03,EXCLUDED satisfies EXCLUDED predicate,excluded_semantics,PASS
+B,B04,EXCLUDED component does not affect SAFE consistency,excluded_semantics,PASS
+B,B05,EXCLUDED is V4-valid for w/r/m/o fields,V4_validation,PASS
+C,C01,SAFE + all-active-SAFE consistent — no config_failure,consistency_invariant,PASS
+C,C02,CAUTION + one-CAUTION consistent — no config_failure,consistency_invariant,PASS
+C,C03,SAFE + CAUTION component → config_failure,consistency_invariant,PASS
+C,C04,CAUTION + no-CAUTION component → config_failure,consistency_invariant,PASS
+C,C05,UNSAFE skips consistency check,consistency_invariant,PASS
+C,C06,all-EXCLUDED with SAFE → consistent,consistency_invariant,PASS
+C,C07,failure_type is STATE_TRACE_INCONSISTENCY,consistency_invariant,PASS
+C,C08,CAUTION + all-EXCLUDED → config_failure,consistency_invariant,PASS
+D,D01,R-CAUTION-002 fires when component_o_state==CAUTION,rule_activation,PASS
+D,D02,R-CAUTION-002 does not fire when component_o_state==SAFE,rule_activation,PASS
+D,D03,R-CAUTION-002 does not fire when component_o_state==EXCLUDED,rule_activation,PASS
+D,D04,R-CAUTION-003 fires when component_r_state==CAUTION,rule_activation,PASS
+D,D05,R-CAUTION-003 does not fire when component_r_state==SAFE,rule_activation,PASS
+D,D06,R-CAUTION-004 fires when component_w_state==CAUTION,rule_activation,PASS
+D,D07,R-CAUTION-004 does not fire when component_w_state==SAFE,rule_activation,PASS
+D,D08,all three new rules produce Delay conclusion,rule_conclusion,PASS
+D,D09,new rules have applicable_state==CAUTION,rule_schema,PASS
+E,E01,two CAUTION components — two rules fire concurrently,concurrent_activation,PASS
+E,E02,three CAUTION components — three rules fire concurrently,concurrent_activation,PASS
+E,E03,R-CAUTION-001 and R-CAUTION-002 concurrent,concurrent_activation,PASS
+E,E04,all concurrent advisories are Delay in A_AI(CAUTION),governance,PASS
+F,F01,V1 typo in component field name → F-T-11,V1_validation,PASS
+F,F02,V2 int value on str component field → F-T-04,V2_validation,PASS
+F,F03,V3 ordering operator on component field → F-T-05,V3_validation,PASS
+F,F04,V4 UNSAFE outside component_o domain → F-T-06,V4_validation,PASS
+F,F05,V4 CAUTION outside component_t domain → F-T-06,V4_validation,PASS
+F,F06,V3 repair: invalid op on numeric field → F-T-05,V3_numeric_repair,PASS
+F,F07,V3 repair: invalid op on int field → F-T-05,V3_numeric_repair,PASS
+F,F08,valid component predicates pass V1-V4,validation_pass,PASS
+G,G01,CAUTION predicate TRUE when component CAUTION,predicate_semantics,PASS
+G,G02,CAUTION predicate FALSE when component SAFE,predicate_semantics,PASS
+G,G03,EXCLUDED predicate TRUE when component EXCLUDED,predicate_semantics,PASS
+G,G04,SAFE predicate FALSE when component EXCLUDED,predicate_semantics,PASS
+H,H01,CAUTION rules absent from RS(SAFE),safety_dominance,PASS
+H,H02,Delay in A_AI(CAUTION),safety_dominance,PASS
+H,H03,component state rules produce admissible types only,safety_dominance,PASS
+H,H04,UNSAFE gate-off blocks component state rules,safety_dominance,PASS
+I,I01,R-SAFE-001 remains in DEFERRED_RULES,protected_rules,PASS
+I,I02,R-SAFE-001 not in canonical repository,protected_rules,PASS
+I,I03,R-CAUTION-002 in canonical repository,registry_integrity,PASS
+I,I04,R-CAUTION-003 in canonical repository,registry_integrity,PASS
+I,I05,R-CAUTION-004 in canonical repository,registry_integrity,PASS
+I,I06,R-CAUTION-001 still in canonical repository,registry_integrity,PASS
+I,I07,R-SAFE-001 deferred entry contains STATE_RESTATEMENT,protected_rules,PASS
+I,I08,no Go rule under CAUTION (GAP-03),protected_rules,PASS
+I,I09,new rules have non-empty provenance,registry_integrity,PASS
