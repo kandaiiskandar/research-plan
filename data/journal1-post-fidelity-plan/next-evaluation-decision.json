@@ -1,0 +1,43 @@
+{
+  "batch": "6",
+  "branch": "design/journal1-post-fidelity-evaluation-plan",
+  "HEAD": "646bc252c4874a2ccb898d7e9db9f03eca08a636",
+
+  "P1_status": "CLOSED",
+  "P2_status": "CLOSED",
+  "P3_status": "CLOSED",
+  "P4_status": "CLOSED",
+  "F1_status": "CLOSED",
+  "F2_status": "CLOSED",
+  "F3_status": "CLOSED",
+  "E1_status": "CLOSED",
+  "E2_status": "CLOSED",
+  "E3_status": "CLOSED",
+  "E4_status": "CLOSED",
+  "E5_status": "READY",
+  "E6_status": "CLOSED",
+
+  "E5_evaluation_mode": "DESCRIPTIVE",
+  "E5_threshold_authority": "UNSUPPORTED — H3 = X ms is an intentional empty placeholder; no externally sourced threshold exists",
+  "E5_environment": "The low-resource target deployment hardware for Kota Kinabalu coastal fisheries, characterised as commodity smartphones or low-cost single-board computers (SBCs). Hardware class is defined (evaluation-specification.md §11; docs/canonical/report-hardware-cost-provenance-2026-09-08.md §4); a specific device model has not been canonically required. Pre-execution step: select a representative device from the defined class and state the device model, OS, and instrumentation method in the E5 report. No canonical Android-only or mobile-first requirement exists.",
+
+  "L3_RETROSPECTIVE_REPLAY": "NOT_REQUIRED",
+  "UTILITY_CONSTRUCT": "DEFER_TO_HUMAN_STUDY",
+  "HUMAN_STUDY_REQUIRED_FOR_J1": false,
+
+  "minimum_completion_set": ["E5"],
+  "optional_strengthening_analyses": [],
+
+  "next_task": "Execute E5 descriptive performance benchmarking: deploy governance/ module on a representative device from the target hardware class (commodity smartphones or low-cost SBCs, Kota Kinabalu coastal fisheries deployment context); measure mean, max, p95, and p99 wall-clock latency for one full Layer 2 governance pass (classification + participation gate + admissible-set selection + rule-set supply), plus peak memory and CPU; report as a descriptive measurement per evaluation-specification.md §11 with hardware, workload, and instrumentation stated",
+
+  "next_task_reason": "§37 Case A applies. E1, E2, E3, E4, and E6 are CLOSED — all empirical-trace evidence is available from canonical scripts (condition_comparison.py, canonical_figures.py, hysteresis_analysis.py). F1, F2, and F3 are CLOSED — PASS — from the Batch 5 interface-contract fidelity evaluation (292 episodes; report.md §13–15; fidelity-results.json). P1–P4 are CLOSED — formal proofs exist in appendix-c-formalisation.md. E5 is READY_DESCRIPTIVE (status=READY, blocker=null, evaluation_mode=DESCRIPTIVE — established in e5-authority-assessment.md §5). Case D does not apply: L3_RETROSPECTIVE_REPLAY=NOT_REQUIRED (replay-requirement-assessment.md §4 — no authorised Journal 1 claim requires connecting Layer 3 to the 43,848-hour replay). Case E does not apply: UTILITY_CONSTRUCT=DEFER_TO_HUMAN_STUDY (utility-construct-assessment.md §6 — no operational definition on replay alone exists; deferred to thesis RQ5 scope). No Case B or C conditions hold. Therefore Case A selects E5 as the single remaining required evaluation task.",
+
+  "tasks_not_authorised": [
+    "Layer 3 retrospective replay integration",
+    "Utility construct operationalisation",
+    "Human study / user study",
+    "New experimental arm (C3 as independent arm)",
+    "Any new threshold invention",
+    "Any new scientific claim"
+  ]
+}
