@@ -1,0 +1,152 @@
+{
+  "task": "Journal 1 Layer 3 Prototype Implementation — Batch 1: Prototype Contract, Rule Representation, and Fidelity Testability",
+  "task_file": "docs/tasks/Journal 1 Layer 3 Prototype Implementation batch 1.md",
+  "verified_on": "2026-09-11",
+  "branch": "feat/journal1-layer3-prototype",
+  "check_list": {
+    "upstream_algorithm_contract_unchanged": {
+      "verdict": "PASS",
+      "evidence": "publications/active/journal-1/algorithm-specification.md not modified. algorithm-specification.md treated as closed upstream authority. Algorithms 1–4 pseudocode and contracts preserved verbatim. Module contracts in layer3-prototype-specification.md §§8–9 implement Algorithm 3 and Algorithm 4 without semantic change."
+    },
+    "recommendation_universe_exact": {
+      "verdict": "PASS",
+      "evidence": "R = {Go, Delay, DepartureTime, Duration} preserved exactly. rule-schema-batch1.json conclusion_type enum = these four values. No type added or removed. advisory.py Advisory.type bounded to R."
+    },
+    "governance_mapping_exact": {
+      "verdict": "PASS",
+      "evidence": "G(SAFE)=1, G(CAUTION)=1, G(UNSAFE)=0 preserved. A_AI(SAFE)={Go,Delay,DepartureTime,Duration}, A_AI(CAUTION)={Go,Delay}, A_AI(UNSAFE)=∅ preserved. GovernanceConfig dataclass holds these values; validate_rule_set() enforces A_AI(S) containment."
+    },
+    "unsafe_has_no_advisory": {
+      "verdict": "PASS",
+      "evidence": "UNSAFE path in execute_episode(): G=0 → no rule set supplied → no reasoning → advisory list = []. No 'Do Not Go', 'Cancel', 'Return Home' advisory generated. FidelityTrace records generated_advisory_types=[] for UNSAFE episodes. Tested by T-04, T-10, T-13."
+    },
+    "RS_before_reasoning_preserved": {
+      "verdict": "PASS",
+      "evidence": "Algorithm 3 implementation contract: select_rule_set() → validate_rule_set() → supply to reasoning_engine.reason() in that order. No reasoning begins before validation. Invalid repository raises ConfigurationError before engine is called. See layer3-prototype-specification.md §8."
+    },
+    "no_posthoc_filter_substitution": {
+      "verdict": "PASS",
+      "evidence": "Rule-set restriction is the primary safety mechanism. validate_rule_set() checks ConclusionTypes(RS_candidate) ⊆ A_AI(S) before supply. Engine fires only rules in the validated active RS(S). No post-hoc output filter exists. The UNSAFE path does not generate any output to filter. Confirmed by T-03, T-06."
+    },
+    "rule_schema_conclusion_type_bounded": {
+      "verdict": "PASS",
+      "evidence": "rule-schema-batch1.json conclusion_type enum = ['Go','Delay','DepartureTime','Duration']. Schema enforced at rule creation time. validate_rule_set() performs a second check that ConclusionTypes(RS_candidate) ⊆ A_AI(S) at supply time. Invariant documented in schema x-invariants."
+    },
+    "concrete_rules_not_invented_without_authority": {
+      "verdict": "PASS",
+      "evidence": "OPEN-L3-1 recorded. Inspected all six closed upstream authority documents: algorithm-specification.md, evaluation-specification.md, research-design.md, architecture-illustration.md, justification-layer3-enforcement.md, appendix-c-formalisation.md. No authoritative concrete rule antecedents found. No concrete IF-THEN conditions or payload values invented. Rule schema structure defined; content awaits scientific specification."
+    },
+    "invalid_repository_does_not_modify_S": {
+      "verdict": "PASS",
+      "evidence": "OPEN-B3-1 handling chosen: ConfigurationError raised, Layer 3 disabled for episode, structured failure surfaced to caller. Implementation contract: ConfigurationError does not change S, does not create an advisory, does not invent a fourth state. FidelityTrace records configuration_failure=True and generated_advisory_types=[]. See layer3-prototype-specification.md §12."
+    },
+    "state_ruleset_consistency_invariant_preserved": {
+      "verdict": "PASS",
+      "evidence": "execute_episode(state, repository, context) receives one S → performs one select+validate → supplies one RS(S) → executes one reasoning pass. One episode = one governing S = one RS(S). FidelityTrace records S_old, S_new, rule_set_id for F3 verification. No stale RS can persist across a call boundary."
+    },
+    "concurrency_primitive_not_invented": {
+      "verdict": "PASS",
+      "evidence": "OPEN-B1-8 preserved as OPEN. Interface designed so execute_episode() receives (S, RS(S)) atomically at call time. No atomic swap, lock, mutex, or transaction chosen unless runtime requires it. layer3-prototype-specification.md §10 explicitly defers the concurrency mechanism."
+    },
+    "decision_episode_boundary_bounded": {
+      "verdict": "PASS",
+      "evidence": "OPEN-B3-3 partially closed: ReasoningEpisode{state, governance, rule_set, context} defined. One episode = one execute_episode() call. Episode duration, polling interval, and refresh frequency not specified. layer3-prototype-specification.md §9 makes explicit what is and is not decided."
+    },
+    "engine_strategy_not_overclaimed": {
+      "verdict": "PASS",
+      "evidence": "OPEN-B3-2 partially closed for prototype. Linear scan chosen: iterate enabled rules in RS(S), evaluate each condition predicate, collect fired rules. O(k_S). Documented: closes Batch 4 linear complexity bound; does not select production chaining strategy; does not claim Safety Dominance from engine strategy alone. layer3-prototype-specification.md §§9, 14."
+    },
+    "human_authority_unconditional": {
+      "verdict": "PASS",
+      "evidence": "Advisory dataclass has no field for approval, prohibition, override, or automated decision. layer3-prototype-specification.md §13 states: Human Decision is unconditional; a Go advisory is not an approval; an empty advisory list is not a prohibition. No test encodes human authority as an automated action."
+    },
+    "fidelity_instrumentation_defined": {
+      "verdict": "PASS",
+      "evidence": "FidelityTrace schema defined with all required fields: episode_id, state, G, A_AI, active_rule_ids, active_rule_conclusion_types, fired_rule_ids, generated_advisory_types, configuration_failure, S_old, S_new, rule_set_id. fidelity-instrumentation-batch1.csv maps each of F1, F2, F3 to specific fields and assertions. All statuses: DESIGNED — NOT YET TESTED."
+    },
+    "F1_F3_not_reported_as_results": {
+      "verdict": "PASS",
+      "evidence": "fidelity-instrumentation-batch1.csv: all status fields read 'DESIGNED — NOT YET TESTED'. test-plan-batch1.csv: all 13 tests read 'NOT YET IMPLEMENTED'. No fidelity PASS/FAIL result claimed anywhere in this batch. evaluation-specification.md §14 OPEN-3 preserved."
+    },
+    "E5_not_run": {
+      "verdict": "PASS",
+      "evidence": "No performance benchmarking conducted. No timing measurement taken. No CPU/memory/energy value reported. E5 / RQ-J2 remains OPEN (evaluation-specification.md §11; OPEN-B1-6 preserved)."
+    },
+    "latency_threshold_not_invented": {
+      "verdict": "PASS",
+      "evidence": "H3 = X ms remains OPEN. No latency acceptance threshold invented. OPEN-B1-6 carried forward unchanged. layer3-prototype-specification.md §14 explicitly records this as OPEN."
+    },
+    "canonical_state_unchanged": {
+      "verdict": "PASS",
+      "evidence": "integrity-after.json (emitted by build.py): 16 unchanged, 0 changed. No canonical formalisation, empirical findings, replay script, canonical_gt, solar artefact, raw replay data, prediction register, or conference manuscript modified."
+    }
+  },
+  "summary": {
+    "PASS_count": 19,
+    "FAIL_count": 0,
+    "OPEN_count": 1,
+    "OPEN_ids": ["concrete_rules_not_invented_without_authority — OPEN-L3-1 (concrete rule content requires scientific specification)"],
+    "note": "All 19 checks PASS. The one OPEN item (OPEN-L3-1) does not block the engine contract, interface, or fidelity instrumentation design — it blocks only the population of concrete rules into the repository."
+  },
+  "post_repair_checks": {
+    "repair_task": "docs/tasks/Journal 1 Layer 3 Prototype — Batch 1 repair.md",
+    "repaired_on": "2026-09-11",
+    "checks": {
+      "batch1_status_consistent_across_artifacts": {
+        "verdict": "PASS",
+        "evidence": "layer3-prototype-specification.md status: CLOSED. report-batch1.md closure: CLOSED. closure-batch1.json closure_line: CLOSED. All artefacts now express the same status. OPEN-L3-1 is explicit and does not block Batch 1 contract-design closure."
+      },
+      "open_L3_1_does_not_silently_close": {
+        "verdict": "PASS",
+        "evidence": "OPEN-L3-1 retained in open-decisions-batch1.csv (row 13). layer3-prototype-specification.md §14 records it as OPEN. No concrete rule invented. Closure rationale in closure-batch1.json records OPEN-L3-1 explicitly."
+      },
+      "F3_requires_state_correspondence_not_identifier_change": {
+        "verdict": "PASS",
+        "evidence": "fidelity-instrumentation-batch1.csv: F3 rows now assert rule_set_bound_for_state == S_new (correspondence) and ConclusionTypes(RS_used) ⊆ A_AI(S_new). The requirement 'rule_set_id changes when S changes' has been removed. layer3-prototype-specification.md §11.2 updated."
+      },
+      "empty_SAFE_and_CAUTION_rule_sets_do_not_false_fail_F3": {
+        "verdict": "PASS",
+        "evidence": "F3 assertions are now: (1) rule_set_bound_for_state == S_new; (2) active_rule_conclusion_types ⊆ A_AI(S_new); (3) ∀ r ∈ active_rule_ids: r.applicable_state == S_new. An empty RS(SAFE) or RS(CAUTION) has active_rule_ids=[] and active_rule_conclusion_types=∅; ∅ ⊆ A_AI(S_new) is trivially true; the empty-set case does not fail F3."
+      },
+      "predicate_error_not_reinterpreted_as_false_without_authority": {
+        "verdict": "PASS",
+        "evidence": "layer3-prototype-specification.md §12: the 'rule does not fire → continue evaluating' policy has been removed. The updated text states: 'the prototype must not silently reinterpret the failure as a false predicate'. OPEN-L3-2 introduced."
+      },
+      "rule_condition_failure_policy_bounded_OPEN": {
+        "verdict": "OPEN",
+        "evidence": "OPEN-L3-2 recorded in open-decisions-batch1.csv (row 14) and layer3-prototype-specification.md §12 and §14. Policy not yet chosen. Does not block Batch 1 contract-design closure."
+      },
+      "configuration_failure_trace_contract_coherent": {
+        "verdict": "PASS",
+        "evidence": "execute_episode() now returns EpisodeResult{advisories, trace, error}. This resolves the contradiction between 'ConfigurationError propagates' and 'FidelityTrace always emitted'. Both are guaranteed: error field carries the ConfigurationError; trace field is always present. layer3-prototype-specification.md §9.2."
+      },
+      "configuration_failure_emits_no_advisory": {
+        "verdict": "PASS",
+        "evidence": "EpisodeResult on ConfigurationError: advisories=[]. FidelityTrace: configuration_failure=True, generated_advisory_types=[]. Assertion: configuration_failure==True ⇒ generated_advisory_types==[] in fidelity-instrumentation-batch1.csv row 7. layer3-prototype-specification.md §12."
+      },
+      "S_unchanged_on_configuration_failure": {
+        "verdict": "PASS",
+        "evidence": "ConfigurationError is an implementation-level fault recorded in EpisodeResult.error. S is a caller-side classification result; execute_episode() receives S as input and does not modify it. layer3-prototype-specification.md §8.2 and §12."
+      },
+      "F1_F3_not_run": {
+        "verdict": "PASS",
+        "evidence": "All fidelity-instrumentation-batch1.csv rows: status = DESIGNED — NOT YET TESTED. All test-plan-batch1.csv rows: status = NOT YET IMPLEMENTED. No F1/F2/F3 result claimed."
+      },
+      "E5_not_run": {
+        "verdict": "PASS",
+        "evidence": "No performance benchmarking conducted. No timing or CPU/memory measurement. OPEN-B1-6 preserved."
+      },
+      "protected_canonical_state_unchanged": {
+        "verdict": "PASS",
+        "evidence": "integrity-after.json (re-run by build.py after repair): 16 unchanged, 0 changed. No canonical file modified."
+      }
+    },
+    "post_repair_summary": {
+      "PASS_count": 11,
+      "FAIL_count": 0,
+      "OPEN_count": 1,
+      "OPEN_ids": ["rule_condition_failure_policy_bounded_OPEN — OPEN-L3-2"],
+      "combined_with_original": "30 PASS total / 0 FAIL / 2 OPEN (OPEN-L3-1 + OPEN-L3-2)"
+    }
+  }
+}

@@ -1,0 +1,151 @@
+{
+  "task": "OPEN-L3-3 resolution",
+  "verification_date": "2026-09-11",
+  "resolution": "B (presentation qualifier only)",
+  "checks": {
+    "appendix_statement_exactly_traced": {
+      "status": "PASS",
+      "evidence": "docs/canonical/appendix-c-formalisation.md line 791 read verbatim; §C.4 lines 763–795 context read; introduced commit c42aae6c 2026-04-10 (git blame). Verbatim wording reproduced in authority-trace.csv and resolution.json."
+    },
+    "appendix_context_examined": {
+      "status": "PASS",
+      "evidence": "§C.4 AI-Admissible Recommendation Space (lines 763–795) read in full; adjacent sections C.3 (lines 747–759), C.5 (lines 797–816), C.7 (lines 882–974) read; parallel canonical text in architecture-illustration.md lines 130–210 read."
+    },
+    "appendix_provenance_examined": {
+      "status": "PASS",
+      "evidence": "git blame on lines 785–795 (blame output in tool result). c42aae6c 2026-04-10 introduced line 791; 978df609 2026-04-05 established §C.4 body. Layer 3 enforcement mechanism (f517fc1 2026-04-25) postdates line 791 by 15 days."
+    },
+    "admissibility_distinguished_from_rule_availability": {
+      "status": "PASS",
+      "evidence": "semantic-decomposition.md P1 vs P2. Go ∈ A_AI(CAUTION) preserved; ∃ r ∈ RS(CAUTION) : conclusion_type(r)=Go remains false. Batch 2 GAP-03 records the absence of any CAUTION-Go rule evidence."
+    },
+    "rule_availability_distinguished_from_rule_firing": {
+      "status": "PASS",
+      "evidence": "semantic-decomposition.md P2 vs P3. P3 vacuously false since P2 false. No claim of firing is made or introduced."
+    },
+    "rule_firing_distinguished_from_advisory_generation": {
+      "status": "PASS",
+      "evidence": "semantic-decomposition.md P3 vs P4. AI(E) is defined via engine.reason() on RS(S) per Algorithm 4; a Go entering AI(E) requires a fired Go rule."
+    },
+    "advisory_generation_distinguished_from_presentation": {
+      "status": "PASS",
+      "evidence": "semantic-decomposition.md P4 vs P5. Interpretation B places the caution qualifier on the presentation layer downstream of AI(E), conditioning on Go ∈ AI(E) rather than asserting it."
+    },
+    "A_AI_CAUTION_Go_preserved": {
+      "status": "PASS",
+      "evidence": "A_AI(CAUTION) = {Go, Delay} unchanged in appendix-c §C.4; Theorem C.2 Case 2 unchanged; containment relationship A_AI(SAFE) ⊃ A_AI(CAUTION) ⊃ A_AI(UNSAFE) = ∅ preserved."
+    },
+    "no_CAUTION_Go_rule_invented": {
+      "status": "PASS",
+      "evidence": "rule-candidate-register-batch2.csv unchanged; no new rule added to RS_candidate(CAUTION); RS_candidate(CAUTION) remains {R-CAUTION-001, R-CAUTION-002, R-CAUTION-003, R-CAUTION-004}, all Delay."
+    },
+    "algorithm3_compatibility_checked": {
+      "status": "PASS",
+      "evidence": "Algorithm 3 (Rule-Set Supply) contract ConclusionTypes(RS(S)) ⊆ A_AI(S) unchanged. RS(CAUTION) conclusion types = {Delay} ⊆ {Go, Delay} = A_AI(CAUTION). No change required."
+    },
+    "algorithm4_compatibility_checked": {
+      "status": "PASS",
+      "evidence": "Algorithm 4 (Governed Advisory Generation) wrapper 'check G(S); if 0 → return ∅; else → invoke engine.reason(E, RS(S))' unchanged. Presentation qualifier is applied on the presentation layer after engine.reason() returns."
+    },
+    "no_posthoc_advisory_generation_introduced": {
+      "status": "PASS",
+      "evidence": "No emission mechanism outside the rule engine is introduced. §C.7.1 'structural — before generation begins, not by filtering outputs after the fact' remains intact; Layer 3 justification §3 'There is nothing to filter' remains intact."
+    },
+    "cautious_go_evidence_not_equated_with_CAUTION_Go_rule_without_bridge": {
+      "status": "PASS",
+      "evidence": "semantic-decomposition.md and authority-trace.csv both treat Gao (2024) cautious-go as a behavioural category, distinct from an AI advisory conclusion. R-CAUTION-004 register entry retains Delay as the Batch 2 conservative mapping; the ambiguity noted in the register's mapping_limitation field is resolved by the presentation-qualifier reading (cautious-go maps to Go-with-qualifier if a Go rule fires, else to Delay — Batch 2 chose the latter as no Go rule fires)."
+    },
+    "EV08_not_counted_as_independent_evidence": {
+      "status": "PASS",
+      "evidence": "EV-08 remains classified as internal synthesis of EV-02+EV-03+EV-04 per closure-batch2.json and rule-candidate-register-batch2.csv. This resolution does not disturb that classification."
+    },
+    "Go_not_approval": {
+      "status": "PASS",
+      "evidence": "recommendation-semantics-batch2.csv Go row 'Does not mean: safe to depart; approved to depart; risk-free departure; guaranteed safe conditions; permission to depart.' — preserved unchanged."
+    },
+    "Delay_not_prohibition": {
+      "status": "PASS",
+      "evidence": "recommendation-semantics-batch2.csv Delay row 'Does not mean: departure is prohibited; the fisher must not go.' — preserved unchanged."
+    },
+    "human_authority_unconditional": {
+      "status": "PASS",
+      "evidence": "Human decision authority framing preserved in recommendation-semantics-batch2.csv Go and Delay rows ('The fisher retains full authority to decide whether to depart'). The presentation qualifier does not authorise or prohibit anything."
+    },
+    "OPEN_L3_1C_preserved": {
+      "status": "PASS",
+      "evidence": "layer3-prototype-specification.md §26 OPEN-L3-1C row unchanged by this task."
+    },
+    "OPEN_L3_1D_preserved": {
+      "status": "PASS",
+      "evidence": "layer3-prototype-specification.md §26 OPEN-L3-1D row unchanged by this task."
+    },
+    "OPEN_L3_2_preserved": {
+      "status": "PASS",
+      "evidence": "layer3-prototype-specification.md §26 OPEN-L3-2 row unchanged by this task."
+    },
+    "F1_F3_not_run": {
+      "status": "PASS",
+      "evidence": "No fidelity runs executed. Task §21 outputs are documentation and canonical clarification only."
+    },
+    "E5_not_run": {
+      "status": "PASS",
+      "evidence": "No performance runs executed."
+    },
+    "engine_not_implemented": {
+      "status": "PASS",
+      "evidence": "No changes to engine implementation code. This task is scientific authority resolution only."
+    },
+    "unrelated_protected_canonical_state_unchanged": {
+      "status": "PASS",
+      "evidence": "Only two authorised canonical modifications: (1) appendix-c-formalisation.md line 791 minimal clarification under task §15 permission; (2) downstream status updates in layer3-prototype-specification.md §26, closure-batch2.json, semantic-verification-batch2.json and report-batch2.md to reflect Batch 2 closure. Before/after hashes recorded in report.md §Protected-state handling."
+    }
+  },
+  "summary": {
+    "PASS": 23,
+    "FAIL": 0,
+    "OPEN": 0,
+    "total": 23
+  },
+  "micro_repair_2026_09_11": {
+    "task": "OPEN-L3-3 Authority-Trace Claim-Bounding Micro-Repair",
+    "task_file": "docs/tasks/Journal 1 Layer 3 Prototype final authority final repair.md",
+    "purpose": "Bound overreach in resolution artefacts without reopening OPEN-L3-3 or altering Resolution B.",
+    "artefacts_modified": [
+      "authority-trace.csv (3 rows re-worded: arch-illustration line 137 row, R-REJ-002 row, GAP-03 row)",
+      "report.md (3 edits: §2 provenance chronology last row, §2 downstream-authority bullet on R-REJ-002, §7 decision matrix row C)",
+      "resolution.json (4 evidence_basis entries re-worded)",
+      "decision-matrix.csv (row C repository_support and requires_canonical_change columns re-worded)"
+    ],
+    "artefacts_inspected_no_change": [
+      "semantic-decomposition.md (no propagation of the four bounded claims)",
+      "verification.json (only Gao mention is already correctly framed as 'behavioural category')"
+    ],
+    "checks": {
+      "informal_go_no_go_not_formal_type_enumeration": {"status": "PASS", "evidence": "authority-trace.csv arch-illustration line 137 row re-worded to describe 'Go/no-go' as informal prose and to state R = {Go, Delay, DepartureTime, Duration} with no 'No-go' element; resolution.json evidence_basis matched. No 'No-go' introduced as a formal type anywhere in the resolution artefacts."},
+      "hypothetical_CAUTION_Go_claim_bounded": {"status": "PASS", "evidence": "authority-trace.csv R-REJ-002 row and report.md §2 R-REJ-002 bullet re-worded from 'would be rejected'/'would fail on the same grounds' to 'would exhibit the same state-restatement structure … would therefore require independent advisory-mapping evidence rather than being justified solely from the CAUTION state or from Go ∈ A_AI(CAUTION); whether a future rule with that antecedent could be defended by independent evidence is not decided here.' Preserves: no current scientific CAUTION-Go rule exists; nothing invented."},
+      "fisher_behaviour_not_direct_CAUTION_Delay_authority": {"status": "PASS", "evidence": "authority-trace.csv GAP-03 row and resolution.json evidence_basis GAP-03 entry re-worded to state that the cited fisher studies (Rahim, Gao, Yamin) 'report behavioural patterns that Batch 2 mapped, through explicit architectural and advisory-mapping inference bridges, toward restricted-operation or Delay analogues. Those studies are not treated here as directly defining the canonical CAUTION → Delay AI advisory mapping.'"},
+      "cautious_go_not_equated_with_CAUTION_Go_rule": {"status": "PASS", "evidence": "report.md §6 already frames Gao cautious-go as a behavioural category distinct from an AI advisory conclusion, with an explicit statement that mapping cautious-go → a Go advisory was not adopted by Batch 2. semantic-decomposition.md and verification.json use the same framing. authority-trace.csv Gao row (notes column) preserved this framing unchanged. No equation of cautious-go with a canonical CAUTION-Go advisory anywhere in the artefacts."},
+      "EV08_not_independent_evidence": {"status": "PASS", "evidence": "authority-trace.csv EV-08 row unchanged: 'EV-08 remains classified as internal synthesis of EV-02+EV-03+EV-04 … Ensures that cautious-go behavioural evidence cannot be recirculated as a distinct empirical justification for a CAUTION-Go rule.' resolution.json scientific_rule_effect.cautious_go_evidence preserves the same classification."},
+      "retention_not_treated_as_proof_of_reinterpretation": {"status": "PASS", "evidence": "report.md §2 chronology last row, report.md §7 decision matrix row C, resolution.json evidence_basis last entry, resolution.json rejected_interpretations.C_historical_stale_residue reasons bullet, and decision-matrix.csv row C repository_support column — all re-worded to 'Retention through later revisions is consistent with continued treatment as presentation guidance … retention alone is not treated here as proof of conscious reinterpretation.'"},
+      "Resolution_B_unchanged": {"status": "PASS", "evidence": "resolution.json .decision unchanged ('RESOLUTION B — the Appendix C §C.4 line 791 statement governs presentation of a rule-generated Go advisory, not automatic emission …'). resolution.json .formal_semantics.asserts unchanged (S = CAUTION ∧ Go ∈ AI(E) → Present(Go, caution_qualifier)). Both preserved verbatim."},
+      "OPEN_L3_3_CLOSED": {"status": "PASS", "evidence": "resolution.json unchanged: 'batch2_effect.OPEN_L3_3_new_status = CLOSED (Resolution B applied)'. report.md §10 unchanged: 'CLOSED — 2026-09-11 — Resolution B'."},
+      "GAP_03_OPEN": {"status": "PASS", "evidence": "resolution.json .remaining_open_items GAP-03 unchanged: 'OPEN evidence gap (no longer blocks Batch 3 — Interpretation B does not require closing this gap)'. report.md §11 unchanged."},
+      "OPEN_L3_1C_preserved": {"status": "PASS", "evidence": "resolution.json .remaining_open_items OPEN-L3-1C unchanged. report.md §11 unchanged."},
+      "OPEN_L3_1D_preserved": {"status": "PASS", "evidence": "resolution.json .remaining_open_items OPEN-L3-1D unchanged. report.md §11 unchanged."},
+      "OPEN_L3_2_preserved": {"status": "PASS", "evidence": "resolution.json .remaining_open_items OPEN-L3-2 unchanged. report.md §11 unchanged."},
+      "canonical_files_unchanged": {"status": "PASS", "evidence": "docs/canonical/appendix-c-formalisation.md hash c4867f48003fec806189905499bbc8d55993f3e0d312a998f552e20028499f4e (unchanged from post-Resolution-B state — the applied line 791 clarification is preserved verbatim). docs/canonical/architecture-illustration.md hash bf1e5ff8ec3621da03cfd228a9471ea8d1145861fbd34fd09a6ef70e16df81df (unchanged throughout). No other canonical files touched."},
+      "engine_not_implemented": {"status": "PASS", "evidence": "No changes to engine code. This micro-repair modifies wording only in four resolution artefacts."},
+      "F1_F3_not_run": {"status": "PASS", "evidence": "No fidelity runs executed."},
+      "E5_not_run": {"status": "PASS", "evidence": "No performance runs executed."},
+      "authority_trace_parses_cleanly_and_column_count_consistent": {"status": "PASS", "evidence": "python3 csv.reader parse of authority-trace.csv: 17 rows (1 header + 16 data), all rows with 8 columns."},
+      "resolution_and_verification_json_parse_cleanly": {"status": "PASS", "evidence": "python3 json.load of resolution.json and verification.json both succeed after edits."},
+      "decision_matrix_parses_cleanly_and_column_count_consistent": {"status": "PASS", "evidence": "python3 csv.reader parse of decision-matrix.csv: 4 rows (1 header + 3 data), all rows with 6 columns."}
+    },
+    "summary": {
+      "PASS": 18,
+      "FAIL": 0,
+      "OPEN": 0,
+      "total": 18
+    }
+  }
+}

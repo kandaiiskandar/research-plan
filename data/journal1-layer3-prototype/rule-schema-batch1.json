@@ -1,0 +1,67 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Layer3Rule",
+  "description": "A single rule in the Layer 3 production rule engine. Part of RS(S) for S in {SAFE, CAUTION}. RS(UNSAFE) = empty set — no rule object may have applicable_state='UNSAFE'.",
+  "type": "object",
+  "required": ["rule_id", "applicable_state", "conditions", "conclusion_type", "conclusion_payload", "provenance", "enabled"],
+  "properties": {
+    "rule_id": {
+      "type": "string",
+      "description": "Unique rule identifier. Convention: 'R-{STATE}-{NNN}' (e.g. 'R-SAFE-001', 'R-CAUTION-002')."
+    },
+    "applicable_state": {
+      "type": "string",
+      "enum": ["SAFE", "CAUTION"],
+      "description": "The safety state S for which this rule belongs to RS(S). 'UNSAFE' is not permitted: RS(UNSAFE) = empty set, enforced by rule_repository.py which refuses any rule with applicable_state not in {'SAFE','CAUTION'}."
+    },
+    "conditions": {
+      "type": "array",
+      "description": "List of condition predicate descriptors. All conditions in a rule are evaluated as a conjunction (AND). CONTENT IS OPEN-L3-1 — no authoritative rule antecedents exist; schema structure is defined and ready to receive scientifically specified content.",
+      "items": {
+        "type": "object",
+        "required": ["variable", "operator", "value"],
+        "additionalProperties": false,
+        "properties": {
+          "variable": {
+            "type": "string",
+            "description": "Name of the field in DecisionContext to evaluate (e.g. 'resolved_w', 'resolved_o_wave_height', 'resolved_r_rate', 'vessel_category'). Must not introduce a new scientific variable not present in canonical E or the decision context."
+          },
+          "operator": {
+            "type": "string",
+            "enum": ["<", "<=", "==", ">=", ">", "in", "not_in", "is_none", "is_not_none"],
+            "description": "Comparison operator. 'is_none' / 'is_not_none' do not use 'value'."
+          },
+          "value": {
+            "description": "Threshold, set, or string value. Null when operator is 'is_none' or 'is_not_none'. Numeric values use the canonical unit for the variable (knots for w, mm/hr for r_rate, metres for o_wave_height, hours 24-hr for t)."
+          }
+        }
+      }
+    },
+    "conclusion_type": {
+      "type": "string",
+      "enum": ["Go", "Delay", "DepartureTime", "Duration"],
+      "description": "The recommendation type R produced when all conditions fire. Invariant: for applicable_state='CAUTION', conclusion_type must be in {'Go','Delay'} — enforced by validate_rule_set() in rule_set_provider.py which checks ConclusionTypes(RS_candidate) subset-of A_AI(state). For applicable_state='SAFE', all four types are permitted."
+    },
+    "conclusion_payload": {
+      "type": "object",
+      "description": "Type-specific payload providing the content of the recommendation (e.g. a suggested departure time for DepartureTime, a duration in hours for Duration). CONTENT IS OPEN-L3-1 — payload schema depends on scientifically specified rule content.",
+      "additionalProperties": true
+    },
+    "provenance": {
+      "type": "string",
+      "description": "Source reference for this rule's scientific authority (e.g. a document path, domain expert specification reference, or authority section). Must not be empty. Rules without traceable provenance must not be added to the repository."
+    },
+    "enabled": {
+      "type": "boolean",
+      "description": "Whether this rule is active in the repository. Disabled rules (enabled=false) are excluded from RS(S) during select_rule_set()."
+    }
+  },
+  "additionalProperties": false,
+  "x-invariants": {
+    "caution_restriction": "Any rule with applicable_state='CAUTION' MUST have conclusion_type in {'Go','Delay'}. Enforced at supply time by validate_rule_set() before any reasoning begins — not post-hoc filtered.",
+    "safe_permitted_types": "Any rule with applicable_state='SAFE' may have conclusion_type in {'Go','Delay','DepartureTime','Duration'}.",
+    "no_unsafe_rules": "RS(UNSAFE) = empty set. No rule object exists with applicable_state='UNSAFE'. The UNSAFE path does not supply a rule set to Layer 3.",
+    "content_status": "OPEN-L3-1 — Concrete conditions and conclusion_payload values require scientific specification before any rule is added to the repository. Do not invent predicates such as 'IF wave < 1.0 AND rain < 10 THEN Go' from Layer 2 thresholds.",
+    "algorithm_correspondence": "algorithm-specification.md §17 (Algorithm 3 supply contract); §19 (Algorithm 4 engine contract); appendix-c-formalisation.md C.7.2 (Safety Dominance proof by construction); evaluation-specification.md §7 (F1, F2)."
+  }
+}

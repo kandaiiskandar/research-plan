@@ -1,0 +1,48 @@
+{
+  "verdict": "PASS",
+  "checked": 6,
+  "results": [
+    {
+      "path": "data/journal1-layer3-prototype/prototype-contract-batch1.csv",
+      "status": "PASS",
+      "errors": [],
+      "row_count": 8,
+      "field_count": 6
+    },
+    {
+      "path": "data/journal1-layer3-prototype/module-map-batch1.csv",
+      "status": "PASS",
+      "errors": [],
+      "row_count": 7,
+      "field_count": 6
+    },
+    {
+      "path": "data/journal1-layer3-prototype/fidelity-instrumentation-batch1.csv",
+      "status": "PASS",
+      "errors": [],
+      "row_count": 7,
+      "field_count": 6
+    },
+    {
+      "path": "data/journal1-layer3-prototype/test-plan-batch1.csv",
+      "status": "PASS",
+      "errors": [],
+      "row_count": 13,
+      "field_count": 7
+    },
+    {
+      "path": "data/journal1-layer3-prototype/open-decisions-batch1.csv",
+      "status": "PASS",
+      "errors": [],
+      "row_count": 14,
+      "field_count": 8
+    },
+    {
+      "path": "data/journal1-layer3-prototype/change-map-batch1.csv",
+      "status": "PASS",
+      "errors": [],
+      "row_count": 20,
+      "field_count": 3
+    }
+  ]
+}

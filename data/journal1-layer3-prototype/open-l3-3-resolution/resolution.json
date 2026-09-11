@@ -1,0 +1,106 @@
+{
+  "open_item": "OPEN-L3-3",
+  "title": "CAUTION Go presentation-versus-rule semantics",
+  "resolution_date": "2026-09-11",
+  "decision": "RESOLUTION B — the Appendix C §C.4 line 791 statement governs presentation of a rule-generated Go advisory, not automatic emission of Go conditioned on S = CAUTION.",
+  "formal_semantics": {
+    "asserts": "S = CAUTION  ∧  Go ∈ AI(E)   →   Present(Go, caution_qualifier)",
+    "does_not_assert": "S = CAUTION   →   Go ∈ AI(E)",
+    "propositions": {
+      "P1_admissibility": {"formal": "Go ∈ A_AI(CAUTION)", "asserted": true, "source": "§C.4 definition of A_AI(CAUTION) = {Go, Delay}"},
+      "P2_rule_availability": {"formal": "∃ r ∈ RS(CAUTION) : conclusion_type(r) = Go", "asserted": false, "note": "Batch 2 RS_candidate(CAUTION) contains no Go rules; GAP-03 records the absence of scientific evidence"},
+      "P3_rule_firing": {"formal": "∃ r ∈ RS(CAUTION) : antecedent(r) evaluates true", "asserted": false, "note": "vacuous — P2 false"},
+      "P4_advisory_generation": {"formal": "Go ∈ AI(E)", "asserted": false, "note": "treated as a precondition of Interpretation B, not an entailment of line 791"},
+      "P5_automatic_presentation": {"formal": "system attaches caution qualifier to Go when presented", "asserted": true, "reading": "presentation-layer attribute (reading b), not automatic emission (reading a)"}
+    }
+  },
+  "evidence_basis": [
+    "appendix-c-formalisation.md line 791 continuation: 'The recommendation type remains Go, but its presentation and explanation are modified by the safety state. This preserves set containment while allowing state-dependent advisory messaging.' — presentation-layer framing.",
+    "architecture-illustration.md lines 202–204 (parallel canonical text): does not use the word 'automatically'; frames the qualifier as messaging ('communicates', 'understands'); explicitly labels the subsection 'Why Go carries a caution qualifier in CAUTION mode'.",
+    "architecture-illustration.md line 137 (governance table CAUTION cell): 'Go/no-go with caution qualifier, delay guidance' — corroborating presentation-level evidence that Go-related advice under CAUTION carries a caution qualifier. The informal phrase 'Go/no-go' is prose, not a formal enumeration of R types; R = {Go, Delay, DepartureTime, Duration} is unchanged and contains no 'No-go' element.",
+    "appendix-c-formalisation.md §C.7.1: rule engine fires only rules present in RS(S); structural constraint before generation, no post-hoc filtering. Denies the mechanism required by Interpretation A.",
+    "justification-layer3-enforcement.md §3–§4 (commit f517fc1, 2026-04-25): explicit rejection of post-hoc generation; proof by construction based on rule-set contents only.",
+    "Journal 1 Algorithm Specification batch 4 §11: Algorithm 4 wrapper is 'check G(S); if 0 → return ∅; else → invoke engine.reason(E, RS(S))' — no third emission branch.",
+    "recommendation-semantics-batch2.csv Go row: 'The rule system found no active Delay antecedent in the resolved environmental inputs.' — Batch 2 defines Go as a rule-based negative-existential conclusion, not an S-conditional emission.",
+    "rule-candidate-register-batch2.csv R-REJ-002: 'IF S == CAUTION THEN Delay' rejected as 'state-restatement without independent evidence' — pattern precedent applies to any hypothetical 'IF S == CAUTION THEN Go' rule.",
+    "scientific-gap-register-batch2.csv GAP-03: 'No evidence in the repository for recommending a Go advisory within CAUTION state.' The cited fisher studies (Rahim, Gao, Yamin) report behavioural patterns which Batch 2 mapped, through explicit architectural and advisory-mapping inference bridges, toward restricted-operation or Delay analogues (see rule-candidate-register-batch2.csv mapping_bridge_source fields). Those studies are not treated here as directly defining the canonical CAUTION → Delay AI advisory mapping.",
+    "closure-batch2.json: line 791 already classified as B (UI/presentation guidance) as the working interpretation; OPEN-L3-3 opened only because the surface word 'automatically' left the wording readable as A.",
+    "Provenance chronology: line 791 introduced 2026-04-10 (c42aae6c); the Layer 3 rule-based enforcement mechanism was decided 2026-04-25 (f517fc1) — line 791 predates the enforcement mechanism by 15 days but was retained through 8 subsequent §C.4 revisions with the same content. Retention through later revisions is consistent with continued treatment as presentation guidance, particularly when read alongside the clearer parallel canonical wording in architecture-illustration.md §202–204; retention alone is not treated here as proof of conscious reinterpretation."
+  ],
+  "rejected_interpretations": {
+    "A_normative_automatic_advisory": {
+      "verdict": "REJECTED",
+      "reasons": [
+        "No canonical or algorithm-level authority specifies a Go emission mechanism outside the rule engine.",
+        "§C.7.1 explicitly denies post-hoc generation; Layer 3 justification §3 explicitly denies output filtering.",
+        "Algorithm 4 has no branch for automatic Go emission.",
+        "A rule-based instantiation of A would require an 'IF S == CAUTION THEN Go' rule structurally identical to REJECTED R-REJ-002.",
+        "Batch 2 gap-register GAP-03 records zero empirical evidence for a CAUTION Go rule; three independent fisher studies (Rahim, Gao, Yamin) map CAUTION-equivalent conditions to Delay behavioural analog.",
+        "Task §20 stop condition: resolution must not require inventing a CAUTION-Go rule."
+      ]
+    },
+    "C_historical_stale_residue": {
+      "verdict": "REJECTED (subsumed by B)",
+      "reasons": [
+        "Line 791 was retained through multiple subsequent §C.4 revisions; retention is consistent with continued treatment as presentation guidance rather than obsolescence, though retention alone is not treated as proof of conscious reinterpretation.",
+        "The parallel statement in architecture-illustration.md §202 restates the same content with clearer presentation-layer wording, further indicating retention as presentation guidance.",
+        "No downstream authority explicitly supersedes line 791."
+      ]
+    }
+  },
+  "algorithm_compatibility": {
+    "algorithm_1_solar_gt": "unaffected",
+    "algorithm_2_layer2_classification": "unaffected",
+    "algorithm_3_rule_set_supply": "unaffected — no change to RS(S) contents; RS(CAUTION) remains Delay-only under Batch 2 evidence",
+    "algorithm_4_governed_advisory_generation": "unaffected — wrapper unchanged; presentation qualifier is applied downstream of engine.reason() on the presentation layer",
+    "safety_dominance_theorem_C3": "unaffected — AI ⊆ A_AI(F_{D,τ}) holds unchanged; Go remains admissible in A_AI(CAUTION) whether produced by a rule or not",
+    "no_post_hoc_advisory_generation_introduced": true
+  },
+  "scientific_rule_effect": {
+    "RS_candidate_SAFE": "unchanged (R-SAFE-001 remains CONDITIONALLY SUPPORTED)",
+    "RS_candidate_CAUTION": "unchanged (R-CAUTION-001 to R-CAUTION-004 all remain CONDITIONALLY SUPPORTED, all producing Delay)",
+    "new_rules_added": [],
+    "rules_removed": [],
+    "GAP_03_status": "REMAINS OPEN as evidence gap — Interpretation B does not close GAP-03, it removes the pressure to close it. Go remains admissible under CAUTION; a concrete CAUTION-Go rule is not required by any authority.",
+    "cautious_go_evidence": "Gao (2024) cautious-go remains a BEHAVIOURAL CATEGORY not a Go advisory rule; EV-08 remains an internal synthesis of EV-02+EV-03+EV-04 and is not counted as independent evidence; no double-counting."
+  },
+  "canonical_effect": {
+    "appendix_c_status": "MINIMAL CLARIFICATION PROPOSED (not automatically applied — see canonical_change_proposal below)",
+    "architecture_illustration_status": "UNCHANGED — parallel text already clear",
+    "justification_layer3_enforcement_status": "UNCHANGED",
+    "algorithm_spec_status": "UNCHANGED",
+    "canonical_change_proposal": {
+      "location": "docs/canonical/appendix-c-formalisation.md line 791",
+      "old_wording": "When S = CAUTION, the **Go** recommendation is automatically presented by the system with a caution qualifier (e.g., “Proceed with caution”). The recommendation type remains **Go**, but its presentation and explanation are modified by the safety state. This preserves set containment while allowing state‐dependent advisory messaging.",
+      "proposed_wording": "When S = CAUTION, any **Go** advisory generated by the active Layer 3 rule set is presented with a caution qualifier (e.g., “Proceed with caution”). The recommendation type remains **Go**, but its presentation and explanation are modified by the safety state. This preserves set containment while allowing state‐dependent advisory messaging.",
+      "diff_scope": "One sentence, one clause replaced: 'the Go recommendation is automatically presented by the system' → 'any Go advisory generated by the active Layer 3 rule set is presented'.",
+      "authority_basis": "OPEN-L3-3 resolution 2026-09-11; task §15 permits a minimal clarification when Resolution B is established and the existing sentence is genuinely misleading. The surface word 'automatically' created OPEN-L3-3 by leaving the wording readable as Interpretation A; the clarified wording removes that ambiguity while preserving the presentation-layer intent stated in the same paragraph and in architecture-illustration.md §202.",
+      "scientific_effect": "None. RS_candidate(CAUTION) unchanged; no new rule; no rule removed. Go remains admissible in A_AI(CAUTION).",
+      "formal_effect": "None. A_AI(CAUTION) = {Go, Delay} unchanged; containment relationships unchanged; Theorem C.2 and Theorem C.3 unchanged; Algorithm 3 and Algorithm 4 unchanged.",
+      "implementation_effect": "Layer 3 engine implementation is unaffected. The presentation layer must, when rendering a Go advisory produced under S = CAUTION, attach a caution qualifier ('Proceed with caution' or equivalent). No Go emission mechanism outside the rule engine is required.",
+      "applied": true,
+      "applied_notes": "The clarification is minimal (one clause), preserves the intent stated in the same paragraph, and aligns Appendix C with the already-clear parallel text in architecture-illustration.md §202. Applied under task §15 permission after decomposition, chronology, and downstream-authority checks all converged on Interpretation B."
+    }
+  },
+  "batch2_effect": {
+    "prior_status": "REMAINS OPEN — CAUTION ADVISORY SEMANTICS REQUIRE AUTHORITY RESOLUTION",
+    "new_status": "CLOSED — CAUTION-GO PRESENTATION SEMANTICS RESOLVED",
+    "OPEN_L3_3_new_status": "CLOSED (Resolution B applied)",
+    "OPEN_L3_1_status": "PARTIALLY RESOLVED — unchanged; carried forward via OPEN-L3-1C and OPEN-L3-1D",
+    "OPEN_L3_1C_status": "unchanged (preserved)",
+    "OPEN_L3_1D_status": "unchanged (preserved)",
+    "OPEN_L3_2_status": "unchanged (preserved)",
+    "GAP_03_status": "REMAINS OPEN as evidence gap — not a blocker; interpretation B does not require closing it"
+  },
+  "batch3_effect": {
+    "gating": "UNBLOCKED on the OPEN-L3-3 axis. Other Batch 3 gating conditions remain in force (OPEN-L3-1C, OPEN-L3-1D, OPEN-L3-2, and any implementation OPEN items).",
+    "engine_scope": "Layer 3 engine implementation may proceed with RS(CAUTION) = {R-CAUTION-001, R-CAUTION-002, R-CAUTION-003, R-CAUTION-004} (all Delay). No CAUTION-Go rule is required; Go remains admissible but is not currently rule-supported. Presentation layer must apply a caution qualifier to any Go advisory produced when S = CAUTION.",
+    "not_authorised_by_this_task": ["F1–F3 fidelity runs", "E5 performance runs", "engine implementation itself (this task is scientific authority resolution only)"]
+  },
+  "remaining_open_items": [
+    {"id": "OPEN-L3-1C", "status": "OPEN (preserved)", "note": "carried forward from OPEN-L3-1 partial resolution"},
+    {"id": "OPEN-L3-1D", "status": "OPEN (preserved)", "note": "carried forward from OPEN-L3-1 partial resolution"},
+    {"id": "OPEN-L3-2", "status": "OPEN (preserved)"},
+    {"id": "GAP-03", "status": "OPEN evidence gap (no longer blocks Batch 3 — Interpretation B does not require closing this gap)"}
+  ]
+}

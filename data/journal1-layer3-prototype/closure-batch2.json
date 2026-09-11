@@ -1,0 +1,202 @@
+{
+  "task": "Journal 1 Layer 3 Prototype — Batch 2: Concrete Layer 3 Advisory Rule Scientific Specification",
+  "task_file": "docs/tasks/Journal 1 Layer 3 Prototype batch 2.md",
+  "branch": "design/journal1-algorithm-specification",
+  "closed_on": "2026-09-11",
+  "closure_line": "JOURNAL 1 LAYER 3 PROTOTYPE BATCH 2 CLOSED — CAUTION-GO PRESENTATION SEMANTICS RESOLVED",
+  "closure_rationale": "All evidence-mapping defects from the Final Repair have been corrected: P_ENV/P_ADV distinction is now explicit for all five accepted candidate rules; R-CAUTION-001 status downgraded from SUPPORTED to CONDITIONALLY SUPPORTED (MET establishes P_ENV at Level A but P_ADV requires inference); R-CAUTION-002/003/004 now carry explicit inference bridges connecting environmental premise to Delay advisory; EV-08 reclassified as internal synthesis of EV-02+EV-03+EV-04, not a fourth independent empirical source; both CSVs pass column-count integrity (rule-candidate-register: 23 cols, rule-evidence-matrix: 13 cols). OPEN-L3-3 (Appendix C line 791 CAUTION-Go tension) was resolved on 2026-09-11 under Resolution B — Interpretation B (presentation qualifier only). Formal semantics: S = CAUTION ∧ Go ∈ AI(E) → Present(Go, caution_qualifier). Appendix C line 791 clarified under task §15 to remove the 'automatically presented' surface ambiguity. No CAUTION-Go rule required; RS_candidate(CAUTION) remains Delay-only; Algorithm 3/4 and Safety Dominance unchanged. Full evidence: data/journal1-layer3-prototype/open-l3-3-resolution/. Batch 2 CLOSED; Batch 3 unblocked on the OPEN-L3-3 axis. Other Batch 3 gating conditions (OPEN-L3-1C, OPEN-L3-1D, OPEN-L3-2) remain in force independently.",
+  "OPEN_L3_3_final_status": "CLOSED (2026-09-11) — Resolution B. Interpretation B (presentation qualifier only) established. Appendix C line 791 clarified under task §15 permission. No canonical or algorithmic change beyond that clarification. See data/journal1-layer3-prototype/open-l3-3-resolution/resolution.json.",
+  "OPEN_L3_3_prior_status": "OPEN — BLOCKING (superseded by 2026-09-11 resolution)",
+  "OPEN_L3_1_outcome": "PARTIALLY RESOLVED (unchanged from original Batch 2 closure)",
+  "OPEN_L3_1_predecessor": "OPEN-L3-1 — concrete advisory rule content requires scientific specification (Batch 1)",
+  "OPEN_L3_1_resolution": {
+    "OPEN_L3_1A_Go": "CLOSED — Go advisory in SAFE state CONDITIONALLY SUPPORTED. Evidence: EV-02 (Rahim et al. 2024 Fishing season behavioural regime), EV-03 (Gao 2024 tripartite go/cautious-go/don't-go), EV-04 (Yamin et al. 2025 SAFE-equivalent operations). Internal design lineage: EV-08 (dataset-label-derivation.md SAFE->Go label — not independent evidence). Inference bridge required: YES — broader favourable-conditions behaviour -> canonical all-SAFE operationalisation -> Go advisory candidate. Geographic adaptation to Kota Kinabalu required. One candidate rule: R-SAFE-001.",
+    "OPEN_L3_1B_Delay": "CLOSED — Delay advisory candidates in CAUTION state are CONDITIONALLY SUPPORTED. R-CAUTION-001 has the strongest environmental-premise authority (P_ENV Level A — MET Malaysia Category 1), but the Delay mapping remains inferred (P_ADV Level C). R-CAUTION-002 through R-CAUTION-004 are Level C (wave/rain/wind). Evidence: EV-01 (MET Malaysia Category 1 Level A), EV-05 (Jeong & Im 2023 departure restrictions by wave height), EV-06 (Yaakob et al. 2015 Malaysian vessel seakeeping operability), EV-02 (Rahim et al. 2024 East season restricted operations), EV-07 (Atacan & Düzbastılar 2023 risk perception). Internal design lineage: EV-08 (dataset-label-derivation.md CAUTION->Delay label — not independent evidence). Four candidate rules: R-CAUTION-001 through R-CAUTION-004.",
+    "OPEN_L3_1C_DepartureTime": "OPEN — No scientific authority in the repository. dataset-label-derivation.md Section 6.3 explicitly defers DepartureTime labeling to RQ5 fieldwork. Tide-gating evidence (Gao 2024) suggests departure time is port-specific and tide-dependent but no advisory-level specification was found. Tide (t) is not in E vector. Requires: domain expert elicitation from Kota Kinabalu Zone A fishers and/or tidal almanac data.",
+    "OPEN_L3_1D_Duration": "OPEN — No scientific authority in the repository. dataset-label-derivation.md Section 6.3 explicitly defers Duration labeling to RQ5 fieldwork. Rahim et al. (2024) duration evidence is from UNSAFE-equivalent conditions when Layer 3 does not operate. Requires: domain expert elicitation or DoF Malaysia operational guidelines."
+  },
+  "RS_candidate_at_closure": {
+    "RS_candidate_SAFE": {
+      "R-SAFE-001": {
+        "antecedent": "all(g_w(w) == SAFE, g_r(r, kappa) == SAFE, g_m(m) == SAFE, g_o(o, v) == SAFE, g_t(t, date) == SAFE)",
+        "conclusion_type": "Go",
+        "status": "CONDITIONALLY SUPPORTED",
+        "evidence_level": "Level C",
+        "primary_evidence": "EV-02, EV-03, EV-04",
+        "internal_design_lineage": "EV-08 (dataset-label-derivation.md) — not independent evidence; internal synthesis of EV-02, EV-03, EV-04"
+      }
+    },
+    "RS_candidate_CAUTION": {
+      "R-CAUTION-001": {
+        "antecedent": "m == advisory",
+        "conclusion_type": "Delay",
+        "status": "CONDITIONALLY SUPPORTED",
+        "evidence_level": "Level A",
+        "primary_evidence": "EV-01",
+        "note": "P_ENV Level A (MET Malaysia Category 1 danger warning). P_ADV Level C (inferred from standard maritime safety practice). Status downgraded from SUPPORTED per Final Repair — MET does not explicitly prescribe Delay."
+      },
+      "R-CAUTION-002": {
+        "antecedent": "g_o(o, v) == CAUTION",
+        "conclusion_type": "Delay",
+        "status": "CONDITIONALLY SUPPORTED",
+        "evidence_level": "Level C",
+        "primary_evidence": "EV-05, EV-06",
+        "internal_design_lineage": "EV-08 — not independent evidence"
+      },
+      "R-CAUTION-003": {
+        "antecedent": "g_r(r, kappa) == CAUTION",
+        "conclusion_type": "Delay",
+        "status": "CONDITIONALLY SUPPORTED",
+        "evidence_level": "Level C",
+        "primary_evidence": "EV-02",
+        "internal_design_lineage": "EV-08 — not independent evidence"
+      },
+      "R-CAUTION-004": {
+        "antecedent": "g_w(w) == CAUTION",
+        "conclusion_type": "Delay",
+        "status": "CONDITIONALLY SUPPORTED",
+        "evidence_level": "Level C",
+        "primary_evidence": "EV-03, EV-07",
+        "internal_design_lineage": "EV-08 — not independent evidence"
+      }
+    },
+    "RS_UNSAFE": {
+      "rules": [],
+      "status": "∅ — CONFIRMED EMPTY"
+    }
+  },
+  "rejected_candidates": [
+    "R-REJ-001",
+    "R-REJ-002",
+    "R-REJ-003",
+    "R-REJ-004",
+    "R-REJ-005"
+  ],
+  "authority": "publications/active/journal-1/layer3-prototype-specification.md (§16-§27 added by Batch 2)",
+  "predecessors": [
+    "JOURNAL 1 LAYER 3 PROTOTYPE BATCH 1 CLOSED — FIDELITY TRACE AND FAILURE-SEMANTICS CONTRACT REPAIRED (2026-09-11)"
+  ],
+  "closure_checklist": {
+    "recommendation_semantics_defined": "MET — recommendation-semantics-batch2.csv; Go/Delay semantically bounded; DepartureTime/Duration OPEN",
+    "evidence_hierarchy_defined": "MET — layer3-prototype-specification.md §18; five levels A through UNSUPPORTED",
+    "evidence_matrix_complete": "MET — rule-evidence-matrix-batch2.csv EV-01 through EV-09",
+    "rule_candidate_register_complete": "MET — rule-candidate-register-batch2.csv 10 rows (5 accepted + 5 rejected)",
+    "rejected_candidates_documented": "MET — R-REJ-001 through R-REJ-005 with explicit rejection rationale",
+    "governance_admissibility_verified": "MET — STRUCTURAL CHECK PASS for all accepted candidates",
+    "conflict_analysis_complete": "MET — rule-conflict-analysis-batch2.csv CONF-001 through CONF-007",
+    "scientific_gaps_registered": "MET — scientific-gap-register-batch2.csv GAP-01 through GAP-05",
+    "semantic_verification_pass": "MET — 90 PASS / 0 FAIL / 0 OPEN / 90 total (OPEN-L3-3 tracking check → PASS after Resolution B, 2026-09-11)",
+    "human_authority_preserved": "MET — no advisory labeled approved/prohibited/must-go/must-stay",
+    "F1_F3_not_run": "MET — STRUCTURAL CHECK wording used not F1/F2/F3",
+    "E5_not_run": "MET — H3 threshold OPEN-B1-6 unchanged",
+    "OPEN_L3_2_preserved": "MET — not resolved in Batch 2",
+    "protected_canonical_state_unchanged": "MET — integrity verified at Batch 2 start; no canonical files modified",
+    "specification_extended": "MET — layer3-prototype-specification.md §16-§27",
+    "humanizer_applied": "MET — humanizer skill applied to report-batch2.md and specification §§16-27",
+    "csv_integrity_pass": "MET (Final Repair) — rule-candidate-register: 23 cols all rows PASS; rule-evidence-matrix: 13 cols all rows PASS",
+    "P_ENV_P_ADV_distinguished": "MET (Final Repair) — 7 new P_ENV/P_ADV fields in rule-candidate-register; premise_support, advisory_mapping_support, mapping_inference_required, mapping_bridge_source, mapping_limitation explicit for all 5 accepted candidates",
+    "R_CAUTION_001_evidence_bounded": "MET (Final Repair) — status CONDITIONALLY SUPPORTED; P_ENV Level A, P_ADV Level C inferred; mapping_inference_required = YES",
+    "inference_bridges_explicit": "MET (Final Repair) — R-CAUTION-002/003/004 each have mapping_inference_required=YES and explicit mapping_bridge_source",
+    "EV08_reclassified": "MET (Final Repair) — EV-08 classified as internal synthesis of EV-02+EV-03+EV-04; removed from primary evidence lists; not counted as 4th independent source",
+    "appendix_c_tension_classified": "MET — Resolution B established 2026-09-11; line 791 clarified under task §15 to remove 'automatically presented' surface ambiguity; formal semantics S = CAUTION ∧ Go ∈ AI(E) → Present(Go, caution_qualifier)",
+    "OPEN_L3_3_created": "SUPERSEDED — OPEN-L3-3 CLOSED (Resolution B, 2026-09-11)",
+    "OPEN_L3_3_resolved": "YES — data/journal1-layer3-prototype/open-l3-3-resolution/ (6 artefacts, 23/23 verification checks PASS)",
+    "batch3_gating_on_OPEN_L3_3": "UNBLOCKED — other Batch 3 gating conditions (OPEN-L3-1C, OPEN-L3-1D, OPEN-L3-2) remain in force independently",
+    "OPEN_L3_1_synchronised": "MET (Final Repair) — §14 updated to reference §26 as authoritative; two current statuses eliminated"
+  },
+  "semantic_checks": {
+    "source": "data/journal1-layer3-prototype/semantic-verification-batch2.json",
+    "PASS_count": 90,
+    "FAIL_count": 0,
+    "OPEN_count": 0,
+    "total_checks": 90,
+    "OPEN_checks": [],
+    "note": "90 checks total. OPEN-L3-3 tracking check (appendix_c_caution_go_tension_resolved_or_OPEN_L3_3_created) transitioned OPEN → PASS on 2026-09-11 after Resolution B established Interpretation B (presentation qualifier only). See data/journal1-layer3-prototype/open-l3-3-resolution/verification.json for the resolution's own 23-check verification set."
+  },
+  "open_items_status": {
+    "OPEN-B1-1_freshness_parameters": "OPEN — unchanged",
+    "OPEN-B1-2_runtime_provenance_capture": "OPEN — unchanged",
+    "OPEN-B1-3_medium_vessel_evidence_limitation": "OPEN — unchanged",
+    "OPEN-B1-5_live_gm_configuration": "OPEN — unchanged",
+    "OPEN-B1-6_latency_threshold": "OPEN — unchanged",
+    "OPEN-B1-7_utility_construct": "OPEN — unchanged",
+    "OPEN-B1-8_state_ruleset_consistency_mechanism": "OPEN — unchanged",
+    "OPEN-B3-1_invalid_RS_runtime_handling": "PARTIALLY CLOSED from Batch 1 — unchanged",
+    "OPEN-B3-2_rule_engine_evaluation_strategy": "PARTIALLY CLOSED from Batch 1 — unchanged",
+    "OPEN-B3-3_decision_episode_implementation_boundary": "PARTIALLY CLOSED from Batch 1 — unchanged",
+    "OPEN-B4-1_solar_lookup_data_structure": "OPEN — unchanged",
+    "OPEN-L3-1_concrete_rule_content": "PARTIALLY RESOLVED in Batch 2 — Go CONDITIONALLY SUPPORTED; Delay candidates CONDITIONALLY SUPPORTED; DepartureTime deferred (OPEN-L3-1C); Duration deferred (OPEN-L3-1D)",
+    "OPEN-L3-1C_DepartureTime": "NEW OPEN — requires RQ5 fieldwork or domain expert elicitation for Kota Kinabalu Zone A fishers",
+    "OPEN-L3-1D_Duration": "NEW OPEN — requires RQ5 fieldwork or DoF Malaysia operational guidelines",
+    "OPEN-L3-2_predicate_evaluation_failure_policy": "OPEN — unchanged; not required for rule specification; blocks implementation only",
+    "OPEN-L3-3_caution_go_presentation": "CLOSED (2026-09-11) — Resolution B. Interpretation B (presentation qualifier only) established. Formal semantics: S = CAUTION ∧ Go ∈ AI(E) → Present(Go, caution_qualifier). Appendix C §C.4 line 791 clarified under task §15 permission: 'the Go recommendation is automatically presented by the system' → 'any Go advisory generated by the active Layer 3 rule set is presented'. No CAUTION-Go rule invented; RS_candidate(CAUTION) unchanged (Delay-only); Algorithm 3/4 unchanged; Safety Dominance unchanged. Batch 3 unblocked on the OPEN-L3-3 axis. Full evidence: data/journal1-layer3-prototype/open-l3-3-resolution/."
+  },
+  "repair_record": {
+    "repair_task": "docs/tasks/Journal 1 Layer 3 Prototype — Batch 2 Repair.md",
+    "repaired_on": "2026-09-11",
+    "repairs": [
+      "Repair 1 — Cross-reference error corrected: semantic-verification-batch2.json check human_authority_unconditional referenced §29 (non-existent). Corrected to §17 (Recommendation Semantics) where the human authority boundary content is actually defined.",
+      "Repair 2 — scientific_rationale column added to rule-candidate-register-batch2.csv: task §16 requires this named field; it was absent from the original CSV. Column added between adaptation_required and conflict_risk with rationale content for all 10 rows (5 accepted candidates + 5 rejected).",
+      "Repair 3 — Humanizer pass applied to report-batch2.md and layer3-prototype-specification.md §§16-27: 9 targeted edits in report, 3 in spec. Fixed bureaucratic constructions, passives, copula avoidance, and false agency. Technical content, formal notation, table structure, section numbers, and evidence citations unchanged."
+    ]
+  },
+  "files_created": [
+    "data/journal1-layer3-prototype/recommendation-semantics-batch2.csv",
+    "data/journal1-layer3-prototype/rule-evidence-matrix-batch2.csv",
+    "data/journal1-layer3-prototype/rule-candidate-register-batch2.csv",
+    "data/journal1-layer3-prototype/rule-conflict-analysis-batch2.csv",
+    "data/journal1-layer3-prototype/scientific-gap-register-batch2.csv",
+    "data/journal1-layer3-prototype/semantic-verification-batch2.json",
+    "data/journal1-layer3-prototype/change-map-batch2.csv",
+    "data/journal1-layer3-prototype/closure-batch2.json",
+    "data/journal1-layer3-prototype/report-batch2.md"
+  ],
+  "files_modified": [
+    "publications/active/journal-1/layer3-prototype-specification.md — §§16-27 added (§§1-15 unchanged)"
+  ],
+  "canonical_files_touched": [
+    "docs/canonical/appendix-c-formalisation.md — §C.4 line 791 minimal clarification under OPEN-L3-3 Resolution B (task §15 permission); see data/journal1-layer3-prototype/open-l3-3-resolution/report.md §Protected-state handling for before/after hashes and exact changed lines."
+  ],
+  "workstream_status": "Batch 2 CLOSED — CAUTION-Go presentation semantics resolved (Resolution B, 2026-09-11). All advisory evidence-mapping defects resolved. Appendix C §C.4 line 791 clarified. RS_candidate(CAUTION) remains Delay-only under current scientific evidence (Go admissible but not rule-supported). Batch 3 unblocked on the OPEN-L3-3 axis; independent gating from OPEN-L3-1C, OPEN-L3-1D, OPEN-L3-2 remains in force.",
+  "repair_record_2": {
+    "repair_task": "docs/tasks/Journal 1 Layer 3 Prototype — Batch 2 Repair 2.md",
+    "repaired_on": "2026-09-11",
+    "repairs": [
+      "Final Repair 1 — CSV structural integrity: rewrote rule-candidate-register-batch2.csv (16 → 23 cols) and rule-evidence-matrix-batch2.csv using csv.writer/QUOTE_ALL. Both now pass column-count integrity check (all rows match header width).",
+      "Final Repair 2 — P_ENV/P_ADV distinction: added 7 new columns to rule-candidate-register (premise_support, premise_support_level, advisory_mapping_support, advisory_mapping_support_level, mapping_inference_required, mapping_bridge_source, mapping_limitation) for all 10 rows.",
+      "Final Repair 3 — R-CAUTION-001 reassessment: status changed from SUPPORTED (Level A) to CONDITIONALLY SUPPORTED (P_ENV Level A, P_ADV Level C inferred). MET Category 1 establishes danger to small boats (P_ENV) but does not explicitly prescribe Delay (P_ADV requires inference from standard maritime practice).",
+      "Final Repair 4 — Inference bridges added: R-CAUTION-002/003/004 now have mapping_inference_required=YES and explicit mapping_bridge_source fields documenting the inference from environmental premise to Delay advisory.",
+      "Final Repair 5 — EV-08 reclassified: source_type changed from internal implementation document to internal synthesis document; not a fourth independent empirical source; removed from primary evidence lists for R-SAFE-001, R-CAUTION-002, R-CAUTION-003, R-CAUTION-004.",
+      "Final Repair 6 — Appendix C CAUTION-Go tension: classified as B (UI/presentation guidance); OPEN-L3-3 created to track residual ambiguity; GAP-03 successor_open_item updated; §26 extended with OPEN-L3-3 row.",
+      "Final Repair 7 — Spec repairs: §14 OPEN-L3-1 status synchronised; §17 Go semantics tightened; §19 EV-08 note updated; §20/21 primary evidence lists cleaned; §22 conflict wording bounded; §24 R-CAUTION-001 status updated in table; §25 GAP-03 successor updated; §26 OPEN-L3-3 added; §27 structural check wording fixed; traceability table updated.",
+      "Final Repair 8 — Semantic verification: 31 new checks added (§28 requirements); summary updated to 57 PASS / 0 FAIL / 1 OPEN / 58 total; scientific OPEN register separated from verification OPEN count."
+    ]
+  },
+  "repair_record_3": {
+    "repair": "Batch 2 Repair 3 — Final Closure Residue Repair",
+    "date": "2026-09-11",
+    "actions": [
+      "Specification status header: CLOSED WITH BOUNDED OPEN ITEMS → REMAINS OPEN (OPEN-L3-3)",
+      "Specification R-CAUTION-001 heading: '(strongest — Level A)' → '— strongest environmental-premise authority (P_ENV Level A; P_ADV Level C inferred)'",
+      "Report §5 R-SAFE-001: EV-08 removed from evidence list; 'all-SAFE-equivalent conditions' claim bounded to 'favourable operating conditions'; canonical all-SAFE operationalisation bridge made explicit",
+      "Report §7: 'conflict-free' → 'No conclusion-type contradiction identified'; aggregation note added",
+      "Report §8: 'strongest... Level A, SUPPORTED' overclaim corrected to CONDITIONALLY SUPPORTED with P_ENV/P_ADV breakdown",
+      "Report §9: Stale Batch 3 permission removed; OPEN-L3-3 added to OPEN table as BLOCKING; blocking statement inserted",
+      "Report §11 table: R-SAFE-001 P_ENV cell bounded to favourable conditions; inference bridge changed from NO to YES",
+      "15 residue-repair semantic checks added to semantic-verification-batch2.json (72 PASS / 0 FAIL / 1 OPEN / 73 total)"
+    ]
+  },
+  "repair_record_5": {
+    "repair": "Batch 2 Repair 5 — Final Micro-Repair",
+    "date": "2026-09-11",
+    "actions": [
+      "CSV R-SAFE-001: mapping_inference_required NO->YES; mapping_bridge_source updated; premise_support and advisory_mapping_support bounded to favourable conditions",
+      "Semantic JSON: mapping_inference_explicit check updated; 17 micro-repair checks added (89 PASS / 0 FAIL / 1 OPEN / 90 total)",
+      "Closure JSON: EV-08 removed from primary_evidence for R-SAFE-001, R-CAUTION-002/003/004; OPEN_L3_1A_Go and B_Delay text corrected",
+      "Closure JSON: R-CAUTION-001 'SUPPORTED (warning-driven)' -> 'CONDITIONALLY SUPPORTED' in OPEN_L3_1B_Delay",
+      "Closure JSON: closure_checklist.semantic_verification_pass updated to 89 PASS / 90 total",
+      "Report: semantic verification count 57/58 -> 89/90",
+      "Spec: semantic verification count 57/58 -> 89/90"
+    ]
+  }
+}
