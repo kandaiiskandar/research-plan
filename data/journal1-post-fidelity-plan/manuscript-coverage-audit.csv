@@ -8,7 +8,7 @@ F2,§10/§8,PLANNED,"Implementation-fidelity criteria (F1–F3) — deferred to 
 F3,§10/§8,PLANNED,"Implementation-fidelity criteria (F1–F3) — deferred to Layer 3 build; see evaluation-specification.md §7.",yes,yes,none — Batch 5 evidence exists (F3 PASS: 0 mismatches / 292 episodes)
 E1,§12,RESULT_PRESENT,"PRIMARY 48.69 − 42.88 = 5.81% · RESOLUTION 4.48%",yes,yes,none — canonical values exist; §11 formal results table pending
 E2,§10/§12,RESULT_PRESENT,"Δ_L2 = divergence(C0, C2) − divergence(C0, C1) ... PRIMARY 48.69 − 42.88 = 5.81% · RESOLUTION 4.48%",yes,yes,none — §12 ablation prose not yet complete; §11 Results not yet written
-E3,§10/§11,RESULT_PLACEHOLDER,"reported in two configurations per canonical practice: PRIMARY (5.00 yr, ERA5-Ocean ~50 km) and RESOLUTION (3.25 yr, MFWAM ~8 km). See §11 for canonical values.",yes,yes,none — all canonical values exist; full dual-config table deferred to §11 completion
+E3,§10/§11,RESULT_PLACEHOLDER,absent,yes,yes,none — all canonical values exist; full dual-config table deferred to §11 completion
 E4,§12,RESULT_PRESENT,"3,661 state transitions in five years; 26 genuine oscillations (5.2/yr); hysteresis reduces non-scheduled transitions by 10.36%",yes,yes,none — RESOLUTION dual-config equivalents not separately stated; §12 formal prose pending
 E5,§9/§10/§8,PLANNED,"Device-level performance suitability requires E5 evidence and is not claimed here",no,yes,E5 benchmarking execution on target deployment hardware (deploy governance/ module first)
 E6,§10,RESULT_PRESENT,"confirmed against the retrospective record at 0.00% divergence",yes,yes,none — §11 Results not yet written; Flehmig fairness qualification should be complete when §11 is drafted
