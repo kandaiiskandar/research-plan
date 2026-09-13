@@ -1,0 +1,18 @@
+{
+  "formal-object-inventory.csv": {
+    "dictreader_rows": 23,
+    "pandas_rows": 23,
+    "expected_rows": 23,
+    "row_counts_agree": true,
+    "fields_match": true,
+    "no_empty_cells": true
+  },
+  "cross-reference-audit.csv": {
+    "dictreader_rows": 10,
+    "pandas_rows": 10,
+    "expected_rows": 10,
+    "row_counts_agree": true,
+    "fields_match": true,
+    "no_empty_cells": true
+  }
+}

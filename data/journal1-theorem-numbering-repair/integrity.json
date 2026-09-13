@@ -1,0 +1,33 @@
+{
+  "batch": "theorem-numbering-repair",
+  "date": "2026-09-14",
+  "branch": "docs/journal1-manuscript-evidence-sync",
+  "HEAD_before": "dca5aed",
+  "HEAD_after": "dca5aed (uncommitted)",
+  "manuscript": {
+    "sha256_before": "7b571aac8d6f9b7a",
+    "sha256_after": "9fbf75fe050a4d91",
+    "diff": "+8 -8"
+  },
+  "frozen_authority_hashes": {
+    "publications/active/journal-1/submissions/v1-initial-submission/manuscript.md": "9fbf75fe050a4d91",
+    "publications/active/journal-1/evaluation-specification.md": "5a0e706a9b982e92",
+    "publications/active/journal-1/algorithm-specification.md": "469278897b47f1bd",
+    "publications/active/journal-1/layer3-prototype-specification.md": "b8155b269fc63ff1",
+    "docs/canonical/appendix-c-formalisation.md": "c4867f48003fec80",
+    "docs/canonical/architecture-illustration.md": "25b3feab2cd23898",
+    "publications/active/ipsci-2026/submissions/v3-revision/manuscript-v3.md": "27b33b846ae327cb"
+  },
+  "changed_paths": [
+    "data/journal1-theorem-numbering-repair/",
+    "docs/tasks/Journal 1 \\342\\200\\224 Manuscript Theorem and Definition Numbering Consistency Micro-Repair.md",
+    "publications/active/journal-1/submissions/v1-initial-submission/manuscript.md"
+  ],
+  "unexpected_changed_paths": [],
+  "drift_among_baseline_files": {
+    "publications/active/journal-1/submissions/v1-initial-submission/manuscript.md": {
+      "before": "7b571aac8d6f9b7a",
+      "now": "9fbf75fe050a4d91"
+    }
+  }
+}

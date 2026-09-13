@@ -1,0 +1,180 @@
+{
+  "tag": "after",
+  "declaration_count": 20,
+  "declarations": {
+    "Corollary 6.2": [
+      {
+        "section": "6",
+        "subsection": "6.3",
+        "line": 687,
+        "title": "Strict Monotonicity"
+      }
+    ],
+    "Corollary 6.2b": [
+      {
+        "section": "6",
+        "subsection": "6.3",
+        "line": 693,
+        "title": "Properties 5.1 and 5.2"
+      }
+    ],
+    "Definition 5.1": [
+      {
+        "section": "5",
+        "subsection": "5.2",
+        "line": 340,
+        "title": "Environmental State Vector"
+      }
+    ],
+    "Definition 5.10": [
+      {
+        "section": "5",
+        "subsection": "5.6",
+        "line": 563,
+        "title": "RS(S"
+      }
+    ],
+    "Definition 5.11": [
+      {
+        "section": "5",
+        "subsection": "5.5",
+        "line": 523,
+        "title": "AI Output Mapping"
+      }
+    ],
+    "Definition 5.2": [
+      {
+        "section": "5",
+        "subsection": "5.2",
+        "line": 361,
+        "title": "Governance Independence"
+      }
+    ],
+    "Definition 5.2a": [
+      {
+        "section": "5",
+        "subsection": "5.2",
+        "line": 367,
+        "title": "Rainfall input and the thunderstorm indicator \u03ba"
+      }
+    ],
+    "Definition 5.3": [
+      {
+        "section": "5",
+        "subsection": "5.3",
+        "line": 391,
+        "title": "Severity Order"
+      }
+    ],
+    "Definition 5.4": [
+      {
+        "section": "5",
+        "subsection": "5.3",
+        "line": 403,
+        "title": "Classification Functions"
+      }
+    ],
+    "Definition 5.5": [
+      {
+        "section": "5",
+        "subsection": "5.3",
+        "line": 447,
+        "title": "Safety State Classification Function"
+      }
+    ],
+    "Definition 5.6": [
+      {
+        "section": "5",
+        "subsection": "5.4",
+        "line": 469,
+        "title": "Recommendation Type Space"
+      }
+    ],
+    "Definition 5.7": [
+      {
+        "section": "5",
+        "subsection": "5.4",
+        "line": 473,
+        "title": "AI Participation Gate"
+      }
+    ],
+    "Definition 5.8": [
+      {
+        "section": "5",
+        "subsection": "5.4",
+        "line": 483,
+        "title": "AI-Admissible Recommendation Space"
+      }
+    ],
+    "Definition 5.9": [
+      {
+        "section": "5",
+        "subsection": "5.4",
+        "line": 493,
+        "title": "Governance Pair"
+      }
+    ],
+    "Property 5.1": [
+      {
+        "section": "5",
+        "subsection": "5.5",
+        "line": 515,
+        "title": "Participation Constraint"
+      }
+    ],
+    "Property 5.2": [
+      {
+        "section": "5",
+        "subsection": "5.5",
+        "line": 519,
+        "title": "Advisory Restriction Constraint"
+      }
+    ],
+    "Property 5.3": [
+      {
+        "section": "5",
+        "subsection": "5.5",
+        "line": 530,
+        "title": "Safety Dominance Property"
+      }
+    ],
+    "Theorem 6.1": [
+      {
+        "section": "6",
+        "subsection": "6.2",
+        "line": 629,
+        "title": "Totality of f"
+      }
+    ],
+    "Theorem 6.2": [
+      {
+        "section": "6",
+        "subsection": "6.3",
+        "line": 661,
+        "title": "Monotonicity of A_AI"
+      }
+    ],
+    "Theorem 6.3": [
+      {
+        "section": "6",
+        "subsection": "6.4",
+        "line": 705,
+        "title": "Safety Dominance Property"
+      }
+    ]
+  },
+  "overview_previews_excluded": [
+    "Theorem 6.1 (\u00a76/L619)",
+    "Theorem 6.2 (\u00a76/L620)",
+    "Theorem 6.3 (\u00a76/L621)"
+  ],
+  "reference_count": 73,
+  "dangling_references": [],
+  "duplicate_identifiers": {},
+  "same_title_two_identities": {
+    "Safety Dominance Property": [
+      "Property 5.3 (\u00a75/L530)",
+      "Theorem 6.3 (\u00a76/L705)"
+    ]
+  }
+}

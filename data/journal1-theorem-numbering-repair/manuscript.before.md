@@ -454,9 +454,9 @@ The aggregation is over five terms. Vessel category v appears within g_o rather 
 
 The worst-case aggregation rule implements three strict operational principles: (i) UNSAFE dominance — if any condition classifies as UNSAFE, f(E) = UNSAFE, regardless of all others; (ii) CAUTION priority — if no condition is UNSAFE but at least one is CAUTION, f(E) = CAUTION; (iii) SAFE unanimity — f(E) = SAFE only if every condition classifies as SAFE. This reflects the non-compensatory nature of maritime safety risk: calm seas cannot compensate for extreme wind, and a valid nighttime advisory-policy trigger is not cancelled by lower environmental component states. Navigation-light equipment is not a classifier input.
 
-**Totality of f.** For all E in its domain, f(E) is defined and returns exactly one element of {SAFE, CAUTION, UNSAFE}.
+**Theorem 5.1 (Totality of f).** For all E in its domain, f(E) is defined and returns exactly one element of {SAFE, CAUTION, UNSAFE}.
 
-This result is proved canonically as Theorem 6.1 in Section 6.2. Totality follows from exhaustive domain coverage of each gᵢ (the domain partition for each component is complete and non-overlapping) and from the fact that max_≻ over a finite totally ordered set is always defined and unique.
+Proof deferred to Section 6.2. Totality follows from exhaustive domain coverage of each gᵢ (the domain partition for each component is complete and non-overlapping) and from the fact that max_≻ over a finite totally ordered set is always defined and unique.
 
 Totality is a necessary operational property: a classifier that could fail to return a safety state would leave the governance layer without a basis for enforcing the governance pair (G(S), A_AI(S)) at runtime.
 
@@ -690,7 +690,7 @@ All three ordered pairs satisfy the subset condition. Theorem 6.2 holds. ∎
 
 The containment is not coincidental — it follows necessarily from the severity ordering on S and the set definitions of A_AI(S).
 
-**Corollary 6.2b (Properties 5.1 and 5.2).** Both governance constraints stated in Section 5.5 follow directly.
+**Corollary 6.3 (Properties 5.1 and 5.2).** Both governance constraints stated in Section 5.5 follow directly.
 
 *Property 5.1 (Participation Constraint):* G(S) = 0 ⟹ A_AI(S) = ∅. G(S) = 0 if and only if S = UNSAFE (Definition 5.7). A_AI(UNSAFE) = ∅ by Definition 5.8. Therefore G(S) = 0 ⟹ A_AI(S) = ∅. ✓
 
@@ -789,7 +789,7 @@ Output: S ∈ {SAFE, CAUTION, UNSAFE}  or startup refusal (no S)
  9: return S
 ```
 
-**Invariants.** For every well-formed startup, exactly one `S` is returned (Theorem 6.1 / operational totality, Appendix C Theorem C.1b). Any required non-excluded observation resolving to `⊥` yields `gᵢ(⊥) = UNSAFE` and — by max-severity — `S = UNSAFE` (Corollary C.1b.1). Startup failure returns no `S`; the two modes are disjoint. Excluded components contribute `SAFE`; every severity figure produced under `D ≠ ∅` is reported as a lower bound.
+**Invariants.** For every well-formed startup, exactly one `S` is returned (Theorem 5.1 / operational totality, Appendix C Theorem C.1b). Any required non-excluded observation resolving to `⊥` yields `gᵢ(⊥) = UNSAFE` and — by max-severity — `S = UNSAFE` (Corollary C.1b.1). Startup failure returns no `S`; the two modes are disjoint. Excluded components contribute `SAFE`; every severity figure produced under `D ≠ ∅` is reported as a lower bound.
 
 ### 7.2 Algorithm 2 — Governance Configuration
 
@@ -808,7 +808,7 @@ Output: (G(S), A_AI(S))
  5: return (G, A_AI)
 ```
 
-**Invariants.** The strict containment `A_AI(SAFE) ⊃ A_AI(CAUTION) ⊃ A_AI(UNSAFE) = ∅` (Theorem 6.2 / Monotonicity) holds by inspection of lines 2–4. `G(S) = 0 ⇒ A_AI(S) = ∅` (Participation Constraint) is discharged by line 4. Algorithm 2 *implements* the finite mapping on which Theorem 6.2 is established; it does not experimentally validate it.
+**Invariants.** The strict containment `A_AI(SAFE) ⊃ A_AI(CAUTION) ⊃ A_AI(UNSAFE) = ∅` (Theorem 5.2 / Monotonicity) holds by inspection of lines 2–4. `G(S) = 0 ⇒ A_AI(S) = ∅` (Participation Constraint) is discharged by line 4. Algorithm 2 *implements* the finite mapping on which Theorem 5.2 is established; it does not experimentally validate it.
 
 ### 7.3 Algorithm 3 — Rule-Set Supply
 
@@ -837,7 +837,7 @@ Invokes Layer 3 only when participation is permitted, using only the active `RS(
 Algorithm 4: Governed Advisory Generation
 Input:  E; S; G(S); A_AI(S); RS(S) from Algorithm 3; production rule engine
         (engine fires only rules present in the active RS(S); no active rule
-         produces a conclusion type outside its own conclusion — Theorem 6.3 A4)
+         produces a conclusion type outside its own conclusion — Theorem 5.3 A4)
 Output: AI(E) ⊆ A_AI(S)                                            ; holds by construction
 
  1: if G(S) = 0 then AI ← ∅; return AI                              ; no rule firing, no advisory
@@ -846,7 +846,7 @@ Output: AI(E) ⊆ A_AI(S)                                            ; holds by 
  3: return AI                                                        ; AI ⊆ A_AI(S) by A3 + engine fidelity
 ```
 
-**Invariants.** The governed advisory output is constrained to the configured admissible recommendation types for the current safety state, subject to the stated rule-engine fidelity assumptions (Theorem 6.3, Safety Dominance). Algorithm 4 *implements* the enforcement contract on which Theorem 6.3 depends — it does not independently prove Safety Dominance. **Human decision authority is unconditional across all three states**: `AI(E) = ∅` does not forbid human action; `Go ∈ AI(E)` does not automatically approve departure.
+**Invariants.** The governed advisory output is constrained to the configured admissible recommendation types for the current safety state, subject to the stated rule-engine fidelity assumptions (Theorem 5.3, Safety Dominance). Algorithm 4 *implements* the enforcement contract on which Theorem 5.3 depends — it does not independently prove Safety Dominance. **Human decision authority is unconditional across all three states**: `AI(E) = ∅` does not forbid human action; `Go ∈ AI(E)` does not automatically approve departure.
 
 ### 7.5 Safety-Dominance Dependency
 
@@ -856,7 +856,7 @@ Safety Dominance is delivered by a four-link chain that must be read together:
 A_AI(S)  →  ConclusionTypes(RS(S)) ⊆ A_AI(S)  →  engine fires only rules in RS(S)  →  AI(E) ⊆ A_AI(S)
    L1                    L2                                 L3                              L4
 definition       algorithmic contract              implementation assumption         formal theorem
-(Def 5.6)           (Algorithm 3)                   (Theorem 6.3 A4; A4 pre)         (Theorem 6.3)
+(Def 5.6)           (Algorithm 3)                   (Theorem 5.3 A4; A4 pre)         (Theorem 5.3)
 ```
 
 L2 is the algorithmic enforcement contract the implementation makes explicit; L3 is the runtime assumption that the implementation-fidelity evaluation (F1, F2 — see §9 and `evaluation-specification.md` §7) tests, and which it found upheld with zero observed violations.
