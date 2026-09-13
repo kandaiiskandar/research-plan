@@ -1,0 +1,42 @@
+{
+  "run_type": "DEVELOPMENT_MACHINE_REFERENCE",
+  "hardware_id": "MacBook_Pro_Apple_M3_Pro",
+  "workloads": {
+    "W-SAFE": {
+      "cpu_user_time_s": 0.10353300000000001,
+      "cpu_measurement": "resource.getrusage(RUSAGE_SELF).ru_utime — process-level user CPU time",
+      "cpu_scope": "total user CPU time consumed during the measured pass only",
+      "peak_rss_mb": 66.34375,
+      "peak_rss_measurement": "resource.getrusage(RUSAGE_SELF).ru_maxrss after measured loop",
+      "peak_rss_unit_note": "ru_maxrss is BYTES on macOS (not kilobytes as on Linux)",
+      "peak_rss_scope": "peak RSS for process lifetime, not per-iteration",
+      "instrumentation_note": "Latency measured per-iteration inside the timed loop (time.perf_counter_ns); resource probes (CPU, memory) are bookend measurements around the entire measured loop — no resource probe is inside the timed loop."
+    },
+    "W-CAUTION": {
+      "cpu_user_time_s": 0.10598000000000002,
+      "cpu_measurement": "resource.getrusage(RUSAGE_SELF).ru_utime — process-level user CPU time",
+      "cpu_scope": "total user CPU time consumed during the measured pass only",
+      "peak_rss_mb": 66.65625,
+      "peak_rss_measurement": "resource.getrusage(RUSAGE_SELF).ru_maxrss after measured loop",
+      "peak_rss_unit_note": "ru_maxrss is BYTES on macOS (not kilobytes as on Linux)",
+      "peak_rss_scope": "peak RSS for process lifetime, not per-iteration",
+      "instrumentation_note": "Latency measured per-iteration inside the timed loop (time.perf_counter_ns); resource probes (CPU, memory) are bookend measurements around the entire measured loop — no resource probe is inside the timed loop."
+    },
+    "W-UNSAFE": {
+      "cpu_user_time_s": 0.09745500000000001,
+      "cpu_measurement": "resource.getrusage(RUSAGE_SELF).ru_utime — process-level user CPU time",
+      "cpu_scope": "total user CPU time consumed during the measured pass only",
+      "peak_rss_mb": 66.875,
+      "peak_rss_measurement": "resource.getrusage(RUSAGE_SELF).ru_maxrss after measured loop",
+      "peak_rss_unit_note": "ru_maxrss is BYTES on macOS (not kilobytes as on Linux)",
+      "peak_rss_scope": "peak RSS for process lifetime, not per-iteration",
+      "instrumentation_note": "Latency measured per-iteration inside the timed loop (time.perf_counter_ns); resource probes (CPU, memory) are bookend measurements around the entire measured loop — no resource probe is inside the timed loop."
+    }
+  },
+  "limitations": [
+    "ru_maxrss is peak RSS for the process lifetime, not per-iteration",
+    "CPU time is total user CPU during the measured pass; not per-iteration",
+    "No per-iteration memory probe (instrumentation overhead separation)",
+    "On macOS, ru_maxrss is bytes (not kilobytes as on Linux)"
+  ]
+}

@@ -1,0 +1,82 @@
+{
+  "run_type": "DEVELOPMENT_MACHINE_REFERENCE",
+  "scientific_status": "REFERENCE_ONLY",
+  "target_hardware_evidence": false,
+  "hardware_profile": {
+    "captured_at": "2026-09-13T00:21:16.145550+00:00",
+    "mac_model": "MacBook Pro",
+    "chip_processor": "Apple M3 Pro",
+    "cpu_architecture": "arm64",
+    "physical_memory_gb": 36.0,
+    "os_version": "macOS 26.2",
+    "python_version": "3.9.6",
+    "power_mode": "AC Power",
+    "apple_silicon_generation": "M3",
+    "capture_method": "system_profiler + platform"
+  },
+  "git_HEAD": "57c46c352ce0922159b3cce29712d4956725484a",
+  "benchmark_script_hash": "fec6c819b5e076f75757a152e272cd3df5ddaf9109fabea06e7641927f709787",
+  "warmup_iterations": 50,
+  "measurement_iterations": 500,
+  "workloads": {
+    "W-SAFE": {
+      "state": "SAFE",
+      "expected_G": 1,
+      "expected_A_AI": ["Go", "Delay", "DepartureTime", "Duration"],
+      "n": 500,
+      "mean_ms": 0.206615,
+      "median_ms": 0.203146,
+      "min_ms": 0.188458,
+      "max_ms": 0.4365,
+      "p95_ms": 0.234216,
+      "p99_ms": 0.253667,
+      "std_ms": 0.017153
+    },
+    "W-CAUTION": {
+      "state": "CAUTION",
+      "expected_G": 1,
+      "expected_A_AI": ["Go", "Delay"],
+      "n": 500,
+      "mean_ms": 0.211715,
+      "median_ms": 0.212604,
+      "min_ms": 0.1965,
+      "max_ms": 0.263958,
+      "p95_ms": 0.224271,
+      "p99_ms": 0.259178,
+      "std_ms": 0.011395
+    },
+    "W-UNSAFE": {
+      "state": "UNSAFE",
+      "expected_G": 0,
+      "expected_A_AI": [],
+      "n": 500,
+      "mean_ms": 0.194423,
+      "median_ms": 0.196104,
+      "min_ms": 0.18025,
+      "max_ms": 0.255291,
+      "p95_ms": 0.204335,
+      "p99_ms": 0.249837,
+      "std_ms": 0.012033
+    }
+  },
+  "resource_summary": {
+    "W-SAFE": {
+      "cpu_user_time_s": 0.10353300000000001,
+      "peak_rss_mb": 66.34375
+    },
+    "W-CAUTION": {
+      "cpu_user_time_s": 0.10598000000000002,
+      "peak_rss_mb": 66.65625
+    },
+    "W-UNSAFE": {
+      "cpu_user_time_s": 0.09745500000000001,
+      "peak_rss_mb": 66.875
+    }
+  },
+  "limitations": [
+    "MacBook Pro M3 Pro is not the target deployment hardware (commodity smartphones or low-cost SBCs)",
+    "These measurements validate the methodology and provide a reference baseline only",
+    "ru_maxrss is peak RSS for process lifetime, not per-iteration memory",
+    "H3 latency threshold is OPEN/UNSUPPORTED — no acceptability claim can be made"
+  ]
+}

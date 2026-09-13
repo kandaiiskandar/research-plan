@@ -1,0 +1,12 @@
+{
+  "captured_at": "2026-09-13T00:21:16.145550+00:00",
+  "mac_model": "MacBook Pro",
+  "chip_processor": "Apple M3 Pro",
+  "cpu_architecture": "arm64",
+  "physical_memory_gb": 36.0,
+  "os_version": "macOS 26.2",
+  "python_version": "3.9.6",
+  "power_mode": "AC Power",
+  "apple_silicon_generation": "M3",
+  "capture_method": "system_profiler + platform"
+}

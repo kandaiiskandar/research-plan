@@ -1,0 +1,109 @@
+{
+  "run_id": "2026-09-13T00:37:21Z",
+  "run_type": "DEVELOPMENT_MACHINE_REFERENCE",
+  "scientific_status": "REFERENCE_ONLY",
+  "target_hardware_evidence": false,
+  "disclaimer": "These measurements are development-machine reference measurements used to validate the E5 benchmark methodology. They are not the final target-hardware E5 evidence and do not establish deployment suitability.",
+  "hardware_id": "MacBook_Pro_Apple_M3_Pro",
+  "hardware_profile": {
+    "captured_at": "2026-09-13T00:21:16.145550+00:00",
+    "mac_model": "MacBook Pro",
+    "chip_processor": "Apple M3 Pro",
+    "cpu_architecture": "arm64",
+    "physical_memory_gb": 36.0,
+    "os_version": "macOS 26.2",
+    "python_version": "3.9.6",
+    "power_mode": "AC Power",
+    "apple_silicon_generation": "M3",
+    "capture_method": "system_profiler + platform"
+  },
+  "benchmark_parameters": {
+    "warmup_iterations": 50,
+    "measurement_iterations": 500,
+    "percentile_method": "numpy.percentile (linear interpolation)",
+    "CI": "NOT_REQUIRED"
+  },
+  "workloads": {
+    "W-SAFE": {
+      "state": "SAFE",
+      "summary": {
+        "run_type": "DEVELOPMENT_MACHINE_REFERENCE",
+        "hardware_id": "MacBook_Pro_Apple_M3_Pro",
+        "state": "SAFE",
+        "workload_id": "W-SAFE",
+        "n": 500,
+        "mean_ms": 0.206615,
+        "median_ms": 0.203146,
+        "min_ms": 0.188458,
+        "max_ms": 0.4365,
+        "p95_ms": 0.234216,
+        "p99_ms": 0.253667,
+        "std_ms": 0.017153
+      },
+      "resource": {
+        "cpu_user_time_s": 0.10353300000000001,
+        "cpu_measurement": "resource.getrusage(RUSAGE_SELF).ru_utime \u2014 process-level user CPU time",
+        "cpu_scope": "total user CPU time consumed during the measured pass only",
+        "peak_rss_mb": 66.34375,
+        "peak_rss_measurement": "resource.getrusage(RUSAGE_SELF).ru_maxrss after measured loop",
+        "peak_rss_unit_note": "ru_maxrss is BYTES on macOS (not kilobytes as on Linux)",
+        "peak_rss_scope": "peak RSS for process lifetime, not per-iteration",
+        "instrumentation_note": "Latency measured per-iteration inside the timed loop (time.perf_counter_ns); resource probes (CPU, memory) are bookend measurements around the entire measured loop \u2014 no resource probe is inside the timed loop."
+      }
+    },
+    "W-CAUTION": {
+      "state": "CAUTION",
+      "summary": {
+        "run_type": "DEVELOPMENT_MACHINE_REFERENCE",
+        "hardware_id": "MacBook_Pro_Apple_M3_Pro",
+        "state": "CAUTION",
+        "workload_id": "W-CAUTION",
+        "n": 500,
+        "mean_ms": 0.211715,
+        "median_ms": 0.212604,
+        "min_ms": 0.1965,
+        "max_ms": 0.263958,
+        "p95_ms": 0.224271,
+        "p99_ms": 0.259178,
+        "std_ms": 0.011395
+      },
+      "resource": {
+        "cpu_user_time_s": 0.10598000000000002,
+        "cpu_measurement": "resource.getrusage(RUSAGE_SELF).ru_utime \u2014 process-level user CPU time",
+        "cpu_scope": "total user CPU time consumed during the measured pass only",
+        "peak_rss_mb": 66.65625,
+        "peak_rss_measurement": "resource.getrusage(RUSAGE_SELF).ru_maxrss after measured loop",
+        "peak_rss_unit_note": "ru_maxrss is BYTES on macOS (not kilobytes as on Linux)",
+        "peak_rss_scope": "peak RSS for process lifetime, not per-iteration",
+        "instrumentation_note": "Latency measured per-iteration inside the timed loop (time.perf_counter_ns); resource probes (CPU, memory) are bookend measurements around the entire measured loop \u2014 no resource probe is inside the timed loop."
+      }
+    },
+    "W-UNSAFE": {
+      "state": "UNSAFE",
+      "summary": {
+        "run_type": "DEVELOPMENT_MACHINE_REFERENCE",
+        "hardware_id": "MacBook_Pro_Apple_M3_Pro",
+        "state": "UNSAFE",
+        "workload_id": "W-UNSAFE",
+        "n": 500,
+        "mean_ms": 0.194423,
+        "median_ms": 0.196104,
+        "min_ms": 0.18025,
+        "max_ms": 0.255291,
+        "p95_ms": 0.204335,
+        "p99_ms": 0.249837,
+        "std_ms": 0.012033
+      },
+      "resource": {
+        "cpu_user_time_s": 0.09745500000000001,
+        "cpu_measurement": "resource.getrusage(RUSAGE_SELF).ru_utime \u2014 process-level user CPU time",
+        "cpu_scope": "total user CPU time consumed during the measured pass only",
+        "peak_rss_mb": 66.875,
+        "peak_rss_measurement": "resource.getrusage(RUSAGE_SELF).ru_maxrss after measured loop",
+        "peak_rss_unit_note": "ru_maxrss is BYTES on macOS (not kilobytes as on Linux)",
+        "peak_rss_scope": "peak RSS for process lifetime, not per-iteration",
+        "instrumentation_note": "Latency measured per-iteration inside the timed loop (time.perf_counter_ns); resource probes (CPU, memory) are bookend measurements around the entire measured loop \u2014 no resource probe is inside the timed loop."
+      }
+    }
+  }
+}
