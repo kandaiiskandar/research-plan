@@ -17,7 +17,7 @@ This document distinguishes:
 - **what is proved** (formal propositions with proofs deferred to Section 6 of the manuscript);
 - **what is deterministic** (structural equivalences that follow from mapping literals);
 - **what is descriptively measured** (empirical-trace results from the retrospective replay);
-- **what requires empirical implementation** (implementation-fidelity criteria, awaiting Layer 3 build);
+- **what is implementation-fidelity evidence** (fidelity criteria measured against the built Layer 3 prototype);
 - **what requires human validation** (constructs for a future user study, explicitly outside Journal 1).
 
 No new experiments are run here, no canonical empirical results are modified, and no canonical architecture decision is reopened.
@@ -133,13 +133,19 @@ Four formal claims are proved, not tested.
 
 ## 7. Implementation-fidelity criteria
 
-Three fidelity criteria test whether a future Layer 3 build conforms to the specification. **None of these criteria is a re-proof of Safety Dominance or a behavioural hypothesis.** They test that the code matches the specification.
+Three fidelity criteria test whether the Layer 3 build conforms to the specification. **None of these criteria is a re-proof of Safety Dominance or a behavioural hypothesis.** They test that the code matches the specification.
 
 - **F1** — The Layer 3 rule engine produces no recommendation type outside `A_AI(S)` across an exhaustive test suite / replay: `∀ (E, r ∈ AI(E)) : r ∈ A_AI(f(E))`.
 - **F2** — The observed count of recommendations outside `A_AI(S)` is exactly zero. *Expected value analytically zero under a conforming implementation (follows from P3).*
 - **F3** — RS(S) rule-set switching follows state transitions correctly; no stale rule-set persists across a transition.
 
-**Status:** all three are **OPEN — deferred to Layer 3 build**. See Section 14.
+**Status:** all three are **CLOSED — PASS** (Batch 5 implementation-fidelity evaluation, 2026-09-11). See Section 14.
+
+Measured over **292 primary episodes** (32 SAFE, 260 CAUTION) producing **454 advisory records** across **244 episodes with a non-empty advisory**: **F1 violations = 0**, **F2 violation count = 0**, **F3 mismatches = 0**. The remaining 16 CAUTION episodes produced `AI(E) = ∅` because no implemented rule predicate evaluated TRUE, which is not a fidelity failure — `A_AI(S)` defines admissibility, not a requirement that an advisory exist. A further **162 UNSAFE gate-off cases** exercise the `G(S) = 0` path in which Layer 3 is not invoked; **these are counted separately and are not part of the 292 primary episodes**. Evidence: [`data/journal1-layer3-prototype/batch5-fidelity-evaluation/`](../../../data/journal1-layer3-prototype/batch5-fidelity-evaluation/).
+
+**Bounded interpretation — read this with the result.** The evaluation scope is **interface-contract exhaustive**: it enumerates the Layer 3 interface state space and is not the retrospective replay, not historically or environmentally exhaustive, and not exhaustive over deployment conditions. It was run against the **implemented rule configuration**, which is the four CAUTION rules; **`R-SAFE-001` remains DEFERRED, so `RS(SAFE)` is empty**, all 32 SAFE episodes generated zero advisories, and the only conclusion type the prototype generates is `Delay`. F1–F3 therefore demonstrate implementation fidelity over the evaluated interface-contract state space and implemented rule configuration. They do **not** demonstrate fidelity of a populated SAFE rule set, do not establish that every type in `A_AI(SAFE)` was exercised, and are not behavioural or real-world validation.
+
+*Status synchronised 2026-09-13 by the F1–F3 / E5 status-synchronisation micro-repair. This section, §1, §11, §14, §17 and §18 previously represented F1–F3 as OPEN and Layer 3 as unbuilt — wording that predated the Batch 5 evaluation of 2026-09-11 and was superseded by it, as §18 already noted. No fidelity criterion, metric, condition, threshold or evaluation-design decision was changed, and no result was recomputed; only status representation was corrected. E5 remains OPEN.*
 
 The fidelity criteria replace the previous behavioural hypotheses H1 and H2. The reclassification and its rationale are in [`hypothesis-audit.csv`](../../../data/journal1-evaluation-specification/hypothesis-audit.csv). H1 asked whether the graduated architecture achieves *higher advisory scope compliance* than baselines: under Theorem 6.3, compliance for C2 is 100% by proof, and C0/C1 have no scope restriction to violate — H1 was either trivially true or measured an undefined quantity. H2 asked about the *false positive rate* of recommendations outside `A_AI(S)`: analytically zero under a conforming implementation, so again a fidelity check rather than a behavioural hypothesis.
 
@@ -219,7 +225,7 @@ Governance latency and computational overhead of Layer 2 on the target deploymen
 - **How to report.** Descriptive measurement — mean, maximum, tail percentiles — with the hardware, workload and instrumentation stated. Confidence intervals over the timing distribution are legitimate because timing carries genuine variance.
 - **Acceptance threshold.** `H3 = X ms` is **OPEN**. No externally justified acceptance criterion exists. **Do not invent one.** If a future paper or standard supplies a threshold, this document should be updated to accept it; until then, the criterion is descriptive only.
 
-**Status:** OPEN — requires prototype benchmarking. Blocked by Layer 3 build for realistic end-to-end timing.
+**Status:** **OPEN — requires target-hardware benchmarking.** The Layer 3 build is no longer the blocker: the prototype is implemented and the benchmark harness is validated (`E5_HARNESS = CLOSED`). A **development-machine reference** run is complete (`MACBOOK_REFERENCE = COMPLETE`, `MACBOOK_CLASSIFICATION = DEVELOPMENT_MACHINE_REFERENCE`, `target_hardware_evidence = false`); it validates the measurement methodology and is **not** deployment, target-hardware, mobile or real-time performance evidence, and must not be scaled or extrapolated to a target device. The outstanding dependency is measurement on representative physical hardware (`E5_ANDROID_TARGET_BENCHMARK = DEFERRED_MANDATORY`), deferred for want of a device. `H3 = X ms` remains **OPEN/UNSUPPORTED**; a low reference latency is not a threshold pass.
 
 ---
 
@@ -258,14 +264,14 @@ Reference: `scripts/canonical_figures.py` (authoritative source for §0a of [`do
 
 ## 14. Layer 3 dependency
 
-Current state: Layer 3 is **specified** (rule-based engine; RS(S) supply mechanism; assumptions A1–A4) but **not fully implemented**.
+Current state: Layer 3 is **specified and implemented**. The rule-based engine, the RS(S) supply mechanism (Algorithm 3), the `ComponentStateTrace` Layer 2 → Layer 3 interface and the four CAUTION rules `R-CAUTION-001`–`R-CAUTION-004` are implemented; `R-SAFE-001` remains **DEFERRED**. It is a **research prototype**, not a production deployment, an operational maritime system, a validated field system or a complete recommendation engine.
 
 **Journal 1 therefore distinguishes:**
 
 - **Formal architecture evidence** — Theorems 6.1–6.3 (P1, P2, P3) and Proposition J1-P1 (P4). These hold by proof, under the stated engine assumptions. Present-tense evidence for Journal 1.
 - **Empirical / trace evidence** — E1, E2, E3, E4, E6. All measurable on the classifier alone (Layer 1 + Layer 2). Already present-tense evidence.
-- **Prototype fidelity evidence** — F1, F2, F3. Blocked on Layer 3 build. **Do not write future-tense planned implementation as completed experimental evidence.**
-- **Performance evidence** — E5 / RQ-J2. Realistic timing requires the prototype; partial timing from Layer 2 alone can be reported as a lower bound.
+- **Prototype fidelity evidence** — F1, F2, F3. **CLOSED — PASS** (Section 7), bounded to the interface-contract state space and the implemented rule configuration. **Do not write future-tense planned implementation as completed experimental evidence, and do not read the closure as covering a populated SAFE rule set.**
+- **Performance evidence** — E5 / RQ-J2. **OPEN.** The harness is validated and a development-machine reference run is complete; target-hardware measurement remains outstanding and mandatory (Section 11).
 
 The fidelity criteria do not empirically rediscover Safety Dominance. They test whether the implementation conforms to the specification.
 
@@ -290,7 +296,7 @@ Journal 1's evidence base is limited to: formal proofs, mapping-literal comparis
 
 Threats specific to this evaluation specification (in addition to the threats to validity in manuscript §14):
 
-- **Assumption dependence of P3.** Safety Dominance holds by construction under assumptions A1–A4. If a future Layer 3 build violates any of these (e.g. a rule engine that generates types outside its active rule set, or a Layer 2/Layer 3 boundary that leaks stale rule-sets across transitions), P3 ceases to hold as an operational guarantee. F1–F3 test for exactly these failure modes.
+- **Assumption dependence of P3.** Safety Dominance holds by construction under assumptions A1–A4. If a Layer 3 build violates any of these (e.g. a rule engine that generates types outside its active rule set, or a Layer 2/Layer 3 boundary that leaks stale rule-sets across transitions), P3 ceases to hold as an operational guarantee. F1–F3 test for exactly these failure modes.
 - **J1-P1 modelling premise.** The mapping `A_C3(CAUTION) = FULL` is a *reading* of Flehmig et al.'s traffic-light topology — the intermediate level alters supervisory intensity, not AI advisory scope. That reading is what a reviewer can legitimately dispute; the proof and the 0.00% trace confirmation follow trivially from it. State the modelling premise explicitly alongside the proposition.
 - **Retrospective-window scope.** All empirical values in E1–E4 and E6 are exact descriptive values for the analysed Kota Kinabalu 2020–2024 record under the stated configurations. They are not estimates of future conditions, and structural re-instantiability of the architecture in another domain does not imply empirical portability of these values.
 - **`g_m` unmeasured.** The retrospective replay declares `D = {m}` because no marine warning archive exists for the study site. All severity figures are therefore **lower bounds**; a live required marine-warning feed would raise binding rates.
@@ -307,7 +313,8 @@ The specification closes carrying the following **bounded** open items, per task
 |---|---|---|---|
 | OPEN-1 | Governance latency acceptance threshold `H3 = X ms` | No externally justified value exists | Only H3 in acceptance-hypothesis form; RQ-J2 is closed as a descriptive question |
 | OPEN-2 | Decision-support utility construct | No operational definition on replay alone | Only the utility metric; other metrics are unaffected |
-| OPEN-3 | Layer 3 prototype fidelity evidence (F1, F2, F3) | Layer 3 not yet implemented | Fidelity evidence only; formal (P1–P4) and trace (E1–E4, E6) evidence is unaffected |
+| ~~OPEN-3~~ | ~~Layer 3 prototype fidelity evidence (F1, F2, F3)~~ | **CLOSED 2026-09-11 by the Batch 5 fidelity evaluation** — Layer 3 is implemented and F1–F3 are CLOSED PASS (Section 7). Retained struck through rather than deleted, as the record of an item that was open when this specification closed | Nothing. Superseded |
+| OPEN-5 | E5 target-hardware benchmark | Representative physical hardware unavailable; the harness is validated and only a development-machine reference exists | E5 / RQ-J2 only. `E5_ANDROID_TARGET_BENCHMARK = DEFERRED_MANDATORY` |
 | OPEN-4 | Future user study / socio-technical evaluation (thesis RQ5) | Requires field data outside Journal 1's evidence base | Explicitly outside Journal 1; does not block Journal 1 closure |
 
 No numerical threshold, utility formula or human-outcome value is fabricated to close any of these items.
@@ -335,10 +342,11 @@ FORMAL
   P3 Safety Dominance
   P4 (J1-P1) C1 ≡ C3 admissible-set equivalence
 
-FIDELITY (deferred to Layer 3 build)
-  F1 no output outside A_AI(S)
-  F2 zero recommendations outside A_AI(S)
-  F3 RS(S) switching correctness at transitions
+FIDELITY (CLOSED — PASS; interface-contract exhaustive scope,
+          implemented rule configuration; R-SAFE-001 DEFERRED)
+  F1 no output outside A_AI(S)                      0 violations
+  F2 zero recommendations outside A_AI(S)           0 violations
+  F3 RS(S) switching correctness at transitions     0 mismatches
 
 EMPIRICAL / TRACE
   E1 pairwise admissible-set divergence (C0/C1/C2)
