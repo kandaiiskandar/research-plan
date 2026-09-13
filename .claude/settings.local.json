@@ -55,7 +55,11 @@
       "Bash(bash \"/Users/iskandar/.claude/plugins/cache/claude-plugins-official/superpowers/6.3.0/skills/subagent-driven-development/scripts/sdd-workspace\" \"docs/tasks/Journal 1 Evaluation Batch 6 — Post-Fidelity Evaluation Sequencing.md\")",
       "Bash(bash \"/Users/iskandar/.claude/plugins/cache/claude-plugins-official/superpowers/6.3.0/skills/subagent-driven-development/scripts/task-brief\" \"docs/tasks/Journal 1 Evaluation Batch 6 — Post-Fidelity Evaluation Sequencing.md\" 1 2>/dev/null || echo \"SCRIPT_ERROR\")",
       "Bash(bash \"/Users/iskandar/.claude/plugins/cache/claude-plugins-official/superpowers/6.3.0/skills/subagent-driven-development/scripts/task-brief\" \"docs/tasks/Journal 1 Evaluation Batch 6 — Post-Fidelity Evaluation Sequencing.md\" 1)",
-      "Bash(echo \"Exit code: $?\")"
+      "Bash(echo \"Exit code: $?\")",
+      "Bash(bash \"/Users/iskandar/.claude/plugins/cache/claude-plugins-official/superpowers/6.3.0/skills/subagent-driven-development/scripts/sdd-workspace\" \"docs/tasks/Journal 1 Evaluation Batch 7A — E5 Benchmark Harness.md\")",
+      "Bash(pip3 install *)",
+      "Bash(pip3 --version)",
+      "Bash(echo \"Written: $?\")"
     ]
   }
 }

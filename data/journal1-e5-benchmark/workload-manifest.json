@@ -1,0 +1,35 @@
+[
+  {
+    "workload_id": "W-SAFE",
+    "expected_S": "SAFE",
+    "expected_G": 1,
+    "expected_A_AI": ["Go", "Delay", "DepartureTime", "Duration"],
+    "expected_RS": [],
+    "input_source": "constructed deterministic episode — see benchmark-protocol.md",
+    "interface_consistency": "REACHABLE_CONSISTENT",
+    "included_in_primary_benchmark": true,
+    "reason": "Exercises SAFE execution path: G(S)=1, A_AI full, no rules fire (R-SAFE-001 deferred)"
+  },
+  {
+    "workload_id": "W-CAUTION",
+    "expected_S": "CAUTION",
+    "expected_G": 1,
+    "expected_A_AI": ["Go", "Delay"],
+    "expected_RS": ["R-CAUTION-001", "R-CAUTION-002", "R-CAUTION-003", "R-CAUTION-004"],
+    "input_source": "constructed deterministic episode — see benchmark-protocol.md",
+    "interface_consistency": "REACHABLE_CONSISTENT",
+    "included_in_primary_benchmark": true,
+    "reason": "Exercises CAUTION execution path: G(S)=1, A_AI restricted, R-CAUTION-002 fires (component_o_state==CAUTION)"
+  },
+  {
+    "workload_id": "W-UNSAFE",
+    "expected_S": "UNSAFE",
+    "expected_G": 0,
+    "expected_A_AI": [],
+    "expected_RS": [],
+    "input_source": "constructed deterministic episode — see benchmark-protocol.md",
+    "interface_consistency": "GATED_UNSAFE",
+    "included_in_primary_benchmark": true,
+    "reason": "Exercises UNSAFE gate-off path: G(S)=0, no reasoning, AI(E)=empty set"
+  }
+]

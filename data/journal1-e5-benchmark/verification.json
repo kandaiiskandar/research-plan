@@ -1,0 +1,158 @@
+{
+  "batch": "7A",
+  "run_date": "2026-09-13",
+  "total_items": 37,
+  "pass_count": 37,
+  "fail_count": 0,
+  "open_count": 0,
+  "items": {
+    "Batch6_frozen": {
+      "result": "PASS",
+      "evidence": "Batch 6 closure commit b9a61f9 is present in git log. Branch eval/journal1-e5-benchmark-harness created from that commit."
+    },
+    "E5_authority_recovered": {
+      "result": "PASS",
+      "evidence": "E5 authority confirmed in publications/active/journal-1/evaluation-specification.md. Execution path audited in Task 1 (execution-path-audit.md)."
+    },
+    "E5_execution_path_audited": {
+      "result": "PASS",
+      "evidence": "Task 1 produced execution-path-audit.md documenting the Layer 3 execution path from episode input through G(S), A_AI(S), RS(S) selection, rule evaluation, and advisory emission."
+    },
+    "no_Layer2_logic_duplicated": {
+      "result": "PASS",
+      "evidence": "test_governance_engine.py::TestLayer2NotReimplemented::test_no_g_functions_imported_in_governance_modules PASSED. The benchmark constructs pre-classified episodes; no g_w/g_r/g_o/g_t/g_m functions appear in governance modules."
+    },
+    "MacBook_classified_reference_only": {
+      "result": "PASS",
+      "evidence": "run_type = 'DEVELOPMENT_MACHINE_REFERENCE' in latency-results.json and reference-run.json. Disclaimer present in benchmark output. Task 4 artefacts consistently label the run as reference-only."
+    },
+    "target_hardware_evidence_false": {
+      "result": "PASS",
+      "evidence": "reference-run.json field target_hardware_evidence = false. No target-hardware E5 evidence is claimed."
+    },
+    "hardware_profile_recorded": {
+      "result": "PASS",
+      "evidence": "hardware-profile.json present in data/journal1-e5-benchmark/. Records MacBook Pro, Apple M3 Pro, arm64, 36.0 GB RAM, macOS 26.2, Python 3.9.6."
+    },
+    "workload_manifest_valid": {
+      "result": "PASS",
+      "evidence": "workload-manifest.json present and verified in Task 3 test suite. Three workloads: W-SAFE (SAFE, G=1, A_AI full), W-CAUTION (CAUTION, G=1, A_AI restricted), W-UNSAFE (UNSAFE, G=0, A_AI empty)."
+    },
+    "SAFE_path_covered": {
+      "result": "PASS",
+      "evidence": "W-SAFE workload benchmarked: 500 iterations, mean 0.2066 ms. Exercises G(S)=1, A_AI full, no rules fire (R-SAFE-001 deferred)."
+    },
+    "CAUTION_path_covered": {
+      "result": "PASS",
+      "evidence": "W-CAUTION workload benchmarked: 500 iterations, mean 0.2117 ms. Exercises G(S)=1, A_AI restricted to {Go, Delay}, R-CAUTION-002 fires on component_o_state=CAUTION."
+    },
+    "UNSAFE_path_covered": {
+      "result": "PASS",
+      "evidence": "W-UNSAFE workload benchmarked: 500 iterations, mean 0.1944 ms. Exercises G(S)=0 gate-off path; no reasoning engine invocation; AI(E) = empty set."
+    },
+    "warmup_excluded": {
+      "result": "PASS",
+      "evidence": "Benchmark script performs 50 warmup iterations before starting the timed loop. Warmup timings are not recorded in latency-raw.csv. n=500 in all summary results."
+    },
+    "iteration_count_correct": {
+      "result": "PASS",
+      "evidence": "n=500 in all three workload summaries in latency-results.json. Confirmed by latency-raw.csv row counts."
+    },
+    "monotonic_high_resolution_clock_used": {
+      "result": "PASS",
+      "evidence": "Benchmark script uses time.perf_counter_ns() for per-iteration latency measurement. perf_counter_ns is monotonic and nanosecond-resolution. Confirmed in benchmark-protocol.md and test_journal1_e5_benchmark.py."
+    },
+    "raw_timings_preserved": {
+      "result": "PASS",
+      "evidence": "latency-raw.csv written with one row per iteration per workload (1,500 rows total). Columns: workload_id, state, iteration, latency_ns, latency_ms."
+    },
+    "summary_reproducible_from_raw": {
+      "result": "PASS",
+      "evidence": "Summary statistics (mean, median, min, max, p95, p99, std) are computed from latency-raw.csv values using numpy. test_journal1_e5_benchmark.py verifies reproducibility."
+    },
+    "mean_reported": {
+      "result": "PASS",
+      "evidence": "mean_ms reported for all three workloads: W-SAFE 0.2066, W-CAUTION 0.2117, W-UNSAFE 0.1944."
+    },
+    "max_reported": {
+      "result": "PASS",
+      "evidence": "max_ms reported for all three workloads: W-SAFE 0.4365, W-CAUTION 0.2640, W-UNSAFE 0.2553."
+    },
+    "p95_reported": {
+      "result": "PASS",
+      "evidence": "p95_ms reported for all three workloads: W-SAFE 0.2342, W-CAUTION 0.2243, W-UNSAFE 0.2043."
+    },
+    "p99_reported": {
+      "result": "PASS",
+      "evidence": "p99_ms reported for all three workloads: W-SAFE 0.2537, W-CAUTION 0.2592, W-UNSAFE 0.2498."
+    },
+    "memory_measurement_documented": {
+      "result": "PASS",
+      "evidence": "resource-summary.json documents peak_rss_mb, peak_rss_measurement (ru_maxrss), peak_rss_unit_note (bytes on macOS), and peak_rss_scope (process lifetime). Limitations listed."
+    },
+    "CPU_measurement_documented": {
+      "result": "PASS",
+      "evidence": "resource-summary.json documents cpu_user_time_s, cpu_measurement (ru_utime), and cpu_scope (total user CPU during measured pass). Limitations listed."
+    },
+    "instrumentation_limitations_documented": {
+      "result": "PASS",
+      "evidence": "resource-summary.json limitations field lists four limitations: process-lifetime RSS, non-per-iteration CPU, no per-iteration memory probe, and macOS bytes vs Linux kilobytes for ru_maxrss."
+    },
+    "governance_output_deterministic": {
+      "result": "PASS",
+      "evidence": "Benchmark script runs determinism check for all three workloads before measurement. Output: 'All determinism checks passed.' Identical input \u2192 identical G(S), A_AI(S), advisory set across 10 repeated calls."
+    },
+    "existing_governance_tests_pass": {
+      "result": "PASS",
+      "evidence": "tests/test_governance_engine.py: 139 passed in 0.07s. 0 failures."
+    },
+    "benchmark_harness_tests_pass": {
+      "result": "PASS",
+      "evidence": "tests/ full suite: 149 passed in 0.27s. 139 governance + 10 harness tests. 0 failures."
+    },
+    "H3_threshold_not_invented": {
+      "result": "PASS",
+      "evidence": "No H3 latency threshold value appears in any Batch 7A artefact. H3 is recorded as OPEN/UNSUPPORTED throughout."
+    },
+    "no_latency_acceptability_claim": {
+      "result": "PASS",
+      "evidence": "No artefact uses the words 'acceptable', 'suitable', 'negligible', or equivalent acceptability language about the measured latency values."
+    },
+    "no_target_deployment_claim_from_MacBook": {
+      "result": "PASS",
+      "evidence": "All artefacts state target_hardware_evidence = false and classify measurements as REFERENCE_ONLY. No claim is made that MacBook measurements establish deployment suitability."
+    },
+    "no_retrospective_replay": {
+      "result": "PASS",
+      "evidence": "Benchmark exercises the Layer 3 governance engine on constructed deterministic episodes. It does not connect to the 43,848-hour ERA5/MFWAM retrospective replay."
+    },
+    "no_human_study": {
+      "result": "PASS",
+      "evidence": "Batch 7A is a technical benchmark only. No human participants, no user study, no RQ5 work."
+    },
+    "no_new_rule": {
+      "result": "PASS",
+      "evidence": "No new rule added to governance/canonical_rules.py or any rule repository in Batch 7A. Governance module hashes UNCHANGED."
+    },
+    "no_new_threshold": {
+      "result": "PASS",
+      "evidence": "No new classification threshold (g_w, g_r, g_o, g_t) added or modified in Batch 7A. Governance module hashes UNCHANGED."
+    },
+    "no_canonical_change": {
+      "result": "PASS",
+      "evidence": "integrity.json: all 17 monitored canonical and governance files UNCHANGED between before and after hashes."
+    },
+    "no_manuscript_change": {
+      "result": "PASS",
+      "evidence": "publications/active/journal-1/submissions/v1-initial-submission/manuscript.md hash UNCHANGED: 51bcd6f627090f2600cd8a5c2a94fc910ec4372b1ad5fe50c3d6edd73744320a."
+    },
+    "frozen_governance_unchanged": {
+      "result": "PASS",
+      "evidence": "All governance/ module hashes UNCHANGED. SHA-256 verified before and after benchmark run for all 9 governance files."
+    },
+    "TARGET_HARDWARE_BENCHMARK_READY_resolved": {
+      "result": "PASS",
+      "evidence": "target-hardware-readiness.md states TARGET_HARDWARE_BENCHMARK_READY: true with rationale. Device selection deferred to Batch 7B."
+    }
+  }
+}
