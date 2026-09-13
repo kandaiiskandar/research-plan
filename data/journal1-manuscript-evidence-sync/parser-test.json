@@ -1,0 +1,30 @@
+{
+  "claim-change-log.csv": {
+    "fields": 7,
+    "rows": 18,
+    "pandas_rows": 18,
+    "malformed": [],
+    "parse": "PASS"
+  },
+  "claim-evidence-matrix.csv": {
+    "fields": 10,
+    "rows": 13,
+    "pandas_rows": 13,
+    "malformed": [],
+    "parse": "PASS"
+  },
+  "manuscript-claim-inventory.csv": {
+    "fields": 11,
+    "rows": 38,
+    "pandas_rows": 38,
+    "malformed": [],
+    "parse": "PASS"
+  },
+  "quantitative-provenance.csv": {
+    "fields": 8,
+    "rows": 23,
+    "pandas_rows": 23,
+    "malformed": [],
+    "parse": "PASS"
+  }
+}

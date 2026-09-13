@@ -1,0 +1,115 @@
+{
+  "verification": {
+    "active_manuscript_correct": "PASS",
+    "P1_status_synced": "PASS",
+    "P2_status_synced": "PASS",
+    "P3_status_synced": "PASS",
+    "P4_status_synced": "PASS",
+    "F1_status_synced": "PASS",
+    "F2_status_synced": "PASS",
+    "F3_status_synced": "PASS",
+    "F1_counts_verified": "PASS",
+    "F2_counts_verified": "PASS",
+    "F3_counts_verified": "PASS",
+    "E1_synced": "PASS",
+    "E2_synced": "PASS",
+    "E3_synced": "PASS",
+    "E4_synced": "PASS",
+    "E6_synced": "PASS",
+    "C1_C3_structural_semantics_preserved": "PASS",
+    "Option_C_conditions_preserved": "PASS",
+    "deterministic_replay_wording_preserved": "PASS",
+    "PRIMARY_RESOLUTION_not_CI": "PASS",
+    "E5_remains_open": "PASS",
+    "MacBook_reference_bounded": "PASS",
+    "target_hardware_evidence_false": "PASS",
+    "Android_result_not_invented": "PASS",
+    "H3_open_unsupported": "PASS",
+    "no_latency_threshold_invented": "PASS",
+    "no_real_time_claim": "PASS",
+    "no_deployment_suitability_claim": "PASS",
+    "no_CAUTION_to_Go": "PASS",
+    "no_CAUTION_to_Delay": "PASS",
+    "UNSAFE_governance_semantics_preserved": "PASS",
+    "human_authority_preserved": "PASS",
+    "Safety_Dominance_bounded": "PASS",
+    "ComponentStateTrace_boundary_preserved": "PASS",
+    "predicate_failure_semantics_preserved": "PASS",
+    "Batch5_state_space_scope_bounded": "PASS",
+    "no_new_experiment": "PASS",
+    "no_new_external_evidence": "PASS",
+    "no_scientific_code_change": "PASS",
+    "canonical_files_unchanged": "PASS",
+    "specification_files_unchanged": "PASS",
+    "quantitative_provenance_complete": "PASS",
+    "manuscript_diff_audited": "PASS",
+    "no_unresolved_internal_contradiction": "PASS",
+    "sections_9_15_not_drafted": "PASS"
+  },
+  "totals": {
+    "PASS": 45,
+    "FAIL": 0,
+    "OPEN": 0
+  },
+  "manuscript_sha256_before": "51bcd6f627090f2600cd8a5c2a94fc910ec4372b1ad5fe50c3d6edd73744320a",
+  "manuscript_sha256_after": "c1ef469e981012335324470c0fa8865d2ca1f67aca3b07d06769d24a620755ae",
+  "files_changed": [
+    "publications/active/journal-1/evaluation-specification.md",
+    "publications/active/journal-1/submissions/v1-initial-submission/manuscript.md"
+  ],
+  "unexpected": [],
+  "claims_inventoried": 38,
+  "matrix_rows": 13,
+  "quantities_with_provenance": 23,
+  "claims_changed": 15,
+  "hashes_after": {
+    "docs/canonical/appendix-c-formalisation.md": "c4867f48003fec806189905499bbc8d55993f3e0d312a998f552e20028499f4e",
+    "docs/canonical/architecture-illustration.md": "25b3feab2cd2389846ff8002211ff4d8944c4abdf4c377f180252464902febe9",
+    "publications/active/journal-1/evaluation-specification.md": "bfc6038516c998b33031761d438c1e0828c57515cacad91bc27bdedb8aa50188",
+    "publications/active/journal-1/algorithm-specification.md": "469278897b47f1bd5c56e03b0f3ed57a47c73e6450b0542f7bb10d6f3f6d739e",
+    "publications/active/journal-1/layer3-prototype-specification.md": "b8155b269fc63ff191dd9ba4430ae2093c79f0ea5c28cee4f740a5de9c69d239",
+    "scripts/condition_comparison.py": "3c32913a2a9cc85ff237c927d6f2be7a57fe0a87a08de5e254dbf98150282d48",
+    "scripts/journal1_layer3_fidelity_evaluation.py": "f77c36228bf5068051121da1f6bf6f7ebfd815881f4a4bb58e7cfc5904f9504f",
+    "scripts/journal1_e5_benchmark.py": "fec6c819b5e076f75757a152e272cd3df5ddaf9109fabea06e7641927f709787",
+    "governance/__init__.py": "a923ddf6a8c07d4d991f476876bc814086e81137c0b5e0f39377c1c72dbb8e69",
+    "governance/advisory.py": "2f819cbe5a9387a23a68578a13b36edb1cd2c0c65421b64333f36b57577c4b84",
+    "governance/canonical_rules.py": "63e98e75ae444ceb1df1f8fe4575f79bc4a6721e8628d2bf1542b9efb8246f4e",
+    "governance/fidelity_trace.py": "66e13f36be69587f5d05e9b1825cc1aeb404068469ba96a146545f34a18aac3d",
+    "governance/reasoning_engine.py": "3aef5b7212461173ea4142480220398e8d160e19de40bc5befca5dd8e9c97085",
+    "governance/reasoning_episode.py": "eab9c9863cb2fcc62e80c772e413fb7fdbe74fa37eea3f49acd126065dc1e770",
+    "governance/rule.py": "2678edbc60ccab5d6da7fa2ea79f7a33383a71eb7851fb4e5732d2866a42f58d",
+    "governance/rule_repository.py": "04f56dc0585663a3479f797bd23f8e16839cda683acbec390807c89983a108f7",
+    "governance/rule_set_provider.py": "e5908c4b28ba1c3890ccc84fb780d32effc8bb932f55f364d41b08ed91b02254",
+    "publications/active/journal-1/submissions/v1-initial-submission/manuscript.md": "c1ef469e981012335324470c0fa8865d2ca1f67aca3b07d06769d24a620755ae"
+  },
+  "check_corrections": [
+    {
+      "check": "Android_result_not_invented",
+      "original": "'Android' not in manuscript",
+      "why_wrong": "The single occurrence is inside the Batch 8A Abstract marker prohibiting an Android result. The word is a prohibition, not a result.",
+      "corrected": "no Android numeric latency, and no estimated/simulated/MacBook-adjusted Android value",
+      "occurrences": [
+        "> **\u26a0\ufe0f UNDRAFTED \u2014 reserved for Batch 8B.** No abstract prose exists, so Batch 8A had nothing to bound. When authored, every quantitative claim must be traceable to a CLOSED row of `claim-evidence-matrix.csv` or explicitly labelled development-machine reference evidence. The Abstract must not present E5 target-hardware performance, any Android result, a latency-suitability claim, or a generalised safety-validation claim."
+      ]
+    },
+    {
+      "check": "H3_open_unsupported",
+      "original": "'H3' not in manuscript",
+      "why_wrong": "Brief section 28 requires H3 to be PRESERVED as 'H3 = X ms' OPEN/UNSUPPORTED, not removed. Both occurrences are exactly that form.",
+      "corrected": "every H3 occurrence is of the form '`H3 = X ms` remains OPEN', and no numeric threshold replaces X",
+      "occurrences_found": 2,
+      "occurrences_correctly_bounded": 2
+    },
+    {
+      "check": "specification_files_unchanged",
+      "original": "compared against the Batch 8A baseline recorded before the E3/E4 micro-repair",
+      "why_wrong": "evaluation-specification.md was changed by the E3/E4 authority micro-repair (64c2c786 -> bfc60385), an authorised separate task. Batch 8A did not touch it.",
+      "corrected": "compare against the micro-repair post-state; Batch 8A introduced no further change",
+      "spec_sha_micro_repair_after": "bfc6038516c998b3",
+      "spec_sha_now": "bfc6038516c998b3"
+    }
+  ],
+  "files_changed_by_batch8A": [
+    "publications/active/journal-1/submissions/v1-initial-submission/manuscript.md"
+  ]
+}

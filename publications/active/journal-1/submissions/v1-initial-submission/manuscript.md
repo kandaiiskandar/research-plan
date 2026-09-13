@@ -34,6 +34,7 @@
 ## Abstract
 
 *(To be written last — after all sections drafted)*
+> **⚠️ UNDRAFTED — reserved for Batch 8B.** No abstract prose exists, so Batch 8A had nothing to bound. When authored, every quantitative claim must be traceable to a CLOSED row of `claim-evidence-matrix.csv` or explicitly labelled development-machine reference evidence. The Abstract must not present E5 target-hardware performance, any Android result, a latency-suitability claim, or a generalised safety-validation claim.
 
 ---
 
@@ -44,6 +45,8 @@
 ---
 
 ## 1. Introduction
+
+> **⚠️ UNDRAFTED — reserved for Batch 8B (evidence-grounded drafting).** Batch 8A synchronised existing prose only; it deliberately authored no new scientific prose here. Draft this section against [`data/journal1-manuscript-evidence-sync/claim-evidence-matrix.csv`](../../../../data/journal1-manuscript-evidence-sync/claim-evidence-matrix.csv), which fixes each claim's authoritative status, allowed scope and prohibited overclaim. **E5 target-hardware performance remains OPEN** and must not appear as a completed result.
 
 **Purpose:** Frame the problem and position the journal contribution distinctly from the conference paper.
 
@@ -58,6 +61,8 @@
 ---
 
 ## 2. Related Work
+
+> **⚠️ UNDRAFTED — reserved for Batch 8B (evidence-grounded drafting).** Batch 8A synchronised existing prose only; it deliberately authored no new scientific prose here. Draft this section against [`data/journal1-manuscript-evidence-sync/claim-evidence-matrix.csv`](../../../../data/journal1-manuscript-evidence-sync/claim-evidence-matrix.csv), which fixes each claim's authoritative status, allowed scope and prohibited overclaim. **E5 target-hardware performance remains OPEN** and must not appear as a completed result.
 
 **Purpose:** Broader and deeper than the conference paper's literature review.
 
@@ -75,6 +80,8 @@
 
 ## 3. AI Governance Foundations
 
+> **⚠️ UNDRAFTED — reserved for Batch 8B (evidence-grounded drafting).** Batch 8A synchronised existing prose only; it deliberately authored no new scientific prose here. Draft this section against [`data/journal1-manuscript-evidence-sync/claim-evidence-matrix.csv`](../../../../data/journal1-manuscript-evidence-sync/claim-evidence-matrix.csv), which fixes each claim's authoritative status, allowed scope and prohibited overclaim. **E5 target-hardware performance remains OPEN** and must not appear as a completed result.
+
 **Purpose:** Establish the theoretical substrate — governance standards, formal properties, and the vocabulary the rest of the paper uses.
 
 **Key content to include:**
@@ -88,6 +95,8 @@
 ---
 
 ## 4. Problem Formulation
+
+> **⚠️ UNDRAFTED — reserved for Batch 8B (evidence-grounded drafting).** Batch 8A synchronised existing prose only; it deliberately authored no new scientific prose here. Draft this section against [`data/journal1-manuscript-evidence-sync/claim-evidence-matrix.csv`](../../../../data/journal1-manuscript-evidence-sync/claim-evidence-matrix.csv), which fixes each claim's authoritative status, allowed scope and prohibited overclaim. **E5 target-hardware performance remains OPEN** and must not appear as a completed result.
 
 **Purpose:** State the problem precisely and formally, distinguishing it from the conference paper's informal framing.
 
@@ -133,7 +142,7 @@ where:
 | Symbol | Type | Domain | Meaning |
 |--------|------|--------|---------|
 | w | ℝ≥0 | [0, ∞) | Wind speed (sustained, knots) |
-| r | ℝ≥0 | [0, ∞) | Rainfall intensity (mm/hr) |
+| r | ℝ≥0 × K, K = {0,1} | [0, ∞) × {0,1} | Rainfall: precipitation rate (mm/hr) paired with the derived thunderstorm indicator κ (Definition 5.2a) |
 | m | Ordinal categorical | {none, advisory, warning, alert} | Marine warning level |
 | o | ℝ≥0 × ℝ≥0 | Wave height and swell-period tuple | g_o reads only significant wave height (metres) |
 | v | Configuration | {small, medium, big} | Vessel category by GRT; required before startup |
@@ -353,17 +362,17 @@ The Safety Dominance Property (Property 5.3) holds by construction rather than b
 - RS(CAUTION) = rules producing recommendations in {Go, Delay} only
 - RS(UNSAFE) = ∅ — never supplied; G(UNSAFE) = 0 disables Layer 3 entirely
 
-Layer 3 is specified as a production rule engine; runtime fidelity is not yet demonstrated. The engine fires only rules present in the currently active RS(S). Crucially, no rule in RS(CAUTION) has a conclusion that produces DepartureTime or Duration — those recommendation types are structurally absent from the CAUTION rule set. The engine has no mechanism to generate a type for which no active rule exists. Under the stated engine assumptions, the Safety Dominance Property holds by construction: it is a structural consequence of how RS(CAUTION) is constructed, not an assertion that must be checked at runtime.
+Layer 3 is specified as a production rule engine, and its runtime fidelity has been evaluated against this specification (F1–F3, Section 9). The engine fires only rules present in the currently active RS(S). Crucially, no rule in RS(CAUTION) has a conclusion that produces DepartureTime or Duration — those recommendation types are structurally absent from the CAUTION rule set. The engine has no mechanism to generate a type for which no active rule exists. Under the stated engine assumptions, the Safety Dominance Property holds by construction: it is a structural consequence of how RS(CAUTION) is constructed, not an assertion that must be checked at runtime.
 
 This is the formal basis for the proof by construction in Section 6.4. The distinction between construction-time enforcement and runtime filtering is material. A runtime filter applied to Layer 3 outputs — one that inspects the generated recommendation and discards it if the type is not in A_AI(S) — could fail, be bypassed, or have edge cases in which the filter condition is evaluated incorrectly. RS(S) supply eliminates these failure modes: the constraint is in place before generation begins. A correct rule engine with a correctly constructed RS(CAUTION) cannot produce DepartureTime or Duration under any input E.
 
-The actual content of RS(SAFE) and RS(CAUTION) — the individual production rules and their conditions — remains to be implemented and documented in Section 9 (Prototype Implementation). Section 5 only defines the supply mechanism and its governance role.
+The actual content of RS(SAFE) and RS(CAUTION) — the individual production rules and their conditions — is implemented and specified in the Layer 3 prototype specification; Section 9 presents it. Section 5 only defines the supply mechanism and its governance role.
 
 #### 5.6.3 Rule-Based Implementation at Layer 3
 
 Layer 3 is specified as a rule-based symbolic reasoning engine, rather than a machine learning model or large language model, for three reasons. First, the Safety Dominance Property must be provable, not merely tested: a rule-based engine with finite, explicitly defined rule sets RS(S) admits exhaustive static verification — every rule's conclusion type can be inspected against A_AI(S) at design time. A learned model does not admit this: its output space is not enumerable from its parameters. Second, the fixed-size classifier and governance lookups are O(1); rule-engine execution cost depends on the active rules and evaluation strategy and remains an implementation/evaluation concern in Sections 8–9. Third, governance independence is structurally maintained when Layer 3 is a deterministic rule engine: there is no learned representation that could drift, be fine-tuned, or adapt in a way that affects governance behaviour. A machine learning model at Layer 3 could, in principle, learn to produce recommendation types outside its training distribution — the rule-based engine cannot.
 
-Full justification for the Layer 3 design decision, including formal arguments against alternative implementations, is provided in the supplementary design rationale (available from the authors).
+Full justification for the Layer 3 design decision, including formal arguments against alternative implementations and the implemented rule set, is provided in the Layer 3 prototype specification accompanying this work.
 
 ---
 
@@ -391,7 +400,7 @@ The formal pipeline:
 
 **E → S = f(E) → (G(S), A_AI(S)) → AI(E) → Human Decision**
 
-Section 6 proves Theorems 5.1–5.3 (Totality, Monotonicity, Safety Dominance Property) with full case analysis. Section 7 specifies the algorithms implementing f(E) and the RS(S) supply mechanism. Section 9 is reserved for the prototype and complete rule sets; Section 10 plans the comparative evaluation. These sections are not completed empirical results.
+Section 6 proves Theorems 5.1–5.3 (Totality, Monotonicity, Safety Dominance Property) with full case analysis. Section 7 specifies the algorithms implementing f(E) and the RS(S) supply mechanism. Section 9 presents the implemented prototype and its rule sets, and Section 10 the evaluation design. The underlying evidence is closed — implementation fidelity (F1–F3) and the empirical-trace results (E1–E4, E6) have been evaluated — with the exception of target-hardware performance (E5), which remains open pending benchmarking on a representative physical device.
 
 ---
 
@@ -542,7 +551,7 @@ These guarantees are complementary. The Safety Dominance case analysis uses tota
 
 **What the composite guarantee does not establish.** The three theorems verify *enforcement* of the configured governance mapping. They say nothing about whether that configuration is the right one. In particular, none of them establishes that `A_AI(CAUTION) = {Go, Delay}` is epistemically warranted, scientifically optimal, or derivable from the environmental evidence: that partition is a conservative architecture policy (Section 5), and deriving admissible sets from stated evidential requirements rather than stipulating them remains outstanding work. Soundness of the *configuration* is a separate question from soundness of the *enforcement*, and only the second is proved here.
 
-Section 10 plans to evaluate implementation fidelity and advisory behaviour in empirical test scenarios, comparing the graduated architecture against ungated and binary-gated baselines across the three safety states.
+Implementation fidelity has been evaluated separately from these theorems (F1–F3, Section 9): the theorems establish what the construction guarantees, while the fidelity evaluation tests whether the built engine honours the assumptions A1–A4 they rest on. The comparative behaviour of the graduated architecture against the ungated and binary-gated conditions is an empirical-trace question, reported in Section 11.
 
 ---
 
@@ -646,7 +655,7 @@ definition       algorithmic contract              implementation assumption    
 (Def 5.6)           (Algorithm 3)                   (Theorem 5.3 A4; A4 pre)         (Theorem 5.3)
 ```
 
-L2 is the algorithmic enforcement contract Batch 3 makes explicit; L3 is the runtime assumption a future implementation-fidelity test (F1, F2 — see §10 and `evaluation-specification.md` §7) validates.
+L2 is the algorithmic enforcement contract the implementation makes explicit; L3 is the runtime assumption that the implementation-fidelity evaluation (F1, F2 — see §9 and `evaluation-specification.md` §7) tests, and which it found upheld with zero observed violations.
 
 ---
 
@@ -715,7 +724,7 @@ Per-decision complexity is independent of replay length. A retrospective replay 
 T_replay(N) = O(N · T_episode)
 ```
 
-For the classification-and-governance-only pipeline (no engine invocation, as when Layer 3 is not yet built):
+For the classification-and-governance-only pipeline (no engine invocation — the configuration in which the participation gate is closed, or in which Layer 2 is evaluated in isolation):
 
 ```
 T_replay_no_engine(N) = O(N · (n + T_solar_lookup))
@@ -735,13 +744,15 @@ They do **not** support the following without independent E5 evidence: that the 
 
 ## 9. Prototype Implementation
 
-**Purpose:** Describe the planned software prototype and, once implemented, its fidelity evaluation. Reference RQ3 from thesis.
+> **⚠️ UNDRAFTED — reserved for Batch 8B (evidence-grounded drafting).** Batch 8A synchronised existing prose only; it deliberately authored no new scientific prose here. Draft this section against [`data/journal1-manuscript-evidence-sync/claim-evidence-matrix.csv`](../../../../data/journal1-manuscript-evidence-sync/claim-evidence-matrix.csv), which fixes each claim's authoritative status, allowed scope and prohibited overclaim. **E5 target-hardware performance remains OPEN** and must not appear as a completed result.
+
+**Purpose:** Describe the implemented software prototype and its completed implementation-fidelity evaluation (F1–F3). Reference RQ3 from thesis.
 
 **Key content to include:**
-- Planned implementation stack targets: offline-first operation; per-decision working memory bounded (see §8). Device-level performance suitability requires E5 evidence and is not claimed here
+- Implementation stack: offline-first operation; per-decision working memory bounded (see §8). Device-level performance suitability requires E5 evidence and is not claimed here
 - How the three layers are implemented in software
 - How RS(S) is encoded and supplied to the reasoning engine
-- Hysteresis smoothing at state transition boundaries. ⚠️ **Present as a retained precaution, not a necessity.** Measured on five years of site data under the canonical specification: 26 oscillation events (5.2/yr), hysteresis reduces non-scheduled transitions by 10.36%. State the hourly-resolution bound. See `empirical-findings-2026-09-06.md` F-6
+- Hysteresis smoothing at state transition boundaries. ⚠️ **Present as a retained precaution, not a necessity.** Measured on five years of site data under the canonical **PRIMARY** configuration (E4 temporal-dynamics characterisation; no RESOLUTION analogue exists — see `evaluation-specification.md` §13): 26 oscillation events (5.2/yr), hysteresis reduces non-scheduled transitions by 10.36%. State the hourly-resolution bound. See `empirical-findings-2026-09-06.md` F-6
 - Deployment environment: Kota Kinabalu, Sabah, Malaysia fisheries context
 
 > **Source:** `docs/implementation/` documents  
@@ -752,6 +763,8 @@ They do **not** support the following without independent E5 evidence: that the 
 ---
 
 ## 10. Experimental Design
+
+> **⚠️ UNDRAFTED — reserved for Batch 8B (evidence-grounded drafting).** Batch 8A synchronised existing prose only; it deliberately authored no new scientific prose here. Draft this section against [`data/journal1-manuscript-evidence-sync/claim-evidence-matrix.csv`](../../../../data/journal1-manuscript-evidence-sync/claim-evidence-matrix.csv), which fixes each claim's authoritative status, allowed scope and prohibited overclaim. **E5 target-hardware performance remains OPEN** and must not appear as a completed result.
 
 **Purpose:** Define the evaluation methodology rigorously. Reference RQ4 from thesis.
 
@@ -794,17 +807,21 @@ They do **not** support the following without independent E5 evidence: that the 
 
 ## 11. Results
 
+> **⚠️ UNDRAFTED — reserved for Batch 8B (evidence-grounded drafting).** Batch 8A synchronised existing prose only; it deliberately authored no new scientific prose here. Draft this section against [`data/journal1-manuscript-evidence-sync/claim-evidence-matrix.csv`](../../../../data/journal1-manuscript-evidence-sync/claim-evidence-matrix.csv), which fixes each claim's authoritative status, allowed scope and prohibited overclaim. **E5 target-hardware performance remains OPEN** and must not appear as a completed result.
+
 **Purpose:** Present experimental results against the three primary-experiment conditions (C0 / C1 / C2) and the structural comparator (C3). Maintained design authority: [`evaluation-specification.md`](../../evaluation-specification.md) §18.
 
 **Structure the section around the evaluation matrix** (rows E1, E2, E3, E4, E6 from the master table); do not report a metric that is not present in that table. Report every empirical figure under both **PRIMARY** and **RESOLUTION** configurations per §13 of the specification. State the deterministic-census framing at the head of the section: values are exact descriptive values for the analysed trace/configuration, not estimates.
 
-Do NOT report fidelity metrics (F1–F3) here — they are deferred to the Layer 3 build (see §9) and belong in a subsequent implementation-fidelity report, not in the trace-results section.
+Do NOT report fidelity metrics (F1–F3) here. F1–F3 are CLOSED, but they are implementation-fidelity evidence, not empirical-trace evidence: they belong in §9 (Prototype Implementation) alongside the implemented engine. Keeping the two evidence classes in separate sections is deliberate — see §48 of the evaluation design on not collapsing distinct evidence types under a single "experimental validation" heading.
 
 *(To be written when the results tables are produced from the canonical harness. Nothing new is to be measured beyond the canonical figures cited in the specification.)*
 
 ---
 
 ## 12. Ablation Study
+
+> **⚠️ UNDRAFTED — reserved for Batch 8B (evidence-grounded drafting).** Batch 8A synchronised existing prose only; it deliberately authored no new scientific prose here. Draft this section against [`data/journal1-manuscript-evidence-sync/claim-evidence-matrix.csv`](../../../../data/journal1-manuscript-evidence-sync/claim-evidence-matrix.csv), which fixes each claim's authoritative status, allowed scope and prohibited overclaim. **E5 target-hardware performance remains OPEN** and must not appear as a completed result.
 
 **Purpose:** Isolate the contribution of each architectural component. Maintained design authority: [`evaluation-specification.md`](../../evaluation-specification.md) §10.
 
@@ -819,7 +836,7 @@ Canonical departure-window values from `condition_comparison.py`: **PRIMARY 48.6
 **Secondary ablations:**
 
 - **Remove participation gate** (`G(S) = 1` always) — the C0 arm already realises this configuration for AI participation; report as an interpretive comparison against C1 rather than as a separately implemented ablation.
-- **Remove hysteresis smoothing** — measured on historical replay under the canonical specification: **3,661 state transitions in five years; 26 genuine oscillations (5.2/yr); hysteresis reduces non-scheduled transitions by 10.36%** (F-6). This is a near-null result at hourly resolution. Report the measured figures with the hourly-resolution qualifier and frame hysteresis as a retained low-cost precaution, not as a mitigation for an observed instability. Do not re-run.
+- **Remove hysteresis smoothing** — measured on historical replay under the canonical **PRIMARY** configuration (E4; `E4_RESOLUTION = NOT_REQUIRED_BY_CURRENT_E3_DESIGN`, `evaluation-specification.md` §13): **3,661 state transitions in five years; 26 genuine oscillations (5.2/yr); hysteresis reduces non-scheduled transitions by 10.36%** (F-6). This is a near-null result at hourly resolution. Report the measured figures with the hourly-resolution qualifier and frame hysteresis as a retained low-cost precaution, not as a mitigation for an observed instability. Do not re-run.
 - **Remove worst-case aggregation** — boundary-scenario evaluation (scenarios SC-16–SC-20 from `docs/canonical/evaluation-design-rq4.md`, retained as boundary/fail-safe cases within the larger empirical frame).
 
 *(To be written once the replay results tables in §11 are produced. All ablation targets are already defined; nothing new is being measured beyond the canonical figures cited.)*
@@ -827,6 +844,8 @@ Canonical departure-window values from `condition_comparison.py`: **PRIMARY 48.6
 ---
 
 ## 13. Discussion
+
+> **⚠️ UNDRAFTED — reserved for Batch 8B (evidence-grounded drafting).** Batch 8A synchronised existing prose only; it deliberately authored no new scientific prose here. Draft this section against [`data/journal1-manuscript-evidence-sync/claim-evidence-matrix.csv`](../../../../data/journal1-manuscript-evidence-sync/claim-evidence-matrix.csv), which fixes each claim's authoritative status, allowed scope and prohibited overclaim. **E5 target-hardware performance remains OPEN** and must not appear as a completed result.
 
 **Purpose:** Interpret results, generalise beyond the fisheries domain, address deployment challenges.
 
@@ -843,6 +862,8 @@ Canonical departure-window values from `condition_comparison.py`: **PRIMARY 48.6
 ---
 
 ## 14. Threats to Validity
+
+> **⚠️ UNDRAFTED — reserved for Batch 8B (evidence-grounded drafting).** Batch 8A synchronised existing prose only; it deliberately authored no new scientific prose here. Draft this section against [`data/journal1-manuscript-evidence-sync/claim-evidence-matrix.csv`](../../../../data/journal1-manuscript-evidence-sync/claim-evidence-matrix.csv), which fixes each claim's authoritative status, allowed scope and prohibited overclaim. **E5 target-hardware performance remains OPEN** and must not appear as a completed result.
 
 **Purpose:** Systematic treatment of validity threats. Required for journal submission.
 
@@ -873,6 +894,8 @@ Canonical departure-window values from `condition_comparison.py`: **PRIMARY 48.6
 ---
 
 ## 15. Conclusion
+
+> **⚠️ UNDRAFTED — reserved for Batch 8B (evidence-grounded drafting).** Batch 8A synchronised existing prose only; it deliberately authored no new scientific prose here. Draft this section against [`data/journal1-manuscript-evidence-sync/claim-evidence-matrix.csv`](../../../../data/journal1-manuscript-evidence-sync/claim-evidence-matrix.csv), which fixes each claim's authoritative status, allowed scope and prohibited overclaim. **E5 target-hardware performance remains OPEN** and must not appear as a completed result.
 
 **Purpose:** Summarise contributions, situate within CS literature, state future work.
 
