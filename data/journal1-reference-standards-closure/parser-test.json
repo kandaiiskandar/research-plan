@@ -1,0 +1,32 @@
+{
+  "metadata-provenance.csv": {
+    "dictreader_rows": 14,
+    "pandas_rows": 14,
+    "expected_rows": 14,
+    "row_counts_agree": true,
+    "fields_match": true,
+    "no_empty_cells": true
+  },
+  "citation-support-matrix.csv": {
+    "dictreader_rows": 5,
+    "pandas_rows": 5,
+    "expected_rows": 5,
+    "row_counts_agree": true,
+    "fields_match": true,
+    "no_empty_cells": true
+  },
+  "external-source-log.csv": {
+    "dictreader_rows": 6,
+    "pandas_rows": 6,
+    "expected_rows": 6,
+    "row_counts_agree": true,
+    "fields_match": true,
+    "no_empty_cells": true
+  },
+  "status_label_counts": {
+    "VERIFIED": 13,
+    "NOT_APPLICABLE": 1,
+    "UNRESOLVED": 0,
+    "MISSING": 0
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "tag": "after",
+  "reference_count": 33,
+  "incomplete_entries": [],
+  "incomplete_count": 0,
+  "marker_occurrences_in_full_text": 0,
+  "citation_support_required_markers": 0,
+  "all_citations_resolve": true,
+  "no_orphan_references": true,
+  "consecutive": true,
+  "duplicate_entries": [],
+  "missing_fields_for_incomplete": {}
+}

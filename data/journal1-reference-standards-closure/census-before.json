@@ -1,0 +1,35 @@
+{
+  "tag": "before",
+  "reference_count": 33,
+  "incomplete_entries": [
+    "14",
+    "18",
+    "19"
+  ],
+  "incomplete_count": 3,
+  "marker_occurrences_in_full_text": 4,
+  "citation_support_required_markers": 1,
+  "all_citations_resolve": true,
+  "no_orphan_references": true,
+  "consecutive": true,
+  "duplicate_entries": [],
+  "missing_fields_for_incomplete": {
+    "14": [
+      "pages_or_article_number",
+      "volume",
+      "issue"
+    ],
+    "18": [
+      "doi",
+      "pages_or_article_number",
+      "volume",
+      "issue"
+    ],
+    "19": [
+      "doi",
+      "pages_or_article_number",
+      "volume",
+      "issue"
+    ]
+  }
+}

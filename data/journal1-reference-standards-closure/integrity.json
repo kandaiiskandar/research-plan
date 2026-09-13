@@ -1,0 +1,32 @@
+{
+  "batch": "reference-standards-closure",
+  "date": "2026-09-14",
+  "branch": "docs/journal1-manuscript-evidence-sync",
+  "HEAD_before": "535d556",
+  "HEAD_after": "535d556 (uncommitted)",
+  "manuscript": {
+    "sha256_before": "9fbf75fe050a4d91",
+    "sha256_after": "f8a0587d8e687cc1",
+    "diff": "+5 -5"
+  },
+  "frozen_authority_hashes": {
+    "publications/active/journal-1/submissions/v1-initial-submission/manuscript.md": "f8a0587d8e687cc1",
+    "publications/active/journal-1/evaluation-specification.md": "5a0e706a9b982e92",
+    "publications/active/journal-1/algorithm-specification.md": "469278897b47f1bd",
+    "publications/active/journal-1/layer3-prototype-specification.md": "b8155b269fc63ff1",
+    "publications/active/journal-1/section-5-plan.md": "7d9c58e9f3e96547",
+    "docs/canonical/appendix-c-formalisation.md": "c4867f48003fec80",
+    "docs/canonical/architecture-illustration.md": "25b3feab2cd23898",
+    "publications/active/ipsci-2026/submissions/v3-revision/manuscript-v3.md": "27b33b846ae327cb",
+    "papers/comparison-table.md": "73349285432465dc"
+  },
+  "changed_paths": [
+    "data/journal1-reference-standards-closure/",
+    "docs/tasks/Journal 1 \\342\\200\\224 Reference Metadata Completion and Standards Citation Gap Closure.md",
+    "publications/active/journal-1/submissions/v1-initial-submission/manuscript.md"
+  ],
+  "unexpected_changed_paths": [],
+  "drift_among_baseline_files": [
+    "publications/active/journal-1/submissions/v1-initial-submission/manuscript.md"
+  ]
+}

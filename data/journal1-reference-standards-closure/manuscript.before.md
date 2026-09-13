@@ -176,7 +176,7 @@ Two independent findings corroborate that the absence is real rather than an art
 
 Governance frameworks for AI risk provide vocabulary rather than runtime mechanism. A widely adopted risk-management framework structures organisational AI governance around govern, map, measure and manage functions [22]; maturity modelling surveys responsible-AI practice in a global context [23]; dimensional approaches argue for continuous governance descriptors over discrete categories [24]; and complex-systems perspectives caution against governance designs that assume predictable system behaviour [25]. These operate at organisational and lifecycle level. They do not specify what an advisory system may output under a given environmental condition, and this paper claims no compliance or certification against any of them.
 
-A related distinction concerns the integrity-level schemes used in functional safety. A cross-domain survey of AI in safety-critical industrial and transportation systems records that such schemes assign criticality **at design time** to a system or function, and that this is distinct from a runtime state classification governing system behaviour [2]. The governance pair specified here operates on the other side of that distinction: it is evaluated **at runtime**, per decision episode, against the currently classified environmental state. The two are complementary rather than competing, and no claim of compliance, conformance or certification against any integrity-level scheme is made or implied.
+> **[CITATION SUPPORT REQUIRED]** — A comparison against functional-safety integrity-level schemes (for example IEC 61508 SIL, ISO 26262 ASIL) and against maritime regulatory instruments beyond COLREGs Rule 20(b) [26] was planned for this section. **The repository contains no extraction notes for these standards**, and no bibliographic entry for them is supported by repository evidence. The comparison is therefore omitted rather than asserted from general knowledge. Two observations can be made from repository-supported sources: integrity-level schemes assign criticality at **design time** to a system or function, whereas the governance pair here is evaluated **at runtime** per decision episode; and a cross-domain survey notes that design-time criticality classifications are distinct from runtime governance mechanisms [2]. Closing this gap requires a literature pass that this work has not performed.
 
 ### 2.7 Domain literature
 
@@ -1578,7 +1578,7 @@ What this paper contributes, stated at the level the evidence supports: **a form
 
 ## References
 
-*Reference [19] is published in Proceedings of Machine Learning Research; no DOI is listed in its official PMLR publication record, so its version of record is identified by volume, page range and URL.*
+*Compiled from repository sources only — verified entries reused from the conference manuscript and from corpus extraction notes. No new literature search was performed and no bibliographic metadata was reconstructed. Entries marked `REFERENCE_METADATA_INCOMPLETE` carry the metadata the repository supports; the missing fields are recorded in `data/journal1-manuscript-framing/citation-audit.md` and must be completed before submission.*
 
 [1] I.F. Ramos, G. Gianini, M.C. Leva, and E. Damiani, "Collaborative intelligence for safety-critical industries: A literature review," *Information*, vol. 15, no. 11, p. 728, 2024. doi: 10.3390/info15110728
 
@@ -1606,7 +1606,7 @@ What this paper contributes, stated at the level the evidence supports: **a form
 
 [13] J. Vermaelen and T. Holvoet, "Tumato 2.0: A constraint-based planning approach for safe and robust robot behavior," *Annals of Mathematics and Artificial Intelligence*, vol. 93, pp. 541–567, 2025. doi: 10.1007/s10472-024-09949-3
 
-[14] H. Odriozola-Olalde, M. Zamalloa, and N. Arana-Arexolaleiba, "Shielded reinforcement learning: A review of reactive methods for safe learning," in *Proc. 2023 IEEE/SICE Int. Symp. System Integration (SII)*, Atlanta, GA, USA, 2023, pp. 1–8. doi: 10.1109/SII55687.2023.10039301
+[14] H. Odriozola-Olalde, M. Zamalloa, and N. Arana-Arexolaleiba, "Shielded reinforcement learning: A review of reactive methods for safe learning," in *Proc. 2023 IEEE/SICE Int. Symp. System Integration (SII)*, 2023. doi: 10.1109/SII55687.2023.10039301 [REFERENCE_METADATA_INCOMPLETE — no page range in repository evidence]
 
 [15] D. Dalrymple et al., "Towards guaranteed safe AI: A framework for ensuring robust and reliable AI systems," *arXiv preprint* arXiv:2405.06624, 2024.
 
@@ -1614,9 +1614,9 @@ What this paper contributes, stated at the level the evidence supports: **a form
 
 [17] R. Bloomfield and J. Rushby, *Assurance of AI Systems from a Dependability Perspective*, SRI Technical Report SRI-CSL-2024-02R3, SRI International, 2025. doi: 10.48550/arXiv.2407.13948
 
-[18] H. Wang, C. M. Poskitt, and J. Sun, "AgentSpec: Customizable runtime enforcement for safe and reliable LLM agents," in *Proc. 2026 IEEE/ACM 48th Int. Conf. Software Engineering (ICSE '26)*, Rio de Janeiro, Brazil, Apr. 2026, pp. 2938–2950. doi: 10.1145/3744916.3764546
+[18] H. Wang, C. M. Poskitt, and J. Sun, "AgentSpec: Customizable runtime enforcement for safe and reliable LLM agents," in *Proc. IEEE/ACM 48th Int. Conf. Software Engineering (ICSE '26)*, Rio de Janeiro, Brazil, Apr. 2026. [REFERENCE_METADATA_INCOMPLETE — no DOI or page range in repository evidence]
 
-[19] Z. Chen, M. Kang, and B. Li, "SHIELDAGENT: Shielding agents via verifiable safety policy reasoning," in *Proc. 42nd Int. Conf. Machine Learning (ICML)*, Vancouver, Canada, in *Proceedings of Machine Learning Research*, vol. 267, 2025, pp. 8313–8344. [Online]. Available: https://proceedings.mlr.press/v267/chen25ae.html
+[19] Z. Chen, M. Kang, and B. Li, "SHIELDAGENT: Shielding agents via verifiable safety policy reasoning," in *Proc. 42nd Int. Conf. Machine Learning (ICML)*, Vancouver, Canada, PMLR 267, 2025. arXiv:2503.22738v2 [REFERENCE_METADATA_INCOMPLETE — no DOI or page range in repository evidence]
 
 [20] Md. Shamsujjoha, Q. Lu, D. Zhao, and L. Zhu, "Swiss cheese model for AI safety: A taxonomy and reference architecture for multi-layered guardrails of foundation model based agents," in *Proc. IEEE 22nd Int. Conf. Software Architecture (ICSA)*, 2025, pp. 37–48. doi: 10.1109/ICSA65012.2025.00014
 
