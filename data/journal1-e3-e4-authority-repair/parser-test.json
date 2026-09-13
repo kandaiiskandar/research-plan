@@ -1,0 +1,9 @@
+{
+  "historical-supersession-record.csv": {
+    "fields": 5,
+    "dictreader_rows": 6,
+    "pandas_rows": 6,
+    "malformed": [],
+    "parse": "PASS"
+  }
+}

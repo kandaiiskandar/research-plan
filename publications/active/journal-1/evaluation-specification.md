@@ -165,8 +165,8 @@ The final metric set — nine items, each with a single classification and a sta
 | M-Fidelity-F3 | RS(S) switching correctness at transitions | FIDELITY | F3 |
 | M-Empirical-E1 | Pairwise admissible-set divergence (C0↔C1, C0↔C2, C1↔C2) | DESCRIPTIVE (empirical-trace) | RQ-J3 |
 | M-Empirical-E2 | Isolated Level 2 contribution Δ_L2 = div(C0,C2) − div(C0,C1) | DESCRIPTIVE (empirical-trace) | RQ-J4 |
-| M-Empirical-E3 | Resolution sensitivity: report every empirical value under PRIMARY and RESOLUTION | DESCRIPTIVE (sensitivity) | RQ-J3 / RQ-J4 supporting |
-| M-Empirical-E4 | Transition and hysteresis characterisation (transitions; genuine oscillations/yr; hysteresis reduction share) | DESCRIPTIVE | RQ-J4 supporting |
+| M-Empirical-E3 | Resolution sensitivity: report PRIMARY and RESOLUTION for empirical quantities whose design supports a like-for-like comparison. **Mandatory scope {E1, E2, E6}**; E4 excluded (`E4_RESOLUTION = NOT_REQUIRED_BY_CURRENT_E3_DESIGN`, §13) | DESCRIPTIVE (sensitivity) | RQ-J3 / RQ-J4 supporting |
+| M-Empirical-E4 | Transition and hysteresis characterisation, **PRIMARY chronology only** (transitions; genuine oscillations/yr; hysteresis reduction share). Outside the E3 mandatory dual-configuration scope — §13 | DESCRIPTIVE | RQ-J4 supporting |
 | M-Empirical-E6 | C1 ↔ C3 divergence (canonical confirmation of J1-P1) | DESCRIPTIVE (implementation-consistency confirmation) | Novelty argument (P4 / J1-P1) |
 | M-Performance-E5 | Governance latency and computational overhead of Layer 2 | PERFORMANCE | RQ-J2 |
 
@@ -242,7 +242,15 @@ Journal 1 preserves the canonical dual-configuration reporting contract:
 - **PRIMARY** — 5.00 yr, ERA5-Ocean sea-cell (~50 km resolution). Headline configuration.
 - **RESOLUTION** — 3.25 yr, MFWAM sea-cell (~8 km resolution). Resolution-sensitivity check.
 
-Every empirical figure in Journal 1 must be reported under both configurations. The difference between them is a **resolution-sensitivity result**, not a confidence interval. Do not write "`5.81 ± something`". If a value is available only under one configuration, state that explicitly and identify the missing configuration.
+**Cross-configuration resolution sensitivity is reported under PRIMARY and RESOLUTION for empirical quantities whose evaluation design supports a like-for-like comparison.** The difference between the two is a **resolution-sensitivity result**, not a confidence interval. Do not write "`5.81 ± something`".
+
+**Mandatory dual-configuration scope: E3 covers {E1, E2, E6}.** For those quantities both configurations exist and must both be reported. A quantity inside this scope that is available under only one configuration must state that explicitly and identify the missing configuration.
+
+**E4 is outside the mandatory scope: `E4_RESOLUTION = NOT_REQUIRED_BY_CURRENT_E3_DESIGN`.** E4 characterises temporal dynamics — transition, oscillation and hysteresis counts — over its predefined PRIMARY chronology. A valid sensitivity comparison would require an explicitly comparable temporal design; raw event counts drawn from differing source windows and temporal coverage are not directly comparable merely because both configurations are named PRIMARY and RESOLUTION. E4 is therefore reported as a PRIMARY temporal-dynamics characterisation, and cross-configuration sensitivity for E4 lies outside the current E3 comparison contract.
+
+**`NOT_REQUIRED` means exactly that.** It does not mean ZERO, NOT_FOUND, FAILED or REFUTED. In particular, this specification does **not** claim that E4 is insensitive to resolution, that E4 would reproduce under MFWAM, or that a RESOLUTION E4 result equals the PRIMARY one — none of these has been tested. Nor does it imply that a required experiment was omitted. Any future E4 sensitivity evaluation must be separately authorised and would need to control for common temporal coverage, comparable input availability, and normalised transition and oscillation rates under equivalent hysteresis parameters.
+
+*Scope corrected 2026-09-13 by the E3/E4 resolution-sensitivity authority micro-repair. This clause previously read "Every empirical figure in Journal 1 must be reported under both configurations", which conflicted with E4's authoritative PRIMARY-only evidence and would have prohibited E4's own permitted reporting. Both E3 and E4 remain CLOSED; no empirical result changed.*
 
 Reference: `scripts/canonical_figures.py` (authoritative source for §0a of [`docs/canonical/empirical-findings-2026-09-06.md`](../../../docs/canonical/empirical-findings-2026-09-06.md)).
 
@@ -308,7 +316,7 @@ No numerical threshold, utility formula or human-outcome value is fabricated to 
 
 ## 18. Final evaluation matrix
 
-The single-source-of-truth master table for Journal 1 evaluation is [`evaluation-specification.csv`](../../../data/journal1-evaluation-specification/evaluation-specification.csv). It carries every row (P1–P4, F1–F3, E1–E6, H-DEFERRED-utility, H-DEFERRED-trust) with all eleven columns required by task §24 (`id`, `question_or_claim`, `evidence_type`, `conditions`, `metric`, `current_status`, `expected_source`, `analytical_or_empirical`, `requires_layer3`, `requires_humans`, `reporting_boundary`).
+The machine-readable master table produced by the Evaluation Specification Alignment batch is [`evaluation-specification.csv`](../../../data/journal1-evaluation-specification/evaluation-specification.csv). **It is frozen batch evidence, not a maintained authority: its `current_status` column records the state at that batch and is now stale (for example F1–F3 read "OPEN — requires Layer 3 build", whereas Batch 5 closed all three PASS), and its E3 row carries the pre-repair dual-configuration wording superseded by §13. This Markdown specification is authoritative wherever the two differ.** It carries every row (P1–P4, F1–F3, E1–E6, H-DEFERRED-utility, H-DEFERRED-trust) with all eleven columns required by task §24 (`id`, `question_or_claim`, `evidence_type`, `conditions`, `metric`, `current_status`, `expected_source`, `analytical_or_empirical`, `requires_layer3`, `requires_humans`, `reporting_boundary`).
 
 ### Final specification
 
