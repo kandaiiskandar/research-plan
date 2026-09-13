@@ -1,0 +1,62 @@
+{
+  "quantitative-provenance.csv": {
+    "dictreader_rows": 69,
+    "pandas_rows": 69,
+    "dictreader_fields": [
+      "quantity_id",
+      "claim",
+      "metric",
+      "value",
+      "configuration",
+      "source_artefact",
+      "source_field",
+      "status",
+      "manuscript_location"
+    ],
+    "pandas_columns": [
+      "quantity_id",
+      "claim",
+      "metric",
+      "value",
+      "configuration",
+      "source_artefact",
+      "source_field",
+      "status",
+      "manuscript_location"
+    ],
+    "expected_rows": 69,
+    "fields_match": true,
+    "row_counts_agree": true,
+    "no_empty_required_cells": true
+  },
+  "claim-evidence-audit.csv": {
+    "dictreader_rows": 39,
+    "pandas_rows": 39,
+    "dictreader_fields": [
+      "claim_id",
+      "manuscript_section",
+      "claim_text_summary",
+      "claim_type",
+      "authority",
+      "evidence_status",
+      "allowed_scope",
+      "prohibited_interpretation",
+      "verification"
+    ],
+    "pandas_columns": [
+      "claim_id",
+      "manuscript_section",
+      "claim_text_summary",
+      "claim_type",
+      "authority",
+      "evidence_status",
+      "allowed_scope",
+      "prohibited_interpretation",
+      "verification"
+    ],
+    "expected_rows": 39,
+    "fields_match": true,
+    "row_counts_agree": true,
+    "no_empty_required_cells": true
+  }
+}

@@ -1,0 +1,139 @@
+{
+  "batch": "8B-1",
+  "manuscript": {
+    "path": "publications/active/journal-1/submissions/v1-initial-submission/manuscript.md",
+    "sha256_before": "c1ef469e98101233",
+    "sha256_after": "a91ede5ff8518e46",
+    "lines_before": 928,
+    "lines_after": 1246
+  },
+  "expected_changed": {
+    "publications/active/journal-1/submissions/v1-initial-submission/manuscript.md": "a91ede5ff8518e46"
+  },
+  "new_artefacts": {
+    "data/journal1-manuscript-authoring/build_8b1_artefacts.py": "ed383216bd9c49e4",
+    "data/journal1-manuscript-authoring/claim-evidence-audit.csv": "da5229d0b5f88c93",
+    "data/journal1-manuscript-authoring/e5-boundary-audit.md": "dcc23627b243343b",
+    "data/journal1-manuscript-authoring/integrity.json": "2edcb6b5bbcc6275",
+    "data/journal1-manuscript-authoring/new-prose-audit.md": "44a320816c07ef4d",
+    "data/journal1-manuscript-authoring/parser-test.json": "e97f4b1b51b6619b",
+    "data/journal1-manuscript-authoring/quantitative-provenance.csv": "2da7d60061a0b856",
+    "data/journal1-manuscript-authoring/report.md": "960bcf7ca5c25816",
+    "data/journal1-manuscript-authoring/sections5_8.before.txt": "f5edef571ab56d36",
+    "data/journal1-manuscript-authoring/verification.json": "779ea4977e474eee",
+    "data/journal1-manuscript-authoring/verify_8b1.py": "46fd2371ccb98da3"
+  },
+  "expected_unchanged": {
+    "docs/canonical/appendix-c-formalisation.md": "c4867f48003fec80",
+    "docs/canonical/architecture-illustration.md": "25b3feab2cd23898",
+    "docs/canonical/empirical-findings-2026-09-06.md": "53dcaf0f5aa5f0b9",
+    "publications/active/journal-1/evaluation-specification.md": "bfc6038516c998b3",
+    "publications/active/journal-1/algorithm-specification.md": "469278897b47f1bd",
+    "publications/active/journal-1/layer3-prototype-specification.md": "b8155b269fc63ff1",
+    "publications/active/journal-1/research-design.md": "e768be8868a645de",
+    "scripts/condition_comparison.py": "3c32913a2a9cc85f",
+    "scripts/hysteresis_analysis.py": "a58af0133acdf4f8",
+    "scripts/canonical_figures.py": "56c8d4c295b0df7d",
+    "scripts/canonical_gt.py": "b330bf9f94e848aa",
+    "scripts/historical_replay.py": "3b1105b7cc03839b",
+    "scripts/journal1_layer3_fidelity_evaluation.py": "f77c36228bf50680",
+    "governance/rule.py": "2678edbc60ccab5d",
+    "governance/advisory.py": "2f819cbe5a9387a2",
+    "governance/fidelity_trace.py": "66e13f36be69587f",
+    "governance/rule_repository.py": "04f56dc0585663a3",
+    "governance/rule_set_provider.py": "e5908c4b28ba1c38",
+    "governance/reasoning_engine.py": "3aef5b7212461173",
+    "governance/reasoning_episode.py": "eab9c9863cb2fcc6",
+    "governance/canonical_rules.py": "63e98e75ae444ceb",
+    "data/journal1-layer3-prototype/batch5-fidelity-evaluation/fidelity-results.json": "f14153c1ec38920a",
+    "data/journal1-layer3-prototype/batch5-fidelity-evaluation/fidelity-traces.csv": "8484b30d5e773a65",
+    "data/journal1-layer3-prototype/batch5-fidelity-evaluation/rule-activation-summary.csv": "57c1fe5395dbf14d",
+    "data/journal1-layer3-prototype/batch5-fidelity-evaluation/state-space-manifest.json": "58d108e35ef0805c",
+    "data/journal1-e5-benchmark/latency-results.json": "699eae0a3cc7d4e2",
+    "data/c8/canonical-results-post-migration.txt": "0bca160f69f68663",
+    "data/c7/baseline-provenance.csv": "d5db567c50a2927a",
+    "data/prediction-register.csv": "5574b88ea65168b6",
+    "data/journal1-post-fidelity-plan/claim-status-matrix.csv": "066eafb82a2b1eb9",
+    "data/journal1-e3-e4-authority-repair/authority-after.md": "efde381e27ca7e2f",
+    "data/journal1-manuscript-evidence-sync/claim-evidence-matrix.csv": "35002e77f84b8eaf"
+  },
+  "independent_baseline_check_vs_batch5_recorded_hashes": {
+    "scripts/journal1_layer3_fidelity_evaluation.py": {
+      "batch5_recorded": "f77c36228bf50680",
+      "now": "f77c36228bf50680",
+      "unchanged": true
+    },
+    "governance/rule.py": {
+      "batch5_recorded": "2678edbc60ccab5d",
+      "now": "2678edbc60ccab5d",
+      "unchanged": true
+    },
+    "governance/advisory.py": {
+      "batch5_recorded": "2f819cbe5a9387a2",
+      "now": "2f819cbe5a9387a2",
+      "unchanged": true
+    },
+    "governance/fidelity_trace.py": {
+      "batch5_recorded": "66e13f36be69587f",
+      "now": "66e13f36be69587f",
+      "unchanged": true
+    },
+    "governance/rule_repository.py": {
+      "batch5_recorded": "04f56dc0585663a3",
+      "now": "04f56dc0585663a3",
+      "unchanged": true
+    },
+    "governance/rule_set_provider.py": {
+      "batch5_recorded": "e5908c4b28ba1c38",
+      "now": "e5908c4b28ba1c38",
+      "unchanged": true
+    },
+    "governance/reasoning_engine.py": {
+      "batch5_recorded": "3aef5b7212461173",
+      "now": "3aef5b7212461173",
+      "unchanged": true
+    },
+    "governance/reasoning_episode.py": {
+      "batch5_recorded": "eab9c9863cb2fcc6",
+      "now": "eab9c9863cb2fcc6",
+      "unchanged": true
+    },
+    "governance/canonical_rules.py": {
+      "batch5_recorded": "63e98e75ae444ceb",
+      "now": "63e98e75ae444ceb",
+      "unchanged": true
+    },
+    "docs/canonical/appendix-c-formalisation.md": {
+      "batch5_recorded": "c4867f48003fec80",
+      "now": "c4867f48003fec80",
+      "unchanged": true
+    },
+    "docs/canonical/architecture-illustration.md": {
+      "batch5_recorded": "25b3feab2cd23898",
+      "now": "25b3feab2cd23898",
+      "unchanged": true
+    },
+    "publications/active/journal-1/layer3-prototype-specification.md": {
+      "batch5_recorded": "b8155b269fc63ff1",
+      "now": "b8155b269fc63ff1",
+      "unchanged": true
+    },
+    "publications/active/journal-1/algorithm-specification.md": {
+      "batch5_recorded": "469278897b47f1bd",
+      "now": "469278897b47f1bd",
+      "unchanged": true
+    }
+  },
+  "evaluation_specification_note": {
+    "path": "publications/active/journal-1/evaluation-specification.md",
+    "sha256_now": "bfc6038516c998b3",
+    "expected": "bfc6038516c998b3",
+    "reason": "Changed 64c2c786 -> bfc60385 by the authorised E3/E4 micro-repair BEFORE this sub-batch; unchanged by 8B-1. Batch 5 recorded the pre-repair hash, so it is excluded from the Batch 5 baseline comparison.",
+    "unchanged_by_8b1": true
+  },
+  "git_changed_paths": [
+    "data/journal1-manuscript-authoring/",
+    "docs/tasks/Journal 1 \\342\\200\\224 Batch 8B Evidence-Grounded Manuscript Authoring.md",
+    "publications/active/journal-1/submissions/v1-initial-submission/manuscript.md"
+  ]
+}
