@@ -1,0 +1,58 @@
+{
+  "batch": "8B-2",
+  "manuscript": {
+    "sha256_before": "a91ede5ff8518e46",
+    "sha256_after": "7b571aac8d6f9b7a",
+    "lines_before": 1246,
+    "lines_after": 1661
+  },
+  "expected_unchanged": {
+    "publications/active/journal-1/evaluation-specification.md": "5a0e706a9b982e92",
+    "publications/active/journal-1/algorithm-specification.md": "469278897b47f1bd",
+    "publications/active/journal-1/layer3-prototype-specification.md": "b8155b269fc63ff1",
+    "docs/canonical/appendix-c-formalisation.md": "c4867f48003fec80",
+    "data/journal1-manuscript-authoring/build_8b1_artefacts.py": "ed383216bd9c49e4",
+    "data/journal1-manuscript-authoring/claim-evidence-audit.csv": "da5229d0b5f88c93",
+    "data/journal1-manuscript-authoring/e5-boundary-audit.md": "dcc23627b243343b",
+    "data/journal1-manuscript-authoring/integrity.json": "da5ef5d6eb6bf58f",
+    "data/journal1-manuscript-authoring/new-prose-audit.md": "44a320816c07ef4d",
+    "data/journal1-manuscript-authoring/parser-test.json": "e97f4b1b51b6619b",
+    "data/journal1-manuscript-authoring/quantitative-provenance.csv": "2da7d60061a0b856",
+    "data/journal1-manuscript-authoring/report.md": "960bcf7ca5c25816",
+    "data/journal1-manuscript-authoring/sections5_8.before.txt": "f5edef571ab56d36",
+    "data/journal1-manuscript-authoring/verification.json": "779ea4977e474eee",
+    "data/journal1-manuscript-authoring/verify_8b1.py": "46fd2371ccb98da3",
+    "data/journal1-f1-f3-e5-status-repair/baseline-hashes.json": "11a8aaeba8e34826",
+    "data/journal1-f1-f3-e5-status-repair/build_inventory.py": "2f0a6ceaaff75957",
+    "data/journal1-f1-f3-e5-status-repair/diff-audit.md": "1af06bea819c8159",
+    "data/journal1-f1-f3-e5-status-repair/integrity.json": "bd81a0a9eb1b1220",
+    "data/journal1-f1-f3-e5-status-repair/parser-test.json": "f8289bf375b2f298",
+    "data/journal1-f1-f3-e5-status-repair/report.md": "4228f9e1deb8af38",
+    "data/journal1-f1-f3-e5-status-repair/status-occurrence-inventory.csv": "f8dbc1c55bd9d470",
+    "data/journal1-f1-f3-e5-status-repair/verification.json": "8c28a8ac44db76b1",
+    "data/journal1-f1-f3-e5-status-repair/verify_repair.py": "0f4d536cdb9c2362"
+  },
+  "drift": {
+    "publications/active/journal-1/submissions/v1-initial-submission/manuscript.md": {
+      "before": "a91ede5ff8518e46",
+      "now": "7b571aac8d6f9b7a"
+    }
+  },
+  "git_changed_paths": [
+    "data/journal1-manuscript-framing/",
+    "publications/active/journal-1/submissions/v1-initial-submission/manuscript.md"
+  ],
+  "new_artefacts": {
+    "baseline-hashes.json": "e3853f2b7914b7e7",
+    "citation-audit.csv": "84b672e73ba3f114",
+    "citation-audit.md": "398535cf4e3c2742",
+    "compile_references.py": "4bc86205e732947e",
+    "cross-section-audit.md": "0d7788175fd1a107",
+    "integrity.json": "2970a4b7c3a25f62",
+    "reference-compilation.json": "32beeacc92676596",
+    "report.md": "517c6db66902367d",
+    "sections5_12.before.txt": "2b4138f2b688429a",
+    "verification.json": "abc22e3cc5aec5a8",
+    "verify_8b2.py": "4836233275dd5165"
+  }
+}
