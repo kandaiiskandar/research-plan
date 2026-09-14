@@ -1,0 +1,15 @@
+{
+  "publications/active/journal-1/evaluation-specification.md": "bfc6038516c998b33031761d438c1e0828c57515cacad91bc27bdedb8aa50188",
+  "publications/active/journal-1/submissions/v1-initial-submission/manuscript.md": "a91ede5ff8518e4691869229c154e3ba26a79187408f44d584c68594658690c2",
+  "data/journal1-manuscript-authoring/build_8b1_artefacts.py": "ed383216bd9c49e4cbfd45371d1d6ff33c6d2842ac8f07d210df4932cff41e6a",
+  "data/journal1-manuscript-authoring/claim-evidence-audit.csv": "da5229d0b5f88c934bc774b3b254647560f3dc475c1345889194007cf165b64d",
+  "data/journal1-manuscript-authoring/e5-boundary-audit.md": "dcc23627b243343b9fb217b963a6f954da0b2070f332491f110cca866baff0f1",
+  "data/journal1-manuscript-authoring/integrity.json": "da5ef5d6eb6bf58f70d90fbfefa7fa3b95bda3109ccb400256dc55aa8de80f00",
+  "data/journal1-manuscript-authoring/new-prose-audit.md": "44a320816c07ef4d33e0b2874032de3d6726d6a9b0a76287b60726cbf49efe8d",
+  "data/journal1-manuscript-authoring/parser-test.json": "e97f4b1b51b6619beffcc08e29ded26ecb440482a3a697d7c2735b8486eecbde",
+  "data/journal1-manuscript-authoring/quantitative-provenance.csv": "2da7d60061a0b8562ac211717dbad37ba8e11fa6174878eb3cd3adf7b5570f0f",
+  "data/journal1-manuscript-authoring/report.md": "960bcf7ca5c2581637f954b4c9e0de495c0895629d61d435e6d97ed1d2f005b3",
+  "data/journal1-manuscript-authoring/sections5_8.before.txt": "f5edef571ab56d36a92ecf3fbbb283ac3d0b58af367f69b69a68f82fa726366d",
+  "data/journal1-manuscript-authoring/verification.json": "779ea4977e474eee951e985e28c1f6ef962db6fbc9813d316f057560f04a63eb",
+  "data/journal1-manuscript-authoring/verify_8b1.py": "46fd2371ccb98da3774c2ef70ca1517c876e05ed49fe038eebebdc6c0589bd70"
+}

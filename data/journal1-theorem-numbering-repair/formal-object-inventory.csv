@@ -1,0 +1,24 @@
+object_type,identifier,declaration_section,declaration_line,title,status_before,status_after
+Corollary,6.2,§6,687,Strict Monotonicity,DECLARED,DECLARED — unchanged
+Corollary,6.2b,§6,693,Properties 5.1 and 5.2,NOT DECLARED,DECLARED — renumbered from Corollary 6.3
+Corollary,6.3,§6,693,Properties 5.1 and 5.2,DECLARED,REMOVED — demoted to an unnumbered statement; canonical identity is Theorem 6.1
+Definition,5.1,§5,340,Environmental State Vector,DECLARED,DECLARED — unchanged
+Definition,5.10,§5,563,RS(S,DECLARED,DECLARED — unchanged
+Definition,5.11,§5,523,AI Output Mapping,DECLARED,DECLARED — unchanged
+Definition,5.2,§5,361,Governance Independence,DECLARED,DECLARED — unchanged
+Definition,5.2a,§5,367,Rainfall input and the thunderstorm indicator κ,DECLARED,DECLARED — unchanged
+Definition,5.3,§5,391,Severity Order,DECLARED,DECLARED — unchanged
+Definition,5.4,§5,403,Classification Functions,DECLARED,DECLARED — unchanged
+Definition,5.5,§5,447,Safety State Classification Function,DECLARED,DECLARED — unchanged
+Definition,5.6,§5,469,Recommendation Type Space,DECLARED,DECLARED — unchanged
+Definition,5.7,§5,473,AI Participation Gate,DECLARED,DECLARED — unchanged
+Definition,5.8,§5,483,AI-Admissible Recommendation Space,DECLARED,DECLARED — unchanged
+Definition,5.9,§5,493,Governance Pair,DECLARED,DECLARED — unchanged
+Property,5.1,§5,515,Participation Constraint,DECLARED,DECLARED — unchanged
+Property,5.2,§5,519,Advisory Restriction Constraint,DECLARED,DECLARED — unchanged
+Property,5.3,§5,530,Safety Dominance Property,DECLARED,DECLARED — unchanged
+Theorem,5.1,§5,457,Totality of f,DECLARED,REMOVED — demoted to an unnumbered statement; canonical identity is Theorem 6.1
+Theorem,6.1,§6,629,Totality of f,DECLARED,DECLARED — unchanged
+Theorem,6.2,§6,661,Monotonicity of A_AI,DECLARED,DECLARED — unchanged
+Theorem,6.3,§6,705,Safety Dominance Property,DECLARED,DECLARED — unchanged
+Statement (unnumbered),—,§5,457,Totality of f,DECLARED as Theorem 5.1 — duplicate identity with Theorem 6.1,UNNUMBERED specification statement forward-referencing Theorem 6.1

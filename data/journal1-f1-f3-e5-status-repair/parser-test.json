@@ -1,0 +1,17 @@
+{
+  "status-occurrence-inventory.csv": {
+    "dictreader_rows": 16,
+    "pandas_rows": 16,
+    "expected_rows": 16,
+    "fields_match": true,
+    "row_counts_agree": true,
+    "no_empty_required_cells": true,
+    "classification_counts": {
+      "ACTIVE-STALE": 7,
+      "PARTIALLY-STALE": 3,
+      "NOT-STALE": 3,
+      "HISTORICAL": 2,
+      "OUT-OF-SCOPE": 1
+    }
+  }
+}

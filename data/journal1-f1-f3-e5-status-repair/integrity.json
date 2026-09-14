@@ -1,0 +1,191 @@
+{
+  "batch": "F1-F3 / E5 status-synchronisation micro-repair",
+  "date": "2026-09-13",
+  "specification": {
+    "path": "publications/active/journal-1/evaluation-specification.md",
+    "sha256_before": "bfc6038516c998b3",
+    "sha256_after": "5a0e706a9b982e92",
+    "diff": "+21 -13"
+  },
+  "manuscript": {
+    "sha256_before": "a91ede5ff8518e46",
+    "sha256_after": "a91ede5ff8518e46",
+    "unchanged": true
+  },
+  "batch8b1_artefacts": {
+    "data/journal1-manuscript-authoring/build_8b1_artefacts.py": {
+      "before": "ed383216bd9c49e4",
+      "now": "ed383216bd9c49e4",
+      "unchanged": true
+    },
+    "data/journal1-manuscript-authoring/claim-evidence-audit.csv": {
+      "before": "da5229d0b5f88c93",
+      "now": "da5229d0b5f88c93",
+      "unchanged": true
+    },
+    "data/journal1-manuscript-authoring/e5-boundary-audit.md": {
+      "before": "dcc23627b243343b",
+      "now": "dcc23627b243343b",
+      "unchanged": true
+    },
+    "data/journal1-manuscript-authoring/integrity.json": {
+      "before": "da5ef5d6eb6bf58f",
+      "now": "da5ef5d6eb6bf58f",
+      "unchanged": true
+    },
+    "data/journal1-manuscript-authoring/new-prose-audit.md": {
+      "before": "44a320816c07ef4d",
+      "now": "44a320816c07ef4d",
+      "unchanged": true
+    },
+    "data/journal1-manuscript-authoring/parser-test.json": {
+      "before": "e97f4b1b51b6619b",
+      "now": "e97f4b1b51b6619b",
+      "unchanged": true
+    },
+    "data/journal1-manuscript-authoring/quantitative-provenance.csv": {
+      "before": "2da7d60061a0b856",
+      "now": "2da7d60061a0b856",
+      "unchanged": true
+    },
+    "data/journal1-manuscript-authoring/report.md": {
+      "before": "960bcf7ca5c25816",
+      "now": "960bcf7ca5c25816",
+      "unchanged": true
+    },
+    "data/journal1-manuscript-authoring/sections5_8.before.txt": {
+      "before": "f5edef571ab56d36",
+      "now": "f5edef571ab56d36",
+      "unchanged": true
+    },
+    "data/journal1-manuscript-authoring/verification.json": {
+      "before": "779ea4977e474eee",
+      "now": "779ea4977e474eee",
+      "unchanged": true
+    },
+    "data/journal1-manuscript-authoring/verify_8b1.py": {
+      "before": "46fd2371ccb98da3",
+      "now": "46fd2371ccb98da3",
+      "unchanged": true
+    }
+  },
+  "expected_unchanged": {
+    "publications/active/journal-1/submissions/v1-initial-submission/manuscript.md": "a91ede5ff8518e46",
+    "publications/active/journal-1/algorithm-specification.md": "469278897b47f1bd",
+    "publications/active/journal-1/layer3-prototype-specification.md": "b8155b269fc63ff1",
+    "docs/canonical/appendix-c-formalisation.md": "c4867f48003fec80",
+    "docs/canonical/architecture-illustration.md": "25b3feab2cd23898",
+    "docs/canonical/empirical-findings-2026-09-06.md": "53dcaf0f5aa5f0b9",
+    "scripts/condition_comparison.py": "3c32913a2a9cc85f",
+    "scripts/hysteresis_analysis.py": "a58af0133acdf4f8",
+    "scripts/canonical_gt.py": "b330bf9f94e848aa",
+    "scripts/canonical_figures.py": "56c8d4c295b0df7d",
+    "scripts/historical_replay.py": "3b1105b7cc03839b",
+    "scripts/journal1_layer3_fidelity_evaluation.py": "f77c36228bf50680",
+    "governance/rule.py": "2678edbc60ccab5d",
+    "governance/advisory.py": "2f819cbe5a9387a2",
+    "governance/fidelity_trace.py": "66e13f36be69587f",
+    "governance/rule_repository.py": "04f56dc0585663a3",
+    "governance/rule_set_provider.py": "e5908c4b28ba1c38",
+    "governance/reasoning_engine.py": "3aef5b7212461173",
+    "governance/reasoning_episode.py": "eab9c9863cb2fcc6",
+    "governance/canonical_rules.py": "63e98e75ae444ceb",
+    "data/journal1-layer3-prototype/batch5-fidelity-evaluation/fidelity-results.json": "f14153c1ec38920a",
+    "data/journal1-layer3-prototype/batch5-fidelity-evaluation/rule-activation-summary.csv": "57c1fe5395dbf14d",
+    "data/journal1-layer3-prototype/batch5-fidelity-evaluation/state-space-manifest.json": "58d108e35ef0805c",
+    "data/journal1-e5-benchmark/latency-results.json": "699eae0a3cc7d4e2",
+    "data/c8/canonical-results-post-migration.txt": "0bca160f69f68663",
+    "data/prediction-register.csv": "5574b88ea65168b6",
+    "data/journal1-e3-e4-authority-repair/authority-after.md": "efde381e27ca7e2f"
+  },
+  "independent_baseline_check_vs_batch5_recorded_hashes": {
+    "scripts/journal1_layer3_fidelity_evaluation.py": {
+      "batch5_recorded": "f77c36228bf50680",
+      "now": "f77c36228bf50680",
+      "unchanged": true
+    },
+    "governance/rule.py": {
+      "batch5_recorded": "2678edbc60ccab5d",
+      "now": "2678edbc60ccab5d",
+      "unchanged": true
+    },
+    "governance/advisory.py": {
+      "batch5_recorded": "2f819cbe5a9387a2",
+      "now": "2f819cbe5a9387a2",
+      "unchanged": true
+    },
+    "governance/fidelity_trace.py": {
+      "batch5_recorded": "66e13f36be69587f",
+      "now": "66e13f36be69587f",
+      "unchanged": true
+    },
+    "governance/rule_repository.py": {
+      "batch5_recorded": "04f56dc0585663a3",
+      "now": "04f56dc0585663a3",
+      "unchanged": true
+    },
+    "governance/rule_set_provider.py": {
+      "batch5_recorded": "e5908c4b28ba1c38",
+      "now": "e5908c4b28ba1c38",
+      "unchanged": true
+    },
+    "governance/reasoning_engine.py": {
+      "batch5_recorded": "3aef5b7212461173",
+      "now": "3aef5b7212461173",
+      "unchanged": true
+    },
+    "governance/reasoning_episode.py": {
+      "batch5_recorded": "eab9c9863cb2fcc6",
+      "now": "eab9c9863cb2fcc6",
+      "unchanged": true
+    },
+    "governance/canonical_rules.py": {
+      "batch5_recorded": "63e98e75ae444ceb",
+      "now": "63e98e75ae444ceb",
+      "unchanged": true
+    },
+    "docs/canonical/appendix-c-formalisation.md": {
+      "batch5_recorded": "c4867f48003fec80",
+      "now": "c4867f48003fec80",
+      "unchanged": true
+    },
+    "docs/canonical/architecture-illustration.md": {
+      "batch5_recorded": "25b3feab2cd23898",
+      "now": "25b3feab2cd23898",
+      "unchanged": true
+    },
+    "publications/active/journal-1/layer3-prototype-specification.md": {
+      "batch5_recorded": "b8155b269fc63ff1",
+      "now": "b8155b269fc63ff1",
+      "unchanged": true
+    },
+    "publications/active/journal-1/algorithm-specification.md": {
+      "batch5_recorded": "469278897b47f1bd",
+      "now": "469278897b47f1bd",
+      "unchanged": true
+    }
+  },
+  "git_changed_paths": [
+    "data/journal1-f1-f3-e5-status-repair/",
+    "data/journal1-manuscript-authoring/build_8b1_artefacts.py",
+    "data/journal1-manuscript-authoring/claim-evidence-audit.csv",
+    "data/journal1-manuscript-authoring/e5-boundary-audit.md",
+    "data/journal1-manuscript-authoring/integrity.json",
+    "data/journal1-manuscript-authoring/new-prose-audit.md",
+    "data/journal1-manuscript-authoring/parser-test.json",
+    "data/journal1-manuscript-authoring/quantitative-provenance.csv",
+    "data/journal1-manuscript-authoring/report.md",
+    "data/journal1-manuscript-authoring/sections5_8.before.txt",
+    "data/journal1-manuscript-authoring/verification.json",
+    "data/journal1-manuscript-authoring/verify_8b1.py",
+    "docs/tasks/Journal 1 \\342\\200\\224 Batch 8B Evidence-Grounded Manuscript Authoring.md",
+    "publications/active/journal-1/evaluation-specification.md",
+    "publications/active/journal-1/submissions/v1-initial-submission/manuscript.md"
+  ],
+  "drift_among_baseline_files": {
+    "publications/active/journal-1/evaluation-specification.md": {
+      "before": "bfc6038516c998b3",
+      "now": "5a0e706a9b982e92"
+    }
+  }
+}

@@ -1,0 +1,24 @@
+manuscript_section,quantity,value,unit,claim_id,source_file,source_field_or_location,status
+8 (Complexity),retrospective replay scale,"43,848",hourly records,E1/E4 context,scripts/condition_comparison.py,PRIMARY record count,CLOSED
+"9 (stub, retained figure)",genuine oscillations,26,events over 5 yr,E4,scripts/hysteresis_analysis.py,"oscillation count, PRIMARY",CLOSED
+"9 (stub, retained figure)",oscillation rate,5.2,per year,E4,scripts/hysteresis_analysis.py,"derived 26/5yr, PRIMARY",CLOSED
+"10 (stub, retained figure)",retrospective replay scale,"43,848",hourly records,E1,scripts/condition_comparison.py,PRIMARY record count,CLOSED
+"10 (stub, retained figure)",Delta_L2 PRIMARY,5.81,% of departure-window hours,E2,scripts/condition_comparison.py,"C0-C2 minus C0-C1, PRIMARY departure window",CLOSED
+"10 (stub, retained figure)",Delta_L2 RESOLUTION,4.48,% of departure-window hours,E2,scripts/condition_comparison.py,"C0-C2 minus C0-C1, RESOLUTION departure window",CLOSED
+"12 (stub, retained figure)",C0-C2 divergence PRIMARY,48.69,% of departure-window hours,E1,scripts/condition_comparison.py,PRIMARY divergence matrix,CLOSED
+"12 (stub, retained figure)",C0-C1 divergence PRIMARY,42.88,% of departure-window hours,E1,scripts/condition_comparison.py,PRIMARY divergence matrix,CLOSED
+"12 (stub, retained figure)",Delta_L2 PRIMARY,5.81,% of departure-window hours,E2,scripts/condition_comparison.py,48.69 minus 42.88,CLOSED
+"12 (stub, retained figure)",Delta_L2 RESOLUTION,4.48,% of departure-window hours,E2,scripts/condition_comparison.py,RESOLUTION divergence matrix,CLOSED
+"12 (stub, retained figure)",state transitions,"3,661",transitions over 5 yr,E4,scripts/hysteresis_analysis.py,PRIMARY total transitions,CLOSED
+"12 (stub, retained figure)",genuine oscillations,26,events (5.2/yr),E4,scripts/hysteresis_analysis.py,PRIMARY oscillation count,CLOSED
+"12 (stub, retained figure)",hysteresis reduction,10.36,% of non-scheduled transitions,E4,scripts/hysteresis_analysis.py,"PRIMARY, 222 -> 199",CLOSED
+5.2 (Solar provenance),intra-day simplification bound,0.116 / 0.141,minutes (sunrise/sunset),M-27,data/solar-citation-closure/noaa-simplification-check.json,experiment A max,CLOSED
+5.2 (Solar provenance),leap-denominator bound,0.457 / 0.483,minutes (sunrise/sunset),M-27,data/solar-citation-closure/noaa-simplification-check.json,experiment B max,CLOSED
+5.2 (Solar provenance),"USNO agreement, all events",0.92,minutes max,M-27,data/solar/usno-validation-2026-09-08.csv,28 sampled comparisons,CLOSED
+5.2 (Solar provenance),"USNO agreement, sunrise/sunset",0.75,minutes max,M-27,data/solar/usno-validation-2026-09-08.csv,events g_t reads,CLOSED
+5.3.2 (Table 1),g_w thresholds,21.6 / 27.0,knots,M-31,scripts/canonical_figures.py W_CAUTION/W_UNSAFE,MET Cat 1/2 onsets,CLOSED
+5.3.2 (Table 1),g_r thresholds,10.0 / 20.0,mm/hr,M-31,scripts/canonical_figures.py R_CAUTION/R_UNSAFE,JPS-DID / MET Ribut Petir,CLOSED
+5.3.2 (Table 1b),small-vessel wave thresholds,1.0 / 1.25,metres,M-32,docs/canonical/appendix-c-formalisation.md TABLE IIIb,canonical,CLOSED
+5.3.2 (Table 1b),medium-vessel wave thresholds,1.4 / 2.8,metres,M-32,appendix-c TABLE IIIb,canonical (2.8 interpolated),CLOSED
+5.3.2 (Table 1b),big-vessel wave thresholds,1.5 / 3.5,metres,M-32,appendix-c TABLE IIIb,canonical,CLOSED
+10 (stub),C1-C3 divergence,0.00,% of hours,E6,scripts/condition_comparison.py,both configurations,CLOSED

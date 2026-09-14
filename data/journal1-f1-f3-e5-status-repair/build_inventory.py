@@ -1,0 +1,165 @@
+#!/usr/bin/env python3
+"""Status-occurrence inventory for the F1-F3 / E5 status-synchronisation micro-repair.
+
+Every row is transcribed from the before/after texts of
+publications/active/journal-1/evaluation-specification.md.
+Written with csv.DictWriter and parser-tested afterwards.
+"""
+
+import csv
+import json
+import os
+
+OUT = os.path.dirname(os.path.abspath(__file__))
+
+FIELDS = ["occurrence_id", "section", "before", "after", "stale_status",
+          "authoritative_status", "evidence", "classification"]
+
+B5 = "data/journal1-layer3-prototype/batch5-fidelity-evaluation/"
+
+ROWS = [
+    ("OCC-01", "1. Purpose",
+     "what requires empirical implementation (implementation-fidelity criteria, awaiting Layer 3 build)",
+     "what is implementation-fidelity evidence (fidelity criteria measured against the built Layer 3 prototype)",
+     "F1-F3 awaiting Layer 3 build", "F1-F3 = CLOSED PASS; Layer 3 implemented",
+     B5 + "fidelity-results.json", "ACTIVE-STALE — REPAIRED"),
+
+    ("OCC-02", "7. Implementation-fidelity criteria",
+     "Three fidelity criteria test whether a future Layer 3 build conforms to the specification.",
+     "Three fidelity criteria test whether the Layer 3 build conforms to the specification.",
+     "Layer 3 build is future", "Layer 3 build exists and was evaluated",
+     "layer3-prototype-specification.md S3; governance/ package; " + B5 + "evaluation-design.json",
+     "ACTIVE-STALE — REPAIRED"),
+
+    ("OCC-03", "7. Implementation-fidelity criteria",
+     "**Status:** all three are **OPEN — deferred to Layer 3 build**. See Section 14.",
+     "**Status:** all three are **CLOSED — PASS** (Batch 5, 2026-09-11), followed by the measured counts and an explicit bounded-interpretation paragraph covering interface-contract scope, the 162/292 separation, and R-SAFE-001 DEFERRED / empty RS(SAFE).",
+     "F1 = OPEN; F2 = OPEN; F3 = OPEN",
+     "F1 = CLOSED PASS (0 violations); F2 = CLOSED PASS (0 violations); F3 = CLOSED PASS (0 mismatches)",
+     B5 + "fidelity-results.json; " + B5 + "reporting-repair.json; " + B5 + "rule-activation-summary.csv; " + B5 + "state-space-manifest.json",
+     "ACTIVE-STALE — REPAIRED (primary locus)"),
+
+    ("OCC-04", "11. Performance evaluation",
+     "**Status:** OPEN — requires prototype benchmarking. Blocked by Layer 3 build for realistic end-to-end timing.",
+     "**Status:** OPEN — requires target-hardware benchmarking. Layer 3 is no longer the blocker; harness CLOSED, development-machine reference COMPLETE, target_hardware_evidence=false, Android benchmark DEFERRED_MANDATORY, H3 OPEN/UNSUPPORTED.",
+     "E5 blocked by Layer 3 build",
+     "E5 = OPEN, blocked on representative target hardware; E5_HARNESS = CLOSED; MACBOOK_REFERENCE = COMPLETE",
+     "data/journal1-e5-benchmark/latency-results.json (run_type, scientific_status, target_hardware_evidence)",
+     "PARTIALLY-STALE — REPAIRED (blocker corrected; OPEN status preserved)"),
+
+    ("OCC-05", "14. Layer 3 dependency",
+     "Current state: Layer 3 is **specified** (rule-based engine; RS(S) supply mechanism; assumptions A1-A4) but **not fully implemented**.",
+     "Current state: Layer 3 is **specified and implemented** — engine, Algorithm 3 supply, ComponentStateTrace and R-CAUTION-001..004; R-SAFE-001 remains DEFERRED. It is a research prototype, not a production deployment, operational maritime system, validated field system or complete recommendation engine.",
+     "Layer 3 not fully implemented",
+     "Layer 3 prototype IMPLEMENTED; ComponentStateTrace IMPLEMENTED; four CAUTION rules IMPLEMENTED; R-SAFE-001 DEFERRED",
+     "layer3-prototype-specification.md S7.1, S24; " + B5 + "rule-activation-summary.csv",
+     "ACTIVE-STALE — REPAIRED"),
+
+    ("OCC-06", "14. Layer 3 dependency",
+     "Prototype fidelity evidence — F1, F2, F3. Blocked on Layer 3 build.",
+     "Prototype fidelity evidence — F1, F2, F3. CLOSED — PASS (Section 7), bounded to the interface-contract state space and the implemented rule configuration; closure does not cover a populated SAFE rule set.",
+     "F1-F3 blocked on Layer 3 build", "F1-F3 = CLOSED PASS, bounded",
+     B5 + "fidelity-results.json", "ACTIVE-STALE — REPAIRED"),
+
+    ("OCC-07", "14. Layer 3 dependency",
+     "Performance evidence — E5 / RQ-J2. Realistic timing requires the prototype; partial timing from Layer 2 alone can be reported as a lower bound.",
+     "Performance evidence — E5 / RQ-J2. OPEN. The harness is validated and a development-machine reference run is complete; target-hardware measurement remains outstanding and mandatory (Section 11).",
+     "E5 gated on prototype existence; Layer-2-only lower-bound framing",
+     "E5 = OPEN on target hardware; harness CLOSED; reference run COMPLETE",
+     "data/journal1-e5-benchmark/latency-results.json; execution-path-audit.md",
+     "PARTIALLY-STALE — REPAIRED (OPEN status preserved)"),
+
+    ("OCC-08", "17. Open items",
+     "| OPEN-3 | Layer 3 prototype fidelity evidence (F1, F2, F3) | Layer 3 not yet implemented | Fidelity evidence only ... |",
+     "OPEN-3 struck through and annotated CLOSED 2026-09-11 by the Batch 5 fidelity evaluation; retained rather than deleted as the record of an item open at specification closure. New row OPEN-5 added for the E5 target-hardware benchmark.",
+     "OPEN-3 active; reason 'Layer 3 not yet implemented'",
+     "OPEN-3 CLOSED; the live open performance item is the E5 target-hardware benchmark",
+     B5 + "fidelity-results.json; data/journal1-e5-benchmark/latency-results.json",
+     "ACTIVE-STALE — REPAIRED"),
+
+    ("OCC-09", "18. Final evaluation matrix",
+     "FIDELITY (deferred to Layer 3 build)",
+     "FIDELITY (CLOSED — PASS; interface-contract exhaustive scope, implemented rule configuration; R-SAFE-001 DEFERRED) with per-criterion 0 violations / 0 mismatches",
+     "F1-F3 deferred to Layer 3 build", "F1-F3 = CLOSED PASS",
+     B5 + "fidelity-results.json", "ACTIVE-STALE — REPAIRED"),
+
+    ("OCC-10", "16. Threats and limitations",
+     "If a future Layer 3 build violates any of these ...",
+     "If a Layer 3 build violates any of these ...",
+     "Implies no Layer 3 build exists",
+     "A build exists; the assumption-dependence threat remains valid for this and any future build",
+     "layer3-prototype-specification.md S15 (Safety Dominance dependency chain)",
+     "PARTIALLY-STALE — REPAIRED (two-word minimal fix; threat preserved)"),
+
+    # ---- Located, inspected, deliberately NOT changed -------------------
+    ("OCC-11", "7. Implementation-fidelity criteria",
+     "*Status synchronised 2026-09-13 ... previously represented F1-F3 as OPEN and Layer 3 as unbuilt ...*",
+     "(unchanged — added by this repair)",
+     "n/a — describes the superseded state",
+     "F1-F3 = CLOSED PASS", "this repair",
+     "HISTORICAL — provenance note added by this repair; matches a stale-status search by design"),
+
+    ("OCC-12", "18. Final evaluation matrix",
+     "its current_status column ... is now stale (for example F1-F3 read 'OPEN — requires Layer 3 build', whereas Batch 5 closed all three PASS)",
+     "(unchanged)",
+     "n/a — describes the frozen CSV's staleness, and already states the correct status",
+     "F1-F3 = CLOSED PASS", B5 + "fidelity-results.json",
+     "HISTORICAL — correct as written; the only pre-existing locus that already carried the true status"),
+
+    ("OCC-13", "8. Empirical hypotheses / 11 / 17",
+     "H3 = X ms is OPEN — no externally justified value exists, and none is invented.",
+     "(unchanged)", "n/a — genuinely open",
+     "H3 = OPEN/UNSUPPORTED", "evaluation-specification.md S11, S17 OPEN-1",
+     "NOT-STALE — correctly open; preserved"),
+
+    ("OCC-14", "9. Metrics / 15 / 17",
+     "Decision-support utility — OPEN — CONSTRUCT DEFINITION REQUIRED; trust and real-world outcomes deferred to RQ5",
+     "(unchanged)", "n/a — genuinely open",
+     "OPEN-2 and OPEN-4 remain open", "evaluation-specification.md S9, S15, S17",
+     "NOT-STALE — correctly open; preserved"),
+
+    ("OCC-15", "1. Purpose / 2. Accepted baseline decision",
+     "proofs deferred to Section 6 of the manuscript; the §12 and §14 wording corrections recorded in change-map.csv",
+     "(unchanged)", "n/a — cross-reference and historical record of prior corrections",
+     "n/a", "data/journal1-evaluation-specification/change-map.csv",
+     "NOT-STALE — cross-reference / historical record; preserved"),
+
+    ("OCC-16", "13. PRIMARY / RESOLUTION reporting",
+     "E3 mandatory scope {E1, E2, E6}; E4_RESOLUTION = NOT_REQUIRED_BY_CURRENT_E3_DESIGN",
+     "(unchanged)", "n/a — out of scope for this repair",
+     "E3 scope and E4 contract as set by the 2026-09-13 E3/E4 micro-repair",
+     "data/journal1-e3-e4-authority-repair/authority-after.md",
+     "OUT-OF-SCOPE — explicitly preserved, not reopened"),
+]
+
+
+def main():
+    path = os.path.join(OUT, "status-occurrence-inventory.csv")
+    with open(path, "w", newline="", encoding="utf-8") as fh:
+        w = csv.DictWriter(fh, fieldnames=FIELDS)
+        w.writeheader()
+        for r in ROWS:
+            w.writerow(dict(zip(FIELDS, r)))
+
+    import pandas as pd
+    with open(path, newline="", encoding="utf-8") as fh:
+        rows = list(csv.DictReader(fh))
+    df = pd.read_csv(path)
+    res = {
+        "status-occurrence-inventory.csv": {
+            "dictreader_rows": len(rows),
+            "pandas_rows": int(df.shape[0]),
+            "expected_rows": len(ROWS),
+            "fields_match": list(rows[0].keys()) == FIELDS == list(df.columns),
+            "row_counts_agree": len(rows) == int(df.shape[0]) == len(ROWS),
+            "no_empty_required_cells": all(all(str(r[k]).strip() for k in FIELDS) for r in rows),
+            "classification_counts": df["classification"].str.split(" — ").str[0].value_counts().to_dict(),
+        }
+    }
+    with open(os.path.join(OUT, "parser-test.json"), "w", encoding="utf-8") as fh:
+        json.dump(res, fh, indent=2)
+    print(json.dumps(res, indent=2))
+
+
+if __name__ == "__main__":
+    main()

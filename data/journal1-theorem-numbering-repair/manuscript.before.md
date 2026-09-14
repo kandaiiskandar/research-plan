@@ -176,7 +176,7 @@ Two independent findings corroborate that the absence is real rather than an art
 
 Governance frameworks for AI risk provide vocabulary rather than runtime mechanism. A widely adopted risk-management framework structures organisational AI governance around govern, map, measure and manage functions [22]; maturity modelling surveys responsible-AI practice in a global context [23]; dimensional approaches argue for continuous governance descriptors over discrete categories [24]; and complex-systems perspectives caution against governance designs that assume predictable system behaviour [25]. These operate at organisational and lifecycle level. They do not specify what an advisory system may output under a given environmental condition, and this paper claims no compliance or certification against any of them.
 
-A related distinction concerns the integrity-level schemes used in functional safety. A cross-domain survey of AI in safety-critical industrial and transportation systems records that such schemes assign criticality **at design time** to a system or function, and that this is distinct from a runtime state classification governing system behaviour [2]. The governance pair specified here operates on the other side of that distinction: it is evaluated **at runtime**, per decision episode, against the currently classified environmental state. The two are complementary rather than competing, and no claim of compliance, conformance or certification against any integrity-level scheme is made or implied.
+> **[CITATION SUPPORT REQUIRED]** — A comparison against functional-safety integrity-level schemes (for example IEC 61508 SIL, ISO 26262 ASIL) and against maritime regulatory instruments beyond COLREGs Rule 20(b) [26] was planned for this section. **The repository contains no extraction notes for these standards**, and no bibliographic entry for them is supported by repository evidence. The comparison is therefore omitted rather than asserted from general knowledge. Two observations can be made from repository-supported sources: integrity-level schemes assign criticality at **design time** to a system or function, whereas the governance pair here is evaluated **at runtime** per decision episode; and a cross-domain survey notes that design-time criticality classifications are distinct from runtime governance mechanisms [2]. Closing this gap requires a literature pass that this work has not performed.
 
 ### 2.7 Domain literature
 
@@ -454,9 +454,9 @@ The aggregation is over five terms. Vessel category v appears within g_o rather 
 
 The worst-case aggregation rule implements three strict operational principles: (i) UNSAFE dominance — if any condition classifies as UNSAFE, f(E) = UNSAFE, regardless of all others; (ii) CAUTION priority — if no condition is UNSAFE but at least one is CAUTION, f(E) = CAUTION; (iii) SAFE unanimity — f(E) = SAFE only if every condition classifies as SAFE. This reflects the non-compensatory nature of maritime safety risk: calm seas cannot compensate for extreme wind, and a valid nighttime advisory-policy trigger is not cancelled by lower environmental component states. Navigation-light equipment is not a classifier input.
 
-**Totality of f.** For all E in its domain, f(E) is defined and returns exactly one element of {SAFE, CAUTION, UNSAFE}.
+**Theorem 5.1 (Totality of f).** For all E in its domain, f(E) is defined and returns exactly one element of {SAFE, CAUTION, UNSAFE}.
 
-This result is proved canonically as Theorem 6.1 in Section 6.2. Totality follows from exhaustive domain coverage of each gᵢ (the domain partition for each component is complete and non-overlapping) and from the fact that max_≻ over a finite totally ordered set is always defined and unique.
+Proof deferred to Section 6.2. Totality follows from exhaustive domain coverage of each gᵢ (the domain partition for each component is complete and non-overlapping) and from the fact that max_≻ over a finite totally ordered set is always defined and unique.
 
 Totality is a necessary operational property: a classifier that could fail to return a safety state would leave the governance layer without a basis for enforcing the governance pair (G(S), A_AI(S)) at runtime.
 
@@ -690,7 +690,7 @@ All three ordered pairs satisfy the subset condition. Theorem 6.2 holds. ∎
 
 The containment is not coincidental — it follows necessarily from the severity ordering on S and the set definitions of A_AI(S).
 
-**Corollary 6.2b (Properties 5.1 and 5.2).** Both governance constraints stated in Section 5.5 follow directly.
+**Corollary 6.3 (Properties 5.1 and 5.2).** Both governance constraints stated in Section 5.5 follow directly.
 
 *Property 5.1 (Participation Constraint):* G(S) = 0 ⟹ A_AI(S) = ∅. G(S) = 0 if and only if S = UNSAFE (Definition 5.7). A_AI(UNSAFE) = ∅ by Definition 5.8. Therefore G(S) = 0 ⟹ A_AI(S) = ∅. ✓
 
@@ -789,7 +789,7 @@ Output: S ∈ {SAFE, CAUTION, UNSAFE}  or startup refusal (no S)
  9: return S
 ```
 
-**Invariants.** For every well-formed startup, exactly one `S` is returned (Theorem 6.1 / operational totality, Appendix C Theorem C.1b). Any required non-excluded observation resolving to `⊥` yields `gᵢ(⊥) = UNSAFE` and — by max-severity — `S = UNSAFE` (Corollary C.1b.1). Startup failure returns no `S`; the two modes are disjoint. Excluded components contribute `SAFE`; every severity figure produced under `D ≠ ∅` is reported as a lower bound.
+**Invariants.** For every well-formed startup, exactly one `S` is returned (Theorem 5.1 / operational totality, Appendix C Theorem C.1b). Any required non-excluded observation resolving to `⊥` yields `gᵢ(⊥) = UNSAFE` and — by max-severity — `S = UNSAFE` (Corollary C.1b.1). Startup failure returns no `S`; the two modes are disjoint. Excluded components contribute `SAFE`; every severity figure produced under `D ≠ ∅` is reported as a lower bound.
 
 ### 7.2 Algorithm 2 — Governance Configuration
 
@@ -808,7 +808,7 @@ Output: (G(S), A_AI(S))
  5: return (G, A_AI)
 ```
 
-**Invariants.** The strict containment `A_AI(SAFE) ⊃ A_AI(CAUTION) ⊃ A_AI(UNSAFE) = ∅` (Theorem 6.2 / Monotonicity) holds by inspection of lines 2–4. `G(S) = 0 ⇒ A_AI(S) = ∅` (Participation Constraint) is discharged by line 4. Algorithm 2 *implements* the finite mapping on which Theorem 6.2 is established; it does not experimentally validate it.
+**Invariants.** The strict containment `A_AI(SAFE) ⊃ A_AI(CAUTION) ⊃ A_AI(UNSAFE) = ∅` (Theorem 5.2 / Monotonicity) holds by inspection of lines 2–4. `G(S) = 0 ⇒ A_AI(S) = ∅` (Participation Constraint) is discharged by line 4. Algorithm 2 *implements* the finite mapping on which Theorem 5.2 is established; it does not experimentally validate it.
 
 ### 7.3 Algorithm 3 — Rule-Set Supply
 
@@ -837,7 +837,7 @@ Invokes Layer 3 only when participation is permitted, using only the active `RS(
 Algorithm 4: Governed Advisory Generation
 Input:  E; S; G(S); A_AI(S); RS(S) from Algorithm 3; production rule engine
         (engine fires only rules present in the active RS(S); no active rule
-         produces a conclusion type outside its own conclusion — Theorem 6.3 A4)
+         produces a conclusion type outside its own conclusion — Theorem 5.3 A4)
 Output: AI(E) ⊆ A_AI(S)                                            ; holds by construction
 
  1: if G(S) = 0 then AI ← ∅; return AI                              ; no rule firing, no advisory
@@ -846,7 +846,7 @@ Output: AI(E) ⊆ A_AI(S)                                            ; holds by 
  3: return AI                                                        ; AI ⊆ A_AI(S) by A3 + engine fidelity
 ```
 
-**Invariants.** The governed advisory output is constrained to the configured admissible recommendation types for the current safety state, subject to the stated rule-engine fidelity assumptions (Theorem 6.3, Safety Dominance). Algorithm 4 *implements* the enforcement contract on which Theorem 6.3 depends — it does not independently prove Safety Dominance. **Human decision authority is unconditional across all three states**: `AI(E) = ∅` does not forbid human action; `Go ∈ AI(E)` does not automatically approve departure.
+**Invariants.** The governed advisory output is constrained to the configured admissible recommendation types for the current safety state, subject to the stated rule-engine fidelity assumptions (Theorem 5.3, Safety Dominance). Algorithm 4 *implements* the enforcement contract on which Theorem 5.3 depends — it does not independently prove Safety Dominance. **Human decision authority is unconditional across all three states**: `AI(E) = ∅` does not forbid human action; `Go ∈ AI(E)` does not automatically approve departure.
 
 ### 7.5 Safety-Dominance Dependency
 
@@ -856,7 +856,7 @@ Safety Dominance is delivered by a four-link chain that must be read together:
 A_AI(S)  →  ConclusionTypes(RS(S)) ⊆ A_AI(S)  →  engine fires only rules in RS(S)  →  AI(E) ⊆ A_AI(S)
    L1                    L2                                 L3                              L4
 definition       algorithmic contract              implementation assumption         formal theorem
-(Def 5.6)           (Algorithm 3)                   (Theorem 6.3 A4; A4 pre)         (Theorem 6.3)
+(Def 5.6)           (Algorithm 3)                   (Theorem 5.3 A4; A4 pre)         (Theorem 5.3)
 ```
 
 L2 is the algorithmic enforcement contract the implementation makes explicit; L3 is the runtime assumption that the implementation-fidelity evaluation (F1, F2 — see §9 and `evaluation-specification.md` §7) tests, and which it found upheld with zero observed violations.
@@ -1578,7 +1578,7 @@ What this paper contributes, stated at the level the evidence supports: **a form
 
 ## References
 
-*Reference [19] is published in Proceedings of Machine Learning Research; no DOI is listed in its official PMLR publication record, so its version of record is identified by volume, page range and URL.*
+*Compiled from repository sources only — verified entries reused from the conference manuscript and from corpus extraction notes. No new literature search was performed and no bibliographic metadata was reconstructed. Entries marked `REFERENCE_METADATA_INCOMPLETE` carry the metadata the repository supports; the missing fields are recorded in `data/journal1-manuscript-framing/citation-audit.md` and must be completed before submission.*
 
 [1] I.F. Ramos, G. Gianini, M.C. Leva, and E. Damiani, "Collaborative intelligence for safety-critical industries: A literature review," *Information*, vol. 15, no. 11, p. 728, 2024. doi: 10.3390/info15110728
 
@@ -1606,7 +1606,7 @@ What this paper contributes, stated at the level the evidence supports: **a form
 
 [13] J. Vermaelen and T. Holvoet, "Tumato 2.0: A constraint-based planning approach for safe and robust robot behavior," *Annals of Mathematics and Artificial Intelligence*, vol. 93, pp. 541–567, 2025. doi: 10.1007/s10472-024-09949-3
 
-[14] H. Odriozola-Olalde, M. Zamalloa, and N. Arana-Arexolaleiba, "Shielded reinforcement learning: A review of reactive methods for safe learning," in *Proc. 2023 IEEE/SICE Int. Symp. System Integration (SII)*, Atlanta, GA, USA, 2023, pp. 1–8. doi: 10.1109/SII55687.2023.10039301
+[14] H. Odriozola-Olalde, M. Zamalloa, and N. Arana-Arexolaleiba, "Shielded reinforcement learning: A review of reactive methods for safe learning," in *Proc. 2023 IEEE/SICE Int. Symp. System Integration (SII)*, 2023. doi: 10.1109/SII55687.2023.10039301 [REFERENCE_METADATA_INCOMPLETE — no page range in repository evidence]
 
 [15] D. Dalrymple et al., "Towards guaranteed safe AI: A framework for ensuring robust and reliable AI systems," *arXiv preprint* arXiv:2405.06624, 2024.
 
@@ -1614,9 +1614,9 @@ What this paper contributes, stated at the level the evidence supports: **a form
 
 [17] R. Bloomfield and J. Rushby, *Assurance of AI Systems from a Dependability Perspective*, SRI Technical Report SRI-CSL-2024-02R3, SRI International, 2025. doi: 10.48550/arXiv.2407.13948
 
-[18] H. Wang, C. M. Poskitt, and J. Sun, "AgentSpec: Customizable runtime enforcement for safe and reliable LLM agents," in *Proc. 2026 IEEE/ACM 48th Int. Conf. Software Engineering (ICSE '26)*, Rio de Janeiro, Brazil, Apr. 2026, pp. 2938–2950. doi: 10.1145/3744916.3764546
+[18] H. Wang, C. M. Poskitt, and J. Sun, "AgentSpec: Customizable runtime enforcement for safe and reliable LLM agents," in *Proc. IEEE/ACM 48th Int. Conf. Software Engineering (ICSE '26)*, Rio de Janeiro, Brazil, Apr. 2026. [REFERENCE_METADATA_INCOMPLETE — no DOI or page range in repository evidence]
 
-[19] Z. Chen, M. Kang, and B. Li, "SHIELDAGENT: Shielding agents via verifiable safety policy reasoning," in *Proc. 42nd Int. Conf. Machine Learning (ICML)*, Vancouver, Canada, in *Proceedings of Machine Learning Research*, vol. 267, 2025, pp. 8313–8344. [Online]. Available: https://proceedings.mlr.press/v267/chen25ae.html
+[19] Z. Chen, M. Kang, and B. Li, "SHIELDAGENT: Shielding agents via verifiable safety policy reasoning," in *Proc. 42nd Int. Conf. Machine Learning (ICML)*, Vancouver, Canada, PMLR 267, 2025. arXiv:2503.22738v2 [REFERENCE_METADATA_INCOMPLETE — no DOI or page range in repository evidence]
 
 [20] Md. Shamsujjoha, Q. Lu, D. Zhao, and L. Zhu, "Swiss cheese model for AI safety: A taxonomy and reference architecture for multi-layered guardrails of foundation model based agents," in *Proc. IEEE 22nd Int. Conf. Software Architecture (ICSA)*, 2025, pp. 37–48. doi: 10.1109/ICSA65012.2025.00014
 

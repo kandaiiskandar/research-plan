@@ -1,0 +1,56 @@
+{
+  "batch": "8A",
+  "status": "RESOLVED",
+  "date": "2026-09-13",
+  "stop_condition": "E3 resolution-sensitivity compliance \u2014 required quantity lacks RESOLUTION evidence",
+  "finding": {
+    "E3_required_evidence": "Both configurations computed and reported for every empirical value in E1 E2 E4 E6.",
+    "E3_next_action_asserts": "None \u2014 dual-configuration values exist for all empirical claims.",
+    "E3_prohibits": "Writing any empirical value as a single figure without the dual-configuration pair.",
+    "E4_required_evidence": "PRIMARY-only: 3,661 transitions; 26 oscillations (5.2/yr); 10.36% hysteresis reduction.",
+    "E4_manuscript_claim_allowed": "single PRIMARY figures only",
+    "contradiction": "E3 names E4 in scope and asserts dual-config values exist for all empirical claims; E4's authoritative evidence is PRIMARY-only, and E3's own prohibition would forbid E4's own allowed claim."
+  },
+  "verification_performed": {
+    "hysteresis_analysis_mentions_mfwam": false,
+    "hysteresis_marine_inputs": [
+      "raw_marine.csv (v1 historical)",
+      "raw_marine_era5_sea.csv (PRIMARY)"
+    ],
+    "canonical_figures_emits_transition_counts": false,
+    "repo_search_for_RESOLUTION_transition_count": "no dual-config transition/oscillation/hysteresis figure found; all hits are PRIMARY 5-tuple co-mentions",
+    "E1_E2_E6_dual_config_present": true,
+    "E1_RESOLUTION": {
+      "C0_C1": "41.08%",
+      "C0_C2": "45.56%",
+      "C1_C2": "4.48%",
+      "C1_C3": "0.00%"
+    },
+    "E1_PRIMARY": {
+      "C0_C1": "42.88%",
+      "C0_C2": "48.69%",
+      "C1_C2": "5.81%",
+      "C1_C3": "0.00%"
+    }
+  },
+  "why_unresolvable_in_batch8A": [
+    "Producing RESOLUTION E4 values requires running hysteresis_analysis under the MFWAM configuration \u2014 a new experiment, prohibited by Batch 8 \u00a754.",
+    "Amending E3's scope or E4's reporting contract changes frozen scientific authority, prohibited by Batch 8 \u00a74."
+  ],
+  "not_blocked": [
+    "P1-P4",
+    "F1-F3",
+    "E1",
+    "E2",
+    "E6",
+    "E5 status handling",
+    "stale status-statement repairs in \u00a7\u00a75-8"
+  ],
+  "manuscript_modified": false,
+  "manuscript_sha256_before": "51bcd6f627090f2600cd8a5c2a94fc910ec4372b1ad5fe50c3d6edd73744320a",
+  "manuscript_sha256_now": "51bcd6f627090f2600cd8a5c2a94fc910ec4372b1ad5fe50c3d6edd73744320a",
+  "frozen_files_changed": [],
+  "resolved_by": "E3/E4 resolution-sensitivity authority micro-repair (2026-09-13)",
+  "resolution": "E3 mandatory dual-configuration scope narrowed to {E1, E2, E6}; E4_RESOLUTION = NOT_REQUIRED_BY_CURRENT_E3_DESIGN. E4 values and status unchanged.",
+  "resolution_evidence": "data/journal1-e3-e4-authority-repair/"
+}
