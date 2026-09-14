@@ -1,5 +1,7 @@
 # Drafting Report — AMICT Conference Manuscript V4
 
+> **Superseded in part.** Two statements in this report were corrected by the post-draft scientific and reviewer audit of 2026-09-14 (`post-draft-audit.md`): the double-blind check in §9 and the site-disclosure note in §9. Word counts in §2 and §3 predate the audit's twelve surgical corrections; current counts are in `post-draft-audit.md` §16.
+
 **Date:** 2026-09-14
 **Task:** `docs/tasks/AMICT CONFERENCE MANUSCRIPT V4 — EVIDENCE-LED SIX-PAGE DRAFT.md`
 **Manuscript:** `publications/active/ipsci-2026/submissions/v4-amict-rebuild/manuscript.md`
@@ -171,7 +173,11 @@ No author names, initials, affiliations, institutional identifiers or email addr
 
 First-person use is minimal — one instance, "we did not identify", inside the frozen gap statement.
 
-**Two notes for the author before submission.** The build comment block at the head of the file references internal repository paths; it should be stripped at format time. And the study site is given as coordinates rather than by city name, which is more conservative than v3 — confirm this is the intended level of disclosure, since the site is identifiable from the coordinates either way.
+**Correction (post-draft audit, 2026-09-14).** This scan was insufficient. It searched for names, affiliations, emails and acknowledgements, and did **not** search for self-referential pointers to the authors' own unpublished work — a standard blind-review leak. The sentence "Proofs are given in the companion journal treatment" passed this scan and should not have. It was identified as PC4 by the post-draft audit and has been corrected; see `post-draft-audit.md` §4 and §13.
+
+**Two notes for the author before submission.** The build comment block at the head of the file references internal repository paths; it should be stripped at format time.
+
+**Correction (post-draft audit, 2026-09-14).** This report originally described giving the site as coordinates without the city name as "more conservative than v3". That was wrong. The coordinates identify the site, so omitting the city masks nothing and created a false impression of anonymisation. The manuscript now reads "a coastal site in Sabah, Malaysia (5.98° N, 116.01° E)", and the record is `SITE_DISCLOSURE = REPRODUCIBILITY_CHOICE_NOT_ANONYMISATION`.
 
 ---
 
