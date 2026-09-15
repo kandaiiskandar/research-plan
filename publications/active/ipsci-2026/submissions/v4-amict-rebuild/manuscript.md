@@ -162,7 +162,7 @@ Under the evaluated comparator definitions, adding an intermediate labelled gove
 
 The resolution configuration recomputes the same comparison over a shorter record using a finer-resolution wave model. **Δ_L2 = 4.48%** of departure-window hours, and **C1 against C3 remains 0.00%**.
 
-The answer to RQ3 is that the measured governance-outcome divergence differs between the two configurations, moving from 5.81% to 4.48% — a spread of approximately 1.3 percentage points — while the intermediate-state control is unchanged at zero. The two configurations differ in both wave model and record length. The configurations differ in both wave model and record length; this evaluation does not isolate which difference accounts for the observed spread of approximately 1.3 percentage points.
+The answer to RQ3 is that the measured governance-outcome divergence differs between the two configurations, moving from 5.81% to 4.48% — a spread of approximately 1.3 percentage points — while the intermediate-state control is unchanged at zero. The configurations differ in both wave model and record length; this evaluation does not isolate which difference accounts for the observed spread.
 
 These are two alternative computations over different environmental records. They are not repeated trials, confidence intervals, uncertainty bounds or independent replications, and the spread between them is not an error estimate. The paper reports both values rather than resolving them to a single figure.
 

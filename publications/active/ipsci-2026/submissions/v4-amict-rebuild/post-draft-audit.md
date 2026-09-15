@@ -579,3 +579,152 @@ No other file was touched. Internal historical records retain the structured-rev
     PROTECTED_DISCLOSURES              = PASS
     MANUSCRIPT_V4_SCIENTIFIC_TEXT      = REVIEWER_READY
     FORMAT_READY                       = NO
+
+---
+
+# Addendum C — Final Pre-Format Mechanical Proofreading (2026-09-14)
+
+**Task:** `docs/tasks/AMICT V4 — FINAL PRE-FORMAT MECHANICAL PROOFREADING.md`
+**Scope:** Level-0 mechanical corrections only. The original audit (§1–§18), Addendum A and Addendum B are unmodified.
+
+A full mechanical sweep was run over the complete manuscript — title through final reference — looking for artefacts left by the four preceding surgical passes: the post-draft scientific audit, the Related-Work corpus reframe, the Related-Work micro-repair, and the reference renumbering. **One defect was found. It was in the paragraph this audit itself had edited.**
+
+## C.1 Defects found
+
+| # | Location | Defect | Classification |
+|---|---|---|---|
+| C-1 | V.C, RQ3 answer paragraph | Duplicated sentence — the replacement clause introduced by PC5 restated the sentence immediately preceding it | `LEVEL_0_DUPLICATION` |
+| C-2 | V.C, same paragraph | "approximately 1.3 percentage points" stated twice in consecutive sentences | `LEVEL_0_REDUNDANCY` |
+
+No other defect was found anywhere in the manuscript.
+
+**Provenance of C-1.** During the post-draft audit's PC5 correction, the causal clause *"The direction of movement is consistent with a finer model resolving nearshore sheltering…"* was replaced with a sentence beginning *"The configurations differ in both wave model and record length…"*. The sentence immediately above it already read *"The two configurations differ in both wave model and record length."* The replacement was matched on the text to be removed without reading the preceding line. The artefact was produced by the audit recorded in §1–§18 of this file, and is corrected here.
+
+**Disposition of C-2.** Raised during readiness assessment as ambiguous under the task's Level-0 boundary and referred rather than decided. Classified by the task owner as `LEVEL_0_REDUNDANCY = FIX`, on the ground that the quantitative spread remains stated once in the RQ3 answer while the second sentence retains only the causal-identification limitation. Applied on that instruction.
+
+## C.2 Edit — exact before and after
+
+**Before:**
+
+> The answer to RQ3 is that the measured governance-outcome divergence differs between the two configurations, moving from 5.81% to 4.48% — a spread of approximately 1.3 percentage points — while the intermediate-state control is unchanged at zero. **The two configurations differ in both wave model and record length. The configurations differ in both wave model and record length;** this evaluation does not isolate which difference accounts for the observed spread **of approximately 1.3 percentage points**.
+
+**After:**
+
+> The answer to RQ3 is that the measured governance-outcome divergence differs between the two configurations, moving from 5.81% to 4.48% — a spread of approximately 1.3 percentage points — while the intermediate-state control is unchanged at zero. The configurations differ in both wave model and record length; this evaluation does not isolate which difference accounts for the observed spread.
+
+Paragraph: 75 → 59 words. **One edit, the only edit in this task.** No other change was made anywhere in the manuscript, and no stylistic edit was made on the basis of near-duplicate similarity alone.
+
+The paragraph continues to state everything required: Δ_L2 = 5.81% primary, Δ_L2 = 4.48% resolution, a spread of approximately 1.3 percentage points, C1 against C3 unchanged at zero, that the configurations differ in both wave model and record length, and that the evaluation does not isolate causation. The RQ3 interpretation is unchanged.
+
+## C.3 Mechanical sweep result
+
+| Check | Result |
+|---|---|
+| Exact duplicate sentences (>5 words) | **0** |
+| Near-duplicate adjacent pairs (≥60% overlap) | **4, all legitimate** — see below |
+| Doubled words | **0** |
+| Double period · double comma · space before punctuation · double space · orphan brackets | **0** each |
+| Bold markers | paired |
+| Italic markers | even |
+| Table blocks | 3, column counts 6/4/4, all consistent; 3 captions |
+| Malformed citations `[ n ]` | **0** |
+| Citation ranges | `[1]–[5]`, `[9]–[14]` — well-formed |
+| Broken Markdown | none |
+
+The four surviving near-duplicate pairs are intentional and were not touched: the anaphoric link *"A second governance question…" / "That second question is not new."* (67%); the two adjacent frozen canonical strings in the Introduction, the gap statement closing and the novelty sentence opening (72%); the table lead-in and its caption (83%); and the parallel *primary* / *resolution* configuration sentences (64%). The 91% pair that ranked highest before this edit was C-1 and is gone.
+
+One earlier flag resolved as a false positive: the single period-before-citation match is *"Flehmig et al. [4]"*, where the period belongs to the abbreviation.
+
+## C.4 Numerical integrity — PASS
+
+43,848 (×3) · 9,135 · 42.88% (×2) · 48.69% (×2) · 5.81% (×8) · 4.48% (×5) · 0.00% (×5) · 292 primary episodes · 32 permissive · 260 intermediate · 244 with advisory · 16 without · 454 advisory records · 162 gate-off structural cases · wind two activations and zero bindings, two-number rule intact.
+
+"approximately 1.3 percentage points" now appears **once**. **41.08 and 45.56 remain absent** — the provenance-open exclusion holds.
+
+## C.5 Table integrity — PASS
+
+    TABLE_COUNT = 3
+
+**TABLE I** — citations [4], [5], [6], [7], [9], [10], [11], [12], [13]; all inside 1–19, no stale pre-renumbering number survives; mechanism labels agree with the surrounding prose.
+**TABLE II** — the three fault rows resolve to ⊥ and map to UNSAFE; the unmeasured row is declared in *D*, evaluated before faults, pinned SAFE and marked "Not a fault". Exclusion remains distinct from fault.
+**TABLE III** — 5.81/4.48 and 0.00/0.00 correct; 42.88 and 48.69 primary only; both resolution pairwise cells read "not reported".
+
+No table was redesigned.
+
+## C.6 Reference integrity — PASS
+
+    REFERENCE_COUNT    = 19
+    numbering          = contiguous 1..19
+    ORPHAN_REFERENCES  = 0
+    DANGLING_CITATIONS = 0
+
+AC 20-151C present; **AC 20-151A absent**. **Cleaveland** correct; "Cleveland" absent. No reference added or removed.
+
+## C.7 Canonical text integrity — PASS
+
+Gap statement: **1 exact occurrence**. Novelty-positioning sentence: **3 exact occurrences**. RQ1, RQ2, RQ3: **all exact**. No frozen string required mechanical correction, so the task's §5 stop condition did not arise.
+
+## C.8 Protected disclosures — PASS (19/19)
+
+None cut, weakened or compressed. The literature-related disclosure remains in its current functional form.
+
+## C.9 Double-blind scientific text — PASS
+
+No author names, affiliations, emails, acknowledgements, "our previous work", "our earlier work", "companion journal", "forthcoming", "under review" or internal repository references in the body. The only matches for "affiliation" and "acknowledg" are inside the build comment, which states that none appear.
+
+    BUILD_COMMENT = REMOVE_BEFORE_SUBMISSION
+
+Retained as instructed; formatting will remove it.
+
+## C.10 Prohibited-claim scan — PASS
+
+No match for first-ever · unprecedented · globally novel · uniquely novel · no prior work · no existing architecture · domain-independent · safer · safety improvement · risk reduction · real-world validation · validated human outcomes · 454 advisory types · robustness across configurations · replicated result.
+
+## C.11 Word count — actual, measured after the edit
+
+| Section | Before | After |
+|---|---|---|
+| Abstract | 193 | 193 |
+| I. Introduction | 404 | 404 |
+| II. Related Work | 259 | 259 |
+| III. Operational Governance Formalisation | 746 | 746 |
+| IV. Evaluation Method | 528 | 528 |
+| **V. Results** | 849 | **833** |
+| VI. Discussion and Limitations | 696 | 696 |
+| VII. Conclusion | 192 | 192 |
+| References | 509 | 509 |
+| **BODY** | **3,674** | **3,658** |
+
+    BODY_WORD_COUNT         = 3658
+    RESULTS_SECTION_LARGEST = YES (833 against 746; margin 87)
+
+The measured figure is 3,658. The readiness projection was 3,663; the five-word difference is the actual paragraph delta (−16) against the projected estimate (−11). The measured count is reported, not the projection.
+
+## C.12 Files changed
+
+- `manuscript.md` — one edit, Section V.C.
+- `post-draft-audit.md` — this addendum appended. §1–§18, Addendum A and Addendum B unmodified.
+
+No other file was touched. No experiment run, no result recomputed, no scientific content altered.
+
+---
+
+    PRE_FORMAT_MECHANICAL_PROOFREAD = CLOSED
+    KNOWN_RQ3_DUPLICATION           = FIXED
+    LEVEL_0_REDUNDANCY              = FIXED
+    MECHANICAL_DEFECTS_REMAINING    = 0
+    SCIENTIFIC_REOPEN_REQUIRED      = NO
+    RQ_INTEGRITY                    = PASS
+    GAP_STATEMENT_INTEGRITY         = PASS
+    NOVELTY_SENTENCE_INTEGRITY      = PASS
+    NUMERICAL_INTEGRITY             = PASS
+    TABLE_INTEGRITY                 = PASS
+    REFERENCE_COUNT                 = 19
+    ORPHAN_REFERENCES               = 0
+    DANGLING_CITATIONS              = 0
+    PROTECTED_DISCLOSURES           = PASS
+    DOUBLE_BLIND_SCIENTIFIC_TEXT    = PASS
+    BUILD_COMMENT                   = REMOVE_BEFORE_SUBMISSION
+    BODY_WORD_COUNT                 = 3658
+    MANUSCRIPT_V4_SCIENTIFIC_TEXT   = REVIEWER_READY
+    FORMAT_READY                    = NO
