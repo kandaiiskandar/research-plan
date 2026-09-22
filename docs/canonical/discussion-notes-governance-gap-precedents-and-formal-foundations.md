@@ -215,7 +215,7 @@ Their own words confirm this is a novel space: *"To our knowledge, there is curr
 
 Each topic contributes a different layer of the overall argument:
 
-**The problem and gap** establishes what is missing in plain CS terms — no existing architecture formally restricts AI advisory scope based on environmental safety state. This is the research problem.
+**The problem and gap** establishes what is missing in plain CS terms. *(Revised 2026-09-21 under `docs/analysis/final-research-chain-lock.md`: the earlier wording — "no existing architecture formally restricts AI advisory scope based on environmental safety state" — is **superseded**. Advisory-type restriction by externally measured state is established in certified avionics, including human-facing inhibition on input validity (FAA TSO-C151c §5.6). Within the reviewed literature, what was not found is the **composition**: `G(S)` and `A_AI(S)` separately specified over a classified multi-component environmental state for a human-facing low-resource DSS — a modest operationalisation gap — together with the absence of any empirical characterisation of intermediate-state activation frequency.)*
 
 **Indykov et al. (2025)** provides independent confirmation from the ML systems quality literature. After surveying 206 papers and 16 architectural tactics, no tactic has demonstrated formal positive impact on the Safety attribute (AT11 → Safety = 0). The gap exists not just in AI architecture papers but across the broader ML systems design literature.
 

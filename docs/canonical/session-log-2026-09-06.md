@@ -206,7 +206,7 @@ Yaakob tested Boat A at the mean of successive sea-state bands: it **passes** SS
 | Small vs big differ | 12.16% | 7.94% |
 | C3 vs C1 divergence | **0.00%** | **0.00%** |
 
-The 1.7-point spread is the grid-resolution sensitivity, reported rather than resolved. F-15 holds at exactly 0.00% in both — it is structural, not data-dependent.
+The 1.7-point spread is the grid-resolution sensitivity, reported rather than resolved. *(Historical record. **Superseded 2026-09-21**: the resolution/record-length confound was separated by common-period comparison — see `empirical-findings-2026-09-06.md` §0a. Retained unrewritten as the record of what was concluded then.)* F-15 holds at exactly 0.00% in both — it is structural, not data-dependent.
 
 **Single generator adopted:** `scripts/canonical_figures.py`. §0a is now regenerated, never hand-edited. A recomputation rule is recorded in `CLAUDE.md`.
 

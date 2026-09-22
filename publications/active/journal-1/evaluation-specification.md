@@ -80,16 +80,20 @@ The proposition itself is stated in Section 6 (Proposition J1-P1).
 
 ## 5. Research questions
 
-Four research questions carry the Journal 1 evaluation. Each is tagged with a single evidence type and identifies the conditions and metrics that produce evidence for it. Full per-RQ audit — current wording, construct, evidence type, conditions, metrics, validity and required change — is at [`rq-audit.csv`](../../../data/journal1-evaluation-specification/rq-audit.csv).
+> ⚠️ **REVISED 2026-09-21 under [`docs/analysis/final-research-chain-lock.md`](../../../docs/analysis/final-research-chain-lock.md).**
+> **RQ-J2 (target-hardware latency) is REMOVED from the active research-question set.** It is re-designated *deferred deployment/prototype evaluation — not required evidence for the thesis contribution*. Its absence is **not** an evaluation limitation: the question was mis-scoped as an RQ, since the thesis claims no real-time algorithm, computational optimisation or hardware-efficiency result, and `H3 = X ms` has no externally justified acceptance criterion.
+> **RQ-J4 is merged into RQ-J3** — the Δ_L2 subtraction answers both in one operation.
+> **Mapping to thesis-level RQs:** RQ-J1 → supporting formal property, not a thesis RQ. RQ-J3 (with former RQ-J4) → **thesis RQ2** (empirical characterisation and robustness) and **thesis RQ3** (structural warrant of the multi-component classifier). Thesis RQ1 (operational specification) is answered by construction, proof and threshold provenance.
+
+Three research questions carry the Journal 1 evaluation. Each is tagged with a single evidence type and identifies the conditions and metrics that produce evidence for it. Full per-RQ audit — current wording, construct, evidence type, conditions, metrics, validity and required change — is at [`rq-audit.csv`](../../../data/journal1-evaluation-specification/rq-audit.csv).
 
 | RQ | Wording | Evidence type | Conditions | Metrics |
 |---|---|---|---|---|
 | **RQ-J1** | Can the Safety Dominance Property be proved formally, and under what assumptions does it hold? | **FORMAL** | n/a | Proof (Theorem 6.3) |
-| **RQ-J2** | What runtime latency and computational overhead does Layer 2 introduce on the target deployment hardware? | **PERFORMANCE** | C2 (the arm carrying the overhead) | E5 (latency mean/max/tail; memory/CPU) |
 | **RQ-J3** | On the retrospective replay, how do the admissible-recommendation-set outputs of C2 differ from C1 and C0, and what share of the divergence is attributable to Level 2 alone? | **EMPIRICAL-TRACE** | C0, C1, C2 | E1 (pairwise divergence); E2 (isolated Level 2 contribution); E3 (resolution sensitivity) |
 | **RQ-J4** | Which architectural component of the governance pair (G(S) vs. A_AI(S)) accounts for the observed C2 vs. C1 divergence? | **EMPIRICAL-TRACE** | C0, C1, C2 (Δ_L2 ablation) | E2 (Δ_L2); E4 (transition and hysteresis characterisation, supporting) |
 
-Rationale for each rewording is in [`rq-audit.csv`](../../../data/journal1-evaluation-specification/rq-audit.csv). RQ-J3's earlier wording ("outperform … on advisory scope compliance") collapsed three evidence types (FORMAL invariant, IMPLEMENTATION-FIDELITY test, EMPIRICAL-TRACE comparison) and has been corrected to a pure empirical-trace comparison. RQ-J2's earlier "acceptable for low-resource deployment" hid an unsourced acceptance threshold and has been rewritten as a descriptive measurement.
+Rationale for each rewording is in [`rq-audit.csv`](../../../data/journal1-evaluation-specification/rq-audit.csv). RQ-J3's earlier wording ("outperform … on advisory scope compliance") collapsed three evidence types (FORMAL invariant, IMPLEMENTATION-FIDELITY test, EMPIRICAL-TRACE comparison) and has been corrected to a pure empirical-trace comparison. RQ-J2's earlier "acceptable for low-resource deployment" hid an unsourced acceptance threshold and was rewritten as a descriptive measurement; **RQ-J2 was subsequently removed entirely on 2026-09-21** (see the banner above). This sentence is retained as the record of the intermediate step.
 
 ---
 
@@ -156,7 +160,7 @@ The fidelity criteria replace the previous behavioural hypotheses H1 and H2. The
 Journal 1 carries no free-standing empirical hypotheses in the H1–H4 sense. The empirical claims are stated as **trace results** (Section 9), because the retrospective replay is a deterministic census — a claim about the trace, not a claim to be tested against an alternative.
 
 - The **isolated Level 2 contribution** E2 (`Δ_L2`) is the load-bearing empirical result and replaces the former H4. It is uncertain in its magnitude across datasets and configurations (E3), but not in its sign under a conforming implementation of the specification. The canonical value on the analysed window is 5.81% PRIMARY / 4.48% RESOLUTION.
-- The **performance criterion** E5 / RQ-J2 (governance latency) is the only genuinely stochastic measurement because timing carries variance from the runtime environment. Its acceptance threshold `H3 = X ms` is **OPEN** — no externally justified value exists, and none is invented. See Section 11.
+- The **performance criterion** E5 (governance latency) is the only genuinely stochastic measurement because timing carries variance from the runtime environment. *(RQ-J2 removed 2026-09-21; E5 is retained as deferred deployment evaluation, not as thesis evidence. `H3 = X ms` remains **OPEN** — no externally justified value exists, and none is invented.)* See Section 11.
 
 ---
 
@@ -174,7 +178,7 @@ The final metric set — nine items, each with a single classification and a sta
 | M-Empirical-E3 | Resolution sensitivity: report PRIMARY and RESOLUTION for empirical quantities whose design supports a like-for-like comparison. **Mandatory scope {E1, E2, E6}**; E4 excluded (`E4_RESOLUTION = NOT_REQUIRED_BY_CURRENT_E3_DESIGN`, §13) | DESCRIPTIVE (sensitivity) | RQ-J3 / RQ-J4 supporting |
 | M-Empirical-E4 | Transition and hysteresis characterisation, **PRIMARY chronology only** (transitions; genuine oscillations/yr; hysteresis reduction share). Outside the E3 mandatory dual-configuration scope — §13 | DESCRIPTIVE | RQ-J4 supporting |
 | M-Empirical-E6 | C1 ↔ C3 divergence (canonical confirmation of J1-P1) | DESCRIPTIVE (implementation-consistency confirmation) | Novelty argument (P4 / J1-P1) |
-| M-Performance-E5 | Governance latency and computational overhead of Layer 2 | PERFORMANCE | RQ-J2 |
+| M-Performance-E5 | Governance latency and computational overhead of Layer 2 | PERFORMANCE | *(no active RQ — deferred deployment evaluation, 2026-09-21)* |
 
 Two metrics from the original Journal 1 list are dropped or reclassified:
 
@@ -218,14 +222,16 @@ Because C0 and C1 differ only in Level 1 (participation gate) while C0 and C2 di
 
 ## 11. Performance evaluation
 
-Governance latency and computational overhead of Layer 2 on the target deployment hardware (metric M-Performance-E5, answering RQ-J2).
+Governance latency and computational overhead of Layer 2 on the target deployment hardware (metric M-Performance-E5).
+
+> **Scope, revised 2026-09-21:** this section describes **deferred deployment and prototype evaluation**. It answers no active research question and is not required evidence for the thesis contribution.
 
 - **What to measure.** Wall-clock latency of one full Layer 2 pass (classification + gate + admissible-set selection + rule-set supply), reported as mean, maximum and tail percentiles (p95, p99). Peak memory and CPU cost during the pass.
 - **On what hardware.** The low-resource target deployment hardware for Kota Kinabalu coastal fisheries (documented in Section 9 of the manuscript).
 - **How to report.** Descriptive measurement — mean, maximum, tail percentiles — with the hardware, workload and instrumentation stated. Confidence intervals over the timing distribution are legitimate because timing carries genuine variance.
 - **Acceptance threshold.** `H3 = X ms` is **OPEN**. No externally justified acceptance criterion exists. **Do not invent one.** If a future paper or standard supplies a threshold, this document should be updated to accept it; until then, the criterion is descriptive only.
 
-**Status:** **OPEN — requires target-hardware benchmarking.** The Layer 3 build is no longer the blocker: the prototype is implemented and the benchmark harness is validated (`E5_HARNESS = CLOSED`). A **development-machine reference** run is complete (`MACBOOK_REFERENCE = COMPLETE`, `MACBOOK_CLASSIFICATION = DEVELOPMENT_MACHINE_REFERENCE`, `target_hardware_evidence = false`); it validates the measurement methodology and is **not** deployment, target-hardware, mobile or real-time performance evidence, and must not be scaled or extrapolated to a target device. The outstanding dependency is measurement on representative physical hardware (`E5_ANDROID_TARGET_BENCHMARK = DEFERRED_MANDATORY`), deferred for want of a device. `H3 = X ms` remains **OPEN/UNSUPPORTED**; a low reference latency is not a threshold pass.
+**Status:** **DEFERRED — deployment/prototype evaluation, outside thesis evidence scope** *(revised 2026-09-21)*. The Layer 3 build is no longer the blocker: the prototype is implemented and the benchmark harness is validated (`E5_HARNESS = CLOSED`). A **development-machine reference** run is complete (`MACBOOK_REFERENCE = COMPLETE`, `MACBOOK_CLASSIFICATION = DEVELOPMENT_MACHINE_REFERENCE`, `target_hardware_evidence = false`); it validates the measurement methodology and is **not** deployment, target-hardware, mobile or real-time performance evidence, and must not be scaled or extrapolated to a target device. The outstanding dependency is measurement on representative physical hardware (`E5_ANDROID_TARGET_BENCHMARK = DEFERRED_NOT_REQUIRED_FOR_CONTRIBUTION`, re-designated 2026-09-21 from `DEFERRED_MANDATORY`), deferred for want of a device and no longer required for thesis closure. `H3 = X ms` remains **OPEN/UNSUPPORTED**; a low reference latency is not a threshold pass.
 
 ---
 
@@ -271,7 +277,7 @@ Current state: Layer 3 is **specified and implemented**. The rule-based engine, 
 - **Formal architecture evidence** — Theorems 6.1–6.3 (P1, P2, P3) and Proposition J1-P1 (P4). These hold by proof, under the stated engine assumptions. Present-tense evidence for Journal 1.
 - **Empirical / trace evidence** — E1, E2, E3, E4, E6. All measurable on the classifier alone (Layer 1 + Layer 2). Already present-tense evidence.
 - **Prototype fidelity evidence** — F1, F2, F3. **CLOSED — PASS** (Section 7), bounded to the interface-contract state space and the implemented rule configuration. **Do not write future-tense planned implementation as completed experimental evidence, and do not read the closure as covering a populated SAFE rule set.**
-- **Performance evidence** — E5 / RQ-J2. **OPEN.** The harness is validated and a development-machine reference run is complete; target-hardware measurement remains outstanding and mandatory (Section 11).
+- **Performance evidence** — E5. **DEFERRED, NOT REQUIRED FOR CONTRIBUTION** *(revised 2026-09-21; RQ-J2 removed)*. The harness is validated (`E5_HARNESS = CLOSED`) and a development-machine reference run is complete; target-hardware measurement is future deployment work (Section 11).
 
 The fidelity criteria do not empirically rediscover Safety Dominance. They test whether the implementation conforms to the specification.
 
@@ -311,10 +317,10 @@ The specification closes carrying the following **bounded** open items, per task
 
 | ID | Item | Reason it is open | Blocks |
 |---|---|---|---|
-| OPEN-1 | Governance latency acceptance threshold `H3 = X ms` | No externally justified value exists | Only H3 in acceptance-hypothesis form; RQ-J2 is closed as a descriptive question |
+| ~~OPEN-1~~ | ~~Governance latency acceptance threshold `H3 = X ms`~~ | **CLOSED BY REMOVAL 2026-09-21** — RQ-J2 removed from the active RQ set, so no acceptance threshold is required | Nothing |
 | OPEN-2 | Decision-support utility construct | No operational definition on replay alone | Only the utility metric; other metrics are unaffected |
 | ~~OPEN-3~~ | ~~Layer 3 prototype fidelity evidence (F1, F2, F3)~~ | **CLOSED 2026-09-11 by the Batch 5 fidelity evaluation** — Layer 3 is implemented and F1–F3 are CLOSED PASS (Section 7). Retained struck through rather than deleted, as the record of an item that was open when this specification closed | Nothing. Superseded |
-| OPEN-5 | E5 target-hardware benchmark | Representative physical hardware unavailable; the harness is validated and only a development-machine reference exists | E5 / RQ-J2 only. `E5_ANDROID_TARGET_BENCHMARK = DEFERRED_MANDATORY` |
+| OPEN-5 | E5 target-hardware benchmark | Representative physical hardware unavailable | **Nothing.** Re-designated 2026-09-21: `E5_ANDROID_TARGET_BENCHMARK = DEFERRED_NOT_REQUIRED_FOR_CONTRIBUTION`. Future deployment evaluation; does not block thesis closure |
 | OPEN-4 | Future user study / socio-technical evaluation (thesis RQ5) | Requires field data outside Journal 1's evidence base | Explicitly outside Journal 1; does not block Journal 1 closure |
 
 No numerical threshold, utility formula or human-outcome value is fabricated to close any of these items.
@@ -356,7 +362,7 @@ EMPIRICAL / TRACE
   E6 C1 ↔ C3 = 0.00% (J1-P1 confirmation)
 
 PERFORMANCE
-  E5 / RQ-J2 governance latency and computational overhead (threshold OPEN)
+  E5 governance latency and computational overhead — DEFERRED, no active RQ (2026-09-21)
 
 HUMAN VALIDATION (out of Journal 1 scope)
   decision-support utility (OPEN — construct definition required)

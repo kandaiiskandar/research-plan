@@ -10,7 +10,9 @@
 
 **Title:** *A Graduated Safety-State-Gated Architecture for AI Decision Support in Low-Resource Environments: Design and Comparative Evaluation in Coastal Fisheries*
 
-**Core CS contribution:** A two-level AI governance architecture — the governance pair **(G(S), A_AI(S))** — that formally constrains both whether AI participates and what AI is permitted to recommend, conditioned on classified environmental safety state. This produces a novel intermediate CAUTION mode where AI participates within a formally restricted advisory scope, which no existing architecture implements.
+**Core CS contribution** *(revised 2026-09-21 under `docs/analysis/final-research-chain-lock.md`)***:** An operational architecture and specification that composes established safety-governance mechanisms — advisory-type restriction by externally measured state, totality of classification over incomplete observations, and conservative resolution of unusable inputs — for a human-facing decision-support setting in low-resource coastal fisheries, expressed as the governance pair **(G(S), A_AI(S))** over a classified environmental safety state.
+
+**The mechanisms are conceded to prior work.** Advisory-category inhibition conditioned on input validity is mandated in certified avionics (FAA TSO-C151c §5.6); totality over incomplete observations is established in runtime verification; directional bounds from declared unmeasured variables are standard partial-identification practice. **Do not claim mechanism novelty.** The contributions are the empirical characterisation of intermediate-state activation (primary), the domain operationalisation, and the separate specification of `G(S)` and `A_AI(S)`.
 
 **Formal pipeline:**
 
@@ -46,9 +48,9 @@ E → S = f(E) → (G(S), A_AI(S)) → AI(E) → Human Decision
 | RQ2 | Formal specification — E, S = f(E), G(S), A_AI(S), Safety Dominance Property | Primary CS contribution |
 | RQ3 | Prototype implementation — low-resource coastal fisheries deployment | Implementation |
 | RQ4 | Technical validation — three-condition comparison (ungated vs. binary-gated vs. two-level graduated) | Technical evaluation |
-| RQ5 | Contextual validation — user study with fishers across three safety states | Contextual evaluation, not a primary contribution |
+| ~~RQ5~~ | ~~Contextual validation — user study with fishers across three safety states~~ | **RE-DESIGNATED 2026-09-21: future socio-technical/contextual validation. NOT a thesis RQ — no fisher study has been conducted.** |
 
-**RQ5 is evaluation, not contribution.** It tests whether the architecture works with real users. It does not define a new theoretical strand. Socio-technical literature (Flehmig et al. 2025 STA variable, Rasmussen 1997, Zarei 2024) may appear in the discussion of RQ5 results as an interpretive lens — not in Chapter 2 or the methodology as a primary framework.
+**RQ5 has been re-designated as future work (2026-09-21).** No fisher study has been conducted, so it is not a thesis research question. Retained below as a legitimate future phase. It would test whether the architecture works with real users. It does not define a new theoretical strand. Socio-technical literature (Flehmig et al. 2025 STA variable, Rasmussen 1997, Zarei 2024) may appear in the discussion of RQ5 results as an interpretive lens — not in Chapter 2 or the methodology as a primary framework.
 
 ---
 
@@ -56,7 +58,7 @@ E → S = f(E) → (G(S), A_AI(S)) → AI(E) → Human Decision
 
 The research gap is established by four independent sources, each confirming the same absence from a different body of literature:
 
-1. **The problem statement** — no existing architecture restricts AI advisory scope (A_AI(S)) based on classified environmental safety state. Existing systems are binary: AI fully on or fully off.
+1. **The problem statement** *(revised 2026-09-21)* — advisory-type restriction conditioned on an externally measured state is established practice in certified avionics, and totality over incomplete observations and directional bounds from unmeasured variables are established elsewhere. **Within the reviewed literature**, these were not found composed into a single operational specification with `G(S)` and `A_AI(S)` separately specified over a classified multi-component *environmental* state for a human-facing low-resource DSS. This is a modest composition gap, not an architecture gap. The stronger gap is empirical: no characterisation was identified of how often an intermediate advisory-scope state changes the admissible set over a multi-year environmental record.
 2. **Indykov et al. (2025)** — after surveying 206 papers and 16 architectural tactics for ML-enabled systems, AT11 (rule-based models) → Safety = 0 (no demonstrated formal impact on Safety). The gap persists across the broader ML systems architecture literature.
 3. **Dalrymple et al. (2024)** — Guaranteed Safe AI is the theoretical umbrella. The proposed architecture is a domain-specific, state-conditioned instantiation of GS principles. GS AI is binary at the verification level (no CAUTION analogue). The proposed architecture fills this with (G(S), A_AI(S)).
 4. **Flehmig et al. (2024)** — closest structural precedent. Their traffic-light degradation index has three levels but the intermediate level (Orange) governs supervisory behaviour, not AI advisory scope. The AI gives identical full-scope output at Level 1 and Level 2. This is the most precise available evidence that the CAUTION mode gap is real.
