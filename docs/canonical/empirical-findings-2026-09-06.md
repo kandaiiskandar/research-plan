@@ -42,7 +42,17 @@
 | **C3 (Flehmig) vs C1 (binary) divergence** | **0.00%** | **0.00%** |
 | Level 2 contribution isolated (C0↔C2 − C0↔C1) | 5.81% | 4.48% |
 
-**The 1.3-point gap between the columns IS the grid-resolution sensitivity** (F-14). Report it as a robustness result, not as uncertainty about which number is true. PRIMARY is the headline because it covers the full five years; RESOLUTION is the check because it resolves nearshore island sheltering that a 50 km cell averages away.
+> ⚠️ **CORRECTED 2026-09-21 — the former wording of this paragraph is superseded.** It read: *"The 1.3-point gap between the columns IS the grid-resolution sensitivity (F-14)."* A common-period comparison over the shared 28,501 hours (`scripts/sensitivity/threshold_sensitivity.py`) separates the two confounded factors:
+>
+> | Effect | Value |
+> |---|---|
+> | Wave-model / data-resolution effect, record period held constant | 6.45% − 4.48% = **+1.97 points** |
+> | Record-length effect, wave model held constant | 5.81% − 6.45% = **−0.64 points** |
+> | Combined = reported spread | 1.97 − 0.64 = **1.33 points** |
+>
+> **The two effects operate in opposite directions.** The like-for-like grid-resolution sensitivity is **1.97 points**, not 1.33. The direction of the original claim — the coarser model classifies more conservatively — is correct; the magnitude was not. See `docs/analysis/threshold-sensitivity-analysis.md` §I.
+
+The 1.3-point gap between the columns is the **net** spread between the two reported configurations, which differ in wave model *and* record length. Report it as a robustness result, not as uncertainty about which number is true. PRIMARY is the headline because it covers the full five years; RESOLUTION is the check because it resolves nearshore island sheltering that a 50 km cell averages away.
 
 **F-15 (C3 ≡ C1) holds in both configurations at exactly 0.00%** — it is a structural property of the mapping, not a data artefact, so it cannot move with the wave model.
 
