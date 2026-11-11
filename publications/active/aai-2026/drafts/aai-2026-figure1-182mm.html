@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>AAI 2026 Figure 1 — 182 mm</title>
+<!--
+  ============================================================================
+  AAI 2026 - Figure 1, HTML source, physically sized.
+
+  TARGET WIDTH: 182 mm (7.165 in) - IEEE A4 two-column full text width.
+  Laid out on a 2020 px design grid, then scaled so the exported width is
+  exactly 182 mm. Nothing is ever wider than that.
+
+  TO CHANGE THE WIDTH: edit FIG_WIDTH_MM in the script at the foot of this
+  file. Height, type size and stroke weights all follow automatically.
+
+  TO HIDE THE CAPTION (the Word document supplies its own IEEE caption):
+  append  ?caption=0  to the URL, or add class="nocap" to <body>.
+
+  TO EXPORT:
+    Print to PDF - A4, margins >= 12 mm, "Background graphics" ON,
+                   scale 100% / "Default", NOT "Fit to page".
+    Raster       - screenshot the .sheet element at device scale factor 8+;
+                   182 mm at 8x is ~5500 px, about 770 dpi.
+  ============================================================================
+-->
+<style>
+/* ---- physical sizing shell -------------------------------------------- */
+:root{
+  --fig-w: 182mm;
+  --fig-h: 82.7278mm;
+  --k: 0.3405317;
+}
+html,body{background:#fff}
+body{margin:0;padding:6mm;display:flex;justify-content:center}
+.sheet{
+  width:var(--fig-w);
+  max-width:var(--fig-w);   /* never exceeds the target width */
+  height:var(--fig-h);
+  overflow:hidden;
+  position:relative;
+}
+.sheet > .wrap{position:absolute;top:0;left:0;transform-origin:0 0;transform:scale(var(--k))}
+body.nocap{--fig-h:78.6255mm}
+body.nocap .cap{display:none}
+
+@page{ size:A4; margin:12mm; }
+@media print{
+  body{padding:0;display:block}
+  .sheet{margin:0 auto}
+  *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+}
+
+/* ---- figure design grid (2020 px wide) -------------------------------- */
+
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#fff;font-family:"Liberation Sans","DejaVu Sans",sans-serif;color:#111}
+.wrap{width:2020px;padding:17.53px 20.03px 12.52px}
+.row{display:flex;align-items:stretch;gap:0}
+.panel{flex:0 0 auto;border:2.27px solid;border-radius:12.78px;overflow:hidden;display:flex;flex-direction:column}
+.hd{display:flex;align-items:center;gap:10.02px;padding:10.02px 11.27px;border-bottom:2.27px solid}
+.num{width:41.6px;height:41.6px;border-radius:50%;color:#fff;font-weight:700;font-size:24px;
+     display:flex;align-items:center;justify-content:center;flex:0 0 auto}
+.ttl{font-weight:700;font-size:24.8px;line-height:1.15;text-align:center;flex:1}
+.ttl small{display:block;font-weight:400;font-size:18.4px;line-height:1.2;margin-top:1.25px}
+.bd{padding:10.02px;display:flex;flex-direction:column;gap:8.76px;flex:1}
+.card{background:#fff;border:1.7px solid #c9ced6;border-radius:8.52px;padding:7.51px 8.76px}
+.card h4{font-size:19.68px;font-weight:700;margin-bottom:3.76px;line-height:1.2}
+.card h4 em{display:block;font-weight:400;font-style:normal;font-size:16.48px;color:#444;line-height:1.2}
+ul{list-style:none}
+li{font-size:18.56px;line-height:1.33;padding-left:10px;position:relative;margin-top:1.88px}
+li:before{content:"•";position:absolute;left:0;color:#333}
+li em{font-style:normal;font-size:16.32px;color:#444;display:block;line-height:1.2}
+.arrow{display:flex;align-items:center;justify-content:center;width:26px;flex:0 0 26px;font-size:23px;color:#222}
+/* stage colours */
+.p1{border-color:#8fb8dd;background:#eaf3fb} .p1 .hd{background:#d6e8f7;border-color:#8fb8dd} .p1 .num{background:#2f7cc0}
+.p2{border-color:#8fc9a4;background:#edf8f1} .p2 .hd{background:#d8f0e1;border-color:#8fc9a4} .p2 .num{background:#2e9e5b}
+.p3{border-color:#e8bc7a;background:#fdf6e9} .p3 .hd{background:#fbe8c6;border-color:#e8bc7a} .p3 .num{background:#e08a1e}
+.p4{border-color:#bda7dd;background:#f6f1fc} .p4 .hd{background:#e9dcf7;border-color:#bda7dd} .p4 .num{background:#7d55bb}
+.p5{border-color:#eba3ad;background:#fdeef0} .p5 .hd{background:#fadbe0;border-color:#eba3ad} .p5 .num{background:#d1455c}
+.p6{border-color:#8fb8dd;background:#eaf3fb} .p6 .hd{background:#d6e8f7;border-color:#8fb8dd} .p6 .num{background:#2f7cc0}
+/* widths */
+.w1{width:262px}.w2{width:290px}.w3{width:376px}.w4{width:322px}.w5{width:300px}.w6{width:300px}
+/* stage 2 */
+.comp{display:flex;align-items:flex-start;gap:7.51px;padding:5.01px 6.26px;background:#fff;border:1.56px solid #c9ced6;border-radius:7.1px;margin-top:5.01px}
+.comp svg{flex:0 0 auto;margin-top:1.25px}
+.comp div{font-size:18.4px;line-height:1.25}
+.comp div span{display:block;font-size:16.16px;color:#444;line-height:1.18}
+.states{background:#fff;border:1.7px solid #c9ced6;border-radius:8.52px;padding:6.26px 7.51px;margin-top:7.51px;text-align:center}
+.states b{font-size:19.68px}
+.chip{border-radius:7.1px;padding:3.76px 0;font-size:19.2px;font-weight:700;margin-top:3.76px}
+.safe{background:#bfe9c9;border:1.56px solid #6cbf85}.caut{background:#fde9ae;border:1.56px solid #e0b64a}.unsf{background:#f9bfc4;border:1.56px solid #e08088}
+/* stage 3 */
+.aai{background:#fff;border:1.7px solid #c9ced6;border-radius:8.52px;padding:8.76px;text-align:center}
+.aai .big{font-family:"Liberation Serif","DejaVu Serif",serif;font-style:italic;font-size:43.2px;font-weight:700}
+.aai .sub{font-size:18.24px;color:#333;margin-top:2.5px}
+.ctab{display:flex;gap:7.51px;margin-top:6.26px;align-items:stretch;flex:1}
+.ckey{flex:0 0 137.16px;display:flex;flex-direction:column;gap:6.26px}
+.ckey>*,.cval>*{flex:1}
+.cval{flex:1;display:flex;flex-direction:column;gap:6.26px}
+.hcell>span{display:block}
+.hcell{background:#fff;border:1.7px solid #c9ced6;border-radius:7.1px;padding:6.26px;text-align:center;font-size:18.56px;font-weight:700;line-height:1.2;min-height:55.09px;display:flex;align-items:center;justify-content:center}
+.hcell em{font-style:normal;font-weight:400;font-size:16px;color:#444;display:block}
+.vcell{background:#fff;border:1.7px solid #c9ced6;border-radius:7.1px;padding:6.26px;text-align:center;font-size:19.84px;line-height:1.25;min-height:55.09px;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.vcell em{font-style:normal;font-size:16.32px;color:#444}
+.scell{border-radius:7.1px;padding:6.26px;text-align:center;font-size:20.16px;font-weight:700;min-height:55.09px;display:flex;align-items:center;justify-content:center}
+/* stage 4 */
+.cfg{display:flex;gap:7.51px;align-items:stretch;background:#fff;border:1.7px solid #c9ced6;border-radius:8.52px;padding:6.26px 7.51px}
+.cfg .cid{font-family:"Liberation Serif","DejaVu Serif",serif;font-style:italic;font-size:27.2px;font-weight:700;flex:0 0 41.6px;display:flex;align-items:center;justify-content:center}
+.cfg .cbody{flex:1}
+.cfg .cname{font-size:19.04px;font-weight:700;line-height:1.2}
+.cfg .cname em{font-style:normal;font-weight:400;display:block;font-size:16.32px;color:#444}
+.cfg li{font-size:17.76px;margin-top:0.63px}
+.iso{background:#fdeef0;border:1.99px dashed #d1455c;border-radius:8.52px;padding:6.26px 7.51px}
+.iso b{font-size:18.72px;display:block;line-height:1.25}
+.iso li{font-size:17.76px}
+/* stage 5 */
+.delta{background:#fadbe0;border:1.99px solid #d1455c;border-radius:8.52px;padding:6.26px;text-align:center;
+       font-family:"Liberation Serif","DejaVu Serif",serif;font-style:italic;font-weight:700;font-size:40px;margin:5.01px 0}
+.note{font-size:16.96px;color:#333;line-height:1.25;text-align:center}
+.vsep{text-align:center;font-size:27.2px;color:#444;line-height:0.7;margin:1.25px 0}
+/* bottom band */
+.band{display:flex;margin-top:12.52px;align-items:center}
+.seg{display:flex;align-items:center;gap:8.76px;justify-content:center;font-size:21.44px;font-weight:700;padding-top:2.5px}
+.ln{flex:1;height:2.27px;background:#222;position:relative}
+.ln:before,.ln:after{content:"";position:absolute;top:-3.2px;border:5.68px solid transparent}
+.ln:before{left:0;border-right-color:#222;border-left:0}
+.ln:after{right:0;border-left-color:#222;border-right:0}
+.cap{text-align:center;font-family:"Liberation Serif","DejaVu Serif",serif;font-size:24.8px;margin-top:15.02px}
+.cap b{font-weight:700}
+
+/* delta: "L2" is one subscript, as in the manuscript */
+.delta .dsub{font-size:20.8px;vertical-align:baseline;position:relative;top:0.24em;letter-spacing:0.01em}
+</style>
+</head>
+<body>
+
+<div class="sheet"><div class="wrap">
+
+<div class="row">
+
+<!-- 1 -->
+<div class="panel p1 w1"><div class="hd"><div class="num">1</div><div class="ttl">Environmental<br>Historical Data<br>(2020–2024)</div></div>
+<div class="bd">
+<div class="card" style="text-align:center;padding-top:11.27px">
+<svg width="83" height="64" viewBox="0 0 52 40"><ellipse cx="26" cy="8" rx="17" ry="6" fill="#cfe2f3" stroke="#2f6fa8" stroke-width="2.27"/><path d="M9 8v22c0 3.3 7.6 6 17 6s17-2.7 17-6V8" fill="#cfe2f3" stroke="#2f6fa8" stroke-width="2.27"/><path d="M9 17c0 3.3 7.6 6 17 6s17-2.7 17-6M9 25c0 3.3 7.6 6 17 6s17-2.7 17-6" fill="none" stroke="#2f6fa8" stroke-width="1.85"/></svg>
+<div style="font-size:19.04px;line-height:1.3;margin-top:6.26px">Meteorological and<br>oceanographic records<br>(2020–2024)</div></div>
+<ul style="padding:2.5px 2.5px 0 5.01px">
+<li>Wind speed</li><li>Rainfall</li><li>Ocean state (wave)</li><li>Time (hour)</li>
+<li>Marine warning <em>(unavailable for replay period)</em></li></ul>
+</div></div>
+
+<div class="arrow">➔</div>
+
+<!-- 2 -->
+<div class="panel p2 w2"><div class="hd"><div class="num">2</div><div class="ttl">Environmental<br>State Classification</div></div>
+<div class="bd">
+<div style="border:1.85px dashed #6cbf85;border-radius:8.52px;padding:6.26px">
+<div class="comp"><svg width="27" height="22" viewBox="0 0 17 14"><path d="M1 4h9a2.2 2.2 0 1 0-2.2-2.2M1 8h12a2.4 2.4 0 1 1-2.4 2.4" fill="none" stroke="#2e7fbe" stroke-width="2.13" stroke-linecap="round"/></svg><div>Wind speed<span>(sourced threshold)</span></div></div>
+<div class="comp"><svg width="27" height="24" viewBox="0 0 17 15"><path d="M4.4 7.5a3.1 3.1 0 0 1 .3-6.1 3.9 3.9 0 0 1 7.3.6 2.8 2.8 0 0 1 .4 5.5z" fill="#bcd6ea" stroke="#4a7fa8" stroke-width="1.7"/><path d="M5 10l-1 3M8.5 10l-1 3M12 10l-1 3" stroke="#2e7fbe" stroke-width="1.99" stroke-linecap="round"/></svg><div>Rainfall<span>(sourced thresholds)</span></div></div>
+<div class="comp"><svg width="27" height="22" viewBox="0 0 17 14"><path d="M1 9.5c1.6-2 3-2 4.6 0s3 2 4.6 0 3-2 4.6 0M1 12.5c1.6-2 3-2 4.6 0s3 2 4.6 0 3-2 4.6 0" fill="none" stroke="#2e7fbe" stroke-width="2.13" stroke-linecap="round"/><circle cx="6" cy="4" r="3" fill="#bcd6ea" stroke="#4a7fa8" stroke-width="1.7"/></svg><div>Ocean state<span>(sourced threshold)</span></div></div>
+<div class="comp"><svg width="27" height="27" viewBox="0 0 17 17"><circle cx="8.5" cy="8.5" r="7" fill="#fff" stroke="#444" stroke-width="1.99"/><path d="M8.5 4.3v4.6l3 1.9" fill="none" stroke="#444" stroke-width="1.99" stroke-linecap="round"/></svg><div>Time / daylight state<span>(COLREGs boundary;<br>night→UNSAFE researcher-defined)</span></div></div>
+<div class="comp"><svg width="27" height="26" viewBox="0 0 17 16"><path d="M8.5 1.4 16 14.4H1z" fill="#fff" stroke="#444" stroke-width="1.99" stroke-linejoin="round"/><path d="M8.5 6v4" stroke="#444" stroke-width="2.13" stroke-linecap="round"/><circle cx="8.5" cy="12" r="0.9" fill="#444"/></svg><div>Marine warning<span>(excluded;<br>held at least-severe value)</span></div></div>
+</div>
+<div style="text-align:center;font-size:24px;color:#2e9e5b;line-height:0.8">↓</div>
+<div class="states"><b>Safety state <i style="font-family:Liberation Serif,serif">S</i></b>
+<div class="chip safe">SAFE</div><div class="chip caut">CAUTION</div><div class="chip unsf">UNSAFE</div></div>
+</div></div>
+
+<div class="arrow">➔</div>
+
+<!-- 3 -->
+<div class="panel p3 w3"><div class="hd"><div class="num">3</div><div class="ttl">Governance Contract<small>(State-dependent advisory-scope mapping)</small></div></div>
+<div class="bd">
+<div class="aai"><div class="big">A<sub style="font-size:22.4px">AI</sub>(S)</div><div class="sub">State-dependent advisory-scope mapping.</div></div>
+<div class="ctab">
+  <div class="ckey">
+    <div class="hcell"><span>Safety state&nbsp;<i style="font-family:Liberation Serif,serif">S</i></span></div>
+    <div class="scell safe">SAFE</div><div class="scell caut">CAUTION</div><div class="scell unsf">UNSAFE</div>
+  </div>
+  <div class="cval">
+    <div class="hcell"><span>Admissible recommendation set<br><i style="font-family:Liberation Serif,serif">A<sub>AI</sub>(S)</i></span></div>
+    <div class="vcell">FULL<em>(all recommendations)</em></div>
+    <div class="vcell">{Go, Delay}<em>(researcher-defined strict subset)</em></div>
+    <div class="vcell">∅<em>(no participation)</em></div>
+  </div>
+</div>
+</div></div>
+
+<div class="arrow">➔</div>
+
+<!-- 4 -->
+<div class="panel p4 w4"><div class="hd"><div class="num">4</div><div class="ttl">Governance Configurations<small>(Experimental Conditions)</small></div></div>
+<div class="bd">
+<div class="cfg"><div class="cid"><span>C<sub style="font-size:17.6px">0</sub></span></div><div class="cbody"><div class="cname">Ungated (baseline)</div><ul><li>SAFE: FULL</li><li>CAUTION: FULL</li><li>UNSAFE: FULL</li></ul></div></div>
+<div class="cfg"><div class="cid"><span>C<sub style="font-size:17.6px">1</sub></span></div><div class="cbody"><div class="cname">Participation-only</div><ul><li>SAFE: FULL</li><li>CAUTION: FULL</li><li>UNSAFE: ∅</li></ul></div></div>
+<div class="cfg"><div class="cid"><span>C<sub style="font-size:17.6px">2</sub></span></div><div class="cbody"><div class="cname">Intermediate-scope<em>(evaluated configuration)</em></div><ul><li>SAFE: FULL</li><li>CAUTION: {Go, Delay}</li><li>UNSAFE: ∅</li></ul></div></div>
+<div class="cfg"><div class="cid"><span>C<sub style="font-size:17.6px">3</sub></span></div><div class="cbody"><div class="cname">Three-state topology</div><ul><li>SAFE: FULL</li><li>CAUTION: FULL</li><li>UNSAFE: ∅</li></ul></div></div>
+<div class="iso"><b>Comparator / Isolation:<br><span style="white-space:nowrap"><i style="font-family:Liberation Serif,serif">C<sub>1</sub></i> vs <i style="font-family:Liberation Serif,serif">C<sub>2</sub></i></span></b>
+<ul><li>Same at SAFE and UNSAFE</li><li>Different only at CAUTION</li></ul></div>
+</div></div>
+
+<div class="arrow">➔</div>
+
+<!-- 5 -->
+<div class="panel p5 w5"><div class="hd"><div class="num">5</div><div class="ttl">Historical Replay<br>and Measurement</div></div>
+<div class="bd">
+<div class="card" style="display:flex;gap:8.76px;align-items:center">
+<svg width="42" height="35" viewBox="0 0 30 26"><ellipse cx="15" cy="5" rx="11" ry="4" fill="#fff" stroke="#444" stroke-width="1.99"/><path d="M4 5v16c0 2.2 4.9 4 11 4s11-1.8 11-4V5" fill="#fff" stroke="#444" stroke-width="1.99"/><path d="M4 11c0 2.2 4.9 4 11 4s11-1.8 11-4M4 16c0 2.2 4.9 4 11 4s11-1.8 11-4" fill="none" stroke="#444" stroke-width="1.7"/></svg>
+<div style="font-size:19.04px;line-height:1.3"><b>Deterministic replay</b><br><span style="font-size:16.64px;color:#444">(on classified record)</span></div></div>
+<div class="card"><h4 style="text-align:center">PRIMARY<br><span style="white-space:nowrap">(2020–2024)</span></h4>
+<ul><li>43,848 hourly records</li><li>9,135 evaluated hours <em>(departure window 05:00–09:00)</em></li></ul></div>
+<div class="card"><h4 style="text-align:center">RESOLUTION<br><span style="white-space:nowrap">(Oct 2021–Dec 2024)</span><em>alternative environmental-data configuration</em></h4>
+<ul><li>28,501 hourly records</li><li>5,935 evaluated hours <em>(departure window 05:00–09:00)</em></li></ul></div>
+<div class="vsep">↓</div>
+<div class="card" style="padding:7.51px">
+<div style="text-align:center;font-size:19.36px;font-weight:700">Binding-frequency measurement</div>
+<div class="delta">Δ<sub class="dsub">L2</sub></div>
+<div class="note">Frequency that the intermediate restriction binds<br>(<i style="font-family:Liberation Serif,serif">C<sub>2</sub></i> vs <i style="font-family:Liberation Serif,serif">C<sub>1</sub></i>)</div>
+<div class="note" style="margin-top:5.01px;border-top:1.42px solid #ddd;padding-top:3.76px">
+<span style="white-space:nowrap">Defined by (<i style="font-family:Liberation Serif,serif">C<sub>0</sub></i>↔<i style="font-family:Liberation Serif,serif">C<sub>2</sub></i>) − (<i style="font-family:Liberation Serif,serif">C<sub>0</sub></i>↔<i style="font-family:Liberation Serif,serif">C<sub>1</sub></i>);</span><br><span style="white-space:nowrap">direct cross-check <i style="font-family:Liberation Serif,serif">C<sub>1</sub></i>↔<i style="font-family:Liberation Serif,serif">C<sub>2</sub></i></span></div>
+</div>
+</div></div>
+
+<div class="arrow">➔</div>
+
+<!-- 6 -->
+<div class="panel p6 w6"><div class="hd"><div class="num">6</div><div class="ttl">Sensitivity and<br>Attribution Analysis</div></div>
+<div class="bd">
+<div class="card"><h4>Threshold configuration<em>(externally sourced thresholds)</em></h4>
+<ul><li>Alternative threshold sets</li><li>Rainfall threshold</li><li>Wind threshold</li><li>Wave UNSAFE boundary <em>(alternative reading)</em></li></ul></div>
+<div class="card"><h4>Vessel class analysis</h4>
+<ul><li>Small vessels (baseline)</li><li>Large vessels</li></ul></div>
+<div class="card"><h4>Denominator policy</h4>
+<ul><li>Departure-window</li><li>Daylight-only</li></ul></div>
+<div class="card"><h4>Component attribution</h4>
+<ul><li>Wind</li><li>Rainfall</li><li>Ocean state</li><li>Time / daylight state</li><li>Marine warning <em>(excluded)</em></li></ul></div>
+</div></div>
+
+</div>
+
+<div class="band">
+<div style="width:578px" class="seg"><div class="ln"></div><span>Data and Classification</span><div class="ln"></div></div>
+<div style="width:750px" class="seg"><div class="ln"></div><span>Governance Design</span><div class="ln"></div></div>
+<div style="width:326px" class="seg"><div class="ln"></div><span>Evaluation</span><div class="ln"></div></div>
+<div style="width:326px" class="seg"><div class="ln"></div><span>Robustness Analysis</span><div class="ln"></div></div>
+</div>
+
+<div class="cap"><b>Fig. 1.</b> Evaluation framework for measuring the operational effect of the intermediate governance restriction.</div>
+</div></div>
+
+<script>
+/* ------------------------------------------------------------------ *
+ *  Physical sizing. Change FIG_WIDTH_MM and nothing else.
+ * ------------------------------------------------------------------ */
+var FIG_WIDTH_MM = 182;          /* <<< the only number to edit */
+var DESIGN_PX    = 2020;          /* layout grid width, do not change */
+var DESIGN_H_CAP = 918.1875;         /* measured design height, with caption */
+var DESIGN_H_NO  = 872.65625;          /* measured design height, no caption */
+
+(function () {
+  if (new URLSearchParams(location.search).get('caption') === '0') {
+    document.body.classList.add('nocap');
+  }
+  var nocap   = document.body.classList.contains('nocap');
+  var designH = nocap ? DESIGN_H_NO : DESIGN_H_CAP;
+  var k    = (FIG_WIDTH_MM / 25.4 * 96) / DESIGN_PX;
+  var hMM  = designH * FIG_WIDTH_MM / DESIGN_PX;
+  var r = document.documentElement.style;
+  r.setProperty('--fig-w', FIG_WIDTH_MM + 'mm');
+  r.setProperty('--fig-h', hMM.toFixed(4) + 'mm');
+  r.setProperty('--k', k.toFixed(7));
+  document.title = 'AAI 2026 Figure 1 \u2014 ' + FIG_WIDTH_MM + ' \u00d7 ' +
+                   hMM.toFixed(1) + ' mm';
+})();
+</script>
+</body>
+</html>

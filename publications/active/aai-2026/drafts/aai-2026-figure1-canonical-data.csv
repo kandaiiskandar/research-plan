@@ -1,0 +1,12 @@
+# Canonical wave-threshold configurations evaluated by scripts/sensitivity/threshold_sensitivity.py
+# Reproduced 2026-09-24 (Python 3, pandas 2.3.3, numpy 2.2.6). No point is interpolated or estimated.
+# NOTE: the canonical script varies the pair (O_C, O_U) together. It contains NO sweep of the wave
+# CAUTION onset with O_U held fixed, so Delta_L2 is not a single-valued function of o_caution_onset_m
+# in this data: rows 2 and 4 share o_caution_onset_m = 1.00 and differ only in o_unsafe_boundary_m.
+o_caution_onset_m,o_unsafe_boundary_m,primary_delta_l2_pct,resolution_delta_l2_pct,canonical_label
+0.75,1.25,14.75,14.19,sens -0.25 on O_C
+1.00,1.25,5.81,4.48,CANONICAL small vessel
+1.25,1.50,2.54,1.67,sens +0.25 on O_C
+1.00,1.90,9.22,6.08,Yaakob failure point as O_U
+1.40,2.80,1.96,0.66,Yaakob medium vessel
+1.50,3.50,1.26,0.37,Yaakob big vessel / MET Cat1 ceiling

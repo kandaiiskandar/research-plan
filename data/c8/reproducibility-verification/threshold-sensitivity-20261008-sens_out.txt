@@ -1,0 +1,118 @@
+
+======================================================================
+PRIMARY  records=43,848  departure-window n=9,135
+======================================================================
+  BASELINE  Delta_L2(set-divergence) = 5.81%   P(CAUTION) = 5.81%   IDENTITY HOLDS
+  SAFE 51.31%   CAUTION 5.81%   UNSAFE 42.88%
+
+  BOUNDARY DENSITY (departure-window observations within +/- window of boundary)
+    wind 21.6kn   +/-2.0   n=     2  ( 0.02% of window)   max=21.80
+    wind 27.0kn   +/-2.0   n=     0  ( 0.00% of window)   max=21.80
+    rain 10.0mm   +/-3.0   n=    33  ( 0.36% of window)   max=45.80
+    rain 20.0mm   +/-5.0   n=     5  ( 0.05% of window)   max=45.80
+    wave 1.00m    +/-0.15  n= 1,300  (14.23% of window)   max=2.06
+    wave 1.25m    +/-0.15  n=   742  ( 8.12% of window)   max=2.06
+
+  COMPONENT ATTRIBUTION at canonical (departure window)
+    g_w: enters CAUTION      1   is binding component of final CAUTION      0
+    g_r: enters CAUTION     15   is binding component of final CAUTION     13
+    g_o: enters CAUTION    877   is binding component of final CAUTION    518
+    g_t: enters CAUTION      0   is binding component of final CAUTION      0
+    g_m: enters CAUTION      0   is binding component of final CAUTION      0
+    ties (>1 component at max during CAUTION): 0
+
+  ONE-AT-A-TIME SENSITIVITY  (Delta_L2 = P(CAUTION), departure window)
+    --- rainfall R_C (R_U fixed 20.0) ---
+      R_C=  5.0 -> Delta_L2   6.15%   UNSAFE  42.88%
+      R_C=  7.5 -> Delta_L2   5.93%   UNSAFE  42.88%
+      R_C= 10.0 -> Delta_L2   5.81%   UNSAFE  42.88%
+      R_C= 15.0 -> Delta_L2   5.70%   UNSAFE  42.88%
+      R_C= 19.9 -> Delta_L2   5.67%   UNSAFE  42.88%
+    --- wind W_C (W_U fixed 27.0) ---
+      W_C= 18.0 -> Delta_L2   5.81%   UNSAFE  42.88%
+      W_C= 20.0 -> Delta_L2   5.81%   UNSAFE  42.88%
+      W_C= 21.6 -> Delta_L2   5.81%   UNSAFE  42.88%
+      W_C= 22.0 -> Delta_L2   5.81%   UNSAFE  42.88%
+      W_C= 25.0 -> Delta_L2   5.81%   UNSAFE  42.88%
+    --- wave (O_C, O_U) ---
+      (0.75,1.25) -> Delta_L2  14.75%   UNSAFE  42.88%   [sens -0.25 on O_C]
+      ( 1.0,1.25) -> Delta_L2   5.81%   UNSAFE  42.88%   [CANONICAL small vessel]
+      (1.25, 1.5) -> Delta_L2   2.54%   UNSAFE  40.48%   [sens +0.25 on O_C]
+      ( 1.0, 1.9) -> Delta_L2   9.22%   UNSAFE  39.47%   [Yaakob failure point as O_U]
+      ( 1.4, 2.8) -> Delta_L2   1.96%   UNSAFE  39.44%   [Yaakob medium vessel]
+      ( 1.5, 3.5) -> Delta_L2   1.26%   UNSAFE  39.44%   [Yaakob big vessel / MET Cat1 ceiling]
+
+  TIME POLICY  T0 canonical (night->UNSAFE): Delta_L2 5.81%  n=9,135
+               T1 daylight-only denominator : Delta_L2 9.59%  n=5,536   UNSAFE 5.74%
+
+  COMBINED GRID  R_C x (O_C,O_U)   [Delta_L2 %]
+      R_C \ wave    (1.0, 1.25)    (1.0, 1.9)    (1.4, 2.8)    (1.5, 3.5)
+             5.0           6.15%         9.56%         2.42%         1.74%
+             7.5           5.93%         9.34%         2.12%         1.43%
+            10.0           5.81%         9.22%         1.96%         1.26%
+            15.0           5.70%         9.11%         1.84%         1.14%
+            19.9           5.67%         9.07%         1.81%         1.11%
+    grid min 1.11% at R_C=19.9, wave=(1.5,3.5)
+    grid max 9.56% at R_C=5.0, wave=(1.0,1.9)
+
+======================================================================
+RESOLUTION  records=28,501  departure-window n=5,935
+======================================================================
+  BASELINE  Delta_L2(set-divergence) = 4.48%   P(CAUTION) = 4.48%   IDENTITY HOLDS
+  SAFE 54.44%   CAUTION 4.48%   UNSAFE 41.08%
+
+  BOUNDARY DENSITY (departure-window observations within +/- window of boundary)
+    wind 21.6kn   +/-2.0   n=     0  ( 0.00% of window)   max=19.30
+    wind 27.0kn   +/-2.0   n=     0  ( 0.00% of window)   max=19.30
+    rain 10.0mm   +/-3.0   n=    25  ( 0.42% of window)   max=45.80
+    rain 20.0mm   +/-5.0   n=     4  ( 0.07% of window)   max=45.80
+    wave 1.00m    +/-0.15  n=   833  (14.04% of window)   max=1.80
+    wave 1.25m    +/-0.15  n=   368  ( 6.20% of window)   max=1.80
+
+  COMPONENT ATTRIBUTION at canonical (departure window)
+    g_w: enters CAUTION      0   is binding component of final CAUTION      0
+    g_r: enters CAUTION     14   is binding component of final CAUTION     13
+    g_o: enters CAUTION    436   is binding component of final CAUTION    253
+    g_t: enters CAUTION      0   is binding component of final CAUTION      0
+    g_m: enters CAUTION      0   is binding component of final CAUTION      0
+    ties (>1 component at max during CAUTION): 0
+
+  ONE-AT-A-TIME SENSITIVITY  (Delta_L2 = P(CAUTION), departure window)
+    --- rainfall R_C (R_U fixed 20.0) ---
+      R_C=  5.0 -> Delta_L2   5.04%   UNSAFE  41.08%
+      R_C=  7.5 -> Delta_L2   4.65%   UNSAFE  41.08%
+      R_C= 10.0 -> Delta_L2   4.48%   UNSAFE  41.08%
+      R_C= 15.0 -> Delta_L2   4.31%   UNSAFE  41.08%
+      R_C= 19.9 -> Delta_L2   4.26%   UNSAFE  41.08%
+    --- wind W_C (W_U fixed 27.0) ---
+      W_C= 18.0 -> Delta_L2   4.48%   UNSAFE  41.08%
+      W_C= 20.0 -> Delta_L2   4.48%   UNSAFE  41.08%
+      W_C= 21.6 -> Delta_L2   4.48%   UNSAFE  41.08%
+      W_C= 22.0 -> Delta_L2   4.48%   UNSAFE  41.08%
+      W_C= 25.0 -> Delta_L2   4.48%   UNSAFE  41.08%
+    --- wave (O_C, O_U) ---
+      (0.75,1.25) -> Delta_L2  14.19%   UNSAFE  41.08%   [sens -0.25 on O_C]
+      ( 1.0,1.25) -> Delta_L2   4.48%   UNSAFE  41.08%   [CANONICAL small vessel]
+      (1.25, 1.5) -> Delta_L2   1.67%   UNSAFE  39.63%   [sens +0.25 on O_C]
+      ( 1.0, 1.9) -> Delta_L2   6.08%   UNSAFE  39.48%   [Yaakob failure point as O_U]
+      ( 1.4, 2.8) -> Delta_L2   0.66%   UNSAFE  39.48%   [Yaakob medium vessel]
+      ( 1.5, 3.5) -> Delta_L2   0.37%   UNSAFE  39.48%   [Yaakob big vessel / MET Cat1 ceiling]
+
+  TIME POLICY  T0 canonical (night->UNSAFE): Delta_L2 4.48%  n=5,935
+               T1 daylight-only denominator : Delta_L2 7.40%  n=3,594   UNSAFE 2.70%
+
+  COMBINED GRID  R_C x (O_C,O_U)   [Delta_L2 %]
+      R_C \ wave    (1.0, 1.25)    (1.0, 1.9)    (1.4, 2.8)    (1.5, 3.5)
+             5.0           5.04%         6.64%         1.31%         1.03%
+             7.5           4.65%         6.25%         0.86%         0.57%
+            10.0           4.48%         6.08%         0.66%         0.37%
+            15.0           4.31%         5.91%         0.49%         0.20%
+            19.9           4.26%         5.86%         0.44%         0.15%
+    grid min 0.15% at R_C=19.9, wave=(1.5,3.5)
+    grid max 6.64% at R_C=5.0, wave=(1.0,1.9)
+
+======================================================================
+COMMON-PERIOD COMPARISON (de-confounds wave model from record length)
+======================================================================
+  PRIMARY wave model       common n=28,501  departure n=5,935  Delta_L2 6.45%  UNSAFE 42.90%
+  RESOLUTION wave model    common n=28,501  departure n=5,935  Delta_L2 4.48%  UNSAFE 41.08%

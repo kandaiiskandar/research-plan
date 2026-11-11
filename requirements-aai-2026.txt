@@ -1,0 +1,53 @@
+# Dependency specification for the AAI 2026 deterministic-replay experiment
+# ---------------------------------------------------------------------------
+# Created 2026-10-08 as part of a retrospective reproducibility documentation
+# task. This file did NOT exist when the experiments were executed in
+# September 2026, and no dependency file of any kind existed in the repository
+# before it.
+#
+# SCOPE
+#   Covers the four canonical ANALYSIS scripts:
+#     scripts/condition_comparison.py
+#     scripts/sensitivity/threshold_sensitivity.py
+#     scripts/diagnostic_binding.py
+#     scripts/canonical_figures.py
+#   and the shared module scripts/canonical_gt.py.
+#
+#   These import exactly two third-party packages. Everything else they use is
+#   Python standard library (argparse, csv, json, math, pathlib, sys, itertools,
+#   urllib). Verified by reading every import statement in the canonical scripts.
+#
+# PROVENANCE OF THESE VERSIONS
+#   Both pins below are the versions explicitly recorded for the 2026-09-21
+#   re-execution in docs/analysis/experiment-report-delta-l2.md line 395:
+#     "re-run on 2026-09-21 (Python 3, pandas 2.3.3, numpy 2.2.6)"
+#   They are HISTORICAL DOCUMENTED versions, not an observation of the author's
+#   current machine. They were not inferred from any installed environment.
+#
+# WHAT IS NOT ESTABLISHED
+#   * Python minor version — the record says only "Python 3". NOT INVENTED HERE.
+#     Do not read the absence of a python_requires line as a claim of
+#     compatibility with any particular minor version.
+#   * Operating system and architecture of the original run — unrecorded.
+#   * Whether these exact versions are still installed on the author's machine.
+#   * Whether the canonical scripts execute cleanly under these pins. No script
+#     was run and no package was installed during the task that created this
+#     file.
+#
+# NETWORK-ONLY DEPENDENCY
+#   scripts/collect_raw_v2.py additionally needs outbound HTTPS to Open-Meteo.
+#   It uses urllib from the standard library and needs no extra package.
+#   It is NOT required to reproduce published results: its outputs are committed.
+#
+# TO VERIFY IN A LATER CONTROLLED ENVIRONMENT CHECK
+#   1. The Python minor version actually used, recorded by the running process
+#      rather than by hand.
+#   2. That the canonical scripts execute cleanly under these pins.
+#   3. That the headline figures reproduce bit-for-bit under them, captured to
+#      a persistent file rather than to stdout or /tmp.
+#   4. Whether float comparison against the exact thresholds (1.0, 1.25, 21.6,
+#      27.0, 10.0, 20.0) is stable across numpy builds and architectures.
+# ---------------------------------------------------------------------------
+
+pandas==2.3.3
+numpy==2.2.6
