@@ -1,0 +1,281 @@
+{
+  "manifest_metadata": {
+    "manifest_name": "threshold-sensitivity-run-manifest",
+    "schema_version": "1.0",
+    "record_type": "controlled verification run of an existing canonical script",
+    "created_utc": "2026-10-08T14:54:44Z",
+    "created_by": "Independent computational reproducibility audit (M-6 controlled sensitivity reproduction)",
+    "purpose": "Record the provenance of a single controlled re-execution of scripts/sensitivity/threshold_sensitivity.py, so that the sensitivity figures reported in the AAI 2026 manuscript are backed by preserved machine output rather than by a dated Markdown report alone.",
+    "IMPORTANT_this_is_not_the_historical_run": "This run was executed on 2026-10-08. The original sensitivity analysis was executed in September 2026 (repository revision 3c70a1d, 2026-09-22) and its output was written to /tmp and lost. This manifest records a NEW execution of the UNCHANGED script, not a recovery of the historical run, and does not claim to recreate the historical execution environment.",
+    "verification_run_date": "2026-10-08",
+    "original_experiment_date_documented": "2026-09-21 (re-run recorded in docs/analysis/experiment-report-delta-l2.md:395); sensitivity script last modified at 3c70a1d, 2026-09-22",
+    "scientific_configuration_modified": false,
+    "script_source_modified": false
+  },
+
+  "repository_snapshot": {
+    "branch": "AMIT-v5",
+    "head_commit": "a7f77d8351ec94c586309d796aabd1230f4886dd",
+    "head_commit_short": "a7f77d8",
+    "head_commit_date": "2026-10-07 16:05:14 +0800",
+    "head_commit_subject": "Add Phase 8 Reference & Assembly Audit and Phase 9 Layout & Submission Audit documents for AAI 2026",
+    "matches_previous_manifest_snapshot": true,
+    "matches_previous_manifest_snapshot_note": "Branch and HEAD are identical to the snapshot recorded in data/c8/aai-2026-reproducibility-manifest.json. No Git state-changing operation was performed by this task.",
+    "working_tree_before_run": {
+      "clean": false,
+      "git_status_entries": 44,
+      "modified_tracked_files": 0,
+      "deleted_or_renamed_tracked_files": 0,
+      "note": "The working tree was ALREADY DIRTY before this run. 41 untracked entries under publications/active/aai-2026/drafts/ plus 3 entries created by the preceding manifest documentation task (data/c8/aai-2026-reproducibility-manifest.json, docs/reproducibility/, requirements-aai-2026.txt)."
+    },
+    "working_tree_after_run": {
+      "clean": false,
+      "git_status_entries": 45,
+      "modified_tracked_files": 0,
+      "deleted_or_renamed_tracked_files": 0,
+      "new_entries_created_by_this_task": [
+        "?? data/c8/reproducibility-verification/"
+      ],
+      "note": "Exactly one new git status entry. No tracked file was modified, deleted or renamed. docs/reproducibility/ already existed as an untracked directory, so the verification report added to it does not create a further entry."
+    },
+    "git_operations_performed": [
+      "branch --show-current",
+      "rev-parse HEAD",
+      "log -1",
+      "status --short"
+    ],
+    "git_state_changing_operations_performed": "none"
+  },
+
+  "pre_run_integrity": {
+    "all_hashes_match_reproducibility_manifest": true,
+    "canonical_scripts": [
+      {
+        "path": "scripts/sensitivity/threshold_sensitivity.py",
+        "role": "canonical sensitivity implementation (executed)",
+        "sha256": "6ddaea583941134b147956cc0d45cd785431ea7290643ba35a910a17f07a5730",
+        "matches_manifest": true
+      },
+      {
+        "path": "scripts/canonical_gt.py",
+        "role": "shared canonical g_t and is_daylight (imported)",
+        "sha256": "b330bf9f94e848aad282a71d226c85c7e73f4ec8c0f2f8c88bfd7112b6e9a577",
+        "matches_manifest": true
+      },
+      {
+        "path": "scripts/sensitivity/solar.py",
+        "role": "generator of the frozen solar artefact (NOT executed)",
+        "sha256": "3b7dc371ebe5931b3336f9982c5806a06a515dc2032569f5da7720470c1ec36c",
+        "matches_manifest": true
+      },
+      {
+        "path": "scripts/condition_comparison.py",
+        "role": "canonical headline experiment (NOT executed by this task)",
+        "sha256": "3c32913a2a9cc85ff237c927d6f2be7a57fe0a87a08de5e254dbf98150282d48",
+        "matches_manifest": true
+      },
+      {
+        "path": "scripts/sensitivity/gt_counterfactual.py",
+        "role": "supporting (NOT executed)",
+        "sha256": "eb58508e9159722d51b0bda4370f22a39554b8eb947601b5da23796d31e08f1d",
+        "matches_manifest": true
+      }
+    ],
+    "input_datasets": [
+      {
+        "path": "data/raw_weather_sea.csv",
+        "role": "atmospheric record, read by load() for both configurations",
+        "sha256": "96850d7547189ffa5ccc02a36cf69987bfae742e54b61597c2ca7d251e84c424",
+        "matches_manifest": true
+      },
+      {
+        "path": "data/raw_marine_era5_sea.csv",
+        "role": "PRIMARY wave record (ERA5-Ocean)",
+        "sha256": "6754e2c2ee5586ee864e590f1ccf363bbd8840b364763e01e8c9eb05e5d63888",
+        "matches_manifest": true
+      },
+      {
+        "path": "data/raw_marine_mfwam.csv",
+        "role": "RESOLUTION wave record (MFWAM)",
+        "sha256": "e9f323e086a3e9dddd29129bda6dbbea7590bbdcc9a1500c0460ca18233bf60f",
+        "matches_manifest": true
+      },
+      {
+        "path": "data/solar/solar-events-daily.csv",
+        "role": "frozen solar artefact consumed by canonical_gt",
+        "sha256": "057c46a19d0e8ea7956cdc38ae3d7615cf43cf800e7bc33ab286dfdc20ce1894",
+        "matches_manifest": true
+      }
+    ],
+    "archived_outputs_guarded": [
+      {
+        "path": "data/c8/canonical-results-post-migration.txt",
+        "sha256": "0bca160f69f68663d1f11672c0295cf9234624379a67e164fe50c5f2dde301a9",
+        "matches_manifest": true
+      },
+      {
+        "path": "data/c5/c5-run-manifest.json",
+        "sha256": "1f04720cb373e688925d1aa14299a9b056bf445b7641bc2e4b7c77795ee5c9ba",
+        "matches_manifest": true
+      }
+    ],
+    "used_unchanged_canonical_inputs": true
+  },
+
+  "execution_environment": {
+    "IMPORTANT_not_the_authors_machine": "This run was executed in the isolated Linux virtual machine through which this audit session reaches the repository, NOT on the author's own machine and NOT in the September 2026 environment.",
+    "python_version": "3.10.12",
+    "python_version_full": "3.10.12 (main, Aug 31 2026, 10:18:17) [GCC 11.4.0]",
+    "python_executable": "/usr/bin/python3",
+    "pandas_version": "2.3.3",
+    "numpy_version": "2.2.6",
+    "platform": "Linux-6.8.0-138-generic-aarch64-with-glibc2.35",
+    "machine": "aarch64",
+    "third_party_imports_required": ["pandas", "numpy"],
+    "packages_installed_upgraded_or_downgraded": "none",
+    "comparison_with_historical_record": {
+      "pandas": "MATCH - historical record documents 2.3.3",
+      "numpy": "MATCH - historical record documents 2.2.6",
+      "python_minor_version": "NOT COMPARABLE - the historical record states only 'Python 3'; the minor version used in September 2026 is UNKNOWN and was not assumed",
+      "operating_system": "NOT COMPARABLE - historical OS UNKNOWN",
+      "architecture": "NOT COMPARABLE - historical architecture UNKNOWN",
+      "recreates_historical_environment": false
+    }
+  },
+
+  "execution_record": {
+    "command": "python3 scripts/sensitivity/threshold_sensitivity.py",
+    "command_note": "The script contains no argparse and accepts no arguments; this is its documented canonical invocation. Its data paths are derived from __file__, so the result is independent of the working directory.",
+    "working_directory": "<repository root> (mounted as $HOME/mnt/research-test-2 in the audit VM)",
+    "invocations": 1,
+    "exit_code": 0,
+    "start_utc": "2026-10-08T14:54:41Z",
+    "end_utc": "2026-10-08T14:54:44Z",
+    "duration_seconds": 3.082,
+    "warnings_emitted": "none",
+    "errors_emitted": "none",
+    "stderr_bytes": 0,
+    "capture_method": "Shell redirection of stdout and stderr to separate files in the verification directory. The script additionally performs its OWN write to /tmp/sens_out.txt at line 150 (Path(...).write_text), which is a script-controlled write and not a shell redirection; that file was copied into the verification directory unmodified after the run. The script's P() helper both appends to an in-memory list and prints, so the two captures are expected to carry the same content.",
+    "script_side_effects": [
+      "Creates /tmp/sens_out.txt inside the execution VM (outside the repository). No pre-existing file was overwritten: /tmp/sens_out.txt was verified absent before the run."
+    ],
+    "canonical_artefacts_overwritten": "none"
+  },
+
+  "preserved_outputs": [
+    {
+      "path": "data/c8/reproducibility-verification/threshold-sensitivity-20261008-stdout.txt",
+      "content": "complete stdout of the run",
+      "bytes": 6924,
+      "sha256": "9323489a990399d082cea77563242b3a3c8bef1e8b2cca3788a8f614d383c127"
+    },
+    {
+      "path": "data/c8/reproducibility-verification/threshold-sensitivity-20261008-stderr.txt",
+      "content": "stderr of the run (empty)",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "data/c8/reproducibility-verification/threshold-sensitivity-20261008-sens_out.txt",
+      "content": "verbatim copy of the file the script itself wrote to /tmp/sens_out.txt",
+      "bytes": 6923,
+      "sha256": "db246059ffbf1ea5670a8498761286b902e35c40ebc5efbb45045fad9d221b14"
+    }
+  ],
+
+  "capture_consistency_check": {
+    "stdout_vs_script_written_file": "IDENTICAL except that the script-written file has no trailing newline on its final line (6923 vs 6924 bytes). diff reports exactly one difference, '\\ No newline at end of file'.",
+    "conclusion": "Either capture is a complete record of the run's reported output."
+  },
+
+  "post_run_integrity": {
+    "canonical_script_hashes_recomputed": "all 5 unchanged",
+    "input_dataset_hashes_recomputed": "all 4 unchanged",
+    "solar_artefact_unchanged": true,
+    "archived_canonical_results_unchanged": true,
+    "c5_run_manifest_unchanged": true,
+    "modified_tracked_files_after_run": 0,
+    "only_intended_artefacts_created": true,
+    "artefacts_created": [
+      "data/c8/reproducibility-verification/threshold-sensitivity-20261008-stdout.txt",
+      "data/c8/reproducibility-verification/threshold-sensitivity-20261008-stderr.txt",
+      "data/c8/reproducibility-verification/threshold-sensitivity-20261008-sens_out.txt",
+      "data/c8/reproducibility-verification/threshold-sensitivity-run-manifest.json",
+      "docs/reproducibility/aai-2026-sensitivity-verification-report.md"
+    ],
+    "integrity_check_failures": "none"
+  },
+
+  "configuration_as_read_from_source": {
+    "canonical_thresholds": {
+      "source_line": "scripts/sensitivity/threshold_sensitivity.py:19",
+      "W_C": 21.6,
+      "W_U": 27.0,
+      "R_C": 10.0,
+      "R_U": 20.0,
+      "O_C": 1.0,
+      "O_U": 1.25,
+      "matches_reproducibility_manifest": true
+    },
+    "governance_mappings_varied": false,
+    "governance_mappings_note": "Lines 61-63 freeze FULL/RESTRICTED/EMPTY and the C1 and C2 admissible-set tables. The script's own docstring states that A_AI(CAUTION) = {Go, Delay} is frozen and only environmental classification thresholds vary.",
+    "shared_g_t_used": true,
+    "shared_g_t_note": "Line 13 imports g_t and is_daylight from scripts/canonical_gt.py; no solar astronomy is embedded in the sensitivity script.",
+    "departure_window_mask": "(hour >= 5) & (hour <= 9), line 47",
+    "marine_warning_component": "held at SAFE for all rows (line 39), the declared exclusion D = {m}",
+    "data_configurations": {
+      "PRIMARY": "raw_marine_era5_sea.csv",
+      "RESOLUTION": "raw_marine_mfwam.csv"
+    },
+    "sweep_dimensions": {
+      "R_C": [5.0, 7.5, 10.0, 15.0, 19.9],
+      "W_C": [18.0, 20.0, 21.6, 22.0, 25.0],
+      "wave_O_C_O_U_pairs": [[0.75, 1.25], [1.0, 1.25], [1.25, 1.5], [1.0, 1.9], [1.4, 2.8], [1.5, 3.5]],
+      "combined_grid": "R_C (5 values) x wave (4 pairs) = 20",
+      "denominator_policies": ["departure window (canonical)", "daylight-only denominator (T1)", "common-period record restriction"]
+    }
+  },
+
+  "results_produced_by_this_run": {
+    "all_manuscript_sensitivity_values_produced": "7 of 8 produced directly in the output; the 56-combination count is not printed by the script and was established by static enumeration of the script's configuration literals, not by the run.",
+    "PRIMARY_baseline_delta_l2_pct": 5.81,
+    "RESOLUTION_baseline_delta_l2_pct": 4.48,
+    "PRIMARY_sourced_threshold_envelope_pct": [5.67, 9.56],
+    "RESOLUTION_sourced_threshold_envelope_pct": [4.26, 6.64],
+    "PRIMARY_large_vessel_delta_l2_pct": 1.26,
+    "RESOLUTION_large_vessel_delta_l2_pct": 0.37,
+    "PRIMARY_daylight_only_delta_l2_pct": 9.59,
+    "PRIMARY_daylight_only_n": 5536,
+    "RESOLUTION_daylight_only_delta_l2_pct": 7.40,
+    "RESOLUTION_daylight_only_n": 3594,
+    "PRIMARY_alternative_wave_unsafe_delta_l2_pct": 9.22,
+    "RESOLUTION_alternative_wave_unsafe_delta_l2_pct": 6.08,
+    "additional_values_produced_not_reported_in_manuscript": {
+      "PRIMARY_grid_min_pct": 1.11,
+      "RESOLUTION_grid_min_pct": 0.15,
+      "PRIMARY_O_C_perturbation_span_pct": [2.54, 14.75],
+      "RESOLUTION_O_C_perturbation_span_pct": [1.67, 14.19],
+      "common_period_PRIMARY_delta_l2_pct": 6.45,
+      "common_period_RESOLUTION_delta_l2_pct": 4.48,
+      "PRIMARY_component_binding_CAUTION": {"g_o": 518, "g_r": 13, "g_w": 0, "g_t": 0, "g_m": 0, "ties": 0},
+      "RESOLUTION_component_binding_CAUTION": {"g_o": 253, "g_r": 13, "g_w": 0, "g_t": 0, "g_m": 0, "ties": 0}
+    },
+    "printed_precision": "2 decimal places for all percentages; the script's format specifiers are .2f. Underlying float values are not recoverable from the preserved output."
+  },
+
+  "limitations": [
+    "This run does not recreate the September 2026 execution environment. Only the pandas and numpy versions are known to match; the historical Python minor version, OS and architecture are UNKNOWN.",
+    "The script prints percentages at 2 decimal places. Sub-0.01-point agreement with the historical run cannot be observed from the preserved output, and the historical output no longer exists for byte comparison.",
+    "The 56-combination count is not emitted by the script. It was derived by static enumeration of the script's own configuration literals, which requires one interpretive step (see the verification report, section E).",
+    "The exclusive component attribution printed by this run (518 / 13 for PRIMARY) was outside this task's verification scope and is recorded but not verified here.",
+    "No other canonical script was executed. The headline experiment, the attribution analysis and the figure generation remain unexecuted by this task."
+  ],
+
+  "files_created_by_this_task": [
+    "data/c8/reproducibility-verification/threshold-sensitivity-20261008-stdout.txt",
+    "data/c8/reproducibility-verification/threshold-sensitivity-20261008-stderr.txt",
+    "data/c8/reproducibility-verification/threshold-sensitivity-20261008-sens_out.txt",
+    "data/c8/reproducibility-verification/threshold-sensitivity-run-manifest.json",
+    "docs/reproducibility/aai-2026-sensitivity-verification-report.md"
+  ]
+}

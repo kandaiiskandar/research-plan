@@ -1,0 +1,1062 @@
+{
+  "manifest_metadata": {
+    "manifest_name": "aai-2026-reproducibility-manifest",
+    "schema_version": "1.0",
+    "created_utc": "2026-10-08T13:57:37Z",
+    "created_by": "Independent reproducibility documentation task (M-6 follow-up)",
+    "purpose": "Record the provenance of the canonical experiment supporting the AAI 2026 manuscript: scripts, input datasets, configuration, archived outputs and the evidence status of each reported numerical result.",
+    "manuscript_title": "From Declared Risk Levels to Admissible Recommendations: Measuring the Operational Effect of AI Governance Through Deterministic Historical Replay",
+    "manuscript_baseline_file": "publications/active/aai-2026/drafts/aai-2026-manuscript-v7-rewrite-v2.docx",
+    "manuscript_baseline_sha256": "f8769389a5e5c681dcd26cf870a23c0c4760e8d28c02ecb45e347b48b9f1f6bf",
+    "manuscript_baseline_bytes": 419027,
+    "manuscript_baseline_note": "The document supplied as the 'latest baseline' during this task is byte-identical to the file already stored as v7; no v8 was created.",
+    "IMPORTANT_this_manifest_is_retrospective": "This manifest was created on 2026-10-08. It did NOT exist when the September 2026 experiments were executed. It records provenance discoverable today; it is not a contemporaneous run record.",
+    "IMPORTANT_this_manifest_does_not_verify_results": "Creating this manifest does not verify any experimental result. No canonical experiment, sensitivity analysis or attribution analysis was executed during this task.",
+    "experiment_not_executed_during_this_task": true
+  },
+  "repository_snapshot": {
+    "inspected_utc": "2026-10-08T13:57:37Z",
+    "branch": "AMIT-v5",
+    "branch_note": "NOT 'main'. The task brief stated the repository was checked out to the latest main branch; it is not. Recorded as observed.",
+    "head_commit": "a7f77d8351ec94c586309d796aabd1230f4886dd",
+    "head_commit_short": "a7f77d8",
+    "head_commit_date": "2026-10-07 16:05:14 +0800",
+    "head_commit_subject": "Add Phase 8 Reference & Assembly Audit and Phase 9 Layout & Submission Audit documents for AAI 2026",
+    "remote_origin": "git@github.com:kandaiiskandar/research-plan.git",
+    "remote_visibility": null,
+    "remote_visibility_note": "NOT VERIFIED. The remote is an SSH URL; this session has no GitHub API access to the repository and a visibility check was not completed. Public accessibility must not be asserted on this basis.",
+    "working_tree_before_this_task": {
+      "clean": false,
+      "modified_tracked_files": 0,
+      "untracked_entries": 41,
+      "note": "The working tree was ALREADY DIRTY before this task began. All 41 entries were untracked ('??') files under publications/active/aai-2026/drafts/ produced by earlier sessions. No tracked file was modified. This task adds further untracked files; see files_created_by_this_task."
+    },
+    "working_tree_after_this_task": {
+      "clean": false,
+      "note": "Still dirty. Four new files are added (manifest, reproduction guide, verification report, requirements file). git status reports 3 additional entries, not 4, because the two files under the new docs/reproducibility/ directory collapse into a single untracked-directory entry. No tracked file was modified, deleted or renamed by this task.",
+      "expected_additional_untracked_entries": 3
+    },
+    "git_operations_performed": [
+      "branch --show-current",
+      "rev-parse HEAD",
+      "status --short",
+      "ls-files",
+      "log",
+      "show"
+    ],
+    "git_state_changing_operations_performed": "none"
+  },
+  "historical_execution": {
+    "headline_experiment": {
+      "revision": "babe92ffa1268fb327fa2b14b1c7827d2d294dcd",
+      "revision_short": "babe92f",
+      "date": "2026-09-08 21:06:22 +0800",
+      "subject": "Refactor solar-event classification and update scripts for SDR-001 implementation",
+      "basis": "This is the commit that introduced data/c8/canonical-results-post-migration.txt, the only archived console capture of the canonical scripts.",
+      "code_stability_verified": true,
+      "code_stability_evidence": "canonical_gt.py, condition_comparison.py, diagnostic_binding.py and threshold_comparison.py, and all four input data files, are UNCHANGED between babe92f and HEAD (git log babe92f..HEAD -- <path> returns no commits). Their working-tree copies are byte-identical to their HEAD copies.",
+      "confidence": "HIGH for the headline comparator chain"
+    },
+    "sensitivity_analysis": {
+      "revision": "3c70a1d",
+      "date": "2026-09-22 09:35:46 +0800",
+      "subject": "Refine governance gap discussion, update empirical findings, and enhance session logs",
+      "basis": "The commit that introduced docs/analysis/threshold-sensitivity-analysis.md (dated 2026-09-21) and last modified scripts/sensitivity/threshold_sensitivity.py.",
+      "code_stability_verified": true,
+      "code_stability_evidence": "threshold_sensitivity.py is UNCHANGED between 3c70a1d and HEAD.",
+      "output_preserved": false,
+      "confidence": "MEDIUM — the code revision is identified, but no output of that run survives."
+    },
+    "figure_generation": {
+      "revision": "f8215e4",
+      "date": "2026-09-09",
+      "note": "scripts/canonical_figures.py CHANGED after the babe92f results capture. Figures regenerated at HEAD would come from a different revision than the archived output. The archived output itself is unaffected.",
+      "confidence": "LOW for matching the archived capture"
+    },
+    "data_collection": {
+      "revision": "21695e0",
+      "date": "2026-09-06 12:55:31 +0800",
+      "subject": "Add new scripts for diagnostic analysis, historical replay, hysteresis analysis, and threshold comparison",
+      "note": "First commit of collect_raw_v2.py and the three raw CSVs. The actual API retrieval occurred on or before this timestamp; no finer record exists."
+    },
+    "independent_re_execution_on_record": {
+      "date": "2026-09-21",
+      "source": "docs/analysis/experiment-report-delta-l2.md:16, :395",
+      "quoted": "The first two were re-run on 2026-09-21 (Python 3, pandas 2.3.3, numpy 2.2.6) and reproduced 5.81% / 4.48% / 0.00% / 42.88% / 48.69% exactly.",
+      "output_preserved": false,
+      "note": "A documented re-execution two weeks after the archived capture. Its console output was not preserved; the claim rests on this prose record."
+    }
+  },
+  "current_environment": {
+    "WARNING_this_is_not_the_project_environment": "The values below were inspected inside the isolated Linux VM through which this session reads the repository. They are NOT the author's machine, on which the experiment was executed. Treat them as an inspection environment only.",
+    "inspected_utc": "2026-10-08T13:57:37Z",
+    "operating_system": "Linux 6.8.0-138-generic",
+    "architecture": "aarch64",
+    "python_version": "3.10.12",
+    "python_build": "main, Aug 31 2026, 10:18:17 [GCC 11.4.0]",
+    "pandas_version": "2.3.3",
+    "numpy_version": "2.2.6",
+    "coincidence_note": "pandas and numpy in this inspection environment happen to match the historically documented versions. This is corroborative, not evidence that the author's current machine matches."
+  },
+  "historical_environment": {
+    "source": "docs/analysis/experiment-report-delta-l2.md:395",
+    "date_of_record": "2026-09-21",
+    "python_version": null,
+    "python_version_note": "Recorded only as 'Python 3'. The minor version is UNKNOWN and was not invented.",
+    "pandas_version": "2.3.3",
+    "numpy_version": "2.2.6",
+    "operating_system": null,
+    "operating_system_note": "UNKNOWN. Not recorded anywhere in the repository.",
+    "architecture": null,
+    "machine_readable_specification_exists": false,
+    "machine_readable_specification_note": "No requirements.txt, pyproject.toml, setup.py, setup.cfg, Pipfile, environment.yml or conda file exists anywhere in the repository. The version record above is prose in a research report."
+  },
+  "canonical_scripts": [
+    {
+      "path": "scripts/collect_raw_v2.py",
+      "role": "Data collection (v2, canonical). Retrieves sea-cell weather and both marine wave series from Open-Meteo.",
+      "status": "canonical",
+      "tracked": true,
+      "sha256": "c646dc9a575f3f15bb32f24e9db83927f950298d18f6e2ba53b5d4a30d3e82d6",
+      "bytes": 7916,
+      "last_commit": "21695e0 (2026-09-06)",
+      "unchanged_since_headline_revision": true,
+      "key_constants": {
+        "LATITUDE": 5.98,
+        "LONGITUDE": 116.01,
+        "TIMEZONE": "Asia/Kuching",
+        "MFWAM_MIN_START": "2021-10-01",
+        "SEPARATION_WARN_KM": 15.0
+      },
+      "third_party_dependencies": [],
+      "stdlib_dependencies": [
+        "argparse",
+        "csv",
+        "json",
+        "math",
+        "urllib.request",
+        "urllib.parse",
+        "pathlib"
+      ],
+      "relationship_to_manuscript": "Produces the inputs behind every reported result. Not required to rerun the analysis, because its outputs are committed."
+    },
+    {
+      "path": "scripts/canonical_gt.py",
+      "role": "Canonical time classifier g_t (SDR-001). Single shared implementation; imported by every analysis script.",
+      "status": "canonical",
+      "tracked": true,
+      "sha256": "b330bf9f94e848aad282a71d226c85c7e73f4ec8c0f2f8c88bfd7112b6e9a577",
+      "bytes": 5760,
+      "last_commit": "babe92f (2026-09-08)",
+      "unchanged_since_headline_revision": true,
+      "key_constants": {
+        "rule": "SAFE iff sunrise(date) <= t < sunset(date); UNSAFE otherwise; UNSAFE on bottom",
+        "image": "{SAFE, UNSAFE} — CAUTION not in image",
+        "CANONICAL_LAT": 5.98,
+        "CANONICAL_LON": 116.01,
+        "CANONICAL_TZ": 8,
+        "SOLAR_SPEC_VERSION": "solar-spec-v1",
+        "SOLAR_IMPL_VERSION": "solar-v1"
+      },
+      "third_party_dependencies": [
+        "pandas",
+        "numpy"
+      ],
+      "relationship_to_manuscript": "Supplies the time component of the state classifier; determines the non-daylight UNSAFE policy."
+    },
+    {
+      "path": "scripts/condition_comparison.py",
+      "role": "PRIMARY entry point for the headline experiment: classifier, the four governance mappings, pairwise admissible-set divergence, and the departure-window filter.",
+      "status": "canonical",
+      "tracked": true,
+      "sha256": "3c32913a2a9cc85ff237c927d6f2be7a57fe0a87a08de5e254dbf98150282d48",
+      "bytes": 14912,
+      "last_commit": "babe92f (2026-09-08)",
+      "unchanged_since_headline_revision": true,
+      "key_constants": {
+        "W_CAUTION": 21.6,
+        "W_UNSAFE": 27.0,
+        "R_CAUTION": 10.0,
+        "R_UNSAFE": 20.0,
+        "LO": 1.0,
+        "HI": 1.25,
+        "departure_window": "d.hour >= 5 and d.hour <= 9",
+        "divergence_rule": "set inequality (x != y) over per-hour frozensets"
+      },
+      "third_party_dependencies": [
+        "pandas",
+        "numpy"
+      ],
+      "relationship_to_manuscript": "Produces C0<->C1, C0<->C2, Delta_L2, C1<->C3 and the state distributions for both configurations."
+    },
+    {
+      "path": "scripts/sensitivity/threshold_sensitivity.py",
+      "role": "Threshold, vessel-class and denominator sensitivity sweeps.",
+      "status": "canonical",
+      "tracked": true,
+      "sha256": "6ddaea583941134b147956cc0d45cd785431ea7290643ba35a910a17f07a5730",
+      "bytes": 7767,
+      "last_commit": "3c70a1d (2026-09-22)",
+      "unchanged_since_headline_revision": false,
+      "unchanged_since_sensitivity_revision": true,
+      "key_constants": {
+        "CANON": {
+          "W_C": 21.6,
+          "W_U": 27.0,
+          "R_C": 10.0,
+          "R_U": 20.0,
+          "O_C": 1.0,
+          "O_U": 1.25
+        }
+      },
+      "third_party_dependencies": [
+        "pandas",
+        "numpy"
+      ],
+      "DEFECT_ephemeral_output": "Line 150 writes the entire run output to /tmp/sens_out.txt, which is not retained and is absent. This is the single cause of the sensitivity evidence gap.",
+      "relationship_to_manuscript": "Produces the sourced-threshold envelopes, the vessel-class variants, the alternative wave UNSAFE result and the daylight-only denominator figures. None of its output is archived."
+    },
+    {
+      "path": "scripts/sensitivity/gt_counterfactual.py",
+      "role": "Time-policy counterfactual (incumbent fixed clock vs solar vs civil twilight).",
+      "status": "supporting",
+      "tracked": true,
+      "sha256": "eb58508e9159722d51b0bda4370f22a39554b8eb947601b5da23796d31e08f1d",
+      "bytes": 5922,
+      "last_commit": "edde171 (2026-09-08)",
+      "key_constants": {
+        "W_CAUTION": 21.6,
+        "W_UNSAFE": 27.0,
+        "R_CAUTION": 10.0,
+        "R_UNSAFE": 20.0,
+        "TH": {
+          "small": [
+            1.0,
+            1.25
+          ],
+          "big": [
+            1.5,
+            3.5
+          ]
+        }
+      },
+      "third_party_dependencies": [
+        "pandas",
+        "numpy"
+      ],
+      "local_module_dependency": "scripts/sensitivity/solar.py",
+      "note": "Calls main() at module level with no __main__ guard, so importing the module executes it.",
+      "relationship_to_manuscript": "No result from this script is reported in the manuscript."
+    },
+    {
+      "path": "scripts/sensitivity/solar.py",
+      "role": "Solar-table implementation imported by gt_counterfactual.py; the generator certified by the frozen solar artefact.",
+      "status": "canonical (supporting)",
+      "tracked": true,
+      "sha256": "3b7dc371ebe5931b3336f9982c5806a06a515dc2032569f5da7720470c1ec36c",
+      "bytes": 1742,
+      "last_commit": "edde171 (2026-09-08)",
+      "VERIFIED_LINK": "This file's SHA-256 equals the impl_sha256 column recorded in every row of data/solar/solar-events-daily.csv and the hash quoted in canonical_gt.py. The artefact self-certifies its generator, and the generator is present and unchanged."
+    },
+    {
+      "path": "scripts/diagnostic_binding.py",
+      "role": "Component attribution (binding shares, 'at max' counts) and pre-registered prediction checks.",
+      "status": "canonical",
+      "tracked": true,
+      "sha256": "113b5b92e81535a97a8967aa2658e3c1da5ef2f32cf04dae0e18ccd5c57ecb61",
+      "bytes": 10009,
+      "last_commit": "babe92f (2026-09-08)",
+      "unchanged_since_headline_revision": true,
+      "key_constants": {
+        "VESSEL_THRESHOLDS": {
+          "small": [
+            1.0,
+            1.25
+          ],
+          "medium": [
+            1.4,
+            2.8
+          ],
+          "big": [
+            1.5,
+            3.5
+          ]
+        }
+      },
+      "third_party_dependencies": [
+        "pandas",
+        "numpy"
+      ],
+      "cli_flags": [
+        "--write-register",
+        "--v1-historical"
+      ],
+      "relationship_to_manuscript": "Produces overlapping 'at max' binding shares. It does NOT produce the exclusive 518/13 split the manuscript reports."
+    },
+    {
+      "path": "scripts/canonical_figures.py",
+      "role": "Authoritative figure/summary generator for both configurations.",
+      "status": "canonical",
+      "tracked": true,
+      "sha256": "56c8d4c295b0df7d904728cdeaaa30063d83d8d71f99db4f6f47d76b3c03eb8b",
+      "bytes": 10586,
+      "last_commit": "f8215e4 (2026-09-09)",
+      "unchanged_since_headline_revision": false,
+      "CHANGED_AFTER_ARCHIVED_CAPTURE": "Modified at f8215e4 on 2026-09-09, one day after the babe92f capture. Output regenerated at HEAD may differ from the archived output.",
+      "key_constants": {
+        "TH": {
+          "small": [
+            1.0,
+            1.25
+          ],
+          "medium": [
+            1.4,
+            2.8
+          ],
+          "big": [
+            1.5,
+            3.5
+          ]
+        }
+      },
+      "third_party_dependencies": [
+        "pandas",
+        "numpy"
+      ]
+    },
+    {
+      "path": "scripts/threshold_comparison.py",
+      "role": "Threshold provenance comparison: MET criteria vs hydrodynamic evidence, with the sea-state-to-metre conversion rules stated in code.",
+      "status": "supporting",
+      "tracked": true,
+      "sha256": "daed570596df1dbf4e7f331ed4d57576467cf9307ca66caa1a0b844c0b67f8ec",
+      "bytes": 5269,
+      "last_commit": "babe92f (2026-09-08)",
+      "unchanged_since_headline_revision": true,
+      "third_party_dependencies": [
+        "pandas",
+        "numpy"
+      ],
+      "relationship_to_manuscript": "Documents the derivation of the wave thresholds reported in Section IV. Produces no reported figure."
+    },
+    {
+      "path": "scripts/openmeteo_raw_download.py",
+      "role": "v1 data collection.",
+      "status": "superseded",
+      "tracked": true,
+      "note": "Superseded by collect_raw_v2.py. Its land-cell default is defect F-10. Listed so it is not mistaken for canonical."
+    }
+  ],
+  "input_datasets": [
+    {
+      "configuration": "PRIMARY",
+      "component": "weather",
+      "path": "data/raw_weather_sea.csv",
+      "sha256": "96850d7547189ffa5ccc02a36cf69987bfae742e54b61597c2ca7d251e84c424",
+      "bytes": 1594931,
+      "tracked": true,
+      "last_commit": "21695e0 (2026-09-06)",
+      "provider": "Open-Meteo",
+      "api_endpoint": "https://archive-api.open-meteo.com/v1/archive",
+      "model_identifier": null,
+      "model_identifier_note": "No explicit model parameter; the historical archive default was used.",
+      "requested_coordinates": {
+        "latitude": 5.98,
+        "longitude": 116.01,
+        "cell_selection": "sea"
+      },
+      "returned_coordinates": {
+        "latitude": 5.940246,
+        "longitude": 116.025
+      },
+      "timezone": "Asia/Kuching",
+      "utc_offset_seconds": 28800,
+      "timestamps_are": "local time (UTC+8)",
+      "temporal_coverage": {
+        "first": "2020-01-01T00:00",
+        "last": "2024-12-31T23:00"
+      },
+      "temporal_resolution": "hourly",
+      "variables_and_units": [
+        "wind_speed_10m (kn)",
+        "wind_direction_10m (deg)",
+        "wind_gusts_10m (kn)",
+        "precipitation (mm)",
+        "weather_code (wmo code)"
+      ],
+      "rows": 43848,
+      "missing_values": {
+        "count": 0,
+        "handling": "none required; zero NaN in every column"
+      },
+      "retrieval_timestamp": null,
+      "retrieval_timestamp_note": "UNKNOWN. The collection script writes no log. Bounded only by the first commit: on or before 2026-09-06 12:55:31 +0800."
+    },
+    {
+      "configuration": "PRIMARY",
+      "component": "marine (waves)",
+      "path": "data/raw_marine_era5_sea.csv",
+      "sha256": "6754e2c2ee5586ee864e590f1ccf363bbd8840b364763e01e8c9eb05e5d63888",
+      "bytes": 1184178,
+      "tracked": true,
+      "last_commit": "21695e0 (2026-09-06)",
+      "provider": "Open-Meteo",
+      "api_endpoint": "https://marine-api.open-meteo.com/v1/marine",
+      "model_identifier": "era5_ocean",
+      "requested_coordinates": {
+        "latitude": 5.98,
+        "longitude": 116.01,
+        "cell_selection": "sea"
+      },
+      "returned_coordinates": {
+        "latitude": 6.0,
+        "longitude": 116.0
+      },
+      "timezone": "Asia/Kuching",
+      "utc_offset_seconds": 28800,
+      "timestamps_are": "local time (UTC+8)",
+      "temporal_coverage": {
+        "first": "2020-01-01T00:00",
+        "last": "2024-12-31T23:00"
+      },
+      "temporal_resolution": "hourly",
+      "variables_and_units": [
+        "wave_height (m)",
+        "wave_period (s)"
+      ],
+      "rows": 43848,
+      "usable_rows": 43848,
+      "missing_values": {
+        "count": 0,
+        "handling": "none required"
+      },
+      "retrieval_timestamp": null,
+      "manuscript_description": "ERA5-Ocean at approximately 50 km resolution",
+      "note": "'ERA5-Ocean' is not an official product name. The CDS serves ERA5 ocean-wave variables on a 0.5 degree grid."
+    },
+    {
+      "configuration": "RESOLUTION",
+      "component": "marine (waves)",
+      "path": "data/raw_marine_mfwam.csv",
+      "sha256": "e9f323e086a3e9dddd29129bda6dbbea7590bbdcc9a1500c0460ca18233bf60f",
+      "bytes": 770008,
+      "tracked": true,
+      "last_commit": "21695e0 (2026-09-06)",
+      "provider": "Open-Meteo",
+      "api_endpoint": "https://marine-api.open-meteo.com/v1/marine",
+      "model_identifier": "meteofrance_wave",
+      "requested_coordinates": {
+        "latitude": 5.98,
+        "longitude": 116.01,
+        "cell_selection": "sea"
+      },
+      "returned_coordinates": {
+        "latitude": 5.958336,
+        "longitude": 116.04167
+      },
+      "requested_period": {
+        "start": "2021-10-01",
+        "end": "2024-12-31"
+      },
+      "timezone": "Asia/Kuching",
+      "utc_offset_seconds": 28800,
+      "timestamps_are": "local time (UTC+8)",
+      "temporal_coverage": {
+        "first": "2021-10-01T00:00",
+        "last": "2024-12-31T23:00"
+      },
+      "temporal_resolution": "hourly",
+      "variables_and_units": [
+        "wave_height (m)",
+        "wave_period (s)"
+      ],
+      "rows": 28512,
+      "usable_rows": 28501,
+      "missing_values": {
+        "count": 11,
+        "span": "2021-10-01T00:00 to 2021-10-01T10:00 inclusive, contiguous",
+        "first_valid_observation": "2021-10-01T11:00",
+        "handling": "dropped by dropna(subset=['wave','wind','precip']) in the analysis scripts"
+      },
+      "retrieval_timestamp": null,
+      "copernicus_lineage": {
+        "manuscript_citation": "reference [11], Copernicus Marine GLOBAL_ANALYSISFORECAST_WAV_001_027, DOI 10.48670/moi-00017",
+        "verified": false,
+        "note": "NOT VERIFIED. No request, response, manifest or log in the repository names the CMEMS product or its DOI. The identification of Open-Meteo's 'meteofrance_wave' with that Copernicus product is an inference from provider documentation. The two datasets must not be assumed identical merely because they share a model family."
+      }
+    }
+  ],
+  "solar_artifact": {
+    "path": "data/solar/solar-events-daily.csv",
+    "sha256_computed_independently": "057c46a19d0e8ea7956cdc38ae3d7615cf43cf800e7bc33ab286dfdc20ce1894",
+    "bytes": 314425,
+    "tracked": true,
+    "last_commit": "edde171 (2026-09-08)",
+    "rows": 1827,
+    "temporal_coverage": {
+      "first": "2020-01-01",
+      "last": "2024-12-31"
+    },
+    "timezone": "UTC+8 (no DST)",
+    "location": {
+      "latitude": 5.98,
+      "longitude": 116.01
+    },
+    "embedded_metadata": {
+      "impl_version": "solar-v1",
+      "spec_version": "solar-spec-v1",
+      "impl_sha256": "3b7dc371ebe5931b3336f9982c5806a06a515dc2032569f5da7720470c1ec36c",
+      "note": "These are values recorded INSIDE the artefact's own columns, distinct from the file hash above."
+    },
+    "generator_hash_check": {
+      "generator_path": "scripts/sensitivity/solar.py",
+      "generator_sha256": "3b7dc371ebe5931b3336f9982c5806a06a515dc2032569f5da7720470c1ec36c",
+      "matches_embedded_impl_sha256": true,
+      "significance": "The artefact's self-declared implementation hash matches the generator present in the repository. The daylight classification is traceable to a specific, unchanged generator."
+    },
+    "columns": [
+      "date",
+      "latitude",
+      "longitude",
+      "timezone",
+      "utc_offset_seconds",
+      "sunrise_hours",
+      "sunrise_local",
+      "sunset_hours",
+      "sunset_local",
+      "zenith_deg",
+      "in_primary",
+      "in_resolution",
+      "impl_version",
+      "impl_sha256",
+      "spec_version"
+    ],
+    "relationship_to_daylight_classification": "canonical_gt.py consumes sunrise_hours and sunset_hours (float, 6 dp) and never the HH:MM:SS display columns. g_t returns SAFE iff sunrise <= t < sunset."
+  },
+  "experiment_configuration": {
+    "environmental": {
+      "source_of_values": "scripts/condition_comparison.py (lines 63, 72, 76, 213) — read from code, not from reports",
+      "coordinates_requested": {
+        "latitude": 5.98,
+        "longitude": 116.01
+      },
+      "timezone": "Asia/Kuching (UTC+8), no DST",
+      "departure_window": {
+        "rule": "hour >= 5 and hour <= 9",
+        "hours_per_day": 5,
+        "basis": "evaluation-policy choice, not an observed departure period"
+      },
+      "wind": {
+        "W_CAUTION_kn": 21.6,
+        "W_UNSAFE_kn": 27.0,
+        "basis": "MET Malaysia Cat 1 / Cat 2 onsets (40 and 50 km/h), preserved unrounded"
+      },
+      "rainfall": {
+        "R_CAUTION_mm_per_hr": 10.0,
+        "R_UNSAFE_mm_per_hr": 20.0,
+        "storm_codes": [
+          95,
+          96,
+          99
+        ],
+        "basis": "DID Infobanjir light-category upper limit; MET thunderstorm trigger"
+      },
+      "ocean_state_small_vessel": {
+        "O_CAUTION_m": 1.0,
+        "O_UNSAFE_m": 1.25,
+        "operators": "UNSAFE iff wave > O_U (strict); CAUTION iff O_C <= wave <= O_U (inclusive)"
+      },
+      "vessel_dependent_wave_boundaries": {
+        "small": [
+          1.0,
+          1.25
+        ],
+        "medium": [
+          1.4,
+          2.8
+        ],
+        "big": [
+          1.5,
+          3.5
+        ]
+      },
+      "daylight_classifier": {
+        "type": "astronomical solar event",
+        "rule": "SAFE iff sunrise(date) <= t < sunset(date)",
+        "image": "{SAFE, UNSAFE}",
+        "emits_CAUTION": false
+      },
+      "non_daylight_policy": {
+        "rule": "night => g_t = UNSAFE",
+        "status": "RESEARCHER-DEFINED governance policy",
+        "source_note": "COLREGs Rule 20(b) supplies the sunset-to-sunrise boundary for navigation lights only; no source establishes the AI-withdrawal policy."
+      },
+      "marine_warning": {
+        "handling": "held at SAFE throughout (declared exclusion D = {m})",
+        "reason": "no usable historical archive for the replay period"
+      },
+      "aggregation": "maximum severity over the five component classifications; UNSAFE is the maximal element"
+    },
+    "governance": {
+      "source_of_values": "scripts/condition_comparison.py lines 85-106 — explicit frozenset literals",
+      "FULL": [
+        "Go",
+        "Delay",
+        "DepartureTime",
+        "Duration"
+      ],
+      "RESTRICTED_CAUTION": [
+        "Go",
+        "Delay"
+      ],
+      "EMPTY_UNSAFE": [],
+      "mappings": {
+        "C0": {
+          "SAFE": "FULL",
+          "CAUTION": "FULL",
+          "UNSAFE": "FULL",
+          "description": "ungated baseline"
+        },
+        "C1": {
+          "SAFE": "FULL",
+          "CAUTION": "FULL",
+          "UNSAFE": "EMPTY",
+          "description": "participation gated; scope never restricted while active"
+        },
+        "C2": {
+          "SAFE": "FULL",
+          "CAUTION": "RESTRICTED",
+          "UNSAFE": "EMPTY",
+          "description": "the evaluated intermediate-scope configuration"
+        },
+        "C3": {
+          "SAFE": "FULL",
+          "CAUTION": "FULL",
+          "UNSAFE": "EMPTY",
+          "description": "three-state topology; identical to C1 by construction"
+        }
+      },
+      "participation_gate_G": {
+        "definition": "G(S) = 0 if S = UNSAFE; 1 if S in {SAFE, CAUTION}",
+        "source": "docs/canonical/appendix-c-formalisation.md C.3",
+        "note": "G is defined on the STATE. It is not computed anywhere in the metric path; no canonical script references it.",
+        "constraint": "G(S) = 0 => A_AI(S) = empty (C.6 Participation Constraint)"
+      },
+      "admissible_set_A_AI": {
+        "definition": "A_AI(SAFE) = R; A_AI(CAUTION) = {Go, Delay}; A_AI(UNSAFE) = empty",
+        "strict_containment": "A_AI(UNSAFE) strictly-subset A_AI(CAUTION) strictly-subset A_AI(SAFE) (Corollary C.2, Strict Monotonicity)"
+      },
+      "pairwise_disagreement_metric": {
+        "implemented_rule": "proportion of evaluated hours on which two configurations admit DIFFERENT sets (set inequality, condition_comparison.py line 198)",
+        "manuscript_wording": "'the number of those hours in which one configuration admits a strictly smaller set than another'",
+        "inconsistency_note": "NOT SILENTLY RESOLVED. The implemented rule is set inequality; the manuscript states a directional strict-subset rule. The two coincide for all four configurations because every admissible set is a subset of R, but they are not the same definition."
+      },
+      "delta_l2": {
+        "definition": "Delta_L2 = D(C0,C2) - D(C0,C1)",
+        "derived_identity": "Delta_L2 = P(S = CAUTION) for the evaluated mappings",
+        "secondary_implementation": "threshold_sensitivity.py lines 60-66 computes Delta_L2 independently from the admissible-set tables and asserts the identity holds"
+      }
+    },
+    "sensitivity": {
+      "source_of_values": "scripts/sensitivity/threshold_sensitivity.py lines 100-124 — read from code",
+      "rainfall_R_C_sweep": [
+        5.0,
+        7.5,
+        10.0,
+        15.0,
+        19.9
+      ],
+      "wind_W_C_sweep": [
+        18.0,
+        20.0,
+        21.6,
+        22.0,
+        25.0
+      ],
+      "wave_OC_OU_sweep": [
+        {
+          "O_C": 0.75,
+          "O_U": 1.25,
+          "tag": "sens -0.25 on O_C"
+        },
+        {
+          "O_C": 1.0,
+          "O_U": 1.25,
+          "tag": "CANONICAL small vessel"
+        },
+        {
+          "O_C": 1.25,
+          "O_U": 1.5,
+          "tag": "sens +0.25 on O_C"
+        },
+        {
+          "O_C": 1.0,
+          "O_U": 1.9,
+          "tag": "Yaakob failure point as O_U"
+        },
+        {
+          "O_C": 1.4,
+          "O_U": 2.8,
+          "tag": "Yaakob medium vessel"
+        },
+        {
+          "O_C": 1.5,
+          "O_U": 3.5,
+          "tag": "Yaakob big vessel / MET Cat1 ceiling"
+        }
+      ],
+      "alternative_wave_unsafe_boundary": {
+        "implemented": 1.9,
+        "source_value": 1.875,
+        "note": "1.90 is 1.875 rounded; the rounding is declared in threshold_comparison.py line 36."
+      },
+      "denominator_alternatives": {
+        "T0": "canonical departure window 05:00-09:00 (night -> UNSAFE)",
+        "T1": "daylight-only DENOMINATOR: evaluation set restricted to departure-window AND daylight hours; CANON is unchanged and g_t still runs",
+        "T1_denominators_documented": {
+          "PRIMARY": 5536,
+          "RESOLUTION": 3594,
+          "source": "docs/analysis/threshold-sensitivity-analysis.md:136"
+        }
+      },
+      "combination_count_claim": {
+        "manuscript_value": 56,
+        "artefact": null,
+        "note": "No artefact in the repository states 56. Classified evidence grade E."
+      }
+    }
+  },
+  "reproduction_commands": [
+    {
+      "step": 1,
+      "purpose": "Data collection (OPTIONAL — outputs are already committed; rerunning will NOT reproduce the original bytes)",
+      "working_directory": "repository root",
+      "command": "python3 scripts/collect_raw_v2.py --start 2020-01-01 --end 2024-12-31",
+      "arguments": {
+        "--start": "default 2020-01-01",
+        "--end": "default 2024-12-31"
+      },
+      "inputs": [
+        "network access to Open-Meteo"
+      ],
+      "outputs": [
+        "data/raw_weather_sea.csv",
+        "data/raw_marine_era5_sea.csv",
+        "data/raw_marine_mfwam.csv"
+      ],
+      "output_destination": "files (overwrites the committed datasets)",
+      "WARNING": "This OVERWRITES the committed canonical datasets. Do not run it to reproduce published results.",
+      "previously_documented_successful_execution": "yes — first commit 21695e0, 2026-09-06",
+      "status": "DOCUMENTED — NOT EXECUTED IN THIS TASK"
+    },
+    {
+      "step": 2,
+      "purpose": "PRIMARY and RESOLUTION headline comparison, and the C1<->C3 conformance check (all produced by one invocation)",
+      "working_directory": "repository root",
+      "command": "python3 scripts/condition_comparison.py",
+      "arguments": {
+        "--write-register": "OPTIONAL; omit. Without it the prediction register is not written (read-only default)."
+      },
+      "inputs": [
+        "data/raw_weather_sea.csv",
+        "data/raw_marine_era5_sea.csv",
+        "data/raw_marine_mfwam.csv",
+        "data/solar/solar-events-daily.csv"
+      ],
+      "expected_outputs": "state distributions and pairwise divergence matrices for ALL HOURS and DEPARTURE WINDOW 05:00-09:00, both configurations",
+      "output_destination": "stdout only",
+      "recommended_capture": "python3 scripts/condition_comparison.py | tee data/c8/condition-comparison-<ISO8601>.txt",
+      "previously_documented_successful_execution": "yes — archived output data/c8/canonical-results-post-migration.txt (babe92f, 2026-09-08); re-execution recorded 2026-09-21",
+      "status": "DOCUMENTED — NOT EXECUTED IN THIS TASK"
+    },
+    {
+      "step": 3,
+      "purpose": "Sensitivity analysis (threshold, vessel class, denominator)",
+      "working_directory": "repository root",
+      "command": "python3 scripts/sensitivity/threshold_sensitivity.py",
+      "arguments": {},
+      "inputs": [
+        "the three raw CSVs",
+        "data/solar/solar-events-daily.csv"
+      ],
+      "expected_outputs": "baseline reproduction, one-at-a-time sweeps, wave (O_C,O_U) table, time policy T0/T1, combined grid",
+      "output_destination": "stdout AND /tmp/sens_out.txt",
+      "DEFECT": "/tmp is ephemeral. The September run's output is gone. Recommended persistent destination: data/c8/sensitivity-run-<ISO8601>.txt",
+      "recommended_capture": "python3 scripts/sensitivity/threshold_sensitivity.py | tee data/c8/sensitivity-run-<ISO8601>.txt",
+      "previously_documented_successful_execution": "yes, by report — docs/analysis/threshold-sensitivity-analysis.md dated 2026-09-21; no output preserved",
+      "status": "DOCUMENTED — NOT EXECUTED IN THIS TASK"
+    },
+    {
+      "step": 4,
+      "purpose": "Component attribution and pre-registered prediction checks",
+      "working_directory": "repository root",
+      "command": "python3 scripts/diagnostic_binding.py",
+      "arguments": {
+        "--write-register": "OPTIONAL; omit to keep the run read-only.",
+        "--v1-historical": "OPTIONAL; selects the superseded v1 land-cell data. DO NOT USE for canonical results."
+      },
+      "inputs": [
+        "the raw CSVs",
+        "data/solar/solar-events-daily.csv",
+        "data/prediction-register.csv"
+      ],
+      "expected_outputs": "binding shares ('at max' counts, OVERLAPPING) for all-hours, daylight and departure-window slices",
+      "output_destination": "stdout; CSV only with --write-register",
+      "LIMITATION": "This does NOT produce the exclusive 518/13 CAUTION attribution reported in the manuscript. The archived counts are overlapping 'at max' incidences.",
+      "previously_documented_successful_execution": "yes — section present in the archived capture",
+      "status": "DOCUMENTED — NOT EXECUTED IN THIS TASK"
+    },
+    {
+      "step": 5,
+      "purpose": "Canonical figure/summary generation",
+      "working_directory": "repository root",
+      "command": "python3 scripts/canonical_figures.py",
+      "arguments": {},
+      "inputs": [
+        "the raw CSVs",
+        "data/solar/solar-events-daily.csv"
+      ],
+      "expected_outputs": "the CANONICAL FIGURES summary table for both configurations",
+      "output_destination": "stdout only",
+      "CAVEAT": "This script changed at f8215e4 (2026-09-09), after the archived capture. Its current output may differ from the archived block.",
+      "previously_documented_successful_execution": "yes — archived block present",
+      "status": "DOCUMENTED — NOT EXECUTED IN THIS TASK"
+    },
+    {
+      "step": 6,
+      "purpose": "Threshold provenance comparison (supporting; produces no reported figure)",
+      "working_directory": "repository root",
+      "command": "python3 scripts/threshold_comparison.py",
+      "arguments": {},
+      "output_destination": "stdout only",
+      "status": "DOCUMENTED — NOT EXECUTED IN THIS TASK"
+    }
+  ],
+  "archived_outputs": [
+    {
+      "path": "data/c8/canonical-results-post-migration.txt",
+      "sha256": "0bca160f69f68663d1f11672c0295cf9234624379a67e164fe50c5f2dde301a9",
+      "bytes": 20085,
+      "tracked": true,
+      "commit": "babe92f (2026-09-08 21:06:22 +0800)",
+      "type": "console capture",
+      "covers": [
+        "PRIMARY and RESOLUTION record counts",
+        "departure-window denominators",
+        "state distributions",
+        "pairwise divergence matrices",
+        "C1<->C3 conformance",
+        "binding analysis ('at max', overlapping)",
+        "canonical figures summary block"
+      ],
+      "does_not_cover": [
+        "any sensitivity sweep",
+        "the exclusive 518/13 attribution",
+        "the 56-combination count"
+      ]
+    },
+    {
+      "path": "data/c5/c5-run-manifest.json",
+      "sha256": "1f04720cb373e688925d1aa14299a9b056bf445b7641bc2e4b7c77795ee5c9ba",
+      "bytes": 3036,
+      "tracked": true,
+      "type": "run manifest",
+      "note": "A model of the practice this manifest generalises: records generated_utc, harness path AND sha256, and reused-implementation sha256. It covers the C-5 hysteresis work, not the canonical governance experiment."
+    },
+    {
+      "path": "data/c8/pre-migration-scripts/",
+      "type": "archived script versions",
+      "note": "Eight superseded script copies retained alongside the migration."
+    },
+    {
+      "path": "data/c8/pre-migration-anchors.txt",
+      "type": "pre-migration figures",
+      "note": "Comparison baseline for the SDR-001 migration."
+    }
+  ],
+  "numerical_evidence": [
+    {
+      "result": "PRIMARY 43,848 hourly records",
+      "value": "43848",
+      "grade": "A",
+      "evidence": "data/c8/canonical-results-post-migration.txt:198"
+    },
+    {
+      "result": "RESOLUTION 28,501 usable hourly records",
+      "value": "28501",
+      "grade": "A",
+      "evidence": "data/c8/canonical-results-post-migration.txt:232"
+    },
+    {
+      "result": "PRIMARY 9,135 evaluated hours",
+      "value": "9135",
+      "grade": "A",
+      "evidence": "data/c8/canonical-results-post-migration.txt:215"
+    },
+    {
+      "result": "RESOLUTION 5,935 evaluated hours",
+      "value": "5935",
+      "grade": "A",
+      "evidence": "data/c8/canonical-results-post-migration.txt:249"
+    },
+    {
+      "result": "PRIMARY 531 CAUTION hours",
+      "value": "531",
+      "grade": "A",
+      "evidence": "data/c8/canonical-results-post-migration.txt:217"
+    },
+    {
+      "result": "RESOLUTION 266 CAUTION hours",
+      "value": "266",
+      "grade": "A",
+      "evidence": "data/c8/canonical-results-post-migration.txt:251"
+    },
+    {
+      "result": "C0<->C1 PRIMARY",
+      "value": "42.88%",
+      "grade": "A",
+      "evidence": "data/c8/canonical-results-post-migration.txt:223"
+    },
+    {
+      "result": "C0<->C1 RESOLUTION",
+      "value": "41.08%",
+      "grade": "A",
+      "evidence": "data/c8/canonical-results-post-migration.txt:257"
+    },
+    {
+      "result": "C0<->C2 PRIMARY",
+      "value": "48.69%",
+      "grade": "A",
+      "evidence": "data/c8/canonical-results-post-migration.txt:223"
+    },
+    {
+      "result": "C0<->C2 RESOLUTION",
+      "value": "45.56%",
+      "grade": "A",
+      "evidence": "data/c8/canonical-results-post-migration.txt:257"
+    },
+    {
+      "result": "Delta_L2 PRIMARY",
+      "value": "5.81%",
+      "grade": "A",
+      "evidence": "data/c8/canonical-results-post-migration.txt:226"
+    },
+    {
+      "result": "Delta_L2 RESOLUTION",
+      "value": "4.48%",
+      "grade": "A",
+      "evidence": "data/c8/canonical-results-post-migration.txt:260"
+    },
+    {
+      "result": "C1<->C3 both configurations",
+      "value": "0.00%",
+      "grade": "A",
+      "evidence": "data/c8/canonical-results-post-migration.txt:224-225, 258-259, 267-269"
+    },
+    {
+      "result": "CAUTION attribution 518 ocean-state / 13 rainfall (97.6% / 2.4%)",
+      "value": "518 / 13",
+      "grade": "C",
+      "evidence": "docs/analysis/experiment-report-delta-l2.md:282-283",
+      "gap": "NO machine artefact. The archived capture contains only OVERLAPPING 'at max' counts for different slices (lines 361-374), not this exclusive split. FLAGGED."
+    },
+    {
+      "result": "PRIMARY sourced-threshold envelope",
+      "value": "5.67-9.56%",
+      "grade": "C",
+      "evidence": "docs/analysis/threshold-sensitivity-analysis.md:158, 217",
+      "gap": "No machine artefact. FLAGGED."
+    },
+    {
+      "result": "RESOLUTION sourced-threshold envelope",
+      "value": "4.26-6.64%",
+      "grade": "C",
+      "evidence": "docs/analysis/threshold-sensitivity-analysis.md section E",
+      "gap": "No machine artefact. FLAGGED."
+    },
+    {
+      "result": "Large-vessel Delta_L2 PRIMARY / RESOLUTION",
+      "value": "1.26% / 0.37%",
+      "grade": "C",
+      "evidence": "docs/analysis/threshold-sensitivity-analysis.md:112-115",
+      "gap": "No machine artefact. FLAGGED."
+    },
+    {
+      "result": "Daylight-only denominator Delta_L2 PRIMARY / RESOLUTION",
+      "value": "9.59% / 7.40%",
+      "grade": "C",
+      "evidence": "docs/analysis/threshold-sensitivity-analysis.md:136",
+      "gap": "No machine artefact; the denominators 5,536 / 3,594 are published in the same document. FLAGGED."
+    },
+    {
+      "result": "Alternative wave UNSAFE boundary Delta_L2 PRIMARY",
+      "value": "9.22%",
+      "grade": "C",
+      "evidence": "docs/analysis/threshold-sensitivity-analysis.md:114",
+      "gap": "No machine artefact. The producing script writes to /tmp/sens_out.txt, which is absent. This is the provenance weakness identified in the M-6 investigation and it REMAINS UNRESOLVED. FLAGGED."
+    },
+    {
+      "result": "56 distinct sensitivity combinations",
+      "value": "56",
+      "grade": "E",
+      "evidence": null,
+      "gap": "NO artefact anywhere states 56. The figure was established by instrumenting the script during an earlier audit; that instrumentation was not retained. FLAGGED."
+    }
+  ],
+  "unverified_items": [
+    {
+      "item": "Public accessibility of the remote repository",
+      "status": "NOT VERIFIED",
+      "detail": "git@github.com:kandaiiskandar/research-plan.git is an SSH remote; this session has no GitHub API access to it and a visibility check was not completed. No availability statement may be based on this."
+    },
+    {
+      "item": "Copernicus GLOBAL_ANALYSISFORECAST_WAV_001_027 lineage for the RESOLUTION wave data",
+      "status": "NOT VERIFIED",
+      "detail": "No artefact names the CMEMS product or DOI. The identification is an inference from Open-Meteo documentation."
+    },
+    {
+      "item": "Historical Python minor version",
+      "status": "UNKNOWN",
+      "detail": "Recorded only as 'Python 3' in docs/analysis/experiment-report-delta-l2.md:395."
+    },
+    {
+      "item": "Historical operating system and architecture",
+      "status": "UNKNOWN",
+      "detail": "Not recorded anywhere."
+    },
+    {
+      "item": "Data retrieval timestamps",
+      "status": "UNKNOWN",
+      "detail": "The collection script writes no log. Bounded only by commit 21695e0, 2026-09-06 12:55:31 +0800."
+    },
+    {
+      "item": "Execution verification of the documented commands",
+      "status": "NOT PERFORMED",
+      "detail": "No script was run during this task. Command syntax was derived by static inspection of each script's argparse / sys.argv handling."
+    },
+    {
+      "item": "Whether canonical_figures.py output at HEAD matches the archived capture",
+      "status": "NOT VERIFIED",
+      "detail": "The script changed at f8215e4 after the capture; no comparison was run."
+    },
+    {
+      "item": "Exclusive-attribution producer for 518/13",
+      "status": "NOT IDENTIFIED",
+      "detail": "No script in the repository was found that emits an exclusive single-component attribution over departure-window CAUTION hours."
+    }
+  ],
+  "limitations": [
+    "INTERNAL reproducibility is strong: all canonical scripts and all four input datasets are tracked in git, the pipeline is deterministic, and the headline-chain code is byte-identical to the revision that produced the archived results.",
+    "EXTERNAL reproducibility is NOT established: repository visibility is unverified, there is no dependency specification in the repository, and no execution order is documented outside this manifest and its companion guide.",
+    "Re-collecting the raw data from Open-Meteo will NOT reproduce the original bytes. The archive is live and unversioned, and no retrieval timestamp or checksum was recorded at collection time. Reproduction must use the committed CSVs.",
+    "Seven of the manuscript's reported results (grades C and E) have no preserved machine output. They are UNVERIFIED, not shown to be wrong.",
+    "No canonical experiment, sensitivity analysis or attribution analysis was executed during this task, and no experimental result was recomputed, altered or confirmed.",
+    "The environment recorded under current_environment belongs to the isolated VM used to read the repository, not to the author's machine."
+  ],
+  "files_created_by_this_task": [
+    "data/c8/aai-2026-reproducibility-manifest.json",
+    "docs/reproducibility/aai-2026-reproduction-guide.md",
+    "docs/reproducibility/aai-2026-manifest-verification-report.md",
+    "requirements-aai-2026.txt"
+  ]
+}
