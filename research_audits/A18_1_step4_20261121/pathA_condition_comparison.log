@@ -1,0 +1,166 @@
+
+Four-condition governance comparison, including a Flehmig-style baseline (C3).
+
+Answers Review 3's novelty objection empirically. The paper claims no existing
+architecture restricts AI advisory scope as a function of classified safety
+state. That claim currently rests on a literature coding table. This script
+instantiates the CLOSEST STRUCTURAL PRECEDENT in the corpus on the same site
+data and measures whether it diverges from a plain binary gate.
+
+Conditions
+----------
+C0  Ungated          A_AI = full set at every hour. No governance.
+C1  Binary-gated     G(S) gates participation. A_AI = full when G = 1, else empty.
+C3  Flehmig-style    Three-level traffic-light. AI stays the safety function at
+                     green AND orange with UNCHANGED scope; switches to non-AI
+                     backup at red. Only the SUPERVISORY response varies across
+                     the intermediate level.
+C2  Proposed         Two-level governance pair. A_AI contracts at CAUTION.
+
+FAIRNESS NOTE — read before quoting any number from this script.
+Flehmig et al. condition their index on AI DEGRADATION (drift, outliers,
+performance decay), not on environmental state. C3 ports their GOVERNANCE
+TOPOLOGY onto our conditioning variable so the two can be compared on the same
+axis. It is not a claim about their system on their problem, and it is not a
+reproduction of their results. Their framework answers a different question and
+is correct for it. What is being compared is the structure of the mapping from
+a three-level classification to admissible AI output.
+
+Metric
+------
+Admissible-set divergence: for each hour and each pair of conditions, do the
+two conditions permit the same set of recommendation types? This is defined by
+the architecture, NOT by the reasoning engine, so it runs without Layer 3.
+What Layer 3 would add is the actual AI(E) content inside each set.
+
+Resolves pre-registered predictions P21-P24 (data/prediction-register.csv).
+
+
+
+##############################################################################
+# PRIMARY  (5.00 yr, sea wind + ERA5-Ocean ~50 km)
+##############################################################################
+Loaded 43,848 hourly records  2020-01-01 to 2024-12-31
+
+==============================================================================
+ALL HOURS   (n = 43,848 hours)
+==============================================================================
+  state distribution: SAFE 18,401 (42.0%)   CAUTION 2,091 (4.8%)   UNSAFE 23,356 (53.3%)
+
+  Pairwise admissible-set divergence (% of hours the two
+  conditions permit DIFFERENT recommendation sets)
+
+                               C0 ungated     C1 binary-gated    C3 Flehmig-style         C2 proposed
+  C0 ungated                           —              53.27%              53.27%              58.03%
+  C1 binary-gated                 53.27%                   —               0.00%               4.77%
+  C3 Flehmig-style                53.27%               0.00%                   —               4.77%
+  C2 proposed                     58.03%               4.77%               4.77%                   —
+
+==============================================================================
+DEPARTURE WINDOW 05:00-09:00   (n = 9,135 hours)
+==============================================================================
+  state distribution: SAFE 4,687 (51.3%)   CAUTION 531 (5.8%)   UNSAFE 3,917 (42.9%)
+
+  Pairwise admissible-set divergence (% of hours the two
+  conditions permit DIFFERENT recommendation sets)
+
+                               C0 ungated     C1 binary-gated    C3 Flehmig-style         C2 proposed
+  C0 ungated                           —              42.88%              42.88%              48.69%
+  C1 binary-gated                 42.88%                   —               0.00%               5.81%
+  C3 Flehmig-style                42.88%               0.00%                   —               5.81%
+  C2 proposed                     48.69%               5.81%               5.81%                   —
+
+
+##############################################################################
+# RESOLUTION (3.25 yr, sea wind + MFWAM ~8 km)
+##############################################################################
+Loaded 28,501 hourly records  2021-10-01 to 2024-12-31
+
+==============================================================================
+ALL HOURS   (n = 28,501 hours)
+==============================================================================
+  state distribution: SAFE 12,540 (44.0%)   CAUTION 1,110 (3.9%)   UNSAFE 14,851 (52.1%)
+
+  Pairwise admissible-set divergence (% of hours the two
+  conditions permit DIFFERENT recommendation sets)
+
+                               C0 ungated     C1 binary-gated    C3 Flehmig-style         C2 proposed
+  C0 ungated                           —              52.11%              52.11%              56.00%
+  C1 binary-gated                 52.11%                   —               0.00%               3.89%
+  C3 Flehmig-style                52.11%               0.00%                   —               3.89%
+  C2 proposed                     56.00%               3.89%               3.89%                   —
+
+==============================================================================
+DEPARTURE WINDOW 05:00-09:00   (n = 5,935 hours)
+==============================================================================
+  state distribution: SAFE 3,231 (54.4%)   CAUTION 266 (4.5%)   UNSAFE 2,438 (41.1%)
+
+  Pairwise admissible-set divergence (% of hours the two
+  conditions permit DIFFERENT recommendation sets)
+
+                               C0 ungated     C1 binary-gated    C3 Flehmig-style         C2 proposed
+  C0 ungated                           —              41.08%              41.08%              45.56%
+  C1 binary-gated                 41.08%                   —               0.00%               4.48%
+  C3 Flehmig-style                41.08%               0.00%                   —               4.48%
+  C2 proposed                     45.56%               4.48%               4.48%                   —
+
+
+==============================================================================
+C1 vs C3 DIVERGENCE — BOTH CONFIGURATIONS
+==============================================================================
+  PRIMARY  (5.00 yr, sea wind + ERA5-Ocean ~50 km)
+      all hours   0.00%      departure window   0.00%
+  RESOLUTION (3.25 yr, sea wind + MFWAM ~8 km)
+      all hours   0.00%      departure window   0.00%
+
+==============================================================================
+THE RESULT THAT ANSWERS THE NOVELTY OBJECTION
+==============================================================================
+
+  C3 (Flehmig-style, three-level) vs C1 (plain binary gate):
+
+      all hours            0.00%  divergence
+      departure window     0.00%  divergence
+
+  The closest structural precedent in the reviewed literature produces the
+  SAME admissible recommendation set as a binary gate in every hour of the
+  record. Its intermediate level is not observable in AI output at all.
+
+  C2 (proposed) vs C1:     5.81%  of departure hours
+  C2 (proposed) vs C3:     5.81%  of departure hours
+
+  Those hours are the CAUTION state. They are where the proposed architecture
+  restricts advisory scope and every other condition does not.
+
+==============================================================================
+ISOLATING THE LEVEL 2 CONTRIBUTION
+==============================================================================
+
+  C0 vs C1  =  42.88%   attributable to Level 1 (participation gate)
+  C0 vs C2  =  48.69%   attributable to Levels 1 + 2 combined
+  difference=   5.81%   attributable to LEVEL 2 ALONE
+
+  Level 2 is the contribution no reviewed architecture implements.
+
+==============================================================================
+PRE-REGISTERED PREDICTION CHECK
+==============================================================================
+  Scored against the MFWAM configuration these were registered on.
+
+  P21  predicted          0   actual     0.00   CONFIRMED
+  P22  predicted       6.1%   actual     4.48   REFUTED
+  P23  predicted     20-30%   actual    45.56   REFUTED
+  P24  predicted     14-24%   actual    41.08   REFUTED
+Register NOT written (read-only default; pass --write-register to enable).
+
+==============================================================================
+SCOPE OF THIS RESULT — state these alongside any figure above
+==============================================================================
+  1. Admissible-set level only. The reasoning engine is not implemented, so
+     AI(E) content within each set is not compared. Layer 3 would add that.
+  2. C3 ports Flehmig's governance topology onto environmental state. Their
+     index conditions on AI degradation. This compares structures, not systems.
+  3. g_m held at `none` throughout — no archive. All figures are LOWER BOUNDS.
+  4. No incident data exists for this site. This measures what the conditions
+     DO, not whether what they do is correct.
+

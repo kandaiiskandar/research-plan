@@ -1,0 +1,100 @@
+{
+  "frozen_at": "2026-11-21T23:37:20.336231+08:00",
+  "experiment_id": "M1dQ-A18.2-CFB-v0.1",
+  "advisors": {
+    "B0_UNRESTRICTED": {
+      "kind": "control",
+      "description": "Identical candidate proposals to B1-Go but NO mask applied. Exclusions are ZERO BY DEFINITION, serving as a wiring check."
+    },
+    "B1_CONSTANT": {
+      "kind": "control",
+      "description": "Four separate constant advisors, one per type. No training."
+    },
+    "B2_FROZEN_VARYING": {
+      "kind": "SIMULATED deterministic rule-based heuristic",
+      "real_or_simulated": "SIMULATED - NOT a validated advisor, NOT fitted, NOT trained, NO claim of appropriateness. Branch thresholds are plausible but have NO established source.",
+      "rationale": "No existing advisor model or heuristic mapping fields to the four conference types was found anywhere in the repository; the replay has no proposal generator (Step 3). A transparent simulated rule is therefore specified here, as the protocol permits.",
+      "features": [
+        "wind_gusts_10m (kn)",
+        "wind_direction_10m (°)",
+        "wave_period (s)"
+      ],
+      "logic_ordered_branches": [
+        "1. IF wind_gusts_10m >= 25.0 kn  -> 'Delay'          (squall-dominated gustiness)",
+        "2. ELIF wave_period >= 8.0 s     -> 'Duration'       (long swell: limit exposure length)",
+        "3. ELIF wind_direction_10m in [315,360) or [0,45) -> 'DepartureTime' (NE monsoon sector: shift timing)",
+        "4. ELSE                          -> 'Go'"
+      ],
+      "thresholds": {
+        "gust_kn": 25.0,
+        "wave_period_s": 8.0,
+        "ne_sector_deg": [
+          [
+            315,
+            360
+          ],
+          [
+            0,
+            45
+          ]
+        ]
+      },
+      "missing_fallback": "any feature null or non-finite -> ABSTAIN (counted invalid, excluded from N_valid)",
+      "seed": "none - fully deterministic, no randomness",
+      "forbidden_inputs_confirmed": [
+        "state",
+        "mask",
+        "allowed_set",
+        "any gate threshold",
+        "any gate feature",
+        "future observations",
+        "risk label",
+        "reference outcome",
+        "case_id",
+        "date",
+        "cluster_id"
+      ],
+      "tuning_statement": "Branch order and thresholds are frozen in THIS file before any proposal or exclusion number was computed. No value was adjusted after seeing any result."
+    },
+    "B3_OPTIONAL": {
+      "kind": "NOT FROZEN - NOT RUN",
+      "reason": "No second genuinely distinct varying advisor could be pre-specified without arbitrary choices, and a random control would be DIAGNOSTIC only. B3 is therefore declared unavailable rather than invented. Per Phase 4 it will NOT be run."
+    }
+  },
+  "feature_whitelist": {
+    "fields": [
+      {
+        "name": "wind_gusts_10m (kn)",
+        "unit": "knots",
+        "source": "data/raw_weather_sea.csv",
+        "observed_min": 1.0,
+        "observed_max": 33.2,
+        "nulls_in_PRIMARY": 0
+      },
+      {
+        "name": "wind_direction_10m (°)",
+        "unit": "degrees true",
+        "source": "data/raw_weather_sea.csv",
+        "observed_min": 1.0,
+        "observed_max": 360.0,
+        "nulls_in_PRIMARY": 0
+      },
+      {
+        "name": "wave_period (s)",
+        "unit": "seconds",
+        "source": "data/raw_marine_era5_sea.csv",
+        "observed_min": 2.05,
+        "observed_max": 10.7,
+        "nulls_in_PRIMARY": 0
+      }
+    ],
+    "gate_independence_evidence": "VERIFIED by grep: none of wind_gusts, wind_direction or wave_period is referenced in condition_comparison.py, canonical_gt.py or threshold_sensitivity.py. The gate never reads any of them.",
+    "deliberate_exclusions": "NO gate feature is used. wind_speed, precipitation, weather_code and wave_height are all EXCLUDED from B2 so that not even a derived ratio can carry a gate threshold decision. State, mask, allowed_set, risk label, reference outcome, action appropriateness, human behaviour, case_id, date and cluster_id are all FORBIDDEN as inputs.",
+    "proxy_risk_acknowledged": "These three fields are PHYSICALLY CORRELATED with gate fields - gusts with sustained wind, wave_period with wave_height. Correlation will be MEASURED and reported in 09_invalid_inputs_and_leakage_register.csv. Shared physical drivers are not leakage, but a near-perfect state proxy would be a validity threat and is tested for."
+  },
+  "freeze_evidence": {
+    "written_before_execution": true,
+    "note": "This manifest and 00_contract.json were written and hashed BEFORE 15_run_experiment.py existed. The proposal ledger is hashed again before any mask is applied (T04).",
+    "contract_sha256": "f893c54dd9450d32f8906e1d439768c3ded10dce99f9c4e94b5c51596583f592"
+  }
+}

@@ -1,0 +1,123 @@
+{
+  "generated": "2026-11-21T22:35:59.285864+08:00",
+  "artefacts": {
+    "raw_weather_sea.csv": {
+      "sha256": "96850d7547189ffa5ccc02a36cf69987bfae742e54b61597c2ca7d251e84c424",
+      "rows": 43848,
+      "role": "RAW_SOURCE"
+    },
+    "raw_marine_era5_sea.csv": {
+      "sha256": "6754e2c2ee5586ee864e590f1ccf363bbd8840b364763e01e8c9eb05e5d63888",
+      "rows": 43848,
+      "role": "RAW_SOURCE"
+    },
+    "raw_marine_mfwam.csv": {
+      "sha256": "e9f323e086a3e9dddd29129bda6dbbea7590bbdcc9a1500c0460ca18233bf60f",
+      "rows": 28512,
+      "role": "RAW_SOURCE"
+    },
+    "raw_weather.csv": {
+      "sha256": "1ee535cd12e6b339f2daabde7add4069a039fc14b3cbaad4593565dc348c8503",
+      "rows": 43848,
+      "role": "RAW_SUPERSEDED"
+    },
+    "raw_marine.csv": {
+      "sha256": "8d5e269f0b427c80443dc90ad98e258b27a11cace153a261ab93743716e9c8f3",
+      "rows": 43848,
+      "role": "RAW_SUPERSEDED"
+    },
+    "raw_rainfall.csv": {
+      "sha256": "faeededdaa3ff799cb198f14a5d3d8b5a84e0c74c247af969ca2baacd9ffcff5",
+      "rows": 43848,
+      "role": "RAW_SUPERSEDED"
+    },
+    "raw_tide_marea.csv": {
+      "sha256": "9bc8c6d00389a54daeeaf14a5461b89475912f9ab983478cb297249ae7ce584b",
+      "rows": 43855,
+      "role": "RAW_UNUSED_BY_REPLAY"
+    }
+  },
+  "computed_counts": {
+    "PRIMARY": {
+      "inner_join": 43848,
+      "usable": 43848,
+      "window_hours_all": 9135,
+      "window_hours_usable": 9135,
+      "missing_wave": 0,
+      "missing_wave_in_window": 0
+    },
+    "RESOLUTION": {
+      "inner_join": 28512,
+      "usable": 28501,
+      "window_hours_all": 5940,
+      "window_hours_usable": 5935,
+      "missing_wave": 11,
+      "missing_wave_in_window": 5
+    }
+  },
+  "manuscript_targets": {
+    "PRIMARY_records": 43848,
+    "PRIMARY_window_hours": 9135,
+    "RESOLUTION_usable_records": 28501,
+    "RESOLUTION_window_hours": 5935,
+    "RESOLUTION_missing_wave_excluded": 11
+  },
+  "blockers": [
+    {
+      "id": "D-03",
+      "blocks": "none",
+      "note": "timezone claim is DOCUMENTED_ONLY; one UTC request would settle it"
+    },
+    {
+      "id": "D-07",
+      "blocks": "external authenticity claims only",
+      "note": "no provider manifest"
+    },
+    {
+      "id": "D-08",
+      "blocks": "any decision-time availability claim",
+      "note": "reanalysis only; permanent"
+    }
+  ],
+  "step3_readiness": "GO_WITH_CONDITIONS",
+  "counts_reproduced": {
+    "PRIMARY_records": "43848 == 43848 MATCH",
+    "PRIMARY_window_hours": "9135 == 9135 MATCH",
+    "RESOLUTION_usable_records": "28501 == 28501 MATCH",
+    "RESOLUTION_window_hours": "5935 == 5935 MATCH",
+    "RESOLUTION_missing_wave": "11 == 11 MATCH (contiguous, 2021-10-01T00:00..10:00; 5 in-window)"
+  },
+  "assurance_claims_separated": {
+    "provenance_completeness": "PARTIALLY_VERIFIED - lineage traced in code, provider manifest absent (D-07)",
+    "dataset_integrity": "VERIFIED - hashes recorded, zero duplicates, strict hourly cadence, nulls fully accounted",
+    "processing_reproducibility": "VERIFIED for counts - all four reproduced by an independent stdlib reader",
+    "operational_information_availability": "UNKNOWN for 100% of records (D-08) - not closable locally"
+  },
+  "step4_blockers": [
+    "none identified for count reproduction; governance percentages NOT tested in Step 2 by design"
+  ],
+  "not_done": [
+    "Step 3 rule reconstruction",
+    "Step 4 numerical reproduction of 5.81%/4.48%/42.88%/41.08%/48.69%/45.56%",
+    "no network retrieval",
+    "no package installation",
+    "no execution of the original pandas code path",
+    "no modification of any input"
+  ],
+  "raw_inputs_byte_identical_before_after": true,
+  "files_generated": [
+    "01_README.md",
+    "02_source_data_inventory.csv",
+    "03_schema_units_quality.csv",
+    "04_temporal_integrity.csv",
+    "05_spatial_integrity.csv",
+    "06_missingness_join_reconciliation.csv",
+    "07_transformation_lineage.csv",
+    "08_manifest_sha256.txt",
+    "09_discrepancy_and_blocker_register.csv",
+    "10_A18_1_STEP2_AUDIT_REPORT.md",
+    "11_A18_1_STEP3_HANDOFF.md",
+    "audit_status.json",
+    "audit_step2.py"
+  ]
+}

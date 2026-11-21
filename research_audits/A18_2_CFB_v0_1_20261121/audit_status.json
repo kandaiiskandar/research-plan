@@ -1,0 +1,101 @@
+{
+  "experiment_id": "M1dQ-A18.2-CFB-v0.1",
+  "generated": "2026-11-21",
+  "readiness": "GO",
+  "readiness_scope": "developmental proposal-binding feasibility ONLY",
+  "readiness_note": "F01-F05 and F08-F12 equivalents pass. F06/F07 reported separately: a nontrivial varying proposal process WAS demonstrated, but B2 is SIMULATED, so the ORDERING is robust and the LEVEL is not.",
+  "original_git_commit": "6c8d7835388fbb83678ec0712f41e8ff0f0e61eb",
+  "originals_unchanged": true,
+  "originals_changed": [],
+  "eligibility": {
+    "population": "PRIMARY",
+    "vessel": "small only",
+    "window": "05:00-09:00 inclusive",
+    "N_eligible": 9135,
+    "target_from_A18_1": 9135,
+    "match": true,
+    "states": {
+      "UNSAFE": 3917,
+      "SAFE": 4687,
+      "CAUTION": 531
+    },
+    "states_match_A18_1": true
+  },
+  "proposal_ledger_freeze_sha256": "2ff9020f4b3f91ff3b7c44102b1ae0f57be3367a6c63eba911bddb55eb83059f",
+  "contract_sha256": "f893c54dd9450d32f8906e1d439768c3ded10dce99f9c4e94b5c51596583f592",
+  "advisor_manifest_sha256": "a15192855429c77b0de8f80b540ed696a8acbdcb8a8722f24f8b91c3a4708099",
+  "tests": {
+    "total": 14,
+    "passed": 14,
+    "failed": []
+  },
+  "results": {
+    "coverage_all_advisors": 1.0,
+    "B_CF_C2": {
+      "B0-UNRESTRICTED": "0",
+      "B1-CONST-Go": "0",
+      "B1-CONST-Delay": "0",
+      "B1-CONST-DepartureTime": "531",
+      "B1-CONST-Duration": "531",
+      "B2-FROZEN-VARYING": "227"
+    },
+    "I_CF": {
+      "B0-UNRESTRICTED": {
+        "numerator": 0,
+        "denominator": 9135,
+        "percent": 0.0
+      },
+      "B1-CONST-Go": {
+        "numerator": 0,
+        "denominator": 9135,
+        "percent": 0.0
+      },
+      "B1-CONST-Delay": {
+        "numerator": 0,
+        "denominator": 9135,
+        "percent": 0.0
+      },
+      "B1-CONST-DepartureTime": {
+        "numerator": 531,
+        "denominator": 9135,
+        "percent": 5.8128
+      },
+      "B1-CONST-Duration": {
+        "numerator": 531,
+        "denominator": 9135,
+        "percent": 5.8128
+      },
+      "B2-FROZEN-VARYING": {
+        "numerator": 227,
+        "denominator": 9135,
+        "percent": 2.4849
+      }
+    },
+    "headline": "Delta_L2 = P(CAUTION) = 5.8128% is an UPPER BOUND on incremental proposal exclusion. Measured I_CF spans 0.0000% (always Go or Delay) to 5.8128% (always DepartureTime or Duration); the frozen simulated varying advisor gives 2.4849%.",
+    "composition_identity": "I_CF = P(CAUTION) x P(timing-or-duration | CAUTION); verified exact to 1e-12",
+    "b2_type_distribution": {
+      "Go": 7882,
+      "Duration": 810,
+      "DepartureTime": 435,
+      "Delay": 8
+    }
+  },
+  "caveats": [
+    "B2 is SIMULATED; its absolute level is an artefact of three unsourced thresholds (L-02)",
+    "B2 proposes Delay only 8 times in 9,135 cases; two of four branches carry the variation (L-03)",
+    "incremental cases cluster by day; no IID interval admissible (L-04)",
+    "no illustrative case set published - Phase 5 selection was not frozen before outcomes (L-05)",
+    "decision_time_availability UNKNOWN for 100% of cases; hindsight replay (L-07)",
+    "no protective-action truth for any of the four types; no appropriateness claim available (L-08)",
+    "g_m pinned SAFE, so every count is a LOWER BOUND (L-09)",
+    "wave band is a researcher length-to-tonnage transfer, not certified (L-10)"
+  ],
+  "not_done": [
+    "operational expert labelling",
+    "conference gate redesign",
+    "B3",
+    "RESOLUTION replication",
+    "illustrative case selection",
+    "no commit, no push, no network, no package install"
+  ]
+}
