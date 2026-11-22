@@ -1,0 +1,89 @@
+{
+  "T13_population_and_states_match_A18_1": {
+    "computed_usable": 43848,
+    "computed_window": 9135,
+    "target_window": 9135,
+    "computed_SAFE": 4687,
+    "computed_CAUTION": 531,
+    "computed_UNSAFE": 3917,
+    "target_states_from_A18_1": {
+      "SAFE": 4687,
+      "CAUTION": 531,
+      "UNSAFE": 3917
+    },
+    "result": "PASS"
+  },
+  "T02_rows_reconcile": {
+    "weather_source": 43848,
+    "usable": 43848,
+    "eligible_window": 9135,
+    "excluded": 34713,
+    "result": "PASS",
+    "reasons": {
+      "EXCL_outside_departure_window": 34713
+    }
+  },
+  "T04_ledger_hashed_before_mask": {
+    "ledger_sha256": "2ff9020f4b3f91ff3b7c44102b1ae0f57be3367a6c63eba911bddb55eb83059f",
+    "result": "PASS",
+    "note": "hash computed immediately after writing proposals and before MASK was indexed"
+  },
+  "T03_proposals_in_FULL_or_explicit_invalid": {
+    "result": "PASS",
+    "distinct_values": [
+      "Delay",
+      "DepartureTime",
+      "Duration",
+      "Go"
+    ]
+  },
+  "T09_analytic_controls_match": {
+    "checks": 16,
+    "failures": [],
+    "result": "PASS"
+  },
+  "T01_original_hashes_unchanged": {
+    "checked": 8,
+    "unchanged": true,
+    "result": "PASS"
+  },
+  "T05_C0_exclusions_always_zero": {
+    "checked": 45675,
+    "nonzero": 0,
+    "result": "PASS"
+  },
+  "T06_C1_equals_C3_for_every_valid_proposal": {
+    "compared": 54810,
+    "mismatches": 0,
+    "result": "PASS"
+  },
+  "T07_incremental_only_CAUTION_timing_or_duration": {
+    "incremental_cases": 1289,
+    "violations": 0,
+    "result": "PASS"
+  },
+  "T08_C2_exclusions_only_CAUTION_restricted_or_UNSAFE": {
+    "c2_exclusions": 20874,
+    "violations": 0,
+    "result": "PASS"
+  },
+  "T10_numerators_recover_from_ledger": {
+    "checked": 24,
+    "result": "PASS"
+  },
+  "T12_B2_manifest_has_no_state_or_mask_feature": {
+    "forbidden_tokens_found": [],
+    "result": "PASS",
+    "note": "b2() body inspected directly; proxy-overlap correlations logged in 09 (LK-01..LK-04)"
+  },
+  "T14_no_safety_or_novelty_claim": {
+    "result": "PASS",
+    "note": "every artefact labels proposals SIMULATED and states that no protective-action truth exists; no safety-effectiveness, harm-reduction, trust, decision-quality or novelty claim appears"
+  },
+  "T11_determinism_identical_ledger_hash": {
+    "run1_sha256": "2ff9020f4b3f91ff3b7c44102b1ae0f57be3367a6c63eba911bddb55eb83059f",
+    "run2_sha256": "2ff9020f4b3f91ff3b7c44102b1ae0f57be3367a6c63eba911bddb55eb83059f",
+    "result": "PASS",
+    "note": "experiment re-executed end to end; proposal ledger byte-identical. No RNG anywhere."
+  }
+}

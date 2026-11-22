@@ -1,0 +1,18 @@
+{
+  "probed_at_container": "2026-11-22T03:55:16.427929+00:00",
+  "probed_at_device": "2026-11-22T04:21:25.006460+00:00",
+  "probes_container": 7,
+  "refused_container": 6,
+  "ok_container": 1,
+  "probes_device": 7,
+  "refused_device": 6,
+  "ok_device": 1,
+  "raw_files": 0,
+  "raw_bytes": 0,
+  "src_rows": 5,
+  "man_rows": 0,
+  "env_rows": 18,
+  "iss_rows": 0,
+  "el_rows": 14,
+  "disc_rows": 17
+}

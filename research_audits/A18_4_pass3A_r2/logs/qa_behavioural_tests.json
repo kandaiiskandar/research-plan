@@ -1,0 +1,9 @@
+{
+  "tests_run": 0,
+  "failures": 0,
+  "errors": 0,
+  "passed": 0,
+  "ok": false,
+  "blocked": true,
+  "blocked_reason": "test dependency absent: No module named 'xarray'"
+}

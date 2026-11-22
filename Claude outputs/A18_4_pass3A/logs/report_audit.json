@@ -1,0 +1,71 @@
+{
+  "checks": [
+    {
+      "check": "G-01 raw/ holds no data file",
+      "result": "PASS"
+    },
+    {
+      "check": "G-02 raw bytes = 0 and report says 0",
+      "result": "PASS"
+    },
+    {
+      "check": "G-03 02_raw_file_manifest.csv header-only",
+      "result": "PASS"
+    },
+    {
+      "check": "G-04 04_issued_source_provenance.csv header-only",
+      "result": "PASS"
+    },
+    {
+      "check": "G-05 report refused/probed counts match the probe log",
+      "result": "PASS"
+    },
+    {
+      "check": "G-06 report variable count matches 03",
+      "result": "PASS"
+    },
+    {
+      "check": "G-07 report matrix count matches 06",
+      "result": "PASS"
+    },
+    {
+      "check": "G-08 every 03 row tiered DOCUMENTED_ONLY",
+      "result": "PASS"
+    },
+    {
+      "check": "G-09 no R1-PAIRED/R2/R3 prerequisite marked met",
+      "result": "PASS"
+    },
+    {
+      "check": "G-10 exactly one met prerequisite, the EL-04 negative safeguard",
+      "result": "PASS"
+    },
+    {
+      "check": "G-11 no AFFIRMATIVE safe/unsafe-vessel-label claim [guard fixed]",
+      "result": "PASS"
+    },
+    {
+      "check": "G-12 no assigned credential VALUE anywhere [guard fixed]",
+      "result": "PASS"
+    },
+    {
+      "check": "G-13 both tracks declared HOLD",
+      "result": "PASS"
+    },
+    {
+      "check": "G-14 A18.1 data not re-badged as a Pass 3A acquisition",
+      "result": "PASS"
+    },
+    {
+      "check": "G-15 doc-access gap registered as data AND cited by ID in the report",
+      "result": "PASS"
+    },
+    {
+      "check": "G-16 SHA256SUMS.txt does not reference itself",
+      "result": "PASS"
+    }
+  ],
+  "passed": 16,
+  "total": 16,
+  "failures": []
+}

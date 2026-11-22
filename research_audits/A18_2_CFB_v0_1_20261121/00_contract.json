@@ -1,0 +1,232 @@
+{
+  "experiment_id": "M1dQ-A18.2-CFB-v0.1",
+  "title": "Counterfactual proposal binding under the frozen AAI2026 governance contract",
+  "frozen_at": "2026-11-21T23:37:20.336231+08:00",
+  "status": "PRE-EXECUTION FREEZE - written before any proposal or exclusion calculation",
+  "relation_to_conference": "DEVELOPMENTAL EXTENSION. The accepted AAI2026 experiment measured admissible-SET divergence, which Step 3/Step 4 established is identically P(S=CAUTION). It did NOT measure excluded advisor proposals, because the replay contains no proposal generator. A18.2 adds FROZEN synthetic proposals and counts actual exclusions. The conference experiment, its data, scripts and results are NOT modified or republished.",
+  "original": {
+    "git_commit": "6c8d7835388fbb83678ec0712f41e8ff0f0e61eb",
+    "input_hashes": {
+      "data/raw_weather_sea.csv": "96850d7547189ffa5ccc02a36cf69987bfae742e54b61597c2ca7d251e84c424",
+      "data/raw_marine_era5_sea.csv": "6754e2c2ee5586ee864e590f1ccf363bbd8840b364763e01e8c9eb05e5d63888",
+      "data/raw_marine_mfwam.csv": "e9f323e086a3e9dddd29129bda6dbbea7590bbdcc9a1500c0460ca18233bf60f",
+      "data/solar/solar-events-daily.csv": "057c46a19d0e8ea7956cdc38ae3d7615cf43cf800e7bc33ab286dfdc20ce1894",
+      "scripts/condition_comparison.py": "3c32913a2a9cc85ff237c927d6f2be7a57fe0a87a08de5e254dbf98150282d48",
+      "scripts/canonical_gt.py": "b330bf9f94e848aad282a71d226c85c7e73f4ec8c0f2f8c88bfd7112b6e9a577",
+      "scripts/sensitivity/threshold_sensitivity.py": "6ddaea583941134b147956cc0d45cd785431ea7290643ba35a910a17f07a5730",
+      "research_audits/A18_1_step3_20261121/08_reconstruction_reference.py": "4e7be56b8040145467c66fe5ea76568a0fa670c8a74ad617082d316ddaf16468"
+    },
+    "date_coverage_PRIMARY": "2020-01-01T00:00 to 2024-12-31T23:00, hourly, 1827 days",
+    "timezone_handling": "timestamps are timezone-NAIVE in file; provider metadata declares timezone=Asia/Kuching and utc_offset_seconds=28800. Series is ALREADY LOCAL. NO additional UTC->MYT shift is applied. DOCUMENTED_ONLY, not provider-authenticated (Step 2 D-03).",
+    "departure_window": "05:00 <= hour <= 09:00 Asia/Kuching, FIVE inclusive hourly slots",
+    "state_labels": {
+      "0": "SAFE",
+      "1": "CAUTION",
+      "2": "UNSAFE"
+    },
+    "candidate_types": [
+      "Go",
+      "Delay",
+      "DepartureTime",
+      "Duration"
+    ],
+    "allowed_sets": {
+      "FULL": [
+        "Go",
+        "Delay",
+        "DepartureTime",
+        "Duration"
+      ],
+      "RESTRICTED": [
+        "Go",
+        "Delay"
+      ],
+      "EMPTY": []
+    },
+    "policy_mask_table": {
+      "C0": {
+        "SAFE": "FULL",
+        "CAUTION": "FULL",
+        "UNSAFE": "FULL"
+      },
+      "C1": {
+        "SAFE": "FULL",
+        "CAUTION": "FULL",
+        "UNSAFE": "EMPTY"
+      },
+      "C3": {
+        "SAFE": "FULL",
+        "CAUTION": "FULL",
+        "UNSAFE": "EMPTY"
+      },
+      "C2": {
+        "SAFE": "FULL",
+        "CAUTION": "RESTRICTED",
+        "UNSAFE": "EMPTY"
+      }
+    },
+    "policy_source": "scripts/condition_comparison.py:81-105 (verified Step 3 R-21, R-22)",
+    "rule_source": "research_audits/A18_1_step3_20261121/02_rule_source_traceability.csv (30 rules)",
+    "gate_features_READ_by_the_contract": [
+      "wind_speed_10m (kn)",
+      "precipitation (mm)",
+      "weather_code (wmo code)",
+      "wave_height (m)",
+      "solar sunrise_hours/sunset_hours"
+    ]
+  },
+  "population": {
+    "primary": "PRIMARY (raw_weather_sea.csv x raw_marine_era5_sea.csv)",
+    "vessel_profile": "small (<10 GRT) ONLY; medium and big are NOT eligible (Step 3 A-02)",
+    "window": "05:00-09:00 Asia/Kuching inclusive",
+    "scope": "ALL eligible hourly replay cases - full census, not a sample",
+    "target_n_from_A18_1": 9135,
+    "target_note": "TARGET from A18.1 Step 4. MUST BE CHECKED, never hardcoded into an observed field.",
+    "secondary": "RESOLUTION is OPTIONAL exploratory replication. Populations are NEVER pooled, and no pure-resolution interpretation is implied (Step 2 D-12)."
+  },
+  "unit": {
+    "definition": "ONE ELIGIBLE HISTORICAL GRID-HOUR. Not a trip, not a vessel, not a person.",
+    "case_id_rule": "CFB-<ISO timestamp with T and : removed>, e.g. CFB-202001010500",
+    "fields": [
+      "case_id",
+      "source_row_index",
+      "local_timestamp",
+      "cluster_id",
+      "source_hash",
+      "state",
+      "mask",
+      "inclusion_flag"
+    ],
+    "cluster_rule": "cluster_id = local calendar DATE. One episode cluster per day. Used for STRATIFICATION and dependence reporting ONLY - never as an advisor input.",
+    "date_is_not_an_advisor_input": true
+  },
+  "proposal": {
+    "definition": "EXACTLY ONE recommendation TYPE per case per advisor, emitted BEFORE any admission mask is consulted.",
+    "vocabulary": [
+      "Go",
+      "Delay",
+      "DepartureTime",
+      "Duration"
+    ],
+    "invalid_statuses": [
+      "ABSTAIN",
+      "INVALID",
+      "UNKNOWN"
+    ],
+    "caveat": "These are recommendation TYPES from the conference vocabulary. They are NOT operational fishing actions, they are NOT the later A1/A2/A3 fisheries action catalogue, and NO established protective-action truth exists for any of them."
+  },
+  "feature_whitelist": {
+    "fields": [
+      {
+        "name": "wind_gusts_10m (kn)",
+        "unit": "knots",
+        "source": "data/raw_weather_sea.csv",
+        "observed_min": 1.0,
+        "observed_max": 33.2,
+        "nulls_in_PRIMARY": 0
+      },
+      {
+        "name": "wind_direction_10m (°)",
+        "unit": "degrees true",
+        "source": "data/raw_weather_sea.csv",
+        "observed_min": 1.0,
+        "observed_max": 360.0,
+        "nulls_in_PRIMARY": 0
+      },
+      {
+        "name": "wave_period (s)",
+        "unit": "seconds",
+        "source": "data/raw_marine_era5_sea.csv",
+        "observed_min": 2.05,
+        "observed_max": 10.7,
+        "nulls_in_PRIMARY": 0
+      }
+    ],
+    "gate_independence_evidence": "VERIFIED by grep: none of wind_gusts, wind_direction or wave_period is referenced in condition_comparison.py, canonical_gt.py or threshold_sensitivity.py. The gate never reads any of them.",
+    "deliberate_exclusions": "NO gate feature is used. wind_speed, precipitation, weather_code and wave_height are all EXCLUDED from B2 so that not even a derived ratio can carry a gate threshold decision. State, mask, allowed_set, risk label, reference outcome, action appropriateness, human behaviour, case_id, date and cluster_id are all FORBIDDEN as inputs.",
+    "proxy_risk_acknowledged": "These three fields are PHYSICALLY CORRELATED with gate fields - gusts with sustained wind, wave_period with wave_height. Correlation will be MEASURED and reported in 09_invalid_inputs_and_leakage_register.csv. Shared physical drivers are not leakage, but a near-perfect state proxy would be a validity threat and is tested for."
+  },
+  "advisors": {
+    "B0_UNRESTRICTED": {
+      "kind": "control",
+      "description": "Identical candidate proposals to B1-Go but NO mask applied. Exclusions are ZERO BY DEFINITION, serving as a wiring check."
+    },
+    "B1_CONSTANT": {
+      "kind": "control",
+      "description": "Four separate constant advisors, one per type. No training."
+    },
+    "B2_FROZEN_VARYING": {
+      "kind": "SIMULATED deterministic rule-based heuristic",
+      "real_or_simulated": "SIMULATED - NOT a validated advisor, NOT fitted, NOT trained, NO claim of appropriateness. Branch thresholds are plausible but have NO established source.",
+      "rationale": "No existing advisor model or heuristic mapping fields to the four conference types was found anywhere in the repository; the replay has no proposal generator (Step 3). A transparent simulated rule is therefore specified here, as the protocol permits.",
+      "features": [
+        "wind_gusts_10m (kn)",
+        "wind_direction_10m (°)",
+        "wave_period (s)"
+      ],
+      "logic_ordered_branches": [
+        "1. IF wind_gusts_10m >= 25.0 kn  -> 'Delay'          (squall-dominated gustiness)",
+        "2. ELIF wave_period >= 8.0 s     -> 'Duration'       (long swell: limit exposure length)",
+        "3. ELIF wind_direction_10m in [315,360) or [0,45) -> 'DepartureTime' (NE monsoon sector: shift timing)",
+        "4. ELSE                          -> 'Go'"
+      ],
+      "thresholds": {
+        "gust_kn": 25.0,
+        "wave_period_s": 8.0,
+        "ne_sector_deg": [
+          [
+            315,
+            360
+          ],
+          [
+            0,
+            45
+          ]
+        ]
+      },
+      "missing_fallback": "any feature null or non-finite -> ABSTAIN (counted invalid, excluded from N_valid)",
+      "seed": "none - fully deterministic, no randomness",
+      "forbidden_inputs_confirmed": [
+        "state",
+        "mask",
+        "allowed_set",
+        "any gate threshold",
+        "any gate feature",
+        "future observations",
+        "risk label",
+        "reference outcome",
+        "case_id",
+        "date",
+        "cluster_id"
+      ],
+      "tuning_statement": "Branch order and thresholds are frozen in THIS file before any proposal or exclusion number was computed. No value was adjusted after seeing any result."
+    },
+    "B3_OPTIONAL": {
+      "kind": "NOT FROZEN - NOT RUN",
+      "reason": "No second genuinely distinct varying advisor could be pre-specified without arbitrary choices, and a random control would be DIAGNOSTIC only. B3 is therefore declared unavailable rather than invented. Per Phase 4 it will NOT be run."
+    }
+  },
+  "estimands": {
+    "N_eligible": "all selected grid-hour cases",
+    "N_valid": "cases whose proposal is exactly one type in FULL",
+    "N_invalid": "N_eligible - N_valid, split into ABSTAIN / INVALID / UNKNOWN",
+    "coverage": "N_valid / N_eligible",
+    "X_i": "1[valid proposal not in allowed_set(policy, state_i)]",
+    "B_CF": "sum(X_i) / N_valid; UNDEFINED if N_valid == 0",
+    "B_CF_state": "state-s exclusions / valid proposals in state s, reported only when denominator > 0",
+    "I_CF": "count(admitted by C1 AND excluded by C2) / N_valid",
+    "I_CF_composition": "I_CF = [#valid CAUTION proposals / N_valid] x [#(DepartureTime or Duration) valid CAUTION proposals / #valid CAUTION proposals]. If there are no valid CAUTION proposals the incremental COUNT is 0 and the conditional factor is UNDEFINED, not zero.",
+    "reporting": "raw integer numerator and denominator, exact unrounded decimal, then rounded percent"
+  },
+  "interpretation_limits": [
+    "Hindsight: all features are retrospective reanalysis. decision_time_availability is UNKNOWN for 100% of cases. Nothing here shows what information a fisher could have had (Step 2 D-08).",
+    "Synthetic: proposals are generated by a simulated rule. They are not observed operational advice.",
+    "No truth: there is no protective-action ground truth for any of the four types.",
+    "No safety claim: nothing here supports safety effectiveness, harm reduction, certified thresholds, human trust, decision quality or algorithmic novelty.",
+    "Marine warnings are pinned SAFE as a model assumption, so every state is a LOWER BOUND (D-05).",
+    "The 1.0/1.25 m wave band is a researcher transfer from vessel length to tonnage, not certified (A-03).",
+    "Grid-hours are serially dependent; no naive IID interval or significance test is admissible (B-08).",
+    "The original D(C1,C2) = P(CAUTION) is an admissible-SET divergence and must NOT be conflated with proposal exclusion. A18.2 measures a different quantity."
+  ],
+  "commit_policy": "NO commit. Local SHA-256 only, recorded in 13_SHA256SUMS.txt."
+}

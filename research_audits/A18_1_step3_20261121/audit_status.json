@@ -1,0 +1,117 @@
+{
+  "step": "A18.1 Step 3 - governance contract reconstruction",
+  "generated": "2026-11-21",
+  "scope": "Step 3 only; Step 4 NOT executed",
+  "source_version": {
+    "authoritative_for_C0_C3": "scripts/condition_comparison.py (sha 3c32913a2a9cc85f)",
+    "authoritative_for_g_t": "scripts/canonical_gt.py (sha b330bf9f94e848aa)",
+    "thresholds_agree_across": [
+      "historical_replay.py:41,49",
+      "condition_comparison.py:63,72",
+      "diagnostic_binding.py:43,52"
+    ],
+    "manuscript_statement": "publications/active/aai-2026/drafts/aai-2026-independent-review-v8.md:131-188"
+  },
+  "tests": {
+    "fixtures_total": 62,
+    "fixtures_passed": 62,
+    "fixtures_failed": 0,
+    "parity_samples": 164,
+    "parity_mismatches": 0,
+    "parity_state_coverage": {
+      "SAFE": 63,
+      "CAUTION": 43,
+      "UNSAFE": 58
+    },
+    "original_parity": "EXECUTED - reconstruction compared against condition_comparison.classify and historical_replay/canonical_gt scalars"
+  },
+  "originals_unchanged": true,
+  "originals_changed_since_step2": [],
+  "structural_identities": [
+    "Delta_L2 == P(S = CAUTION) exactly: C1 and C2 differ only at CAUTION (A-05)",
+    "A_AI(C1) == A_AI(C3) identically, so P21 (0.0) is definitional (A-04)",
+    "RESTRICTED retains Go and Delay, so the departure recommendation never changes (A-06)",
+    "g_t emits no CAUTION; g_m pinned SAFE; therefore CAUTION arises only from g_w, g_r or g_o"
+  ],
+  "open_discrepancies": [
+    {
+      "id": "A-01",
+      "severity": "INFO_PRE_EXISTING",
+      "note": "asymmetric operator inclusivity; already documented in review v8:168, unstated in the manuscript"
+    },
+    {
+      "id": "A-02",
+      "severity": "MEDIUM",
+      "note": "published figures are small-vessel only"
+    },
+    {
+      "id": "A-03",
+      "severity": "MEDIUM",
+      "note": "length-to-tonnage transfer is a researcher assumption, not certified"
+    },
+    {
+      "id": "A-07",
+      "severity": "LOW_DEFECT",
+      "note": "historical_replay.py:246 safety-dominance check is vacuous and its result unused"
+    },
+    {
+      "id": "A-08",
+      "severity": "LOW_DEFECT",
+      "note": "latent gust/merge misalignment in historical_replay.py:146; inactive for PRIMARY"
+    },
+    {
+      "id": "A-10",
+      "severity": "MEDIUM",
+      "note": "g_t compares integer hour to float solar hour; granularity unstated"
+    }
+  ],
+  "carried_from_step2": [
+    "D-08 decision_time_availability UNKNOWN for 100% of records",
+    "D-12 PRIMARY/RESOLUTION confounds wave product with wind-wave co-location",
+    "D-03 local-time claim documented only",
+    "D-07 no provider manifest",
+    "D-05 no marine-warning column; SAFE is a model assumption"
+  ],
+  "step4_eligible_configurations": [
+    {
+      "config": "PRIMARY",
+      "wave_file": "raw_marine_era5_sea.csv",
+      "vessel": "small",
+      "records": 43848,
+      "window_hours": 9135
+    },
+    {
+      "config": "RESOLUTION",
+      "wave_file": "raw_marine_mfwam.csv",
+      "vessel": "small",
+      "records": 28501,
+      "window_hours": 5935
+    }
+  ],
+  "step4_ineligible": [
+    "v1 land cell (F-10 condemned)",
+    "medium and big vessel profiles (not in the published comparison)"
+  ],
+  "step4_gate": "GO",
+  "step4_blocking_items": [],
+  "step4_nonblocking_conditions": [
+    "report Delta_L2 as the CAUTION identity",
+    "report P21 as definitional",
+    "small vessel only",
+    "state g_t integer-hour granularity",
+    "state the three operator conventions",
+    "describe the wave band as a researcher transfer",
+    "do not cite the vacuous safety-dominance section",
+    "carry D-08 and D-12 verbatim",
+    "omit --write-register; use condition_comparison.py not historical_replay.py"
+  ],
+  "not_done": [
+    "Step 4 percentage reproduction",
+    "expert adjudication",
+    "historical warning reconstruction",
+    "algorithm design",
+    "real-world safety inference",
+    "no package installed",
+    "no network call"
+  ]
+}

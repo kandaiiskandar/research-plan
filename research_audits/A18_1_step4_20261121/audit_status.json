@@ -1,0 +1,207 @@
+{
+  "step": "A18.1 Step 4 - independent numerical reproduction",
+  "generated": "2026-11-21",
+  "scope": "Step 4 only; Step 5 NOT started",
+  "status_label": "EXACT",
+  "status_justification": "every reportable manuscript figure reproduced by two independent paths at integer-count level, not merely after rounding; audit-independent implementation shares no dependency with the original",
+  "git_commit": "6c8d7835388fbb83678ec0712f41e8ff0f0e61eb",
+  "manuscript_edition": {
+    "numerical_source": "publications/active/aai-2026/drafts/aai-2026-evidence-resolution-and-configuration-register.md",
+    "rule_statement": "publications/active/aai-2026/drafts/aai-2026-independent-review-v8.md:131-188",
+    "latest_render": "publications/active/aai-2026/drafts/aai-2026-manuscript-v11-renumbered-A4.pdf",
+    "note": "no distinct 'Oct 31 revised' edition exists in the repository; all manuscript files are dated 11 November 2026"
+  },
+  "data_availability": "COMPLETE - all canonical inputs present and byte-identical",
+  "originals_unchanged": true,
+  "originals_changed_since_step2": [],
+  "input_hashes": {
+    "data/raw_weather_sea.csv": "96850d7547189ffa5ccc02a36cf69987bfae742e54b61597c2ca7d251e84c424",
+    "data/raw_marine_era5_sea.csv": "6754e2c2ee5586ee864e590f1ccf363bbd8840b364763e01e8c9eb05e5d63888",
+    "data/raw_marine_mfwam.csv": "e9f323e086a3e9dddd29129bda6dbbea7590bbdcc9a1500c0460ca18233bf60f",
+    "data/solar/solar-events-daily.csv": "057c46a19d0e8ea7956cdc38ae3d7615cf43cf800e7bc33ab286dfdc20ce1894",
+    "data/prediction-register.csv": "5574b88ea65168b6ef5e308629f3eb14fb70f8688a592fde279103ea4b37eae6",
+    "scripts/condition_comparison.py": "3c32913a2a9cc85ff237c927d6f2be7a57fe0a87a08de5e254dbf98150282d48",
+    "scripts/historical_replay.py": "3b1105b7cc03839b3d162f4c6ecef60dd439102ea5a9d4c139c4cc19c043d806",
+    "scripts/canonical_gt.py": "b330bf9f94e848aad282a71d226c85c7e73f4ec8c0f2f8c88bfd7112b6e9a577",
+    "scripts/sensitivity/threshold_sensitivity.py": "6ddaea583941134b147956cc0d45cd785431ea7290643ba35a910a17f07a5730"
+  },
+  "populations": {
+    "PRIMARY": {
+      "usable": 43848,
+      "window": 9135
+    },
+    "RESOLUTION": {
+      "usable": 28501,
+      "window": 5935
+    }
+  },
+  "occupancy": {
+    "PRIMARY/all_hours": {
+      "n": 43848,
+      "SAFE": 18401,
+      "CAUTION": 2091,
+      "UNSAFE": 23356,
+      "pct_CAUTION": 4.7687
+    },
+    "PRIMARY/departure_window": {
+      "n": 9135,
+      "SAFE": 4687,
+      "CAUTION": 531,
+      "UNSAFE": 3917,
+      "pct_CAUTION": 5.8128
+    },
+    "RESOLUTION/all_hours": {
+      "n": 28501,
+      "SAFE": 12540,
+      "CAUTION": 1110,
+      "UNSAFE": 14851,
+      "pct_CAUTION": 3.8946
+    },
+    "RESOLUTION/departure_window": {
+      "n": 5935,
+      "SAFE": 3231,
+      "CAUTION": 266,
+      "UNSAFE": 2438,
+      "pct_CAUTION": 4.4819
+    }
+  },
+  "divergence": {
+    "PRIMARY/C0 vs C1": {
+      "num": 3917,
+      "den": 9135,
+      "pct": 42.879,
+      "identity": "#UNSAFE/n",
+      "holds": true
+    },
+    "PRIMARY/C0 vs C2": {
+      "num": 4448,
+      "den": 9135,
+      "pct": 48.6918,
+      "identity": "(#CAUTION+#UNSAFE)/n",
+      "holds": true
+    },
+    "PRIMARY/C0 vs C3": {
+      "num": 3917,
+      "den": 9135,
+      "pct": 42.879,
+      "identity": "(none)",
+      "holds": ""
+    },
+    "PRIMARY/C1 vs C2": {
+      "num": 531,
+      "den": 9135,
+      "pct": 5.8128,
+      "identity": "#CAUTION/n",
+      "holds": true
+    },
+    "PRIMARY/C1 vs C3": {
+      "num": 0,
+      "den": 9135,
+      "pct": 0.0,
+      "identity": "0/n",
+      "holds": true
+    },
+    "PRIMARY/C2 vs C3": {
+      "num": 531,
+      "den": 9135,
+      "pct": 5.8128,
+      "identity": "(none)",
+      "holds": ""
+    },
+    "RESOLUTION/C0 vs C1": {
+      "num": 2438,
+      "den": 5935,
+      "pct": 41.0783,
+      "identity": "#UNSAFE/n",
+      "holds": true
+    },
+    "RESOLUTION/C0 vs C2": {
+      "num": 2704,
+      "den": 5935,
+      "pct": 45.5602,
+      "identity": "(#CAUTION+#UNSAFE)/n",
+      "holds": true
+    },
+    "RESOLUTION/C0 vs C3": {
+      "num": 2438,
+      "den": 5935,
+      "pct": 41.0783,
+      "identity": "(none)",
+      "holds": ""
+    },
+    "RESOLUTION/C1 vs C2": {
+      "num": 266,
+      "den": 5935,
+      "pct": 4.4819,
+      "identity": "#CAUTION/n",
+      "holds": true
+    },
+    "RESOLUTION/C1 vs C3": {
+      "num": 0,
+      "den": 5935,
+      "pct": 0.0,
+      "identity": "0/n",
+      "holds": true
+    },
+    "RESOLUTION/C2 vs C3": {
+      "num": 266,
+      "den": 5935,
+      "pct": 4.4819,
+      "identity": "(none)",
+      "holds": ""
+    }
+  },
+  "target_checks": {
+    "total": 34,
+    "passed": 34,
+    "failed": 0,
+    "not_in_manuscript": 2,
+    "not_reproduced": 0
+  },
+  "both_path_parity": {
+    "quantities_compared": 34,
+    "matches": 34,
+    "mismatches": 0,
+    "note": "one discrepancy arose and was an audit-side defect in Path B (B-01); the original was correct"
+  },
+  "identities_verified": {
+    "D(C1,C2)=#CAUTION/n": "HOLDS both configs at integer level",
+    "D(C0,C1)=#UNSAFE/n": "HOLDS both configs at integer level",
+    "D(C0,C2)=(#CAUTION+#UNSAFE)/n": "HOLDS both configs at integer level",
+    "D(C1,C3)=0/n": "HOLDS both configs; definitional"
+  },
+  "primary_resolution_decomposition": {
+    "wave_product_plus_colocation_pp": 1.9713,
+    "record_length_pp": -0.6404,
+    "net_pp": 1.3309,
+    "note": "two effects of OPPOSITE sign on the same 5,935 common window hours; not a resolution-only contrast"
+  },
+  "failures": [],
+  "warnings": [
+    "B-04 all headlines are identities, not measured comparative effects",
+    "B-05 no AI proposal generator exists; divergence is not proposal exclusion",
+    "B-06 518 of 531 PRIMARY CAUTION hours are wave-bound; only 3 of 5 components can contribute CAUTION",
+    "B-08 hours are autocorrelated; no IID interval or significance test is admissible"
+  ],
+  "carried_limitations": [
+    "D-08 decision_time_availability UNKNOWN for 100% of records (permanent)",
+    "D-12 wave product and co-location change together",
+    "D-05 no marine-warning column; g_m pinned SAFE",
+    "A-03 length-to-tonnage threshold transfer",
+    "A-10 g_t integer-hour granularity unstated",
+    "D-03 timezone claim documented only",
+    "D-07 no provider manifest"
+  ],
+  "step5_gate": "GO",
+  "step5_blocking_items": [],
+  "not_done": [
+    "Step 5 case selection",
+    "manuscript revision",
+    "expert labels",
+    "new model",
+    "risk-state modification",
+    "real-world safety assertion",
+    "no network access",
+    "no package installation"
+  ]
+}

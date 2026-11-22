@@ -1,0 +1,26 @@
+item_id,advisor,policy,derivation,expected_from_measured_state_counts,computed_from_ledger,result,metric,value,detail,interpretation,verification_status,note
+CTL-01,B1-CONST-Go,C0,0,0,0,PASS,,,,,COMPUTED_FROM_DATA,expectation derived from the measured state distribution of THIS run
+CTL-02,B1-CONST-Go,C1,#UNSAFE,3917,3917,PASS,,,,,COMPUTED_FROM_DATA,expectation derived from the measured state distribution of THIS run
+CTL-03,B1-CONST-Go,C3,#UNSAFE,3917,3917,PASS,,,,,COMPUTED_FROM_DATA,expectation derived from the measured state distribution of THIS run
+CTL-04,B1-CONST-Go,C2,#UNSAFE,3917,3917,PASS,,,,,COMPUTED_FROM_DATA,expectation derived from the measured state distribution of THIS run
+CTL-05,B1-CONST-Delay,C0,0,0,0,PASS,,,,,COMPUTED_FROM_DATA,expectation derived from the measured state distribution of THIS run
+CTL-06,B1-CONST-Delay,C1,#UNSAFE,3917,3917,PASS,,,,,COMPUTED_FROM_DATA,expectation derived from the measured state distribution of THIS run
+CTL-07,B1-CONST-Delay,C3,#UNSAFE,3917,3917,PASS,,,,,COMPUTED_FROM_DATA,expectation derived from the measured state distribution of THIS run
+CTL-08,B1-CONST-Delay,C2,#UNSAFE,3917,3917,PASS,,,,,COMPUTED_FROM_DATA,expectation derived from the measured state distribution of THIS run
+CTL-09,B1-CONST-DepartureTime,C0,0,0,0,PASS,,,,,COMPUTED_FROM_DATA,expectation derived from the measured state distribution of THIS run
+CTL-10,B1-CONST-DepartureTime,C1,#UNSAFE,3917,3917,PASS,,,,,COMPUTED_FROM_DATA,expectation derived from the measured state distribution of THIS run
+CTL-11,B1-CONST-DepartureTime,C3,#UNSAFE,3917,3917,PASS,,,,,COMPUTED_FROM_DATA,expectation derived from the measured state distribution of THIS run
+CTL-12,B1-CONST-DepartureTime,C2,#CAUTION + #UNSAFE,4448,4448,PASS,,,,,COMPUTED_FROM_DATA,expectation derived from the measured state distribution of THIS run
+CTL-13,B1-CONST-Duration,C0,0,0,0,PASS,,,,,COMPUTED_FROM_DATA,expectation derived from the measured state distribution of THIS run
+CTL-14,B1-CONST-Duration,C1,#UNSAFE,3917,3917,PASS,,,,,COMPUTED_FROM_DATA,expectation derived from the measured state distribution of THIS run
+CTL-15,B1-CONST-Duration,C3,#UNSAFE,3917,3917,PASS,,,,,COMPUTED_FROM_DATA,expectation derived from the measured state distribution of THIS run
+CTL-16,B1-CONST-Duration,C2,#CAUTION + #UNSAFE,4448,4448,PASS,,,,,COMPUTED_FROM_DATA,expectation derived from the measured state distribution of THIS run
+ND-01,,,,,,,B2 distinct proposal types produced,4,Go=7882; Duration=810; DepartureTime=435; Delay=8,more than one type = non-degenerate OUTPUT. Variation is NOT safety.,COMPUTED_FROM_DATA,
+ND-02,,,,,,,B2 proposal-type entropy (bits),0.7116,max possible 2.0000 bits over 4 types,descriptive only; entropy is not a quality measure,COMPUTED_FROM_DATA,
+ND-03,,,,,,,distinct types within each state,"{'UNSAFE': 4, 'SAFE': 4, 'CAUTION': 3}",type variation survives conditioning on state,"if a state had exactly one type, B2 would be a state proxy within it",COMPUTED_FROM_DATA,
+ND-04,,,,,,,day-clusters containing >1 proposal type,306,of 1827 clusters,within-episode variation as designed,COMPUTED_FROM_DATA,
+LK-01,,,,,,,"Pearson r, gusts vs gate wind_speed",0.8693,physically correlated by construction; gusts are NOT read by the gate,"shared physical driver, NOT leakage; logged as a proxy-overlap caveat",COMPUTED_FROM_DATA,
+LK-02,,,,,,,"Pearson r, wave_period vs gate wave_height",0.8106,physically correlated; wave_period is NOT read by the gate,"shared physical driver, NOT leakage",COMPUTED_FROM_DATA,
+LK-03,,,,,,,"best single-threshold accuracy predicting UNSAFE, gusts",0.575,1.0 would mean a perfect state proxy,a near-1.0 value would be a validity threat,COMPUTED_FROM_DATA,
+LK-04,,,,,,,"best single-threshold accuracy predicting UNSAFE, wave_period",0.5937,1.0 would mean a perfect state proxy,,COMPUTED_FROM_DATA,
+LK-05,,,,,,,B2 source references state/mask/allowed_set/gate feature,NO,"b2() reads only gusts, wdir, wper; see 00_contract.json feature_whitelist","gate-independence by construction, grep-verified in Phase 0",VERIFIED_FROM_CODE,

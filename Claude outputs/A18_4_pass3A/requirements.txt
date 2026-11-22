@@ -1,0 +1,16 @@
+# A18.4 Pass 3A — pinned environment.
+# NOTE: none of these was exercised against a provider in this run. Every
+# provider host was refused at the executing environment's egress proxy, so
+# Track A and Track B are HOLD and no acquisition code path completed.
+#
+# Only the standard library was actually used to produce the delivered artifacts.
+#
+# Required for Track A once provider access and a Copernicus account exist:
+copernicusmarine==2.0.1
+xarray==2025.1.2
+netCDF4==1.7.2
+numpy==2.2.6
+#
+# Credentials are supplied as ENVIRONMENT VARIABLES, never in a file:
+#   COPERNICUSMARINE_SERVICE_USERNAME
+#   COPERNICUSMARINE_SERVICE_PASSWORD

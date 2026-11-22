@@ -1,0 +1,163 @@
+{
+  "checks": [
+    {
+      "check": "G-01 raw/ holds no data file",
+      "result": "PASS"
+    },
+    {
+      "check": "G-02 raw bytes = 0 and report says 0",
+      "result": "PASS"
+    },
+    {
+      "check": "G-03 02_raw_file_manifest.csv header-only",
+      "result": "PASS"
+    },
+    {
+      "check": "G-04 04_issued_source_provenance.csv header-only",
+      "result": "PASS"
+    },
+    {
+      "check": "G-05 report refused/probed counts match the container probe log",
+      "result": "PASS"
+    },
+    {
+      "check": "G-06 report variable count matches 03",
+      "result": "PASS"
+    },
+    {
+      "check": "G-07 report matrix count matches 06",
+      "result": "PASS"
+    },
+    {
+      "check": "G-08 every 03 row tiered DOCUMENTED_ONLY",
+      "result": "PASS"
+    },
+    {
+      "check": "G-09 no R1-PAIRED/R2/R3 prerequisite marked met",
+      "result": "PASS"
+    },
+    {
+      "check": "G-10 exactly one met prerequisite, the EL-04 negative safeguard",
+      "result": "PASS"
+    },
+    {
+      "check": "G-11 no AFFIRMATIVE safe/unsafe-vessel-label claim",
+      "result": "PASS"
+    },
+    {
+      "check": "G-12 no assigned credential VALUE anywhere",
+      "result": "PASS"
+    },
+    {
+      "check": "G-13 both tracks declared HOLD",
+      "result": "PASS"
+    },
+    {
+      "check": "G-14 A18.1 data not re-badged as a Pass 3A acquisition",
+      "result": "PASS"
+    },
+    {
+      "check": "G-15 doc-access gap registered as data AND cited by ID in the report",
+      "result": "PASS"
+    },
+    {
+      "check": "G-16 SHA256SUMS.txt does not reference itself",
+      "result": "PASS"
+    },
+    {
+      "check": "G-17 EVERY register row count matches report_metrics.json [F1/F6]",
+      "result": "PASS"
+    },
+    {
+      "check": "G-18 no prose count contradicts a register [F1/F6]",
+      "result": "PASS"
+    },
+    {
+      "check": "G-19 a connectivity log exists for EVERY environment claimed tested [F5]",
+      "result": "PASS"
+    },
+    {
+      "check": "G-20 --verify reports NO-ACQUISITION, not success, on an empty manifest [F2]",
+      "result": "PASS"
+    },
+    {
+      "check": "G-21 manifest writer is the deterministic rebuild, not an append [F4]",
+      "result": "PASS"
+    },
+    {
+      "check": "G-22 QA behavioural tests pass on synthetic NetCDF fixtures [F3, r3]",
+      "result": "BLOCKED"
+    },
+    {
+      "check": "G-24 Track A returns success ONLY if QA ran, QA passed and the manifest verifies [r3]",
+      "result": "PASS"
+    },
+    {
+      "check": "G-25 manifest rebuild RECOMPUTES hashes for retained rows [r3]",
+      "result": "PASS"
+    },
+    {
+      "check": "G-26 time bounds EVALUATE containment, not just describe it [r3]",
+      "result": "PASS"
+    },
+    {
+      "check": "G-23 QA completeness claims are bounded, not absolute [F3]",
+      "result": "PASS"
+    }
+  ],
+  "passed": 25,
+  "total": 26,
+  "failures": [],
+  "blocked": [
+    "G-22 QA behavioural tests pass on synthetic NetCDF fixtures [F3, r3]"
+  ],
+  "exit_status_meaning": "0=all pass, 1=a check FAILED, 3=a check could not RUN",
+  "machine_readable_claims": {
+    "raw_data_files": 0,
+    "raw_bytes": 0,
+    "register_rows": {
+      "01_source_acquisition_register.csv": 5,
+      "02_raw_file_manifest.csv": 0,
+      "03_environmental_metadata.csv": 18,
+      "04_issued_source_provenance.csv": 0,
+      "06_evidence_eligibility_matrix.csv": 14,
+      "08_discrepancy_and_limitation_register.csv": 17
+    },
+    "register_count_mismatches": [],
+    "prose_count_mismatches": [],
+    "environments_probed": [
+      "container",
+      "device"
+    ],
+    "probe_logs": [
+      "connectivity_probe_container.json",
+      "connectivity_probe_device.json"
+    ],
+    "refused_hosts": {
+      "container": 6,
+      "device": 6
+    },
+    "verify_exit_status": 3,
+    "behavioural_qa_tests": {
+      "tests_run": 0,
+      "failures": 0,
+      "errors": 0,
+      "passed": 0,
+      "ok": false,
+      "blocked": true,
+      "blocked_reason": "test dependency absent: No module named 'xarray'"
+    },
+    "verify_exit_meaning": "0=verified, 1=mismatch, 3=no acquisition",
+    "track_a": "HOLD",
+    "track_b": "HOLD",
+    "combined": "HOLD",
+    "evidence_tiers_achieved": [],
+    "tiers_not_achieved": [
+      "R0",
+      "R1-SOURCE-ONLY",
+      "R1-PAIRED",
+      "R2",
+      "R3"
+    ]
+  }
+}

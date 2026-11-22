@@ -1,0 +1,15 @@
+item_id,evidence_tier,prerequisite,prerequisite_met,reason,verification_status
+EL-01,R0,authentic bounded provider environmental subset downloaded,NO,raw/ contains 0 files and 0 bytes; Copernicus host returns HTTP 403 at this egress proxy and the provider additionally requires a registered account plus the Copernicus Marine Toolbox,COMPUTED_FROM_ARTIFACTS
+EL-02,R0,raw bytes preserved with SHA-256 and byte size,NO,no bytes to hash,COMPUTED_FROM_ARTIFACTS
+EL-03,R0,"variables, units, dates and spatial coverage read FROM the raw data",NO,"all metadata in 03_environmental_metadata.csv is provider PAGE TEXT, tier DOCUMENTED_ONLY; standard_name and units were not even stated on the pages retrieved",COMPUTED_FROM_ARTIFACTS
+EL-04,R0,project already holds R0-tier environmental data from an earlier pass,YES,"A18.1 PRIMARY/RESOLUTION inputs exist and are hash-verified, but they are Open-Meteo-derived CSVs acquired in an earlier pass, NOT a Copernicus subset, and NOT a Pass 3A acquisition. They are not re-badged here as new evidence",COMPUTED_FROM_ARTIFACTS
+EL-05,R1-SOURCE-ONLY,an authentic ISSUED record with traceable issuance retrieved,NO,api.weather.gov returns HTTP 403 at this egress proxy and is robots-disallowed to the document fetcher; no record was retrieved by any route,COMPUTED_FROM_ARTIFACTS
+EL-06,R1-SOURCE-ONLY,"issued_at, valid_from, valid_to and geographic area verified from the record",NO,04_issued_source_provenance.csv is header-only,COMPUTED_FROM_ARTIFACTS
+EL-07,R1-SOURCE-ONLY,a historical issued record covering the 2020-2024 study window is obtainable from the probed primary source,"NO — STRUCTURAL, not environmental","The NWS /alerts endpoint retains SEVEN DAYS only, and the provider's own documentation directs users to NCEI for an official CAP archive. Even with unrestricted network access this endpoint could not supply 2020-2024 issued records. A current November 2026 alert would be authentic but is NOT a historical record and is explicitly barred from being presented as one",COMPUTED_FROM_ARTIFACTS
+EL-08,R1-PAIRED,documented vessel identity and intended trip,NO,none exists in this project,COMPUTED_FROM_ARTIFACTS
+EL-09,R1-PAIRED,a genuine documented PRE_DEPARTURE decision moment,NO,none exists,COMPUTED_FROM_ARTIFACTS
+EL-10,R1-PAIRED,correct geography and time match between source and decision,NO,no source and no decision record to match,COMPUTED_FROM_ARTIFACTS
+EL-11,R1-PAIRED,time-and-knowledge rights establishing the source was available to the operator,NO,carried from A18.1 Step 2 D-08: decision_time_availability is UNKNOWN for 100% of existing records,COMPUTED_FROM_ARTIFACTS
+EL-12,R2,"qualified, blinded, independently collected action-suitability reference",NO,explicitly not obtainable from Track A/B downloads; no expert judgments were collected or simulated,COMPUTED_FROM_ARTIFACTS
+EL-13,R2,frozen local action semantics,NO,A18.3 reference design is documented but no frozen local action catalogue was acquired in this pass,COMPUTED_FROM_ARTIFACTS
+EL-14,R3,real operator behaviour or physical safety outcome records,NO,requires separately collected records; none exist,COMPUTED_FROM_ARTIFACTS

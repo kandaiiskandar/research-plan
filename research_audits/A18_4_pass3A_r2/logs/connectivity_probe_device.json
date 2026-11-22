@@ -1,0 +1,49 @@
+{
+  "probed_at_utc": "2026-11-22T04:21:25.006460+00:00",
+  "environment": "user's linked computer (device bridge), separate egress path from the cloud container",
+  "platform": "Linux-6.8.0-149-generic-aarch64-with-glibc2.35",
+  "probes": [
+    {
+      "name": "copernicus_description",
+      "url": "https://data.marine.copernicus.eu/product/GLOBAL_MULTIYEAR_WAV_001_032/description",
+      "http_code": "000",
+      "proxy_response": "* Uses proxy env variable no_proxy == 'localhost,127.0.0.1,::1,169.254.0.0/16,10.0.0.0/8,172.16.0.0/12,192.168.0.0/16'"
+    },
+    {
+      "name": "copernicus_download",
+      "url": "https://data.marine.copernicus.eu/product/GLOBAL_MULTIYEAR_WAV_001_032/download",
+      "http_code": "000",
+      "proxy_response": "* Uses proxy env variable no_proxy == 'localhost,127.0.0.1,::1,169.254.0.0/16,10.0.0.0/8,172.16.0.0/12,192.168.0.0/16'"
+    },
+    {
+      "name": "nws_alerts_api",
+      "url": "https://api.weather.gov/alerts/active?area=LM",
+      "http_code": "000",
+      "proxy_response": "* Uses proxy env variable no_proxy == 'localhost,127.0.0.1,::1,169.254.0.0/16,10.0.0.0/8,172.16.0.0/12,192.168.0.0/16'"
+    },
+    {
+      "name": "ncei_ndfd_thredds",
+      "url": "https://www.ncei.noaa.gov/thredds/model/ndfd.html",
+      "http_code": "000",
+      "proxy_response": "* Uses proxy env variable no_proxy == 'localhost,127.0.0.1,::1,169.254.0.0/16,10.0.0.0/8,172.16.0.0/12,192.168.0.0/16'"
+    },
+    {
+      "name": "ncei_ndfd_product",
+      "url": "https://www.ncei.noaa.gov/products/weather-climate-models/national-digital-forecast-database",
+      "http_code": "000",
+      "proxy_response": "* Uses proxy env variable no_proxy == 'localhost,127.0.0.1,::1,169.254.0.0/16,10.0.0.0/8,172.16.0.0/12,192.168.0.0/16'"
+    },
+    {
+      "name": "aws_ndfd_registry",
+      "url": "https://registry.opendata.aws/noaa-ndfd/",
+      "http_code": "000",
+      "proxy_response": "* Uses proxy env variable no_proxy == 'localhost,127.0.0.1,::1,169.254.0.0/16,10.0.0.0/8,172.16.0.0/12,192.168.0.0/16'"
+    },
+    {
+      "name": "control_pypi",
+      "url": "https://pypi.org/simple/",
+      "http_code": "200",
+      "proxy_response": ""
+    }
+  ]
+}

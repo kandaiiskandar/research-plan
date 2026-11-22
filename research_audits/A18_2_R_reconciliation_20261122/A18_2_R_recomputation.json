@@ -1,0 +1,113 @@
+{
+  "reconciliation_id": "A18.2-R",
+  "recomputed_at": "2026-11-22T00:02:26.400378+08:00",
+  "population": {
+    "n": 9135,
+    "scope": "frozen PRIMARY 05:00-09:00 inclusive departure-window cases",
+    "case_id_set_identical_to_v0_1": true,
+    "states": {
+      "SAFE": 4687,
+      "CAUTION": 531,
+      "UNSAFE": 3917
+    }
+  },
+  "source_hashes": {
+    "data/raw_weather_sea.csv": "96850d7547189ffa5ccc02a36cf69987bfae742e54b61597c2ca7d251e84c424",
+    "data/raw_marine_era5_sea.csv": "6754e2c2ee5586ee864e590f1ccf363bbd8840b364763e01e8c9eb05e5d63888",
+    "data/solar/solar-events-daily.csv": "057c46a19d0e8ea7956cdc38ae3d7615cf43cf800e7bc33ab286dfdc20ce1894"
+  },
+  "code_path": "A18_2_R_reconciliation_20261122/recompute_diagnostics.py :: pearson(), matched(), best_threshold()",
+  "results": {
+    "R-01": {
+      "quantity": "Pearson r(gusts, gate wind)",
+      "n_matched_pairs": 9135,
+      "n_dropped_missing": 0,
+      "value": 0.8693,
+      "value_full": "0.8692628613043577",
+      "definition": "sample Pearson product-moment correlation over case_id-matched row pairs",
+      "missing_treatment": "pairwise complete-case; zero pairs dropped (both columns have no nulls in PRIMARY)"
+    },
+    "R-02": {
+      "quantity": "Pearson r(wper, gate wave)",
+      "n_matched_pairs": 9135,
+      "n_dropped_missing": 0,
+      "value": 0.8106,
+      "value_full": "0.8106171571133379",
+      "definition": "sample Pearson product-moment correlation over case_id-matched row pairs",
+      "missing_treatment": "pairwise complete-case; zero pairs dropped (both columns have no nulls in PRIMARY)"
+    },
+    "R-03": {
+      "quantity": "best single-threshold in-sample accuracy for UNSAFE using gusts",
+      "acc": 0.5750410509031199,
+      "cut": 16.9,
+      "direction": "ge",
+      "tp": 103,
+      "tn": 5150,
+      "n_candidate_cutpoints": 118,
+      "evaluations": 236,
+      "n_optima_tied": 4,
+      "class_prevalence_UNSAFE": 0.42879,
+      "majority_class_baseline_accuracy": 0.57121,
+      "lift_over_baseline": 0.003831,
+      "in_sample": true,
+      "value": 0.575
+    },
+    "R-04": {
+      "quantity": "best single-threshold in-sample accuracy for UNSAFE using wper",
+      "acc": 0.5938697318007663,
+      "cut": 8.25,
+      "direction": "ge",
+      "tp": 413,
+      "tn": 5012,
+      "n_candidate_cutpoints": 164,
+      "evaluations": 328,
+      "n_optima_tied": 1,
+      "class_prevalence_UNSAFE": 0.42879,
+      "majority_class_baseline_accuracy": 0.57121,
+      "lift_over_baseline": 0.02266,
+      "in_sample": true,
+      "value": 0.5939
+    },
+    "R-11": {
+      "quantity": "B2 proposal-type entropy (bits)",
+      "value": 0.7116,
+      "definition": "Shannon entropy over the B2 type distribution, log base 2",
+      "source": "recomputed from the FROZEN proposal ledger",
+      "type_counts": {
+        "Go": 7882,
+        "Duration": 810,
+        "DepartureTime": 435,
+        "Delay": 8
+      },
+      "max_possible": 2.0
+    },
+    "R-12": {
+      "quantity": "day-clusters containing more than one proposal type",
+      "value": 306,
+      "total_clusters": 1827,
+      "definition": "count of calendar-date clusters whose B2 proposals span >1 type",
+      "source": "recomputed from the FROZEN proposal ledger"
+    }
+  },
+  "frozen_v0_1_hashes": {
+    "00_contract.json": "f893c54dd9450d32f8906e1d439768c3ded10dce99f9c4e94b5c51596583f592",
+    "01_input_source_manifest.csv": "0ce75968e04da6fe2e8c51ff510374cd1ec5f4fd634b05481c56d08b9066cbad",
+    "02_advisor_manifest.json": "a15192855429c77b0de8f80b540ed696a8acbdcb8a8722f24f8b91c3a4708099",
+    "03_case_population_register.csv": "9b00fc380775137b674c9ff577dcd8e76059b0076351ca0843525256cca17472",
+    "04_proposal_ledger.csv": "2ff9020f4b3f91ff3b7c44102b1ae0f57be3367a6c63eba911bddb55eb83059f",
+    "05_exclusion_and_incremental_binding.csv": "25044354467a36ae0f514a02ea611d22bc1af66ed0b2ccc9ff183d27b9170ab0",
+    "06_summary_by_state_and_proposal.csv": "7fca567945c86e4e68997d1001e83d0edb5117901ae72637bb712e29d98a7115",
+    "06b_type_by_state_crosstab.csv": "a4f38d4c6c44ab2502bbbb6e1374962d5327adf00eac39521b4bba7c72d029a0",
+    "07_static_controls_and_nondegeneracy.csv": "39b83d016223d5fadb00b3c7ed5e4707fea309b212ec45c215bf22b8492cf2ea",
+    "08_sensitivity_and_cluster_summary.csv": "82fd885aa8c5f50b0e513487aae3e9c549fd6e0754df2828664a5913f22f1720",
+    "09_invalid_inputs_and_leakage_register.csv": "cada0abc4f13073974aeca3e84a3874df0db0aaf4b2e99f26bf6041ed2ed8084",
+    "10_discrepancy_and_limitation_register.csv": "7a0a153d639ef2496920fb01221cf0be1c7e197dabb90d28823c63db70d50714",
+    "11_A18_2_EXECUTION_REPORT.md": "d86d9eeb6034145c52133b1307972389316161eb66ac85495b268395da18d0df",
+    "12_NEXT_PHASE_REFERENCE_READINESS.md": "46a0b3fd0602c9d637effc48ba10e131ab419f90dfdb2d5b3de43a075e84e3aa",
+    "13_SHA256SUMS.txt": "40e5a8b746db42139d981ee4fc0d1ae8e49f225787e1e6195cbd5fae993bd68c",
+    "14_test_output.txt": "c68ea3f6656c6ea7ec26e718f3b222003c0c441ebf24eb49c4f5cd04cc628aa9",
+    "15_run_experiment.py": "a94d9b098d0c11bf804f2fcc5cfbfbda0e354c48802bd768e5d5b146742430e6",
+    "_run_state.json": "56cd8f6dda19f946eef37f4b2633c239e94c1c5755d788f3827b05f352be0627",
+    "audit_status.json": "3e3962a14dc757f13d66d918929d06ce5abeace0fa5579cb664a3341f92b25fd"
+  }
+}

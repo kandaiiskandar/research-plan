@@ -1,0 +1,28 @@
+record hours 43,848 | evaluation episodes 7,305 | warm-up ends 2020-12-31 23:00:00
+
+======================================================================
+G-L: 7,305 episodes generated
+
+======================================================================
+G-A: 7,305 episodes generated
+
+======================================================================
+G-B: 7,305 episodes generated
+
+======================================================================
+VERDICT MATRIX (exploratory)
+======================================================================
+criterion                          G-L       G-A       G-B
+E-GC-1                            True     False     False
+E-GC-2b-i                         True     False      True
+E-GC-2b-ii                        True     False      True
+E-GC-2b-iii                       True     False      True
+E-GC-2b-iv                        True     False      True
+E-GC-3_at_0500                    True      None     False
+E-ES-5                            True      True      True
+E-GE-2                            True      True     False
+E-CA-1                            True      True      True
+E-CA-2                            True      True      True
+E-CA-3                            True      True      True
+
+No composite pass is computed. Dimension-level verdicts only.

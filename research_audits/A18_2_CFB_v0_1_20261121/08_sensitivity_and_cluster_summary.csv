@@ -1,0 +1,7 @@
+item_id,metric,value,detail,verification_status,caveat
+CL-01,number of day/episode clusters,1827,cluster_id = local calendar date; 5 eligible hours per complete day,COMPUTED_FROM_DATA,"clusters are for stratification and dependence reporting only, never advisor inputs"
+CL-02,cluster-size distribution,"min 5, median 5, max 5",sizes observed: [5],COMPUTED_FROM_DATA,
+CL-03,"clusters containing >=1 incremental (C1-admitted, C2-excluded) case",89,of 1827 clusters; total incremental cases 227,COMPUTED_FROM_DATA,incremental cases CLUSTER by day: a mean of 2.55 per affected cluster
+CL-04,max incremental cases in a single cluster,3,a whole day can contribute up to 5 of the 227,COMPUTED_FROM_DATA,"direct evidence of serial dependence: the 9,135 hours are NOT 9,135 independent cases"
+SE-01,naive IID interval,NOT COMPUTED - INADMISSIBLE,"hours are serially dependent and incremental cases cluster by day (CL-03, CL-04)",n/a,"no block bootstrap is reported either; any such figure would be exploratory, not confirmatory"
+SE-02,cluster-aggregation sensitivity: I_CF computed per cluster then averaged,2.4849,"unweighted mean over complete 5-hour clusters, as an EXPLORATORY alternative aggregation",COMPUTED_FROM_DATA,EXPLORATORY ONLY. The confirmatory estimand is the case-level census I_CF.

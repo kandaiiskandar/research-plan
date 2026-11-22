@@ -1,0 +1,35 @@
+{
+  "record_hours": 43848,
+  "departure_window_cases": 9135,
+  "state_distribution": {
+    "SAFE": 4687,
+    "CAUTION": 531,
+    "UNSAFE": 3917
+  },
+  "P_S_CAUTION_pct": 5.8128,
+  "exposure_cutoffs": {
+    "P_GO": 53.360092440552215,
+    "P_OK": 58.68644712035516
+  },
+  "N1_type_share": {
+    "Go": 0.6938,
+    "Delay": 0.3062,
+    "DepartureTime": 0.3612,
+    "Duration": 0.7256
+  },
+  "N1_threshold": 0.1,
+  "N1_PASS": true,
+  "N2_divergence_all_cases": 0.026929,
+  "N2_divergence_caution_only_pool": 0.463277,
+  "N2_threshold": 0.2,
+  "N2_PASS_unstratified": false,
+  "N2_PASS_caution_stratified": true,
+  "N3_withheld_realised_in_CAUTION": 0.463277,
+  "N3_threshold": 0.5,
+  "N3_PASS": false,
+  "N4_boundary_share": 0.061741,
+  "N4_threshold": 0.3,
+  "N4_PASS": false,
+  "N4_boundary_count": 564,
+  "GATE_PASS_as_preregistered": false
+}

@@ -1,0 +1,31 @@
+item_id,source_path_or_uri,verification_status,evidence_reference,component,function,lines,exact_rule_text,ambiguity
+R-01,scripts/historical_replay.py,VERIFIED_FROM_CODE,scripts/historical_replay.py:41,g_w,module constant,41,"W_CAUTION, W_UNSAFE = 21.6, 27.0",none
+R-02,scripts/historical_replay.py,VERIFIED_FROM_CODE,scripts/historical_replay.py:74-76,g_w,g_w,74-76,return 2 if w_kn > W_UNSAFE else (1 if w_kn > W_CAUTION else 0),none
+R-03,scripts/condition_comparison.py,VERIFIED_FROM_CODE,scripts/condition_comparison.py:160,g_w,classify,160,"np.where(wind > W_UNSAFE, UNSAFE, np.where(wind > W_CAUTION, CAUTION, SAFE))",none - logically identical to R-02
+R-04,scripts/diagnostic_binding.py,VERIFIED_FROM_CODE,"scripts/diagnostic_binding.py:43,100",g_w,classify,"43,100","same constants, same operators",none
+R-05,scripts/historical_replay.py,VERIFIED_FROM_CODE,scripts/historical_replay.py:49,g_r,module constant,49,"R_CAUTION, R_UNSAFE = 10.0, 20.0",none
+R-06,scripts/historical_replay.py,VERIFIED_FROM_CODE,scripts/historical_replay.py:92-94,g_r,g_r,92-94,"if precip > R_UNSAFE or wmo_code in (95,96,99): return 2; return 1 if precip > R_CAUTION else 0",none
+R-07,scripts/condition_comparison.py,VERIFIED_FROM_CODE,scripts/condition_comparison.py:161-162,g_r,classify,161-162,"storm = (precip > R_UNSAFE) | wmo.isin([95,96,99]); where(storm, UNSAFE, where(precip > R_CAUTION, CAUTION, SAFE))",none - identical
+R-08,scripts/historical_replay.py,VERIFIED_FROM_CODE,scripts/historical_replay.py:159-160,g_m,load,159-160,d['c_warn'] = 0  # m held at 'none',MODEL ASSUMPTION - no source column exists (Step 2 D-05)
+R-09,scripts/condition_comparison.py,VERIFIED_FROM_CODE,scripts/condition_comparison.py:165,g_m,classify,165,"g_m = np.full(len(d), SAFE)",same assumption
+R-10,scripts/historical_replay.py,VERIFIED_FROM_CODE,scripts/historical_replay.py:57-61,g_o,module constant,57-61,"VESSEL_THRESHOLDS = {'small': (1.0,1.25), 'medium': (1.4,2.8), 'big': (1.5,3.5)}",medium/big are UNUSED by the canonical comparison
+R-11,scripts/historical_replay.py,VERIFIED_FROM_CODE,scripts/historical_replay.py:102-105,g_o,g_o,102-105,return 0 if wave_m < lo else (1 if wave_m <= hi else 2),none
+R-12,scripts/condition_comparison.py,VERIFIED_FROM_CODE,scripts/condition_comparison.py:76,g_o,module constant,76,"LO, HI = 1.0, 1.25  (small vessel only, no vessel parameter)",canonical run is SMALL-ONLY
+R-13,scripts/condition_comparison.py,VERIFIED_FROM_CODE,scripts/condition_comparison.py:163,g_o,classify,163,"np.where(wave > HI, UNSAFE, np.where(wave >= LO, CAUTION, SAFE))","none - equivalent to R-11, proved by fixtures B-O1..B-O6"
+R-14,scripts/canonical_gt.py,VERIFIED_FROM_CODE,scripts/canonical_gt.py:82-106,g_t,g_t,82-106,out[i] = SAFE if (a <= hi < b) else UNSAFE; default UNSAFE,compares INTEGER hour to FLOAT solar hours
+R-15,scripts/canonical_gt.py,VERIFIED_FROM_CODE,scripts/canonical_gt.py:14-18,g_t,module docstring,14-18,"half-open; exact sunrise SAFE, exact sunset UNSAFE; emits NO CAUTION",none
+R-16,scripts/historical_replay.py,VERIFIED_FROM_CODE,scripts/historical_replay.py:29-31,g_t,import,29-31,"from canonical_gt import g_t as _canonical_g_t, is_daylight",local g_t at :97-99 RAISES NotImplementedError - dead code
+R-17,scripts/historical_replay.py,VERIFIED_FROM_CODE,scripts/historical_replay.py:97-99,g_t-dead,g_t,97-99,raise NotImplementedError('superseded; use canonical_gt.g_t (SDR-001)'),"DEAD CODE - fails loudly, cannot be reached silently"
+R-18,scripts/canonical_gt.py,VERIFIED_FROM_CODE,scripts/canonical_gt.py:118-126,g_t-superseded,g_t_incumbent_superseded,118-126,fixed clock 06/17/19 - historical reproduction ONLY,NOT canonical; the only component that ever emitted CAUTION from time
+R-19,scripts/historical_replay.py,VERIFIED_FROM_CODE,scripts/historical_replay.py:164-172,f,classify,164-172,"np.max(np.vstack([wind, rain, warn, time, wave]), axis=0)",none
+R-20,scripts/condition_comparison.py,VERIFIED_FROM_CODE,scripts/condition_comparison.py:166,f,classify,166,"np.max(np.column_stack([g_w, g_r, g_m, g_o, g_t]), axis=1)","none - same five terms, same order"
+R-21,scripts/condition_comparison.py,VERIFIED_FROM_CODE,scripts/condition_comparison.py:81-83,A_AI,module constant,81-83,"FULL={Go,Delay,DepartureTime,Duration}; RESTRICTED={Go,Delay}; EMPTY=set()",none
+R-22,scripts/condition_comparison.py,VERIFIED_FROM_CODE,scripts/condition_comparison.py:90-105,A_AI,module constant,90-105,C0/C1/C3/C2 state->set mapping,C1 and C3 are IDENTICAL dict literals
+R-23,scripts/historical_replay.py,VERIFIED_FROM_CODE,scripts/historical_replay.py:66-71,A_AI,module constant,66-71,A_AI keyed by int state - same three sets,this copy has no C0-C3 notion
+R-24,scripts/historical_replay.py,VERIFIED_FROM_CODE,scripts/historical_replay.py:121-141,config,load,121-141,--v1-historical selects land cell; default is v2 sea cell,"Step 2 constraint A satisfied: flag, not filename"
+R-25,scripts/historical_replay.py,VERIFIED_FROM_CODE,scripts/historical_replay.py:135-136,exclusion,load,135-136,"merge(how='inner').dropna(subset=['wind_speed_10m (kn)','wave_height (m)','precipitation (mm)'])",wave_period excluded - Step 2 constraint D
+R-26,scripts/condition_comparison.py,VERIFIED_FROM_CODE,scripts/condition_comparison.py:141-148,exclusion,load,141-148,"merge(how='inner'); dropna(subset=['wave','wind','precip'])",same three columns
+R-27,scripts/historical_replay.py,VERIFIED_FROM_CODE,scripts/historical_replay.py:238,window,main,238,(d.hour >= 5) & (d.hour <= 9),"inclusive, five slots - Step 2 constraint B"
+R-28,scripts/condition_comparison.py,VERIFIED_FROM_CODE,scripts/condition_comparison.py:178-200,divergence,divergence_matrix,178-200,"diff = sum(1 for x,y in zip(sets[a],sets[b]) if x != y); pct = 100*diff/n",set inequality on frozensets
+R-29,scripts/historical_replay.py,VERIFIED_FROM_CODE,"scripts/historical_replay.py:146,156,166",gust,load/classify,"146,156,166",c_gust computed from wind_gusts_10m; used only if use_gusts=True,"COUNTERFACTUAL, not canonical"
+R-30,scripts/historical_replay.py,VERIFIED_FROM_CODE,scripts/historical_replay.py:246,safety-dominance,main,246,ok = all(A_AI[s] <= A_AI[s] for s in set(f)),VACUOUS - compares a set to itself; `ok` is never used. See A-07

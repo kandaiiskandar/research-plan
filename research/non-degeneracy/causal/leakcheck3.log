@@ -1,0 +1,82 @@
+record hours 43,848 | evaluation episodes 7,305 | warm-up ends 2020-12-31 23:00:00
+{
+  "L-CHK-5_calibration_provenance": {
+    "epochs": 48,
+    "violations": 0,
+    "PASS": true
+  },
+  "L-CHK-1_truncation_invariance": {
+    "G-L": {
+      "compared": 3650,
+      "differing": 99,
+      "PASS": false,
+      "VACUOUS": false
+    },
+    "G-A": {
+      "compared": 3650,
+      "differing": 0,
+      "PASS": true,
+      "VACUOUS": false
+    },
+    "G-B": {
+      "compared": 3650,
+      "differing": 0,
+      "PASS": true,
+      "VACUOUS": false
+    }
+  },
+  "L-CHK-3_future_shuffle": {
+    "G-L": {
+      "compared": 5475,
+      "differing": 240,
+      "PASS": false,
+      "VACUOUS": false
+    },
+    "G-A": {
+      "compared": 5475,
+      "differing": 0,
+      "PASS": true,
+      "VACUOUS": false
+    },
+    "G-B": {
+      "compared": 5475,
+      "differing": 0,
+      "PASS": true,
+      "VACUOUS": false
+    }
+  },
+  "L-CHK-4_placebo_future": {
+    "G-L": {
+      "sampled": 60,
+      "changed_or_failed": 43,
+      "PASS": false
+    },
+    "G-A": {
+      "sampled": 60,
+      "changed_or_failed": 0,
+      "PASS": true
+    },
+    "G-B": {
+      "sampled": 60,
+      "changed_or_failed": 0,
+      "PASS": true
+    }
+  },
+  "L-CHK-7_alpha_one_identity": {
+    "compared": 7305,
+    "differing": 0,
+    "PASS": true
+  },
+  "L-CHK-2_8_causal_view": {
+    "mechanism": "G-A/G-B receive CausalView, which raises on any read with index > episode; G-L receives FullView by design",
+    "probe": {
+      "G-A": "no FutureAccessError raised \u2014 causal view held",
+      "G-B": "no FutureAccessError raised \u2014 causal view held"
+    },
+    "PASS": true
+  },
+  "GATES_PASS_for_causal_conditions": true,
+  "note_G-L_expected_to_fail": "G-L is the leaky baseline. Its failures on L-CHK-1/3/4 are the intended demonstration that the checks detect leakage, not defects."
+}
+
+GATES_PASS_for_causal_conditions: True

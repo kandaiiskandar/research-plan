@@ -1,0 +1,11 @@
+{
+  "A-CHK-1_products": {
+    "waves": "ERA5-Ocean reanalysis via raw_marine_era5_sea.csv (v2 sea cell)",
+    "wind_precip_wmo": "Open-Meteo archive via raw_weather_sea.csv (v2 sea cell)"
+  },
+  "A-CHK-2_production_latency": "reanalysis: days (preliminary) to months (final) \u2014 exceeds the decision horizon by orders of magnitude",
+  "A-CHK-3_existed_at_episode_date": "partly: ERA5 existed; this sea-cell extraction did not",
+  "A-CHK-4_reachable_at_site": "NOT ASSESSED \u2014 would require fieldwork",
+  "A-CHK-5_spatial_representativeness": "9-55 km grid; site may sit offshore of its own sheltered water",
+  "A-CHK-6_VERDICT": "C1 (chronological causality) SATISFIED for G-A and G-B. C2 (operational availability) NOT SATISFIED for any condition, including G-A and G-B. Declared, not a gate."
+}

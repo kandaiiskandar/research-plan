@@ -1,0 +1,91 @@
+{
+  "tests": {
+    "T13_population_and_states_match_A18_1": {
+      "computed_usable": 43848,
+      "computed_window": 9135,
+      "target_window": 9135,
+      "computed_SAFE": 4687,
+      "computed_CAUTION": 531,
+      "computed_UNSAFE": 3917,
+      "target_states_from_A18_1": {
+        "SAFE": 4687,
+        "CAUTION": 531,
+        "UNSAFE": 3917
+      },
+      "result": "PASS"
+    },
+    "T02_rows_reconcile": {
+      "weather_source": 43848,
+      "usable": 43848,
+      "eligible_window": 9135,
+      "excluded": 34713,
+      "result": "PASS",
+      "reasons": {
+        "EXCL_outside_departure_window": 34713
+      }
+    },
+    "T04_ledger_hashed_before_mask": {
+      "ledger_sha256": "2ff9020f4b3f91ff3b7c44102b1ae0f57be3367a6c63eba911bddb55eb83059f",
+      "result": "PASS",
+      "note": "hash computed immediately after writing proposals and before MASK was indexed"
+    },
+    "T03_proposals_in_FULL_or_explicit_invalid": {
+      "result": "PASS",
+      "distinct_values": [
+        "Delay",
+        "DepartureTime",
+        "Duration",
+        "Go"
+      ]
+    },
+    "T09_analytic_controls_match": {
+      "checks": 16,
+      "failures": [],
+      "result": "PASS"
+    }
+  },
+  "ledger_hash": "2ff9020f4b3f91ff3b7c44102b1ae0f57be3367a6c63eba911bddb55eb83059f",
+  "N_ELIG": 9135,
+  "states": {
+    "UNSAFE": 3917,
+    "SAFE": 4687,
+    "CAUTION": 531
+  },
+  "excl_reasons": {
+    "EXCL_outside_departure_window": 34713
+  },
+  "advisors": [
+    "B0-UNRESTRICTED",
+    "B1-CONST-Go",
+    "B1-CONST-Delay",
+    "B1-CONST-DepartureTime",
+    "B1-CONST-Duration",
+    "B2-FROZEN-VARYING"
+  ],
+  "b2_type_distribution": {
+    "Go": 7882,
+    "Duration": 810,
+    "DepartureTime": 435,
+    "Delay": 8
+  },
+  "before": {
+    "data/raw_weather_sea.csv": "96850d7547189ffa5ccc02a36cf69987bfae742e54b61597c2ca7d251e84c424",
+    "data/raw_marine_era5_sea.csv": "6754e2c2ee5586ee864e590f1ccf363bbd8840b364763e01e8c9eb05e5d63888",
+    "data/raw_marine_mfwam.csv": "e9f323e086a3e9dddd29129bda6dbbea7590bbdcc9a1500c0460ca18233bf60f",
+    "data/solar/solar-events-daily.csv": "057c46a19d0e8ea7956cdc38ae3d7615cf43cf800e7bc33ab286dfdc20ce1894",
+    "scripts/condition_comparison.py": "3c32913a2a9cc85ff237c927d6f2be7a57fe0a87a08de5e254dbf98150282d48",
+    "scripts/canonical_gt.py": "b330bf9f94e848aad282a71d226c85c7e73f4ec8c0f2f8c88bfd7112b6e9a577",
+    "scripts/sensitivity/threshold_sensitivity.py": "6ddaea583941134b147956cc0d45cd785431ea7290643ba35a910a17f07a5730",
+    "research_audits/A18_1_step3_20261121/08_reconstruction_reference.py": "4e7be56b8040145467c66fe5ea76568a0fa670c8a74ad617082d316ddaf16468"
+  },
+  "after": {
+    "data/raw_weather_sea.csv": "96850d7547189ffa5ccc02a36cf69987bfae742e54b61597c2ca7d251e84c424",
+    "data/raw_marine_era5_sea.csv": "6754e2c2ee5586ee864e590f1ccf363bbd8840b364763e01e8c9eb05e5d63888",
+    "data/raw_marine_mfwam.csv": "e9f323e086a3e9dddd29129bda6dbbea7590bbdcc9a1500c0460ca18233bf60f",
+    "data/solar/solar-events-daily.csv": "057c46a19d0e8ea7956cdc38ae3d7615cf43cf800e7bc33ab286dfdc20ce1894",
+    "scripts/condition_comparison.py": "3c32913a2a9cc85ff237c927d6f2be7a57fe0a87a08de5e254dbf98150282d48",
+    "scripts/canonical_gt.py": "b330bf9f94e848aad282a71d226c85c7e73f4ec8c0f2f8c88bfd7112b6e9a577",
+    "scripts/sensitivity/threshold_sensitivity.py": "6ddaea583941134b147956cc0d45cd785431ea7290643ba35a910a17f07a5730",
+    "research_audits/A18_1_step3_20261121/08_reconstruction_reference.py": "4e7be56b8040145467c66fe5ea76568a0fa670c8a74ad617082d316ddaf16468"
+  }
+}
