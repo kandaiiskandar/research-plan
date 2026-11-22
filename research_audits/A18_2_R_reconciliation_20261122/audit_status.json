@@ -1,0 +1,105 @@
+{
+  "reconciliation_id": "A18.2-R",
+  "date": "2026-11-22",
+  "subject": "M1dQ-A18.2-CFB-v0.1",
+  "source_of_truth": "computed artefact; the v0.1 CSVs were computed, the v0.1 report column was not",
+  "resolution": {
+    "R-01": {
+      "report_claimed": "0.9165",
+      "v01_csv": "0.8693",
+      "recomputed": 0.8693,
+      "verdict": "CSV CONFIRMED; report value never computed"
+    },
+    "R-02": {
+      "report_claimed": "0.6349",
+      "v01_csv": "0.8106",
+      "recomputed": 0.8106,
+      "verdict": "CSV CONFIRMED; report value never computed"
+    },
+    "R-03": {
+      "report_claimed": "0.6063",
+      "v01_csv": "0.5750",
+      "recomputed": 0.575,
+      "verdict": "CSV CONFIRMED; report value never computed"
+    },
+    "R-04": {
+      "report_claimed": "0.6182",
+      "v01_csv": "0.5937",
+      "recomputed": 0.5939,
+      "verdict": "CSV SUPERSEDED by exhaustive search; report value never computed"
+    },
+    "R-11": {
+      "report_claimed": "0.9558",
+      "v01_csv": "0.7116",
+      "recomputed": 0.7116,
+      "verdict": "CSV CONFIRMED; report value never computed (NOT in the external register)"
+    },
+    "R-12": {
+      "report_claimed": "1606",
+      "v01_csv": "306",
+      "recomputed": 306,
+      "verdict": "CSV CONFIRMED; report value never computed (NOT in the external register)"
+    }
+  },
+  "population_identical_to_v0_1": true,
+  "n": 9135,
+  "states": {
+    "SAFE": 4687,
+    "CAUTION": 531,
+    "UNSAFE": 3917
+  },
+  "metric_definitions_frozen": {
+    "pearson": "sample product-moment over case_id-matched pairs; pairwise complete-case; 9135 pairs, 0 dropped",
+    "threshold_accuracy": "y=1[state==UNSAFE]; ALL distinct observed values as cutpoints; both directions explicit; (TP+TN)/n; IN-SAMPLE, no holdout; ties scan ascending with ge before le"
+  },
+  "interpretive_corrections_adopted": [
+    "R-05 ceiling scope",
+    "R-06 B2 location not threshold-invariant",
+    "R-07 warning effect non-monotonic, lower-bound claim withdrawn",
+    "R-08 no-leakage claim HOLD",
+    "R-09 B2 is SIMULATED, process-specific",
+    "R-10 no IID claim, no observed decisions"
+  ],
+  "retained_unchanged": {
+    "population": 9135,
+    "states": {
+      "SAFE": 4687,
+      "CAUTION": 531,
+      "UNSAFE": 3917
+    },
+    "I_CF_B2": "227/9135 = 2.4849%",
+    "total_C2_B2": "4144/9135 = 45.364%",
+    "C1_total": "3917/9135 = 42.879%",
+    "composition_identity": "exact to 1e-12",
+    "analytic_controls": "16/16 PASS",
+    "self_tests": "14/14 PASS"
+  },
+  "originals_unchanged": true,
+  "originals_changed": [],
+  "gates": {
+    "binding_counts_and_contract": "RETAIN",
+    "leakage_diagnostic_figures": "RESOLVED - CSV column confirmed by recomputation",
+    "claim_no_policy_proxy_leakage": "HOLD beyond the direct dependency check",
+    "A18_3_planning": "GO",
+    "operational_safety_or_novelty_claim": "NONE MADE"
+  },
+  "open_actions": [
+    "implement the report-statistic binding check (not a numeral grep)",
+    "retrospectively audit A18.1 Step 2-4 reports for the same report-vs-artefact gap"
+  ],
+  "not_done": [
+    "no rerun/refit/tuning of B2 or any masking policy",
+    "no edit to any v0.1 artefact",
+    "no edit to conference code, data or manuscript",
+    "no commit, no push, no network"
+  ],
+  "revision": "r2",
+  "r2_corrections": {
+    "E-1": "section 12 cluster figure 1,606 -> 306 of 1,827 (stale fabricated value not propagated)",
+    "E-2": "section 12 threshold-robustness claim withdrawn, now matching section 2 and R-06",
+    "E-3": "bound endpoints sharpened to conditions on CAUTION cases ALONE; ceiling attainable without a constant advisor"
+  },
+  "bound_condition_exact": "I_CF = P(CAUTION) iff the advisor proposes DepartureTime or Duration in EVERY CAUTION case; I_CF = 0 iff it proposes Go or Delay in every CAUTION case; behaviour in SAFE and UNSAFE cases is irrelevant to I_CF",
+  "remediation_spec": "each reported statistic must bind to computed artefact + metric definition + source population + numerator/denominator; figures emitted from artefacts, not typed beside them. SPECIFIED, NOT IMPLEMENTED.",
+  "r1_preserved_as": "11_A18_2_EXECUTION_REPORT_RECONCILED_r1_as_reviewed.md"
+}

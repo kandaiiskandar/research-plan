@@ -1,0 +1,48 @@
+{
+  "probed_at_utc": "2026-11-22T03:55:16.427929+00:00",
+  "environment": "Anthropic cloud container, egress via agent proxy",
+  "probes": [
+    {
+      "name": "copernicus_description",
+      "url": "https://data.marine.copernicus.eu/product/GLOBAL_MULTIYEAR_WAV_001_032/description",
+      "http_code": "000",
+      "proxy_response": "HTTP/1.1 403 Forbidden (agent proxy: no rule or network setting allows this host)"
+    },
+    {
+      "name": "copernicus_download",
+      "url": "https://data.marine.copernicus.eu/product/GLOBAL_MULTIYEAR_WAV_001_032/download",
+      "http_code": "000",
+      "proxy_response": "HTTP/1.1 403 Forbidden (agent proxy: no rule or network setting allows this host)"
+    },
+    {
+      "name": "nws_alerts_api",
+      "url": "https://api.weather.gov/alerts/active?area=LM",
+      "http_code": "000",
+      "proxy_response": "HTTP/1.1 403 Forbidden (agent proxy: no rule or network setting allows this host)"
+    },
+    {
+      "name": "ncei_ndfd",
+      "url": "https://www.ncei.noaa.gov/thredds/model/ndfd.html",
+      "http_code": "000",
+      "proxy_response": "HTTP/1.1 403 Forbidden (agent proxy: no rule or network setting allows this host)"
+    },
+    {
+      "name": "ecmwf_opendata",
+      "url": "https://data.ecmwf.int/forecasts/",
+      "http_code": "000",
+      "proxy_response": "HTTP/1.1 403 Forbidden (agent proxy: no rule or network setting allows this host)"
+    },
+    {
+      "name": "mymetdata",
+      "url": "https://mymetdata.met.gov.my/shop/category/met-data/7",
+      "http_code": "000",
+      "proxy_response": "HTTP/1.1 403 Forbidden (agent proxy: no rule or network setting allows this host)"
+    },
+    {
+      "name": "control_pypi",
+      "url": "https://pypi.org/simple/",
+      "http_code": "200",
+      "proxy_response": ""
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "probes": 7,
+  "refused": 6,
+  "ok": 1,
+  "raw_files": 0,
+  "raw_bytes": 0,
+  "env_rows": 18,
+  "src_rows": 5,
+  "el_rows": 14,
+  "disc_rows": 10,
+  "man_rows": 0,
+  "iss_rows": 0,
+  "probed_at": "2026-11-22T03:55:16.427929+00:00"
+}
